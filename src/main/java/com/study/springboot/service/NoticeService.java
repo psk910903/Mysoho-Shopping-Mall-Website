@@ -18,7 +18,7 @@ public class NoticeService {
 
     @Transactional(readOnly = true)
     public List<NoticeResponseDto> findAll() {
-        Sort sort = Sort.by(Sort.Direction.DESC, "boardIdx", "boardDate");
+        Sort sort = Sort.by(Sort.Direction.DESC, "noticeNo");
         List<NoticeEntity> list = noticeRepository.findAll(sort);
         return list.stream().map(NoticeResponseDto::new).collect(Collectors.toList());
     }
