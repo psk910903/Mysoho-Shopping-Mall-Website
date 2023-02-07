@@ -1,9 +1,7 @@
 package com.study.springboot.service;
 
-import com.study.springboot.dto.BoardResponseDto;
 import com.study.springboot.dto.product.ProductResponseDto;
-import com.study.springboot.entity.Board;
-import com.study.springboot.entity.product.Product;
+import com.study.springboot.entity.Product;
 import com.study.springboot.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
