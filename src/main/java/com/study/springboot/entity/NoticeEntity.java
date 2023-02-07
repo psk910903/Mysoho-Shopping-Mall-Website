@@ -14,15 +14,15 @@ public class NoticeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "notice_no", nullable = false)
-    private Long noticeNo; //PK
+    private Long noticeNo;
     @Column(name = "notice_type", nullable = false)
-    private String noticeType; //제목
+    private String noticeType;
     @Column(name = "notice_title", nullable = false)
-    private String noticeTitle; //내용
+    private String noticeTitle;
     @Column(name = "notice_content")
-    private String noticeContent; //작성자
+    private String noticeContent;
     @Column(name = "notice_image_url")
-    private Long noticeImageUrl; //조회수
+    private Long noticeImageUrl;
     @Column(name = "notice_datetime")
     private LocalDateTime noticeDatetime = LocalDateTime.now(); // 생성일,수정일
 
