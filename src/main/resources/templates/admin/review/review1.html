@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>리뷰게시판</title>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 </head>
 <body>
 <h2>리뷰 게시판</h2>
 <p th:text="|전체 후기내역: ${listcount}|"></p>
+<div id="listForm">
   <table border="1">
     <tr align="center">
-      <td><input type="checkbox"/></td>
-      <td>상품명</td>
-      <td>표시사항</td>
-      <td>아이디</td>
-      <td>내용</td>
-      <td>별점</td>
-      <td>관리</td>
+      <th><input type="checkbox" id="allch"/></th>
+      <th>상품명</td>
+      <th>표시사항</th>
+      <th>아이디</th>
+      <th>내용</th>
+      <th>별점</th>
+      <th>관리</th>
     </tr>
     <tr th:each="review, status:${ list }" align="center">
-      <td ><input type="checkbox"/></td>
+      <td ><input type="checkbox" /></td>
       <td th:text="${ review.itemName }"><img th:src=""></img> 상품명</td>
       <td th:text="${ review.reviewExpo }">표시사항</td>
       <td th:text="${ review.memberId }">아이디</td>
@@ -27,9 +29,22 @@
       <td><a th:href="@{/review/modify(reviewNo=${ review.reviewNo })}">수정</a> </td>
     </tr>
   </table>
-
+</div>
 <br>
 <button type="submit">선택수정</button>
 <button type="submit">선택삭제</button>
+<script>
+<!-- 전부체크/해제 -->
+$('#listForm #allch').on('click',function(){
+<!--체크된 경우 -->
+if($('#allch').prop("checked")){
+<!--  화면의 체크박스 전부 체크 -->
+  $("input[type=checkbox]").prop("checked",true);
+}else {
+<!--아니면 체크 박스 전부 해제-->
+  $("input[type=checkbox]").prop("checked",false);
+  }
+});
+</script>
 </body>
 </html>
