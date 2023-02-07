@@ -1,16 +1,21 @@
 package com.study.springboot.entity.review;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "review")
+@AllArgsConstructor
+@Builder
+//@Table(name = "review")
 public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +32,8 @@ public class Review {
     @Column(name = "review_image_url")
     private String reviewImageUrl;
     @Column(name = "review_datetime")
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime reviewDatetime = LocalDateTime.now();;
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
+    private LocalDate reviewDatetime ;
 
 }
 //        review_no INT AUTO_INCREMENT NOT NULL PRIMARY KEY, -- 고유키

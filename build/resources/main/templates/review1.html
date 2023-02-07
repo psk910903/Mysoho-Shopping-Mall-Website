@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>리뷰 게시판</h2>
+<p th:text="|전체 후기내역: ${listcount}|"></p>
+<!--<form action="modifyAction">-->
+  <table border="1">
+    <tr align="center">
+<!--      <td>번호</td>-->
+      <td><input type="checkbox"/></td>
+      <td>상품명</td>
+      <td>표시사항</td>
+      <td>아이디</td>
+      <td>내용</td>
+      <td>별점</td>
+      <td>관리</td>
+    </tr>
+    <tr th:each="review, status:${ list }" align="center">
+<!--      <td th:text="${ status.count }">게시판번호</td>-->
+      <td ><input type="checkbox"/></td>
+      <td th:text="${ review.itemName }"><img th:src=""></img> 상품명</td>
+      <td >표시함</td>
+      <td th:text="${ review.memberId }">아이디</td>
+      <td th:text="${ review.reviewContent }">번호</td>
+      <td th:text="${ review.reviewStar }">별점</td>
+      <td>수정 </td>
+      <!--      <td><input type="checkbox" /></td>-->
+      <!--      <td th:text="${ review.item_name; }">상품명</td>-->
+      <!--      <td><input type="checkbox" />표시유무</td>-->
+      <!--      <td th:text="${ review.memberId }">아이디</td>-->
+      <!--      <td th:text="${ dto.reviewContent }">내용</td>-->
+      <!--      <td th:text="${ dto.reviewStar }">별점</td>-->
+      <!--      <td><button type="">선택수정</button></td>-->
+      <!--      <td><button type="">선택삭제</button></td>-->
+    </tr>
+  </table>
+<!--</form>-->
+<br>
+<button type="submit">선택수정</button>
+<button type="submit">선택삭제</button>
+</body>
+</html>
