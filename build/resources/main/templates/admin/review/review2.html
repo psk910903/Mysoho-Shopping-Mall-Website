@@ -2,11 +2,12 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>리뷰 수정하기</title>
 </head>
 <body>
-<form action="/review/modifyAction">
-<table border="1">
+<form action="/review/modifyAction" method="post" name="reviewInfo">
+  <input type="hidden"  name="reviewNo" th:value="${review.reviewNo}" >
+  <table border="1">
     <tr align="center">
         <td>상품명</td>
         <td>표시사항</td>
@@ -20,9 +21,9 @@
             <input type="text" name="itemName" id="itemName" th:value="${review.itemName}" readonly/>
         </td>
         <td >
-            <select name="userRole" required>
+            <select name="reviewExpo" required>
                 <option  value="표시함" selected>표시함</option>
-                <option value="표시안함"> 표시안함 </option>
+                <option value="표시안함" > 표시안함 </option>
             </select>
         </td>
         <td >
@@ -35,16 +36,9 @@
             <input type="text" name="reviewStar" id="reviewStar" th:value="${review.reviewStar}" readonly/>
         </td>
         <td><input type="submit" value="저장"/> </td>
-<!--        private Long reviewNo;-->
-<!--        private String memberId;-->
-<!--        private String itemName;-->
-<!--        private Byte reviewStar;-->
-<!--        private String reviewContent;-->
-<!--        private String reviewImageUrl;-->
-<!--        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")-->
-<!--        private LocalDate reviewDatetime;-->
+
     </tr>
-</table>
+  </table>
 </form>
 </body>
 </html>

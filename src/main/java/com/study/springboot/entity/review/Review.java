@@ -30,10 +30,13 @@ public class Review {
     @Column(name = "review_content")
     private String reviewContent;
     @Column(name = "review_image_url")
-    private String reviewImageUrl;
+    private String reviewImgUrl;
     @Column(name = "review_datetime")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
     private LocalDate reviewDatetime ;
+    @Column(name = "review_exposure" )
+    private String reviewExpo;
+
 
 }
 //        review_no INT AUTO_INCREMENT NOT NULL PRIMARY KEY, -- 고유키

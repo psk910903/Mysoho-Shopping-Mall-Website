@@ -2,7 +2,7 @@
 <html lang="ko" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>리뷰게시판</title>
 </head>
 <body>
 <h2>리뷰 게시판</h2>
@@ -20,7 +20,7 @@
     <tr th:each="review, status:${ list }" align="center">
       <td ><input type="checkbox"/></td>
       <td th:text="${ review.itemName }"><img th:src=""></img> 상품명</td>
-      <td >표시함</td>
+      <td th:text="${ review.reviewExpo }">표시사항</td>
       <td th:text="${ review.memberId }">아이디</td>
       <td th:text="${ review.reviewContent }">번호</td>
       <td th:text="${ review.reviewStar }">별점</td>

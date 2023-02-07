@@ -1,5 +1,6 @@
 package com.study.springboot.controller;
 
+import com.study.springboot.dto.review.ReviewSaveDto;
 import com.study.springboot.entity.review.Review;
 import com.study.springboot.repository.ReviewRopository;
 import com.study.springboot.service.ReviewService;
@@ -29,7 +30,7 @@ public class Controller3 {
         List <Review> list = reviewRopository.findAll();
         model.addAttribute("list",list);
         model.addAttribute("listcount",list.size());
-        return "review1";
+        return "/admin/review/review1";
     }
     @RequestMapping("/modify")
     public String modify(@RequestParam("reviewNo") int no,
@@ -37,11 +38,19 @@ public class Controller3 {
         Optional<Review> optional = reviewRopository.findById((long)no);
         Review review = optional.get();
         model.addAttribute("review",review);
-        return "review2";
+        return "/admin/review/review2";
     }
     @RequestMapping("modifyAction")
-    public String modifyAction(){
-
-        return "redirect:/review/listForm";
+    @ResponseBody
+    public String modifyAction(ReviewSaveDto dto){
+        try{
+            Review review = dto.toUpdateEntity();
+            reviewRopository.save(review);
+        }catch (Exception e){
+            e.printStackTrace();
+            return "<script>alert('리뷰수정 실패');history.back();</script>";
+        }
+        return "<script>alert('리뷰수정 성공');location.href='/review/listForm';</script>";
     }
+
 }
