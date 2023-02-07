@@ -30,7 +30,7 @@ public class Controller3 {
         List <Review> list = reviewRopository.findAll();
         model.addAttribute("list",list);
         model.addAttribute("listcount",list.size());
-        return "/admin/review/review1";
+        return "/admin/review/test";
     }
     @RequestMapping("/modify")
     public String modify(@RequestParam("reviewNo") int no,
@@ -42,7 +42,7 @@ public class Controller3 {
     }
     @RequestMapping("modifyAction")
     @ResponseBody
-    public String modifyAction(ReviewSaveDto dto){
+    public String modifyAction(ReviewSaveDto dto) {
         try{
             Review review = dto.toUpdateEntity();
             reviewRopository.save(review);
@@ -52,5 +52,11 @@ public class Controller3 {
         }
         return "<script>alert('리뷰수정 성공');location.href='/review/listForm';</script>";
     }
+//    throws Exception
+//    return "/admin/review/review2";
+//    @RequestMapping("delete")
+//    public String delete(){
+//
+//    }
 
 }

@@ -64,42 +64,43 @@
       }
 
     </style>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 </head>
 <div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
 
 <div id="wrap">
   <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
   <div class="content" style="width:100%">
-<!--    <div style="width:100%" >-->
-<!--      <h3 class="sub-title"> 상품목록</h3>-->
+    <div style="width:100%" >
+      <h3 class="sub-title"> 리뷰 게시판</h3>
 
-<!--      <table class="table table-striped table-bordered" style="text-align: center;">-->
-<!--        <thead class="thead-strong">-->
-<!--        <tr >-->
-<!--          <th>상품코드</th>-->
-<!--          <th>이미지</th>-->
-<!--          <th>상품명</th>-->
-<!--          <th>가격</th>-->
-<!--        </tr>-->
-<!--        </thead>-->
-<!--        <tbody id="tbody">-->
-<!--        <tr th:each="dto:${ list }">-->
-<!--          <td th:text="${ dto.item_code }">상품코드</td>-->
-<!--          <td ><img th:src="${ dto.item_image_url }"> </td>-->
-<!--          <td>-->
-<!--            <a th:href="@{contentForm(board_idx=${dto.item_no})}" th:text="${ dto.item_name }"-->
-<!--               style="text-decoration: none;color: black;">상품명</a>-->
-<!--          </td>-->
-<!--          <td th:text="${ dto.item_price }">가격</td>-->
-<!--          <td style="text-align: center;">-->
-<!--            <a ><button class="btn btn-success">수정</button></a>-->
-<!--            <a ><button class="btn btn-danger">삭제</button></a>-->
-<!--          </td>-->
-<!--        </tr>-->
-<!--        </tbody>-->
-
-<!--      </table>-->
-<!--    </div>-->
+      <p th:text="|전체 후기내역: ${listcount}|"></p>
+      <div id="listForm">
+        <table border="1">
+          <tr align="center">
+            <th><input type="checkbox" id="allch"/></th>
+            <th>상품명</td>
+            <th>표시사항</th>
+            <th>아이디</th>
+            <th>내용</th>
+            <th>별점</th>
+            <th>관리</th>
+          </tr>
+          <tr th:each="review, status:${ list }" align="center">
+            <td ><input type="checkbox" /></td>
+            <td th:text="${ review.itemName }"><img th:src=""></img> 상품명</td>
+            <td th:text="${ review.reviewExpo }">표시사항</td>
+            <td th:text="${ review.memberId }">아이디</td>
+            <td th:text="${ review.reviewContent }">번호</td>
+            <td th:text="${ review.reviewStar }">별점</td>
+            <td><a th:href="@{/review/modify(reviewNo=${ review.reviewNo })}">수정</a> </td>
+          </tr>
+        </table>
+      </div>
+      <br>
+      <button type="submit">선택수정</button>
+      <button type="submit">선택삭제</button>
+    </div>
 
 <!--    &lt;!&ndash; 페이지 네비게이션 &ndash;&gt;-->
 <!--    <div class="container">-->
@@ -132,7 +133,20 @@
 </div>
 
 <!-- wrap -->
+<script>
+<!-- 전부체크/해제 -->
+$('#listForm #allch').on('click',function(){
+<!--체크된 경우 -->
+if($('#allch').prop("checked")){
+<!--  화면의 체크박스 전부 체크 -->
+  $("input[type=checkbox]").prop("checked",true);
+}else {
+<!--아니면 체크 박스 전부 해제-->
+  $("input[type=checkbox]").prop("checked",false);
+  }
+});
 
+</script>
 </body>
 
 </html>
