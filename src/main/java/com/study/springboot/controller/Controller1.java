@@ -36,13 +36,6 @@ public class Controller1 {
         return "/admin/product/productList";
     }
 
-//    @RequestMapping("/adminHome/productList")
-//    public String listForm(Model model ){
-//
-//        List<ProductResponseDto> list = productService.findAll();
-//        model.addAttribute("list", list);
-//
-//        return "adminHome"; //listForm.html로 응답
-//    }
+
 
 }
