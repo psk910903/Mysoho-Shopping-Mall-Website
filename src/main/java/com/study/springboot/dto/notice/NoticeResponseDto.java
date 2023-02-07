@@ -1,6 +1,7 @@
 package com.study.springboot.dto.notice;
 
 import com.study.springboot.entity.NoticeEntity;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,16 @@ public class NoticeResponseDto {
     private String noticeContent;
     private String noticeImageUrl;
     private LocalDateTime noticeDatetime;
+
+    @Builder
+    public NoticeResponseDto(Long noticeNo, String noticeType, String noticeTitle, String noticeContent, String noticeImageUrl, LocalDateTime noticeDatetime) {
+        this.noticeNo = noticeNo;
+        this.noticeType = noticeType;
+        this.noticeTitle = noticeTitle;
+        this.noticeContent = noticeContent;
+        this.noticeImageUrl = noticeImageUrl;
+        this.noticeDatetime = noticeDatetime;
+    }
 
     public NoticeResponseDto(NoticeEntity entity) {
         this.noticeNo = entity.getNoticeNo();

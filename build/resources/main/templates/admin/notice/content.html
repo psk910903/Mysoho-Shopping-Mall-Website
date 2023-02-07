@@ -94,7 +94,7 @@
             <div th:text="${notice.noticeContent}" style="height: 300px;"></div>
 
             <button onclick="location.href='/admin/notice/list'">목록</button>
-            <button>수정</button>
+            <button th:onclick="|location.href='/admin/notice/modify/${notice.noticeNo}'|">수정</button>
             <button>삭제</button>
         </div>
 

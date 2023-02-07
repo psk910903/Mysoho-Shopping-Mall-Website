@@ -43,8 +43,29 @@ public class Controller2 {
     }
 
     @GetMapping("/write")
-    public String write() {
+    public String write(Model model) {
+
+        NoticeResponseDto dto = NoticeResponseDto.builder()
+                .noticeType("공지사항")
+                .noticeTitle("")
+                .noticeContent("")
+                .build();
+
+        model.addAttribute("notice",dto);
+
         return "admin/notice/write";//write.html로 응답
+    }
+
+    @GetMapping("/modify/{noticeNo}")
+    public String update(@PathVariable("noticeNo") Long noticeNo, Model model) {
+
+        NoticeResponseDto dto = noticeService.findById(noticeNo);
+        if (dto == null){
+            return "redirect:/admin/notice/list";
+        }
+        model.addAttribute("notice",dto);
+
+        return "admin/notice/write"; //write.html로 응답
     }
 
 }

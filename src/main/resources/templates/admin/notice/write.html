@@ -1,56 +1,102 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>게시판 목록보기</title>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>마이소호</title>
   <style>
-		* {
-			margin: 0 auto;
-			padding: 0 auto;
-			overflow: hidden;
-		}
-		td, h2 {
-			text-align: center;
-		}
-	</style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        height: 60px;
+        padding: 0 25px;
+        background-color: #333;
+        color: white;
+        border-bottom: 1px solid #949ca6;
+      }
+      #wrap {
+        display: flex;
+        min-height: 830px;
+      }
+      .admin-navBar {
+        flex-grow : 1
+        height: 100%;
+        width: 200px;
+        padding: 25px;
+        background-color: #333;
 
+      }
+      .admin-navBar div {
+        display: flex;
+      }
+
+      .admin-navBar a {
+        text-decoration: none;
+        padding: 15px 0;
+        width: 100%;
+        border-bottom: 1px solid #949ca6;
+        color: white;
+      }
+
+      .head-title {
+        display: flex;
+        align-items: center;
+      }
+      .logout-btn {
+        margin-right: 50px;
+        padding: 10px 20px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .content {
+        padding: 20px;
+        width: 100%;
+      }
+      img{
+      max-height: 70px;
+      }
+    </style>
 </head>
 <body>
-<h2>게시판 글목록</h2>
+<div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
+<div id="wrap">
+  <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
+  <div class="content" style="width:100%"> <!-- content 시작 -->
 
-<table width="500" cellpadding="0" cellspacing="0" border="1">
-  <tr>
-    <th>번호</th>
-    <th>이름</th>
-    <th>제목</th>
-    <th>날짜</th>
-    <th>조회수</th>
-  </tr>
+    <div style="border:1px solid black;">
+      <table width="100%">
+        <tr>
+          <td>제목</td>
+          <td>
+            <input th:value="${notice.noticeTitle}">
+          </td>
+        </tr>
+        <tr>
+          <td>카테고리</td>
+          <td>
+            <input th:value="${notice.noticeType}">
+          </td>
+        </tr>
+      </table>
 
-  <tr th:each="dto, status:${ list }">
-    <td th:text="${ status.count }">번호</td>
-    <td th:text="${ dto.board_name }">이름</td>
-    <td>
-      <a th:href="@{contentForm(board_idx=${dto.board_idx})}" th:text="${ dto.board_title }">글제목</a>
-    </td>
-    <td th:text="${#temporals.format(dto.board_date, 'yyyy-MM-dd HH:mm')}">
-      글쓴시간
-    </td>
-    <td th:text="${ dto.board_hit }">조회수</td>
-  </tr>
+      <img src="http://placehold.it/150X150" style="width: 100%; height: 300px;"/>
+      <div style="height: 300px;">
+        <textarea th:text="${notice.noticeContent}"></textarea>
+      </div>
 
-  <tr>
-    <td colspan="5"><a href="/board/writeForm">글작성</a></td>
-  </tr>
-</table>
+      <button onclick="location.href='/admin/notice/list'">목록</button>
+      <button>수정하기</button>
+      <button>취소</button>
+    </div>
 
-<script>
-		/* 웹브라우저 back키 누를때, 페이지 재로딩 => 조회수 증가  */
-		window.onpageshow = function(event) {
-        	if ( event.persisted || (window.performance && window.performance.navigation.type == 2)) {
-				 document.location.reload();
-			}
-		}
-	</script>
+  </div> <!-- content 끝 -->
+</div>
 </body>
 </html>
