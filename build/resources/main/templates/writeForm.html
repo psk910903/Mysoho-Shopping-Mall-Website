@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+  <title>글쓰기</title>
+
+  <div th:replace="/fragments/header.html :: fragment-header"></div>
+
+</head>
+<body>
+<div id="wrap">
+  <div th:replace="/fragments/nav.html :: fragment-nav"></div>
+  <br>
+  <div style="width:100%">
+    <h3 class="sub-title"> 글쓰기</h3>
+
+    <form action="writeAction" method="post">
+      <table class="table table-bordered">
+        <input type="hidden" name="board_hit" value="0">
+        <tr>
+          <td><label class="form-label"> 이름</label></td>
+          <td><input class="form-control" type="text" name="board_name" value="" size="50"></td>
+        </tr>
+        <tr>
+          <td><label class="form-label"> 제목</label></td>
+          <td><input class="form-control" type="text" name="board_title" value="" size="50"></td>
+        </tr>
+        <tr>
+          <td><label class="form-label"> 내용</label></td>
+          <td>
+            <textarea class="form-control" rows="10" cols="48" name="board_content"></textarea>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align: center;">
+            &nbsp;&nbsp;<input class="btn btn-success ms-2" type="submit" value="글쓰기">&nbsp;&nbsp;
+            <a href="listForm"><input class="btn btn-primary ms-2" type="button" value="목록보기"></a>
+          </td>
+        </tr>
+
+      </table>
+    </form>
+  </div>
+  <footer th:replace="/fragments/footer.html :: fragment-footer"></footer>
+</div>
+
+</body>
+</html>

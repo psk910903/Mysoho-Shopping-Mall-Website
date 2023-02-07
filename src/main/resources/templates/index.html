@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>메인화면</h3>
+
+<p th:if="${session.isLogin == true}" th:utext="|로그인 상태입니다. <br> 회원아이디: ${session.user_id}|"> 로그인 상태입니다.</p>
+<p th:if="${session.isLogin == null}" th:text="|로그아웃 상태입니다.|"> 로그아웃 상태입니다.</p>
+
+<th:block th:if="${session.isLogin == true}">
+  <button type="button" onclick="location.href='/logoutAction'">로그아웃</button>
+</th:block>
+<th:block th:if="${session.isLogin == null}">
+  <button type="button" onclick="location.href='/loginForm'">로그인</button>
+</th:block>
+</body>
+</html>
