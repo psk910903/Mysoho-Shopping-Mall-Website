@@ -1,10 +1,102 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마이소호</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        height: 60px;
+        padding: 0 25px;
+        background-color: #333;
+        color: white;
+        border-bottom: 1px solid #949ca6;
+      }
+      #wrap {
+        display: flex;
+        min-height: 830px;
+      }
+      .admin-navBar {
+        flex-grow : 1
+        height: 100%;
+        width: 200px;
+        padding: 25px;
+        background-color: #333;
+
+      }
+      .admin-navBar div {
+        display: flex;
+      }
+
+      .admin-navBar a {
+        text-decoration: none;
+        padding: 15px 0;
+        width: 100%;
+        border-bottom: 1px solid #949ca6;
+        color: white;
+      }
+
+      .head-title {
+        display: flex;
+        align-items: center;
+      }
+      .logout-btn {
+        margin-right: 50px;
+        padding: 10px 20px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .content {
+        padding: 20px;
+        width: 100%;
+      }
+      img{
+      max-height: 70px;
+      }
+    </style>
 </head>
 <body>
+<div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
+<div id="wrap">
+    <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
+    <div class="content" style="width:100%"> <!-- content 시작 -->
 
+        <table width="800" cellpadding="0" cellspacing="0" border="1">
+            <tr>
+                <td>번호</td>
+                <td th:text="${notice.noticeNo}"></td>
+            </tr>
+            <tr>
+                <td>제목</td>
+                <td th:text="${notice.noticeTitle}"></td>
+            </tr>
+            <tr>
+                <td>카테고리</td>
+                <td th:text="${notice.noticeType}"></td>
+            </tr>
+            <tr>
+                <td>작성일</td>
+                <td th:text="${#temporals.format(notice.noticeDatetime, 'yyyy-MM-dd HH:mm')}"></td>
+            </tr>
+        </table>
+
+        <img src="http://placehold.it/800X150"/>
+        <div th:text="${notice.noticeContent}"></div>
+
+        <button>목록</button>
+        <button>수정</button>
+        <button>삭제</button>
+
+    </div> <!-- content 끝 -->
+</div>
 </body>
 </html>

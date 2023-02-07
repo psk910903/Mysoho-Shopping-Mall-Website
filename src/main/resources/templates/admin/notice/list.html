@@ -68,7 +68,7 @@
     <div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
     <div id="wrap">
         <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
-        <div class="content" style="width:100%">
+        <div class="content" style="width:100%"> <!-- content 시작 -->
 
             <table width= "800" cellpadding="0" cellspacing="0" border="1">
                 <tr>
@@ -79,19 +79,17 @@
                     <th>삭제</th>
                 </tr>
 
-                <tr th:each="notice, status:${ list }">
-                    <td th:text="${ status.count }">번호</td>
-                    <td th:text="${ notice.noticeTitle }">제목</td>
-                    <td th:text="${#temporals.format(notice.noticeDatetime, 'yyyy-MM-dd HH:mm')}">
-                        작성일
-                    </td>
+                <tr th:each="notice, status:${list}" th:onclick="|location.href='/admin/notice/content/${notice.noticeNo}'|">
+                    <td th:text="${#lists.size(list)}-${status.count}+1">번호</td>
+                    <td th:text="${notice.noticeTitle}">제목</td>
+                    <td th:text="${#temporals.format(notice.noticeDatetime, 'yyyy-MM-dd HH:mm')}">작성일</td>
                     <td>수정</td>
                     <td>삭제</td>
                 </tr>
             </table>
 
 
-        </div>
+        </div> <!-- content 끝 -->
     </div>
 </body>
 </html>
