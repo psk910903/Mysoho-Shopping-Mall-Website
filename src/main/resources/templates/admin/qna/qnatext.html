@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>상품문의</title>
+</head>
+<style>
+* {
+border: 1px solid red;
+}
+#title {
+text-align: center;
+height: 30px auto;
+margin: 30px auto ;
+}
+#sub-title {
+text-align: center;
+height: 30px auto;
+margin: 30px auto ;
+}
+
+</style>
+<body>
+<div class="container">
+    <div id="wrap">
+        <div th:replace=""></div>
+        <br>
+        <form action="" method="post" style="width: 100%;">
+            <h3 style="text-align: center">관리자 페이지-상품문의</h3>
+            <table>
+                <thtead class="thread-strong" align:center>
+                    <tr>
+                        <th>
+                        <td id="title">문의유형</td>
+                        <td id="sub-title"> '기타문의' </td>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                        <td id="title">작성자</td>
+                        <td id="sub-title">'김진사' </td>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                        <td id="title">작성날짜</td>
+                        <td id="sub-title">'2023.02.06'</td>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                        <td id="title">제목</td>
+                        <td id="sub-title">'제목입니다' </td>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th>
+                        <td id="title">문의내용</td>
+                        <td id="sub-title">'문의내용입니다' </td>
+                        </th>
+                    </tr>
+                </thtead>
+            </table>
+        </form>
+    </div>
+</div>
+</body>
+</html>
