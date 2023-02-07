@@ -7,9 +7,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -28,5 +30,18 @@ public class Controller3 {
         model.addAttribute("list",list);
         model.addAttribute("listcount",list.size());
         return "review1";
+    }
+    @RequestMapping("/modify")
+    public String modify(@RequestParam("reviewNo") int no,
+                         Model model){
+        Optional<Review> optional = reviewRopository.findById((long)no);
+        Review review = optional.get();
+        model.addAttribute("review",review);
+        return "review2";
+    }
+    @RequestMapping("modifyAction")
+    public String modifyAction(){
+
+        return "redirect:/review/listForm";
     }
 }

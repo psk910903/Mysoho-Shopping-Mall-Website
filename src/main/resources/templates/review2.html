@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="/review/modifyAction">
+<table border="1">
+    <tr align="center">
+        <td>상품명</td>
+        <td>표시사항</td>
+        <td>아이디</td>
+        <td>내용</td>
+        <td>별점</td>
+        <td>저장</td>
+    </tr>
+    <tr  align="center">
+        <td >
+            <input type="text" name="itemName" id="itemName" th:value="${review.itemName}" readonly/>
+        </td>
+        <td >
+            <select name="userRole" required>
+                <option  value="표시함" selected>표시함</option>
+                <option value="표시안함"> 표시안함 </option>
+            </select>
+        </td>
+        <td >
+            <input type="text" name="memberId" id="memberId" th:value="${review.memberId}" readonly/>
+        </td>
+        <td >
+            <input type="text" name="reviewContent" id="reviewContent" th:value="${review.reviewContent}" readonly/>
+        </td>
+        <td >
+            <input type="text" name="reviewStar" id="reviewStar" th:value="${review.reviewStar}" readonly/>
+        </td>
+        <td><input type="submit" value="저장"/> </td>
+<!--        private Long reviewNo;-->
+<!--        private String memberId;-->
+<!--        private String itemName;-->
+<!--        private Byte reviewStar;-->
+<!--        private String reviewContent;-->
+<!--        private String reviewImageUrl;-->
+<!--        @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")-->
+<!--        private LocalDate reviewDatetime;-->
+    </tr>
+</table>
+</form>
+</body>
+</html>
