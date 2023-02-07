@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
@@ -21,6 +22,17 @@ public class NoticeService {
         Sort sort = Sort.by(Sort.Direction.DESC, "noticeNo");
         List<NoticeEntity> list = noticeRepository.findAll(sort);
         return list.stream().map(NoticeResponseDto::new).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public NoticeResponseDto findById(Long noticeNo) {
+        Optional<NoticeEntity> entity = noticeRepository.findById(noticeNo);
+//                .orElseThrow( () -> new IllegalArgumentException("해당 사용자가 없습니다. board_idx="+board_idx) );
+        if (entity.isPresent()){
+            return 
+        }
+
+        return new NoticeResponseDto(entity);
     }
 
 }

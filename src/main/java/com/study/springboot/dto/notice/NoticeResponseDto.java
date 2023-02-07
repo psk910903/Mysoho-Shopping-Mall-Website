@@ -1,17 +1,19 @@
 package com.study.springboot.dto.notice;
 
 import com.study.springboot.entity.NoticeEntity;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 
+@Getter
 public class NoticeResponseDto {
 
     private Long noticeNo;
     private String noticeType;
     private String noticeTitle;
     private String noticeContent;
-    private Long noticeImageUrl;
+    private String noticeImageUrl;
     private LocalDateTime noticeDatetime;
 
     public NoticeResponseDto(NoticeEntity entity) {

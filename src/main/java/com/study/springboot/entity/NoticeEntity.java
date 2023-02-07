@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Table(name="notice")
 public class NoticeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +23,7 @@ public class NoticeEntity {
     @Column(name = "notice_content")
     private String noticeContent;
     @Column(name = "notice_image_url")
-    private Long noticeImageUrl;
+    private String noticeImageUrl;
     @Column(name = "notice_datetime")
     private LocalDateTime noticeDatetime = LocalDateTime.now(); // 생성일,수정일
 
