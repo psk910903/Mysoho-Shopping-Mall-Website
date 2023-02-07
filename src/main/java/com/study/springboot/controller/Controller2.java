@@ -16,7 +16,7 @@ public class Controller2 {
 
     private final NoticeService noticeService;
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String home(){
         return "redirect:/admin/notice/list";
     }
@@ -30,8 +30,8 @@ public class Controller2 {
         return "admin/notice/list"; //listForm.html로 응답
     }
 
-    @RequestMapping("/content/{noticeNo}")
-    public String contentForm(@PathVariable("noticeNo") Long noticeNo, Model model) {
+    @GetMapping("/content/{noticeNo}")
+    public String content(@PathVariable("noticeNo") Long noticeNo, Model model) {
 
         NoticeResponseDto dto = noticeService.findById(noticeNo);
         if (dto == null){
@@ -39,7 +39,12 @@ public class Controller2 {
         }
         model.addAttribute("notice", dto);
 
-        return "admin/notice/content"; //contentForm.html로 응답
+        return "admin/notice/content"; //content.html로 응답
+    }
+
+    @GetMapping("/write")
+    public String write() {
+        return "admin/notice/write";//write.html로 응답
     }
 
 }
