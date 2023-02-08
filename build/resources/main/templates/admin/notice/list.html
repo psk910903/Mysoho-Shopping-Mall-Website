@@ -71,7 +71,7 @@
         <div class="content" style="width:100%"> <!-- content 시작 -->
 
             <button onclick="location.href='/admin/notice/write'">글쓰기</button>
-            <table width= "800" cellpadding="0" cellspacing="0" border="1">
+            <table class="table table-horizontal table-bordered">
                 <tr>
                     <th>번호</th>
                     <th>제목</th>
@@ -80,12 +80,20 @@
                     <th>삭제</th>
                 </tr>
 
-                <tr th:each="notice, status:${list}" th:onclick="|location.href='/admin/notice/content/${notice.noticeNo}'|">
+                <tr th:each="notice, status:${list}">
                     <td th:text="${#lists.size(list)}-${status.count}+1">번호</td>
-                    <td th:text="${notice.noticeTitle}">제목</td>
+                    <td th:text="${notice.noticeTitle}" th:onclick="|location.href='/admin/notice/content/${notice.noticeNo}'|">제목</td>
                     <td th:text="${#temporals.format(notice.noticeDatetime, 'yyyy-MM-dd HH:mm')}">작성일</td>
-                    <td>수정</td>
-                    <td>삭제</td>
+                    <td>
+                        <button th:onclick="|location.href='/admin/notice/modify/${notice.noticeNo}'|">수정</button>
+                    </td>
+                    <td>
+                        <form action="/admin/notice/deleteAction" method="POST">
+                            <input type="hidden" name="noticeNo" th:value="${notice.noticeNo}">
+                            <button type="submit">삭제</button>
+                        </form>
+                    </td>
+
                 </tr>
 
 

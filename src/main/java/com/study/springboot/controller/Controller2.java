@@ -95,5 +95,18 @@ public class Controller2 {
         }
     }
 
+    @PostMapping("/deleteAction")
+    @ResponseBody
+    public String deleteAction(@RequestParam("noticeNo") Long noticeNo) {
+
+        Boolean success = noticeService.delete(noticeNo);
+        if(success) {
+            return "<script>alert('글삭제 완료'); location.href='/admin/notice/list';</script>";
+        }else{
+            return "<script>alert('글삭제 실패'); history.back();</script>";
+        }
+
+    }
+
 
 }

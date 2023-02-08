@@ -102,7 +102,10 @@
 
             <button onclick="location.href='/admin/notice/list'">목록</button>
             <button th:onclick="|location.href='/admin/notice/modify/${notice.noticeNo}'|">수정</button>
-            <button>삭제</button>
+            <form action="/admin/notice/deleteAction" method="POST">
+                <input type="hidden" name="noticeNo" th:value="${notice.noticeNo}">
+                <button type="submit">삭제</button>
+            </form>
         </div>
 
     </div> <!-- content 끝 -->

@@ -65,4 +65,20 @@ public class NoticeService {
        return true;
     }
 
+    @Transactional
+    public Boolean delete(final Long noticeNo) {
+        Optional<NoticeEntity> entity = noticeRepository.findById(noticeNo);
+        if (!entity.isPresent()){
+            return false;
+        }
+        try{
+            noticeRepository.delete(entity.get());
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
 }
