@@ -25,11 +25,25 @@ public class Controller2 {
     }
 
     @GetMapping("/list")
-    public String list(/*@RequestParam("findByTitle") String findByTitle,*/ Model model) {
+    public String list(@RequestParam(value = "findBy", required = false) String findBy,
+                       @RequestParam(value = "keyword", required = false) String keyword,
+                        Model model) {
 
-//        System.out.println(findByTitle);
+        if ((findBy == null) && (keyword == null)) {
+            List<NoticeResponseDto> list = noticeService.findAll();
+            model.addAttribute("list", list);
+            return "admin/notice/list"; //listForm.html로 응답
+        }
 
-        List<NoticeResponseDto> list = noticeService.findAll();
+        return  "forward:findAction?";
+    }
+
+    @GetMapping("/findAction")
+    public String findAction(@RequestParam(value = "findBy", required = false) String findBy,
+                            @RequestParam(value = "keyword", required = false) String keyword,
+                            Model model) {
+
+        List<NoticeResponseDto> list = noticeService.findByKeyword(findBy, keyword);
         model.addAttribute("list", list);
 
         return "admin/notice/list"; //listForm.html로 응답

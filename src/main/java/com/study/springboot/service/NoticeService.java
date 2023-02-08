@@ -29,6 +29,23 @@ public class NoticeService {
     }
 
     @Transactional(readOnly = true)
+    public List<NoticeResponseDto> findByKeyword(String findBy, String keyword) {
+
+        List<NoticeEntity> list;
+        Sort sort = Sort.by(Sort.Direction.DESC, "noticeNo");
+
+        if (findBy.equals("title")){
+            list = noticeRepository.findByNoticeTitleContaining(keyword, sort);
+        }else if (findBy.equals("content")){
+            list = noticeRepository.findByNoticeContentContaining(keyword, sort);
+        }else{
+            list = noticeRepository.findByNoticeType(keyword, sort);
+        }
+
+        return list.stream().map(NoticeResponseDto::new).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
     public NoticeResponseDto findById(Long noticeNo) {
 
         Optional<NoticeEntity> entity = noticeRepository.findById(noticeNo);
