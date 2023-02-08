@@ -25,7 +25,9 @@ public class Controller2 {
     }
 
     @GetMapping("/list")
-    public String list(Model model) {
+    public String list(/*@RequestParam("findByTitle") String findByTitle,*/ Model model) {
+
+//        System.out.println(findByTitle);
 
         List<NoticeResponseDto> list = noticeService.findAll();
         model.addAttribute("list", list);

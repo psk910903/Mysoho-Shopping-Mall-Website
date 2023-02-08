@@ -70,25 +70,25 @@
   <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
   <div class="content" style="width:100%"> <!-- content 시작 -->
 
-<!--    <form action="/admin/notice/modifyAction" method="POST" style="border:1px solid black;">-->
-    <form method="POST" style="border:1px solid black;" th:action="(${notice.noticeNo} == null) ? '/admin/notice/writeAction' : '/admin/notice/modifyAction'">
-      <table width="100%">
+
+    <form method="POST" th:action="(${notice.noticeNo} == null) ? '/admin/notice/writeAction' : '/admin/notice/modifyAction'">
+      <table class="table table-horizontal table-bordered">
         <tr th:if="${notice.noticeNo} != null">
           <td>번호</td>
           <td>
-            <input name="noticeNo" th:value="${notice.noticeNo}" style="width:100%">
+            <input name="noticeNo" th:value="${notice.noticeNo}" style="width:100%" class="form-control" readonly>
           </td>
         </tr>
         <tr>
           <td>제목</td>
           <td>
-            <input name="noticeTitle" th:value="${notice.noticeTitle}" style="width:100%">
+            <input name="noticeTitle" th:value="${notice.noticeTitle}" style="width:100%" class="form-control">
           </td>
         </tr>
         <tr>
           <td>카테고리</td>
           <td>
-            <select name="noticeType" style="width:100%">
+            <select name="noticeType" style="width:100%" class="form-control">
               <option value="공지사항" th:selected="${notice.noticeType} == '공지사항'">공지사항</option>
               <option value="이벤트" th:selected="${notice.noticeType} == '이벤트'">이벤트</option>
             </select>
@@ -100,26 +100,27 @@
       <div th:style="'background-image:url(' + ${notice.noticeImageUrl} + ');
             background-size:contain;
             background-repeat:no-repeat;
+            background-position: 50% 50%;
             width:100%;
             height:800px'"></div>
-      <input name="noticeImageUrl" value="https://img.makeshop.co.kr/4/40267/202208/2c64b5922083b21869bbd495352d78f8.jpg">
+      <input type="hidden" name="noticeImageUrl" value="https://img.makeshop.co.kr/4/40267/202208/2c64b5922083b21869bbd495352d78f8.jpg">
       <!-- *************************************************** -->
       <div>
-        <textarea name="noticeContent" th:text="${notice.noticeContent}" style="height: 300px; width:100%;"></textarea>
+        <textarea name="noticeContent" th:text="${notice.noticeContent}" class="form-control" style="min-height:500px"></textarea>
       </div>
 
       <th:block th:if="${notice.noticeNo} != null">
-        <button type="submit">수정하기</button>
+        <button type="submit" class="btn btn-success">수정하기</button>
       </th:block>
       <th:block th:unless="${notice.noticeNo} != null">
-        <button type="submit">올리기</button>
+        <button type="submit" class="btn btn-success">올리기</button>
       </th:block>
 
       <th:block th:if="${notice.noticeNo} != null">
-        <button type="button" th:onclick="|location.href='/admin/notice/content/${notice.noticeNo}'|">취소</button>
+        <button type="button" class="btn btn-danger" th:onclick="|location.href='/admin/notice/content/${notice.noticeNo}'|">취소</button>
       </th:block>
       <th:block th:unless="${notice.noticeNo} != null">
-        <button type="button" onclick="location.href='/admin/notice/list'">취소</button>
+        <button type="button" onclick="history.back();" class="btn btn-danger">취소</button>
       </th:block>
     </form>
 

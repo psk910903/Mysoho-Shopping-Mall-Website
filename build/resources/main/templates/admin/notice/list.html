@@ -70,9 +70,14 @@
         <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
         <div class="content" style="width:100%"> <!-- content 시작 -->
 
-            <button onclick="location.href='/admin/notice/write'">글쓰기</button>
+            <form action="/admin/notice/list" method="GET">
+                <input name="findByTitle">
+                <button type="submit">검색</button>
+            </form>
+
+            <button onclick="location.href='/admin/notice/write'" class="btn btn-primary">글쓰기</button>
             <table class="table table-horizontal table-bordered">
-                <tr>
+                <tr class="thead-strong">
                     <th>번호</th>
                     <th>제목</th>
                     <th>작성일</th>
@@ -85,12 +90,12 @@
                     <td th:text="${notice.noticeTitle}" th:onclick="|location.href='/admin/notice/content/${notice.noticeNo}'|">제목</td>
                     <td th:text="${#temporals.format(notice.noticeDatetime, 'yyyy-MM-dd HH:mm')}">작성일</td>
                     <td>
-                        <button th:onclick="|location.href='/admin/notice/modify/${notice.noticeNo}'|">수정</button>
+                        <button th:onclick="|location.href='/admin/notice/modify/${notice.noticeNo}'|" class="btn btn-dark">수정</button>
                     </td>
                     <td>
                         <form action="/admin/notice/deleteAction" method="POST">
                             <input type="hidden" name="noticeNo" th:value="${notice.noticeNo}">
-                            <button type="submit">삭제</button>
+                            <button type="submit" class="btn btn-danger">삭제</button>
                         </form>
                     </td>
 
