@@ -35,12 +35,10 @@ public class NoticeEntity {
 //        this.boardName = board_name;
 //        this.boardHit = board_hit;
 //    }
-//    public void update(String board_title, String board_content,
-//                       String board_name, Long board_hit) {
-//        this.boardTitle = board_title;
-//        this.boardContent = board_content;
-//        this.boardName = board_name;
-//        this.boardHit = board_hit;
-//        this.boardDate = LocalDateTime.now();
-//    }
+    public void update(String noticeType, String noticeTitle, String noticeContent, String noticeImageUrl) {
+        this.noticeType = noticeType;
+        this.noticeTitle = noticeTitle;
+        this.noticeContent = noticeContent;
+        this.noticeImageUrl = noticeImageUrl;
+    }
 }

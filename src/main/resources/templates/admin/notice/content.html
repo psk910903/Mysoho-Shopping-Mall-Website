@@ -90,7 +90,14 @@
                 </tr>
             </table>
 
-            <img src="http://placehold.it/150X150" style="width: 100%; height: 300px;"/>
+            <!-- ***************** 이미지 사이즈 조정 ***************** -->
+            <div th:style="'background-image:url(' + ${notice.noticeImageUrl} + ');
+            background-size:contain;
+            background-repeat:no-repeat;
+            width:100%;
+            height:800px'"></div>
+            <!-- *************************************************** -->
+
             <div th:text="${notice.noticeContent}" style="height: 300px;"></div>
 
             <button onclick="location.href='/admin/notice/list'">목록</button>

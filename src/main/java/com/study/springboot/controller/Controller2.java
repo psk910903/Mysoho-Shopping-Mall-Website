@@ -1,5 +1,7 @@
 package com.study.springboot.controller;
 
+import com.study.springboot.dto.notice.NoticeUpdateRequestDto;
+import com.study.springboot.entity.NoticeEntity;
 import com.study.springboot.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -67,5 +69,19 @@ public class Controller2 {
 
         return "admin/notice/write"; //write.html로 응답
     }
+
+    @PostMapping("/modifyAction")
+    @ResponseBody
+    public String update(NoticeUpdateRequestDto dto) {
+
+        Boolean success = noticeService.update(dto);
+        if(success) {
+            return "<script>alert('글수정 완료'); location.href='/admin/notice/content/" + dto.getNoticeNo() + "';</script>";
+        }else{
+            return "<script>alert('글수정 실패'); history.back();</script>";
+        }
+    }
+
+
 
 }

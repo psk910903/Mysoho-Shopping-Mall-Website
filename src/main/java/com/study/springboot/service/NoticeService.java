@@ -1,6 +1,7 @@
 package com.study.springboot.service;
 
 import com.study.springboot.dto.notice.NoticeResponseDto;
+import com.study.springboot.dto.notice.NoticeUpdateRequestDto;
 import com.study.springboot.entity.NoticeEntity;
 import com.study.springboot.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +36,18 @@ public class NoticeService {
         }
 
         return new NoticeResponseDto(entity.get());
+    }
+
+    @Transactional
+    public Boolean update(final NoticeUpdateRequestDto dto) {
+
+        Optional<NoticeEntity> entity = noticeRepository.findById(dto.getNoticeNo());
+        if (!entity.isPresent()){
+            return false;
+        }
+
+        entity.get().update(dto.getNoticeType(), dto.getNoticeTitle(), dto.getNoticeContent(), dto.getNoticeImageUrl());
+        return true;
     }
 
 }
