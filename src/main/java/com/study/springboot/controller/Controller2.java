@@ -1,5 +1,6 @@
 package com.study.springboot.controller;
 
+import com.study.springboot.dto.notice.NoticeSaveRequestDto;
 import com.study.springboot.dto.notice.NoticeUpdateRequestDto;
 import com.study.springboot.entity.NoticeEntity;
 import com.study.springboot.service.NoticeService;
@@ -59,7 +60,7 @@ public class Controller2 {
     }
 
     @GetMapping("/modify/{noticeNo}")
-    public String update(@PathVariable("noticeNo") Long noticeNo, Model model) {
+    public String modify(@PathVariable("noticeNo") Long noticeNo, Model model) {
 
         NoticeResponseDto dto = noticeService.findById(noticeNo);
         if (dto == null){
@@ -72,7 +73,7 @@ public class Controller2 {
 
     @PostMapping("/modifyAction")
     @ResponseBody
-    public String update(NoticeUpdateRequestDto dto) {
+    public String modifyAction(NoticeUpdateRequestDto dto) {
 
         Boolean success = noticeService.update(dto);
         if(success) {
@@ -82,6 +83,17 @@ public class Controller2 {
         }
     }
 
+    @PostMapping("/writeAction")
+    @ResponseBody
+    public String writeAction(NoticeSaveRequestDto dto) {
+
+        Boolean success = noticeService.save(dto);
+        if(success) {
+            return "<script>alert('글쓰기 완료'); location.href='/admin/notice/list';</script>";
+        }else{
+            return "<script>alert('글쓰기 실패'); history.back();</script>";
+        }
+    }
 
 
 }

@@ -70,7 +70,8 @@
   <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
   <div class="content" style="width:100%"> <!-- content 시작 -->
 
-    <form action="/admin/notice/modifyAction" method="POST" style="border:1px solid black;">
+<!--    <form action="/admin/notice/modifyAction" method="POST" style="border:1px solid black;">-->
+    <form method="POST" style="border:1px solid black;" th:action="(${notice.noticeNo} == null) ? '/admin/notice/writeAction' : '/admin/notice/modifyAction'">
       <table width="100%">
         <tr th:if="${notice.noticeNo} != null">
           <td>번호</td>

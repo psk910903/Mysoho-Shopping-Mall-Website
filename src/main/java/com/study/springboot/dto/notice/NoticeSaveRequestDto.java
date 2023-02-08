@@ -1,27 +1,35 @@
 package com.study.springboot.dto.notice;
 
+import com.study.springboot.entity.NoticeEntity;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class NoticeSaveRequestDto {
     private String noticeType;
     private String noticeTitle;
     private String noticeContent;
     private String noticeImageUrl;
 
-//    @Builder
-//    public BoardSaveRequestDto(String board_title, String board_content, String board_name, Long board_hit) {
-//        this.board_title = board_title;
-//        this.board_content = board_content;
-//        this.board_name = board_name;
-//        this.board_hit = board_hit;
-//    }
+    @Builder
+    public NoticeSaveRequestDto(String noticeType, String noticeTitle, String noticeContent, String noticeImageUrl) {
+        this.noticeType = noticeType;
+        this.noticeTitle = noticeTitle;
+        this.noticeContent = noticeContent;
+        this.noticeImageUrl = noticeImageUrl;
+    }
 
-//    public Board toEntity(){
-//        return Board.builder()
-//                .board_title(board_title)
-//                .board_content(board_content)
-//                .board_name(board_name)
-//                .board_hit(board_hit)
-//                .build();
-//    }
+    public NoticeEntity toEntity(){
+        return NoticeEntity.builder()
+                .noticeType(noticeType)
+                .noticeTitle(noticeTitle)
+                .noticeContent(noticeContent)
+                .noticeImageUrl(noticeImageUrl)
+                .build();
+    }
 }

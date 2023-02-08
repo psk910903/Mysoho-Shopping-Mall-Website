@@ -1,6 +1,7 @@
 package com.study.springboot.service;
 
 import com.study.springboot.dto.notice.NoticeResponseDto;
+import com.study.springboot.dto.notice.NoticeSaveRequestDto;
 import com.study.springboot.dto.notice.NoticeUpdateRequestDto;
 import com.study.springboot.entity.NoticeEntity;
 import com.study.springboot.repository.NoticeRepository;
@@ -48,6 +49,20 @@ public class NoticeService {
 
         entity.get().update(dto.getNoticeType(), dto.getNoticeTitle(), dto.getNoticeContent(), dto.getNoticeImageUrl());
         return true;
+    }
+
+    @Transactional
+    public Boolean save(final NoticeSaveRequestDto dto) {
+
+        try{
+            NoticeEntity entity = dto.toEntity();
+            noticeRepository.save(entity);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+       return true;
     }
 
 }
