@@ -13,6 +13,7 @@
     <tr align="center">
       <th><input type="checkbox" id="allch"/></th>
       <th>상품명</td>
+      <th>상품사진</th>
       <th>표시사항</th>
       <th>아이디</th>
       <th>내용</th>
@@ -22,7 +23,13 @@
     <tr th:each="review, status:${ list }" align="center">
       <td ><input type="checkbox" /></td>
       <td th:text="${ review.itemName }"><img th:src=""></img> 상품명</td>
-      <td th:text="${ review.reviewExpo }">표시사항</td>
+      <td><a href=""></a></td>
+      <td th:text="${ review.reviewExpo }">
+        <select name="reviewExpo" required>
+          <option  value="표시함" >표시함</option>
+          <option value="표시안함" > 표시안함 </option>
+        </select>
+      </td>
       <td th:text="${ review.memberId }">아이디</td>
       <td th:text="${ review.reviewContent }">번호</td>
       <td th:text="${ review.reviewStar }">별점</td>
@@ -33,6 +40,9 @@
 <br>
 <button type="submit">선택수정</button>
 <button type="submit">선택삭제</button>
+<script>
+
+</script>
 <script>
 <!-- 전부체크/해제 -->
 $('#listForm #allch').on('click',function(){

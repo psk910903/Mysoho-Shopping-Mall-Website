@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Document</title>
+  <title>리뷰게시판</title>
   <style>
       * {
         margin: 0;
@@ -62,24 +62,39 @@
       img{
       max-height: 70px;
       }
+      #search {
+       float:right;
+       margin-bottom: 20px;
+      }
 
     </style>
   <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 </head>
 <div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
 
-<div id="wrap">
+<div id="wrap" >
   <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
   <div class="content" style="width:100%">
     <div style="width:100%" >
       <h3 class="sub-title"> 리뷰 게시판</h3>
 
       <p th:text="|전체 후기내역: ${listcount}|"></p>
-      <div id="listForm">
-        <table border="1">
+
+      <form action="/review/search" method="get" id="search">
+      <select name="search" id="search_select">
+        <option value="1" selected>상품명</option>
+        <option value="2">아이디</option>
+      </select>
+      <input type="text" value="" width="100px"/>
+      <input type="submit" value="검색"/>
+      </form>
+
+      <div id="listForm" width="100%" >
+        <table border="1" width="100%">
           <tr align="center">
             <th><input type="checkbox" id="allch"/></th>
             <th>상품명</td>
+            <th>상품사진</th>
             <th>표시사항</th>
             <th>아이디</th>
             <th>내용</th>
@@ -88,8 +103,9 @@
           </tr>
           <tr th:each="review, status:${ list }" align="center">
             <td ><input type="checkbox" /></td>
-            <td th:text="${ review.itemName }"><img th:src=""></img> 상품명</td>
-            <td th:text="${ review.reviewExpo }">표시사항</td>
+            <td th:text="${ review.itemName }"> 상품명</td>
+            <td><img th:src="${ review.reviewImgUrl }"/></td>
+            <td th:text="${ review.reviewExpo }"></td>
             <td th:text="${ review.memberId }">아이디</td>
             <td th:text="${ review.reviewContent }">번호</td>
             <td th:text="${ review.reviewStar }">별점</td>
@@ -101,7 +117,9 @@
       <button type="submit">선택수정</button>
       <button type="submit">선택삭제</button>
     </div>
+<script>
 
+</script>
 <!--    &lt;!&ndash; 페이지 네비게이션 &ndash;&gt;-->
 <!--    <div class="container">-->
 <!--      &lt;!&ndash; 페이징처리 시작 &ndash;&gt;-->
@@ -145,8 +163,14 @@ if($('#allch').prop("checked")){
   $("input[type=checkbox]").prop("checked",false);
   }
 });
-
 </script>
+<script>
+<!--      if ($("select[name=Select box Name]").val() == "표시함") {-->
+<!--        $("#reviewExpo").val("표시함").prop("selected", true);-->
+<!--      } else {-->
+<!--        $("#reviewExpo").val("표시안함").prop("selected", true);-->
+<!--      }-->
+    </script>
 </body>
 
 </html>
