@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.sql.Array;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -56,11 +59,74 @@ public class Controller3 {
 //    throws Exception
 //    return "/admin/review/review2";
     @RequestMapping("search")
-    public String search(){
+    public String search(@RequestParam("reviewNo") String reviewNo){
         //findByName
         //findByMemberId
-        return "/admin/review/test";
 
+        return "/admin/review/review2";
+
+    }
+    //선택수정
+    @RequestMapping("/update")
+    public String update (@RequestParam("reviewNo") String reviewNo,
+                          Model model){
+        System.out.println(reviewNo);
+        ArrayList <Optional<Review>> list = new ArrayList<>();
+        System.out.println(reviewNo);
+        String[] arrIdx = reviewNo.split(",");
+        for (int i=0; i<arrIdx.length; i++) {
+            //수정할 목록 찾음
+            Optional<Review> optional = reviewRopository.findById((long)Integer.parseInt(arrIdx[i]));
+            list.add(optional);
+            //ArrayList <Review> list1 = new ArrayList<>();
+            //list1.add(optional.get());
+
+        }
+        System.out.println("작업끝");
+        //model.addAttribute("list",list);
+        //model.addAttribute("listcount",list.size());
+        return "redirect:/review/listForm" ;
+    }
+    //선택삭제하기
+    @RequestMapping("/delete")
+    public String delete (@RequestParam("reviewNo") String reviewNo){
+        System.out.println(reviewNo);
+        String[] arrIdx = reviewNo.split(",");
+        for (int i=0; i<arrIdx.length; i++) {
+            Optional<Review> optional = reviewRopository.findById((long)Integer.parseInt(arrIdx[i]));
+            reviewRopository.delete(optional.get());
+        }
+
+        return "redirect:/review/listForm";
     }
 
 }
+//@Controller("CheckboxController.class")
+//@RequestMapping(value="/checkbox")
+//public class CheckboxController {
+//
+//    private static final Logger log = LoggerFactory.getLogger(CheckboxController.class);
+//
+//    @RequestMapping(value="/view")
+//    public String view(HttpServletRequest request, SampleVO vo) throws Exception {
+//        return "/checkbox/view";
+//    }
+//
+//    @RequestMapping(value="/updateChkBox")
+//    public @ResponseBody String updateChkBox (
+//            HttpServletRequest request,
+//            HttpServletResponse response,
+//            @RequestParam(value="name",required=true) List<String> name,
+//            @RequestParam(value="age",required=true) List<Integer> age) throws Exception {
+//
+//        log.debug( ">>> param size : " + name.size() );
+//
+//        int i = 0;
+//        for( String value : name ){
+//            log.debug( ">>> name's value : " + value + "\tage : " + age.get(i) );
+//            i++;
+//        }
+//
+//        return "success";
+//    }
+//}
