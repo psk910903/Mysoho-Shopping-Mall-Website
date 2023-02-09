@@ -5,11 +5,13 @@ import com.study.springboot.dto.notice.NoticeUpdateRequestDto;
 import com.study.springboot.entity.NoticeEntity;
 import com.study.springboot.service.NoticeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.study.springboot.dto.notice.NoticeResponseDto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -21,17 +23,26 @@ public class Controller2 {
 
     @GetMapping("/")
     public String home(){
-        return "redirect:/admin/notice/list";
+        return "redirect:/admin/notice/list?page=0";
     }
 
     @GetMapping("/list")
     public String list(@RequestParam(value = "findBy", required = false) String findBy,
                        @RequestParam(value = "keyword", required = false) String keyword,
+                       @RequestParam(value = "page", defaultValue = "0") int page,
                         Model model) {
 
         if ((findBy == null) && (keyword == null)) {
-            List<NoticeResponseDto> list = noticeService.findAll();
+
+            Page<NoticeResponseDto> list = noticeService.findAll(page);
+            int totalPage = list.getTotalPages();
+            List<Integer> pageList = noticeService.getPageList(totalPage, page);
+
             model.addAttribute("list", list);
+            model.addAttribute("findBy", findBy);
+            model.addAttribute("keyword", keyword);
+            model.addAttribute("pageList", pageList);
+
             return "admin/notice/list"; //listForm.html로 응답
         }
 
@@ -41,10 +52,17 @@ public class Controller2 {
     @GetMapping("/findAction")
     public String findAction(@RequestParam(value = "findBy", required = false) String findBy,
                             @RequestParam(value = "keyword", required = false) String keyword,
+                             @RequestParam(value = "page", defaultValue = "0") int page,
                             Model model) {
 
-        List<NoticeResponseDto> list = noticeService.findByKeyword(findBy, keyword);
+        Page<NoticeResponseDto> list = noticeService.findByKeyword(findBy, keyword, page);
+        int totalPage = list.getTotalPages();
+        List<Integer> pageList = noticeService.getPageList(totalPage, page);
+
         model.addAttribute("list", list);
+        model.addAttribute("findBy", findBy);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("pageList", pageList);
 
         return "admin/notice/list"; //listForm.html로 응답
     }

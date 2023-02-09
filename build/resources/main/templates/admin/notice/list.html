@@ -70,8 +70,9 @@
         <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
         <div class="content" style="width:100%"> <!-- content 시작 -->
 
-            <div class="container m-0">
+            <div class="container m-0"> <!-- 검색 시작 -->
                 <form action="/admin/notice/list" method="GET" class="row align-items-center" >
+                    <input type="hidden" name="page" value="0">
                     <div class="col-1 p-0">
                         <select name="findBy" class="form-control">
                             <option value="title">제목</option>
@@ -85,15 +86,15 @@
                         <button type="submit" class="btn btn-success">검색</button>
                     </div>
                 </form>
-            </div>
+            </div> <!-- 검색 끝 -->
 
-            <div>
-                <a href="/admin/notice/list" class="btn btn-outline-primary">전체보기</a>
-                <a href="/admin/notice/list?findBy=type&keyword=공지사항" class="btn btn-outline-primary">공지사항</a>
-                <a href="/admin/notice/list?findBy=type&keyword=이벤트" class="btn btn-outline-primary">이벤트</a>
-            </div>
+            <div> <!-- 카테고리 시작 -->
+                <a href="/admin/notice/list?page=0" class="btn btn-outline-primary">전체보기</a>
+                <a href="/admin/notice/list?findBy=type&keyword=공지사항&page=0" class="btn btn-outline-primary">공지사항</a>
+                <a href="/admin/notice/list?findBy=type&keyword=이벤트&page=0" class="btn btn-outline-primary">이벤트</a>
+            </div> <!-- 카테고리 끝 -->
 
-            <table class="table table-horizontal table-bordered">
+            <table class="table table-horizontal table-bordered"> <!-- 목록 시작 -->
                 <tr class="thead-strong">
                     <th>번호</th>
                     <th>제목</th>
@@ -103,7 +104,7 @@
                 </tr>
 
                 <tr th:each="notice, status:${list}">
-                    <td th:text="${#lists.size(list)}-${status.count}+1">번호</td>
+                    <td th:text="${notice.noticeNo}">번호</td>
                     <td th:text="${notice.noticeTitle}" th:onclick="|location.href='/admin/notice/content/${notice.noticeNo}'|">제목</td>
                     <td th:text="${#temporals.format(notice.noticeDatetime, 'yyyy-MM-dd HH:mm')}">작성일</td>
                     <td>
@@ -115,12 +116,55 @@
                             <button type="submit" class="btn btn-danger">삭제</button>
                         </form>
                     </td>
-
                 </tr>
-            </table>
-            <div class="justify-content-center">
-                <button onclick="location.href='/admin/notice/write'" class="btn btn-primary col-6" >글쓰기</button>
-            </div>
+            </table>  <!-- 목록 끝 -->
+
+            <div> <!-- 글쓰기 시작 -->
+                <button onclick="location.href='/admin/notice/write'" class="btn btn-primary" >글쓰기</button>
+            </div> <!-- 글쓰기 끝 -->
+
+            <div class="container"> <!-- 페이지 시작 -->
+                <div th:if="${!list.isEmpty()}">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item" th:classappend="${!list.hasPrevious} ? 'disabled'"> <!-- 이전 버튼 시작 -->
+                            <th:block th:if="${keyword}==null">
+                                <a class="page-link" th:href="|/admin/notice/list?page=${list.number-1}|">
+                                    <span>이전</span>
+                                </a>
+                            </th:block>
+                            <th:block th:unless="${keyword}==null">
+                                <a class="page-link" th:href="|/admin/notice/list?page=${list.number-1}&findBy=${findBy}&keyword=${keyword}|">
+                                    <span>이전</span>
+                                </a>
+                            </th:block>
+                        </li> <!-- 이전 버튼 끝 -->
+                        <li th:each="page: ${pageList}"
+                            th:classappend="${page == list.number} ? 'active'"
+                            class="page-item"> <!-- 숫자 페이지 버튼 시작 -->
+                            <th:block th:if="${keyword}==null">
+                                <a th:text="${page+1}" class="page-link" th:href="|/admin/notice/list?page=${page}|"></a>
+                            </th:block>
+                            <th:block th:unless="${keyword}==null">
+                                <a th:text="${page+1}" class="page-link"
+                                   th:href="|/admin/notice/list?page=${page}&findBy=${findBy}&keyword=${keyword}|"></a>
+                            </th:block>
+                        </li> <!-- 숫자 페이지 버튼 끝 -->
+                        <li class="page-item" th:classappend="${!list.hasNext} ? 'disabled'"> <!-- 다음 버튼 시작 -->
+                            <th:block th:if="${keyword}==null">
+                                <a class="page-link" th:href="|/admin/notice/list?page=${list.number+1}|">
+                                    <span>다음</span>
+                                </a>
+                            </th:block>
+                            <th:block th:unless="${keyword}==null">
+                                <a class="page-link" th:href="|/admin/notice/list?page=${list.number+1}&findBy=${findBy}&keyword=${keyword}|">
+                                    <span>다음</span>
+                                </a>
+                            </th:block>
+                        </li> <!-- 다음 버튼 끝 -->
+                    </ul>
+                </div>
+            </div> <!-- 페이지 끝 -->
+
 
         </div> <!-- content 끝 -->
     </div>
