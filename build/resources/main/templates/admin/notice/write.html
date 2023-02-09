@@ -116,12 +116,8 @@
         <button type="submit" class="btn btn-success">올리기</button>
       </th:block>
 
-      <th:block th:if="${notice.noticeNo} != null">
-        <button type="button" class="btn btn-danger" onclick="history.back()">취소</button>
-      </th:block>
-      <th:block th:unless="${notice.noticeNo} != null">
-        <button type="button" onclick="history.back();" class="btn btn-danger">취소</button>
-      </th:block>
+      <button type="button" class="btn btn-danger" onclick="history.back()">취소</button>
+
     </form>
 
   </div> <!-- content 끝 -->
