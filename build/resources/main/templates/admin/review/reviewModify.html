@@ -17,7 +17,6 @@
         <td>아이디</td>
         <td>내용</td>
         <td>별점</td>
-        <td>작성일</td>
         <td>저장</td>
         <td>목록보기</td>
     </tr>
@@ -46,9 +45,9 @@
         <td >
             <input type="text" name="reviewStar" id="reviewStar" th:value="${review.reviewStar}" />
         </td>
-        <td >
-            <input type="date" name="reviewDatetime" id="reviewDatetime" th:value="${review.reviewDatetime}" readonly/>
-        </td>
+<!--        <td >-->
+<!--            <input type="date" name="reviewDatetime" id="reviewDatetime" th:value="${review.reviewDatetime}" readonly/>-->
+<!--        </td>-->
         <td><input type="submit" value="저장"/> </td>
         <td><a href="listForm"><input type="button" value="목록보기"></a></td>
 

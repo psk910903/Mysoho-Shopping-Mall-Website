@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -45,11 +47,14 @@ public class Controller3 {
         return "/admin/review/reviewModify";
     }
     @RequestMapping("modifyAction")
+    @ResponseBody
     public String modifyAction(ReviewSaveResponseDto reviewSaveResponseDto){
-        reviewService.update(reviewSaveResponseDto);
-        return "/admin/review/reviewList";
-    }
+        boolean result = reviewService.update(reviewSaveResponseDto);
+        if(!result){
+            return "<script>alert('수정 실패');history.back();</script>";
+        }return "<script>alert('수정 성공');location.href='/review/listForm';</script>";
 
+    }
     @RequestMapping("/update")
     public String update (@RequestParam("reviewNo") String reviewNo,
                           Model model){
@@ -67,7 +72,6 @@ public class Controller3 {
         model.addAttribute("listcount",list.size());
         return "/admin/review/reviewList" ;
     }
-
     //선택삭제하기
     @RequestMapping("/delete")
     public String delete (@RequestParam("reviewNo") String reviewNo){
