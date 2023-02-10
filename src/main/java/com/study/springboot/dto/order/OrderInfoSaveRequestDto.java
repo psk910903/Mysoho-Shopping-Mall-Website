@@ -1,6 +1,5 @@
 package com.study.springboot.dto.order;
 
-import com.study.springboot.entity.Board;
 import com.study.springboot.entity.OrderEntity;
 import lombok.Getter;
 import lombok.Setter;

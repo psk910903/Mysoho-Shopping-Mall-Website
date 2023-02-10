@@ -1,7 +1,5 @@
 package com.study.springboot.dto.member;
 
-
-import com.study.springboot.entity.Board;
 import com.study.springboot.entity.Member.MemberEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
