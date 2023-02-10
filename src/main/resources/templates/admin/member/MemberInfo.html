@@ -1,0 +1,165 @@
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        * {
+          margin: 0;
+          padding: 0;
+        }
+        body {
+        }
+        .header {
+          display: flex;
+          justify-content: space-between;
+          height: 60px;
+          padding: 0 25px;
+          background-color: #333;
+          color: white;
+          border-bottom: 1px solid #949ca6;
+        }
+        #wrap {
+          display: flex;
+          min-height: 830px;
+        }
+        .admin-navBar {
+          flex-grow : 1
+          height: 100%;
+          width: 200px;
+          padding: 25px;
+          background-color: #333;
+
+        }
+        .admin-navBar div {
+          display: flex;
+        }
+
+        .admin-navBar a {
+          text-decoration: none;
+          padding: 15px 0;
+          width: 100%;
+          border-bottom: 1px solid #949ca6;
+          color: white;
+        }
+
+        .head-title {
+          display: flex;
+          align-items: center;
+        }
+        .logout-btn {
+          margin-right: 50px;
+          padding: 10px 20px;
+          font-weight: bold;
+          font-size: 18px;
+        }
+        .content {
+          padding: 20px;
+          width: 100%;
+        }
+        img{
+        max-height: 70px;
+        }
+
+      </style>
+</head>
+<div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
+
+<div id="wrap">
+    <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
+    <div class="content" style="width:100%">
+        <div class="wrap">
+            <div class="wrapMain">
+                <caption><h2>
+                    호구정보</h2>
+                </caption>
+                <form action="updateMember" method="post">
+                    <table border="1px" >
+                        <tr>
+                            <th>아이디</th>
+                            <th><input type="text" name="member_id" id="inputId" th:value="${member.member_id}"/></th>
+                            <th>password</th>
+                            <th><input type="password" name="member_pw" th:value="${member.member_pw}" readonly/></th>
+                        </tr>
+                        <tr >
+                            <th >이름</th>
+                            <th><input type="text" name="member_name" id="member_name" th:value="${member.member_name}" /></th>
+                            <th >적립금</th>
+                            <th>
+                                <input type="text" name="member_mileage" id="inputMileage" readonly th:value="${member.member_mileage}" />
+                            </th>
+                        </tr>
+                        <tr>
+                            <th>연락처</th>
+                            <td >
+                                <input
+                                        type="text"
+                                        name="member_phone"
+                                        id="inputPhone"
+                                        placeholder="000-0000-0000"
+                                        th:value="${member.member_phone}"
+                                />
+                            </td>
+                            <th>회원번호</th>
+                            <th><input type="text" name="member_no" readonly th:value="${member.member_no}"></th>
+                        </tr>
+                        <tr>
+                            <th>이메일</th>
+                            <td colspan="3">
+                                <input
+                                        type="text"
+                                        name="member_email"
+                                        id="inputEmail"
+                                        placeholder="email@email.com"
+                                        th:value="${member.member_email}"
+                                />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th rowspan="2">어드레스불러보소</th>
+                            <td colspan="3">
+                                <input type="text" name="member_address" id="inputAddress" /><button
+                                    type="submit"
+
+                            >
+                                우편번호
+                            </button>
+                            </td>
+                        </tr>
+                        <td>
+                            <input
+                                    type="text"
+                                    name="member_address"
+                                    th:value="${member.member_address}"
+                            />
+                        </td>
+                        <div>
+            <span
+            ><button type="submit" name="확인" id="submitButton" >
+                수정
+              </button></span
+            ><span
+                        ><a th:href="@{/adminHome/memberList}"><input type="button" name="목록"value="목록" id="MemberList"
+                        >
+                        </a></span
+                        >
+                        </div>
+                    </table>
+                </form>
+            </div>
+            <!-- wrapMain -->
+        </div>
+        <!-- wrap -->
+    </div>
+    <!--  컨텐츠 끝-->
+</div>
+
+<!-- wrap -->
+
+</body>
+
+</html>
+
+
