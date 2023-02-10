@@ -1,0 +1,236 @@
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>리뷰게시판</title>
+  <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        height: 60px;
+        padding: 0 25px;
+        background-color: #333;
+        color: white;
+        border-bottom: 1px solid #949ca6;
+      }
+      #wrap {
+        display: flex;
+        min-height: 830px;
+      }
+      .admin-navBar {
+        flex-grow : 1
+        height: 100%;
+        width: 200px;
+        padding: 25px;
+        background-color: #333;
+
+      }
+      .admin-navBar div {
+        display: flex;
+      }
+
+      .admin-navBar a {
+        text-decoration: none;
+        padding: 15px 0;
+        width: 100%;
+        border-bottom: 1px solid #949ca6;
+        color: white;
+      }
+
+      .head-title {
+        display: flex;
+        align-items: center;
+      }
+      .logout-btn {
+        margin-right: 50px;
+        padding: 10px 20px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .content {
+        padding: 20px;
+        width: 100%;
+      }
+      img{
+      max-height: 70px;
+      }
+      #search {
+       float:right;
+       margin-bottom: 20px;
+      }
+
+    </style>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+</head>
+<div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
+
+<div id="wrap" >
+  <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
+  <div class="content" style="width:100%">
+    <div style="width:100%" >
+      <h3 class="sub-title"> 리뷰 게시판</h3>
+      <p th:text="|전체 후기내역: ${listcount}|"></p>
+
+
+      <form action="/review/search" method="get" id="search1">
+      <select name="search-type" id="search" >
+        <option value="itemNo" selected>상품번호</option>
+        <option value="memberId">아이디</option>
+      </select>
+      <input type="text" value="" width="100px"/>
+       <input type="submit" value="검색" /></a>
+      </form>
+
+      <div id="listForm" width="100%" >
+        <table border="1" width="100%">
+          <tr align="center">
+            <th><input type="checkbox" id="allch"/></th>
+            <th>상품번호</td>
+            <th>상품사진</th>
+            <th>표시여부</th>
+            <th>아이디</th>
+            <th>내용</th>
+            <th>별점</th>
+            <th>작성일</th>
+            <th>관리</th>
+          </tr>
+          <tr th:each="review, status:${ list }" align="center">
+            <td ><input type="checkbox" name="RowCheck" th:value="${ review.reviewNo }"/></td>
+            <td th:text="${ review.itemNo }"> 상품번호</td>
+            <td><img th:src="${ review.reviewImgUrl }"/>상품사진</td>
+            <td th:text="${ review.reviewExpo }">표시여부</td>
+            <td th:text="${ review.memberId }">아이디</td>
+            <td th:text="${ review.reviewContent }">내용</td>
+            <td th:text="${ review.reviewStar }">별점</td>
+            <td th:text="${ review.reviewDatetime }">날짜</td>
+            <td><a th:href="@{/review/modify(reviewNo=${ review.reviewNo })}">수정</a> </td>
+          </tr>
+        </table>
+      </div>
+      <br>
+      <input type="button" onclick="updateValue()";  value="선택수정"/>
+      <input type="button" onclick="deleteValue()";  value="선택삭제"/>
+    </div>
+
+
+<!--    &lt;!&ndash; 페이지 네비게이션 &ndash;&gt;-->
+<!--    <div class="container">-->
+<!--      &lt;!&ndash; 페이징처리 시작 &ndash;&gt;-->
+<!--      <div th:if="${!paging.isEmpty()}">-->
+<!--        <ul class="pagination justify-content-center">-->
+<!--          <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disabled'">-->
+<!--            <a class="page-link"-->
+<!--               th:href="@{|?page=${paging.number-1}|}">-->
+<!--              <span>이전</span>-->
+<!--            </a>-->
+<!--          </li>-->
+<!--          <li th:each="page: ${#numbers.sequence(0, paging.totalPages-1)}"-->
+<!--              th:if="${page >= paging.number-5 and page <= paging.number+5}"-->
+<!--              th:classappend="${page == paging.number} ? 'active'"-->
+<!--              class="page-item">-->
+<!--            <a th:text="${page+1}" class="page-link" th:href="@{|?page=${page}|}"></a>-->
+<!--          </li>-->
+<!--          <li class="page-item" th:classappend="${!paging.hasNext} ? 'disabled'">-->
+<!--            <a class="page-link" th:href="@{|?page=${paging.number+1}|}">-->
+<!--              <span>다음</span>-->
+<!--            </a>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </div>-->
+<!--      &lt;!&ndash; 페이징처리 끝 &ndash;&gt;-->
+<!--    </div>-->
+  </div>
+  <!--  컨텐츠 끝-->
+</div>
+
+<!-- wrap -->
+<script>
+<!-- 전부체크/해제 -->
+$('#listForm #allch').on('click',function(){
+<!--체크된 경우 -->
+if($('#allch').prop("checked")){
+<!--  화면의 체크박스 전부 체크 -->
+  $("input[type=checkbox]").prop("checked",true);
+}else {
+<!--아니면 체크 박스 전부 해제-->
+  $("input[type=checkbox]").prop("checked",false);
+  }
+});
+</script>
+<script>
+<!--선택 삭제 -->
+     function deleteValue(){
+      var reviewNo = "";
+     $( "input[name='RowCheck']:checked" ).each (function (){
+     reviewNo = reviewNo + $(this).val()+"," ;
+     });
+    if(reviewNo == ""){
+     alert("삭제할 대상을 선택하세요.");
+     return false;
+     }
+     console.log("통신시작");
+     $.ajax({
+            url : '/review/delete',
+            type : 'POST',
+            traditional : true,
+            data : {
+              reviewNo : reviewNo
+            },
+            success: function(jdata){
+              if(jdata = 1){
+                alert("삭제 성공");
+                location.replace("/review/listForm")
+              }
+              else{
+                alert("삭제 실패")
+              }
+            }
+        });
+    }
+</script>
+<script>
+<!--선택 수정하기-->
+      function updateValue() {
+      console.log("시작");
+        var reviewNo = "";
+        $("input[name='RowCheck']:checked").each(function () {
+          reviewNo = reviewNo + $(this).val() + ",";
+        });
+        console.log(reviewNo);
+        if (reviewNo == "") {
+          alert("조회할 대상을 선택하세요.");
+          return false;
+        }
+        console.log("통신시작");
+        $.ajax({
+          url: "/review/update",
+          type: "POST",
+          traditional: true,
+          data: {
+            reviewNo: reviewNo,
+          },
+          success: function (jdata) {
+            if ((jdata = 1)) {
+              alert("조회 성공");
+              location.replace("/review/listForm")
+            } else {
+              alert("조회 실패");
+            }
+          },
+        });
+      }
+</script>
+</body>
+
+</html>
+
+
+
