@@ -25,7 +25,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public Page<Product> getList(int page) {
         List<Sort.Order> sorts = new ArrayList<>();
-//        sorts.add(Sort.Order.desc("item_update_datetime")); //최신글을 먼저 보여준다.
+        sorts.add(Sort.Order.desc("item_update_datetime")); //최신글을 먼저 보여준다.
 
         Pageable pageable = PageRequest.of(page, 5); //5개씩
         return productRepository.findAll(pageable);

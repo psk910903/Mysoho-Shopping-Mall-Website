@@ -23,13 +23,13 @@
     </tr>
     <tr >
         <td >
-            <input type="text"  name="reviewNo" th:value="${review.reviewNo}" readonly>
+            <input type="text"  name="reviewNo" th:value="${review.reviewNo}" >
         </td>
         <td >
-            <input type="text" name="itemName" id="itemName" th:value="${review.itemName}" readonly/>
+            <input type="text" name="itemNo" id="itemNo" th:value="${review.itemNo}" />
         </td>
         <td >
-            <input type="text" name="reviewImgUrl" id="reviewImgUrl" th:value="${review.reviewImgUrl}" readonly/>
+            <input type="text" name="reviewImgUrl" id="reviewImgUrl" th:value="${review.reviewImgUrl}" />
         </td>
         <td >
             <select name="reviewExpo" required>
@@ -38,16 +38,16 @@
             </select>
         </td>
         <td >
-            <input type="text" name="memberId" id="memberId" th:value="${review.memberId}" readonly/>
+            <input type="text" name="memberId" id="memberId" th:value="${review.memberId}" />
         </td>
         <td >
-            <input type="text" name="reviewContent" id="reviewContent" th:value="${review.reviewContent}" readonly/>
+            <input type="text" name="reviewContent" id="reviewContent" th:value="${review.reviewContent}" />
         </td>
         <td >
-            <input type="text" name="reviewStar" id="reviewStar" th:value="${review.reviewStar}" readonly/>
+            <input type="text" name="reviewStar" id="reviewStar" th:value="${review.reviewStar}" />
         </td>
 <!--        <td >-->
-<!--            <input type="text" name="reviewDatetime" id="reviewDatetime" th:value="${review.reviewDatetime}" readonly/>-->
+<!--            <input type="date" name="reviewDatetime" id="reviewDatetime" th:value="${review.reviewDatetime}" readonly/>-->
 <!--        </td>-->
         <td><input type="submit" value="저장"/> </td>
         <td><a href="listForm"><input type="button" value="목록보기"></a></td>

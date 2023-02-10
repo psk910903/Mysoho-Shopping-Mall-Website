@@ -72,10 +72,6 @@
 </head>
 <div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
 
-th:href="@{contentForm(boardIdx=${dto.boardIdx})}"
-onclick="location.href='링크주소';"
-onclick="window.open('링크주소');"
-
 <div id="wrap" >
   <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
   <div class="content" style="width:100%">
@@ -85,8 +81,8 @@ onclick="window.open('링크주소');"
 
 
       <form action="/review/search" method="get" id="search1">
-      <select name="search" id="search" >
-        <option value="itemName" selected>상품명</option>
+      <select name="search-type" id="search" >
+        <option value="itemNo" selected>상품번호</option>
         <option value="memberId">아이디</option>
       </select>
       <input type="text" value="" width="100px"/>
@@ -97,7 +93,7 @@ onclick="window.open('링크주소');"
         <table border="1" width="100%">
           <tr align="center">
             <th><input type="checkbox" id="allch"/></th>
-            <th>상품명</td>
+            <th>상품번호</td>
             <th>상품사진</th>
             <th>표시여부</th>
             <th>아이디</th>
@@ -108,8 +104,8 @@ onclick="window.open('링크주소');"
           </tr>
           <tr th:each="review, status:${ list }" align="center">
             <td ><input type="checkbox" name="RowCheck" th:value="${ review.reviewNo }"/></td>
-            <td th:text="${ review.itemName }"> 상품명</td>
-            <td><img th:src="${ review.reviewImgUrl }"/></td>
+            <td th:text="${ review.itemNo }"> 상품번호</td>
+            <td><img th:src="${ review.reviewImgUrl }"/>상품사진</td>
             <td th:text="${ review.reviewExpo }">표시여부</td>
             <td th:text="${ review.memberId }">아이디</td>
             <td th:text="${ review.reviewContent }">내용</td>
@@ -224,6 +220,7 @@ if($('#allch').prop("checked")){
           success: function (jdata) {
             if ((jdata = 1)) {
               alert("조회 성공");
+              location.replace("/review/listForm")
             } else {
               alert("조회 실패");
             }
