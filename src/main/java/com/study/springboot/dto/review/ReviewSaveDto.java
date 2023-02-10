@@ -16,7 +16,7 @@ public class ReviewSaveDto {
         private String reviewContent;
         private String reviewImgUrl;
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-        private LocalDate reviewDatetime;
+        private LocalDateTime reviewDatetime;
         private String reviewExpo;
 
     public Review toUpdateEntity(){
@@ -27,6 +27,8 @@ public class ReviewSaveDto {
                 .reviewStar(reviewStar)
                 .reviewContent(reviewContent)
                 .reviewExpo(reviewExpo)
+                //.reviewDatetime(reviewDatetime)
+                .reviewImgUrl(reviewImgUrl)
                 .build();
     }
 }

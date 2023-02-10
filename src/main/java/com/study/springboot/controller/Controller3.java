@@ -44,6 +44,7 @@ public class Controller3 {
         model.addAttribute("review",review);
         return "/admin/review/review2";
     }
+
     @RequestMapping("modifyAction")
     @ResponseBody
     public String modifyAction(ReviewSaveDto dto) {
@@ -62,7 +63,6 @@ public class Controller3 {
     public String search(@RequestParam("reviewNo") String reviewNo){
         //findByName
         //findByMemberId
-
         return "/admin/review/review2";
 
     }
@@ -71,21 +71,20 @@ public class Controller3 {
     public String update (@RequestParam("reviewNo") String reviewNo,
                           Model model){
         System.out.println(reviewNo);
-        ArrayList <Optional<Review>> list = new ArrayList<>();
-        System.out.println(reviewNo);
+        ArrayList <Review> list = new ArrayList<>();
         String[] arrIdx = reviewNo.split(",");
         for (int i=0; i<arrIdx.length; i++) {
-            //수정할 목록 찾음
+            //수정할 목록 찾아서 목록 만듬
             Optional<Review> optional = reviewRopository.findById((long)Integer.parseInt(arrIdx[i]));
-            list.add(optional);
+            list.add(optional.get());
             //ArrayList <Review> list1 = new ArrayList<>();
+            //Optional<Review> optional = reviewRopository.findById((long)Integer.parseInt(arrIdx[i]));
             //list1.add(optional.get());
-
         }
         System.out.println("작업끝");
-        //model.addAttribute("list",list);
-        //model.addAttribute("listcount",list.size());
-        return "redirect:/review/listForm" ;
+        model.addAttribute("list",list);
+        model.addAttribute("listcount",list.size());
+        return "/admin/review/review3" ;
     }
     //선택삭제하기
     @RequestMapping("/delete")

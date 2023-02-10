@@ -99,20 +99,22 @@ onclick="window.open('링크주소');"
             <th><input type="checkbox" id="allch"/></th>
             <th>상품명</td>
             <th>상품사진</th>
-            <th>표시사항</th>
+            <th>표시여부</th>
             <th>아이디</th>
             <th>내용</th>
             <th>별점</th>
+            <th>작성일</th>
             <th>관리</th>
           </tr>
           <tr th:each="review, status:${ list }" align="center">
             <td ><input type="checkbox" name="RowCheck" th:value="${ review.reviewNo }"/></td>
             <td th:text="${ review.itemName }"> 상품명</td>
             <td><img th:src="${ review.reviewImgUrl }"/></td>
-            <td th:text="${ review.reviewExpo }"></td>
+            <td th:text="${ review.reviewExpo }">표시여부</td>
             <td th:text="${ review.memberId }">아이디</td>
-            <td th:text="${ review.reviewContent }">번호</td>
+            <td th:text="${ review.reviewContent }">내용</td>
             <td th:text="${ review.reviewStar }">별점</td>
+            <td th:text="${ review.reviewDatetime }">날짜</td>
             <td><a th:href="@{/review/modify(reviewNo=${ review.reviewNo })}">수정</a> </td>
           </tr>
         </table>

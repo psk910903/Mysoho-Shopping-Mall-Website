@@ -33,7 +33,7 @@ public class Review {
     private String reviewImgUrl;
     @Column(name = "review_datetime")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm")
-    private LocalDate reviewDatetime ;
+    private LocalDateTime reviewDatetime;
     @Column(name = "review_exposure" )
     private String reviewExpo;
 
