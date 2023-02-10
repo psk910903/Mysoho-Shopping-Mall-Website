@@ -1,9 +1,5 @@
 package com.study.springboot.controller;
 
-<<<<<<< HEAD
-import com.study.springboot.dto.product.ProductResponseDto;
-import com.study.springboot.entity.Product;
-=======
 import com.study.springboot.dto.order.OrderInfoSaveRequestDto;
 import com.study.springboot.dto.order.OrderListResponseDto;
 import com.study.springboot.dto.product.ProductResponseDto;
@@ -17,12 +13,12 @@ import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ProductRepository;
 import com.study.springboot.service.CartService;
 import com.study.springboot.service.OrderService;
->>>>>>> sunkyo
 import com.study.springboot.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -60,9 +56,6 @@ public class Controller1 {
         return "/admin/product/productList";
     }
 
-<<<<<<< HEAD
-
-=======
     //상품등록 폼
     @GetMapping("/admin/productRegistration")
     public String productRegistration() {
@@ -119,7 +112,6 @@ public class Controller1 {
 //    public String productSearch(ProductSearchDto dto) {
 //        productService.productSearch(dto)
 //    }
->>>>>>> sunkyo
 
 
     // 주문-----------------------------------------------------------------------------
