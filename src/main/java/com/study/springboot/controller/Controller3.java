@@ -58,16 +58,18 @@ public class Controller3 {
     @RequestMapping("/update")
     public String update (@RequestParam("reviewNo") String reviewNo,
                           Model model){
-        List <ReviewEntity> list = new ArrayList<>();
+        List <ReviewResponseDto> list = new ArrayList<>();
         String[] arrIdx = reviewNo.split(",");
         for (int i=0; i<arrIdx.length; i++) {
             //수정할 목록 찾아서 목록 만듬
+            System.out.println(arrIdx[i]);
             Optional<ReviewEntity> optional = reviewRopository.findById((long)Integer.parseInt(arrIdx[i]));
-            list.add(optional.get());
+            ReviewResponseDto a = new ReviewResponseDto(optional.get());
+            list.add(a);
         }
 //        List<MemberEntity> list = memberRepository.findAll();//엔티티로 전부 출력
 //        model.addAttribute("list",list);
-        System.out.println("배열완료");
+        System.out.println("1111");
         model.addAttribute("list",list);
         model.addAttribute("listcount",list.size());
         return "/admin/review/reviewList" ;
