@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>마이소호</title>
+  <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        height: 60px;
+        padding: 0 25px;
+        background-color: #333;
+        color: white;
+        border-bottom: 1px solid #949ca6;
+      }
+      #wrap {
+        display: flex;
+        min-height: 830px;
+      }
+      .admin-navBar {
+        flex-grow : 1
+        height: 100%;
+        width: 200px;
+        padding: 25px;
+        background-color: #333;
+
+      }
+      .admin-navBar div {
+        display: flex;
+      }
+
+      .admin-navBar a {
+        text-decoration: none;
+        padding: 15px 0;
+        width: 100%;
+        border-bottom: 1px solid #949ca6;
+        color: white;
+      }
+
+      .head-title {
+        display: flex;
+        align-items: center;
+      }
+      .logout-btn {
+        margin-right: 50px;
+        padding: 10px 20px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .content {
+        padding: 20px;
+        width: 100%;
+      }
+      img{
+      max-height: 70px;
+      }
+    </style>
+</head>
+<body>
+<div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
+<div id="wrap">
+  <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
+  <div class="content" style="width:100%"> <!-- content 시작 -->
+
+
+    <form method="POST" th:action="(${notice.noticeNo} == null) ? '/admin/notice/writeAction' : '/admin/notice/modifyAction'">
+      <table class="table table-horizontal table-bordered">
+        <tr th:if="${notice.noticeNo} != null">
+          <td>번호</td>
+          <td>
+            <input name="noticeNo" th:value="${notice.noticeNo}" style="width:100%" class="form-control" readonly>
+          </td>
+        </tr>
+        <tr>
+          <td>제목</td>
+          <td>
+            <input name="noticeTitle" th:value="${notice.noticeTitle}" style="width:100%" class="form-control">
+          </td>
+        </tr>
+        <tr>
+          <td>카테고리</td>
+          <td>
+            <select name="noticeType" style="width:100%" class="form-control">
+              <option value="공지사항" th:selected="${notice.noticeType} == '공지사항'">공지사항</option>
+              <option value="이벤트" th:selected="${notice.noticeType} == '이벤트'">이벤트</option>
+            </select>
+          </td>
+        </tr>
+      </table>
+
+      <!-- ***************** 이미지 구현하기 ***************** -->
+      <div th:style="'background-image:url(' + ${notice.noticeImageUrl} + ');
+            background-size:contain;
+            background-repeat:no-repeat;
+            background-position: 50% 50%;
+            width:100%;
+            height:800px'"></div>
+      <input type="hidden" name="noticeImageUrl" value="https://img.makeshop.co.kr/4/40267/202208/2c64b5922083b21869bbd495352d78f8.jpg">
+      <!-- *************************************************** -->
+      <div>
+        <textarea name="noticeContent" th:text="${notice.noticeContent}" class="form-control" style="min-height:500px"></textarea>
+      </div>
+
+      <th:block th:if="${notice.noticeNo} != null">
+        <button type="submit" class="btn btn-success">수정하기</button>
+      </th:block>
+      <th:block th:unless="${notice.noticeNo} != null">
+        <button type="submit" class="btn btn-success">올리기</button>
+      </th:block>
+
+      <button type="button" class="btn btn-danger" onclick="history.back()">취소</button>
+
+    </form>
+
+  </div> <!-- content 끝 -->
+</div>
+</body>
+</html>

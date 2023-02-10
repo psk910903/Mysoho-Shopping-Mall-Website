@@ -1,4 +1,4 @@
-package com.study.springboot.entity.product;
+package com.study.springboot.entity;
 
 import lombok.Builder;
 import lombok.Getter;

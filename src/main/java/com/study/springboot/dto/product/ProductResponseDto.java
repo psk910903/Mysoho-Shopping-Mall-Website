@@ -1,6 +1,6 @@
 package com.study.springboot.dto.product;
 
-import com.study.springboot.entity.product.Product;
+import com.study.springboot.entity.Product;
 import lombok.Getter;
 import lombok.Setter;
 
