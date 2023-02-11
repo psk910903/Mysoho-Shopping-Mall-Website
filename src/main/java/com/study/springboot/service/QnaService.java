@@ -1,7 +1,7 @@
 package com.study.springboot.service;
 
 import com.study.springboot.dto.qna.QnaResponseDto;
-import com.study.springboot.entity.qna.QnaEntity;
+import com.study.springboot.entity.QnaEntity;
 import com.study.springboot.repository.QnaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

@@ -1,12 +1,10 @@
 package com.study.springboot.service;
 
-import com.study.springboot.dto.ReplyResponseDto;
 import com.study.springboot.dto.qna.QnaReplyResponseDto;
 import com.study.springboot.dto.qna.QnaReplySaveDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
 import com.study.springboot.dto.qna.QnaSaveDto;
-import com.study.springboot.entity.ReplyRepository;
-import com.study.springboot.entity.qna.QnaReplyEntity;
+import com.study.springboot.entity.QnaReplyEntity;
 import com.study.springboot.repository.QnaReplyRepository;
 import com.study.springboot.repository.QnaRepository;
 import lombok.RequiredArgsConstructor;

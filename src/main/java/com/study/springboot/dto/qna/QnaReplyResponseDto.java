@@ -1,6 +1,6 @@
 package com.study.springboot.dto.qna;
 
-import com.study.springboot.entity.qna.QnaReplyEntity;
+import com.study.springboot.entity.QnaReplyEntity;
 import lombok.Getter;
 import lombok.Setter;
 

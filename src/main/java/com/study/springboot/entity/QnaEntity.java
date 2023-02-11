@@ -1,4 +1,4 @@
-package com.study.springboot.entity.qna;
+package com.study.springboot.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,6 +1,5 @@
-package com.study.springboot.entity.qna;
+package com.study.springboot.entity;
 
-import com.study.springboot.entity.Reply;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
