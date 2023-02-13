@@ -25,7 +25,7 @@
       #wrap {
         display: flex;
         min-height: 830px;
-
+        background-color : red;
       }
       .admin-navBar {
         flex-grow : 1
@@ -92,12 +92,12 @@
 
 
       <form action="/review/search" method="get" id="searchForm">
-      <select name="search-type" id="search" >
-        <option value="itemNo" selected>상품번호</option>
-        <option value="memberId">아이디</option>
-      </select>
-      <input type="text" value="" width="100px"/>
-       <input type="submit" value="검색" /></a>
+        <select name="search-type" id="search" >
+          <option value="itemNo" selected>상품번호</option>
+          <option value="memberId">아이디</option>
+        </select>
+        <input type="text" value="" width="100px"/>
+        <input type="submit" value="검색" /></a>
       </form>
 
       <div id="listForm" style="width:100%" >
@@ -246,6 +246,10 @@ if($('#allch').prop("checked")){
 </body>
 
 </html>
+
+
+
+
 
 
 
