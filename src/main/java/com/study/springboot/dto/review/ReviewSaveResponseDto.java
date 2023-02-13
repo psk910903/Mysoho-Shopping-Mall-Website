@@ -8,64 +8,24 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
-@AllArgsConstructor
 public class ReviewSaveResponseDto {
-    private Long reviewNo;
+    //dto에서 entity로 가는 통로
+    //저장, 수정에 사용되는 클래스
     private String memberId;
     private String itemNo;
     private Byte reviewStar;
     private String reviewContent;
     private String reviewImgUrl;
-    @Builder.Default
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime reviewDatetime = LocalDateTime.now();
     private String reviewExpo;
 
 
-
-    public ReviewEntity toUpdateEntity(){
-        return ReviewEntity.builder()
-                .reviewNo(reviewNo)
-                .memberId(memberId)
-                .itemNo(itemNo)
-                .reviewStar(reviewStar)
-                .reviewContent(reviewContent)
-                .reviewExpo(reviewExpo)
-                //.reviewDatetime(reviewDatetime)
-                .reviewImgUrl(reviewImgUrl)
-                .build();
-    }
-
-    public ReviewEntity toSaveEntity(){
-        return ReviewEntity.builder()
-                //.reviewNo(reviewNo)
-                .memberId(memberId)
-                .itemNo(itemNo)
-                .reviewStar(reviewStar)
-                .reviewContent(reviewContent)
-                .reviewExpo(reviewExpo)
-                //.reviewDatetime(reviewDatetime)
-                .reviewImgUrl(reviewImgUrl)
-                .build();
-    }
-
-
-    public ReviewEntity toEntity(){
-        return ReviewEntity.builder()
-                .itemNo(itemNo)
-                .reviewContent(reviewContent)
-                .reviewStar(reviewStar)
-                .reviewImgUrl(reviewImgUrl)
-                .memberId(memberId)
-                .reviewExpo(reviewExpo)
-                .build();
-    }
-
-    @Builder
-    public ReviewSaveResponseDto(String memberId, String itemNo,
-                                 Byte reviewStar, String reviewContent,
-                                 String reviewImgUrl, String reviewExpo) {
+    @Builder//생성자
+    public ReviewSaveResponseDto(String memberId,
+                                 String itemNo,
+                                 Byte reviewStar,
+                                 String reviewContent,
+                                 String reviewImgUrl,
+                                 String reviewExpo) {
         this.memberId = memberId;
         this.itemNo = itemNo;
         this.reviewStar = reviewStar;
@@ -73,5 +33,15 @@ public class ReviewSaveResponseDto {
         this.reviewImgUrl = reviewImgUrl;
         this.reviewExpo = reviewExpo;
     }
-
+    //dto를 entity로 바꿔주는 메서드
+    public ReviewEntity toEntity(){
+        return ReviewEntity.builder()
+                .memberId(memberId)
+                .itemNo(itemNo)
+                .reviewContent(reviewContent)
+                .reviewImgUrl(reviewImgUrl)
+                .reviewExpo(reviewExpo)
+                .reviewStar(reviewStar)
+                .build();
+    }
 }

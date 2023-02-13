@@ -34,6 +34,7 @@ public class NoticeService {
         return list.map(NoticeResponseDto::new);
     }
 
+
     @Transactional(readOnly = true)
     public Page<NoticeResponseDto> findByKeyword(String findBy, String keyword, int page) {
 
