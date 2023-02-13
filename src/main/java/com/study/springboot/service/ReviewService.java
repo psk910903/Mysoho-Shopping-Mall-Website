@@ -34,15 +34,9 @@ public class ReviewService {
         return entity;
     }
 
-    public boolean update(ReviewSaveResponseDto reviewSaveResponseDto){
-        try {
-            ReviewEntity entity = reviewSaveResponseDto.toUpdateEntity();
-            reviewRopository.save(entity);
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+    public void update(ReviewSaveResponseDto reviewSaveResponseDto){
+        ReviewEntity entity = reviewSaveResponseDto.toUpdateEntity();
+        reviewRopository.save(entity);
     }
 
     @RequestMapping("/delete")

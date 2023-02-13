@@ -8,8 +8,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
-@AllArgsConstructor
 public class ReviewSaveResponseDto {
     private Long reviewNo;
     private String memberId;
@@ -17,7 +15,7 @@ public class ReviewSaveResponseDto {
     private Byte reviewStar;
     private String reviewContent;
     private String reviewImgUrl;
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime reviewDatetime = LocalDateTime.now();
     private String reviewExpo;
 
@@ -38,7 +36,7 @@ public class ReviewSaveResponseDto {
 
     public ReviewEntity toSaveEntity(){
         return ReviewEntity.builder()
-                //.reviewNo(reviewNo)
+                .reviewNo(reviewNo)
                 .memberId(memberId)
                 .itemNo(itemNo)
                 .reviewStar(reviewStar)
