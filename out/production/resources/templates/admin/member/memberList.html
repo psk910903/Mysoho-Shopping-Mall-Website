@@ -1,0 +1,219 @@
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+<!--  선택 삭제기능, 검색기능, -->
+  <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        height: 60px;
+        padding: 0 25px;
+        background-color: #333;
+        color: white;
+        border-bottom: 1px solid #949ca6;
+      }
+      #wrap {
+        display: flex;
+        min-height: 830px;
+      }
+      .admin-navBar {
+        flex-grow : 1
+        height: 100%;
+        width: 200px;
+        padding: 25px;
+        background-color: #333;
+
+      }
+      .admin-navBar div {
+        display: flex;
+      }
+
+      .admin-navBar a {
+        text-decoration: none;
+        padding: 15px 0;
+        width: 100%;
+        border-bottom: 1px solid #949ca6;
+        color: white;
+      }
+
+      .head-title {
+        display: flex;
+        align-items: center;
+      }
+      .logout-btn {
+        margin-right: 50px;
+        padding: 10px 20px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .content {
+        padding: 20px;
+        width: 100%;
+      }
+      img{
+      max-height: 70px;
+      }
+
+      .wrap {
+        margin: 0 auto;
+        padding: 0;
+      }
+      .form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 1000px;
+        height: 400px;
+        flex-direction: column;
+      }
+    </style>
+</head>
+<div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
+
+<div id="wrap">
+  <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
+  <div class="content" style="width:100%">
+<!--    회원 목록테이블 구성-->
+    <div class="wrap">
+      <form action="" method="" class="form">
+        <div>
+          <table>
+            <tr>
+              <th>조건검색</th>
+              <th colspan="5">
+                <select class="rating" name="rating">
+                  <option value="">--니놈등급은?--</option>
+                  <option value="AT">A++</option>
+                  <option value="AP">A+</option>
+                  <option value="A">A</option>
+                </select>
+                <select class="rating" name="rating">
+                  <option value="">--키미노나마에와?--</option>
+                </select>
+                <input type="text" />
+                <button type="submit">검색</button>
+              </th>
+            </tr>
+          </table>
+        </div>
+        <div style="float: left">
+          <span>총 대가리input</span>
+          <span>검색한 대가리input</span>
+        </div>
+        <table>
+          <script>
+            function selectAll(selectAll) {
+              const checkboxes = document.getElementsByName("chk");
+
+              checkboxes.forEach((checkbox) => {
+                checkbox.checked = selectAll.checked;
+              });
+            }
+          </script>
+          <tr>
+            <th><input type='checkbox'
+                       name='chk'
+                       onclick='selectAll(this)'/></th>
+            <th>번호</th>
+            <th>이름</th>
+            <th>아이디</th>
+            <th>폰번</th>
+            <th>이메일</th>
+            <th>날짜</th>
+            <th>기능</th>
+          </tr>
+          <tbody id="tbody">
+          <tr th:each="dto:${ list }">
+            <th><input type="checkbox" name="chk" /></th>
+            <td th:text="${ dto.member_no }">번호</td>
+            <td >
+              <a th:href="@{detail/{id}(id=${dto.member_no})}"
+                 th:text="${ dto.member_name }">이름</a>
+              </td>
+            <td th:text="${ dto.member_id }">아이디</td>
+            <td th:text="${ dto.member_phone }">폰번</td>
+            <td th:text="${ dto.member_email }">이멜</td>
+            <td th:text="${ dto.member_join_datetime }">가입날짜</td>
+            <td><a style="border:1px solid black; background-color:gray"
+                   th:href="@{detail/{id}(id=${dto.member_no})}">보기</a> </td>
+          </tr>
+
+          <!-- <tr th:each="dto:${ list }">
+                 <td th:text="${ dto.board_idx }">번호</td>
+                 <td th:text="${ dto.board_name }">이름</td>
+                 <td>
+                   <a th:href="@{contentForm(board_idx=${dto.board_idx})}" th:text="${ dto.board_title }">글제목</a>
+                 </td>
+                 <td th:text="${#temporals.format(dto.board_date, 'yyyy-MM-dd HH:mm')}">
+                   글쓴시간
+                 </td>
+                 <td th:text="${ dto.board_hit }">조회수</td>
+               </tr> -->
+          </tbody>
+        </table>
+        <button type="button" name="delete">회원삭제</button>
+<script>
+        function boardDelete(){
+        //체크박스 체크된 항목
+        const query = 'input[name="chk"]:checked'
+        const selectedElements = document.querySelectorAll(query)
+
+        //체크박스 체크된 항목의 개수
+        const selectedElementsCnt = selectedElements.length;
+
+        if(selectedElementsCnt == 0){
+        alert("삭제할 항목을 선택해주세요.");
+        return false;
+        }
+
+        else{
+        if (confirm("정말로 삭제하시겠습니까?")) {
+        //배열생성
+        const arr = new Array(selectedElementsCnt);
+
+        document.querySelectorAll('input[name="chk"]:checked').forEach(function(v, i) {
+        arr[i] = v.value;
+        });
+
+        const form = document.createElement('form');
+        form.setAttribute('method', 'post');        //Post 메소드 적용
+        form.setAttribute('action', '/delete');
+
+        var input1 = document.createElement('input');
+        input1.setAttribute("type", "hidden");
+        input1.setAttribute("name", "boardIds");
+        input1.setAttribute("value", arr);
+        form.appendChild(input1);
+        console.log(form);
+        document.body.appendChild(form);
+        form.submit();
+        }
+        }
+        }
+
+        </script>
+      </form>
+    </div>
+
+  </div>
+  <!--  컨텐츠 끝-->
+</div>
+
+<!-- wrap -->
+
+</body>
+
+</html>
+
+
+
