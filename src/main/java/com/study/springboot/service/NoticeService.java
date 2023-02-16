@@ -9,20 +9,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class NoticeService {
+
     private final NoticeRepository noticeRepository;
 
+    // 전체 찾기
     @Transactional(readOnly = true)
     public Page<NoticeResponseDto> findAll(int page) {
 
@@ -34,7 +35,7 @@ public class NoticeService {
         return list.map(NoticeResponseDto::new);
     }
 
-
+    // 키워드로 찾기
     @Transactional(readOnly = true)
     public Page<NoticeResponseDto> findByKeyword(String findBy, String keyword, int page) {
 
@@ -43,17 +44,19 @@ public class NoticeService {
         sorts.add(Sort.Order.desc("noticeNo"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
 
-        if (findBy.equals("title")){
+        if (findBy.equals("title")){ // 제목으로 찾을 때
             list = noticeRepository.findByNoticeTitleContaining(keyword, pageable);
-        }else if (findBy.equals("content")){
+        }else if (findBy.equals("content")){ // 내용으로 찾을 때
+            pageable = PageRequest.of(page, 10);
             list = noticeRepository.findByNoticeContentContaining(keyword, pageable);
-        }else{
+        }else{ // 공지사항인지, 이벤트인지 구분할 때
             list = noticeRepository.findByNoticeType(keyword, pageable);
         }
 
         return list.map(NoticeResponseDto::new);
     }
 
+    // PK로 찾기
     @Transactional(readOnly = true)
     public NoticeResponseDto findById(Long noticeNo) {
 
@@ -65,6 +68,7 @@ public class NoticeService {
         return new NoticeResponseDto(entity.get());
     }
 
+    // 수정
     @Transactional
     public Boolean update(final NoticeUpdateRequestDto dto) {
 
@@ -73,10 +77,11 @@ public class NoticeService {
             return false;
         }
 
-        entity.get().update(dto.getNoticeType(), dto.getNoticeTitle(), dto.getNoticeContent(), dto.getNoticeImageUrl());
+        entity.get().update(dto.getNoticeType(), dto.getNoticeTitle(), dto.getNoticeContent());
         return true;
     }
 
+    // 생성
     @Transactional
     public Boolean save(final NoticeSaveRequestDto dto) {
 
@@ -91,6 +96,7 @@ public class NoticeService {
        return true;
     }
 
+    // 삭제
     @Transactional
     public Boolean delete(final Long noticeNo) {
         Optional<NoticeEntity> entity = noticeRepository.findById(noticeNo);
@@ -107,24 +113,28 @@ public class NoticeService {
         return true;
     }
 
+    // 페이지 리스트 반환 (리스트 안 요소 개수는 항상 5)
     public List<Integer> getPageList(final int totalPage, final int page) {
 
         List<Integer> pageList = new ArrayList<>();
 
-        if (totalPage <= 5){
+        if (totalPage <= 5){ // 전체 페이지 개수가 5이하일 때,
+                             // ex. 전체 페이지가 3일 때, [0, 1, 2] 출력
             for (Integer i=0; i<=totalPage-1; i++){
                 pageList.add(i);
             }
-        }else if(page >= 0 && page <= 2){
+        }else if(page >= 0 && page <= 2){ // 전체 페이지 개수가 5초과이고, 현재 페이지가 0~2일 때,
+                                          // ex. 현재 페이지가 1일 때, [0, 1, 2, 3, 4] 출력
             for (Integer i=0; i<=4; i++){
                 pageList.add(i);
             }
         }
-        else if (page >= totalPage-3 && page <= totalPage-1){
+        else if (page >= totalPage-3 && page <= totalPage-1){ // 전체 페이지 개수가 5초과이고, 현재 페이지가 끝에서 0,1,2번째 일 때,
+                                                              // ex. 전체 페이지 개수가 7이고, 현재 페이지가 5일 때, [2, 3, 4, 5, 6] 출력
             for (Integer i=5; i>=1; i--){
                 pageList.add(totalPage - i);
             }
-        }else{
+        }else{ // 그외일 때, 앞,뒤로(-2 ~ +2) 계산한 값 출력
             for (Integer i=-2; i<=2; i++){
                 pageList.add(page + i);
             }
