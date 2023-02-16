@@ -1,0 +1,247 @@
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        height: 60px;
+        padding: 0 25px;
+        background-color: #333;
+        color: white;
+        border-bottom: 1px solid #949ca6;
+      }
+      #wrap {
+        display: flex;
+        min-height: 830px;
+      }
+      .admin-navBar {
+        flex-grow : 1;
+        width: 200px;
+        padding: 25px;
+        background-color: #333;
+
+      }
+      .admin-navBar div {
+        display: flex;
+      }
+
+      .admin-navBar a {
+        text-decoration: none;
+        padding: 15px 0;
+        width: 100%;
+        border-bottom: 1px solid #949ca6;
+        color: white;
+      }
+
+      .head-title {
+        display: flex;
+        align-items: center;
+      }
+      .logout-btn {
+        margin-right: 50px;
+        padding: 10px 20px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .content {
+        padding: 20px;
+        width: 100%;
+      }
+      img{
+      max-height: 70px;
+      }
+
+      .countItem {
+        display: flex;
+        justify-content: space-between;
+        padding : 5px 20px;
+      }
+      textarea{
+      height : 200px;
+      width : 100%;
+      }
+      .w40{
+      width : 200px;
+      }
+    </style>
+</head>
+<div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
+
+<div id="wrap">
+  <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
+
+  <div class="content" style="width:100%">
+    <div style="width:100%" >
+
+      <form action="/order/content/action" method="post">
+        <h3 class="sub-title"> 구매 상품 정보</h3>
+        <table class="table table-striped table-bordered" >
+
+          <tr>
+            <th style="text-align: center;" class="w40">상품명</th>
+            <td>
+              <input th:value="${ cartDto.itemName }" name=""  placeholder="상품명" disabled>
+              <input th:value="${ cartDto.itemName }" name="itemName"  type="hidden" >
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40">색상</th>
+            <td>
+              <input th:value="${ cartDto.itemOptionColor }" name=""  placeholder="색상" disabled>
+              <input th:value="${ cartDto.itemOptionColor }" name="itemOptionColor"  type="hidden" >
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40">사이즈</th>
+            <td>
+              <input th:value="${ cartDto.itemOptionSize }" name=""  placeholder="사이즈" disabled>
+              <input th:value="${ cartDto.itemOptionSize }" name="itemOptionSize"  type="hidden" >
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40">수량</th>
+            <td>
+              <input th:value="${ cartDto.cartItemAmount }" name=""  placeholder="수량" disabled>
+              <input th:value="${ cartDto.cartItemAmount }" name="cartItemAmount"  type="hidden" >
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40" >결제금액</th>
+            <td>
+              <input th:value="${ dto.orderTotalPrice }"  name=""  placeholder="판매가" disabled>
+              <input th:value="${ dto.orderTotalPrice }" name="orderTotalPrice"  type="hidden" >
+            </td>
+          </tr>
+
+
+
+        </table>
+        <h3 class="sub-title"> 주문자 / 수령자 정보</h3>
+        <table class="table table-striped table-bordered" >
+          <tr>
+            <th style="text-align: center;" class="w40">주문자명</th>
+            <td>
+              <input th:value="${ dto.orderName }" name=""  placeholder="주문자명" disabled>
+              <input th:value="${ dto.orderName }" name="orderName"  type="hidden" >
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40">주문자 연락처</th>
+            <td>
+              <input th:value="${ dto.orderPhone }" name=""  placeholder="주문자 연락처" disabled>
+              <input th:value="${ dto.orderPhone }" name="orderPhone"  type="hidden" >
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40">수령자명</th>
+            <td>
+              <input th:value="${ dto.orderRecipientName }" name="orderRecipientName"  placeholder="수령자명" >
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40">수령자 연락처</th>
+            <td>
+              <input th:value="${ dto.orderRecipientPhone }" name="orderRecipientPhone"  placeholder="수령자 연락처">
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40">수령자 우편번호</th>
+            <td>
+              <input th:value="${ dto.orderRecipientAddrNumber }" name="orderRecipientAddrNumber"  placeholder="수령자 우편번호">
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40">수령자 기본주소</th>
+            <td>
+              <input th:value="${ dto.orderRecipientAddr1 }" name="orderRecipientAddr1"  placeholder="수령자 기본주소">
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40">수령자 나머지주소</th>
+            <td>
+              <input th:value="${ dto.orderRecipientAddr2 }" name="orderRecipientAddr2"  placeholder="수령자 나머지주소">
+            </td>
+          </tr>
+
+        </table>
+
+        <table class="table table-striped table-bordered" >
+          <h3 class="sub-title"> 적립금 / 할인쿠폰</h3>
+          <tr>
+            <th style="text-align: center;" class="w40">적립금</th>
+            <td>
+              <input th:value="${ dto.memberMileage }" name=""  placeholder="0" disabled>
+              <input th:value="${ dto.memberMileage }" name="memberMileage"  type="hidden" >
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40">쿠폰</th>
+            <td>
+              <input th:value="${ dto.memberCoupon }" name=""  placeholder="0" disabled>
+              <input th:value="${ dto.memberCoupon }" name="memberCoupon"  type="hidden" >
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40">결제방식</th>
+            <td>
+              <input th:value="${ dto.orderPayType }" name=""  placeholder="0" disabled>
+              <input th:value="${ dto.orderPayType }" name="orderPayType"  type="hidden" >
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40">주문일시</th>
+            <td>
+              <input th:value="${#temporals.format(dto.orderDatetime, 'yyyy-MM-dd HH:mm')}" name=""  placeholder="0" disabled>
+            </td>
+          </tr>
+        </table>
+
+        <table class="table table-striped table-bordered" >
+          <h3 class="sub-title"> 주문상태</h3>
+          <tr>
+            <th style="text-align: center;" class="w40">주문상태</th>
+            <td>
+              <select name="orderState">
+                <option value="" selected="selected" th:text="${ dto.orderState }" th:value="${ dto.orderState }">주문상태</option>
+                <option value="미입금/주문완료">미입금/주문완료</option>
+                <option value="배송대기">배송대기</option>
+                <option value="배송중">배송중</option>
+                <option value="배송완료">배송완료</option>
+                <option value="취소/반품/교환">취소/반품/교환</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+        <div style="text-align: center;">
+          <input th:value="${ dto.orderNo }" name="orderNo" type="hidden">
+          <input th:value="${ dto.cartCode1 }" name="cartCode1" type="hidden">
+          <input th:value="${ dto.orderTotalCount }" name="orderTotalCount" type="hidden">
+          <a href="/admin/order/list?page=0" class="btn btn-outline-secondary">목록</a>
+          <button type="submit" class="btn btn-secondary">수정하기</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--  컨텐츠 끝-->
+</div>
+
+<!-- wrap -->
+
+</body>
+
+</html>
+
+
+

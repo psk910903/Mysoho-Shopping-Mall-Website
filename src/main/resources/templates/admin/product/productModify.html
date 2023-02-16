@@ -82,64 +82,58 @@
 <div id="wrap">
   <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
 
-  <script>
-  $(document).ready(function() {
-  $('#summernote').summernote();
-  });
-  </script>
-
   <div class="content" style="width:100%">
     <div style="width:100%" >
 
-      <form action="/admin/productModify/action" method="post">
+      <form action="/admin/product/modify/action" method="post" enctype="multipart/form-data">
         <h3 class="sub-title"> 이미지</h3>
         <table class="table table-striped table-bordered" >
           <tr >
 
             <th style="text-align: center;" class="w40">대표 이미지 변경</th>
-            <td ><img th:src="${ dto.item_image_url }">
-              <button>파일 선택</button>
+            <td ><img th:src="${ dto.itemImageUrl }">
+              <input type="file" name="uploadfile" multiple="multiple">
             </td>
           </tr>
         </table>
 
 
-      <h3 class="sub-title"> 상품정보</h3>
-      <table class="table table-striped table-bordered" >
-      <tr>
-        <th style="text-align: center;" class="w40">상품분류</th>
-        <td>
-          <select name="item_category">
-            <option th:text="${ dto.item_category }" th:value="${ dto.item_category }" value="" selected="selected">대분류</option>
-            <option value="TOP">TOP</option>
-            <option value="BOTTOM">BOTTOM</option>
-            <option value="ONE-PIECE">ONE-PIECE</option>
-            <option value="ACC">ACC</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <th style="text-align: center;" class="w40">상품명</th>
-        <td>
-          <input th:value="${ dto.item_name }" name="item_name"  placeholder="상품명">
-        </td>
-      </tr>
+        <h3 class="sub-title"> 상품정보</h3>
+        <table class="table table-striped table-bordered" >
+          <tr>
+            <th style="text-align: center;" class="w40">상품분류</th>
+            <td>
+              <select name="itemCategory">
+                <option th:text="${ dto.itemCategory }" th:value="${ dto.itemCategory }" value="" selected="selected">대분류</option>
+                <option value="TOP">TOP</option>
+                <option value="BOTTOM">BOTTOM</option>
+                <option value="ONE-PIECE">ONE-PIECE</option>
+                <option value="ACC">ACC</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40">상품명</th>
+            <td>
+              <input th:value="${ dto.itemName }" name="itemName"  placeholder="상품명">
+            </td>
+          </tr>
           <tr>
             <th style="text-align: center;" class="w40">판매가</th>
             <td>
-              <input th:value="${ dto.item_price }" name="item_price"  placeholder="10000">
+              <input th:value="${ dto.itemPrice }" name="itemPrice"  placeholder="10000">
             </td>
           </tr>
           <tr>
             <th style="text-align: center;" class="w40">색상</th>
             <td>
-              <input th:value="${ dto.item_option_color }" name="item_option_color"  placeholder="color">
+              <input th:value="${ dto.itemOptionColor }" name="itemOptionColor"  placeholder="color">
             </td>
           </tr>
           <tr>
             <th style="text-align: center;" class="w40">사이즈</th>
             <td>
-              <input th:value="${ dto.item_option_size }" name="item_option_size"  placeholder="S,M,L">
+              <input th:value="${ dto.itemOptionSize }" name="itemOptionSize"  placeholder="S,M,L">
             </td>
           </tr>
         </table>
@@ -155,22 +149,21 @@
           </tr>
         </table>
 
-
-
         <h3 class="sub-title"> 상품 설명</h3>
         <table class="table table-striped table-bordered" >
           <tr >
             <td >
-                <textarea th:text="${ dto.item_info }" class="textarea" id="" name="item_info"></textarea>
+              <textarea class="textarea" id="editor" ></textarea>
+              <input th:value="${ dto.itemInfo }" type="hidden" name="itemInfo" id="editorData" >
               <br>
             </td>
           </tr>
         </table>
         <div style="text-align: center;">
-<!--         이미지, 상품번호 임시로 보낼 용도로 히든 처리함-->
-          <input type="hidden" th:value="${ dto.item_image_url }" name="item_image_url"  placeholder="item_image_url">
-          <input type="hidden" th:value="${ dto.item_no }" name="item_no"  placeholder="item_no">
-          <button type="submit" class="btn btn-primary">수정하기</button>
+          <!--         상품번호 임시로 보낼 용도로 히든 처리함-->
+
+          <input type="hidden" th:value="${ dto.itemNo }" name="itemNo"  placeholder="itemNo">
+          <button onclick="function1()" type="submit" class="btn btn-secondary">수정하기</button>
         </div>
       </form>
     </div>
@@ -180,7 +173,34 @@
 </div>
 
 <!-- wrap -->
+<script src="/js/ckeditor.js"> </script>
+<script>
+    let editor;
 
+    ClassicEditor
+      .create(document.querySelector('#editor'),{
+          language: 'ko',
+          ckfinder: {
+              uploadUrl: '/admin/imgUpload'
+          }
+      })
+      .then( newEditor => {
+        editor = newEditor;
+      })
+      .catch( error => {
+          console.error(error);
+      });
+
+      window.onload = function(){
+      const editorData = document.querySelector('#editorData').value
+      editor.setData(editorData);
+    }
+
+    function function1(){
+        const editorData = editor.getData();
+        document.querySelector('#editorData').value = editorData;
+    }
+  </script>
 </body>
 
 </html>
