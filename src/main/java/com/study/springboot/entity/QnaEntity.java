@@ -1,6 +1,5 @@
 package com.study.springboot.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,40 +7,46 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Getter
 @Entity
+@Getter
 @NoArgsConstructor
-@Table(name="Qna")
+@Table(name="qna")
 public class QnaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // 번호
-    @Column
-    private String qna_title; // 제목
-    @Column
-    private String qna_content; // 내용
-    @Column
-    private String qna_password; // 비밀번호
-    @Column
-    private String qna_name; // 작성자
-    @Column
-    private Long qna_hit =0L; // 조회 수
-    @Column
-    private LocalDateTime qna_date = LocalDateTime.now(); // 생성일,수정일
-//    private Long qna_itemcode; //상품코드
+    private Long qnaId; //PK
+    @Column(name="qna_category")
+    private String qnaCategory; //카테고리
 
+    @Column(name="qna_name")
+    private String qnaName;  // 작성자 이름
 
+    @Column(name="qna_title")
+    private String qnaTitle; // 작성 제목
+
+    @Column(name="qna_password")
+    private String qnaPassword; // 비밀번호
+
+    @Column(name="qna_content")
+    private String qnaContent; // 내용
+    @Column(name="qna_hit")
+    private Long qnaHit=0l; // 조회수
+
+    @Column(name="qna_local_date_time")
+    private LocalDateTime qnaLocalDateTime = LocalDateTime.now(); //생성일 ,수정일
     @Builder
-    public QnaEntity(Long id, String qna_title, String qna_content, String qna_password, String qna_name,
-                     Long qna_hit, LocalDateTime qna_date ) { //Long qna_itemcode
+    public QnaEntity(Long qnaId, String qnaCategory, String qnaName, String qnaTitle, String qnaPassword, String qnaContent, Long qnaHit, LocalDateTime qnaLocalDateTime) {
+        this.qnaId = qnaId;
+        this.qnaCategory = qnaCategory;
+        this.qnaName = qnaName;
+        this.qnaTitle = qnaTitle;
+        this.qnaPassword = qnaPassword;
+        this.qnaContent = qnaContent;
 
-        this.id = id;
-        this.qna_title = qna_title;
-        this.qna_content = qna_content;
-        this.qna_password = qna_password;
-        this.qna_name = qna_name;
-//        this.qna_itemcode= qna_itemcode;
     }
 
-
 }
+
+
+
+
