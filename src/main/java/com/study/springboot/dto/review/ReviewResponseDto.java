@@ -6,8 +6,7 @@ import java.time.LocalDateTime;
 
 @Getter
 public class ReviewResponseDto {
-    //entity에서 dto로 가는 통로
-    //entity에서 dto로 바꿔져서 필드가 전부 다 있음.
+
     private Long reviewNo;
     private String memberId;
     private String itemNo;
@@ -17,7 +16,6 @@ public class ReviewResponseDto {
     private LocalDateTime reviewDatetime;
     private String reviewExpo;
 
-    ////entity를 넣으면 dto로 바꿔주는 코드
     public ReviewResponseDto(ReviewEntity entity){
         this.reviewNo = entity.getReviewNo();
         this.itemNo = entity.getItemNo();
