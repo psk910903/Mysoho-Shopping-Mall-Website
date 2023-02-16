@@ -154,7 +154,7 @@ public String delete(@PathVariable("id") Long id){
 
 //  선택삭제
 
-    @GetMapping("/selectDelete")
+    @GetMapping("/select/delete")
     public String selectDelete (@RequestParam("qnaNo") String qnaNo){
         qnaService.selectDelete(qnaNo);
         return "redirect:/admin/qna/list";
