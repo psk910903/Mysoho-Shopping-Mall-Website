@@ -1,0 +1,242 @@
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
+  <title>Document</title>
+  <!--  선택 삭제기능, 검색기능, -->
+  <style>
+          * {
+            margin: 0;
+            padding: 0;
+          }
+          .header {
+            display: flex;
+            justify-content: space-between;
+            height: 60px;
+            padding: 0 25px;
+            background-color: #333;
+            color: white;
+            border-bottom: 1px solid #949ca6;
+          }
+          #wrap {
+            display: flex;
+            min-height: 830px;
+          }
+          .admin-navBar {
+            flex-grow : 1;
+            height: 100%;
+            width: 200px;
+            padding: 25px;
+            background-color: #333;
+
+          }
+          .admin-navBar div {
+            display: flex;
+          }
+
+          .admin-navBar a {
+            text-decoration: none;
+            padding: 15px 0;
+            width: 100%;
+            border-bottom: 1px solid #949ca6;
+            color: white;
+          }
+
+          .head-title {
+            display: flex;
+            align-items: center;
+          }
+          .logout-btn {
+            margin-right: 50px;
+            padding: 10px 20px;
+            font-weight: bold;
+            font-size: 18px;
+          }
+          .content {
+            padding: 20px;
+            width: 100%;
+          }
+          img{
+          max-height: 70px;
+          }
+
+          .wrap {
+            margin: 0 auto;
+            padding: 0;
+          }
+          .form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 1000px;
+            height: 400px;
+            flex-direction: column;
+          }
+        </style>
+</head>
+<div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
+
+<div id="wrap">
+  <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+  <div class="content" style="width:100%">
+    <!--    회원 목록테이블 구성-->
+    <form action="/admin/member/list" method="get" class="form">
+      <input type="hidden" name="page" value="0">
+      <div>
+        <table>
+          <tr>
+              <th>조건검색</th>
+              <th colspan="5">
+                <select class="rating" name="findByType1">
+                  <option value="all" selected="selected">회원등급</option>
+                  <option value="VIP">VIP</option>
+                  <option value="일반회원">일반회원</option>
+                </select>
+                <select class="rating" name="findByType2">
+                  <option value="all" selected="selected">검색조건</option>
+                  <option value="이름">이름</option>
+                  <option value="아이디">아이디</option>
+                </select>
+                <input type="text" name="keyword" />
+                <button type="submit">검색</button>
+              </th>
+
+          </tr>
+        </table>
+      </div>
+      <div >
+        <span>총 회원수 : </span>
+        <strong th:text="${ listCount }+'명'">5</strong>
+      </div>
+      <table>
+        <script>
+                function selectAll(selectAll) {
+                  const checkboxes = document.getElementsByName("RowCheck");
+
+                  checkboxes.forEach((checkbox) => {
+                    checkbox.checked = selectAll.checked;
+                  });
+                }
+              </script>
+        <tr>
+          <th><input type='checkbox'
+                     name='RowCheck'
+                     onclick='selectAll(this)'/></th>
+          <th>번호</th>
+          <th>이름</th>
+          <th>아이디</th>
+          <th>폰번</th>
+          <th>이메일</th>
+          <th>날짜</th>
+          <th>기능</th>
+        </tr>
+          <tbody id="tbody">
+          <tr th:each="dto:${ list }">
+            <th><input type="checkbox" name="RowCheck" th:value="${ dto.memberNo }" /></th>
+            <td th:text="${ dto.memberNo }">번호</td>
+            <td >
+              <a th:href="@{content/{id}(id=${dto.memberNo})}"
+                 th:text="${ dto.memberName }">이름</a>
+            </td>
+            <td th:text="${ dto.memberId }">아이디</td>
+            <td th:text="${ dto.memberPhone }">폰번</td>
+            <td th:text="${ dto.memberEmail }">이멜</td>
+            <td th:text="${ dto.memberJoinDatetime }">가입날짜</td>
+            <td><a style="border:1px solid black; background-color:gray"
+                   th:href="@{content/{id}(id=${dto.memberNo})}">보기</a> </td>
+          </tr>
+          </tbody>
+      </table>
+      <input  type="button" onclick="deleteValue()";  value="선택삭제"/>
+      <script>
+     function deleteValue(){
+
+      var memberNo = "";
+     $( "input[name='RowCheck']:checked" ).each (function (){
+     memberNo = memberNo + $(this).val()+"," ;
+     });
+    if(memberNo == ""){
+     alert("삭제할 대상을 선택하세요.");
+     return false;
+     }
+     $.ajax({
+            url : '/admin/member/delete/check',
+            type : 'POST',
+            traditional : true,
+            data : {
+              memberNo : memberNo
+            },
+            success: function(jdata){
+              if(jdata = 1){
+                alert("삭제 성공");
+                location.replace("/admin/member/")
+              }
+              else{
+                alert("삭제 실패")
+              }
+            }
+        });
+    }
+    </script>
+      <div class="wrap">
+        <div class="container"> <!-- 페이지 시작 -->
+          <div th:if="${!list.isEmpty()}">
+            <ul class="pagination justify-content-center">
+              <li class="page-item" th:classappend="${!list.hasPrevious} ? 'disabled'"> <!-- 이전 버튼 시작 -->
+                <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                  <a class="page-link" th:href="|/admin/member/list?page=${list.number-1}|">
+                    <span>이전</span>
+                  </a>
+                </th:block>
+                <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                  <a class="page-link" th:href="|/admin/member/list?page=${list.number-1}&findByType1=${findByType1}&findByType2=${findByType2}&keyword=${keyword}|">
+                    <span>이전</span>
+                  </a>
+                </th:block>
+              </li> <!-- 이전 버튼 끝 -->
+              <li th:each="page: ${pageList}"
+                  th:classappend="${page == list.number} ? 'active'"
+                  class="page-item"> <!-- 숫자 페이지 버튼 시작 -->
+                <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                  <a th:text="${page+1}" class="page-link" th:href="|/admin/member/list?page=${page}|"></a>
+                </th:block>
+                <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                  <a th:text="${page+1}" class="page-link"
+                     th:href="|/admin/member/list?page=${page}&findByType1=${findByType1}&findByType2=${findByType2}&keyword=${keyword}|"></a>
+
+                </th:block>
+              </li> <!-- 숫자 페이지 버튼 끝 -->
+              <li class="page-item" th:classappend="${!list.hasNext} ? 'disabled'"> <!-- 다음 버튼 시작 -->
+                <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                  <a class="page-link" th:href="|/admin/member/list?page=${list.number+1}|">
+                    <span>다음</span>
+                  </a>
+                </th:block>
+                <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                  <a class="page-link" th:href="|/admin/member/list?page=${list.number+1}&findByType1=${findByType1}&findByType2=${findByType2}&keyword=${keyword}|">
+                    <span>다음</span>
+                  </a>
+                </th:block>
+              </li> <!-- 다음 버튼 끝 -->
+            </ul>
+          </div>
+        </div> <!-- 페이지 끝 -->
+
+      </div>
+    </form>
+  </div>
+  <!--  컨텐츠 끝-->
+</div>
+
+<!-- wrap -->
+
+</body>
+
+</html>
+
+
+
