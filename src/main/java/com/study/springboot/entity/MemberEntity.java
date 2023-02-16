@@ -15,38 +15,46 @@ import java.time.LocalDate;
 public class MemberEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long member_no;
-    private String member_id;
-    private String member_pw;
-    private String member_name;
-    private String member_email;
-    private String member_phone;
-    private Long member_mileage;
-    private String member_address;
+    private Long memberNo;
+    private String memberId;
+    private String memberPw;
+    private String memberName;
+    private String memberEmail;
+
+    private String memberPhone; // = member_phone = memberphone
+    private Long memberMileage;
+    private String memberAddrNumber;
+    private String memberAddr1;
+    private String memberAddr2;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate member_join_datetime;
+    private LocalDate memberJoinDatetime;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate member_exit_datetime;
     private String member_exited;
 
 
     @Builder
-    public MemberEntity(String member_name, String member_email, String member_phone, String member_address
-    ,Long member_no) {
-        this.member_name = member_name;
-        this.member_email = member_email;
-        this.member_phone = member_phone;
-        this.member_address = member_address;
-        this.member_no = member_no;
+    public MemberEntity(String memberName, String memberEmail, String memberPhone, String memberAddrNumber,
+                            String memberAddr1, String memberAddr2, Long member_no) {
+        this.memberName = memberName;
+        this.memberEmail = memberEmail;
+        this.memberPhone = memberPhone;
+        this.memberAddrNumber = memberAddrNumber;
+        this.memberAddr1 = memberAddr1;
+        this.memberAddr2 = memberAddr2;
+        this.memberNo = member_no;
     }
 
-    public void update( String member_name, String member_phone, String member_address,
-                    String member_email,Long member_no){
-        this.member_name = member_name;
-        this.member_email = member_email;
-        this.member_phone = member_phone;
-        this.member_address = member_address;
-        this.member_no = member_no;
+    public void modify(String memberName, String memberPhone, String memberAddrNumber,
+                       String memberAddr1, String memberAddr2,
+                       String memberEmail, Long memberNo){
+        this.memberName = memberName;
+        this.memberPhone = memberPhone;
+        this.memberAddrNumber = memberAddrNumber;
+        this.memberAddr1 = memberAddr1;
+        this.memberAddr2 = memberAddr2;
+        this.memberEmail = memberEmail;
+        this.memberNo = memberNo;
     }
 
 
