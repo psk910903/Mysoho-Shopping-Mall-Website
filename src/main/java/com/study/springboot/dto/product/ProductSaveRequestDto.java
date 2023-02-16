@@ -7,38 +7,38 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ProductSaveRequestDto {
-    private Long item_no;
-    private String item_category;
-    private String item_name;
-    private Long item_price;
-    private String item_option_color;
-    private String item_option_size;
-    private String item_info;
-    private String item_image_url;
+    private Long itemNo;
+    private String itemCategory;
+    private String itemName;
+    private Long itemPrice;
+    private String itemOptionColor;
+    private String itemOptionSize;
+    private String itemInfo;
+    private String itemImageUrl;
 
     public ProductEntity toSaveEntity() {
         return ProductEntity.builder()
-                .item_category(item_category)
-                .item_name(item_name)
-                .item_price(item_price)
-                .item_option_color(item_option_color)
-                .item_option_size(item_option_size)
-                .item_info(item_info)
-                .item_image_url(item_image_url)
+                .itemCategory(itemCategory)
+                .itemName(itemName)
+                .itemPrice(itemPrice)
+                .itemOptionColor(itemOptionColor)
+                .itemOptionSize(itemOptionSize)
+                .itemInfo(itemInfo)
+                .itemImageUrl(itemImageUrl)
                 .build();
     }
 
 
     public ProductEntity toUpdateEntity() {
         return ProductEntity.builder()
-                .item_no(item_no)
-                .item_category(item_category)
-                .item_name(item_name)
-                .item_price(item_price)
-                .item_option_color(item_option_color)
-                .item_option_size(item_option_size)
-                .item_info(item_info)
-                .item_image_url(item_image_url)
+                .itemNo(itemNo)
+                .itemCategory(itemCategory)
+                .itemName(itemName)
+                .itemPrice(itemPrice)
+                .itemOptionColor(itemOptionColor)
+                .itemOptionSize(itemOptionSize)
+                .itemInfo(itemInfo)
+                .itemImageUrl(itemImageUrl)
                 .build();
     }
 }
