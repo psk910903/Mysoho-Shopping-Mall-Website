@@ -3,7 +3,7 @@ package com.study.springboot.service;
 
 import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.review.ReviewSaveResponseDto;
-import com.study.springboot.entity.review.ReviewEntity;
+import com.study.springboot.entity.ReviewEntity;
 import com.study.springboot.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -12,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -33,23 +32,6 @@ public class ReviewService {
         return list.stream().map(ReviewResponseDto::new).collect(Collectors.toList());
     }
 
-//  강사님 페이징 출력(원본)
-//    @Transactional(readOnly = true)
-//    public Page<ReviewEntity> getList(int page){
-//        List<Sort.Order> sorts = new ArrayList<>();
-//        sorts.add(Sort.Order.desc("reviewNo"));
-//        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-//        return reviewRepository.findAll(pageable);
-//    }
-
-    //  강사님 페이징 출력(변형: 페이징,리스트 따로 사용)
-//    @Transactional(readOnly = true)
-//    public Page<ReviewEntity> getList(int page){
-//        List<Sort.Order> sorts = new ArrayList<>();
-//        sorts.add(Sort.Order.desc("reviewNo"));
-//        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-//        return reviewRepository.findAll(pageable);
-//    }
     //리스트만 사용
     @Transactional(readOnly = true)
     public Page<ReviewResponseDto> getPageList(int page){
@@ -125,32 +107,6 @@ public class ReviewService {
         return findByDate(dateStartStr, dateEndStr, page);
     }
 
-    // 강사님 페이징 검색 출력(변형)
-//    @Transactional(readOnly = true)
-//    public Page<ReviewEntity> findByKeyword(String findBy, String keyword, int page){
-//        //Page<ReviewEntity> list;
-//        List<Sort.Order> sorts = new ArrayList<>();
-//        sorts.add(Sort.Order.desc("reviewNo"));
-//        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));//검색조건에 맞는 페이지 최신순으로 검색
-//        return reviewRepository.findByMemberIdContaining(keyword, pageable);
-//    }
-
-//    entity형
-//    @Transactional(readOnly = true)
-//    public Page<ReviewEntity> findByKeyword(String findBy, String keyword, int page){
-//        Page<ReviewEntity> list;
-//        List<Sort.Order> sorts = new ArrayList<>();
-//        sorts.add(Sort.Order.desc("reviewNo"));
-//        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));//검색조건에 맞는 페이지 최신순으로 검색
-//        System.out.println(findBy);
-//        if(findBy.contains("memberId")){
-//            list =  reviewRepository.findByMemberIdContaining(keyword, pageable);
-//        }
-//        else {
-//            list = reviewRepository.findByItemNoContaining(keyword, pageable);
-//        }
-//        return  list;
-//    }
 
     @Transactional(readOnly = true)
     public Page<ReviewResponseDto> findByKeyword(String findBy, String keyword, int page){
@@ -169,46 +125,6 @@ public class ReviewService {
     }
 
 
-    @Transactional(readOnly = true)
-    public List<ReviewResponseDto> keywordFindAll(String findBy, String keyword, int page){
-        Sort sort = Sort.by(Sort.Direction.DESC,"reviewNo");
-        List<ReviewEntity> list = reviewRepository.findByMemberIdContaining(keyword);
-        return list.stream().map(ReviewResponseDto::new).collect(Collectors.toList());
-    }
-
-
-
-
-    //희진씨 기본 출력
-//     @Transactional(readOnly = true)
-//     public Page<ReviewResponseDto> findAll(int page){
-//         List<Sort.Order> sorts = new ArrayList<>();
-//         sorts.add(Sort.Order.desc("reviewNo"));
-//         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-//         Page<ReviewEntity> list = reviewRepository.findAll(pageable);
-//         return list.map(ReviewResponseDto::new);
-//     }
-    //희진씨 키워드 출력
-//    @Transactional(readOnly = true)
-//    public Page<ReviewResponseDto> findByKeyword(String findBy, String keyword, int page) {
-//
-//        Page<ReviewEntity> list;
-//        List<Sort.Order> sorts = new ArrayList<>();
-//        sorts.add(Sort.Order.desc(findBy));
-//        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-
-//        if (findBy.equals("memberId")){
-//            list = reviewRepository.findByMemberIdContaining(keyword, pageable);
- //       }
-//        lse if (findBy.equals("content")){
-//            list = reviewRepository.findByNoticeContentContaining(keyword, pageable);
-//        }else{
-//            list = reviewRepository.findByNoticeType(keyword, pageable);
-//        }
-//
-//        return list.map(ReviewResponseDto::new);
-//    }
-    //희진씨
     public List<Integer> getPageList(final int totalPage, final int page) {
 
         List<Integer> pageList = new ArrayList<>();

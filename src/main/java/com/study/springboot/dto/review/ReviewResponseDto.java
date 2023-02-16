@@ -1,6 +1,6 @@
 package com.study.springboot.dto.review;
 
-import com.study.springboot.entity.review.ReviewEntity;
+import com.study.springboot.entity.ReviewEntity;
 import lombok.Getter;
 import java.time.LocalDateTime;
 

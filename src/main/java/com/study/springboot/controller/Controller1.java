@@ -76,13 +76,13 @@ public class Controller1 {
     long listCount = productRepository.count();
     model.addAttribute("listCount", listCount);
 
-    return "/admin/product/productList";
+    return "/admin/product/list";
   }
 
   //상품등록 폼
   @GetMapping("/product/registration")
   public String productRegistration() {
-    return "/admin/product/productRegistration";
+    return "/admin/product/registration";
   }
 
 
@@ -93,7 +93,7 @@ public class Controller1 {
     ProductResponseDto dto = productService.findById(id);
     model.addAttribute("dto", dto);
 
-    return "admin/product/productModify";
+    return "admin/product/modify";
   }
 
   //상품삭제
@@ -227,7 +227,7 @@ public class Controller1 {
     //검색 상품 개수
     long listCount = orderRepository.count();
     model.addAttribute("listCount", listCount);
-    return "/admin/order/orderList";
+    return "/admin/order/list";
   }
 
   //주문 정보 단건 조회
@@ -243,7 +243,7 @@ public class Controller1 {
     CartEntity cartEntity = cartService.findByCart(cartCode1);
     model.addAttribute("cartDto", cartEntity);
 
-    return "/admin/order/orderContent";
+    return "/admin/order/content";
   }
 
   //리스트페이지에서 주문상태 변경

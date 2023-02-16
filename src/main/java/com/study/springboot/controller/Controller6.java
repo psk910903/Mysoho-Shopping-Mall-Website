@@ -82,15 +82,6 @@ public class Controller6 {
         }
     }
 
-//    @PostMapping("/memberDelete")
-//    @ResponseBody
-//    public String deleteMember(@RequestParam("memberNo")Long member_no){
-//
-//        memberService.delete(Long.valueOf(member_no));
-//
-//        return "<script>alert('회원삭제 성공!'); location.href='/admin/list';</script>";
-//    }
-
     @RequestMapping("/delete/check")
     public String deleteCheck (@RequestParam("memberNo") String memberNo) {
         memberService.deleteCheck(memberNo);

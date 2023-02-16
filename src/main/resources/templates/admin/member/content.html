@@ -6,164 +6,223 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <style>
-          * {
-            margin: 0;
-            padding: 0;
-          }
-          body {
-          }
-          .header {
-            display: flex;
-            justify-content: space-between;
-            height: 60px;
-            padding: 0 25px;
-            background-color: #333;
-            color: white;
-            border-bottom: 1px solid #949ca6;
-          }
-          #wrap {
-            display: flex;
-            min-height: 830px;
-          }
-          .admin-navBar {
-            flex-grow : 1
-            height: 100%;
-            width: 200px;
-            padding: 25px;
-            background-color: #333;
+* {
+        margin: 0;
+        padding: 0;
+      }
+      .contentHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 60px;
+        padding: 0 25px;
+        background-color: white;
+        border: 1px solid #dee2e6;
+        font-size: 25px;
+        font-weight: bold;
+      }
+      .navHeader{
+      align-items: center;
+      height: 60px;
+      padding: 0 10px;
+      border-bottom: 1px solid #dee2e6;
+      color: white;
+      font-size: 25px;
+      margin-bottom: 20px
+      }
+      #wrap {
+        display: flex;
+        min-height: 940px;
+        background-color: #f8f9fa ;
+      }
+      .admin-navBar {
+        min-width: 200px;
+        padding: 0;
+        background-color: #333;
 
-          }
-          .admin-navBar div {
-            display: flex;
+      }
+      .admin-navBar div {
+        display: flex;
+      }
+
+      .admin-navBar a {
+        margin: 0 15px;
+        text-decoration: none;
+        padding: 15px 0;
+        width: 100%;
+        border-bottom: 1px solid #949ca6;
+        color: white;
+      }
+      .admin-navBar a:hover {
+      font-weight: bold;
+      color: white;
+      }
+      .head-title {
+        display: flex;
+        align-items: center;
+      }
+      .logout-btn {
+        margin-right: 50px;
+        padding: 10px 20px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .content {
+        padding: 20px;
+        width: 100%;
+      }
+      .countItem {
+        display: flex;
+        justify-content: space-between;
+        padding : 5px 20px;
+      }
+      .listCount{
+         display: flex;
+         align-items: flex-end;
+      }
+      .productImg{
+        max-height: 70px;
+      }
+           .page-link {
+          color: #000;
+          background-color: #fff;
+          border: 1px solid #ccc;
           }
 
-          .admin-navBar a {
-            text-decoration: none;
-            padding: 15px 0;
-            width: 100%;
-            border-bottom: 1px solid #949ca6;
-            color: white;
-          }
+        .page-item.active .page-link {
+         z-index: 1;
+         color: #555;
+         font-weight:bold;
+         background-color: #fff;
+         border-color: #ccc;
 
-          .head-title {
-            display: flex;
-            align-items: center;
-          }
-          .logout-btn {
-            margin-right: 50px;
-            padding: 10px 20px;
-            font-weight: bold;
-            font-size: 18px;
-          }
-          .content {
+        }
+
+        .page-link:focus, .page-link:hover {
+          color: #000;
+          background-color: #fafafa;
+          border-color: #ccc;
+        }
+        select{
+            border: 1px solid #dee2e6;
+        }
+        .memberContent{
+            background-color: white;
             padding: 20px;
-            width: 100%;
-          }
-          img{
-          max-height: 70px;
-          }
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+        }
+        .contentHeader{
+         background-color: white;
+        }
 
         </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
 </head>
-<div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
-
 <div id="wrap">
-    <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
+    <div th:replace="/fragments/nav.html :: fragment-adminNav"></div>
+    <div id="contentWrap" style="width:100%">
+        <div class="contentHeader" style="width:100%">
+            <div>회원정보</div>
+            <div>
+                <a type="button" class="btn btn-secondary">로그아웃</a>
+            </div>
+        </div>
     <div class="content" style="width:100%">
         <div class="wrap">
             <div class="wrapMain">
-                <caption><h2>
-                    호구정보</h2>
-                </caption>
                 <form action="/admin/member/content/modify" method="post">
-                    <table border="1px" >
-                        <tr>
-                            <th>아이디</th>
-                            <th><input type="text" name="memberId" id="inputId" th:value="${member.memberId}"/></th>
-                            <th>password</th>
-                            <th><input type="password" name="memberPw" th:value="${member.memberPw}" readonly/></th>
-                        </tr>
-                        <tr >
-                            <th >이름</th>
-                            <th><input type="text" name="memberName" id="memberName" th:value="${member.memberName}" /></th>
-                            <th >적립금</th>
-                            <th>
-                                <input type="text" name="memberMileage" id="inputMileage" readonly th:value="${member.memberMileage}" />
-                            </th>
-                        </tr>
-                        <tr>
-                            <th>연락처</th>
-                            <td >
-                                <input
-                                        type="text"
-                                        name="memberPhone"
-                                        id="inputPhone"
-                                        placeholder="000-0000-0000"
-                                        th:value="${member.memberPhone}"
-                                />
-                            </td>
-                            <th>회원번호</th>
-                            <th><input type="text" name="memberNo" readonly th:value="${member.memberNo}"></th>
-                        </tr>
-                        <tr>
-                            <th>이메일</th>
-                            <td colspan="3">
-                                <input
-                                        type="text"
-                                        name="memberEmail"
-                                        id="inputEmail"
-                                        placeholder="email@email.com"
-                                        th:value="${member.memberEmail}"
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th rowspan="5">어드레스불러보소</th>
-                            <td colspan="1">
+                    <div class="memberContent">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th class=" ps-3 pt-3">회원번호</th>
+                                <td><input class="form-control" type="text" name="memberNo" readonly th:value="${member.memberNo}"></td>
 
-                                <input
-                                        th:value="${member.memberAddrNumber}"
-                                        type="text"
-                                        name="memberAddrNumber"
-                                        id="postcode"
-                                        placeholder="우편번호"
-                                        readonly
-                                />
-                            </td>
-                            <td style="border: none">
-                                <input type="button" onclick=sample6_execDaumPostcode() value="우편번호"  id="postcode1"/>
-                            </td>
-                        </tr>
-                        <td></td>
-                        <tr>
-                            <td><input th:value="${member.memberAddr1}" type="text" value="기본주소" name="memberAddr1" id="memberAddr1" /></td>
-                        </tr>
-                        <tr>
-                            <td><input type="text" value="참고항목" id="extraAddress" style="display: none;" /></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input th:value="${member.memberAddr2}" type="text" value="나머지주소" name="memberAddr2" id="memberAddr2" />
-                            </td>
+                            </tr>
+                            <tr>
+                                <th class=" ps-3 pt-3">아이디</th>
+                                <td><input class="form-control" type="text" name="memberId" id="inputId" th:value="${member.memberId}"/></td>
+                            </tr>
+                            <tr>
+                                <th class=" ps-3 pt-3" >비밀번호</th>
+                                <td><input class="form-control" type="password" name="memberPw" th:value="${member.memberPw}" readonly/></td>
+                            </tr>
+                            <tr >
+                                <th class=" ps-3 pt-3" >이름</th>
+                                <td><input class="form-control" type="text" name="memberName" id="memberName" th:value="${member.memberName}" /></td>
+
+                            </tr>
+
+                            <tr>
+                                <th class=" ps-3 pt-3">연락처</th>
+                                <td >
+                                    <input
+                                            type="text"
+                                            name="memberPhone"
+                                            id="inputPhone"
+                                            placeholder="000-0000-0000"
+                                            th:value="${member.memberPhone}"
+                                            class="form-control"
+                                    />
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <th class=" ps-3 pt-3">이메일</th>
+                                <td colspan="3">
+                                    <input
+                                            type="text"
+                                            name="memberEmail"
+                                            id="inputEmail"
+                                            placeholder="email@email.com"
+                                            th:value="${member.memberEmail}"
+                                            class="form-control"
+                                    />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class=" ps-3 pt-3" >적립금</th>
+                                <td>
+                                    <input class="form-control" type="text" name="memberMileage" id="inputMileage" readonly th:value="${member.memberMileage}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th rowspan="5" class=" ps-3 pt-3">주소</th>
+                                <td colspan="1">
+
+                                    <input
+                                            th:value="${member.memberAddrNumber}"
+                                            type="text"
+                                            name="memberAddrNumber"
+                                            id="postcode"
+                                            placeholder="우편번호"
+                                            readonly
+                                            class="form-control"
+                                            onclick=sample6_execDaumPostcode()
+                                    />
+                                    <br>
+                                    <input class="form-control" th:value="${member.memberAddr1}" type="text" value="기본주소" name="memberAddr1" id="memberAddr1" />
+                                    <br>
+                                    <input class="form-control" type="text" value="참고항목" id="extraAddress" style="display: none;" />
+                                    <input class="form-control" th:value="${member.memberAddr2}" type="text" value="나머지주소" name="memberAddr2" id="memberAddr2" />
+                                    <br>
+                                </td>
+                            </tr>
+                        </table>
                         <div>
-
-              <span
-              ><button type="submit" name="확인" id="submitButton" >
-                  수정
-                </button></span
-              ><span
-                        >
-                            <a th:href="|/admin/member/|"><input type="button" name="목록"value="목록" id="MemberList"
-                        >
-                          </a></span
-                        >
+                            <span><button class="btn btn-danger" type="submit" name="확인" id="submitButton" >수정</button></span>
+                            <span><a th:href="|/admin/member/|"><input class="btn btn-outline-secondary" type="button" name="목록"value="목록" id="MemberList"></a></span>
                         </div>
-                    </table>
+                    </div>
                 </form>
             </div>
             <!-- wrapMain -->
         </div>
         <!-- wrap -->
+    </div>
     </div>
     <!--  컨텐츠 끝-->
 </div>

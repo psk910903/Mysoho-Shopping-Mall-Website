@@ -130,10 +130,10 @@
 
     </style>
 </head>
-<div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
+<div th:replace="/fragments/header.html :: fragment-adminHeader"></div>
 
 <div id="wrap" th:each="qna:${qna}">
-    <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
+    <div th:replace="/fragments/nav.html :: fragment-adminNav"></div>
     <div class="content" style="width:100%">
         <div class="body">
             <table border="1" id="tableOne">

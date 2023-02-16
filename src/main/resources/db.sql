@@ -57,9 +57,9 @@ CREATE TABLE member (
 );
 INSERT INTO member VALUES( NULL, 'hong', '1234', '홍길동', 'VIP', 'hong@gmail.com',
   '01022223333', DEFAULT,'54321','파푸아뉴기니','앞바다',default ,default ,default );
-INSERT INTO member VALUES( NULL, 'lee', '1234', '이거','일반', 'this@gmail.com',
+INSERT INTO member VALUES( NULL, 'lee', '1234', '이거','일반회원', 'this@gmail.com',
   '01022223333', DEFAULT,'3210','대포동','미사일', default, default, default);
-INSERT INTO member VALUES( NULL, 'right', '1234', '맞냐', '일반', 'IsThatRight@gmail.com',
+INSERT INTO member VALUES( NULL, 'right', '1234', '맞냐', '일반회원', 'IsThatRight@gmail.com',
   '01022223333', DEFAULT,'12345','금수산태양궁전','정문', default, default, DEFAULT);
 
 

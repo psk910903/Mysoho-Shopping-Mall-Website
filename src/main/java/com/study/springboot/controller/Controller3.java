@@ -2,26 +2,19 @@ package com.study.springboot.controller;
 
 import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.review.ReviewSaveResponseDto;
-import com.study.springboot.entity.review.ReviewEntity;
+import com.study.springboot.entity.ReviewEntity;
 import com.study.springboot.repository.ReviewRepository;
 import com.study.springboot.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor

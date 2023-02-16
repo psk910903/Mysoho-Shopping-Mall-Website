@@ -1,0 +1,266 @@
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Document</title>
+  <style>
+       * {
+        margin: 0;
+        padding: 0;
+      }
+      .contentHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 60px;
+        padding: 0 25px;
+        background-color: white;
+        border: 1px solid #dee2e6;
+        font-size: 25px;
+        font-weight: bold;
+      }
+      .navHeader{
+      align-items: center;
+      height: 60px;
+      padding: 0 10px;
+      border-bottom: 1px solid #dee2e6;
+      color: white;
+      font-size: 25px;
+      margin-bottom: 20px
+      }
+      #wrap {
+        display: flex;
+        min-height: 940px;
+        background-color: #f8f9fa ;
+      }
+      .admin-navBar {
+        min-width: 200px;
+        padding: 0;
+        background-color: #333;
+
+      }
+      .admin-navBar div {
+        display: flex;
+      }
+
+      .admin-navBar a {
+        margin: 0 15px;
+        text-decoration: none;
+        padding: 15px 0;
+        width: 100%;
+        border-bottom: 1px solid #949ca6;
+        color: white;
+      }
+      .admin-navBar a:hover {
+      font-weight: bold;
+      color: white;
+      }
+      .head-title {
+        display: flex;
+        align-items: center;
+      }
+      .content {
+        padding: 20px;
+        width: 100%;
+      }
+      .countItem {
+        display: flex;
+        justify-content: space-between;
+        padding : 5px 20px;
+      }
+      .listCount{
+         display: flex;
+         align-items: flex-end;
+      }
+      .productImg{
+        max-height: 70px;
+      }
+           .page-link {
+          color: #000;
+          background-color: #fff;
+          border: 1px solid #ccc;
+          }
+
+        .page-item.active .page-link {
+         z-index: 1;
+         color: #555;
+         font-weight:bold;
+         background-color: #fff;
+         border-color: #ccc;
+
+        }
+
+        .page-link:focus, .page-link:hover {
+          color: #000;
+          background-color: #fafafa;
+          border-color: #ccc;
+        }
+        select{
+            border: 1px solid #dee2e6;
+        }
+        .contentWrap{
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+        }
+        .contentHeader{
+         background-color: white;
+        }
+        .sub-title{
+        font-weight: bold;
+        font-size: 18px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        }
+        .w40{
+        width: 200px;
+        }
+    </style>
+</head>
+<div id="wrap">
+  <div th:replace="/fragments/nav.html :: fragment-adminNav"></div>
+  <div id="contentWrap" style="width:100%">
+    <div class="contentHeader" style="width:100%">
+      <div>상품 정보 수정</div>
+      <div>
+        <a type="button" class="btn btn-secondary">로그아웃</a>
+      </div>
+    </div>
+  <div class="content" style="width:100%">
+    <div style="width:100%" >
+
+      <form action="/admin/product/modify/action" method="post" enctype="multipart/form-data">
+        <div class="contentWrap">
+        <div class="sub-title"> 이미지</div>
+        <table class="table table-bordered" >
+          <tr >
+
+            <th style="text-align: center;" class="w40">대표 이미지 변경</th>
+            <td ><img class="productImg" th:src="${ dto.itemImageUrl }">
+              <input type="file" name="uploadfile" multiple="multiple">
+            </td>
+          </tr>
+        </table>
+        </div>
+
+        <div class="contentWrap">
+        <div class="sub-title"> 상품정보</div>
+        <table class="table table-bordered" >
+          <tr>
+            <th style="text-align: center;" class="w40">상품분류</th>
+            <td>
+              <select name="itemCategory" class="form-select">
+                <option th:text="${ dto.itemCategory }" th:value="${ dto.itemCategory }" value="" selected="selected">대분류</option>
+                <option value="TOP">TOP</option>
+                <option value="BOTTOM">BOTTOM</option>
+                <option value="ONE-PIECE">ONE-PIECE</option>
+                <option value="ACC">ACC</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40">상품명</th>
+            <td>
+              <input th:value="${ dto.itemName }" name="itemName"  placeholder="상품명" class="form-control">
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40">판매가</th>
+            <td>
+              <input th:value="${ dto.itemPrice }" name="itemPrice"  placeholder="10000" class="form-control">
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40">색상</th>
+            <td>
+              <input th:value="${ dto.itemOptionColor }" name="itemOptionColor"  placeholder="color" class="form-control">
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40">사이즈</th>
+            <td>
+              <input th:value="${ dto.itemOptionSize }" name="itemOptionSize"  placeholder="S,M,L" class="form-control">
+            </td>
+          </tr>
+        </table>
+        </div>
+
+        <div class="contentWrap">
+        <div class="sub-title"> 할인쿠폰</div>
+        <table class="table table-bordered" >
+          <tr>
+            <th style="text-align: center;" class="w40">할인율</th>
+            <td>
+              <input name=""  placeholder="10" class="form-control">
+              <input type="radio" checked />% 퍼센트
+            </td>
+          </tr>
+        </table>
+        </div>
+
+        <div class="contentWrap">
+        <div class="sub-title"> 상품 설명</div>
+        <table class="table table-bordered" >
+          <tr >
+            <td >
+              <textarea class="textarea" id="editor" ></textarea>
+              <input th:value="${ dto.itemInfo }" type="hidden" name="itemInfo" id="editorData" >
+              <br>
+            </td>
+          </tr>
+        </table>
+
+        </div>
+
+          <!--         상품번호 임시로 보낼 용도로 히든 처리함-->
+    <div style="text-align: center;">
+          <input type="hidden" th:value="${ dto.itemNo }" name="itemNo"  placeholder="itemNo">
+          <button onclick="function1()" type="submit" class="btn btn-danger">수정</button>
+    </div>
+      </form>
+    </div>
+  </div>
+  </div>
+</div>
+<!--  컨텐츠 끝-->
+</div>
+
+<!-- wrap -->
+<script src="/js/ckeditor.js"> </script>
+<script>
+    let editor;
+
+    ClassicEditor
+      .create(document.querySelector('#editor'),{
+          language: 'ko',
+          ckfinder: {
+              uploadUrl: '/admin/imgUpload'
+          }
+      })
+      .then( newEditor => {
+        editor = newEditor;
+      })
+      .catch( error => {
+          console.error(error);
+      });
+
+      window.onload = function(){
+      const editorData = document.querySelector('#editorData').value
+      editor.setData(editorData);
+    }
+
+    function function1(){
+        const editorData = editor.getData();
+        document.querySelector('#editorData').value = editorData;
+    }
+  </script>
+</body>
+
+</html>
+
+
+
