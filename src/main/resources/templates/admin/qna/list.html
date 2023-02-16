@@ -1,0 +1,309 @@
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+  <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        height: 60px;
+        padding: 0 25px;
+        background-color: #333;
+        color: white;
+        border-bottom: 1px solid #949ca6;
+      }
+      #wrap {
+        display: flex;
+        min-height: 830px;
+      }
+      .admin-navBar {
+        flex-grow : 1
+        height: 100%;
+        width: 200px;
+        padding: 25px;
+        background-color: #333;
+
+      }
+      .admin-navBar div {
+        display: flex;
+      }
+
+      .admin-navBar a {
+        text-decoration: none;
+        padding: 15px 0;
+        width: 100%;
+        border-bottom: 1px solid #949ca6;
+        color: white;
+      }
+
+      .head-title {
+        display: flex;
+        align-items: center;
+      }
+      .logout-btn {
+        margin-right: 50px;
+        padding: 10px 20px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .content {
+        padding: 20px;
+        width: 100%;
+      }
+      img{
+      max-height: 70px;
+      }
+<!-- 레이아웃 -->
+    table,
+    th,
+    td {
+      border-collapse: collapse;
+    }
+    #tableOne {
+      margin: 5% auto;
+      width: 80%;
+      height: 150px;
+    }
+    input {
+      height: 50%;
+    }
+    select {
+      height: 60%;
+    }
+    #keywordinput {
+      width: 300px;
+    }
+    td {
+    }
+    .left {
+      background-color: lightgrey;
+    }
+    .right {
+      padding-left: 20px;
+    }
+
+    #tableTwo {
+      width: 80%;
+      height: 100px;
+      margin: auto;
+      text-align: center;
+    }
+    #th {
+      background-color: lightgreen;
+    }
+    #midbtn {
+      margin-left: 52%;
+      margin-top: 0%;
+    }
+    #check {
+      width: 5%;
+    }
+    #num {
+      width: 5%;
+    }
+    #title {
+      width: 50%;
+    }
+  .container{
+  margin-top: 30px;
+  }
+  #select{
+  margin-left: 10%;
+  width:70px;
+  height:30px;
+  }
+    </style>
+</head>
+<body>
+<div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
+
+<div id="wrap">
+  <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
+
+  <div class="content" style="width:100%">
+    <a href="">나의 Q&A</a>  | <a href="">상품문의</a>
+    <div class="bodyForm">
+      <div>
+        <form action="/admin/qna/list" method="Get">
+        <table border="1" id="tableOne">
+          <tr>
+            <td class="left">게시판별 보기</td>
+            <td class="right">
+              <a href="/admin/qna/list?page=0" class="btn btn-outline-primary">전체</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=상품문의&page=0" class="btn btn-outline-primary">상품문의</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=배송문의&page=0" class="btn btn-outline-primary">배송문의</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=교환문의&page=0" class="btn btn-outline-primary">교환문의</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=반품문의&page=0" class="btn btn-outline-primary">반품문의</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=환불문의&page=0" class="btn btn-outline-primary">환불문의</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=기타문의&page=0" class="btn btn-outline-primary">기타문의</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="left">등록일</td>
+            <td class="right">
+              <input type="date" name="dateStart"/> ~
+              <input type="date" name="dateEnd"/>
+              <a href="/admin/qna/list?dateStart=today&dateEnd=&keywordType=type&keyword=&page=0" class="btn btn-outline-secondary">오늘</a>
+              <a href="/admin/qna/list?dateStart=yesterday&dateEnd=&keywordType=type&keyword=&page=0" class="btn btn-outline-secondary">어제</a>
+              <a href="/admin/qna/list?dateStart=week&dateEnd=&keywordType=type&keyword=&page=0" class="btn btn-outline-secondary">1주일</a>
+              <a href="/admin/qna/list?dateStart=month&dateEnd=&keywordType=type&keyword=&page=0" class="btn btn-outline-secondary">1개월</a>
+            </td>
+          </tr>
+          <tr>
+
+            <td class="left">키워드 검색</td>
+            <td class="right">
+              <select name="keywordType" id="keyword">
+                <option value="title">제목</option>
+                <option value="writer">작성자</option>
+              </select>
+              <input type="text" id="keywordinput" name="keyword"/>
+              <button type="submit">검색하기</button>
+            </td>
+          </tr>
+        </table>
+        </form>
+<!--        <input type="button" value="선택삭제">-->
+        <input type="button" id="select" onclick="deleteValue();" value="선택삭제">
+        <table id="tableTwo">
+          <tr id="th">
+            <td id="check">
+<!--              // 하나씩-->
+              <input type="checkbox" id="cboxAll" name="cboxAll" onclick="checkAll();"/>
+            </td>
+            <td>글번호</td>
+            <td>문의유형</td>
+            <td id="title">글제목</td>
+            <td id="writer">작성자</td>
+            <td id="createdate">작성일</td>
+            <td id="hit">조회수</td>
+            <td id="delete">삭제</td>
+          </tr>
+          <tr th:each="qna:${qnalist}" >
+            <td>
+              <input type="checkbox" name="cbox" th:value="${ qna.qnaId }"/>
+            </td>
+            <td th:text="${ qna.qnaId }"></td>
+<!--            <td >번호</td>-->
+            <td th:text="${ qna.qnaCategory }" id="gul"></td>
+            <td>
+             <a th:href="@{content/{id}(id=${qna.qnaId})}"
+                th:text="${ qna.qnaTitle }">글제목</a>
+            </td>
+            <td th:text="${ qna.qnaName }">작성자</td>
+            <td th:text="${ #temporals.format(qna.qnaDate, 'yyyy-MM-dd HH:mm')}">작성일</td>
+            <td th:text="${ qna.qnaHit}">조회수</td>
+            <td>
+              <button>
+                <a th:href="@{/admin/qna/delete/{id}(id=${qna.qnaId})}">삭제</a>
+                </button>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="container"> <!-- 페이지 시작 -->
+      <div th:if="${!qnalist.isEmpty()}">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" th:classappend="${!qnalist.hasPrevious} ? 'disabled'"> <!-- 이전 버튼 시작 -->
+            <th:block th:if="${keyword}==null">
+              <a class="page-link" th:href="|/admin/qna/list?page=${qnalist.number-1}|">
+                <span>이전</span>
+              </a>
+            </th:block>
+            <th:block th:unless="${keyword}==null">
+              <a class="page-link" th:href="|/admin/qna/list?page=${qnalist.number-1}">
+                <span>이전</span>
+              </a>
+            </th:block>
+          </li> <!-- 이전 버튼 끝 -->
+          <li th:each="page: ${pageList}"
+              th:classappend="${page == qnalist.number} ? 'active'"
+              class="page-item"> <!-- 숫자 페이지 버튼 시작 -->
+            <th:block th:if="${keyword}==null">
+              <a th:text="${page+1}" class="page-link" th:href="|/admin/qna/list?page=${page}|"></a>
+            </th:block>
+            <th:block th:unless="${keyword}==null">
+              <a th:text="${page+1}" class="page-link"
+                 th:href="|/admin/qna/list?page=${page}"></a>
+            </th:block>
+          </li> <!-- 숫자 페이지 버튼 끝 -->
+          <li class="page-item" th:classappend="${!qnalist.hasNext} ? 'disabled'"> <!-- 다음 버튼 시작 -->
+            <th:block th:if="${keyword}==null">
+              <a class="page-link" th:href="|/admin/qna/list?page=${qnalist.number+1}|">
+                <span>다음</span>
+              </a>
+            </th:block>
+            <th:block th:unless="${keyword}==null">
+              <a class="page-link" th:href="|/admin/qna/list?page=${qnalist.number+1}|">
+                <span>다음</span>
+              </a>
+            </th:block>
+          </li> <!-- 다음 버튼 끝 -->
+        </ul>
+      </div>
+    </div> <!-- 페이지 끝 -->
+
+
+  <!--  컨텐츠 끝-->
+</div>
+
+<!-- wrap -->
+</div>
+</body>
+
+<script>
+function checkAll() {
+	if($("#cboxAll").is(':checked')) {
+		$("input[name=cbox]").prop("checked", true);
+	} else {
+		$("input[name=cbox]").prop("checked", false);
+	}
+}
+
+</script>
+<script>
+ function deleteValue(){
+
+      var qnaNo = "";
+     $( "input[name='cbox']:checked" ).each (function (){
+     qnaNo = qnaNo + $(this).val()+"," ;
+     });
+    if(qnaNo == ""){
+     alert("삭제할 대상을 선택하세요.");
+     return false;
+     }
+     $.ajax({
+            url : '/admin/qna/selectDelete',
+            type : 'GET',
+            traditional : true,
+            data : {
+              qnaNo : qnaNo
+            },
+            success: function(jdata){
+              if(jdata = 1){
+                alert("삭제 성공");
+                location.replace("/admin/qna/list")
+              }
+              else{
+                alert("삭제 실패")
+              }
+            }
+        });
+    }
+    </script>
+</html>
+
+
+

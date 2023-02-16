@@ -1,0 +1,244 @@
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        height: 60px;
+        padding: 0 25px;
+        background-color: #333;
+        color: white;
+        border-bottom: 1px solid #949ca6;
+      }
+      #wrap {
+        display: flex;
+        min-height: 830px;
+      }
+      .admin-navBar {
+        flex-grow : 1
+        height: 100%;
+        width: 200px;
+        padding: 25px;
+        background-color: #333;
+
+      }
+      .admin-navBar div {
+        display: flex;
+      }
+
+      .admin-navBar a {
+        text-decoration: none;
+        padding: 15px 0;
+        width: 100%;
+        border-bottom: 1px solid #949ca6;
+        color: white;
+      }
+
+      .head-title {
+        display: flex;
+        align-items: center;
+      }
+      .logout-btn {
+        margin-right: 50px;
+        padding: 10px 20px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .content {
+        padding: 20px;
+        width: 100%;
+      }
+      img{
+      max-height: 70px;
+      }
+      <!--   레이아웃 -->
+    table,
+    th,
+    td {
+      border-collapse: collapse;
+    }
+
+    #tableOne {
+      margin: 3% auto;
+      width: 80%;
+    }
+    .left {
+      background-color: lightgray;
+    }
+    textarea {
+      resize: none;
+      overflow: auto;
+    }
+    .btndiv {
+      width: 100%;
+    }
+    #tableOne {
+      border-bottom: 5px solid black;
+      width: 80%;
+    }
+    #inputForm {
+      margin-top: -20px;
+      border: 1px solid black;
+      margin-left: 20%;
+      width: 900px;
+      height: 300px;
+      text-align: center;
+    }
+    #writer {
+      margin: 0 auto;
+      width: 80%;
+    }
+    #writeinput {
+      width: 100%;
+    }
+    #answer {
+      width: 80%;
+      margin: 0 auto;
+    }
+    #answerarea {
+      width: 100%;
+      height: 100px;
+    }
+    #dap {
+      width: 80%;
+    }
+    #tableTwo {
+      margin:10px auto;
+      width: 80%;
+    }
+    #div2 {
+      margin-left: 50px;
+    }
+    #td2 {
+      width: 80%;
+    }
+    #td3 {
+      width: 15%;
+      border-left: none;
+    }
+    a {
+      text-decoration: none;
+      color: black;
+    }
+    </style>
+</head>
+<div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
+
+<div id="wrap" th:each="qna:${qna}">
+  <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
+  <div class="content" style="width:100%">
+    <div class="body">
+      <table border="1" id="tableOne" >
+        <tr>
+          <td class="left">문의유형</td>
+          <td th:text="${qna.qnaCategory}">기타문의</td>
+        </tr>
+        <tr>
+          <td class="left">작성자</td>
+          <td th:text="${qna.qnaName}">김진사</td>
+        </tr>
+        <tr>
+          <td class="left">작성날짜</td>
+          <td th:text="${qna.qnaDate}">2023-02-06 20:21</td>
+        </tr>
+        <tr>
+          <td class="left">제목</td>
+          <td th:text="${qna.qnaTitle}">기타문의입니다.</td>
+        </tr>
+        <tr>
+          <td class="left">문의내용</td>
+          <td>
+            <textarea cols="150" rows="5" style="border: none" th:text="${qna.qnaContent}">
+              기타문의입니다 기타문의입니다 기타문의입니다 기타문의입니다
+            </textarea>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <button>
+              <a href="/admin/qna/list">리스트</a>
+              </button>
+            <button>
+              <a th:href="@{/admin/qna/delete/{id}(id=${qna.qnaId})}"> 삭제하기</a>
+            </button>
+          </td>
+        </tr>
+      </table>
+      <form action="/admin/qna/comment/write" method="post"
+            name="userInfo" onsubmit="return checkValue();">
+      <div id="inputForm">
+        <div>
+          <h4>글쓴이</h4>
+          <div id="writer">
+            <input type="text" id="writeinput" name="commentWriter"/>
+          </div>
+        </div>
+        <h4>답변내용</h4>
+        <div id="answer">
+          <textarea name="commentContent" id="answerarea"></textarea>
+        </div>
+        <div>
+          <input th:value="${qna.qnaId}"
+                  type="hidden" name="commentQnaId" >
+          <button type="submit" id="dap">답글달기</button>
+        </div>
+      </div>
+      </form>
+<!--   th:each="comment:${comment}"   -->
+<!--  th:text="${comment.comment_writer}"    -->
+<!--     th:text="${comment.comment_content}" -->
+      <table id="tableTwo" border="1" th:each="comment:${ comment }">
+        <tr>
+        <td class="left" th:text="${ comment.commentWriter}">관리자</td>
+        <td id="td2" th:text="${comment.commentContent}">답글입니다 답글입니다</td>
+        <td id="td3"><button>
+<!--            <a th:href="@{/admin/qna/commentModify(id=${ comment.commentId },qnaId=${ qna.qnaId })}"><button class="btn btn-danger">삭제</button></a></td>-->
+            <a th:href="@{/admin/qna/comment/modify(id=${ comment.commentId },qnaId=${ qna.qnaId })}" >수정하기</a>
+
+                    </button>
+                    <button>
+                      <a th:href="@{/admin/qna/comment/delete/{id}(id=${comment.commentId})}">삭제하기</a>
+                    </button></td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <!--  컨텐츠 끝-->
+</div>
+
+<!-- wrap -->
+
+</body>
+<script>
+function checkValue() {
+
+if(!document.userInfo.writeinput.value) { //empty: null, 길이 0
+alert("글쓴이를 입력해주세요");
+document.getElementById('writeinput').focus();
+return false; //submit전송이 안됨
+}
+if(!document.userInfo.answerarea.value) { //empty: null, 길이 0
+alert("답변을 입력해주세요");
+document.getElementById('answerarea').focus();
+return false; //submit전송이 안됨
+}
+
+return true;
+}
+</script>
+</html>
+
+
+
