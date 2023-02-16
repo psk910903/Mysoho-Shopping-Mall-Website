@@ -1,0 +1,235 @@
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        height: 60px;
+        padding: 0 25px;
+        background-color: #333;
+        color: white;
+        border-bottom: 1px solid #949ca6;
+      }
+      #wrap {
+        display: flex;
+        min-height: 830px;
+      }
+      .admin-navBar {
+        flex-grow : 1
+        height: 100%;
+        width: 200px;
+        padding: 25px;
+        background-color: #333;
+
+      }
+      .admin-navBar div {
+        display: flex;
+      }
+
+      .admin-navBar a {
+        text-decoration: none;
+        padding: 15px 0;
+        width: 100%;
+        border-bottom: 1px solid #949ca6;
+        color: white;
+      }
+
+      .head-title {
+        display: flex;
+        align-items: center;
+      }
+      .logout-btn {
+        margin-right: 50px;
+        padding: 10px 20px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .content {
+        padding: 20px;
+        width: 100%;
+      }
+      img{
+      max-height: 70px;
+      }
+<!--레이아웃 -->
+    table,
+    th,
+    td {
+      border-collapse: collapse;
+    }
+
+    #tableOne {
+      margin: 3% auto;
+      width: 80%;
+    }
+    .left {
+      background-color: lightgray;
+    }
+    textarea {
+      resize: none;
+      overflow: auto;
+    }
+    .btndiv {
+      width: 100%;
+    }
+    #tableOne {
+      border-bottom: 5px solid black;
+      width: 80%;
+    }
+    #inputForm {
+      margin-top: -20px;
+      border: 1px solid black;
+      margin-left: 20%;
+      width: 900px;
+      height: 300px;
+      text-align: center;
+    }
+    #writer {
+      margin: 0 auto;
+      width: 80%;
+    }
+    #writeinput {
+      width: 100%;
+    }
+    #answer {
+      width: 80%;
+      margin: 0 auto;
+    }
+    #answerarea {
+      width: 100%;
+      height: 100px;
+    }
+    #dap {
+      width: 80%;
+    }
+    #tableTwo {
+      margin: 3% auto;
+      width: 80%;
+    }
+    #div2 {
+      margin-left: 50px;
+    }
+    #td2 {
+      width: 80%;
+    }
+    #td3 {
+      width: 15%;
+      border-left: none;
+    }
+    </style>
+</head>
+<div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
+
+<div id="wrap">
+  <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
+  <div class="content" style="width:100%">
+
+    <div class="form" th:each="dto:${listContent}">
+    <div class="body">
+      <table border="1" id="tableOne">
+        <input type="hidden" th:value="${ dto.qna_id }">
+        <tr>
+          <td class="left">문의유형</td>
+          <td>상품문의</td>
+        </tr>
+        <tr>
+          <td class="left">상품</td>
+          <td th:text="${ dto.qna_item_code }">청바지</td>
+        </tr>
+        <tr>
+          <td class="left">작성자</td>
+          <td th:text="${ dto.qna_name }">김진사</td>
+        </tr>
+        <tr>
+          <td class="left">작성날짜</td>
+          <td th:text="${#temporals.format(dto.qna_date, 'yyyy-MM-dd HH:mm')}">2023-02-06 20:21</td>
+        </tr>
+        <tr>
+          <td class="left">제목</td>
+          <td th:text="${ dto.qna_title }">기타문의입니다.</td>
+        </tr>
+        <tr>
+          <td class="left">문의내용</td>
+          <td th:text="${dto.qna_content}">
+            <textarea name="" id="" cols="150" rows="5" style="border: none">
+              기타문의입니다 기타문의입니다 기타문의입니다 기타문의입니다
+            </textarea>
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <button type="button" onclick="location.href='/admin/qna/List'">리스트</button>
+            <form action="/admin/qna/delete">
+              <input type="hidden" th:value="${dto.qna_id}" name="qna_id">
+          <button type="submit">삭제</button>
+      </form>
+<!--            <a href="/admin/qna/QnaList" class="btn btn-primary">리스트-->
+<!--              <form action="/delete">-->
+<!--                <input type="hidden" th:value="${dto.qna_id}" name="qna_id">-->
+<!--                <button type="submit" class="btn btn-danger">삭제</button>-->
+          </td>
+        </tr>
+      </table>
+    </div>
+<!--      여기서부터 입력한 값이 댓글로 출력됨-->
+     <form action="/admin/qna/Content/action" method="POST">
+      <div id="inputForm">
+        <div>
+          <input th:value="${ dto.qna_id }" type="hidden" name="replyQnaId">
+          <h3>글쓴이</h3>
+          <div id="writer">글쓴이 작성
+            <input type="text" name="qnaReplyWriter" value="">
+          </div>
+        </div>
+        <h3>답변내용</h3>
+        <div id="answer"> 답변내용작성
+          <input type="hidden" name="reply_board_idx" >
+          <textarea id="answerarea" name="qnaReplyContent"></textarea>
+        </div>
+        <div>
+          <button type="submit" id="dap">답글달기</button>
+        </div>
+      </div>
+      </form>
+      </div>
+
+
+      <table id="tableTwo" border="1" th:each="reply:${reply}">
+       <form>
+        <tr >
+        <td class="left"th:text="${reply.qnaReplyWriter}">관리자</td>
+        <td id="td2" th:text="${reply.qnaReplyContent}">
+          답글다입니다 답글입니</a></td>
+        </tr>
+        <td id="td3"><button>수정하기</button></td>
+        </form>
+        <form action="/admin/qna/Content/delete1" method="POST" th:value="${reply_reply_idx}" name="reply_id">
+        <td><button type="submit">삭제하기</button></td>
+        </form>
+      </table>
+    </div>
+  </div>
+  <!--  컨텐츠 끝-->
+</div>
+
+<!-- wrap -->
+
+</body>
+  </table>
+</div>
+</html>
+
+
+

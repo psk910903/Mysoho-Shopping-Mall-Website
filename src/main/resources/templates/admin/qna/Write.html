@@ -1,0 +1,141 @@
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        height: 60px;
+        padding: 0 25px;
+        background-color: #333;
+        color: white;
+        border-bottom: 1px solid #949ca6;
+      }
+      #wrap {
+        display: flex;
+        min-height: 830px;
+      }
+      .admin-navBar {
+        flex-grow : 1
+        height: 100%;
+        width: 200px;
+        padding: 25px;
+        background-color: #333;
+
+      }
+      .admin-navBar div {
+        display: flex;
+      }
+
+      .admin-navBar a {
+        text-decoration: none;
+        padding: 15px 0;
+        width: 100%;
+        border-bottom: 1px solid #949ca6;
+        color: white;
+      }
+
+      .head-title {
+        display: flex;
+        align-items: center;
+      }
+      .logout-btn {
+        margin-right: 50px;
+        padding: 10px 20px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .content {
+        padding: 20px;
+        width: 100%;
+      }
+      img{
+      max-height: 70px;
+      }
+<!--레이아웃-->
+
+    </style>
+</head>
+<div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
+
+<div id="wrap">
+  <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
+  <div class="content" style="width:100%">
+
+    <div class="body">
+      <h1>글쓰기</h1>
+      <form action="/admin/qna/WriteDo" method="post">
+        <div class="form">
+          <div class="name">
+            <div id="namediv">문의유형</div>
+            <div id="nameinputdiv">
+              <select name="catagori" id="" >
+                <option value="">상품문의</option>
+                <option value="">배송문의</option>
+                <option value="">교환문의</option>
+                <option value="">반품문의</option>
+                <option value="">환불문의</option>
+                <option value="">기타문의</option>
+              </select>
+            </div>
+          </div>
+          <div class="name">
+            <div id="namediv">이름</div>
+            <div id="nameinputdiv">
+              <input type="text" name="Qna_name" id="nameinput" />
+            </div>
+          </div>
+          <div class="title">
+            <div id="titlediv">제목</div>
+            <div id="titleinputdiv">
+              <input type="text" name="Qna_title" id="titleinput" />
+            </div>
+          </div>
+          <div class="title">
+            <div id="titlediv">비밀번호</div>
+            <div id="titleinputdiv">
+              <input type="text" name="Qna_password" id="titleinput" />
+            </div>
+          </div>
+          <div class="content">
+            <div id="contentdiv">내용</div>
+            <div id="content_input_textarea">
+              <textarea name="Qna_content" id="content_textarea"></textarea>
+            </div>
+          </div>
+          <div class="formfooter">
+            <div>
+              <button type="submit" class="btn btn-primary">글쓰기</button>
+            </div>
+          </div>
+        </div>
+      </form>
+      <a href="/admin/qna/List" class="btn btn-primary">목록보기</a>
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </div>
+  <!--  컨텐츠 끝-->
+</div>
+
+<!-- wrap -->
+
+</body>
+
+</html>
+
+
+
