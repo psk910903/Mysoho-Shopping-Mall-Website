@@ -1,58 +1,132 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>리뷰 수정하기</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>리뷰게시판</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        height: 60px;
+        padding: 0 25px;
+        background-color: #333;
+        color: white;
+        border-bottom: 1px solid #949ca6;
+      }
+      #wrap {
+        display: flex;
+        min-height: 830px;
+      }
+      .admin-navBar {
+        flex-grow : 1
+        height: 100%;
+        width: 200px;
+        padding: 25px;
+        background-color: #333;
+
+      }
+      .admin-navBar div {
+        display: flex;
+      }
+
+      .admin-navBar a {
+        text-decoration: none;
+        padding: 15px 0;
+        width: 100%;
+        border-bottom: 1px solid #949ca6;
+        color: white;
+      }
+
+      .head-title {
+        display: flex;
+        align-items: center;
+      }
+      .logout-btn {
+        margin-right: 50px;
+        padding: 10px 20px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .content {
+        padding: 20px;
+        width: 100%;
+      }
+      img{
+      max-height: 70px;
+      }
+      #search {
+       float:right;
+       margin-bottom: 20px;
+      }
+
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 </head>
-<body>
+<div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
 
-<form action="/review/modifyAction" method="post" name="reviewInfo">
+<div id="wrap" >
+    <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
 
-  <table border="1">
-    <tr align="center">
-        <td>리뷰번호</td>
-        <td>상품명</td>
-        <td>상품이미지</td>
-        <td>표시사항</td>
-        <td>아이디</td>
-        <td>내용</td>
-        <td>별점</td>
-        <td>저장</td>
-        <td>목록보기</td>
-    </tr>
-    <tr >
-        <td >
-            <input type="text"  name="reviewNo" th:value="${review.reviewNo}" >
-        </td>
-        <td >
-            <input type="text" name="itemNo" id="itemNo" th:value="${review.itemNo}" />
-        </td>
-        <td >
-            <input type="text" name="reviewImgUrl" id="reviewImgUrl" th:value="${review.reviewImgUrl}" />
-        </td>
-        <td >
-            <select name="reviewExpo" required>
-                <option  value="표시함" selected>표시함</option>
-                <option value="표시안함" > 표시안함 </option>
-            </select>
-        </td>
-        <td >
-            <input type="text" name="memberId" id="memberId" th:value="${review.memberId}" />
-        </td>
-        <td >
-            <input type="text" name="reviewContent" id="reviewContent" th:value="${review.reviewContent}" />
-        </td>
-        <td >
-            <input type="text" name="reviewStar" id="reviewStar" th:value="${review.reviewStar}" />
-        </td>
-<!--        <td >-->
-<!--            <input type="date" name="reviewDatetime" id="reviewDatetime" th:value="${review.reviewDatetime}" readonly/>-->
-<!--        </td>-->
-        <td><input type="submit" value="저장"/> </td>
-        <td><a href="listForm"><input type="button" value="목록보기"></a></td>
-
-    </tr>
-  </table>
-</form>
+    <form action="/admin/review/modifyAction" method="post" name="reviewInfo">
+        <div id="listForm" width="100%" >
+            <table border="1">
+                <tr align="center">
+                    <td>리뷰번호</td>
+                    <td>상품명</td>
+                    <td>상품이미지</td>
+                    <td>표시사항</td>
+                    <td>아이디</td>
+                    <td>내용</td>
+                    <td>별점</td>
+                    <td>수정</td>
+                    <td>삭제</td>
+                </tr>
+                <tr >
+                    <td >
+                        <input type="text"  name="reviewNo" th:value="${review.reviewNo}" >
+                    </td>
+                    <td >
+                        <input type="text" name="itemNo" id="itemNo" th:value="${review.itemNo}" />
+                    </td>
+                    <td >
+                        <input type="text" name="reviewImgUrl" id="reviewImgUrl" th:value="${review.reviewImgUrl}" />
+                    </td>
+                    <td >
+                        <select name="reviewExpo" required>
+                            <option  value="표시함" selected>표시함</option>
+                            <option value="표시안함" > 표시안함 </option>
+                        </select>
+                    </td>
+                    <td >
+                        <input type="text" name="memberId" id="memberId" th:value="${review.memberId}" />
+                    </td>
+                    <td >
+                        <input type="text" name="reviewContent" id="reviewContent" th:value="${review.reviewContent}" />
+                    </td>
+                    <td >
+                        <input type="text" name="reviewStar" id="reviewStar" th:value="${review.reviewStar}" />
+                    </td>
+                    <!--        <td >-->
+                    <!--            <input type="date" name="reviewDatetime" id="reviewDatetime" th:value="${review.reviewDatetime}" readonly/>-->
+                    <!--        </td>-->
+                    <td><input type="submit" value="수정"/> </td>
+                    <td><a th:href="@{/admin/review/delete(reviewNo=${ review.reviewNo })}"><input type="button" value="삭제"/></a></td>
+                </tr>
+                <tr align="center">
+                    <td colspan="9">
+                        <a href="/admin/review/list"><input type="button" value="목록보기"></a>
+                    </td>
+                </tr>
+            </table>
+    </form>
+</div>
 </body>
 </html>
