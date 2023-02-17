@@ -1,0 +1,177 @@
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        height: 60px;
+        padding: 0 25px;
+        background-color: #333;
+        color: white;
+        border-bottom: 1px solid #949ca6;
+      }
+      #wrap {
+        display: flex;
+        min-height: 830px;
+      }
+      .admin-navBar {
+        flex-grow : 1
+        height: 100%;
+        width: 200px;
+        padding: 25px;
+        background-color: #333;
+
+      }
+      .admin-navBar div {
+        display: flex;
+      }
+
+      .admin-navBar a {
+        text-decoration: none;
+        padding: 15px 0;
+        width: 100%;
+        border-bottom: 1px solid #949ca6;
+        color: white;
+      }
+
+      .head-title {
+        display: flex;
+        align-items: center;
+      }
+      .logout-btn {
+        margin-right: 50px;
+        padding: 10px 20px;
+        font-weight: bold;
+        font-size: 18px;
+      }
+      .content {
+        padding: 20px;
+        width: 100%;
+      }
+      img{
+      max-height: 70px;
+      }
+
+    </style>
+</head>
+<div th:replace="fragments/adminHeader.html :: fragment-adminHeader"></div>
+
+<div id="wrap">
+
+    <div th:replace="fragments/adminNav.html :: fragment-adminNav"></div>
+
+    <div class="content" style="width:100%">
+        <div style="width:100%" >
+            <table class="table table-striped table-bordered" width="100%">
+                <tr width="100%">
+                    <th>문의번호</th>
+                    <td  th:text="${ dto.inquiryNo }"></td>
+                </tr>
+                <tr>
+                    <th>회원아이디</th>
+                    <td  th:text="${ dto.memberId }" >
+                    </td>
+                </tr>
+                <tr>
+                    <th>상품번호</th>
+                    <td  th:text="${ dto.itemNo }" >
+                    </td>
+                </tr>
+                <tr>
+                    <th>제목</th>
+                    <td  th:text="${ dto.inquiryTitle }" >
+                    </td>
+                </tr>
+                <tr>
+                    <th>조회수</th>
+                    <td  th:text="${ dto.inquiryHit }" >
+                    </td>
+                </tr>
+                <tr>
+                    <th>내용</th>
+                    <td>
+                         <textarea type="text" rows="5" cols="50"  th:text="${ dto.inquiryContent }"
+                          readonly></textarea>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <table class="table table-striped table-bordered">
+
+                    <tr align="center">
+                        <th>번호</th>
+                        <th>내용</th>
+                        <th>날짜</th>
+                        <th>수정</th>
+                        <th>삭제</th>
+                    </tr>
+                    <tr th:each="reply,status : ${list}" align="center" >
+                        <form action="modifyAction" method="post">
+                        <input type="hidden" name="replyInquiryNo" th:value="${ reply.replyInquiryNo }"/>
+                        <td ><input type="text" name="replyNo" th:value="${ reply.replyNo }" readonly></td>
+                        <td ><textarea type="text" rows="5" cols="50" name="replyContent" th:value="${ reply.replyContent }" th:text="${ reply.replyContent }" ></textarea></td>
+                        <td ><input type="text" name="replyDatetime" th:value="${#temporals.format(reply.replyDatetime,'yyyy-MM-dd HH:mm')}" readonly></td>
+                        <td><input type="submit" value="수정하기" /></td>
+                        <td><a th:href="@{deleteAction(replyNo=${ reply.replyNo },replyInquiryNo=${reply.replyInquiryNo})}"><input type="button" value="삭제하기"></a></td>
+                        </form>
+                    </tr>
+            </table>
+            <form action="writeAction" method="post" >
+                <input type="hidden" name="replyInquiryNo" th:value="${ dto.inquiryNo }">
+                <table class="table table-striped table-bordered">
+                    <tr>
+                        <th>운영자</th>
+                        <td>
+                            <textarea rows="2" cols="50" name="replyContent"></textarea>
+                        </td>
+                    </tr>
+                    <tr >
+                        <td colspan="2" align="center">
+                            <input type="submit" value="댓글달기">
+                            <a href="list"><input type="button" value="목록보기" /></a>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div><!-- wrap -->
+
+
+
+
+
+<!--      <table id="tableTwo" border="1" th:each="reply:${reply}">-->
+<!--       <form>-->
+<!--        <tr >-->
+<!--        <td class="left"th:text="${reply.qnaReplyWriter}">관리자</td>-->
+<!--        <td id="td2" th:text="${reply.qnaReplyContent}">-->
+<!--          답글다입니다 답글입니</a></td>-->
+<!--        </tr>-->
+<!--        <td id="td3"><button>수정하기</button></td>-->
+<!--        </form>-->
+<!--        <form action="/admin/qna/Content/delete1" method="POST" th:value="${reply_reply_idx}" name="reply_id">-->
+<!--        <td><button type="submit">삭제하기</button></td>-->
+<!--        </form>-->
+<!--      </table>-->
+
+  <!--  컨텐츠 끝-->
+
+
+
+</body>
+</html>
+
+
+
