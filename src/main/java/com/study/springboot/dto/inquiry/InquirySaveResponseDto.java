@@ -1,7 +1,7 @@
 package com.study.springboot.dto.inquiry;
 
 import com.study.springboot.entity.inquiry.InquiryEntity;
-import com.study.springboot.entity.review.ReviewEntity;
+
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,30 +17,7 @@ public class InquirySaveResponseDto {
     private String inquiryTitle;
     private String inquiryContent;
     private String inquiryHit;
-//    @Builder.Default
-//    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-//    private LocalDateTime inquiryDatetime = LocalDateTime.now();
 
-//    public InquiryEntity toSaveEntity(){
-//        return InquiryEntity.builder()
-//                .memberId(memberId)
-//                .itemNo(itemNo)
-//                .inquiryTitle(inquiryTitle)
-//                .inquiryContent(inquiryContent)
-//                .inquiryHit(inquiryHit)
-//                .build();
-//    }
-//
-//    public InquiryEntity toUpdateEntity(){
-//        return InquiryEntity.builder()
-//                .inquiryNo(inquiryNo)
-//                .memberId(memberId)
-//                .itemNo(itemNo)
-//                .inquiryTitle(inquiryTitle)
-//                .inquiryContent(inquiryContent)
-//                .inquiryHit(inquiryHit)
-//                .build();
-//    }
     @Builder//생성자
     public InquirySaveResponseDto(String memberId,
                                   Long itemNo,

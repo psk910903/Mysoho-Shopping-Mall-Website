@@ -3,7 +3,6 @@ package com.study.springboot.controller;
 import com.study.springboot.dto.inquiry.InReplyResponseDto;
 import com.study.springboot.dto.inquiry.InReplySaveResponseDto;
 import com.study.springboot.dto.inquiry.InquiryResponseDto;
-import com.study.springboot.entity.Reply;
 import com.study.springboot.entity.inquiry.InReplyEntity;
 import com.study.springboot.repository.InReplyRepository;
 import com.study.springboot.repository.InquiryRepository;

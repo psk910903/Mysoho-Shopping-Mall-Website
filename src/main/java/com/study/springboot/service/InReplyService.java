@@ -1,7 +1,5 @@
 package com.study.springboot.service;
 
-import com.study.springboot.dto.BoardResponseDto;
-import com.study.springboot.dto.ReplyResponseDto;
 import com.study.springboot.dto.inquiry.InReplyResponseDto;
 import com.study.springboot.dto.inquiry.InReplySaveResponseDto;
 import com.study.springboot.entity.inquiry.InReplyEntity;

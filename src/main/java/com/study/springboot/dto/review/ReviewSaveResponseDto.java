@@ -17,12 +17,7 @@ public class ReviewSaveResponseDto {
     private Byte reviewStar;
     private String reviewContent;
     private String reviewImgUrl;
-    @Builder.Default
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime reviewDatetime = LocalDateTime.now();
     private String reviewExpo;
-
-
 
     public ReviewEntity toUpdateEntity(){
         return ReviewEntity.builder()

@@ -11,26 +11,34 @@
         margin: 0;
         padding: 0;
       }
-      body {
-      }
-      .header {
+      .contentHeader {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         height: 60px;
         padding: 0 25px;
-        background-color: #333;
-        color: white;
-        border-bottom: 1px solid #949ca6;
+        background-color: white;
+        border: 1px solid #dee2e6;
+        font-size: 25px;
+        font-weight: bold;
+      }
+      .navHeader{
+      align-items: center;
+      height: 60px;
+      padding: 0 10px;
+      border-bottom: 1px solid #dee2e6;
+      color: white;
+      font-size: 25px;
+      margin-bottom: 20px
       }
       #wrap {
         display: flex;
-        min-height: 830px;
+        min-height: 940px;
+        background-color: #f8f9fa ;
       }
       .admin-navBar {
-        flex-grow : 1
-        height: 100%;
-        width: 200px;
-        padding: 25px;
+        min-width: 200px;
+        padding: 0;
         background-color: #333;
 
       }
@@ -39,120 +47,114 @@
       }
 
       .admin-navBar a {
+        margin: 0 15px;
         text-decoration: none;
         padding: 15px 0;
         width: 100%;
         border-bottom: 1px solid #949ca6;
         color: white;
       }
-
+      .admin-navBar a:hover {
+      font-weight: bold;
+      color: white;
+      font-size: 18px;
+      }
       .head-title {
         display: flex;
         align-items: center;
-      }
-      .logout-btn {
-        margin-right: 50px;
-        padding: 10px 20px;
-        font-weight: bold;
-        font-size: 18px;
       }
       .content {
         padding: 20px;
         width: 100%;
       }
-      img{
-      max-height: 70px;
+      .count {
+        display: flex;
+        justify-content: space-between;
+        padding : 5px 20px;
       }
-<!-- 레이아웃 -->
-    table,
-    th,
-    td {
-      border-collapse: collapse;
-    }
-    #tableOne {
-      margin: 5% auto;
-      width: 80%;
-      height: 150px;
-    }
-    input {
-      height: 50%;
-    }
-    select {
-      height: 60%;
-    }
-    #keywordinput {
-      width: 300px;
-    }
-    td {
-    }
-    .left {
-      background-color: lightgrey;
-    }
-    .right {
-      padding-left: 20px;
-    }
+      .listCount{
+         display: flex;
+         align-items: flex-end;
+      }
+      .productImg{
+        max-height: 70px;
+      }
+           .page-link {
+          color: #000;
+          background-color: #fff;
+          border: 1px solid #ccc;
+          }
 
-    #tableTwo {
-      width: 80%;
-      height: 100px;
-      margin: auto;
-      text-align: center;
-    }
-    #th {
-      background-color: lightgreen;
-    }
-    #midbtn {
-      margin-left: 52%;
-      margin-top: 0%;
-    }
-    #check {
-      width: 5%;
-    }
-    #num {
-      width: 5%;
-    }
-    #title {
-      width: 50%;
-    }
-  .container{
-  margin-top: 30px;
-  }
-  #select{
-  margin-left: 10%;
-  width:70px;
-  height:30px;
-  }
+        .page-item.active .page-link {
+         z-index: 1;
+         color: #555;
+         font-weight:bold;
+         background-color: #fff;
+         border-color: #ccc;
+
+        }
+
+        .page-link:focus, .page-link:hover {
+          color: #000;
+          background-color: #fafafa;
+          border-color: #ccc;
+        }
+        select{
+            border: 1px solid #dee2e6;
+        }
+        .contentWrap{
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+        }
+        .contentHeader{
+         background-color: white;
+        }
+        .sub-title{
+        font-weight: bold;
+        font-size: 18px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        }
+        .w40{
+        width: 200px;
+        }
     </style>
 </head>
 <body>
-<div th:replace="/fragments/header.html :: fragment-adminHeader"></div>
-
 <div id="wrap">
   <div th:replace="/fragments/nav.html :: fragment-adminNav"></div>
-
-  <div class="content" style="width:100%">
-    <a href="">나의 Q&A</a>  | <a href="">상품문의</a>
-    <div class="bodyForm">
+  <div id="contentWrap" style="width:100%">
+    <div class="contentHeader" style="width:100%">
+      <div>통합문의관리</div>
       <div>
+        <a type="button" class="btn btn-secondary">로그아웃</a>
+      </div>
+    </div>
+
+
+      <div class="content" style="width:100%">
+        <div class="contentWrap">
         <form action="/admin/qna/list" method="Get">
-        <table border="1" id="tableOne">
+          <table class="table table-bordered" >
           <tr>
-            <td class="left">게시판별 보기</td>
-            <td class="right">
-              <a href="/admin/qna/list?page=0" class="btn btn-outline-primary">전체</a>
-              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=상품문의&page=0" class="btn btn-outline-primary">상품문의</a>
-              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=배송문의&page=0" class="btn btn-outline-primary">배송문의</a>
-              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=교환문의&page=0" class="btn btn-outline-primary">교환문의</a>
-              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=반품문의&page=0" class="btn btn-outline-primary">반품문의</a>
-              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=환불문의&page=0" class="btn btn-outline-primary">환불문의</a>
-              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=기타문의&page=0" class="btn btn-outline-primary">기타문의</a>
+            <th style="text-align: center;" class="table-light">문의 유형</th>
+            <td >
+              <a href="/admin/qna/list?page=0" class="btn btn-outline-secondary">전체</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=상품문의&page=0" class="btn btn-outline-secondary">상품문의</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=배송문의&page=0" class="btn btn-outline-secondary">배송문의</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=교환문의&page=0" class="btn btn-outline-secondary">교환문의</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=반품문의&page=0" class="btn btn-outline-secondary">반품문의</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=환불문의&page=0" class="btn btn-outline-secondary">환불문의</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=기타문의&page=0" class="btn btn-outline-secondary">기타문의</a>
             </td>
           </tr>
           <tr>
-            <td class="left">등록일</td>
-            <td class="right">
-              <input type="date" name="dateStart"/> ~
-              <input type="date" name="dateEnd"/>
+            <th style="text-align: center;" class="table-light">기간</th>
+            <td >
+              <input class="btn btn-outline-secondary" type="date" name="dateStart"/> ~
+              <input class="btn btn-outline-secondary" type="date" name="dateEnd"/>
               <a href="/admin/qna/list?dateStart=today&dateEnd=&keywordType=type&keyword=&page=0" class="btn btn-outline-secondary">오늘</a>
               <a href="/admin/qna/list?dateStart=yesterday&dateEnd=&keywordType=type&keyword=&page=0" class="btn btn-outline-secondary">어제</a>
               <a href="/admin/qna/list?dateStart=week&dateEnd=&keywordType=type&keyword=&page=0" class="btn btn-outline-secondary">1주일</a>
@@ -160,58 +162,62 @@
             </td>
           </tr>
           <tr>
-
-            <td class="left">키워드 검색</td>
-            <td class="right">
-              <select name="keywordType" id="keyword">
+            <th style="text-align: center;" class="pt-4 table-light">검색조건</th>
+            <td class="pt-3">
+              <div class="input-group mb-3 ">
+              <select name="keywordType" style="padding-left: 10px">
                 <option value="title">제목</option>
                 <option value="writer">작성자</option>
+                <input name="keyword" class="form-control">
+                <button type="submit" class="btn btn-secondary">검색</button>
               </select>
-              <input type="text" id="keywordinput" name="keyword"/>
-              <button type="submit">검색하기</button>
+              </div>
             </td>
           </tr>
         </table>
         </form>
+        </div>
+
+
 <!--        <input type="button" value="선택삭제">-->
-        <input type="button" id="select" onclick="deleteValue();" value="선택삭제">
-        <table id="tableTwo">
-          <tr id="th">
-            <td id="check">
-<!--              // 하나씩-->
-              <input type="checkbox" id="cboxAll" name="cboxAll" onclick="checkAll();"/>
-            </td>
-            <td>글번호</td>
-            <td>문의유형</td>
-            <td id="title">글제목</td>
-            <td id="writer">작성자</td>
-            <td id="createdate">작성일</td>
-            <td id="hit">조회수</td>
-            <td id="delete">삭제</td>
+
+      <div class="contentWrap">
+        <div class="count">
+          <div class="listCount" >
+            <span>전체 문의 내역 : </span>
+            <strong th:text="${ listCount }">5</strong>
+          </div>
+        </div>
+    <table class="table table-bordered table-hover" style="text-align: center;">
+      <thead class="thead-strong">
+          <tr >
+            <th class="table-light">번호</th>
+            <th class="table-light">문의유형</th>
+            <th class="table-light">글제목</th>
+            <th class="table-light">작성자</th>
+            <th class="table-light">조회수</th>
+            <th class="table-light">작성일</th>
+            <th class="table-light">관리</th>
           </tr>
+      </thead>
           <tr th:each="qna:${qnalist}" >
-            <td>
-              <input type="checkbox" name="cbox" th:value="${ qna.qnaId }"/>
-            </td>
             <td th:text="${ qna.qnaId }"></td>
 <!--            <td >번호</td>-->
-            <td th:text="${ qna.qnaCategory }" id="gul"></td>
+            <td th:text="${ qna.qnaCategory }"></td>
             <td>
-             <a th:href="@{content/{id}(id=${qna.qnaId})}"
-                th:text="${ qna.qnaTitle }">글제목</a>
+             <a th:text="${ qna.qnaTitle }">글제목</a>
             </td>
             <td th:text="${ qna.qnaName }">작성자</td>
-            <td th:text="${ #temporals.format(qna.qnaDate, 'yyyy-MM-dd HH:mm')}">작성일</td>
             <td th:text="${ qna.qnaHit}">조회수</td>
+            <td th:text="${ #temporals.format(qna.qnaDate, 'yyyy-MM-dd HH:mm')}">작성일</td>
             <td>
-              <button>
-                <a th:href="@{/admin/qna/delete/{id}(id=${qna.qnaId})}">삭제</a>
-                </button>
+              <a th:href="@{content/{id}(id=${qna.qnaId})}" class="btn btn-outline-secondary">상세정보</a>
             </td>
           </tr>
         </table>
       </div>
-    </div>
+
+
 
     <div class="container"> <!-- 페이지 시작 -->
       <div th:if="${!qnalist.isEmpty()}">
@@ -257,6 +263,8 @@
 
 
   <!--  컨텐츠 끝-->
+  </div>
+  </div>
 </div>
 
 <!-- wrap -->

@@ -5,6 +5,7 @@ import com.study.springboot.dto.qna.QnaCommentResponseDto;
 import com.study.springboot.dto.qna.QnaCommentSaveDto;
 import com.study.springboot.dto.qna.QnaSaveDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
+import com.study.springboot.repository.QnaRepository;
 import com.study.springboot.service.QnaCommentService;
 import com.study.springboot.service.QnaService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class Controller4 {
 
     private final QnaService qnaService;
     private final QnaCommentService qnaCommentService;
+    private final QnaRepository qnaRepository;
 
     @GetMapping("/")
     public String qnaHome(){
@@ -65,6 +67,9 @@ public class Controller4 {
         model.addAttribute("keyword", keyword);
         model.addAttribute("qnalist", list);
         model.addAttribute("pageList", pageList);
+
+        long listCount = qnaRepository.count();
+        model.addAttribute("listCount", listCount);
         return "/admin/qna/list";
     }
     //    글작성

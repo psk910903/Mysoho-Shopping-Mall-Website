@@ -10,26 +10,34 @@
         margin: 0;
         padding: 0;
       }
-      body {
-      }
-      .header {
+      .contentHeader {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         height: 60px;
         padding: 0 25px;
-        background-color: #333;
-        color: white;
-        border-bottom: 1px solid #949ca6;
+        background-color: white;
+        border: 1px solid #dee2e6;
+        font-size: 25px;
+        font-weight: bold;
+      }
+      .navHeader{
+      align-items: center;
+      height: 60px;
+      padding: 0 10px;
+      border-bottom: 1px solid #dee2e6;
+      color: white;
+      font-size: 25px;
+      margin-bottom: 20px
       }
       #wrap {
         display: flex;
-        min-height: 830px;
+        min-height: 940px;
+        background-color: #f8f9fa ;
       }
       .admin-navBar {
-        flex-grow : 1
-        height: 100%;
-        width: 200px;
-        padding: 25px;
+        min-width: 200px;
+        padding: 0;
         background-color: #333;
 
       }
@@ -38,183 +46,179 @@
       }
 
       .admin-navBar a {
+        margin: 0 15px;
         text-decoration: none;
         padding: 15px 0;
         width: 100%;
         border-bottom: 1px solid #949ca6;
         color: white;
       }
-
+      .admin-navBar a:hover {
+      font-weight: bold;
+      color: white;
+      font-size: 18px;
+      }
       .head-title {
         display: flex;
         align-items: center;
-      }
-      .logout-btn {
-        margin-right: 50px;
-        padding: 10px 20px;
-        font-weight: bold;
-        font-size: 18px;
       }
       .content {
         padding: 20px;
         width: 100%;
       }
-      img{
-      max-height: 70px;
+      .count {
+        display: flex;
+        justify-content: space-between;
+        padding : 5px 20px;
       }
-      <!--   레이아웃 -->
-    table,
-    th,
-    td {
-      border-collapse: collapse;
-    }
+      .listCount{
+         display: flex;
+         align-items: flex-end;
+      }
+      .productImg{
+        max-height: 70px;
+      }
+           .page-link {
+          color: #000;
+          background-color: #fff;
+          border: 1px solid #ccc;
+          }
 
-    #tableOne {
-      margin: 3% auto;
-      width: 80%;
-    }
-    .left {
-      background-color: lightgray;
-    }
-    textarea {
-      resize: none;
-      overflow: auto;
-    }
-    .btndiv {
-      width: 100%;
-    }
-    #tableOne {
-      border-bottom: 5px solid black;
-      width: 80%;
-    }
-    #inputForm {
-      margin-top: -20px;
-      border: 1px solid black;
-      margin-left: 20%;
-      width: 900px;
-      height: 300px;
-      text-align: center;
-    }
-    #writer {
-      margin: 0 auto;
-      width: 80%;
-    }
-    #writeinput {
-      width: 100%;
-    }
-    #answer {
-      width: 80%;
-      margin: 0 auto;
-    }
-    #answerarea {
-      width: 100%;
-      height: 100px;
-    }
-    #dap {
-      width: 80%;
-    }
-    #tableTwo {
-      margin:10px auto;
-      width: 80%;
-    }
-    #div2 {
-      margin-left: 50px;
-    }
-    #td2 {
-      width: 80%;
-    }
-    #td3 {
-      width: 15%;
-      border-left: none;
-    }
-    a {
-      text-decoration: none;
-      color: black;
-    }
+        .page-item.active .page-link {
+         z-index: 1;
+         color: #555;
+         font-weight:bold;
+         background-color: #fff;
+         border-color: #ccc;
+
+        }
+
+        .page-link:focus, .page-link:hover {
+          color: #000;
+          background-color: #fafafa;
+          border-color: #ccc;
+        }
+        select{
+            border: 1px solid #dee2e6;
+        }
+        .contentWrap{
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+        }
+        .contentHeader{
+         background-color: white;
+        }
+        .sub-title{
+        font-weight: bold;
+        font-size: 18px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        }
+        .w40{
+        width: 200px;
+        }
     </style>
 </head>
-<div th:replace="/fragments/header.html :: fragment-adminHeader"></div>
-
-<div id="wrap" th:each="qna:${qna}">
+<body>
+<div id="wrap" >
   <div th:replace="/fragments/nav.html :: fragment-adminNav"></div>
+  <div id="contentWrap" style="width:100%">
+    <div class="contentHeader" style="width:100%">
+      <div>전체 문의 관리</div>
+      <div>
+        <a type="button" class="btn btn-secondary">로그아웃</a>
+      </div>
+    </div>
   <div class="content" style="width:100%">
-    <div class="body">
-      <table border="1" id="tableOne" >
+
+    <div th:each="qna:${qna}">
+      <div class="contentWrap">
+        <h3 class="sub-title"> 문의</h3>
+      <table class="table table-bordered" >
         <tr>
-          <td class="left">문의유형</td>
-          <td th:text="${qna.qnaCategory}">기타문의</td>
-        </tr>
-        <tr>
-          <td class="left">작성자</td>
-          <td th:text="${qna.qnaName}">김진사</td>
-        </tr>
-        <tr>
-          <td class="left">작성날짜</td>
-          <td th:text="${qna.qnaDate}">2023-02-06 20:21</td>
-        </tr>
-        <tr>
-          <td class="left">제목</td>
+          <th style="text-align: center;" class="w40 table-light">제목</th>
           <td th:text="${qna.qnaTitle}">기타문의입니다.</td>
         </tr>
         <tr>
-          <td class="left">문의내용</td>
+          <th style="text-align: center;" class="w40 table-light">작성자</th>
+          <td th:text="${qna.qnaName}">김진사</td>
+        </tr>
+        <tr>
+          <th style="text-align: center;" class="w40 table-light">문의유형</th>
+          <td th:text="${qna.qnaCategory}">기타문의</td>
+        </tr>
+        <tr>
+          <th style="text-align: center;" class="w40 table-light">작성일자</th>
+          <td th:text="${#temporals.format(qna.qnaDate, 'yyyy-MM-dd HH:mm')}">작성일</td>
+        </tr>
+
+        <tr>
+          <th style="text-align: center;" class="w40 table-light">문의내용</th>
           <td>
-            <textarea cols="150" rows="5" style="border: none" th:text="${qna.qnaContent}">
+            <textarea th:text="${qna.qnaContent}" class="form-control" style="height: 100px">
               기타문의입니다 기타문의입니다 기타문의입니다 기타문의입니다
             </textarea>
           </td>
         </tr>
+      </table>
+      <td>
+
+      </td>
+      </div>
+      <div class="contentWrap" th:each="comment:${ comment }">
+        <h3 class="sub-title"> 답변</h3>
+      <table class="table table-bordered" >
         <tr>
-          <td></td>
-          <td>
-            <button>
-              <a href="/admin/qna/list">리스트</a>
-              </button>
-            <button>
-              <a th:href="@{/admin/qna/delete/{id}(id=${qna.qnaId})}"> 삭제하기</a>
-            </button>
-          </td>
+          <th style="text-align: center;" class="w40 table-light">작성자</th>
+          <td th:text="${ comment.commentWriter}">관리자</td>
+        </tr>
+
+        <tr>
+          <th style="text-align: center;" class="w40 table-light" >답변내용</th>
+          <td th:text="${comment.commentContent}">답글입니다 답글입니다</td>
+        </tr>
+        <tr>
+          <th style="text-align: center;" class="w40 table-light" >작성일자</th>
+          <td th:text="${#temporals.format(comment.commentDate, 'yyyy-MM-dd HH:mm')}">답변일자</td>
         </tr>
       </table>
-      <form action="/admin/qna/comment/write" method="post"
-            name="userInfo" onsubmit="return checkValue();">
-      <div id="inputForm">
-        <div>
-          <h4>글쓴이</h4>
-          <div id="writer">
-            <input type="text" id="writeinput" name="commentWriter"/>
-          </div>
-        </div>
-        <h4>답변내용</h4>
-        <div id="answer">
-          <textarea name="commentContent" id="answerarea"></textarea>
-        </div>
-        <div>
-          <input th:value="${qna.qnaId}"
-                  type="hidden" name="commentQnaId" >
-          <button type="submit" id="dap">답글달기</button>
+        <div style="text-align: center">
+        <a th:href="@{/admin/qna/comment/delete/{id}(id=${comment.commentId})}" class="btn btn-danger">삭제</a>
         </div>
       </div>
+    </div>
+      <div class="contentWrap">
+        <div th:each="qna:${qna}">
+      <form action="/admin/qna/comment/write" method="post"
+            name="userInfo" onsubmit="return checkValue();">
+        <h3 class="sub-title"> 답변 등록</h3>
+        <table class="table table-bordered" >
+          <tr>
+            <th style="text-align: center;" class="w40 table-light">작성자</th>
+            <td >
+              <input type="text" id="writeinput" name="commentWriter" value="관리자" class="form-control" />
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w40 table-light">답변내용</th>
+            <td >
+              <textarea name="commentContent" class="form-control" style="height: 100px"></textarea>
+            </td>
+          </tr>
+        </table>
+        <div style="text-align: center">
+          <input th:value="${qna.qnaId}"
+                 type="hidden" name="commentQnaId" >
+          <button type="submit" id="dap" class="btn btn-danger">등록</button>
+          <a href="/admin/qna/list" class="btn btn-outline-secondary">목록</a>
+        </div>
       </form>
-<!--   th:each="comment:${comment}"   -->
-<!--  th:text="${comment.comment_writer}"    -->
-<!--     th:text="${comment.comment_content}" -->
-      <table id="tableTwo" border="1" th:each="comment:${ comment }">
-        <tr>
-        <td class="left" th:text="${ comment.commentWriter}">관리자</td>
-        <td id="td2" th:text="${comment.commentContent}">답글입니다 답글입니다</td>
-        <td id="td3"><button>
-<!--            <a th:href="@{/admin/qna/commentModify(id=${ comment.commentId },qnaId=${ qna.qnaId })}"><button class="btn btn-danger">삭제</button></a></td>-->
-            <a th:href="@{/admin/qna/comment/modify(id=${ comment.commentId },qnaId=${ qna.qnaId })}" >수정하기</a>
-
-                    </button>
-                    <button>
-                      <a th:href="@{/admin/qna/comment/delete/{id}(id=${comment.commentId})}">삭제하기</a>
-                    </button></td>
-        </tr>
-      </table>
+      </div>
     </div>
   </div>
+</div>
   <!--  컨텐츠 끝-->
 </div>
 

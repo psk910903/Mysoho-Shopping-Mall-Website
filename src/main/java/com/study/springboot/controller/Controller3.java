@@ -1,9 +1,11 @@
 package com.study.springboot.controller;
 
+import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.review.ReviewSaveResponseDto;
 import com.study.springboot.entity.ReviewEntity;
 import com.study.springboot.repository.ReviewRepository;
+import com.study.springboot.service.OrderService;
 import com.study.springboot.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -105,5 +107,20 @@ public class Controller3 {
     public String delete (@RequestParam("reviewNo") String reviewNo){
         reviewService.delete(reviewNo);
         return "redirect:/admin/review/list";
+    }
+
+
+    @ResponseBody
+    @RequestMapping("/status/modify")
+    public String reviewStatusModify(ReviewSaveResponseDto dto) {
+        Long reviewNo = dto.getReviewNo();
+        System.out.println("reviewNo = " + reviewNo);
+        String reviewExpo = dto.getReviewExpo();
+        System.out.println("reviewExpo = " + reviewExpo);
+        boolean result = reviewService.statusModify(dto.getReviewNo(), dto.getReviewExpo());
+        if (!result) {
+            return "<script>alert('노출상태 변경 실패');location.href='/admin/review/list/';</script>";
+        }
+        return "<script>alert('노출상태 변경 성공');location.href='/admin/review/list/';</script>";
     }
 }//class

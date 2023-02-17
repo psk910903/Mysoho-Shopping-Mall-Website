@@ -125,7 +125,7 @@
   <div th:replace="/fragments/nav.html :: fragment-adminNav"></div>
   <div id="contentWrap" style="width:100%">
     <div class="contentHeader" style="width:100%">
-      <div>상품 정보 수정</div>
+      <div>상품정보 등록</div>
       <div>
         <a type="button" class="btn btn-secondary">로그아웃</a>
       </div>
@@ -138,7 +138,7 @@
         <h3 class="sub-title"> 기본정보</h3>
         <table class="table table-bordered" >
           <tr>
-            <th style="text-align: center;" class="w40">상품분류</th>
+            <th style="text-align: center;" class="w40 table-light">상품분류</th>
             <td>
               <select name="itemCategory" class="form-select">
                 <option value="" selected="selected">대분류</option>
@@ -150,7 +150,7 @@
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40">상품명</th>
+            <th style="text-align: center;" class="w40 table-light">상품명</th>
             <td>
               <input name="itemName"  placeholder="상품명" class="form-control">
             </td>
@@ -175,19 +175,19 @@
         <h3 class="sub-title"> 상품정보</h3>
         <table class="table table-bordered" >
           <tr>
-            <th style="text-align: center;" class="w40">판매가</th>
+            <th style="text-align: center;" class="w40 table-light">판매가</th>
             <td>
               <input name="itemPrice"  placeholder="10000" class="form-control">
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40">색상</th>
+            <th style="text-align: center;" class="w40 table-light">색상</th>
             <td>
               <input name="itemOptionColor"  placeholder="color" class="form-control">
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40">사이즈</th>
+            <th style="text-align: center;" class="w40 table-light">사이즈</th>
             <td>
               <input name="itemOptionSize"  placeholder="S,M,L" class="form-control">
             </td>
@@ -199,7 +199,7 @@
         <h3 class="sub-title"> 할인쿠폰</h3>
         <table class="table table-bordered" >
           <tr>
-            <th style="text-align: center;" class="w40">할인율</th>
+            <th style="text-align: center;" class="w40 table-light">할인율</th>
             <td>
               <input name=""  placeholder="10" class="form-control">
               <input type="radio" checked />% 퍼센트
@@ -213,7 +213,7 @@
         <table class="table table-bordered" >
           <tr >
             <td >
-              <textarea class="textarea" id="editor" ></textarea>
+              <textarea class="textarea" id="editor" style="height:100px"></textarea>
               <input type="hidden" name="itemInfo" id="editorData" >
               <br>
             </td>

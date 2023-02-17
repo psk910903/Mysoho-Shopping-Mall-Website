@@ -12,8 +12,6 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor
 @Entity
-@AllArgsConstructor
-@Builder
 @Table(name = "review")
 public class ReviewEntity {
     @Id
@@ -31,12 +29,20 @@ public class ReviewEntity {
     @Column(name = "review_image_url")
     private String reviewImgUrl;
     @Column(name = "review_datetime")
-    @Builder.Default
-    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime reviewDatetime = LocalDateTime.now();
     @Column(name = "review_exposure" )
     private String reviewExpo;
 
-
+    @Builder
+    public ReviewEntity(Long reviewNo, String memberId, String itemNo, Byte reviewStar, String reviewContent, String reviewImgUrl, LocalDateTime reviewDatetime, String reviewExpo) {
+        this.reviewNo = reviewNo;
+        this.memberId = memberId;
+        this.itemNo = itemNo;
+        this.reviewStar = reviewStar;
+        this.reviewContent = reviewContent;
+        this.reviewImgUrl = reviewImgUrl;
+        this.reviewDatetime = reviewDatetime;
+        this.reviewExpo = reviewExpo;
+    }
 }
 

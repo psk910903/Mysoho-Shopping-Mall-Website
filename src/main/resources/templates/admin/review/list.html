@@ -173,36 +173,60 @@
       <div id="listForm" width="100%" >
           <div class="count">
               <div class="listCount">
-                  <span>전체 후기내역 : </span>
+                  <span>전체 리뷰내역 : </span>
                   <strong th:text="${ listCount }">5</strong>
               </div>
           </div>
-          <table class="table table-bordered"style="text-align: center;" >
-          <tr>
-            <th class="table-light"><input type="checkbox" id="allch"/></th>
-            <th class="table-light">상품번호</td>
-            <th class="table-light">상품명</th>
-            <th class="table-light">상품사진</th>
-            <th class="table-light">표시여부</th>
-            <th class="table-light">아이디</th>
-            <th class="table-light">내용</th>
-            <th class="table-light">별점</th>
-            <th class="table-light">작성일</th>
-            <th class="table-light">관리</th>
-          </tr>
-          <tr th:each="review, status:${ list }" >
-            <td ><input type="checkbox" name="RowCheck" th:value="${ review.reviewNo }"/></td>
-            <td th:text="${ review.itemNo }"> 상품번호</td>
-            <td>상품명</td>
-            <td><img class="productImg" th:src="${ review.reviewImgUrl }"/></td>
-            <td th:text="${ review.reviewExpo }">표시여부</td>
-            <td th:text="${ review.memberId }">아이디</td>
-            <td th:text="${ review.reviewContent }">내용</td>
-            <td th:text="${ review.reviewStar }">별점</td>
-            <td th:text="${ review.reviewDatetime }">날짜</td>
-            <td><a class="btn btn-outline-secondary" th:href="@{/admin/review/modify(reviewNo=${ review.reviewNo })}">수정</a> </td>
-          </tr>
-        </table>
+
+          <table class="table table-bordered table-hover"style="text-align: center;" >
+              <thead class="thead-strong">
+                  <tr>
+                    <th class="table-light"><input type="checkbox" id="allch"/></th>
+                    <th class="table-light">상품번호</td>
+                    <th class="table-light">상품명</th>
+                    <th class="table-light">상품사진</th>
+                    <th class="table-light">아이디</th>
+                    <th class="table-light">내용</th>
+                    <th class="table-light">별점</th>
+                    <th class="table-light">작성일</th>
+                    <th class="table-light">노출여부</th>
+                    <th class="table-light">관리</th>
+                  </tr>
+              </thead>
+              <tbody id="tbody">
+                  <tr th:each="review, status:${ list }" >
+                      <form action="/admin/review/status/modify" method="post">
+                      <td ><input type="checkbox" name="RowCheck" th:value="${ review.reviewNo }" /></td>
+
+                      <td th:text="${ review.itemNo }"> 상품번호</td>
+                      <td>상품명</td>
+                      <td><img class="productImg" th:src="${ review.reviewImgUrl }"/></td>
+                      <td th:text="${ review.memberId }">아이디</td>
+                      <td th:text="${ review.reviewContent }">내용</td>
+                      <td th:text="${ review.reviewStar }">별점</td>
+                      <td th:text="${#temporals.format(review.reviewDatetime, 'yyyy-MM-dd HH:mm')}">날짜</td>
+                      <td >
+                          <select name="reviewExpo" class="form-select">
+                              <option selected="selected" th:text="${ review.reviewExpo }" th:value="${ review.reviewExpo }" value="">노출함</option>
+                              <option value="노출함">노출함</option>
+                              <option value="노출안함">노출안함</option>
+                          </select>
+                      </td>
+                    <td>
+                        <input type="hidden" name="reviewNo" th:value="${ review.reviewNo }"/>
+                        <input type="hidden" name="memberId" th:value="${ review.memberId }"/>
+                        <input type="hidden" name="itemNo" th:value="${ review.itemNo }"/>
+                        <input type="hidden" name="reviewStar" th:value="${ review.reviewStar }"/>
+                        <input type="hidden" name="reviewContent" th:value="${ review.reviewContent }"/>
+                        <input type="hidden" name="reviewImgUrl" th:value="${ review.reviewImgUrl }"/>
+                        <button type="submit" class="btn btn-outline-danger" > 노출상태 변경</button>
+                    </td>
+                      </form>
+                  </tr>
+              </tbody>
+            </table>
+
+
       </div>
             <div style="text-align: right">
                 <input class="btn btn-danger" type="button" onclick="deleteValue();" value="선택삭제"/>
@@ -303,23 +327,6 @@ if($('#allch').prop("checked")){
             }
         });
     }
-</script>
-<script>
-     //선택 조회하기
-      function updateValue() {
-      console.log("시작");
-        var reviewNo = "";
-        $("input[name='RowCheck']:checked").each(function () {
-          reviewNo = reviewNo + $(this).val() + ",";
-        });
-        console.log(reviewNo);
-        if (reviewNo == "") {
-          alert("조회할 대상을 선택하세요.");
-          return false;
-        }
-        console.log("통신시작");
-        location.href = '/admin/review/update?reviewNo='+reviewNo;
-      }
 </script>
 </body>
 

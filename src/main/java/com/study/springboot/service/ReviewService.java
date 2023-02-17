@@ -1,6 +1,7 @@
 package com.study.springboot.service;
 
 
+import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.review.ReviewSaveResponseDto;
 import com.study.springboot.entity.ReviewEntity;
@@ -180,6 +181,20 @@ public class ReviewService {
             Optional<ReviewEntity> optional = reviewRepository.findById(  (long) Integer.parseInt(arrIdx[i])  );
             reviewRepository.delete(optional.get());
         }
+    }
+
+    @Transactional
+    public boolean statusModify(Long id, String reviewState) {
+        try {
+            ReviewEntity entity = findById(id);
+            ReviewResponseDto dto = new ReviewResponseDto(entity);
+            dto.setReviewExpo(reviewState);
+            reviewRepository.save(dto.toEntity());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
 }//class
