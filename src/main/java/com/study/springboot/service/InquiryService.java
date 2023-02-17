@@ -1,11 +1,8 @@
 package com.study.springboot.service;
 
-
 import com.study.springboot.dto.inquiry.InquiryResponseDto;
-import com.study.springboot.dto.review.ReviewResponseDto;
-import com.study.springboot.dto.review.ReviewSaveResponseDto;
-import com.study.springboot.entity.review.ReviewEntity;
-import com.study.springboot.repository.ReviewRepository;
+import com.study.springboot.entity.inquiry.InquiryEntity;
+import com.study.springboot.repository.InquiryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,43 +10,32 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ReviewService {
-    private final ReviewRepository reviewRepository;
-
-
-//   기본 출력
-   @Transactional(readOnly = true)
-        public List<ReviewResponseDto> findAll(){
-        Sort sort = Sort.by(Sort.Direction.DESC,"reviewNo");
-        List<ReviewEntity> list = reviewRepository.findAll(sort);
-        return list.stream().map(ReviewResponseDto::new).collect(Collectors.toList());
-    }
-
-    //리스트만 사용
+public class InquiryService {
+    private final InquiryRepository inquiryRepository;
     @Transactional(readOnly = true)
-    public Page<ReviewResponseDto> getPage(int page){
+    public Page<InquiryResponseDto> getPage(int page){
         List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("reviewNo"));
+        sorts.add(Sort.Order.desc("inquiryNo"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-        Page<ReviewEntity> list = reviewRepository.findAll(pageable);
-
-        return list.map(ReviewResponseDto::new);
+        Page<InquiryEntity> list = inquiryRepository.findAll(pageable);
+        return list.map(InquiryResponseDto::new);
     }
-
     @Transactional(readOnly = true)
-    public Page<ReviewResponseDto> findByDate(String start, String end, int page) throws ParseException {
+    public Page<InquiryResponseDto> findByDate(String start, String end, int page) throws ParseException {
         //기간 검색
-        Page<ReviewEntity> list;
+        Page<InquiryEntity> list;
         Pageable pageable = PageRequest.of(page, 10);
 
         //문자열을 날짜형식으로 변환
@@ -75,10 +61,11 @@ public class ReviewService {
         String dateStartStr = df1.format(cal1.getTime())+" 00:00:00";
         String dateEndStr = df2.format(cal2.getTime())+" 00:00:00";
 
-        list = reviewRepository.findByReviewNoContaining(dateStartStr, dateEndStr, pageable);
-        return list.map(ReviewResponseDto::new);
+        list = inquiryRepository.findByReviewNoContaining(dateStartStr, dateEndStr, pageable);
+
+        return list.map(InquiryResponseDto::new);
     }
-    public Page<ReviewResponseDto> findByDate(String mode, int page) throws ParseException {
+    public Page<InquiryResponseDto> findByDate(String mode, int page) throws ParseException {
         //오늘, 어제, 1주일, 1개월 검색
         //오늘날짜로 date객체 2개 생성 (~부터 ~까지로 검색에 사용목적)
         Date tempDateStart = new Date();
@@ -110,21 +97,22 @@ public class ReviewService {
         return findByDate(dateStartStr, dateEndStr, page);
     }
 
-
     @Transactional(readOnly = true)
-    public Page<ReviewResponseDto> findByKeyword(String findBy, String keyword, int page){
-        Page<ReviewEntity> list;
+    public Page<InquiryResponseDto> findByKeyword(String findBy, String keyword, int page){
+        Page<InquiryEntity> list;
         List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("reviewNo"));
+        sorts.add(Sort.Order.desc("inquiryNo"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));//검색조건에 맞는 페이지 최신순으로 검색
         System.out.println(findBy);
         if(findBy.contains("memberId")){
-            list =  reviewRepository.findByMemberIdContaining(keyword, pageable);
+            list =  inquiryRepository.findByMemberIdContaining(keyword, pageable);
         }
-        else {
-            list = reviewRepository.findByItemNoContaining(keyword, pageable);
+        else if (findBy.contains("inquiryTitle")) {
+            list = inquiryRepository.findByInquiryTitleContaining(keyword, pageable);
+        }else {
+            list = inquiryRepository.findByInquiryContentContaining(keyword, pageable);
         }
-        return  list.map(ReviewResponseDto::new);
+        return  list.map(InquiryResponseDto::new);
     }
 
     public List<Integer> getPageList(final int totalPage, final int page) {
@@ -152,36 +140,11 @@ public class ReviewService {
 
         return pageList;
     }
-
-    public void save(ReviewSaveResponseDto dto){
-           ReviewEntity entity = dto.toSaveEntity();
-           reviewRepository.save(entity);
-    }
-
-    @Transactional
-    public ReviewEntity findById (final Long reviewNo){
-        Optional<ReviewEntity> optional = reviewRepository.findById(reviewNo);
-        ReviewEntity entity = optional.get();
-        return entity;
-    }
-
-    public boolean update(ReviewSaveResponseDto reviewSaveResponseDto){
-        try {
-            ReviewEntity entity = reviewSaveResponseDto.toUpdateEntity();
-            reviewRepository.save(entity);
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-    @Transactional
-    public void delete (final String reviewNo){
-        String[] arrIdx = reviewNo.split(",");
-        for (int i=0; i<arrIdx.length; i++) {
-            Optional<ReviewEntity> optional = reviewRepository.findById(  (long) Integer.parseInt(arrIdx[i])  );
-            reviewRepository.delete(optional.get());
-        }
+    @Transactional(readOnly = true)
+    public InquiryResponseDto findById(Long inquiryNo){
+        InquiryEntity entity = inquiryRepository.findById(inquiryNo)
+                .orElseThrow( () -> new IllegalArgumentException("해당 사용자가 없습니다. board_idx="+inquiryNo));
+        return new InquiryResponseDto(entity);
     }
 
 }//class

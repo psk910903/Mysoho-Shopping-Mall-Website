@@ -44,12 +44,12 @@ public class Controller3 {
                             @RequestParam(value = "keyword", required = false ) String keyword,
                             @RequestParam(value = "findBy", required = false ) String findBy) throws ParseException {
 
-        Page<ReviewResponseDto> list = null;
+        Page<ReviewResponseDto> list ;
         int totalPage;
         List<Integer> pageList;
         if ((findBy == null) && (keyword == null) && (dateStart == null) && (dateEnd == null)) {
             //페이징된 리스트 가져오기
-            list = reviewService.getPageList(page);
+            list = reviewService.getPage(page);
         }else {
             if((!dateStart.equals("")) && (dateEnd.equals(""))){//dateStart 값만 있을때
                 list = reviewService.findByDate(dateStart, page);
@@ -74,7 +74,6 @@ public class Controller3 {
 
         return "/admin/review/reviewList";
     }
-
 
     //글쓰기
     @RequestMapping("write")
@@ -106,6 +105,43 @@ public class Controller3 {
             return "<script>alert('수정 실패');history.back();</script>";
         }return "<script>alert('수정 성공');location.href='/admin/review/list';</script>";
     }
+
+//    //다건조회
+//    @RequestMapping("/update")
+//    public String update (@RequestParam("reviewNo") String reviewNo,
+//                          Model model){
+//
+//        System.out.println(reviewNo);
+//        List <ReviewEntity> entity = new ArrayList<>();
+//        String[] arrIdx = reviewNo.split(",");
+//        //entity자료형
+//        for (int i=0; i<arrIdx.length; i++) {
+//            //수정할 목록 찾아서 목록 만듬
+//            System.out.println(arrIdx[i]);
+//            Optional<ReviewEntity> optional = reviewRepository.findById((long)Integer.parseInt(arrIdx[i]));
+//            entity.add(optional.get());
+//        }
+//        //dto자료형으로 변환
+//        List<ReviewResponseDto> list = new ArrayList<>();
+//        for (ReviewEntity enti : entity) {
+//            list.add(new ReviewResponseDto(enti));
+//        }
+//
+//        model.addAttribute("list",list);
+//       // model.addAttribute("listcount",list.size());
+//
+//        return "/admin/review/update";
+//    }
+    //다건 수정
+//    @RequestMapping("updateAction")
+//    @ResponseBody
+//    public String updateAction(ReviewSaveResponseDto reviewSaveResponseDto){
+//        boolean result = reviewService.update(reviewSaveResponseDto);
+//        if(!result){
+//            return "<script>alert('선택수정 실패');history.back();</script>";
+//        }return "<script>alert('선택수정 성공');location.href='/admin/review/list';</script>";
+//    }
+
 
     //삭제하기
     @RequestMapping("/delete")
