@@ -6,28 +6,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
   <style>
-      * {
+  * {
         margin: 0;
         padding: 0;
       }
-      body {
-      }
-      .header {
+      .contentHeader {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         height: 60px;
         padding: 0 25px;
-        background-color: #333;
-        color: white;
-        border-bottom: 1px solid #949ca6;
+        background-color: white;
+        border: 1px solid #dee2e6;
+        font-size: 25px;
+        font-weight: bold;
+      }
+      .navHeader{
+      align-items: center;
+      height: 60px;
+      padding: 0 10px;
+      border-bottom: 1px solid #dee2e6;
+      color: white;
+      font-size: 25px;
+      margin-bottom: 20px
       }
       #wrap {
         display: flex;
-        min-height: 830px;
+        min-height: 940px;
+        background-color: #f8f9fa ;
       }
       .admin-navBar {
-        width: 200px;
-        padding: 25px;
+        min-width: 200px;
+        padding: 0;
         background-color: #333;
 
       }
@@ -36,182 +46,226 @@
       }
 
       .admin-navBar a {
+        margin: 0 15px;
         text-decoration: none;
         padding: 15px 0;
         width: 100%;
         border-bottom: 1px solid #949ca6;
         color: white;
       }
-
+      .admin-navBar a:hover {
+      font-weight: bold;
+      color: white;
+      font-size: 18px;
+      }
       .head-title {
         display: flex;
         align-items: center;
-      }
-      .logout-btn {
-        margin-right: 50px;
-        padding: 10px 20px;
-        font-weight: bold;
-        font-size: 18px;
       }
       .content {
         padding: 20px;
         width: 100%;
       }
-      img{
-      max-height: 70px;
-      }
-
-      .countItem {
+      .count {
         display: flex;
         justify-content: space-between;
         padding : 5px 20px;
       }
-      textarea{
-      height : 200px;
-      width : 100%;
+      .listCount{
+         display: flex;
+         align-items: flex-end;
       }
-      .w40{
-      width : 200px;
+      .productImg{
+        max-height: 70px;
       }
+           .page-link {
+          color: #000;
+          background-color: #fff;
+          border: 1px solid #ccc;
+          }
+
+        .page-item.active .page-link {
+         z-index: 1;
+         color: #555;
+         font-weight:bold;
+         background-color: #fff;
+         border-color: #ccc;
+
+        }
+
+        .page-link:focus, .page-link:hover {
+          color: #000;
+          background-color: #fafafa;
+          border-color: #ccc;
+        }
+        select{
+            border: 1px solid #dee2e6;
+        }
+        .contentWrap{
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+        }
+        .contentHeader{
+         background-color: white;
+        }
+        .sub-title{
+        font-weight: bold;
+        font-size: 18px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        }
+        .w40{
+        width: 200px;
+        }
     </style>
 </head>
-<div th:replace="/fragments/header.html :: fragment-adminHeader"></div>
-
 <div id="wrap">
   <div th:replace="/fragments/nav.html :: fragment-adminNav"></div>
-
+  <div id="contentWrap" style="width:100%">
+    <div class="contentHeader" style="width:100%">
+      <div>주문 상세 정보</div>
+      <div>
+        <a type="button" class="btn btn-secondary">로그아웃</a>
+      </div>
+    </div>
   <div class="content" style="width:100%">
     <div style="width:100%" >
 
       <form action="/order/content/action" method="post">
+        <div class="contentWrap">
         <h3 class="sub-title"> 구매 상품 정보</h3>
-        <table class="table" >
+        <table class="table table-bordered" >
 
           <tr>
-            <th style="text-align: center;" class="w40">상품명</th>
+            <th style="text-align: center;" class="w40 table-light">상품명</th>
             <td>
-              <input th:value="${ cartDto.itemName }" name=""  placeholder="상품명" disabled>
+              <input th:value="${ cartDto.itemName }" name=""  placeholder="상품명" disabled class="form-control">
               <input th:value="${ cartDto.itemName }" name="itemName"  type="hidden" >
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40">색상</th>
+            <th style="text-align: center;" class="w40 table-light">색상</th>
             <td>
-              <input th:value="${ cartDto.itemOptionColor }" name=""  placeholder="색상" disabled>
+              <input th:value="${ cartDto.itemOptionColor }" name=""  placeholder="색상" disabled class="form-control">
               <input th:value="${ cartDto.itemOptionColor }" name="itemOptionColor"  type="hidden" >
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40">사이즈</th>
+            <th style="text-align: center;" class="w40 table-light">사이즈</th>
             <td>
-              <input th:value="${ cartDto.itemOptionSize }" name=""  placeholder="사이즈" disabled>
+              <input th:value="${ cartDto.itemOptionSize }" name=""  placeholder="사이즈" disabled class="form-control">
               <input th:value="${ cartDto.itemOptionSize }" name="itemOptionSize"  type="hidden" >
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40">수량</th>
+            <th style="text-align: center;" class="w40 table-light">수량</th>
             <td>
-              <input th:value="${ cartDto.cartItemAmount }" name=""  placeholder="수량" disabled>
+              <input th:value="${ cartDto.cartItemAmount }" name=""  placeholder="수량" disabled class="form-control">
               <input th:value="${ cartDto.cartItemAmount }" name="cartItemAmount"  type="hidden" >
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40" >결제금액</th>
+            <th style="text-align: center;" class="w40 table-light" >결제금액</th>
             <td>
-              <input th:value="${ dto.orderTotalPrice }"  name=""  placeholder="판매가" disabled>
+              <input th:value="${ dto.orderTotalPrice }"  name=""  placeholder="판매가" disabled class="form-control">
               <input th:value="${ dto.orderTotalPrice }" name="orderTotalPrice"  type="hidden" >
             </td>
           </tr>
-
-
-
         </table>
+        </div>
+
+        <div class="contentWrap">
         <h3 class="sub-title"> 주문자 / 수령자 정보</h3>
         <table class="table table-bordered" >
           <tr>
-            <th style="text-align: center;" class="w40">주문자명</th>
+            <th style="text-align: center;" class="w40 table-light">주문자명</th>
             <td>
-              <input th:value="${ dto.orderName }" name=""  placeholder="주문자명" disabled>
+              <input th:value="${ dto.orderName }" name=""  placeholder="주문자명" disabled class="form-control">
               <input th:value="${ dto.orderName }" name="orderName"  type="hidden" >
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40">주문자 연락처</th>
+            <th style="text-align: center;" class="w40 table-light">주문자 연락처</th>
             <td>
-              <input th:value="${ dto.orderPhone }" name=""  placeholder="주문자 연락처" disabled>
+              <input th:value="${ dto.orderPhone }" name=""  placeholder="주문자 연락처" disabled class="form-control">
               <input th:value="${ dto.orderPhone }" name="orderPhone"  type="hidden" >
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40">수령자명</th>
+            <th style="text-align: center;" class="w40 table-light">수령자명</th>
             <td>
-              <input th:value="${ dto.orderRecipientName }" name="orderRecipientName"  placeholder="수령자명" >
+              <input th:value="${ dto.orderRecipientName }" name="orderRecipientName"  placeholder="수령자명" class="form-control">
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40">수령자 연락처</th>
+            <th style="text-align: center;" class="w40 table-light">수령자 연락처</th>
             <td>
-              <input th:value="${ dto.orderRecipientPhone }" name="orderRecipientPhone"  placeholder="수령자 연락처">
+              <input th:value="${ dto.orderRecipientPhone }" name="orderRecipientPhone"  placeholder="수령자 연락처" class="form-control">
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40">수령자 우편번호</th>
+            <th style="text-align: center;" class="w40 table-light">수령자 우편번호</th>
             <td>
-              <input th:value="${ dto.orderRecipientAddrNumber }" name="orderRecipientAddrNumber"  placeholder="수령자 우편번호">
+              <input th:value="${ dto.orderRecipientAddrNumber }" name="orderRecipientAddrNumber"  placeholder="수령자 우편번호" class="form-control">
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40">수령자 기본주소</th>
+            <th style="text-align: center;" class="w40 table-light">수령자 기본주소</th>
             <td>
-              <input th:value="${ dto.orderRecipientAddr1 }" name="orderRecipientAddr1"  placeholder="수령자 기본주소">
+              <input th:value="${ dto.orderRecipientAddr1 }" name="orderRecipientAddr1"  placeholder="수령자 기본주소" class="form-control">
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40">수령자 나머지주소</th>
+            <th style="text-align: center;" class="w40 table-light">수령자 나머지주소</th>
             <td>
-              <input th:value="${ dto.orderRecipientAddr2 }" name="orderRecipientAddr2"  placeholder="수령자 나머지주소">
+              <input th:value="${ dto.orderRecipientAddr2 }" name="orderRecipientAddr2"  placeholder="수령자 나머지주소" class="form-control">
             </td>
           </tr>
-
         </table>
+        </div>
 
+        <div class="contentWrap">
         <table class="table  table-bordered" >
-          <h3 class="sub-title"> 적립금 / 할인쿠폰</h3>
+          <h3 class="sub-title">결제 정보</h3>
           <tr>
-            <th style="text-align: center;" class="w40">적립금</th>
+            <th style="text-align: center;" class="w40 table-light">적립금</th>
             <td>
-              <input th:value="${ dto.memberMileage }" name=""  placeholder="0" disabled>
+              <input th:value="${ dto.memberMileage }" name=""  placeholder="0" disabled class="form-control">
               <input th:value="${ dto.memberMileage }" name="memberMileage"  type="hidden" >
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40">쿠폰</th>
+            <th style="text-align: center;" class="w40 table-light">쿠폰</th>
             <td>
-              <input th:value="${ dto.memberCoupon }" name=""  placeholder="0" disabled>
+              <input th:value="${ dto.memberCoupon }" name=""  placeholder="0" disabled class="form-control">
               <input th:value="${ dto.memberCoupon }" name="memberCoupon"  type="hidden" >
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40">결제방식</th>
+            <th style="text-align: center;" class="w40 table-light">결제방식</th>
             <td>
-              <input th:value="${ dto.orderPayType }" name=""  placeholder="0" disabled>
+              <input th:value="${ dto.orderPayType }" name=""  placeholder="0" disabled class="form-control">
               <input th:value="${ dto.orderPayType }" name="orderPayType"  type="hidden" >
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40">주문일시</th>
+            <th style="text-align: center;" class="w40 table-light">주문일시</th>
             <td>
-              <input th:value="${#temporals.format(dto.orderDatetime, 'yyyy-MM-dd HH:mm')}" name=""  placeholder="0" disabled>
+              <input th:value="${#temporals.format(dto.orderDatetime, 'yyyy-MM-dd HH:mm')}" name=""  placeholder="0" disabled class="form-control">
             </td>
           </tr>
         </table>
+        </div>
 
-        <table class="table table-striped table-bordered" >
+        <div class="contentWrap">
+        <table class="table table-bordered" >
           <h3 class="sub-title"> 주문상태</h3>
           <tr>
-            <th style="text-align: center;" class="w40">주문상태</th>
+            <th style="text-align: center;" class="w40 table-light">주문상태</th>
             <td>
-              <select name="orderState">
+              <select name="orderState" class="form-select">
                 <option value="" selected="selected" th:text="${ dto.orderState }" th:value="${ dto.orderState }">주문상태</option>
                 <option value="미입금/주문완료">미입금/주문완료</option>
                 <option value="배송대기">배송대기</option>
@@ -222,12 +276,13 @@
             </td>
           </tr>
         </table>
+        </div>
         <div style="text-align: center;">
           <input th:value="${ dto.orderNo }" name="orderNo" type="hidden">
           <input th:value="${ dto.cartCode1 }" name="cartCode1" type="hidden">
           <input th:value="${ dto.orderTotalCount }" name="orderTotalCount" type="hidden">
+          <button type="submit" class="btn btn-danger">수정</button>
           <a href="/admin/order/list?page=0" class="btn btn-outline-secondary">목록</a>
-          <button type="submit" class="btn btn-secondary">수정하기</button>
         </div>
       </form>
     </div>

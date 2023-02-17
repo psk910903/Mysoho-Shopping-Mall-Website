@@ -56,6 +56,7 @@
       .admin-navBar a:hover {
       font-weight: bold;
       color: white;
+      font-size: 18px;
       }
       .head-title {
         display: flex;
@@ -65,7 +66,7 @@
         padding: 20px;
         width: 100%;
       }
-      .countItem {
+      .count {
         display: flex;
         justify-content: space-between;
         padding : 5px 20px;
@@ -137,7 +138,7 @@
         <div class="contentWrap">
         <table class="table table-bordered" >
           <tr>
-            <th style="text-align: center;">상품분류</th>
+            <th style="text-align: center;" class="table-light">상품분류</th>
             <td>
               <select name="findByType1" class="form-select">
                 <option value="all" selected="selected">대분류</option>
@@ -149,16 +150,16 @@
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="pt-4">검색조건</th>
+            <th style="text-align: center;" class="pt-4 table-light">검색조건</th>
             <td class="pt-3">
               <div class="input-group mb-3 ">
-              <select name="findByType2">
-                <option value="all" selected="selected">전체보기</option>
+              <select name="findByType2" style="padding-left: 10px">
+                <option value="all" selected="selected">전체</option>
                 <option value="상품명" >상품명</option>
                 <option value="상품코드" >상품코드</option>
                 <option value="상품가격" >상품가격</option>
                 <input class="form-control" name="keyword">
-                <button class="btn btn-outline-secondary" type="submit">검색</button>
+                <button class="btn btn-secondary" type="submit">검색</button>
               </select>
               </div>
             </td>
@@ -168,23 +169,23 @@
         </div>
       </form>
       <div class="contentWrap">
-      <div class="countItem">
-        <div class="listCount">
+      <div class="count">
+        <div class="listCount" >
           <span>총 상품수 : </span>
           <strong th:text="${ listCount }">5</strong>
         </div>
         <a class="btn btn-secondary" href="/admin/product/registration">상품등록</a>
       </div>
 
-      <table  class="table table-bordered" style="text-align: center;" >
+      <table  class="table table-bordered table-hover" style="text-align: center;" >
         <thead class="thead-strong">
         <tr>
-          <td><input type="checkbox"></td>
-          <th>상품코드</th>
-          <th>이미지</th>
-          <th>상품명</th>
-          <th>가격</th>
-          <th>상세정보</th>
+          <td class="table-light"><input type="checkbox"></td>
+          <th class="table-light">상품코드</th>
+          <th class="table-light">이미지</th>
+          <th class="table-light">상품명</th>
+          <th class="table-light">가격</th>
+          <th class="table-light">상세정보</th>
         </tr>
         </thead>
         <tbody id="tbody">
@@ -205,7 +206,9 @@
         </tr>
         </tbody>
       </table>
-      <input class="btn btn-danger" type="button" onclick="deleteValue()"  value="선택삭제"/>
+        <div style="text-align: right">
+          <input class="btn btn-danger" type="button" onclick="deleteValue()"  value="선택삭제"/>
+        </div>
     </div>
     </div>
 

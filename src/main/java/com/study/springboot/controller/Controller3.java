@@ -65,7 +65,7 @@ public class Controller3 {
         long listCount = reviewRepository.count();
         model.addAttribute("listCount", listCount);
 
-        return "/admin/review/reviewList";
+        return "/admin/review/list";
     }
 
 
@@ -88,7 +88,7 @@ public class Controller3 {
         ReviewEntity review = reviewService.findById((long) reviewNo);
 
         model.addAttribute("review", review);
-        return "/admin/review/reviewModify";
+        return "/admin/review/modify";
     }
     //단건수정
     @RequestMapping("modifyAction")

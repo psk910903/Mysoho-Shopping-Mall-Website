@@ -252,9 +252,9 @@ public class Controller1 {
   public String orderStatusModify(OrderContentSaveRequestDto dto) {
     boolean result = orderService.statusModify(dto.getOrderNo(), dto.getOrderState());
     if (!result) {
-      return "<script>alert('주문상태 수정 실패');location.href='/admin/order/list/';</script>";
+      return "<script>alert('주문상태 변경 실패');location.href='/admin/order/list/';</script>";
     }
-    return "<script>alert('주문상태 수정 성공');location.href='/admin/order/list/';</script>";
+    return "<script>alert('주문상태 변경 성공');location.href='/admin/order/list/';</script>";
   }
 
   //단건 주문정보 수정

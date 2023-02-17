@@ -7,7 +7,7 @@
 
   <title>Document</title>
   <style>
-       * {
+  * {
         margin: 0;
         padding: 0;
       }
@@ -57,6 +57,7 @@
       .admin-navBar a:hover {
       font-weight: bold;
       color: white;
+      font-size: 18px;
       }
       .head-title {
         display: flex;
@@ -66,7 +67,7 @@
         padding: 20px;
         width: 100%;
       }
-      .countItem {
+      .count {
         display: flex;
         justify-content: space-between;
         padding : 5px 20px;
@@ -220,6 +221,7 @@
     <div style="text-align: center;">
           <input type="hidden" th:value="${ dto.itemNo }" name="itemNo"  placeholder="itemNo">
           <button onclick="function1()" type="submit" class="btn btn-danger">수정</button>
+          <a th:href="|/admin/product/|"><input class="btn btn-outline-secondary" type="button" value="목록" ></a>
     </div>
       </form>
     </div>

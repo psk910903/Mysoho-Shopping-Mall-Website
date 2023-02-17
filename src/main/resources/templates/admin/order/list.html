@@ -6,28 +6,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
   <style>
-      * {
+  * {
         margin: 0;
         padding: 0;
       }
-      body {
-      }
-      .header {
+      .contentHeader {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         height: 60px;
         padding: 0 25px;
-        background-color: #333;
-        color: white;
-        border-bottom: 1px solid #949ca6;
+        background-color: white;
+        border: 1px solid #dee2e6;
+        font-size: 25px;
+        font-weight: bold;
+      }
+      .navHeader{
+      align-items: center;
+      height: 60px;
+      padding: 0 10px;
+      border-bottom: 1px solid #dee2e6;
+      color: white;
+      font-size: 25px;
+      margin-bottom: 20px
       }
       #wrap {
         display: flex;
-        min-height: 830px;
+        min-height: 940px;
+        background-color: #f8f9fa ;
       }
       .admin-navBar {
-        width: 200px;
-        padding: 25px;
+        min-width: 200px;
+        padding: 0;
         background-color: #333;
 
       }
@@ -36,65 +46,113 @@
       }
 
       .admin-navBar a {
+        margin: 0 15px;
         text-decoration: none;
         padding: 15px 0;
         width: 100%;
         border-bottom: 1px solid #949ca6;
         color: white;
       }
-
+      .admin-navBar a:hover {
+      font-weight: bold;
+      color: white;
+      font-size: 18px;
+      }
       .head-title {
         display: flex;
         align-items: center;
-      }
-      .logout-btn {
-        margin-right: 50px;
-        padding: 10px 20px;
-        font-weight: bold;
-        font-size: 18px;
       }
       .content {
         padding: 20px;
         width: 100%;
       }
-      img{
-      max-height: 70px;
-      }
-      .countItem {
+      .count {
         display: flex;
         justify-content: space-between;
         padding : 5px 20px;
       }
+      .listCount{
+         display: flex;
+         align-items: flex-end;
+      }
+      .productImg{
+        max-height: 70px;
+      }
+           .page-link {
+          color: #000;
+          background-color: #fff;
+          border: 1px solid #ccc;
+          }
 
+        .page-item.active .page-link {
+         z-index: 1;
+         color: #555;
+         font-weight:bold;
+         background-color: #fff;
+         border-color: #ccc;
+
+        }
+
+        .page-link:focus, .page-link:hover {
+          color: #000;
+          background-color: #fafafa;
+          border-color: #ccc;
+        }
+        select{
+            border: 1px solid #dee2e6;
+        }
+        .contentWrap{
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+        }
+        .contentHeader{
+         background-color: white;
+        }
+        .sub-title{
+        font-weight: bold;
+        font-size: 18px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        }
+        .w40{
+        width: 200px;
+        }
     </style>
 </head>
-<div th:replace="/fragments/header.html :: fragment-adminHeader"></div>
-
 <div id="wrap">
   <div th:replace="/fragments/nav.html :: fragment-adminNav"></div>
+  <div id="contentWrap" style="width:100%">
+    <div class="contentHeader" style="width:100%">
+      <div>주문목록</div>
+      <div>
+        <a type="button" class="btn btn-secondary">로그아웃</a>
+      </div>
+    </div>
   <!--  컨텐츠 시작-->
   <div class="content" style="width:100%">
     <div style="width:100%" >
-      <h3 class="sub-title"> 주문목록</h3>
-<!-- http://localhost:8080/admin/order/list?dateStart=2023-02-07&dateEnd=2023-02-14&page=0&findBy=all&keyword= -->
-<!--      http://localhost:8080/admin/order/list?dateStart=&dateEnd=&findBy=type&keyword=미입금/주문완료&page=0 -->
+      <div class="contentWrap">
       <!-- 검색 시작 -->
-      <div class="mb-2"> <!-- 카테고리 시작 -->
-        <a href="/admin/order/list?page=0" class="btn btn-outline-secondary">전체보기</a>
-        <a href="/admin/order/list?dateStart=&dateEnd=&findBy=type&keyword=미입금/주문완료&page=0" class="btn btn-outline-secondary">미입금/주문완료</a>
-        <a href="/admin/order/list?dateStart=&dateEnd=&findBy=type&keyword=배송대기&page=0" class="btn btn-outline-secondary">배송대기</a>
-        <a href="/admin/order/list?dateStart=&dateEnd=&findBy=type&keyword=배송중&page=0" class="btn btn-outline-secondary">배송중</a>
-        <a href="/admin/order/list?dateStart=&dateEnd=&findBy=type&keyword=배송완료&page=0" class="btn btn-outline-secondary">배송완료</a>
-        <a href="/admin/order/list?dateStart=&dateEnd=&findBy=type&keyword=취소/반품/교환&page=0" class="btn btn-outline-secondary">취소/반품/교환</a>
-      </div> <!-- 카테고리 끝 -->
-
-        <table class="table table-striped table-bordered" >
-          <form  action="/admin/order/list" method="GET" class="row align-items-center" >
+      <form  action="/admin/order/list" method="GET" >
+        <table class="table table-bordered" >
           <tr>
-            <th style="text-align: center;">기간</th>
+            <th style="text-align: center;" class="table-light">주문상태</th>
             <td>
-              <input type="date" name="dateStart" value="" />~
-              <input type="date" name="dateEnd" value="" />
+              <a href="/admin/order/list?page=0" class="btn btn-outline-secondary">전체</a>
+              <a href="/admin/order/list?dateStart=&dateEnd=&findBy=type&keyword=미입금/주문완료&page=0" class="btn btn-outline-secondary">미입금/주문완료</a>
+              <a href="/admin/order/list?dateStart=&dateEnd=&findBy=type&keyword=배송대기&page=0" class="btn btn-outline-secondary">배송대기</a>
+              <a href="/admin/order/list?dateStart=&dateEnd=&findBy=type&keyword=배송중&page=0" class="btn btn-outline-secondary">배송중</a>
+              <a href="/admin/order/list?dateStart=&dateEnd=&findBy=type&keyword=배송완료&page=0" class="btn btn-outline-secondary">배송완료</a>
+              <a href="/admin/order/list?dateStart=&dateEnd=&findBy=type&keyword=취소/반품/교환&page=0" class="btn btn-outline-secondary">취소/반품/교환</a>
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="table-light">기간</th>
+            <td>
+              <input class="btn btn-outline-secondary" type="date" name="dateStart" value="" /> ~
+              <input class="btn btn-outline-secondary" type="date" name="dateEnd" value="" />
               <a href="/admin/order/list?dateStart=today&dateEnd=&findBy=type&keyword=&page=0" class="btn btn-outline-secondary">오늘</a>
               <a href="/admin/order/list?dateStart=yesterday&dateEnd=&findBy=type&keyword=&page=0" class="btn btn-outline-secondary">어제</a>
               <a href="/admin/order/list?dateStart=week&dateEnd=&findBy=type&keyword=&page=0" class="btn btn-outline-secondary">1주일</a>
@@ -102,25 +160,30 @@
             </td>
           </tr>
             <input type="hidden" name="page" value="0">
-            <th style="text-align: center;">검색조건</th>
-            <td>
-              <select name="findBy">
+            <th style="text-align: center;" class="pt-4 table-light">검색조건</th>
+            <td class="pt-3">
+              <div class="input-group mb-3 ">
+              <select name="findBy" style="padding-left: 10px">
                 <option value="all" selected="selected">전체</option>
                 <option value="orderName" >주문자명</option>
                 <option value="orderNo" >주문번호</option>
                 <option value="orderPhone" >전화번호</option>
+                <input name="keyword" class="form-control">
+                <button type="submit" class="btn btn-secondary">검색</button>
               </select>
-              <input name="keyword" >
-              <button type="submit" class="btn btn-secondary">검색</button>
+              </div>
             </td>
           </tr>
-          </form>
+
+
         </table>
+      </form>
+        </div>
 
       <!-- 검색 끝 -->
-
-      <div class="countItem">
-        <div>
+      <div class="contentWrap">
+      <div class="count">
+        <div class="listCount">
           <span>총 주문수 : </span>
           <strong th:text="${ listCount }">5</strong>
         </div>
@@ -128,18 +191,17 @@
       </div>
 
       <form action="/admin/order/status/modify" method="post">
-        <table class="table table-striped table-bordered" style="text-align: center;">
+        <table class="table table-bordered table-hover" style="text-align: center;">
           <thead class="thead-strong">
-
           <tr>
-            <td><input type="checkbox"></td>
-            <th>주문일</th>
-            <th>주문번호</th>
-            <th>주문자명</th>
-            <th>결제방법</th>
-            <th>결제금액</th>
-            <th>주문상태</th>
-            <th>기능</th>
+            <td class="table-light"><input type="checkbox"></td>
+            <th class="table-light">주문일</th>
+            <th class="table-light">주문번호</th>
+            <th class="table-light">주문자명</th>
+            <th class="table-light">결제방법</th>
+            <th class="table-light">결제금액</th>
+            <th class="table-light">주문상태</th>
+            <th class="table-light">상세정보</th>
           </tr>
           </thead>
           <tbody id="tbody">
@@ -154,7 +216,7 @@
             <td th:text="${ dto.orderPayType }">주문방법</td>
             <td th:text="${ dto.orderTotalPrice }">주문금액</td>
             <td>
-              <select name="orderState">
+              <select name="orderState" class="form-select">
                 <option selected="selected" th:text="${ dto.orderState }" th:value="${ dto.orderState }" value="">주문상태</option>
                 <option value="미입금/주문완료">미입금/주문완료</option>
                 <option value="배송대기">배송대기</option>
@@ -165,13 +227,14 @@
             </td>
             <td style="text-align: center;">
               <input th:value="${ dto.orderNo }" type="hidden" name="orderNo">
-              <button type="submit" class="btn btn-danger" > 적용</button>
-              <a th:href="|/admin/order/content?orderNo=${dto.orderNo}|" class="btn btn-secondary">상세보기</a>
+              <button type="submit" class="btn btn-outline-danger" > 주문상태 변경</button>
+              <a th:href="|/admin/order/content?orderNo=${dto.orderNo}|" class="btn btn-outline-secondary">수정</a>
             </td>
           </tr>
           </tbody>
         </table>
       </form>
+    </div>
     </div>
 
     <!-- 페이지 네비게이션 -->
@@ -219,6 +282,7 @@
 
 
   </div> <!-- content 끝 -->
+  </div>
   </div>
   <!--  컨텐츠 끝-->
 </div>

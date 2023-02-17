@@ -10,26 +10,34 @@
         margin: 0;
         padding: 0;
       }
-      body {
-      }
-      .header {
+      .contentHeader {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         height: 60px;
         padding: 0 25px;
-        background-color: #333;
-        color: white;
-        border-bottom: 1px solid #949ca6;
+        background-color: white;
+        border: 1px solid #dee2e6;
+        font-size: 25px;
+        font-weight: bold;
+      }
+      .navHeader{
+      align-items: center;
+      height: 60px;
+      padding: 0 10px;
+      border-bottom: 1px solid #dee2e6;
+      color: white;
+      font-size: 25px;
+      margin-bottom: 20px
       }
       #wrap {
         display: flex;
-        min-height: 830px;
+        min-height: 940px;
+        background-color: #f8f9fa ;
       }
       .admin-navBar {
-        flex-grow : 1
-        height: 100%;
-        width: 200px;
-        padding: 25px;
+        min-width: 200px;
+        padding: 0;
         background-color: #333;
 
       }
@@ -38,94 +46,138 @@
       }
 
       .admin-navBar a {
+        margin: 0 15px;
         text-decoration: none;
         padding: 15px 0;
         width: 100%;
         border-bottom: 1px solid #949ca6;
         color: white;
       }
-
+      .admin-navBar a:hover {
+      font-weight: bold;
+      color: white;
+      font-size: 18px;
+      }
       .head-title {
         display: flex;
         align-items: center;
-      }
-      .logout-btn {
-        margin-right: 50px;
-        padding: 10px 20px;
-        font-weight: bold;
-        font-size: 18px;
       }
       .content {
         padding: 20px;
         width: 100%;
       }
-      img{
-      max-height: 70px;
+      .count {
+        display: flex;
+        justify-content: space-between;
+        padding : 5px 20px;
       }
-      #search {
-       float:right;
-       margin-bottom: 20px;
+      .listCount{
+         display: flex;
+         align-items: flex-end;
       }
+      .productImg{
+        max-height: 70px;
+      }
+           .page-link {
+          color: #000;
+          background-color: #fff;
+          border: 1px solid #ccc;
+          }
 
+        .page-item.active .page-link {
+         z-index: 1;
+         color: #555;
+         font-weight:bold;
+         background-color: #fff;
+         border-color: #ccc;
+
+        }
+
+        .page-link:focus, .page-link:hover {
+          color: #000;
+          background-color: #fafafa;
+          border-color: #ccc;
+        }
+        select{
+            border: 1px solid #dee2e6;
+        }
+        .contentWrap{
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+        }
+        .contentHeader{
+         background-color: white;
+        }
+        .sub-title{
+        font-weight: bold;
+        font-size: 18px;
+        margin-left: 10px;
+        margin-bottom: 10px;
+        }
+        .w40{
+        width: 200px;
+        }
     </style>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 </head>
-<div th:replace="/fragments/header.html :: fragment-adminHeader"></div>
+
 
 <div id="wrap" >
     <div th:replace="/fragments/nav.html :: fragment-adminNav"></div>
 
     <form action="/admin/review/modifyAction" method="post" name="reviewInfo">
+        <div id="contentWrap" style="width:100%">
+            <div class="contentHeader" style="width:100%">
+                <div>주문목록</div>
+                <div>
+                    <a type="button" class="btn btn-secondary">로그아웃</a>
+                </div>
+            </div>
+        <div class="content" style="width:100%">
         <div id="listForm" width="100%" >
-            <table border="1">
-                <tr align="center">
+            <table class="table table-bordered"style="text-align: center;" >
+                <tr>
                     <td>리뷰번호</td>
+                    <td ><input type="text"  name="reviewNo" th:value="${review.reviewNo}" ></td>
+                </tr>
+                <tr>
                     <td>상품명</td>
+                    <td><input type="text" name="itemNo" id="itemNo" th:value="${review.itemNo}" /></td>
+                </tr>
+                <tr>
                     <td>상품이미지</td>
+                    <td><input type="text" name="reviewImgUrl" id="reviewImgUrl" th:value="${review.reviewImgUrl}" /></td>
+                </tr>
+                <tr>
                     <td>표시사항</td>
-                    <td>아이디</td>
-                    <td>내용</td>
-                    <td>별점</td>
-                    <td>수정</td>
-                    <td>삭제</td>
-                </tr>
-                <tr >
-                    <td >
-                        <input type="text"  name="reviewNo" th:value="${review.reviewNo}" >
-                    </td>
-                    <td >
-                        <input type="text" name="itemNo" id="itemNo" th:value="${review.itemNo}" />
-                    </td>
-                    <td >
-                        <input type="text" name="reviewImgUrl" id="reviewImgUrl" th:value="${review.reviewImgUrl}" />
-                    </td>
-                    <td >
+                    <td>
                         <select name="reviewExpo" required>
-                            <option  value="표시함" selected>표시함</option>
-                            <option value="표시안함" > 표시안함 </option>
-                        </select>
+                        <option  value="표시함" selected>표시함</option>
+                        <option value="표시안함" > 표시안함 </option>
+                    </select>
                     </td>
-                    <td >
-                        <input type="text" name="memberId" id="memberId" th:value="${review.memberId}" />
-                    </td>
-                    <td >
-                        <input type="text" name="reviewContent" id="reviewContent" th:value="${review.reviewContent}" />
-                    </td>
-                    <td >
-                        <input type="text" name="reviewStar" id="reviewStar" th:value="${review.reviewStar}" />
-                    </td>
-                    <!--        <td >-->
-                    <!--            <input type="date" name="reviewDatetime" id="reviewDatetime" th:value="${review.reviewDatetime}" readonly/>-->
-                    <!--        </td>-->
-                    <td><input type="submit" value="수정"/> </td>
-                    <td><a th:href="@{/admin/review/delete(reviewNo=${ review.reviewNo })}"><input type="button" value="삭제"/></a></td>
                 </tr>
-                <tr align="center">
-                    <td colspan="9">
-                        <a href="/admin/review/list"><input type="button" value="목록보기"></a>
-                    </td>
+                <tr>
+                    <td>아이디</td>
+                    <td><input type="text" name="memberId" id="memberId" th:value="${review.memberId}" /></td>
+                </tr>
+                <tr>
+                    <td>내용</td>
+                    <input type="text" name="reviewContent" id="reviewContent" th:value="${review.reviewContent}" /></td>
+                </tr>
+                <tr>
+                    <td>별점</td>
+                    <td><input type="text" name="reviewStar" id="reviewStar" th:value="${review.reviewStar}" /></td>
                 </tr>
             </table>
+            <a href="/admin/review/list"><input type="button" value="목록보기"></a>
+            <input type="submit" value="수정"/>
+            <a th:href="@{/admin/review/delete(reviewNo=${ review.reviewNo })}"><input type="button" value="삭제"/></a>
+        </div>
+        </div>
+        </div>
     </form>
 </div>
 </body>

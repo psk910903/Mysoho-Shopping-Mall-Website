@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
   <style>
-      * {
+  * {
         margin: 0;
         padding: 0;
       }
@@ -56,6 +56,7 @@
       .admin-navBar a:hover {
       font-weight: bold;
       color: white;
+      font-size: 18px;
       }
       .head-title {
         display: flex;
@@ -65,7 +66,7 @@
         padding: 20px;
         width: 100%;
       }
-      .countItem {
+      .count {
         display: flex;
         justify-content: space-between;
         padding : 5px 20px;
@@ -158,6 +159,19 @@
         </div>
 
         <div class="contentWrap">
+          <h3 class="sub-title"> 대표 이미지</h3>
+          <table class="table table-bordered" >
+            <tr >
+              <td >
+                <input type="file" name="uploadfile" multiple="multiple" required>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+
+
+        <div class="contentWrap">
         <h3 class="sub-title"> 상품정보</h3>
         <table class="table table-bordered" >
           <tr>
@@ -189,17 +203,6 @@
             <td>
               <input name=""  placeholder="10" class="form-control">
               <input type="radio" checked />% 퍼센트
-            </td>
-          </tr>
-        </table>
-        </div>
-
-        <div class="contentWrap">
-        <h3 class="sub-title"> 대표 이미지</h3>
-        <table class="table table-bordered" >
-          <tr >
-            <td >
-              <input type="file" name="uploadfile" multiple="multiple" required>
             </td>
           </tr>
         </table>
