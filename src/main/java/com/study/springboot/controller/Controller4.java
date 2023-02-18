@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.List;
 @RequiredArgsConstructor
 @Controller
@@ -92,6 +93,10 @@ public String content(@PathVariable("id") long id, Model model) {
 
     List<QnaCommentResponseDto> comment = qnaCommentService.findbyIdx(id);
 
+    if (comment.size() == 0) {
+        model.addAttribute("nullCheck", "null");
+    }
+
     model.addAttribute("comment",comment);
     model.addAttribute("qna", qnaService.findbyid(id));
 
@@ -118,11 +123,12 @@ public String delete(@PathVariable("id") Long id){
     @PostMapping("/comment/write")
     @ResponseBody
     public String commentWrite(QnaCommentSaveDto dto){
+        Long commentQnaId = dto.getCommentQnaId();
         boolean result = qnaCommentService.save(dto.toEntity());
         if(!result){
             return "<script>alert('답글달기 실패');history.back();</script>";
         }
-        return "<script>alert('답글달기 성공');location.href='/admin/qna/list';</script>";
+        return "<script>alert('답변수정 성공'); location.href='/admin/qna/content/" + commentQnaId + "'; </script>";
     }
 
     @GetMapping("/comment/delete/{id}")
@@ -135,30 +141,19 @@ public String delete(@PathVariable("id") Long id){
         return "<script>alert('답변이 삭제되었습니다.');location.href='/admin/qna/list';</script>";
     }
 
-    // 수정 입력폼가기
-    @GetMapping("/comment/modify")
-    public String commentModify(@RequestParam("id") long commentId,
-                              @RequestParam("qnaId") long qnaId,
-                              Model model){
-        List<QnaResponseDto> list = qnaService.findbyid(qnaId);
-        model.addAttribute("qna",list);
-        model.addAttribute("qnaAnswer",qnaCommentService.findbyid(commentId));
-        return "/admin/qna/modify";
-        //return "/admin/qna/test";
+    //수정
+    @PostMapping("/comment/modify")
+    @ResponseBody
+    public String commentModify(QnaCommentSaveDto dto){
+        Long commentQnaId = dto.getCommentQnaId();
+        boolean result = qnaCommentService.save(dto.toModifyEntity());
+        if(!result){
+            return "<script>alert('답변수정 실패');history.back();</script>";
+        }
+        return "<script>alert('답변수정 성공'); location.href='/admin/qna/content/" + commentQnaId + "'; </script>";
     }
-  @PostMapping("/answer/modify") //comment/modify/action
-  @ResponseBody
-    public String qnaAnswerModify(QnaCommentSaveDto dto){
-      boolean modify = qnaCommentService.modify(dto.toModifyEntity());
-//      dto.toModifyEntity()
-      if(!modify){
-          return "<script>alert('답변 수정 실패');history.back();</script>";
-      }
-      return "<script>alert('답변 수정 성공');location.href='/admin/qna/list';</script>";
-  }
 
 //  선택삭제
-
     @GetMapping("/select/delete")
     public String selectDelete (@RequestParam("qnaNo") String qnaNo){
         qnaService.selectDelete(qnaNo);

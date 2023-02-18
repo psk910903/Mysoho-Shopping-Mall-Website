@@ -4,6 +4,7 @@ import com.study.springboot.dto.notice.NoticeResponseDto;
 import com.study.springboot.dto.notice.NoticeSaveRequestDto;
 import com.study.springboot.dto.notice.NoticeUpdateRequestDto;
 import com.study.springboot.object.FileResponse;
+import com.study.springboot.repository.NoticeRepository;
 import com.study.springboot.service.AwsS3Service;
 import com.study.springboot.service.NoticeService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class Controller2 {
 
     private final NoticeService noticeService;
     private final AwsS3Service awsS3Service;
+    private final NoticeRepository noticeRepository;
 
 
     // URL: localhost8080:/admin/notice/
@@ -54,6 +56,9 @@ public class Controller2 {
         model.addAttribute("findBy", findBy);
         model.addAttribute("keyword", keyword);
         model.addAttribute("pageList", pageList);
+
+        long listCount = noticeRepository.count();
+        model.addAttribute("listCount", listCount);
 
         return "admin/notice/list"; //listForm.html로 응답
 
@@ -92,8 +97,8 @@ public class Controller2 {
 
     // URL: localhost8080:/admin/notice/modify/{정수}
     // 기존 글 수정 페이지
-    @GetMapping("/modify/{noticeNo}")
-    public String noticeModify(@PathVariable("noticeNo") Long noticeNo, Model model) {
+    @GetMapping("/modify")
+    public String noticeModify(@RequestParam("noticeNo") Long noticeNo, Model model) {
 
         NoticeResponseDto dto = noticeService.findById(noticeNo);
         if (dto == null){
@@ -112,9 +117,9 @@ public class Controller2 {
 
         Boolean success = noticeService.update(dto);
         if(success) {
-            return "<script>alert('글수정 완료'); location.href='/admin/notice/content/" + dto.getNoticeNo() + "';</script>";
+            return "<script>alert('게시글 수정 완료'); location.href='/admin/notice/content/" + dto.getNoticeNo() + "';</script>";
         }else{
-            return "<script>alert('글수정 실패'); history.back();</script>";
+            return "<script>alert('게시글 수정 실패'); history.back();</script>";
         }
     }
 
@@ -125,22 +130,22 @@ public class Controller2 {
 
         Boolean success = noticeService.save(dto);
         if(success) {
-            return "<script>alert('글쓰기 완료'); location.href='/admin/notice/list';</script>";
+            return "<script>alert('게시글 등록 완료'); location.href='/admin/notice/list';</script>";
         }else{
-            return "<script>alert('글쓰기 실패'); history.back();</script>";
+            return "<script>alert('게시글 등록 실패'); history.back();</script>";
         }
     }
 
     // 기존 글 데이터베이스에서 삭제하기
-    @PostMapping("/deleteAction")
+    @GetMapping("/deleteAction")
     @ResponseBody
     public String noticeDeleteAction(@RequestParam("noticeNo") Long noticeNo) {
 
         Boolean success = noticeService.delete(noticeNo);
         if(success) {
-            return "<script>alert('글삭제 완료'); location.href='/admin/notice/list';</script>";
+            return "<script>alert('게시글 삭제 완료'); location.href='/admin/notice/list';</script>";
         }else{
-            return "<script>alert('글삭제 실패'); history.back();</script>";
+            return "<script>alert('게시글 삭제 실패'); history.back();</script>";
         }
 
     }

@@ -4,122 +4,135 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/admin.css">
     <title>Document</title>
     <style>
-  * {
-        margin: 0;
-        padding: 0;
-      }
-      .contentHeader {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 60px;
-        padding: 0 25px;
-        background-color: white;
-        border: 1px solid #dee2e6;
-        font-size: 25px;
-        font-weight: bold;
-      }
-      .navHeader{
-      align-items: center;
-      height: 60px;
-      padding: 0 10px;
-      border-bottom: 1px solid #dee2e6;
-      color: white;
-      font-size: 25px;
-      margin-bottom: 20px
-      }
-      #wrap {
-        display: flex;
-        min-height: 940px;
-        background-color: #f8f9fa ;
-      }
-      .admin-navBar {
-        min-width: 200px;
-        padding: 0;
-        background-color: #333;
+    * {
+  margin: 0;
+  padding: 0;
+}
+.contentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 0 25px;
+  background-color: white;
+  border: 1px solid #dee2e6;
+  font-size: 25px;
+  font-weight: bold;
+}
+.navHeader {
+  align-items: center;
+  height: 60px;
+  padding: 0 10px;
+  border-bottom: 1px solid #dee2e6;
+  color: white;
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+#wrap {
+  display: flex;
+  min-height: 940px;
+  background-color: #f8f9fa;
+}
+.admin-navBar {
+  min-width: 200px;
+  padding: 0;
+  background-color: #333;
+}
+.admin-navBar div {
+  display: flex;
+}
+.admin-navBar a {
+  margin: 0 15px;
+  text-decoration: none;
+  padding: 15px 0;
+  width: 100%;
+  border-bottom: 1px solid #949ca6;
+  color: white;
+}
+.admin-navBar a:hover {
+  font-weight: bold;
+  color: white;
+  font-size: 18px;
+}
+.head-title {
+  display: flex;
+  align-items: center;
+}
+.content {
+  padding: 20px;
+  width: 100%;
+}
+.count {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 20px;
+}
+.listCount {
+  display: flex;
+  align-items: flex-end;
+}
+.productImg {
+  max-height: 70px;
+}
+.page-link {
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
 
-      }
-      .admin-navBar div {
-        display: flex;
-      }
+.page-item.active .page-link {
+  z-index: 1;
+  color: #555;
+  font-weight: bold;
+  background-color: #fff;
+  border-color: #ccc;
+}
 
-      .admin-navBar a {
-        margin: 0 15px;
-        text-decoration: none;
-        padding: 15px 0;
-        width: 100%;
-        border-bottom: 1px solid #949ca6;
-        color: white;
-      }
-      .admin-navBar a:hover {
-      font-weight: bold;
-      color: white;
-      font-size: 18px;
-      }
-      .head-title {
-        display: flex;
-        align-items: center;
-      }
-      .content {
-        padding: 20px;
-        width: 100%;
-      }
-      .count {
-        display: flex;
-        justify-content: space-between;
-        padding : 5px 20px;
-      }
-      .listCount{
-         display: flex;
-         align-items: flex-end;
-      }
-      .productImg{
-        max-height: 70px;
-      }
-           .page-link {
-          color: #000;
-          background-color: #fff;
-          border: 1px solid #ccc;
-          }
+.page-link:focus,
+.page-link:hover {
+  color: #000;
+  background-color: #fafafa;
+  border-color: #ccc;
+}
+select {
+  border: 1px solid #dee2e6;
+}
+.contentWrap {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #dee2e6;
+}
+.contentHeader {
+  background-color: white;
+}
+.sub-title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+.w250 {
+  width: 250px;
+}
+.w200 {
+  width: 200px;
+}
+.w150 {
+  width: 150px;
+}
+.w110 {
+  width: 110px;
+}
+.w50 {
+  width: 50px;
+}
 
-        .page-item.active .page-link {
-         z-index: 1;
-         color: #555;
-         font-weight:bold;
-         background-color: #fff;
-         border-color: #ccc;
 
-        }
-
-        .page-link:focus, .page-link:hover {
-          color: #000;
-          background-color: #fafafa;
-          border-color: #ccc;
-        }
-        select{
-            border: 1px solid #dee2e6;
-        }
-        .contentWrap{
-            background-color: white;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #dee2e6;
-        }
-        .contentHeader{
-         background-color: white;
-        }
-        .sub-title{
-        font-weight: bold;
-        font-size: 18px;
-        margin-left: 10px;
-        margin-bottom: 10px;
-        }
-        .w40{
-        width: 200px;
-        }
-    </style>
+  </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
@@ -140,26 +153,26 @@
                     <div class="contentWrap">
                         <table class="table table-bordered">
                             <tr>
-                                <th class="table-light ps-3 pt-3" style="text-align: center">회원번호</th>
+                                <th class="table-light align-middle w250" style="text-align: center">회원번호</th>
                                 <td><input class="form-control" type="text" name="memberNo" readonly th:value="${member.memberNo}"></td>
 
                             </tr>
                             <tr>
-                                <th class="table-light ps-3 pt-3" style="text-align: center">아이디</th>
+                                <th class="table-light align-middle w250" style="text-align: center">아이디</th>
                                 <td><input class="form-control" type="text" name="memberId" id="inputId" th:value="${member.memberId}"/></td>
                             </tr>
                             <tr>
-                                <th class="table-light ps-3 pt-3" style="text-align: center" >비밀번호</th>
+                                <th class="table-light align-middle w250" style="text-align: center" >비밀번호</th>
                                 <td><input class="form-control" type="password" name="memberPw" th:value="${member.memberPw}" readonly/></td>
                             </tr>
                             <tr >
-                                <th class="table-light ps-3 pt-3"style="text-align: center" >이름</th>
+                                <th class="table-light align-middle w250"style="text-align: center" >이름</th>
                                 <td><input class="form-control" type="text" name="memberName" id="memberName" th:value="${member.memberName}" /></td>
 
                             </tr>
 
                             <tr>
-                                <th class="table-light ps-3 pt-3" style="text-align: center">연락처</th>
+                                <th class="table-light align-middle w250" style="text-align: center">연락처</th>
                                 <td >
                                     <input
                                             type="text"
@@ -174,7 +187,7 @@
                             </tr>
 
                             <tr>
-                                <th class="table-light ps-3 pt-3" style="text-align: center">이메일</th>
+                                <th class="table-light align-middle w250" style="text-align: center">이메일</th>
                                 <td colspan="3">
                                     <input
                                             type="text"
@@ -187,31 +200,38 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th class="table-light ps-3 pt-3" style="text-align: center">적립금</th>
+                                <th class="table-light align-middle w250" style="text-align: center">적립금</th>
                                 <td>
                                     <input class="form-control" type="text" name="memberMileage" id="inputMileage" readonly th:value="${member.memberMileage}" />
                                 </td>
                             </tr>
                             <tr>
-                                <th rowspan="5" class="table-light ps-3 pt-3"style="text-align: center">주소</th>
-                                <td colspan="1">
-
-                                    <input
-                                            th:value="${member.memberAddrNumber}"
-                                            type="text"
-                                            name="memberAddrNumber"
-                                            id="postcode"
-                                            placeholder="우편번호"
-                                            readonly
-                                            class="form-control"
-                                            onclick=sample6_execDaumPostcode()
-                                    />
-                                    <br>
-                                    <input class="form-control" th:value="${member.memberAddr1}" type="text" value="기본주소" name="memberAddr1" id="memberAddr1" />
-                                    <br>
+                                <th rowspan="5" class="table-light align-middle w250"style="text-align: center">주소</th>
+                                <td colspan="1" class="align-middle">
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text w110">우편번호</span>
+                                        <input
+                                                th:value="${member.memberAddrNumber}"
+                                                type="text"
+                                                name="memberAddrNumber"
+                                                id="postcode"
+                                                placeholder="우편번호"
+                                                readonly
+                                                class="form-control"
+                                                onclick=sample6_execDaumPostcode()
+                                                aria-label="Sizing example input"
+                                                aria-describedby="inputGroup-sizing-default"
+                                        />
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text w110">기본주소</span>
+                                        <input class="form-control" th:value="${member.memberAddr1}" type="text" value="기본주소" name="memberAddr1" id="memberAddr1" />
+                                    </div>
+                                    <div class="input-group">
+                                        <span class="input-group-text w110">나머지주소</span>
+                                        <input class="form-control" th:value="${member.memberAddr2}" type="text" value="나머지주소" name="memberAddr2" id="memberAddr2" />
+                                    </div>
                                     <input class="form-control" type="text" value="참고항목" id="extraAddress" style="display: none;" />
-                                    <input class="form-control" th:value="${member.memberAddr2}" type="text" value="나머지주소" name="memberAddr2" id="memberAddr2" />
-                                    <br>
                                 </td>
                             </tr>
                         </table>

@@ -4,123 +4,135 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <link rel="stylesheet" type="text/css" href="css/admin.css">
   <title>Document</title>
   <style>
-  * {
-        margin: 0;
-        padding: 0;
-      }
-      .contentHeader {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 60px;
-        padding: 0 25px;
-        background-color: white;
-        border: 1px solid #dee2e6;
-        font-size: 25px;
-        font-weight: bold;
-      }
-      .navHeader{
-      align-items: center;
-      height: 60px;
-      padding: 0 10px;
-      border-bottom: 1px solid #dee2e6;
-      color: white;
-      font-size: 25px;
-      margin-bottom: 20px
-      }
-      #wrap {
-        display: flex;
-        min-height: 940px;
-        background-color: #f8f9fa ;
-      }
-      .admin-navBar {
-        min-width: 200px;
-        padding: 0;
-        background-color: #333;
+    * {
+  margin: 0;
+  padding: 0;
+}
+.contentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 0 25px;
+  background-color: white;
+  border: 1px solid #dee2e6;
+  font-size: 25px;
+  font-weight: bold;
+}
+.navHeader {
+  align-items: center;
+  height: 60px;
+  padding: 0 10px;
+  border-bottom: 1px solid #dee2e6;
+  color: white;
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+#wrap {
+  display: flex;
+  min-height: 940px;
+  background-color: #f8f9fa;
+}
+.admin-navBar {
+  min-width: 200px;
+  padding: 0;
+  background-color: #333;
+}
+.admin-navBar div {
+  display: flex;
+}
+.admin-navBar a {
+  margin: 0 15px;
+  text-decoration: none;
+  padding: 15px 0;
+  width: 100%;
+  border-bottom: 1px solid #949ca6;
+  color: white;
+}
+.admin-navBar a:hover {
+  font-weight: bold;
+  color: white;
+  font-size: 18px;
+}
+.head-title {
+  display: flex;
+  align-items: center;
+}
+.content {
+  padding: 20px;
+  width: 100%;
+}
+.count {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 20px;
+}
+.listCount {
+  display: flex;
+  align-items: flex-end;
+}
+.productImg {
+  max-height: 70px;
+}
+.page-link {
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
 
-      }
-      .admin-navBar div {
-        display: flex;
-      }
+.page-item.active .page-link {
+  z-index: 1;
+  color: #555;
+  font-weight: bold;
+  background-color: #fff;
+  border-color: #ccc;
+}
 
-      .admin-navBar a {
-        margin: 0 15px;
-        text-decoration: none;
-        padding: 15px 0;
-        width: 100%;
-        border-bottom: 1px solid #949ca6;
-        color: white;
-      }
-      .admin-navBar a:hover {
-      font-weight: bold;
-      color: white;
-      font-size: 18px;
-      }
-      .head-title {
-        display: flex;
-        align-items: center;
-      }
-      .content {
-        padding: 20px;
-        width: 100%;
-      }
-      .count {
-        display: flex;
-        justify-content: space-between;
-        padding : 5px 20px;
-      }
-      .listCount{
-         display: flex;
-         align-items: flex-end;
-      }
-      .productImg{
-        max-height: 70px;
-      }
-           .page-link {
-          color: #000;
-          background-color: #fff;
-          border: 1px solid #ccc;
-          }
+.page-link:focus,
+.page-link:hover {
+  color: #000;
+  background-color: #fafafa;
+  border-color: #ccc;
+}
+select {
+  border: 1px solid #dee2e6;
+}
+.contentWrap {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #dee2e6;
+}
+.contentHeader {
+  background-color: white;
+}
+.sub-title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+.w250 {
+  width: 250px;
+}
+.w200 {
+  width: 200px;
+}
+.w150 {
+  width: 150px;
+}
+.w110 {
+  width: 110px;
+}
+.w50 {
+  width: 50px;
+}
 
-        .page-item.active .page-link {
-         z-index: 1;
-         color: #555;
-         font-weight:bold;
-         background-color: #fff;
-         border-color: #ccc;
 
-        }
-
-        .page-link:focus, .page-link:hover {
-          color: #000;
-          background-color: #fafafa;
-          border-color: #ccc;
-        }
-        select{
-            border: 1px solid #dee2e6;
-        }
-        .contentWrap{
-            background-color: white;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #dee2e6;
-        }
-        .contentHeader{
-         background-color: white;
-        }
-        .sub-title{
-        font-weight: bold;
-        font-size: 18px;
-        margin-left: 10px;
-        margin-bottom: 10px;
-        }
-        .w40{
-        width: 200px;
-        }
-    </style>
+  </style>
 </head>
 <div id="wrap">
   <div th:replace="/fragments/nav.html :: fragment-adminNav"></div>
@@ -140,8 +152,8 @@
         <table class="table table-bordered" >
           <tr >
 
-            <th style="text-align: center;" class="w40 table-light">대표 이미지 변경</th>
-            <td ><img class="productImg" th:src="${ dto.itemImageUrl }">
+            <th style="text-align: center;" class="w250 table-light align-middle">대표 이미지 변경</th>
+            <td class="align-middle"><img class="productImg" th:src="${ dto.itemImageUrl }">
               <input type="file" name="uploadfile" multiple="multiple">
             </td>
           </tr>
@@ -152,7 +164,7 @@
         <div class="sub-title"> 상품정보</div>
         <table class="table table-bordered" >
           <tr>
-            <th style="text-align: center;" class="w40 table-light">상품분류</th>
+            <th style="text-align: center;" class="w250 table-light align-middle">상품분류</th>
             <td>
               <select name="itemCategory" class="form-select">
                 <option th:text="${ dto.itemCategory }" th:value="${ dto.itemCategory }" value="" selected="selected">대분류</option>
@@ -164,25 +176,25 @@
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40 table-light">상품명</th>
+            <th style="text-align: center;" class="w250 table-light align-middle">상품명</th>
             <td>
               <input th:value="${ dto.itemName }" name="itemName"  placeholder="상품명" class="form-control">
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40 table-light">판매가</th>
+            <th style="text-align: center;" class="w250 table-light align-middle">판매가</th>
             <td>
               <input th:value="${ dto.itemPrice }" name="itemPrice"  placeholder="10000" class="form-control">
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40 table-light">색상</th>
+            <th style="text-align: center;" class="w250 table-light align-middle">색상</th>
             <td>
               <input th:value="${ dto.itemOptionColor }" name="itemOptionColor"  placeholder="color" class="form-control">
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w40 table-light">사이즈</th>
+            <th style="text-align: center;" class="w250 table-light align-middle">사이즈</th>
             <td>
               <input th:value="${ dto.itemOptionSize }" name="itemOptionSize"  placeholder="S,M,L" class="form-control">
             </td>
@@ -194,7 +206,7 @@
         <div class="sub-title"> 할인쿠폰</div>
         <table class="table table-bordered" >
           <tr>
-            <th style="text-align: center;" class="w40 table-light">할인율</th>
+            <th style="text-align: center;" class="w250 table-light align-middle">할인율</th>
             <td>
               <input name=""  placeholder="10" class="form-control">
               <input type="radio" checked />% 퍼센트

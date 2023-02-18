@@ -70,10 +70,12 @@ public class Controller5 {
 
         InquiryResponseDto dto = inquiryService.findById(inquiryNo);
         model.addAttribute("dto",dto);
-        System.out.println(inquiryNo);
         List<InReplyEntity> list = inReplyRepository.findAllByReplyInquiryNo(inquiryNo);
-        //List<InReplyResponseDto> list = inReplyService.findAllByReplyInquiryNo(inquiryNo);
         model.addAttribute("list",list);
+
+        if (list.size() == 0) {
+            model.addAttribute("nullCheck", "null");
+        }
 
         return "admin/inquiry/content";
     }
@@ -96,13 +98,17 @@ public class Controller5 {
     public String modify(InReplySaveResponseDto dto,
                          @RequestParam("replyNo") Long replyNo,
                          @RequestParam("replyInquiryNo") Long replyInquiryNo){
+        String replyContent = dto.getReplyContent();
+        Long replyInquiryNo1 = dto.getReplyInquiryNo();
+        System.out.println("replyInquiryNo1 = " + replyInquiryNo1);
+        System.out.println("replyContent = " + replyContent);
         System.out.println("replyNo = " + replyNo);
         System.out.println("replyInquiryNo = " + replyInquiryNo);
         boolean result = inReplyService.modify( dto,replyNo );
         if(result) {
-            return "<script>alert('댓글수정 성공!'); location.href='/admin/inquiry/content?inquiryNo=" + replyInquiryNo + "'; </script>";
+            return "<script>alert('답변수정 성공'); location.href='/admin/inquiry/content?inquiryNo=" + replyInquiryNo + "'; </script>";
         }else{
-            return "<script>alert('댓글수정 실패!'); history.back();</script>";
+            return "<script>alert('답변수정 실패'); history.back();</script>";
         }
     }
 
@@ -112,17 +118,9 @@ public class Controller5 {
                          @RequestParam("replyInquiryNo") Long replyInquiryNo){
         boolean result = inReplyService.delete(replyNo);
         if(result){
-            return "<script>alert('댓글삭제 성공!'); location.href='content?inquiryNo=" + replyInquiryNo + "';</script>";
+            return "<script>alert('답변삭제 성공'); location.href='content?inquiryNo=" + replyInquiryNo + "';</script>";
         }else {
-            return "<script>alert('댓글삭제 실패!'); history.back();</script>";
+            return "<script>alert('답변삭제 실패'); history.back();</script>";
         }
-
     }
-
-
-
-
-
-
-
 }
