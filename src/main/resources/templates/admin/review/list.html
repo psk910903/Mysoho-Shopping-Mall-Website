@@ -85,7 +85,7 @@
                       <td class="align-middle"><input type="checkbox" name="RowCheck" th:value="${ review.reviewNo }" /></td>
 
                       <td class="align-middle" th:text="${ review.itemNo }"> 상품번호</td>
-                      <td class="align-middle">상품명</td>
+                      <td class="align-middle" th:text="${ itemList[status.index] }">상품명</td>
                       <td class="align-middle"><img class="productImg" th:src="${ review.reviewImgUrl }"/></td>
                       <td class="align-middle" th:text="${ review.memberId }">아이디</td>
                       <td class="align-middle" th:text="${ review.reviewContent }">내용</td>

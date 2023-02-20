@@ -1,11 +1,13 @@
 package com.study.springboot.controller;
 
 import com.study.springboot.dto.order.OrderContentSaveRequestDto;
+import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.review.ReviewSaveResponseDto;
 import com.study.springboot.entity.ReviewEntity;
 import com.study.springboot.repository.ReviewRepository;
 import com.study.springboot.service.OrderService;
+import com.study.springboot.service.ProductService;
 import com.study.springboot.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -24,6 +27,8 @@ import java.util.List;
 public class Controller3 {
     private final ReviewService reviewService;
     private final ReviewRepository reviewRepository;
+
+    private final ProductService productService;
 
     @RequestMapping("/")
     public String main(){
@@ -59,6 +64,14 @@ public class Controller3 {
         totalPage = list.getTotalPages();
         pageList = reviewService.getPageList(totalPage, page);
 
+        List<String> itemList = new ArrayList<>();
+        for (ReviewResponseDto dto: list){
+            String itemNo = dto.getItemNo();
+            ProductResponseDto itemDto = productService.findById(Long.parseLong(itemNo));
+            itemList.add(itemDto.getItemName());
+        }
+
+        model.addAttribute("itemList", itemList);
         model.addAttribute("list", list);
         model.addAttribute("findBy", findBy);
         model.addAttribute("keyword", keyword);

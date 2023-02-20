@@ -3,11 +3,13 @@ package com.study.springboot.controller;
 import com.study.springboot.dto.inquiry.InReplyResponseDto;
 import com.study.springboot.dto.inquiry.InReplySaveResponseDto;
 import com.study.springboot.dto.inquiry.InquiryResponseDto;
+import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.entity.inquiry.InReplyEntity;
 import com.study.springboot.repository.InReplyRepository;
 import com.study.springboot.repository.InquiryRepository;
 import com.study.springboot.service.InReplyService;
 import com.study.springboot.service.InquiryService;
+import com.study.springboot.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -25,6 +28,8 @@ public class Controller5 {
     public final InquiryRepository inquiryRepository;
     public final InReplyService inReplyService;
     private final InReplyRepository inReplyRepository;
+
+    private final ProductService productService;
 
     @GetMapping ("/")
     public String inquiryMain(){
@@ -52,6 +57,15 @@ public class Controller5 {
         }
         int totalPage = list.getTotalPages();
         List<Integer> pageList = inquiryService.getPageList(totalPage, page);
+
+        List<String> itemList = new ArrayList<>();
+        for (InquiryResponseDto dto: list){
+            Long itemNo = dto.getItemNo();
+            ProductResponseDto itemDto = productService.findById(itemNo);
+            itemList.add(itemDto.getItemName());
+        }
+
+        model.addAttribute("itemList", itemList);
         model.addAttribute("list", list);
         model.addAttribute("findBy", findBy);
         model.addAttribute("keyword", keyword);

@@ -67,7 +67,7 @@
           <thead class="thead-strong">
             <tr align="center" >
               <th class="table-light align-middle w50">번호</th>
-              <th class="table-light align-middle w150">상품번호</th>
+              <th class="table-light align-middle w150">상품명</th>
               <th class="table-light align-middle">글제목</th>
               <th class="table-light align-middle">작성자</th>
               <th class="table-light align-middle w110">조회수</th>
@@ -75,9 +75,9 @@
               <th class="table-light align-middle w150">관리</th>
             </tr>
           </thead>
-        <tr th:each="dto : ${list}" align="center">
+        <tr th:each="dto, status: ${list}" align="center">
           <td class="align-middle" th:text="${ dto.inquiryNo }">번호</td>
-          <td class="align-middle" th:text="${ dto.itemNo }">상품번호</td>
+          <td class="align-middle" th:text="${ itemList[status.index]  }">상품명</td>
           <td class="align-middle" th:text="${ dto.inquiryTitle }">글제목</td>
           <td class="align-middle" th:text="${ dto.memberId }">작성자</td>
           <td class="align-middle" th:text="${ dto.inquiryHit }">조회수</td>
