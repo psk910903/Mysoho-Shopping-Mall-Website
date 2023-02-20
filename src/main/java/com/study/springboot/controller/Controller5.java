@@ -88,9 +88,9 @@ public class Controller5 {
                              @RequestParam("replyInquiryNo") Long replyInquiryNo ){
         boolean result = inReplyService.save(dto);
         if(result) {
-            return "<script>alert('댓글쓰기 성공!'); location.href='/admin/inquiry/content?inquiryNo=" + replyInquiryNo + "'; </script>";
+            return "<script>alert('답변등록 완료'); location.href='/admin/inquiry/content?inquiryNo=" + replyInquiryNo + "'; </script>";
         }else{
-            return "<script>alert('댓글쓰기 실패!'); history.back();</script>";
+            return "<script>alert('답변등록 실패'); history.back();</script>";
         }
     }
     @RequestMapping("/modifyAction")
@@ -106,7 +106,7 @@ public class Controller5 {
         System.out.println("replyInquiryNo = " + replyInquiryNo);
         boolean result = inReplyService.modify( dto,replyNo );
         if(result) {
-            return "<script>alert('답변수정 성공'); location.href='/admin/inquiry/content?inquiryNo=" + replyInquiryNo + "'; </script>";
+            return "<script>alert('답변수정 완료'); location.href='/admin/inquiry/content?inquiryNo=" + replyInquiryNo + "'; </script>";
         }else{
             return "<script>alert('답변수정 실패'); history.back();</script>";
         }
@@ -118,7 +118,7 @@ public class Controller5 {
                          @RequestParam("replyInquiryNo") Long replyInquiryNo){
         boolean result = inReplyService.delete(replyNo);
         if(result){
-            return "<script>alert('답변삭제 성공'); location.href='content?inquiryNo=" + replyInquiryNo + "';</script>";
+            return "<script>alert('답변삭제 완료'); location.href='content?inquiryNo=" + replyInquiryNo + "';</script>";
         }else {
             return "<script>alert('답변삭제 실패'); history.back();</script>";
         }

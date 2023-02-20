@@ -76,7 +76,7 @@ CREATE TABLE review (
    review_content TEXT NULL,  -- 상품후기
    review_image_url TEXT NULL, -- 이미지
    review_datetime DATETIME DEFAULT NOW(), -- 작성시간
-   review_exposure VARCHAR(255) DEFAULT '표시함' -- 노출여부
+   review_exposure VARCHAR(255) DEFAULT '노출함' -- 노출여부
 );
 INSERT INTO review
    VALUES (NULL, 'titio', '00001', '5', '가성비 좋아요', 'https://img.makeshop.co.kr/1/1371/201902/5ea10187021f32483958eb8c91e943bb.jpg', DEFAULT,DEFAULT );

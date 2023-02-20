@@ -99,7 +99,7 @@ public class Controller3 {
         boolean result = reviewService.update(reviewSaveResponseDto);
         if(!result){
             return "<script>alert('수정 실패');history.back();</script>";
-        }return "<script>alert('수정 성공');location.href='/admin/review/list';</script>";
+        }return "<script>alert('수정 완료');location.href='/admin/review/list';</script>";
     }
 
     //삭제하기
@@ -121,6 +121,6 @@ public class Controller3 {
         if (!result) {
             return "<script>alert('노출상태 변경 실패');location.href='/admin/review/list/';</script>";
         }
-        return "<script>alert('노출상태 변경 성공');location.href='/admin/review/list/';</script>";
+        return "<script>alert('노출상태 변경 완료');location.href='/admin/review/list/';</script>";
     }
 }//class
