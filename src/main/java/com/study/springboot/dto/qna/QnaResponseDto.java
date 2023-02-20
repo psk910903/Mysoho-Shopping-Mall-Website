@@ -18,6 +18,7 @@ public class QnaResponseDto {
     private String qnaContent; // 내용
     private String qnaPassword; // 비밀번호
     private String qnaName; // 작성자
+    private String qnaSecret;//비밀글 여부
     private Long qnaHit; // 조회 수
     private LocalDateTime qnaDate; // 생성일,수정일
 
@@ -28,6 +29,7 @@ public class QnaResponseDto {
         this.qnaContent = qnaEntity.getQnaContent();
         this.qnaPassword = qnaEntity.getQnaPassword();
         this.qnaName = qnaEntity.getQnaName();
+        this.qnaSecret = qnaEntity.getQnaSecret();
         this.qnaHit =qnaEntity.getQnaHit();
         this.qnaDate =qnaEntity.getQnaLocalDateTime();
     }
