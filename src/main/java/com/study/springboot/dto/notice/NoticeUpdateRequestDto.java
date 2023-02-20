@@ -1,6 +1,9 @@
 package com.study.springboot.dto.notice;
 
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -10,14 +13,12 @@ public class NoticeUpdateRequestDto {
     private String noticeType;
     private String noticeTitle;
     private String noticeContent;
-    private String noticeImageUrl;
 
     @Builder
-    public NoticeUpdateRequestDto(Long noticeNo, String noticeType, String noticeTitle, String noticeContent, String noticeImageUrl) {
+    public NoticeUpdateRequestDto(Long noticeNo, String noticeType, String noticeTitle, String noticeContent) {
         this.noticeNo = noticeNo;
         this.noticeType = noticeType;
         this.noticeTitle = noticeTitle;
         this.noticeContent = noticeContent;
-        this.noticeImageUrl = noticeImageUrl;
     }
 }

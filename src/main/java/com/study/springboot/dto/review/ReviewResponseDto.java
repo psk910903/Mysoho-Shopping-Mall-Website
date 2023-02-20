@@ -1,13 +1,17 @@
 package com.study.springboot.dto.review;
 
-import com.study.springboot.entity.review.ReviewEntity;
+import com.study.springboot.entity.OrderEntity;
+import com.study.springboot.entity.ReviewEntity;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 
+@Setter
 @Getter
 public class ReviewResponseDto {
-    //entity에서 dto로 가는 통로
-    //entity에서 dto로 바꿔져서 필드가 전부 다 있음.
+
     private Long reviewNo;
     private String memberId;
     private String itemNo;
@@ -17,7 +21,6 @@ public class ReviewResponseDto {
     private LocalDateTime reviewDatetime;
     private String reviewExpo;
 
-    ////entity를 넣으면 dto로 바꿔주는 코드
     public ReviewResponseDto(ReviewEntity entity){
         this.reviewNo = entity.getReviewNo();
         this.itemNo = entity.getItemNo();
@@ -27,6 +30,30 @@ public class ReviewResponseDto {
         this.reviewDatetime = entity.getReviewDatetime();
         this.reviewStar = entity.getReviewStar();
         this.memberId = entity.getMemberId();
+    }
+
+    @Builder
+    public ReviewResponseDto(Long reviewNo, String memberId, String itemNo, Byte reviewStar, String reviewContent, String reviewImgUrl, LocalDateTime reviewDatetime, String reviewExpo) {
+        this.reviewNo = reviewNo;
+        this.memberId = memberId;
+        this.itemNo = itemNo;
+        this.reviewStar = reviewStar;
+        this.reviewContent = reviewContent;
+        this.reviewImgUrl = reviewImgUrl;
+        this.reviewDatetime = reviewDatetime;
+        this.reviewExpo = reviewExpo;
+    }
+    public ReviewEntity toEntity(){
+        return ReviewEntity.builder()
+        .reviewNo(reviewNo)
+        .memberId(memberId)
+        .itemNo(itemNo)
+        .reviewStar(reviewStar)
+        .reviewContent(reviewContent)
+        .reviewImgUrl(reviewImgUrl)
+        .reviewDatetime(reviewDatetime)
+        .reviewExpo(reviewExpo)
+        .build();
     }
 
 

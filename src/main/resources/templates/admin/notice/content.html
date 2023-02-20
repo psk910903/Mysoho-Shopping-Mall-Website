@@ -4,114 +4,179 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="css/admin.css">
     <title>마이소호</title>
     <style>
-      * {
-        margin: 0;
-        padding: 0;
-      }
-      body {
-      }
-      .header {
-        display: flex;
-        justify-content: space-between;
-        height: 60px;
-        padding: 0 25px;
-        background-color: #333;
-        color: white;
-        border-bottom: 1px solid #949ca6;
-      }
-      #wrap {
-        display: flex;
-        min-height: 830px;
-      }
-      .admin-navBar {
-        flex-grow : 1
-        height: 100%;
-        width: 200px;
-        padding: 25px;
-        background-color: #333;
+    * {
+  margin: 0;
+  padding: 0;
+}
+.contentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 0 25px;
+  background-color: white;
+  border: 1px solid #dee2e6;
+  font-size: 25px;
+  font-weight: bold;
+}
+.navHeader {
+  align-items: center;
+  height: 60px;
+  padding: 0 10px;
+  border-bottom: 1px solid #dee2e6;
+  color: white;
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+#wrap {
+  display: flex;
+  min-height: 940px;
+  background-color: #f8f9fa;
+}
+.admin-navBar {
+  min-width: 200px;
+  padding: 0;
+  background-color: #333;
+}
+.admin-navBar div {
+  display: flex;
+}
+.admin-navBar a {
+  margin: 0 15px;
+  text-decoration: none;
+  padding: 15px 0;
+  width: 100%;
+  border-bottom: 1px solid #949ca6;
+  color: white;
+}
+.admin-navBar a:hover {
+  font-weight: bold;
+  color: white;
+  font-size: 18px;
+}
+.head-title {
+  display: flex;
+  align-items: center;
+}
+.content {
+  padding: 20px;
+  width: 100%;
+}
+.count {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 20px;
+}
+.listCount {
+  display: flex;
+  align-items: flex-end;
+}
+.productImg {
+  max-height: 70px;
+}
+.page-link {
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
 
-      }
-      .admin-navBar div {
-        display: flex;
-      }
+.page-item.active .page-link {
+  z-index: 1;
+  color: #555;
+  font-weight: bold;
+  background-color: #fff;
+  border-color: #ccc;
+}
 
-      .admin-navBar a {
-        text-decoration: none;
-        padding: 15px 0;
-        width: 100%;
-        border-bottom: 1px solid #949ca6;
-        color: white;
-      }
+.page-link:focus,
+.page-link:hover {
+  color: #000;
+  background-color: #fafafa;
+  border-color: #ccc;
+}
+select {
+  border: 1px solid #dee2e6;
+}
+.contentWrap {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #dee2e6;
+}
+.contentHeader {
+  background-color: white;
+}
+.sub-title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+.w250 {
+  width: 250px;
+}
+.w200 {
+  width: 200px;
+}
+.w150 {
+  width: 150px;
+}
+.w110 {
+  width: 110px;
+}
+.w50 {
+  width: 50px;
+}
 
-      .head-title {
-        display: flex;
-        align-items: center;
-      }
-      .logout-btn {
-        margin-right: 50px;
-        padding: 10px 20px;
-        font-weight: bold;
-        font-size: 18px;
-      }
-      .content {
-        padding: 20px;
-        width: 100%;
-      }
-      img{
-      max-height: 70px;
-      }
-    </style>
+
+  </style>
 </head>
 <body>
-<div th:replace="/fragments/adminHeader.html :: fragment-adminHeader"></div>
 <div id="wrap">
-    <div th:replace="/fragments/adminNav.html :: fragment-adminNav"></div>
-    <div class="content" style="width:100%"> <!-- content 시작 -->
-
-        <table class="table table-horizontal table-bordered">
-            <tr>
-                <td>번호</td>
-                <td th:text="${notice.noticeNo}"></td>
-            </tr>
-            <tr>
-                <td>제목</td>
-                <td th:text="${notice.noticeTitle}"></td>
-            </tr>
-            <tr>
-                <td>카테고리</td>
-                <td th:text="${notice.noticeType}"></td>
-            </tr>
-            <tr>
-                <td>작성일</td>
-                <td th:text="${#temporals.format(notice.noticeDatetime, 'yyyy-MM-dd HH:mm')}"></td>
-            </tr>
-        </table>
-
-        <!-- ***************** 이미지 사이즈 조정 ***************** -->
-        <div th:style="'background-image:url(' + ${notice.noticeImageUrl} + ');
-        background-size:contain;
-        background-repeat:no-repeat;
-        background-position: 50% 50%;
-        width:100%;
-        min-height:800px'"></div>
-        <!-- *************************************************** -->
-
-        <div th:text="${notice.noticeContent}"
-             style="min-height: 300px; background-color: #f5f5f5; margin:10px; border-radius:30px; padding:10px;"></div>
-
-        <div style="display:flex; gap: 10px">
-            <button onclick="location.href='/admin/notice/list'" class="btn btn-dark">목록</button>
-            <button th:onclick="|location.href='/admin/notice/modify/${notice.noticeNo}'|" class="btn btn-primary">수정</button>
-            <form action="/admin/notice/deleteAction" method="POST">
-                <input type="hidden" name="noticeNo" th:value="${notice.noticeNo}">
-                <button type="submit" class="btn btn-danger">삭제</button>
-            </form>
+    <div th:replace="/fragments/nav.html :: fragment-adminNav"></div>
+    <div id="contentWrap" style="width:100%">
+        <div class="contentHeader" style="width:100%">
+            <div>공지사항관리</div>
+            <div>
+                <a type="button" class="btn btn-secondary">로그아웃</a>
+            </div>
         </div>
-
-
-    </div> <!-- content 끝 -->
+        <div class="content" style="width:100%"> <!-- content 시작 -->
+            <div class="contentWrap">
+            <table class="table table-horizontal table-bordered"> <!-- 번호, 제목,카테고리, 작성일 테이블 시작 -->
+                <tr>
+                    <th class="table-light align-middle w250" style="text-align: center">번호</th>
+                    <td th:text="${notice.noticeNo}"></td>
+                </tr>
+                <tr>
+                    <th class="table-light align-middle w250" style="text-align: center">제목</th>
+                    <td th:text="${notice.noticeTitle}"></td>
+                </tr>
+                <tr>
+                    <th class="table-light align-middle w250" style="text-align: center">카테고리</th>
+                    <td th:text="${notice.noticeType}"></td>
+                </tr>
+                <tr>
+                    <th class="table-light align-middle w250" style="text-align: center">작성일</th>
+                    <td th:text="${#temporals.format(notice.noticeDatetime, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" id="content_area" style="height: 500px;">
+                        <div th:utext="${notice.noticeContent}"></div>
+                    </td>
+                </tr>
+            </table> <!-- 번호, 제목,카테고리, 작성일 테이블 끝 -->
+            <div style="text-align: center">
+                <a th:href="|/admin/notice/list|" class="btn btn-outline-secondary">목록</a>
+                <a th:href="|/admin/notice/modify?noticeNo=${notice.noticeNo}|" class="btn btn-outline-secondary">수정</a>
+                <a th:href="|/admin/notice/deleteAction?noticeNo=${notice.noticeNo}|" class="btn btn-outline-danger">삭제</a>
+            </div>
+            </div>
+        </div> <!-- content 끝 -->
+    </div>
 </div>
 </body>
 </html>

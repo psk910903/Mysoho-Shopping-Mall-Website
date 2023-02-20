@@ -1,5 +1,6 @@
 package com.study.springboot.dto.member;
 
+
 import com.study.springboot.entity.Member.MemberEntity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,32 +13,36 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 public class MemberResponseDto {
-    private Long member_no;
-    private String member_name;
-    private String member_id;
+    private Long memberNo;
+    private String memberName;
+    private String memberId;
 
-    private String member_pw;
-    private String member_phone;
-    private String member_email;
-    private Long member_mileage;
-    private String member_address;
+    private String memberPw;
+    private String memberPhone;
+    private String memberEmail;
+    private Long memberMileage;
+    private String memberAddrNumber;
+    private String memberAddr1;
+    private String memberAddr2;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate member_join_datetime;
+    private LocalDate memberJoinDatetime;
 
 
 
 
     public MemberResponseDto(MemberEntity entity) {
-        this.member_no = entity.getMember_no();
-        this.member_name = entity.getMember_name();
-        this.member_id = entity.getMember_id();
-        this.member_pw = entity.getMember_pw();
-        this.member_phone = entity.getMember_phone();
-        this.member_email = entity.getMember_email();
-        this.member_join_datetime = entity.getMember_join_datetime();
-        this.member_mileage = entity.getMember_mileage();
-        this.member_address = entity.getMember_address();
+        this.memberNo = entity.getMemberNo();
+        this.memberName = entity.getMemberName();
+        this.memberId = entity.getMemberId();
+        this.memberPw = entity.getMemberPw();
+        this.memberPhone = entity.getMemberPhone();
+        this.memberEmail = entity.getMemberEmail();
+        this.memberJoinDatetime = entity.getMemberJoinDatetime();
+        this.memberMileage = entity.getMemberMileage();
+        this.memberAddrNumber = entity.getMemberAddrNumber();
+        this.memberAddr1 = entity.getMemberAddr1();
+        this.memberAddr2 = entity.getMemberAddr2();
 
 }
 }
