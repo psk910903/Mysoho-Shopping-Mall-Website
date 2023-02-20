@@ -1,7 +1,7 @@
 .containerlogin {
   margin: 0;
   padding: 0;
-  height: 800px;
+  min-height: 800px;
 }
 .users-title-line-hd {
   height: 50px;
@@ -133,4 +133,12 @@ input[type="checkbox"]:checked::after {
 .check-txt {
   font-size: 12px;
   display: none;
+}
+.open-layer-addr {
+  position: relative;
+}
+.open-layer-addr img {
+  position: absolute;
+  right: 10px;
+  top: 20px;
 }
