@@ -237,12 +237,12 @@ select {
         <ul class="pagination justify-content-center">
           <li class="page-item" th:classappend="${!qnalist.hasPrevious} ? 'disabled'"> <!-- 이전 버튼 시작 -->
             <th:block th:if="${keyword}==null">
-              <a class="page-link" th:href="|/admin/qna/list?page=${qnalist.number-1}|">
+              <a class="page-link" style="color: #555;" th:href="|/admin/qna/list?page=${qnalist.number-1}|">
                 <span>이전</span>
               </a>
             </th:block>
             <th:block th:unless="${keyword}==null">
-              <a class="page-link" th:href="|/admin/qna/list?page=${qnalist.number-1}">
+              <a class="page-link" style="color: #555;" th:href="|/admin/qna/list?page=${qnalist.number-1}">
                 <span>이전</span>
               </a>
             </th:block>
@@ -251,21 +251,21 @@ select {
               th:classappend="${page == qnalist.number} ? 'active'"
               class="page-item"> <!-- 숫자 페이지 버튼 시작 -->
             <th:block th:if="${keyword}==null">
-              <a th:text="${page+1}" class="page-link" th:href="|/admin/qna/list?page=${page}|"></a>
+              <a th:text="${page+1}" class="page-link" style="color: #555;" th:href="|/admin/qna/list?page=${page}|"></a>
             </th:block>
             <th:block th:unless="${keyword}==null">
-              <a th:text="${page+1}" class="page-link"
+              <a th:text="${page+1}" class="page-link" style="color: #555;"
                  th:href="|/admin/qna/list?page=${page}"></a>
             </th:block>
           </li> <!-- 숫자 페이지 버튼 끝 -->
           <li class="page-item" th:classappend="${!qnalist.hasNext} ? 'disabled'"> <!-- 다음 버튼 시작 -->
             <th:block th:if="${keyword}==null">
-              <a class="page-link" th:href="|/admin/qna/list?page=${qnalist.number+1}|">
+              <a class="page-link" style="color: #555;" th:href="|/admin/qna/list?page=${qnalist.number+1}|">
                 <span>다음</span>
               </a>
             </th:block>
             <th:block th:unless="${keyword}==null">
-              <a class="page-link" th:href="|/admin/qna/list?page=${qnalist.number+1}|">
+              <a class="page-link" style="color: #555;" th:href="|/admin/qna/list?page=${qnalist.number+1}|">
                 <span>다음</span>
               </a>
             </th:block>
