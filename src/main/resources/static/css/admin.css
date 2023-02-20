@@ -121,4 +121,6 @@ select {
 .w50 {
   width: 50px;
 }
-
+.navImg img{
+  width: 20px
+}

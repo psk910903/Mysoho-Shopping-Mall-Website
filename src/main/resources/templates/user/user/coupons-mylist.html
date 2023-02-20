@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마이소호 샘플샵</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/login.css" />
+    <link rel="stylesheet" href="/css/coupon.css" />
+  </head>
+  <body>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <div class="wrap">
+      <div class="betweenbtn">
+        <script>
+          $(".betweenbtn").load("/public-object/betweenbtn.html");
+        </script>
+      </div>
+      <div class="header">
+        <script>
+          $(".header").load("/public-object/header.html");
+        </script>
+      </div>
+      <!-- 나의 쿠폰 -->
+      <div class="container-coupons">
+        <div class="users-title-line-hd">
+          <h2>나의 쿠폰</h2>
+        </div>
+        <div>
+          <div class="myCouponWrap">
+            <div class="totalCoupon">총 보유 쿠폰 (0개)</div>
+            <div class="couponIntro">
+              <img
+                src="https://sohonara.mysoho.com/assets/shop/img/common/ico_help_m.png"
+                alt=""
+              />
+              <div>쿠폰 안내보기</div>
+              <img
+                src="https://sohonara.mysoho.com/assets/shop/img/common/ico_arrow_m.png"
+                alt=""
+                onclick="couponInfoBtn()"
+                id="couponIntroBtn"
+                class="transform"
+              />
+            </div>
+            <div id="coupon-hidden-info-wrap">
+              <div class="coupon-hidden-info">
+                <span>-</span>
+                <div>
+                  사용기간이 만료된 쿠폰은 나의 쿠폰 목록에서 자동으로
+                  삭제됩니다.
+                </div>
+              </div>
+              <div class="coupon-hidden-info">
+                <span>-</span>
+                <div>
+                  사용기간 내 사용이 중지된 쿠폰은 판매자가 삭제 시, 나의 쿠폰
+                  목록에서 자동으로 삭제됩니다.
+                </div>
+              </div>
+              <div class="coupon-hidden-info">
+                <span>-</span>
+                <div>
+                  미입금 취소, 교환 시에는 사용한 쿠폰이 복원되지 않습니다.
+                </div>
+              </div>
+              <div class="coupon-hidden-info">
+                <span>-</span>
+                <div>
+                  결제완료된 주문의 경우 취소, 반품 시 환불 완료 시점에 사용한
+                  쿠폰이 복원됩니다.
+                </div>
+              </div>
+              <div class="coupon-hidden-info">
+                <span>-</span>
+                <div>
+                  구매 링크 상품은 쿠폰의 지정 상품 목록에 표시되지 않습니다.
+                  구매 링크 상품의 쿠폰 적용 여부는 구매 링크 내에서만 확인
+                  가능합니다.
+                </div>
+              </div>
+            </div>
+            <div class="couponNon">보유중인 쿠폰이 없습니다.</div>
+          </div>
+        </div>
+      </div>
+      <!-- 푸터 -->
+      <div class="footer">
+        <script>
+          $(".footer").load("/public-object/footer.html");
+        </script>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+      integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/js/header.js"></script>
+    <script src="/js/footer.js"></script>
+    <script>
+      function couponInfoBtn() {
+        if (
+          document.querySelector("#coupon-hidden-info-wrap").style.display !==
+          "block"
+        ) {
+          document.querySelector("#coupon-hidden-info-wrap").style.display =
+            "block";
+          document.querySelector("#couponIntroBtn").className = "";
+        } else {
+          document.querySelector("#coupon-hidden-info-wrap").style.display =
+            "none";
+          document.querySelector("#couponIntroBtn").className = "transform";
+        }
+      }
+    </script>
+  </body>
+</html>
