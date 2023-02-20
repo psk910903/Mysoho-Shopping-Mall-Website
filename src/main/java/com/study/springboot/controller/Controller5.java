@@ -87,6 +87,13 @@ public class Controller5 {
         List<InReplyEntity> list = inReplyRepository.findAllByReplyInquiryNo(inquiryNo);
         model.addAttribute("list",list);
 
+
+            Long itemNo = dto.getItemNo();
+            ProductResponseDto itemDto = productService.findById(itemNo);
+            String itemName = itemDto.getItemName();
+
+        model.addAttribute("itemName", itemName);
+
         if (list.size() == 0) {
             model.addAttribute("nullCheck", "null");
         }

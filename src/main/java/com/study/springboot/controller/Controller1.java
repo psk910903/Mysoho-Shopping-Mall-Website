@@ -144,6 +144,16 @@ public class Controller1 {
     return "<script>alert('수정 완료');location.href='/admin/product/list/';</script>";
   }
 
+  @ResponseBody
+  @RequestMapping("/product/list/modify/action")
+  public String productModify(ProductSaveRequestDto dto) {
+
+    boolean result = productService.productModify(dto);
+    if (!result) {
+      return "<script>alert('수정 실패');location.href='/admin/product/list/';</script>";
+    }
+    return "<script>alert('수정 완료');location.href='/admin/product/list/';</script>";
+  }
 
 
   //상품등록

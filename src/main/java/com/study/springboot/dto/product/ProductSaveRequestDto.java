@@ -11,20 +11,27 @@ public class ProductSaveRequestDto {
     private String itemCategory;
     private String itemName;
     private Long itemPrice;
+    private Long itemDiscountRate;
     private String itemOptionColor;
     private String itemOptionSize;
     private String itemInfo;
     private String itemImageUrl;
+    private String itemExposure;
+    private String itemSoldOut;
+
 
     public ProductEntity toSaveEntity() {
         return ProductEntity.builder()
                 .itemCategory(itemCategory)
                 .itemName(itemName)
                 .itemPrice(itemPrice)
+                .itemDiscountRate(itemDiscountRate)
                 .itemOptionColor(itemOptionColor)
                 .itemOptionSize(itemOptionSize)
                 .itemInfo(itemInfo)
                 .itemImageUrl(itemImageUrl)
+                .itemExposure(itemExposure)
+                .itemSoldOut(itemSoldOut)
                 .build();
     }
 
@@ -35,10 +42,13 @@ public class ProductSaveRequestDto {
                 .itemCategory(itemCategory)
                 .itemName(itemName)
                 .itemPrice(itemPrice)
+                .itemDiscountRate(itemDiscountRate)
                 .itemOptionColor(itemOptionColor)
                 .itemOptionSize(itemOptionSize)
                 .itemInfo(itemInfo)
                 .itemImageUrl(itemImageUrl)
+                .itemExposure(itemExposure)
+                .itemSoldOut(itemSoldOut)
                 .build();
     }
 }
