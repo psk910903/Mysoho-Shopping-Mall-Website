@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마이소호 샘플샵</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/navbar.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/share-btn.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+  </head>
+  <body>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <div class="wrap">
+      <div class="betweenbtn">
+        <script>
+          $(".betweenbtn").load("/public-object/betweenbtn.html");
+        </script>
+      </div>
+      <div class="header-wrap">
+        <div class="header">
+          <script>
+            $(".header").load("/public-object/header.html");
+          </script>
+        </div>
+        <div class="navbar">
+          <ul>
+            <li>
+              <a href="/category/NURIRI_SALE.html">♡ NURIRI SALE ♡</a>
+            </li>
+            <li><a href="/category/TOP.html">TOP</a></li>
+            <li><a href="/category/BOTTOM.html">BOTTOM</a></li>
+            <li>
+              <a href="/category/ONE-PIECE.html">ONE-PIECE</a>
+            </li>
+            <li><a href="/category/ACC.html" id="acc">ACC</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="carousel">
+        <script>
+          $(".carousel").load("/category-object/carousel.html");
+        </script>
+      </div>
+      <div class="container">
+        <div class="best-itemBox">
+          <script>
+            $(".best-itemBox").load("/category-object/best-itemBox.html");
+          </script>
+        </div>
+        <div class="mid-bnr">
+          <a href=""
+            ><img
+              src="https://img.makeshop.co.kr/1/1371/201908/3f56d2c3eaa566a8552895dad3afaf2e.png"
+              alt=""
+          /></a>
+        </div>
+        <div class="display-tap">
+          <div class="fl-l">
+            <a class="select" href="javascript:sortSelect()"
+              >최신순
+              <img
+                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
+                alt=""
+            /></a>
+            <ul id="sort">
+              <li><a href="">최신순</a></li>
+              <li><a href="">판매순</a></li>
+              <li><a href="">낮은가격순</a></li>
+              <li><a href="">리뷰많은순</a></li>
+              <li><a href="">평점높은순</a></li>
+            </ul>
+          </div>
+          <!-- 리스트변경 아이콘 -->
+          <button class="ico-list-f1" onclick="listChangeBtn()">
+            <img
+              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_list_type2.png"
+              alt=""
+              class="ico-list-1"
+            />
+            <img
+              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_list_type3.png"
+              alt=""
+              class="ico-list-2"
+            />
+            <img
+              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_list_type4.png"
+              alt=""
+              class="ico-list-3"
+            />
+            <img
+              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_list1.png"
+              alt=""
+              class="ico-list-4"
+            />
+          </button>
+        </div>
+        <div class="boxDiv">
+          <div id="list-type2" class="list-type">
+            <ul class="type1">
+              <!-- 첫번째 타입 -->
+              <div class="listType0">
+                <script>
+                  $(".listType0").load("/category-object/listType0.html");
+                </script>
+              </div>
+            </ul>
+            <!-- 두번째 타입 -->
+            <ul class="threeAlign threeAlign2 listType1">
+              <script>
+                $(".listType1").load("/category-object/listType1.html");
+              </script>
+            </ul>
+            <!-- 세번째 타입 -->
+            <ul class="twoAlign listType2">
+              <script>
+                $(".listType2").load("/category-object/listType2.html");
+              </script>
+            </ul>
+            <!-- 네번째 타입 -->
+            <div class="type4 listType3">
+              <script>
+                $(".listType3").load("/category-object/listType3.html");
+              </script>
+            </div>
+          </div>
+          <!-- 구분선 -->
+          <div class="mainNotice-top"></div>
+          <div class="mainNotice">
+            <div class="icoTit">
+              <img
+                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_notice.png"
+                alt=""
+              />
+            </div>
+            <div class="notice">
+              <a href="/category/notice.html">공지사항</a>
+            </div>
+            <div class="notice-info">등록된 공지사항이 없습니다.</div>
+          </div>
+        </div>
+        <!-- 푸터 -->
+        <div class="footer">
+          <script>
+            $(".footer").load("/public-object/footer.html");
+          </script>
+        </div>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+      integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/js/carousel.js"></script>
+    <script src="/js/header.js"></script>
+    <script src="/js/footer.js"></script>
+    <script src="/js/home-sort-btn.js"></script>
+    <script src="/js/home-displayTypeChange.js"></script>
+    <script src="/js/popup.js"></script>
+    <script>
+      //장바구니 버튼 클릭시 숫자 증가
+      let basketNum = document.querySelector(".basket-num").innerHTML;
+      console.log(basketNum);
+      function basketNumCount() {
+        basketNum++;
+        console.log(basketNum);
+        document.querySelector(".basket-num").innerHTML = basketNum;
+      }
+      var myCarousel = document.querySelector("#carouselExampleCaptions");
+    </script>
+  </body>
+</html>

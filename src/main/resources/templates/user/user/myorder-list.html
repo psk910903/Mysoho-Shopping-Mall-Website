@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마이소호 샘플샵</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/myorder-list-user.css" />
+  </head>
+  <body>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <div class="wrap">
+      <div class="betweenbtn">
+        <script>
+          $(".betweenbtn").load("/public-object/betweenbtn.html");
+        </script>
+      </div>
+      <div class="header">
+        <script>
+          $(".header").load("/public-object/header.html");
+        </script>
+      </div>
+      <!-- 컨텐츠 -->
+      <div class="container-myorder-list">
+        <div class="users-title-line-hd">
+          <div>주문조회</div>
+        </div>
+        <div class="users-cont">
+          <div class="order-tit-line">
+            <div class="order-tit">주문내역</div>
+          </div>
+          <!-- 3x2박스디자인 -->
+          <div class="order-status">
+            <!-- 첫째줄 -->
+            <div class="order-status-info">
+              <div class="grow red">
+                <div class="count order-status-item">
+                  <a href="javascript: changeRed(0) " id="value0"> 1</a>
+                </div>
+                <div class="countName order-status-item">
+                  <a href="javascript: changeRed(0)">전체</a>
+                </div>
+              </div>
+              <div class="grow">
+                <div class="count order-status-item">
+                  <a href="javascript: changeRed(1) " id="value1">1</a>
+                </div>
+                <div class="countName order-status-item">
+                  <a href="javascript: changeRed(1)">미입금/주문완료</a>
+                </div>
+              </div>
+              <div class="grow">
+                <div class="count order-status-item">
+                  <a href="javascript: changeRed(2) " id="value2">0</a>
+                </div>
+                <div class="countName order-status-item">
+                  <a href="javascript: changeRed(2)">배송대기</a>
+                </div>
+              </div>
+            </div>
+            <!-- 둘째줄 -->
+            <div class="order-status-info">
+              <div class="grow">
+                <div class="count order-status-item">
+                  <a href="javascript: changeRed(3)" id="value3">0</a>
+                </div>
+                <div class="countName order-status-item">
+                  <a href="javascript: changeRed(3)">배송중</a>
+                </div>
+              </div>
+              <div class="grow">
+                <div class="count order-status-item">
+                  <a href="javascript: changeRed(4) " id="value4">0</a>
+                </div>
+                <div class="countName order-status-item">
+                  <a href="javascript: changeRed(4)">배송/처리완료</a>
+                </div>
+              </div>
+              <div class="grow">
+                <div class="count order-status-item">
+                  <a href="javascript: changeRed(5) " id="value5">0</a>
+                </div>
+                <div class="countName order-status-item">
+                  <a href="javascript: changeRed(5)">취소/반품/교환</a>
+                </div>
+              </div>
+            </div>
+            <!-- 구분선 -->
+            <div class="bg-blank"></div>
+          </div>
+          <div class="order_list list-type0 list-type1">
+            <div class="list-wrap">
+              <div class="list-hd">
+                <div>
+                  <div class="od-num">2023010608355933</div>
+                  <div class="od-date">2023-01-06 08:35:59</div>
+                </div>
+                <button
+                  class="btn-h30-black open-layer btn-order-layer"
+                  id="show-order-list"
+                >
+                  주문정보
+                </button>
+                <div class="bg">
+                  <div class="window">
+                    <div class="popup">
+                      <div class="lhd">
+                        <div>주문번호</div>
+                        <div class="ord-num">2023010608355933</div>
+                        <button id="closeBtn">
+                          <img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
+                            alt=""
+                          />
+                        </button>
+                      </div>
+                      <div class="lcont">
+                        <div class="lcont-con">
+                          <div class="lcont-tit">주문자 정보</div>
+                          <div class="lcont-info">박선교, 010-4024-6575</div>
+                        </div>
+                        <div class="lcont-con">
+                          <div class="lcont-tit">주문자 정보</div>
+                          <div class="lcont-info">
+                            (18115) 경기 오산시 경기대로 389 123
+                          </div>
+                        </div>
+                        <div class="lcont-con">
+                          <div class="lcont-tit">결제정보</div>
+                          <div class="lcont-info">무통장</div>
+                          <div class="lcont-info">
+                            기업은행 0106-859-3030119
+                          </div>
+                          <div class="lcont-info">(예금주: 소호나라)</div>
+                        </div>
+                        <div class="lcont-con">
+                          <div class="lcont-tit">결제금액</div>
+                          <div class="between">
+                            <div class="lcont-tit-sub">총 상품금액</div>
+                            <div class="lcont-info-sub">49,000원</div>
+                          </div>
+                          <div class="between">
+                            <div class="lcont-tit-sub">총 배송비</div>
+                            <div class="lcont-info-sub">+ 0원</div>
+                          </div>
+                          <div class="between">
+                            <div class="lcont-tit-gray">- 기본 배송비</div>
+                            <div class="lcont-info-gray">(+)0원</div>
+                          </div>
+                          <div class="between">
+                            <div class="lcont-tit-gray">- 지역 배송비</div>
+                            <div class="lcont-info-gray">(+)0원</div>
+                          </div>
+                          <div class="between">
+                            <div class="lcont-tit-sub">
+                              총 할인/적립금 사용 금액
+                            </div>
+                            <div class="lcont-info-sub">- 4,500원</div>
+                          </div>
+                          <div class="between">
+                            <div class="lcont-tit-gray">- 상품 할인</div>
+                            <div class="lcont-info-gray">(-)4,500원</div>
+                          </div>
+                          <div class="between">
+                            <div class="lcont-tit-gray">- 쿠폰</div>
+                            <div class="lcont-info-gray">(+)0원</div>
+                          </div>
+                          <div class="between">
+                            <div class="lcont-tit-gray">
+                              - 프로모션 할인코드
+                            </div>
+                            <div class="lcont-info-gray">(+)0원</div>
+                          </div>
+                          <div class="between">
+                            <div class="lcont-tit-gray">- 적립금 사용</div>
+                            <div class="lcont-info-gray">(+)0원</div>
+                          </div>
+
+                          <div class="between final">
+                            <div class="final-price-tit">최종 결제금액</div>
+                            <div class="final-price">
+                              44,500
+                              <span class="final-price-tit"> 원</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="lcont-con">
+                          <div class="lcont-tit">환불/재결제 금액</div>
+                          <div class="between">
+                            <div class="lcont-tit-sub">환불금액</div>
+                            <div class="lcont-info-sub">- 0원</div>
+                          </div>
+                          <div class="between">
+                            <div class="lcont-tit-sub">재결제금액</div>
+                            <div class="lcont-info-sub">+ 0원</div>
+                          </div>
+                        </div>
+                        <div></div>
+
+                        <button
+                          type="submit"
+                          class="btn-h42-gray"
+                          id="closeBtnStr"
+                        >
+                          닫기
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="list">
+              <a href="product-top1.html">
+                <img
+                  src="https://img.makeshop.co.kr/1/1371/201902/115892be102b381a004ea0022421d6e7.png"
+                  alt=""
+                />
+              </a>
+              <div class="info">
+                <div class="label type1">결제대기</div>
+                <div class="name">퍼프 블라우스 퍼플</div>
+                <div class="price">44,500원</div>
+                <div class="option">/ 1개</div>
+              </div>
+            </div>
+            <!-- 구분선 -->
+            <div class="bg-blank"></div>
+          </div>
+          <div class="order_list list-type1"></div>
+          <div class="order_list list-type2"></div>
+          <div class="order_list list-type3"></div>
+          <div class="order_list list-type4"></div>
+          <div class="order_list list-type5"></div>
+        </div>
+      </div>
+      <!-- 푸터 -->
+      <div class="footer">
+        <script>
+          $(".footer").load("/public-object/footer.html");
+        </script>
+      </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+      integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/js/header.js"></script>
+    <script src="/js/footer.js"></script>
+    <script>
+      function changeRed(n) {
+        growArr = document.querySelectorAll(".grow ");
+        for (let i = 0; i < 6; i++) {
+          growArr[i].classList.remove("red");
+          document.querySelector(".list-type" + i).style.display = "none";
+        }
+        growArr[n].classList.add("red");
+        document.querySelector(".list-type" + n).style.display = "block";
+
+        if (document.querySelector("#value" + n).innerHTML === "0") {
+          alert("주문정보가 없습니다.");
+        }
+      }
+      // 주문정보 팝업
+      function showOrderList() {
+        document.querySelector(".bg").className = "bg showOrderList";
+      }
+
+      function closeOrderList() {
+        document.querySelector(".bg").className = "bg";
+      }
+
+      document
+        .querySelector("#show-order-list")
+        .addEventListener("click", showOrderList);
+      document
+        .querySelector("#closeBtn")
+        .addEventListener("click", closeOrderList);
+      document
+        .querySelector("#closeBtnStr")
+        .addEventListener("click", closeOrderList);
+    </script>
+  </body>
+</html>

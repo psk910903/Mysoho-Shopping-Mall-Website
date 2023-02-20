@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마이소호 샘플샵</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/login.css" />
+    <style>
+      .container-mileage {
+        padding-bottom: 100px;
+        min-height: 550px;
+      }
+      .users-cont {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+      }
+      .non-data {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 0;
+        margin: 20px 40px;
+        border-top: 1px solid #e5e5e5;
+        border-bottom: 1px solid #e5e5e5;
+        font-size: 15px;
+      }
+      .mileage-price {
+        font-weight: bold;
+        font-size: 25px;
+        color: #ff5a3f;
+        margin-top: 10px;
+      }
+      .info-balloon img {
+        width: 13px;
+        margin-right: 5px;
+      }
+      .info-balloon {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: #f1f1f1;
+        height: 20px;
+        margin: 10px auto 0px;
+        border-radius: 10px;
+        padding: 14px 5px;
+        font-size: 12px;
+        color: #5a5a5a;
+      }
+      .info-balloon p {
+        content: "";
+        position: absolute;
+        border-bottom: 10px solid #f1f1f1;
+        border-right: 5px solid transparent;
+        border-left: 5px solid transparent;
+        top: -9px;
+        left: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <div class="wrap">
+      <div class="betweenbtn">
+        <script>
+          $(".betweenbtn").load("/public-object/betweenbtn.html");
+        </script>
+      </div>
+      <div class="header">
+        <script>
+          $(".header").load("/public-object/header.html");
+        </script>
+      </div>
+      <!-- 나의 적립금 -->
+      <div class="container-mileage">
+        <div class="users-title-line-hd">
+          <h2>나의 적립금</h2>
+        </div>
+        <div class="users-cont" id="mileage">
+          <div>보유 적립금</div>
+          <div class="mileage-price">0원</div>
+          <div class="info-balloon">
+            <p></p>
+            <img
+              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_mileage_help.png"
+              alt=""
+            />보유 적립금 0원 부터 사용 가능합니다.
+          </div>
+        </div>
+        <div class="non-data">검색 결과가 없습니다.</div>
+      </div>
+      <!-- 푸터 -->
+      <div class="footer">
+        <script>
+          $(".footer").load("/public-object/footer.html");
+        </script>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+      integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/js/header.js"></script>
+    <script src="/js/footer.js"></script>
+  </body>
+</html>

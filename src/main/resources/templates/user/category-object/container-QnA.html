@@ -1,0 +1,53 @@
+<div class="users-title-line-hd">
+  <h2>Q&A 게시판</h2>
+</div>
+<form id="searchForm">
+  <div class="qa-search-wrap">
+    <div class="qa-search">
+      <input type="text" placeholder="검색어를 입력하세요" />
+      <!-- 돋보기 이미지 -->
+      <a href=""
+        ><img
+          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_search_h34.png"
+          alt=""
+      /></a>
+    </div>
+  </div>
+  <div class="btnBwrite js-btnMoveWritePage">
+    <a href="javascript:openPopupQnAWrite()"
+      ><img
+        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/bg_ico_write.png"
+        alt=""
+      /><strong> 문의작성</strong></a
+    >
+  </div>
+  <div class="qa-list-wrap js-qnasArea">
+    <a
+      href=""
+      class="js-qnasArea qna-board-list"
+      onclick="alert('작성자만 확인할 수 있습니다.')"
+    >
+      <div class="qa-list-icon">
+        답변
+        <br />
+        대기
+      </div>
+      <div class="tit-wrap js-qna">
+        <div>
+          <div class="tit js-qnaContents">
+            비밀글입니다.
+            <img
+              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_qa_lock.png"
+              alt=""
+            />
+          </div>
+          <div class="qna-info">
+            <div class="dil js-qnaType bar">기타</div>
+            <div class="name js-qnaWriter bar">dl******...</div>
+            <div class="date js-qnaDate">2022.04.11</div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</form>

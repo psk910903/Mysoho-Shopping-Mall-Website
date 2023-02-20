@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/pop-page.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .tbl-terms {
+        font-size: 13px;
+      }
+      .popTopWrap {
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid #e4e4e4;
+      }
+      a {
+        color: black;
+        text-decoration: none;
+      }
+      .close-btn {
+        width: 45px;
+        height: 48px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-left: 1px solid #e4e4e4;
+      }
+      .close-btn img {
+        width: 11px;
+      }
+      .popTitWrap {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+      }
+      .popTitWrap a {
+        width: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 13px;
+      }
+      .popTitWrap a:first-child {
+        color: #999999;
+        font-weight: bold;
+      }
+      .popTitWrap a:last-child {
+        border-bottom: 2px solid black;
+        font-weight: bold;
+      }
+      .tbl-detail {
+        padding: 20px 20px 35px;
+      }
+      .t-div {
+        display: flex;
+      }
+      .th,
+      .td {
+        padding: 12px 10px 10px;
+        font-size: 12px;
+        border: 1px solid #e2e1e1;
+        border-right: 0;
+      }
+      .blue {
+        font-size: 12px;
+        color: #297bcf;
+      }
+      .th {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 33.3%;
+        background: #f0f0f0;
+      }
+      .td {
+        display: flex;
+        width: 33.3%;
+        border-top: 0;
+      }
+      .th:last-child,
+      .td:last-child {
+        border-right: 1px solid #e2e1e1;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="popTopWrap">
+      <div class="popTitWrap">
+        <a href="pop-page3.html">이용약관</a>
+        <a href="pop-page4.html">개인정보 수집·이용</a>
+      </div>
+      <!-- 엑스이미지 -->
+      <a class="close-btn" href="javascript:closePopup()"
+        ><img
+          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h22_close_gray.png"
+          alt=""
+      /></a>
+    </div>
+
+    <div class="tbl-terms" style="text-align: left"></div>
+    <div class="tbl-detail">
+      <div class="t-div">
+        <div class="th">목적</div>
+        <div class="th">항목</div>
+        <div class="th">보유기간</div>
+      </div>
+      <div class="t-div">
+        <div class="td">
+          서비스 제공에 따른 요금정산, 콘텐츠 제공, 구매 및 요금결제, 물품배송,
+          금융거래 본인 인증 및 금융서비스
+        </div>
+        <div class="td">
+          주문자 정보(이름, 연락처)수령자 정보 (이름, 연락처, 주소)
+        </div>
+        <div class="td">
+          목적 달성 후 5년 (관계법률로 인해 필요 시, 일정기간 보존)
+        </div>
+      </div>
+      <div class="blue">
+        <br />
+        ※ 미동의 시, 비회원 구매가 제한됩니다.
+      </div>
+    </div>
+
+    <script>
+      function closePopup() {
+        window.close();
+      }
+    </script>
+  </body>
+</html>

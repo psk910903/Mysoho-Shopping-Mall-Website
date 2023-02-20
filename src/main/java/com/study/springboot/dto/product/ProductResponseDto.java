@@ -1,23 +1,29 @@
 package com.study.springboot.dto.product;
 
-import com.study.springboot.entity.product.Product;
+import com.study.springboot.entity.ProductEntity;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class ProductResponseDto {
-    private Long item_no;
-    private String item_code;
-    private String item_image_url;
-    private String item_name;
-    private int item_price;
+    private Long itemNo;
+    private String itemCategory;
+    private String itemImageUrl;
+    private String itemName;
+    private Long itemPrice;
+    private String itemOptionColor;
+    private String itemOptionSize;
+    private String itemInfo;
 
-    public ProductResponseDto(Product entity) {
-        this.item_no = entity.getItem_no();
-        this.item_code = entity.getItem_code();
-        this.item_image_url = entity.getItem_image_url();
-        this.item_name = entity.getItem_name();
-        this.item_price = entity.getItem_price();
+    public ProductResponseDto(ProductEntity entity) {
+        this.itemNo = entity.getItemNo();
+        this.itemCategory = entity.getItemCategory();
+        this.itemImageUrl = entity.getItemImageUrl();
+        this.itemName = entity.getItemName();
+        this.itemPrice = entity.getItemPrice();
+        this.itemOptionColor = entity.getItemOptionColor();
+        this.itemOptionSize = entity.getItemOptionSize();
+        this.itemInfo = entity.getItemInfo();
     }
 }
