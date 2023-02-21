@@ -1,0 +1,288 @@
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="css/admin.css">
+  <title>Document</title>
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+}
+.contentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 0 25px;
+  background-color: white;
+  border: 1px solid #dee2e6;
+  font-size: 25px;
+  font-weight: bold;
+}
+.navHeader {
+  align-items: center;
+  height: 60px;
+  padding: 0 10px;
+  border-bottom: 1px solid #dee2e6;
+  color: white;
+  font-size: 25px;
+  margin-bottom: 20px;
+}
+#wrap {
+  display: flex;
+  min-height: 940px;
+  background-color: #f8f9fa;
+}
+.admin-navBar {
+  min-width: 200px;
+  padding: 0;
+  background-color: #333;
+}
+.admin-navBar div {
+  display: flex;
+}
+.admin-navBar a {
+  margin: 0 15px;
+  text-decoration: none;
+  padding: 15px 0;
+  width: 100%;
+  border-bottom: 1px solid #949ca6;
+  color: white;
+}
+.admin-navBar a:hover {
+  font-weight: bold;
+  color: white;
+  font-size: 18px;
+}
+.head-title {
+  display: flex;
+  align-items: center;
+}
+.content {
+  padding: 20px;
+  width: 100%;
+}
+.count {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 20px;
+}
+.listCount {
+  display: flex;
+  align-items: flex-end;
+}
+.productImg {
+  max-height: 70px;
+}
+.page-link {
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+
+.page-item.active .page-link {
+  z-index: 1;
+  color: #555;
+  font-weight: bold;
+  background-color: #fff;
+  border-color: #ccc;
+}
+
+.page-link:focus,
+.page-link:hover {
+  color: #000;
+  background-color: #fafafa;
+  border-color: #ccc;
+}
+select {
+  border: 1px solid #dee2e6;
+}
+.contentWrap {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #dee2e6;
+}
+.contentHeader {
+  background-color: white;
+}
+.sub-title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+.w250 {
+  width: 250px;
+}
+.w200 {
+  width: 200px;
+}
+.w150 {
+  width: 150px;
+}
+.w110 {
+  width: 110px;
+}
+.w50 {
+  width: 50px;
+}
+
+
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+</head>
+<div id="wrap">
+
+  <div th:replace="/fragments/Nav.html :: fragment-adminNav"></div>
+
+  <div id="contentWrap" style="width:100%">
+    <div class="contentHeader" style="width:100%">
+      <div>상품문의관리</div>
+      <div>
+        <a type="button" class="btn btn-secondary">로그아웃</a>
+      </div>
+    </div>
+  <div class="content" style="width:100%">
+    <div style="width:100%" >
+      <div class="contentWrap">
+      <table class="table table-bordered ">
+        <form  action="/admin/inquiry/list" method="GET" class="row align-items-center" >
+          <input type="hidden" name="page" value="0">
+          <tr>
+            <th style="text-align: center;" class="table-light w250 align-middle">기간</th>
+            <td>
+              <!--            2023-02-15형태의 값으로 url에 반영 -->
+              <input type="date" name="dateStart" value="" class="btn btn-outline-secondary"/> ~
+              <input type="date" name="dateEnd" value="" class="btn btn-outline-secondary"/>
+              <a href="/admin/inquiry/list?dateStart=today&dateEnd=&findBy=type&keyword=&page=0" class="btn btn-outline-secondary">오늘</a>
+              <a href="/admin/inquiry/list?dateStart=yesterday&dateEnd=&findBy=type&keyword=&page=0" class="btn btn-outline-secondary">어제</a>
+              <a href="/admin/inquiry/list?dateStart=week&dateEnd=&findBy=type&keyword=&page=0" class="btn btn-outline-secondary">1주일</a>
+              <a href="/admin/inquiry/list?dateStart=month&dateEnd=&findBy=type&keyword=&page=0" class="btn btn-outline-secondary">1개월</a>
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="table-light w250 align-middle">검색조건</th>
+            <td >
+              <div class="input-group ">
+              <select name="findBy" style="padding-left: 10px" >
+                <option value="memberId" selected>회원아이디</option>
+                <option value="inquiryTitle">제목</option>
+                <option value="inquiryContent">내용</option>
+                <input type="text" value="" name="keyword" width="100px" class="form-control"/>
+                <input type="submit" value="검색" class="btn btn-secondary"/></a>
+              </select>
+              </div>
+            </td>
+          </tr>
+        </form>
+      </table>
+      </div>
+
+      <div class="contentWrap">
+      <div class="count">
+        <div class="listCount" >
+          <span>전체 문의 내역 : </span>
+          <strong th:text="${ listCount }">5</strong>
+        </div>
+      </div>
+
+        <table  class="table table-bordered table-hover" style="text-align: center;"  id="listForm">
+          <thead class="thead-strong">
+            <tr align="center" >
+              <th class="table-light align-middle w50">번호</th>
+              <th class="table-light align-middle w150">상품번호</th>
+              <th class="table-light align-middle">글제목</th>
+              <th class="table-light align-middle">작성자</th>
+<!--              <th class="table-light align-middle">공개여부</th>-->
+              <th class="table-light align-middle w110">조회수</th>
+              <th class="table-light align-middle w200">작성일</th>
+              <th class="table-light align-middle w150">관리</th>
+            </tr>
+          </thead>
+        <tr th:each="dto : ${list}" align="center">
+          <td class="align-middle" th:text="${ dto.inquiryNo }">번호</td>
+          <td class="align-middle" th:text="${ dto.itemNo }">상품번호</td>
+          <td class="align-middle" th:text="${ dto.inquiryTitle }">글제목</td>
+          <td class="align-middle" th:text="${ dto.memberId }">작성자</td>
+<!--          <td class="align-middle" th:text="${ dto.inquirySecret }">공개여부</td>-->
+          <td class="align-middle" th:text="${ dto.inquiryHit }">조회수</td>
+          <td class="align-middle" th:text="${#temporals.format(dto.inquiryDatetime, 'yyyy-MM-dd HH:mm')}">작성일</td>
+          <td class="align-middle">
+            <a th:href="@{content(inquiryNo=${dto.inquiryNo})}" class="btn btn-outline-secondary">상세정보</a>
+          </td>
+        </tr>
+      </table>
+      </div>
+
+    <!-- 페이징처리 시작 -->
+              <div class="container">
+                <div th:if="${!list.isEmpty()}">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${!list.hasPrevious} ? 'disabled'"> <!-- 이전 버튼 시작 -->
+                      <th:block th:if="${keyword}==null">
+                        <a class="page-link" style="color: #555;" th:href="|/admin/inquiry/list?page=${list.number-1}|">
+                          <span>이전</span>
+                        </a>
+                      </th:block>
+                      <th:block th:unless="${keyword}==null">
+                        <a class="page-link" style="color: #555;" th:href="|/admin/inquiry/list?page=${list.number-1}&findBy=${findBy}&keyword=${keyword}|">
+                          <span>이전</span>
+                        </a>
+                      </th:block>
+                    </li> <!-- 이전 버튼 끝 -->
+                    <li th:each="page: ${pageList}"
+                        th:classappend="${page == list.number} ? 'active'"
+                        class="page-item"> <!-- 숫자 페이지 버튼 시작 -->
+                      <th:block th:if="${keyword}==null">
+                        <a th:text="${page+1}" class="page-link" style="color: #555;" th:href="|/admin/inquiry/list?page=${page}|"></a>
+                      </th:block>
+                      <th:block th:unless="${keyword}==null">
+                        <a th:text="${page+1}" class="page-link" style="color: #555;"
+                           th:href="|/admin/inquiry/list?page=${page}&findBy=${findBy}&keyword=${keyword}|"></a>
+                      </th:block>
+                    </li> <!-- 숫자 페이지 버튼 끝 -->
+                    <li class="page-item" th:classappend="${!list.hasNext} ? 'disabled'"> <!-- 다음 버튼 시작 -->
+                      <th:block th:if="${keyword}==null">
+                        <a class="page-link" style="color: #555;" th:href="|/admin/inquiry/list?page=${list.number+1}|">
+                          <span>다음</span>
+                        </a>
+                      </th:block>
+                      <th:block th:unless="${keyword}==null">
+                        <a class="page-link" style="color: #555;" th:href="|/admin/inquiry/list?page=${list.number+1}&findBy=${findBy}&keyword=${keyword}|">
+                          <span>다음</span>
+                        </a>
+                      </th:block>
+                    </li> <!-- 다음 버튼 끝 -->
+                  </ul>
+                </div>
+              </div> <!-- 페이지 끝 -->
+    </div>
+  </div>
+  </div>
+
+</div><!-- wrap -->
+
+
+<script>
+<!-- 전부체크/해제 -->
+$('#listForm #allch').on('click',function(){
+<!--체크된 경우 -->
+if($('#allch').prop("checked")){
+<!--  화면의 체크박스 전부 체크 -->
+  $("input[type=checkbox]").prop("checked",true);
+}else {
+<!--아니면 체크 박스 전부 해제-->
+  $("input[type=checkbox]").prop("checked",false);
+  }
+});
+</script>
+</body>
+
+</html>
+
+
+
