@@ -35,7 +35,6 @@ public class ProductSaveRequestDto {
                 .build();
     }
 
-
     public ProductEntity toUpdateEntity() {
         return ProductEntity.builder()
                 .itemNo(itemNo)
