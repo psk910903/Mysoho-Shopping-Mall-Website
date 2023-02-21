@@ -22,7 +22,6 @@ public class ProductSaveRequestDto {
     private String itemSoldOut;
     private LocalDateTime itemUpdateDatetime;
 
-
     public ProductEntity toSaveEntity() {
         return ProductEntity.builder()
                 .itemCategory(itemCategory)

@@ -42,6 +42,7 @@ public class ProductService {
         return list.map(ProductResponseDto::new);
     }
 
+
     //페이징
     public List<Integer> getPageList(final int totalPage, final int page) {
 

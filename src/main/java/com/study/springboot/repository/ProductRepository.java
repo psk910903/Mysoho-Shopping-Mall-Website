@@ -1,5 +1,6 @@
 package com.study.springboot.repository;
 
+import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.entity.OrderEntity;
 import com.study.springboot.entity.ProductEntity;
 import org.springframework.data.domain.Page;
@@ -35,4 +36,13 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     @Query(value = "SELECT * FROM `item` WHERE `item_category` = :findByType1 AND item_price LIKE CONCAT('%',:keyword,'%') order BY item_update_datetime desc", nativeQuery = true)
     Page<ProductEntity> findByItemPrice(@Param(value="findByType1")String findByType1, @Param(value="keyword")String keyword, Pageable sort);
+
+    //----------------------------------------------------------------------------------------------------------------------
+
+    @Query(value = "SELECT * FROM item order BY item_update_datetime DESC LIMIT 6;", nativeQuery = true)
+    List<ProductEntity> findLimit6();
+
+    @Query(value = "SELECT * FROM item order BY item_update_datetime DESC LIMIT 9;", nativeQuery = true)
+    List<ProductEntity> findLimit9();
+
 }
