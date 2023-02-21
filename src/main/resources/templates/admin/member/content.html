@@ -28,7 +28,16 @@
                             <tr>
                                 <th class="table-light align-middle w250" style="text-align: center">회원번호</th>
                                 <td><input class="form-control" type="text" name="memberNo" readonly th:value="${member.memberNo}"></td>
-
+                            </tr>
+                            <tr>
+                                <th class="table-light align-middle w250" style="text-align: center">회원등급</th>
+                                <td>
+                                    <select name="memberRate" class="form-select">
+                                        <option th:text="${ member.memberRate }" th:value="${member.memberRate}" value="" selected="selected">일반</option>
+                                        <option value="일반">일반</option>
+                                        <option value="VIP">VIP</option>
+                                    </select>
+                                </td>
                             </tr>
                             <tr>
                                 <th class="table-light align-middle w250" style="text-align: center">아이디</th>
@@ -76,6 +85,26 @@
                                 <th class="table-light align-middle w250" style="text-align: center">적립금</th>
                                 <td>
                                     <input class="form-control" type="text" name="memberMileage" id="inputMileage" readonly th:value="${member.memberMileage}" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="table-light align-middle w250" style="text-align: center">권한</th>
+                                <td>
+                                    <select name="memberRole" class="form-select">
+                                        <option th:text="${ member.memberRole }" th:value="${member.memberRole}" value="" selected="selected">일반</option>
+                                        <option value="일반">일반</option>
+                                        <option value="관리자">관리자</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="table-light align-middle w250" style="text-align: center">탈퇴여부</th>
+                                <td>
+                                    <select name="memberExited" class="form-select">
+                                        <option th:text="${ member.memberExited }" th:value="${member.memberExited}" value="" selected="selected">탈퇴여부</option>
+                                        <option value="회원">회원</option>
+                                        <option value="탈퇴회원">탈퇴회원</option>
+                                    </select>
                                 </td>
                             </tr>
                             <tr>

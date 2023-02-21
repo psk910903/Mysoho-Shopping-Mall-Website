@@ -1,7 +1,7 @@
 package com.study.springboot.service;
 
 import com.study.springboot.dto.inquiry.InquiryResponseDto;
-import com.study.springboot.entity.inquiry.InquiryEntity;
+import com.study.springboot.entity.InquiryEntity;
 import com.study.springboot.repository.InquiryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
