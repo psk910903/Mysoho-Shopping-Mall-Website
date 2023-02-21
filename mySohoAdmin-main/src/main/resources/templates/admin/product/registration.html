@@ -1,0 +1,170 @@
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/admin.css">
+  <title>마이소호 관리자페이지</title>
+</head>
+<div id="wrap">
+  <div th:replace="/fragments/nav.html :: fragment-adminNav"></div>
+  <div id="contentWrap" style="width:100%">
+    <div class="contentHeader" style="width:100%">
+      <div>상품정보 등록</div>
+      <div>
+        <a type="button" class="btn btn-secondary">로그아웃</a>
+      </div>
+    </div>
+  <div class="content" style="width:100%">
+    <div style="width:100%" >
+
+      <form action="/admin/product/registration/action" method="post" name="editorForm" onsubmit="" enctype="multipart/form-data">
+        <div class="contentWrap">
+        <h3 class="sub-title"> 기본정보</h3>
+        <table class="table table-bordered" >
+          <tr>
+            <th style="text-align: center;" class="w250 table-light align-middle">상품분류</th>
+            <td>
+              <select name="itemCategory" class="form-select">
+                <option value="" selected="selected">대분류</option>
+                <option value="TOP">TOP</option>
+                <option value="BOTTOM">BOTTOM</option>
+                <option value="ONE-PIECE">ONE-PIECE</option>
+                <option value="ACC">ACC</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w250 table-light align-middle">상품명</th>
+            <td>
+              <input name="itemName"  placeholder="상품명" class="form-control">
+            </td>
+          </tr>
+        </table>
+        </div>
+
+        <div class="contentWrap">
+          <h3 class="sub-title"> 대표 이미지</h3>
+          <table class="table table-bordered" >
+            <tr >
+              <td >
+                <input type="file" name="uploadfile" multiple="multiple" required>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+
+
+        <div class="contentWrap">
+        <h3 class="sub-title"> 상품정보</h3>
+        <table class="table table-bordered" >
+          <tr>
+            <th style="text-align: center;" class="w250 table-light align-middle">판매가</th>
+            <td>
+              <input name="itemPrice"  placeholder="10000" class="form-control">
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w250 table-light align-middle">색상</th>
+            <td>
+              <input name="itemOptionColor"  placeholder="color" class="form-control">
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w250 table-light align-middle">사이즈</th>
+            <td>
+              <input name="itemOptionSize"  placeholder="S,M,L" class="form-control">
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w250 table-light align-middle">노출상태</th>
+            <td>
+              <select name="itemExposure" class="form-select">
+                <option value="노출함" selected="selected">노출함</option>
+                <option value="노출안함">노출안함</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w250 table-light align-middle">판매상태</th>
+            <td>
+              <select name="itemSoldOut" class="form-select">
+                <option value="판매중" selected="selected">판매중</option>
+                <option value="품절">품절</option>
+              </select>
+            </td>
+          </tr>
+        </table>
+        </div>
+
+        <div class="contentWrap">
+        <h3 class="sub-title"> 할인정보</h3>
+        <table class="table table-bordered" >
+          <tr>
+            <th style="text-align: center;" class="w250 table-light align-middle">할인율</th>
+            <td>
+              <input name="itemDiscountRate"  placeholder="10" class="form-control">
+              <input type="radio" checked />% 퍼센트
+            </td>
+          </tr>
+        </table>
+        </div>
+
+        <div class="contentWrap">
+        <h3 class="sub-title"> 상품 설명</h3>
+        <table class="table table-bordered" >
+          <tr >
+            <td >
+              <textarea class="textarea" id="editor" style="height:100px"></textarea>
+              <input type="hidden" name="itemInfo" id="editorData" >
+              <br>
+            </td>
+          </tr>
+        </table>
+        </div>
+
+        <div style="text-align: center;">
+          <button type="submit" id="submit" class="btn btn-secondary" onclick="function1()">등록하기</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  </div>
+</div>
+<!--  컨텐츠 끝-->
+</div>
+
+<!-- wrap -->
+<!--<script src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/ckeditor.js"></script>-->
+<!--<script src="https://cdn.ckeditor.com/ckeditor5/36.0.0/classic/translations/ko.js"></script>-->
+<script src="/js/ckeditor.js"> </script>
+<script>
+    let editor;
+
+    ClassicEditor
+      .create(document.querySelector('#editor'),{
+          language: 'ko',
+          ckfinder: {
+              uploadUrl: '/admin/imgUpload'
+          }
+      })
+      .then( newEditor => {
+        editor = newEditor;
+      })
+      .catch( error => {
+          console.error(error);
+      });
+
+    function function1(){
+        const editorData = editor.getData();
+        document.querySelector('#editorData').value = editorData;
+    }
+  </script>
+</body>
+
+</html>
+
+
+

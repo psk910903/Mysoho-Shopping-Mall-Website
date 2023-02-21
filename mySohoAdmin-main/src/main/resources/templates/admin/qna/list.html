@@ -1,0 +1,203 @@
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>마이소호 관리자페이지</title>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/css/admin.css">
+</head>
+<body>
+<div id="wrap">
+  <div th:replace="/fragments/nav.html :: fragment-adminNav"></div>
+  <div id="contentWrap" style="width:100%">
+    <div class="contentHeader" style="width:100%">
+      <div>통합문의관리</div>
+      <div>
+        <a type="button" class="btn btn-secondary">로그아웃</a>
+      </div>
+    </div>
+
+
+      <div class="content" style="width:100%">
+        <div class="contentWrap">
+        <form action="/admin/qna/list" method="Get">
+          <table class="table table-bordered" >
+          <tr>
+            <th style="text-align: center;" class="table-light align-middle w250">문의유형</th>
+            <td >
+              <a href="/admin/qna/list?page=0" class="btn btn-outline-secondary">전체</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=상품문의&page=0" class="btn btn-outline-secondary">상품문의</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=배송문의&page=0" class="btn btn-outline-secondary">배송문의</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=교환문의&page=0" class="btn btn-outline-secondary">교환문의</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=반품문의&page=0" class="btn btn-outline-secondary">반품문의</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=환불문의&page=0" class="btn btn-outline-secondary">환불문의</a>
+              <a href="/admin/qna/list?dateStart=&dateEnd=&keywordType=type&keyword=기타문의&page=0" class="btn btn-outline-secondary">기타문의</a>
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="table-light align-middle w250">기간</th>
+            <td >
+              <input class="btn btn-outline-secondary" type="date" name="dateStart"/> ~
+              <input class="btn btn-outline-secondary" type="date" name="dateEnd"/>
+              <a href="/admin/qna/list?dateStart=today&dateEnd=&keywordType=type&keyword=&page=0" class="btn btn-outline-secondary">오늘</a>
+              <a href="/admin/qna/list?dateStart=yesterday&dateEnd=&keywordType=type&keyword=&page=0" class="btn btn-outline-secondary">어제</a>
+              <a href="/admin/qna/list?dateStart=week&dateEnd=&keywordType=type&keyword=&page=0" class="btn btn-outline-secondary">1주일</a>
+              <a href="/admin/qna/list?dateStart=month&dateEnd=&keywordType=type&keyword=&page=0" class="btn btn-outline-secondary">1개월</a>
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="align-middle table-light w250">검색조건</th>
+            <td>
+              <div class="input-group ">
+              <select name="keywordType" style="padding-left: 10px">
+                <option value="title">제목</option>
+                <option value="writer">작성자</option>
+                <input name="keyword" class="form-control">
+                <button type="submit" class="btn btn-secondary">검색</button>
+              </select>
+              </div>
+            </td>
+          </tr>
+        </table>
+        </form>
+        </div>
+
+
+<!--        <input type="button" value="선택삭제">-->
+
+      <div class="contentWrap">
+        <div class="count">
+          <div class="listCount" >
+            <span>전체 문의 내역 : </span>
+            <strong th:text="${ listCount }">5</strong>
+          </div>
+        </div>
+    <table class="table table-bordered table-hover" style="text-align: center;">
+      <thead class="thead-strong">
+          <tr >
+            <th class="table-light align-middle w50">번호</th>
+            <th class="table-light align-middle w200">문의유형</th>
+            <th class="table-light align-middle">글제목</th>
+            <th class="table-light align-middle">작성자</th>
+            <th class="table-light align-middle w110">조회수</th>
+            <th class="table-light align-middle w200">작성일</th>
+            <th class="table-light align-middle w150">관리</th>
+          </tr>
+      </thead>
+          <tr th:each="qna:${qnalist}" >
+            <td class="align-middle" th:text="${ qna.qnaId }"></td>
+<!--            <td >번호</td>-->
+            <td class="align-middle" th:text="${ qna.qnaCategory }"></td>
+            <td class="align-middle">
+             <a th:text="${ qna.qnaTitle }">글제목</a>
+            </td>
+            <td class="align-middle" th:text="${ qna.qnaName }">작성자</td>
+            <td class="align-middle" th:text="${ qna.qnaHit}">조회수</td>
+            <td class="align-middle" th:text="${ #temporals.format(qna.qnaDate, 'yyyy-MM-dd HH:mm')}">작성일</td>
+            <td class="align-middle">
+              <a th:href="@{content/{id}(id=${qna.qnaId})}" class="btn btn-outline-secondary">상세정보</a>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+
+
+    <div class="container"> <!-- 페이지 시작 -->
+      <div th:if="${!qnalist.isEmpty()}">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" th:classappend="${!qnalist.hasPrevious} ? 'disabled'"> <!-- 이전 버튼 시작 -->
+            <th:block th:if="${keyword}==null">
+              <a class="page-link" style="color: #555;" th:href="|/admin/qna/list?page=${qnalist.number-1}|">
+                <span>이전</span>
+              </a>
+            </th:block>
+            <th:block th:unless="${keyword}==null">
+              <a class="page-link" style="color: #555;" th:href="|/admin/qna/list?page=${qnalist.number-1}">
+                <span>이전</span>
+              </a>
+            </th:block>
+          </li> <!-- 이전 버튼 끝 -->
+          <li th:each="page: ${pageList}"
+              th:classappend="${page == qnalist.number} ? 'active'"
+              class="page-item"> <!-- 숫자 페이지 버튼 시작 -->
+            <th:block th:if="${keyword}==null">
+              <a th:text="${page+1}" class="page-link" style="color: #555;" th:href="|/admin/qna/list?page=${page}|"></a>
+            </th:block>
+            <th:block th:unless="${keyword}==null">
+              <a th:text="${page+1}" class="page-link" style="color: #555;"
+                 th:href="|/admin/qna/list?page=${page}"></a>
+            </th:block>
+          </li> <!-- 숫자 페이지 버튼 끝 -->
+          <li class="page-item" th:classappend="${!qnalist.hasNext} ? 'disabled'"> <!-- 다음 버튼 시작 -->
+            <th:block th:if="${keyword}==null">
+              <a class="page-link" style="color: #555;" th:href="|/admin/qna/list?page=${qnalist.number+1}|">
+                <span>다음</span>
+              </a>
+            </th:block>
+            <th:block th:unless="${keyword}==null">
+              <a class="page-link" style="color: #555;" th:href="|/admin/qna/list?page=${qnalist.number+1}|">
+                <span>다음</span>
+              </a>
+            </th:block>
+          </li> <!-- 다음 버튼 끝 -->
+        </ul>
+      </div>
+    </div> <!-- 페이지 끝 -->
+
+
+  <!--  컨텐츠 끝-->
+  </div>
+  </div>
+</div>
+
+<!-- wrap -->
+</div>
+</body>
+
+<script>
+function checkAll() {
+	if($("#cboxAll").is(':checked')) {
+		$("input[name=cbox]").prop("checked", true);
+	} else {
+		$("input[name=cbox]").prop("checked", false);
+	}
+}
+
+</script>
+<script>
+ function deleteValue(){
+
+      var qnaNo = "";
+     $( "input[name='cbox']:checked" ).each (function (){
+     qnaNo = qnaNo + $(this).val()+"," ;
+     });
+    if(qnaNo == ""){
+     alert("삭제할 대상을 선택하세요.");
+     return false;
+     }
+     $.ajax({
+            url : '/admin/qna/select/delete',
+            type : 'GET',
+            traditional : true,
+            data : {
+              qnaNo : qnaNo
+            },
+            success: function(jdata){
+              if(jdata = 1){
+                alert("삭제 완료");
+                location.replace("/admin/qna/list")
+              }
+              else{
+                alert("삭제 실패")
+              }
+            }
+        });
+    }
+    </script>
+</html>
+
+
+

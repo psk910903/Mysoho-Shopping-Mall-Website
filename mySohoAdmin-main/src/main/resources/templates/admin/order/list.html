@@ -1,0 +1,180 @@
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/admin.css">
+  <title>마이소호 관리자페이지</title>
+</head>
+<div id="wrap">
+  <div th:replace="/fragments/nav.html :: fragment-adminNav"></div>
+  <div id="contentWrap" style="width:100%">
+    <div class="contentHeader" style="width:100%">
+      <div>주문관리</div>
+      <div>
+        <a type="button" class="btn btn-secondary">로그아웃</a>
+      </div>
+    </div>
+  <!--  컨텐츠 시작-->
+  <div class="content" style="width:100%">
+    <div style="width:100%" >
+      <div class="contentWrap">
+      <!-- 검색 시작 -->
+      <form  action="/admin/order/list" method="GET" >
+        <table class="table table-bordered" >
+          <tr>
+            <th style="text-align: center;" class="table-light align-middle w250">주문상태</th>
+            <td class="align-middle">
+              <a href="/admin/order/list?page=0" class="btn btn-outline-secondary">전체</a>
+              <a href="/admin/order/list?dateStart=&dateEnd=&findBy=type&keyword=미입금/주문완료&page=0" class="btn btn-outline-secondary">미입금/주문완료</a>
+              <a href="/admin/order/list?dateStart=&dateEnd=&findBy=type&keyword=배송대기&page=0" class="btn btn-outline-secondary">배송대기</a>
+              <a href="/admin/order/list?dateStart=&dateEnd=&findBy=type&keyword=배송중&page=0" class="btn btn-outline-secondary">배송중</a>
+              <a href="/admin/order/list?dateStart=&dateEnd=&findBy=type&keyword=배송완료&page=0" class="btn btn-outline-secondary">배송완료</a>
+              <a href="/admin/order/list?dateStart=&dateEnd=&findBy=type&keyword=취소/반품/교환&page=0" class="btn btn-outline-secondary">취소/반품/교환</a>
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="table-light align-middle w250">기간</th>
+            <td class="align-middle">
+              <input class="btn btn-outline-secondary" type="date" name="dateStart" value="" /> ~
+              <input class="btn btn-outline-secondary" type="date" name="dateEnd" value="" />
+              <a href="/admin/order/list?dateStart=today&dateEnd=&findBy=type&keyword=&page=0" class="btn btn-outline-secondary">오늘</a>
+              <a href="/admin/order/list?dateStart=yesterday&dateEnd=&findBy=type&keyword=&page=0" class="btn btn-outline-secondary">어제</a>
+              <a href="/admin/order/list?dateStart=week&dateEnd=&findBy=type&keyword=&page=0" class="btn btn-outline-secondary">1주일</a>
+              <a href="/admin/order/list?dateStart=month&dateEnd=&findBy=type&keyword=&page=0" class="btn btn-outline-secondary">1개월</a>
+            </td>
+          </tr>
+            <input type="hidden" name="page" value="0">
+            <th style="text-align: center;" class="align-middle table-light w250">검색조건</th>
+            <td class="align-middle">
+              <div class="input-group ">
+              <select name="findBy" style="padding-left: 10px">
+                <option value="all" selected="selected">전체</option>
+                <option value="orderName" >주문자명</option>
+                <option value="orderNo" >주문번호</option>
+                <option value="orderPhone" >전화번호</option>
+                <input name="keyword" class="form-control">
+                <button type="submit" class="btn btn-secondary">검색</button>
+              </select>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </form>
+        </div>
+
+      <!-- 검색 끝 -->
+      <div class="contentWrap">
+      <div class="count">
+        <div class="listCount">
+          <span>총 주문수 : </span>
+          <strong th:text="${ listCount }">5</strong>
+        </div>
+        <div></div>
+      </div>
+
+      <form action="/admin/order/status/modify" method="post">
+        <table class="table table-bordered table-hover" style="text-align: center;">
+          <thead class="thead-strong">
+          <tr>
+            <td class="table-light align-middle w50"><input type="checkbox"></td>
+            <th class="table-light align-middle">주문일</th>
+            <th class="table-light align-middle">주문번호</th>
+            <th class="table-light align-middle">주문자명</th>
+            <th class="table-light align-middle">결제방법</th>
+            <th class="table-light align-middle">결제금액</th>
+            <th class="table-light align-middle w200">주문상태</th>
+            <th class="table-light align-middle w250">상세정보</th>
+          </tr>
+          </thead>
+          <tbody id="tbody">
+          <tr th:each="dto:${ list }">
+            <td class="align-middle"><input type="checkbox"></td>
+            <td class="align-middle" th:text="${#temporals.format(dto.orderDatetime, 'yyyy-MM-dd HH:mm')}">주문일</td>
+            <td class="align-middle">
+              <a th:href="|/admin/order/content?orderNo=${dto.orderNo}|" th:text="${ dto.orderNo }"11
+                 style="text-decoration: none;color: black;">주문번호</a>
+            </td>
+            <td class="align-middle" th:text="${ dto.orderName }">주문자명</td>
+            <td class="align-middle" th:text="${ dto.orderPayType }">주문방법</td>
+            <td class="align-middle" th:text="${ dto.orderTotalPrice }">결제금액</td>
+            <td class="align-middle">
+              <select name="orderState" class="form-select">
+                <option selected="selected" th:text="${ dto.orderState }" th:value="${ dto.orderState }" value="">주문상태</option>
+                <option value="미입금/주문완료">미입금/주문완료</option>
+                <option value="배송대기">배송대기</option>
+                <option value="배송중">배송중</option>
+                <option value="배송완료">배송완료</option>
+                <option value="취소/반품/교환">취소/반품/교환</option>
+              </select>
+            </td >
+            <td style="text-align: center;" class="align-middle">
+              <input th:value="${ dto.orderNo }" type="hidden" name="orderNo">
+              <button type="submit" class="btn btn-outline-danger" > 주문상태 변경</button>
+              <a th:href="|/admin/order/content?orderNo=${dto.orderNo}|" class="btn btn-outline-secondary">수정</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+    </div>
+
+    <!-- 페이지 네비게이션 -->
+    <div class="container"> <!-- 페이지 시작 -->
+      <div th:if="${!list.isEmpty()}">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" th:classappend="${!list.hasPrevious} ? 'disabled'"> <!-- 이전 버튼 시작 -->
+            <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+              <a class="page-link" style="color: #555;" th:href="|/admin/order/list?page=${list.number-1}|">
+                <span>이전</span>
+              </a>
+            </th:block>
+            <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+              <a class="page-link" style="color: #555;" th:href="|/admin/order/list?page=${list.number-1}&dateStart=${dateStart}&dateEnd=${dateEnd}&findBy=${findBy}&keyword=${keyword}|">
+                <span>이전</span>
+              </a>
+            </th:block>
+          </li> <!-- 이전 버튼 끝 -->
+          <li th:each="page: ${pageList}"
+              th:classappend="${page == list.number} ? 'active'"
+              class="page-item"> <!-- 숫자 페이지 버튼 시작 -->
+            <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+              <a th:text="${page+1}" class="page-link" style="color: #555;" th:href="|/admin/order/list?page=${page}|"></a>
+            </th:block>
+            <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+              <a th:text="${page+1}" class="page-link" style="color: #555;" th:href="|/admin/order/list?page=${page}&dateStart=${dateStart}&dateEnd=${dateEnd}&findBy=${findBy}&keyword=${keyword}|"></a>
+            </th:block>
+          </li> <!-- 숫자 페이지 버튼 끝 -->
+          <li class="page-item" th:classappend="${!list.hasNext} ? 'disabled'"> <!-- 다음 버튼 시작 -->
+            <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+              <a class="page-link" style="color: #555;" th:href="|/admin/order/list?page=${list.number+1}|">
+                <span>다음</span>
+              </a>
+            </th:block>
+            <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+              <a class="page-link" style="color: #555;" th:href="|/admin/order/list?page=${list.number+1}&dateStart=${dateStart}&dateEnd=${dateEnd}&findBy=${findBy}&keyword=${keyword}|">
+                <span>다음</span>
+              </a>
+            </th:block>
+          </li> <!-- 다음 버튼 끝 -->
+        </ul>
+      </div>
+    </div> <!-- 페이지 끝 -->
+
+
+  </div> <!-- content 끝 -->
+  </div>
+  </div>
+  <!--  컨텐츠 끝-->
+</div>
+
+<!-- wrap -->
+
+</body>
+
+</html>
+
+
+
