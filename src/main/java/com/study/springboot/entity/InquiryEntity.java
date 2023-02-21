@@ -50,7 +50,7 @@ public class InquiryEntity {
                        String inquiryTitle,
                        String inquiryContent,
                        String inquiryHit,
-                       String inquirySec) {
+                       String inquirySecret) {
         this.memberId = memberId;
         this.itemNo = itemNo;
         this.inquiryTitle = inquiryTitle;
