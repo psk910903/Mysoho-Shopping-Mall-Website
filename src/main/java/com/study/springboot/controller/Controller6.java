@@ -75,10 +75,10 @@ public class Controller6 {
     public  String contentModify(MemberResponseDto dto) {
         MemberResponseDto entity = memberService.modify(Long.valueOf(dto.getMemberNo()), dto);
         if (entity.getMemberNo() == Long.valueOf(dto.getMemberNo())) {
-            return "<script>alert('정보수정됨'); location.href='/admin/member/list';</script>";
+            return "<script>alert('회원정보수정 완료'); location.href='/admin/member/list';</script>";
         } else {                        //http://localhost:8080/admin/member/list?page=0
             //업데이트 실패함
-            return "<script>alert('정보수정 실패함'); history.back();</script>";
+            return "<script>alert('회원정보수정 실패'); history.back();</script>";
         }
     }
 

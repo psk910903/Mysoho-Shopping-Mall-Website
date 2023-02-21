@@ -106,7 +106,7 @@ public class Controller1 {
     if (!result) {
       return "<script>alert('삭제 실패');location.href='/admin/product/list/';</script>";
     }
-    return "<script>alert('삭제 성공');location.href='/admin/product/list/';</script>";
+    return "<script>alert('삭제 완료');location.href='/admin/product/list/';</script>";
   }
 
   //상품 선택삭제
@@ -117,7 +117,7 @@ public class Controller1 {
     if (!result) {
       return "<script>alert('선택삭제 실패');location.href='/admin/product/list/';</script>";
     }
-    return "<script>alert('선택삭제 성공');location.href='/admin/product/list/';</script>";
+    return "<script>alert('선택삭제 완료');location.href='/admin/product/list/';</script>";
   }
 
 
@@ -141,9 +141,19 @@ public class Controller1 {
     if (!result) {
       return "<script>alert('수정 실패');location.href='/admin/product/list/';</script>";
     }
-    return "<script>alert('수정 성공');location.href='/admin/product/list/';</script>";
+    return "<script>alert('수정 완료');location.href='/admin/product/list/';</script>";
   }
 
+  @ResponseBody
+  @RequestMapping("/product/list/modify/action")
+  public String productModify(ProductSaveRequestDto dto) {
+
+    boolean result = productService.productModify(dto);
+    if (!result) {
+      return "<script>alert('수정 실패');location.href='/admin/product/list/';</script>";
+    }
+    return "<script>alert('수정 완료');location.href='/admin/product/list/';</script>";
+  }
 
 
   //상품등록
@@ -165,7 +175,7 @@ public class Controller1 {
       if (!result) {
         return "<script>alert('등록 실패');location.href='/admin/product/list/';</script>";
       }
-      return "<script>alert('등록 성공');location.href='/admin/product/list/';</script>";
+      return "<script>alert('등록 완료');location.href='/admin/product/list/';</script>";
 
   }
 
@@ -255,7 +265,7 @@ public class Controller1 {
     if (!result) {
       return "<script>alert('주문상태 변경 실패');location.href='/admin/order/list/';</script>";
     }
-    return "<script>alert('주문상태 변경 성공');location.href='/admin/order/list/';</script>";
+    return "<script>alert('주문상태 변경 완료');location.href='/admin/order/list/';</script>";
   }
 
   //단건 주문정보 수정
@@ -267,6 +277,6 @@ public class Controller1 {
     if (!result) {
       return "<script>alert('수정 실패');location.href='/admin/order/list/';</script>";
     }
-    return "<script>alert('수정 성공');location.href='/admin/order/list/';</script>";
+    return "<script>alert('수정 완료');location.href='/admin/order/list/';</script>";
   }
 }

@@ -73,20 +73,7 @@ public class Controller4 {
         model.addAttribute("listCount", listCount);
         return "/admin/qna/list";
     }
-    //    글작성
-    @PostMapping("/write")
-    @ResponseBody
-    public String write(QnaSaveDto dto) {
-        boolean result = qnaService.save(dto.toEntity());
-        if (!result) {
-            return "<script>alert('글쓰기 실패');history.back();</script>";
-        }
-        return "<script>alert('글쓰기 성공');location.href='/admin/qna/list';</script>";
-    }
 
-    //    게시글리스트 가기
-
-//    제목클릭시 상세페이지가기
 @GetMapping("/content/{id}")
 public String content(@PathVariable("id") long id, Model model) {
         qnaService.modifyHits(id);
@@ -110,7 +97,7 @@ public String delete(@PathVariable("id") Long id){
     if(!delete){
         return "<script>alert('삭제 실패');history.back();</script>";
     }
-    return "<script>alert('삭제 성공');location.href='/admin/qna/list';</script>";
+    return "<script>alert('삭제 완료');location.href='/admin/qna/list';</script>";
 }
 //    쓰기폼 가기(셀렉트 테스트용-사용자페이지에서해야함)
     @GetMapping("/write")
@@ -126,9 +113,9 @@ public String delete(@PathVariable("id") Long id){
         Long commentQnaId = dto.getCommentQnaId();
         boolean result = qnaCommentService.save(dto.toEntity());
         if(!result){
-            return "<script>alert('답글달기 실패');history.back();</script>";
+            return "<script>alert('답변등록 실패');history.back();</script>";
         }
-        return "<script>alert('답변수정 성공'); location.href='/admin/qna/content/" + commentQnaId + "'; </script>";
+        return "<script>alert('답변등록 완료'); location.href='/admin/qna/content/" + commentQnaId + "'; </script>";
     }
 
     @GetMapping("/comment/delete/{id}")
@@ -136,9 +123,9 @@ public String delete(@PathVariable("id") Long id){
     public String commentDelete(@PathVariable("id") long id){
         boolean result = qnaCommentService.delete(id);
         if(!result){
-            return "<script>alert('답변삭제 실패했습니다.');history.back();</script>";
+            return "<script>alert('답변삭제 실패');history.back();</script>";
         }
-        return "<script>alert('답변이 삭제되었습니다.');location.href='/admin/qna/list';</script>";
+        return "<script>alert('답변삭제 완료');location.href='/admin/qna/list';</script>";
     }
 
     //수정
@@ -150,7 +137,7 @@ public String delete(@PathVariable("id") Long id){
         if(!result){
             return "<script>alert('답변수정 실패');history.back();</script>";
         }
-        return "<script>alert('답변수정 성공'); location.href='/admin/qna/content/" + commentQnaId + "'; </script>";
+        return "<script>alert('답변수정 완료'); location.href='/admin/qna/content/" + commentQnaId + "'; </script>";
     }
 
 //  선택삭제

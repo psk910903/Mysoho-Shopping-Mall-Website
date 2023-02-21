@@ -4,135 +4,8 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" type="text/css" href="css/admin.css">
-  <title>Document</title>
-  <style>
-    * {
-  margin: 0;
-  padding: 0;
-}
-.contentHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 60px;
-  padding: 0 25px;
-  background-color: white;
-  border: 1px solid #dee2e6;
-  font-size: 25px;
-  font-weight: bold;
-}
-.navHeader {
-  align-items: center;
-  height: 60px;
-  padding: 0 10px;
-  border-bottom: 1px solid #dee2e6;
-  color: white;
-  font-size: 25px;
-  margin-bottom: 20px;
-}
-#wrap {
-  display: flex;
-  min-height: 940px;
-  background-color: #f8f9fa;
-}
-.admin-navBar {
-  min-width: 200px;
-  padding: 0;
-  background-color: #333;
-}
-.admin-navBar div {
-  display: flex;
-}
-.admin-navBar a {
-  margin: 0 15px;
-  text-decoration: none;
-  padding: 15px 0;
-  width: 100%;
-  border-bottom: 1px solid #949ca6;
-  color: white;
-}
-.admin-navBar a:hover {
-  font-weight: bold;
-  color: white;
-  font-size: 18px;
-}
-.head-title {
-  display: flex;
-  align-items: center;
-}
-.content {
-  padding: 20px;
-  width: 100%;
-}
-.count {
-  display: flex;
-  justify-content: space-between;
-  padding: 5px 20px;
-}
-.listCount {
-  display: flex;
-  align-items: flex-end;
-}
-.productImg {
-  max-height: 70px;
-}
-.page-link {
-  color: #000;
-  background-color: #fff;
-  border: 1px solid #ccc;
-}
-
-.page-item.active .page-link {
-  z-index: 1;
-  color: #555;
-  font-weight: bold;
-  background-color: #fff;
-  border-color: #ccc;
-}
-
-.page-link:focus,
-.page-link:hover {
-  color: #000;
-  background-color: #fafafa;
-  border-color: #ccc;
-}
-select {
-  border: 1px solid #dee2e6;
-}
-.contentWrap {
-  background-color: white;
-  padding: 20px;
-  margin-bottom: 20px;
-  border: 1px solid #dee2e6;
-}
-.contentHeader {
-  background-color: white;
-}
-.sub-title {
-  font-weight: bold;
-  font-size: 18px;
-  margin-left: 10px;
-  margin-bottom: 10px;
-}
-.w250 {
-  width: 250px;
-}
-.w200 {
-  width: 200px;
-}
-.w150 {
-  width: 150px;
-}
-.w110 {
-  width: 110px;
-}
-.w50 {
-  width: 50px;
-}
-
-
-  </style>
+  <link rel="stylesheet" type="text/css" href="/css/admin.css">
+  <title>마이소호 관리자페이지</title>
 </head>
 <div id="wrap">
   <div th:replace="/fragments/nav.html :: fragment-adminNav"></div>
@@ -181,6 +54,8 @@ select {
         </table>
         </div>
       </form>
+
+
       <div class="contentWrap">
       <div class="count">
         <div class="listCount" >
@@ -197,14 +72,17 @@ select {
           <th class="table-light align-middle w150">상품코드</th>
           <th class="table-light align-middle w150">이미지</th>
           <th class="table-light align-middle">상품명</th>
-          <th class="table-light align-middle w110">색상</th>
+          <th class="table-light align-middle ">색상</th>
           <th class="table-light align-middle w110">사이즈</th>
           <th class="table-light align-middle w150">가격</th>
-          <th class="table-light align-middle w200">상세정보</th>
+          <th class="table-light align-middle w150">노출상태</th>
+          <th class="table-light align-middle w150">판매상태</th>
+          <th class="table-light align-middle w250">상세정보</th>
         </tr>
         </thead>
         <tbody id="tbody">
         <tr th:each="dto:${ list }">
+          <form action="/admin/product/list/modify/action" method="post" enctype="multipart/form-data">
           <td class="align-middle"><input type="checkbox" name="RowCheck" th:value="${ dto.itemNo }"></td>
           <td class="align-middle" th:text="${ dto.itemNo }">상품코드</td>
           <!--          이미지-->
@@ -216,10 +94,35 @@ select {
           <td class="align-middle" th:text="${ dto.itemOptionColor }">색상</td>
           <td class="align-middle" th:text="${ dto.itemOptionSize }">사이즈</td>
           <td class="align-middle" th:text="${ dto.itemPrice }+원">가격</td>
+          <td class="align-middle">
+            <select name="itemExposure" class="form-select">
+              <option th:text="${ dto.itemExposure }" th:value="${ dto.itemExposure }" value="" selected="selected">노출함</option>
+              <option value="노출함">노출함</option>
+              <option value="노출안함">노출안함</option>
+            </select>
+          </td>
+          <td class="align-middle">
+            <select name="itemSoldOut" class="form-select">
+              <option th:text="${ dto.itemSoldOut }" th:value="${ dto.itemSoldOut }" value="" selected="selected">판매중</option>
+              <option value="판매중">판매중</option>
+              <option value="품절">품절</option>
+            </select>
+          </td>
           <td class="align-middle" style="text-align: center;">
+            <input th:value="${ dto.itemNo }" type="hidden" name="itemNo">
+            <input th:value="${ dto.itemCategory }" type="hidden" name="itemCategory">
+            <input th:value="${ dto.itemName }" type="hidden" name="itemName">
+            <input th:value="${ dto.itemOptionColor }" type="hidden" name="itemOptionColor">
+            <input th:value="${ dto.itemOptionSize }" type="hidden" name="itemOptionSize">
+            <input th:value="${ dto.itemPrice }" type="hidden" name="itemPrice">
+            <input th:value="${ dto.itemDiscountRate }" type="hidden" name="itemDiscountRate">
+            <input th:value="${ dto.itemImageUrl }" type="hidden" name="itemImageUrl">
+            <input th:value="${ dto.itemInfo }" type="hidden" name="itemInfo">
+            <button type="submit" class="btn btn-outline-danger" >저장</button>
             <a th:href="|/admin/product/content?itemNo=${dto.itemNo}|" class="btn btn-outline-secondary">수정</a>
             <a th:href="|/admin/product/delete?itemNo=${dto.itemNo}|" class="btn btn-outline-danger">삭제</a>
           </td>
+      </form>
         </tr>
         </tbody>
       </table>
@@ -298,7 +201,7 @@ select {
             },
             success: function(jdata){
               if(jdata = 1){
-                alert("삭제 성공");
+                alert("삭제 완료");
                 location.replace("/admin/product")
               }
               else{

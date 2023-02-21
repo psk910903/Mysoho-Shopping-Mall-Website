@@ -17,39 +17,43 @@ public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "item_no", nullable = false)
-    private Long itemNo;
+    private Long itemNo; //상품번호
     @Column(name = "item_category", nullable = false)
-    private String itemCategory;
+    private String itemCategory; //카테고리
     @Column(name = "item_name", nullable = false)
-    private String itemName;
-    @Column(name = "item_option_color", nullable = true)
-    private String itemOptionColor;
-    @Column(name = "item_option_size", nullable = true)
-    private String itemOptionSize;
+    private String itemName; //상품명
+    @Column(name = "item_option_color", nullable = false)
+    private String itemOptionColor; //색상
+    @Column(name = "item_option_size", nullable = false)
+    private String itemOptionSize; //사이즈
     @Column(name = "item_price", nullable = false)
-    private Long itemPrice;
-    @Column(name = "item_image_url", nullable = true)
-    private String itemImageUrl;
-    @Column(name = "item_info", nullable = true)
-    private String itemInfo;
-    @Column(name = "item_info_image_url_1", nullable = true)
-    private String itemInfoImageUrl1;
-    @Column(name = "item_info_image_url_2", nullable = true)
-    private String itemInfoImageUrl2;
+    private Long itemPrice; //가격
+    @Column(name = "item_discount_rate", nullable = false)
+    private Long itemDiscountRate; //할인율
+    @Column(name = "item_image_url", nullable = false)
+    private String itemImageUrl; //메인이미지
+    @Column(name = "item_info")
+    private String itemInfo; //상품정보(설명)
+    @Column(name = "item_exposure")
+    private String itemExposure; //노출여부
+    @Column(name = "item_sold_out")
+    private String itemSoldOut; //품절여부
     @Column(name = "item_update_datetime", nullable = true)
     private LocalDateTime itemUpdateDatetime = LocalDateTime.now(); // 생성일,수정일
 
     @Builder
-    public ProductEntity(Long itemNo, String itemCategory, String itemName, String itemOptionColor, String itemOptionSize, Long itemPrice, String itemImageUrl, String itemInfo, String itemInfoImageUrl1, String itemInfoImageUrl2) {
+    public ProductEntity(Long itemNo, String itemCategory, String itemName, String itemOptionColor, String itemOptionSize, Long itemPrice, Long itemDiscountRate, String itemImageUrl, String itemInfo, String itemExposure, String itemSoldOut, LocalDateTime itemUpdateDatetime) {
         this.itemNo = itemNo;
         this.itemCategory = itemCategory;
         this.itemName = itemName;
         this.itemOptionColor = itemOptionColor;
         this.itemOptionSize = itemOptionSize;
         this.itemPrice = itemPrice;
+        this.itemDiscountRate = itemDiscountRate;
         this.itemImageUrl = itemImageUrl;
         this.itemInfo = itemInfo;
-        this.itemInfoImageUrl1 = itemInfoImageUrl1;
-        this.itemInfoImageUrl2 = itemInfoImageUrl2;
+        this.itemExposure = itemExposure;
+        this.itemSoldOut = itemSoldOut;
+        this.itemUpdateDatetime = itemUpdateDatetime;
     }
 }

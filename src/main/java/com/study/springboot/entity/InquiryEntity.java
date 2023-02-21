@@ -1,4 +1,4 @@
-package com.study.springboot.entity.inquiry;
+package com.study.springboot.entity;
 
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,9 +25,9 @@ public class InquiryEntity {
     private String inquiryContent;
     @Column(name = "inquiry_hit")
     private String inquiryHit;
+    @Column(name = "inquiry_secret", nullable = false)
+    private String inquirySecret;
     @Column(name = "inquiry_date")
-    //@Builder.Default
-    //@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime inquiryDatetime = LocalDateTime.now();
 
     @Builder
@@ -35,23 +35,28 @@ public class InquiryEntity {
                          Long itemNo,
                          String inquiryTitle,
                          String inquiryContent,
-                         String inquiryHit) {
+                         String inquiryHit,
+                         String inquirySecret) {
         this.memberId = memberId;
         this.itemNo = itemNo;
         this.inquiryTitle = inquiryTitle;
         this.inquiryContent = inquiryContent;
         this.inquiryHit = inquiryHit;
+        this.inquirySecret = inquirySecret;
+
     }
     public void update(String memberId,
                        Long itemNo,
                        String inquiryTitle,
                        String inquiryContent,
-                       String inquiryHit) {
+                       String inquiryHit,
+                       String inquirySec) {
         this.memberId = memberId;
         this.itemNo = itemNo;
         this.inquiryTitle = inquiryTitle;
         this.inquiryContent = inquiryContent;
         this.inquiryHit = inquiryHit;
+        this.inquirySecret = inquirySecret;
         this.inquiryDatetime = LocalDateTime.now();
     }
 
