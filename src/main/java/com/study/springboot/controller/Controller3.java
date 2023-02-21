@@ -47,7 +47,9 @@ public class Controller3 {
         Page<ReviewResponseDto> list = null;
         int totalPage;
         List<Integer> pageList;
-        if ((findBy == null) && (keyword == null) && (dateStart == null) && (dateEnd == null)) {
+        if ((findBy == null) && (keyword == null) && (dateStart == null) && (dateEnd == null)
+                || (dateStart.equals("null")) && (dateEnd.equals("null")) && (keyword.equals("null"))
+                || (dateStart.equals("")) && (dateEnd.equals("")) && (keyword.equals(""))) {
             //페이징된 리스트 가져오기
             list = reviewService.getPageList(page);
         }else {
@@ -76,6 +78,8 @@ public class Controller3 {
         model.addAttribute("findBy", findBy);
         model.addAttribute("keyword", keyword);
         model.addAttribute("pageList", pageList);
+        model.addAttribute("dateStart", dateStart);
+        model.addAttribute("dateEnd", dateEnd);
         //검색 상품 개수
         long listCount = reviewRepository.count();
         model.addAttribute("listCount", listCount);

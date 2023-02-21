@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -74,7 +75,10 @@ public class Controller6 {
     @PostMapping("/content/modify")  //수정
     @ResponseBody
     public  String contentModify(MemberSaveRequestDto dto) {
+
+
         boolean result = memberService.modify(dto);
+
         if (result) {
             return "<script>alert('회원정보수정 완료'); location.href='/admin/member/list';</script>";
         } else {

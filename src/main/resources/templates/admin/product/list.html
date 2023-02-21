@@ -69,9 +69,9 @@
         <thead class="thead-strong">
         <tr>
           <td class="table-light align-middle w50"><input type="checkbox"></td>
-          <th class="table-light align-middle w150">상품코드</th>
-          <th class="table-light align-middle w150">이미지</th>
-          <th class="table-light align-middle">상품명</th>
+          <th class="table-light align-middle w110">상품코드</th>
+          <th class="table-light align-middle w110">이미지</th>
+          <th class="table-light align-middle ">상품명</th>
           <th class="table-light align-middle ">색상</th>
           <th class="table-light align-middle w110">사이즈</th>
           <th class="table-light align-middle w150">가격</th>
@@ -88,21 +88,21 @@
           <!--          이미지-->
           <td class="align-middle" ><img th:href="@{product/list(itemNo=${dto.itemNo})}" th:src="${ dto.itemImageUrl }" class="productImg"> </td>
           <td class="align-middle">
-            <a  th:href="|/admin/product/content?itemNo=${dto.itemNo}|"  th:text="${ dto.itemName }"
-               style="text-decoration: none;color: black;">상품명</a>
+            <a  th:href="|/admin/product/content?itemNo=${dto.itemNo}|" th:text="${ dto.itemName }"
+               style="text-decoration: none;color: black;;">상품명</a>
           </td>
           <td class="align-middle" th:text="${ dto.itemOptionColor }">색상</td>
           <td class="align-middle" th:text="${ dto.itemOptionSize }">사이즈</td>
           <td class="align-middle" th:text="${ dto.itemPrice }+원">가격</td>
           <td class="align-middle">
-            <select name="itemExposure" class="form-select">
+            <select name="itemExposure" class="form-select ellipsisTxt">
               <option th:text="${ dto.itemExposure }" th:value="${ dto.itemExposure }" value="" selected="selected">노출함</option>
               <option value="노출함">노출함</option>
               <option value="노출안함">노출안함</option>
             </select>
           </td>
           <td class="align-middle">
-            <select name="itemSoldOut" class="form-select">
+            <select name="itemSoldOut" class="form-select ellipsisTxt">
               <option th:text="${ dto.itemSoldOut }" th:value="${ dto.itemSoldOut }" value="" selected="selected">판매중</option>
               <option value="판매중">판매중</option>
               <option value="품절">품절</option>
@@ -118,6 +118,7 @@
             <input th:value="${ dto.itemDiscountRate }" type="hidden" name="itemDiscountRate">
             <input th:value="${ dto.itemImageUrl }" type="hidden" name="itemImageUrl">
             <input th:value="${ dto.itemInfo }" type="hidden" name="itemInfo">
+            <input th:value="${ dto.itemUpdateDatetime }" type="hidden" name="itemUpdateDatetime">
             <button type="submit" class="btn btn-outline-danger" >저장</button>
             <a th:href="|/admin/product/content?itemNo=${dto.itemNo}|" class="btn btn-outline-secondary">수정</a>
             <a th:href="|/admin/product/delete?itemNo=${dto.itemNo}|" class="btn btn-outline-danger">삭제</a>

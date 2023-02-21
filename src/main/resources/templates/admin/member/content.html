@@ -34,7 +34,7 @@
                                 <td>
                                     <select name="memberRate" class="form-select">
                                         <option th:text="${ member.memberRate }" th:value="${member.memberRate}" value="" selected="selected">일반</option>
-                                        <option value="일반">일반</option>
+                                        <option value="일반회원">일반회원</option>
                                         <option value="VIP">VIP</option>
                                     </select>
                                 </td>
@@ -105,6 +105,11 @@
                                         <option value="회원">회원</option>
                                         <option value="탈퇴회원">탈퇴회원</option>
                                     </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="table-light align-middle w250" style="text-align: center">가입일자</th>
+                                <td class="align-middle" th:text="${#temporals.format(member.memberJoinDatetime, 'yyyy-MM-dd HH:mm')}">
                                 </td>
                             </tr>
                             <tr>

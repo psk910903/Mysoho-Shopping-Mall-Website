@@ -29,6 +29,9 @@ public MemberResponseDto findById(long id) {
 
 @Transactional
 public boolean modify(MemberSaveRequestDto dto){
+
+    MemberEntity entity = memberRepository.findById(dto.getMemberNo()).get();
+    dto.setMemberJoinDatetime(entity.getMemberJoinDatetime());
     try {
         memberRepository.save(dto.toUpdateEntity());
     } catch (Exception e) {

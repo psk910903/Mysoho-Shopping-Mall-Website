@@ -4,6 +4,8 @@ import com.study.springboot.entity.ProductEntity;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 public class ProductSaveRequestDto {
@@ -18,6 +20,7 @@ public class ProductSaveRequestDto {
     private String itemImageUrl;
     private String itemExposure;
     private String itemSoldOut;
+    private LocalDateTime itemUpdateDatetime;
 
 
     public ProductEntity toSaveEntity() {
@@ -32,6 +35,7 @@ public class ProductSaveRequestDto {
                 .itemImageUrl(itemImageUrl)
                 .itemExposure(itemExposure)
                 .itemSoldOut(itemSoldOut)
+                .itemUpdateDatetime(itemUpdateDatetime)
                 .build();
     }
 
@@ -48,6 +52,7 @@ public class ProductSaveRequestDto {
                 .itemImageUrl(itemImageUrl)
                 .itemExposure(itemExposure)
                 .itemSoldOut(itemSoldOut)
+                .itemUpdateDatetime(itemUpdateDatetime)
                 .build();
     }
 }

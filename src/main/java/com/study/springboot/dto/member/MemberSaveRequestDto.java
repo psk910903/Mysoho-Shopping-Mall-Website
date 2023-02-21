@@ -27,6 +27,7 @@ public class MemberSaveRequestDto {
     private String memberAddr2;
     private String memberRole;
     private String memberExited;
+    private LocalDate memberJoinDatetime;
 
     public MemberSaveRequestDto(MemberEntity entity) {
         this.memberNo = entity.getMemberNo();
@@ -39,6 +40,7 @@ public class MemberSaveRequestDto {
         this.memberAddrNumber = entity.getMemberAddrNumber();
         this.memberAddr1 = entity.getMemberAddr1();
         this.memberAddr2 = entity.getMemberAddr2();
+        this.memberJoinDatetime = entity.getMemberJoinDatetime();
     }
 
     public MemberEntity toUpdateEntity() {
@@ -56,6 +58,7 @@ public class MemberSaveRequestDto {
                 .memberAddr2(memberAddr2)
                 .memberRole(memberRole)
                 .memberExited(memberExited)
+                .memberJoinDatetime(memberJoinDatetime)
                 .build();
     }
 }

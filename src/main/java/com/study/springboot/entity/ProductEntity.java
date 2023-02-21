@@ -39,7 +39,7 @@ public class ProductEntity {
     @Column(name = "item_sold_out")
     private String itemSoldOut; //품절여부
     @Column(name = "item_update_datetime", nullable = true)
-    private LocalDateTime itemUpdateDatetime = LocalDateTime.now(); // 생성일,수정일
+    private LocalDateTime itemUpdateDatetime; // 생성일,수정일
 
     @Builder
     public ProductEntity(Long itemNo, String itemCategory, String itemName, String itemOptionColor, String itemOptionSize, Long itemPrice, Long itemDiscountRate, String itemImageUrl, String itemInfo, String itemExposure, String itemSoldOut, LocalDateTime itemUpdateDatetime) {
