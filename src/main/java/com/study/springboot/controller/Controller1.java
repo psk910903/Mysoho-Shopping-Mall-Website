@@ -144,6 +144,17 @@ public class Controller1 {
     return "<script>alert('수정 완료');location.href='/admin/product/list/';</script>";
   }
 
+  //리스트에서 수정
+  @ResponseBody
+  @RequestMapping("/product/list/modify/action")
+  public String productModify(ProductSaveRequestDto dto) {
+
+    boolean result = productService.productModify(dto);
+    if (!result) {
+      return "<script>alert('수정 실패');location.href='/admin/product/list/';</script>";
+    }
+    return "<script>alert('수정 완료');location.href='/admin/product/list/';</script>";
+  }
 
 
   //상품등록
@@ -199,13 +210,11 @@ public class Controller1 {
     Page<OrderResponseDto> list;
     int totalPage;
     List<Integer> pageList;
-    if ((findBy == null) && (keyword == null) && (dateStart == null) && (dateEnd == null)) {
-
-      //주문리스트
+    if ((findBy == null) && (keyword == null) && (dateStart == null) && (dateEnd == null)
+            || (dateStart.equals("null")) && (dateEnd.equals("null")) && (keyword.equals("null"))
+            || (dateStart.equals("")) && (dateEnd.equals("")) && (keyword.equals(""))) {
       list = orderService.findAll(page);
-
     } else {
-
       //오늘, 어제, 1주일, 1개월 검색
       if ((!dateStart.equals("")) && (dateEnd.equals(""))) {
         list = orderService.findByDate(dateStart, page);
@@ -225,6 +234,8 @@ public class Controller1 {
     model.addAttribute("list", list);
     model.addAttribute("findBy", findBy);
     model.addAttribute("keyword", keyword);
+    model.addAttribute("dateStart", dateStart);
+    model.addAttribute("dateEnd", dateEnd);
     //검색 상품 개수
     long listCount = orderRepository.count();
     model.addAttribute("listCount", listCount);

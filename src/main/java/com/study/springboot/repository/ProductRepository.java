@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
-    @Query(value = "SELECT * FROM `item` WHERE item_no LIKE CONCAT('%',:keyword,'%') or item_name LIKE CONCAT('%',:keyword,'%') or item_option_color LIKE CONCAT('%',:keyword,'%') or item_option_size LIKE CONCAT('%',:keyword,'%') or item_price LIKE CONCAT('%',:keyword,'%') order BY `item_update_datetime`", nativeQuery = true)
+    @Query(value = "SELECT * FROM `item` WHERE item_no LIKE CONCAT('%',:keyword,'%') or item_name LIKE CONCAT('%',:keyword,'%') or item_option_color LIKE CONCAT('%',:keyword,'%') or item_option_size LIKE CONCAT('%',:keyword,'%') or item_price LIKE CONCAT('%',:keyword,'%') order BY `item_update_datetime` desc", nativeQuery = true)
     Page<ProductEntity> findByKeyword(@Param(value="keyword")String keyword, Pageable pageable);
 
     @Query(value = "SELECT * FROM `item` WHERE item_category = :findByType1 AND item_name LIKE CONCAT('%',:keyword,'%') order BY item_update_datetime desc", nativeQuery = true)

@@ -1,7 +1,10 @@
 * {
   margin: 0;
   padding: 0;
+  white-space: nowrap;
+
 }
+
 .contentHeader {
   display: flex;
   justify-content: space-between;
@@ -54,7 +57,7 @@
 }
 .content {
   padding: 20px;
-  width: 100%;
+  max-width: 100%;
 }
 .count {
   display: flex;
@@ -124,3 +127,12 @@ select {
 .navImg img{
   width: 20px
 }
+
+.navImg img{
+  width: 20px
+}
+.ellipsisTxt {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+

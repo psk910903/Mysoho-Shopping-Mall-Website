@@ -69,7 +69,7 @@
                   <tr>
                     <th class="table-light align-middle w50"><input type="checkbox" id="allch"/></th>
                     <th class="table-light align-middle w110">상품번호</td>
-                    <th class="table-light align-middle w150">상품명</th>
+                    <th class="table-light align-middle w200">상품명</th>
                     <th class="table-light align-middle w110">상품사진</th>
                     <th class="table-light align-middle w110">아이디</th>
                     <th class="table-light align-middle">내용</th>
@@ -120,49 +120,46 @@
         </div>
 
 
-      <div class="container">
-          <!-- 되는거 원본  -->
-          <div th:if="${!list.isEmpty()}">
-              <ul class="pagination justify-content-center">
-                  <li class="page-item" th:classappend="${!list.hasPrevious} ? 'disabled'" >
-                      <th:block th:if="${keyword}==null">
-                          <a class="page-link" style="color: #555;" th:href="@{|?page=${list.number-1}|}">
-                              <span>이전</span>
-                          </a>
-                      </th:block>
-                      <th:block th:unless="${keyword}==null">
-                          <a class="page-link" style="color: #555;" th:href="@{|?page=${list.number-1}&findBy=${findBy}&keyword=${keyword}|}">
-                              <span>이전</span>
-                          </a>
-                      </th:block>
-                  </li>
-                  <li th:each="page: ${pageList}"
-                      th:classappend="${page == list.number} ? 'active'"
-                      class="page-item">
-                      <!--                기본출력 -->
-                      <th:block th:if="${keyword}==null">
-                          <a th:text="${page+1}" class="page-link" style="color: #555;" th:href="@{|?page=${page}|}"></a>
-                      </th:block>
-                      <!--                검색출력 -->
-                      <th:block th:unless="${keyword}==null">
-                          <a th:text="${page+1}" class="page-link" style="color: #555;" th:href="@{|?page=${page}&findBy=${findBy}&keyword=${keyword}|}"></a>
-                      </th:block>
-                  </li>
-                  <li class="page-item" th:classappend="${!list.hasNext} ? 'disabled'">
-                      <th:block th:if="${keyword}==null">
-                          <a class="page-link" style="color: #555;" th:href="@{|?page=${list.number+1}|}">
-                              <span>다음</span>
-                          </a>
-                      </th:block>
-                      <th:block th:unless="${keyword}==null">
-                          <a class="page-link" style="color: #555;" th:href="@{|?page=${list.number+1}&findBy=${findBy}&keyword=${keyword}|}">
-                              <span>다음</span>
-                          </a>
-                      </th:block>
-                  </li>
-              </ul>
-          </div>
-      </div>
+        <div class="container"> <!-- 페이지 시작 -->
+            <div th:if="${!list.isEmpty()}">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${!list.hasPrevious} ? 'disabled'"> <!-- 이전 버튼 시작 -->
+                        <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                            <a class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${list.number-1}|">
+                                <span>이전</span>
+                            </a>
+                        </th:block>
+                        <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                            <a class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${list.number-1}&dateStart=${dateStart}&dateEnd=${dateEnd}&findBy=${findBy}&keyword=${keyword}|">
+                                <span>이전</span>
+                            </a>
+                        </th:block>
+                    </li> <!-- 이전 버튼 끝 -->
+                    <li th:each="page: ${pageList}"
+                        th:classappend="${page == list.number} ? 'active'"
+                        class="page-item"> <!-- 숫자 페이지 버튼 시작 -->
+                        <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                            <a th:text="${page+1}" class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${page}|"></a>
+                        </th:block>
+                        <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                            <a th:text="${page+1}" class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${page}&dateStart=${dateStart}&dateEnd=${dateEnd}&findBy=${findBy}&keyword=${keyword}|"></a>
+                        </th:block>
+                    </li> <!-- 숫자 페이지 버튼 끝 -->
+                    <li class="page-item" th:classappend="${!list.hasNext} ? 'disabled'"> <!-- 다음 버튼 시작 -->
+                        <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                            <a class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${list.number+1}|">
+                                <span>다음</span>
+                            </a>
+                        </th:block>
+                        <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                            <a class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${list.number+1}&dateStart=${dateStart}&dateEnd=${dateEnd}&findBy=${findBy}&keyword=${keyword}|">
+                                <span>다음</span>
+                            </a>
+                        </th:block>
+                    </li> <!-- 다음 버튼 끝 -->
+                </ul>
+            </div>
+        </div> <!-- 페이지 끝 -->
   </div>
   <!--  컨텐츠 끝-->
         </div>

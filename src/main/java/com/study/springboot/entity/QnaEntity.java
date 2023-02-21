@@ -29,20 +29,28 @@ public class QnaEntity {
 
     @Column(name="qna_content")
     private String qnaContent; // 내용
+
+    @Column(name="qna_secret")
+    private String qnaSecret;//비밀글 여부
+
     @Column(name="qna_hit")
     private Long qnaHit=0l; // 조회수
 
     @Column(name="qna_local_date_time")
     private LocalDateTime qnaLocalDateTime = LocalDateTime.now(); //생성일 ,수정일
     @Builder
-    public QnaEntity(Long qnaId, String qnaCategory, String qnaName, String qnaTitle, String qnaPassword, String qnaContent, Long qnaHit, LocalDateTime qnaLocalDateTime) {
+    public QnaEntity(Long qnaId, String qnaCategory,
+                     String qnaName, String qnaTitle,
+                     String qnaPassword, String qnaContent,
+                     Long qnaHit, LocalDateTime qnaLocalDateTime,
+                     String qnaSecret) {
         this.qnaId = qnaId;
         this.qnaCategory = qnaCategory;
         this.qnaName = qnaName;
         this.qnaTitle = qnaTitle;
         this.qnaPassword = qnaPassword;
         this.qnaContent = qnaContent;
-
+        this.qnaSecret = qnaSecret;
     }
 
 }

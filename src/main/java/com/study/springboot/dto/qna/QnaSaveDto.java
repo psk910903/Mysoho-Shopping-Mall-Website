@@ -16,6 +16,7 @@ public class QnaSaveDto {
     private String qnaContent; //작성내용
     private String qnaPassword; // 비밀번호
     private String qnaName; // 작성이름
+    private String qnaSecret;//비밀글 여부
     private Long qnaHit; //조회수
     private LocalDateTime qnaDate; // 생성일, 수정일
 
@@ -29,6 +30,7 @@ public class QnaSaveDto {
                 .qnaTitle(qnaTitle)
                 .qnaPassword(qnaPassword)
                 .qnaContent(qnaContent)
+                .qnaSecret(qnaSecret)
                 .qnaHit(0l)
                 .qnaLocalDateTime(qnaDate)
                 .build();

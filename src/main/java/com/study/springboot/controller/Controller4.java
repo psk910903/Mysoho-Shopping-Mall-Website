@@ -1,37 +1,44 @@
 package com.study.springboot.controller;
 
 
+import com.study.springboot.dto.member.MemberSaveDto2;
 import com.study.springboot.dto.qna.QnaCommentResponseDto;
 import com.study.springboot.dto.qna.QnaCommentSaveDto;
-import com.study.springboot.dto.qna.QnaSaveDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
+import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.repository.QnaRepository;
 import com.study.springboot.service.QnaCommentService;
 import com.study.springboot.service.QnaService;
+import com.study.springboot.service.Service4;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.lang.reflect.Member;
 import java.text.ParseException;
-import java.time.LocalDateTime;
 import java.util.List;
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/admin/qna")
+@RequestMapping("/")
+//   /admin/qna
+
 public class Controller4 {
+    private final Service4 service4;
 
     private final QnaService qnaService;
     private final QnaCommentService qnaCommentService;
     private final QnaRepository qnaRepository;
 
-    @GetMapping("/")
+    @GetMapping("/admin/qna")
     public String qnaHome(){
         return "redirect:/admin/qna/list";
     }
 
-    @GetMapping("/list")
+    @GetMapping("admin/qna/list")
     public String list(@RequestParam(value = "keywordType", required = false) String keywordType,
                          @RequestParam(value = "keyword", required = false) String keyword,
                          @RequestParam(value = "dateStart", required = false) String dateStart,
@@ -74,7 +81,7 @@ public class Controller4 {
         return "/admin/qna/list";
     }
 
-@GetMapping("/content/{id}")
+@GetMapping("admin/qna/content/{id}")
 public String content(@PathVariable("id") long id, Model model) {
         qnaService.modifyHits(id);
 
@@ -90,7 +97,7 @@ public String content(@PathVariable("id") long id, Model model) {
     return "/admin/qna/content";
 }
 
-@GetMapping("/delete/{id}")
+@GetMapping("admin/qna/delete/{id}")
 @ResponseBody
 public String delete(@PathVariable("id") Long id){
     boolean delete = qnaService.delete(id);
@@ -107,7 +114,7 @@ public String delete(@PathVariable("id") Long id){
 
 //    여기서부터 코멘트----------------------------------------------------------------------
 
-    @PostMapping("/comment/write")
+    @PostMapping("admin/qna/comment/write")
     @ResponseBody
     public String commentWrite(QnaCommentSaveDto dto){
         Long commentQnaId = dto.getCommentQnaId();
@@ -118,7 +125,7 @@ public String delete(@PathVariable("id") Long id){
         return "<script>alert('답변등록 완료'); location.href='/admin/qna/content/" + commentQnaId + "'; </script>";
     }
 
-    @GetMapping("/comment/delete/{id}")
+    @GetMapping("admin/qna/comment/delete/{id}")
     @ResponseBody
     public String commentDelete(@PathVariable("id") long id){
         boolean result = qnaCommentService.delete(id);
@@ -129,7 +136,7 @@ public String delete(@PathVariable("id") Long id){
     }
 
     //수정
-    @PostMapping("/comment/modify")
+    @PostMapping("admin/qna/comment/modify")
     @ResponseBody
     public String commentModify(QnaCommentSaveDto dto){
         Long commentQnaId = dto.getCommentQnaId();
@@ -141,11 +148,52 @@ public String delete(@PathVariable("id") Long id){
     }
 
 //  선택삭제
-    @GetMapping("/select/delete")
+    @GetMapping("admin/qna/select/delete")
     public String selectDelete (@RequestParam("qnaNo") String qnaNo){
         qnaService.selectDelete(qnaNo);
         return "redirect:/admin/qna/list";
     }
+
+    //-------------여기서부터 사용자페이지------------------------------------------
+    // 회원가입폼가기
+    @GetMapping("user/join")
+    public String userjoin(){
+        return "user/user/userjoin";
+    }
+    // 홈화면가기
+    @GetMapping("home")
+    public String home(){
+        return "user/category/home";
+    }
+    @PostMapping("join/action")
+    @ResponseBody
+    public String joinAction(@Valid MemberSaveDto2 dto2, BindingResult bindingResult){
+        System.out.println("dto2 = " + dto2 + ", bindingResult = " + bindingResult);
+        if( bindingResult.hasErrors() ) {
+            //DTO에 설정한 message값을 가져온다.
+            String detail = bindingResult.getFieldError().getDefaultMessage();
+            return "<script>alert('"+ detail +"'); history.back();</script>";
+        }
+        MemberEntity memberEntity =dto2.toEntity();
+        boolean saveResult = service4.save(memberEntity);
+        if(!saveResult){
+            return "<script>alert('회원가입 실패'); histroy.back();</script>";
+        }
+        return "<script>alert('축하합니다 회원가입 성공하셨습니다'); location.href='/home';</script>";
+    }
+
+    // ajax 아이디중복체크 요청처리
+    @GetMapping("id/check")
+    @ResponseBody
+    public String idCheck(@RequestParam("user_id")String userId){
+       List<MemberEntity>list = service4.findByUserId(userId);
+       if(list.size() == 0){
+           return "0"; // 중복안됨
+       }else{
+           return "1"; // 중복됨
+       }
+    }
+
 
 }
 //qnaList

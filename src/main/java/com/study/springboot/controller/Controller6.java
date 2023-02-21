@@ -2,6 +2,7 @@ package com.study.springboot.controller;
 
 
 import com.study.springboot.dto.member.MemberResponseDto;
+import com.study.springboot.dto.member.MemberSaveRequestDto;
 import com.study.springboot.repository.MemberRepository;
 import com.study.springboot.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -72,12 +74,14 @@ public class Controller6 {
 
     @PostMapping("/content/modify")  //수정
     @ResponseBody
-    public  String contentModify(MemberResponseDto dto) {
-        MemberResponseDto entity = memberService.modify(Long.valueOf(dto.getMemberNo()), dto);
-        if (entity.getMemberNo() == Long.valueOf(dto.getMemberNo())) {
+    public  String contentModify(MemberSaveRequestDto dto) {
+
+
+        boolean result = memberService.modify(dto);
+
+        if (result) {
             return "<script>alert('회원정보수정 완료'); location.href='/admin/member/list';</script>";
-        } else {                        //http://localhost:8080/admin/member/list?page=0
-            //업데이트 실패함
+        } else {
             return "<script>alert('회원정보수정 실패'); history.back();</script>";
         }
     }

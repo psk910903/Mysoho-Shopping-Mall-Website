@@ -1,6 +1,6 @@
 package com.study.springboot.repository;
 
-import com.study.springboot.entity.Member.MemberEntity;
+import com.study.springboot.entity.MemberEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,7 +21,7 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     @Query(value = "SELECT * FROM `member` WHERE member_no LIKE CONCAT('%',:keyword,'%') OR member_id LIKE CONCAT('%',:keyword,'%') or member_name LIKE CONCAT('%',:keyword,'%') or member_email LIKE CONCAT('%',:keyword,'%') or member_phone LIKE CONCAT('%',:keyword,'%') order BY `member_join_datetime`", nativeQuery = true)
     Page<MemberEntity> findByKeyword(@Param(value="keyword")String keyword, Pageable pageable);
 
-    @Query(value = "SELECT * FROM `member` WHERE member_rating = :findByType1 AND member_name LIKE CONCAT('%',:keyword,'%') order BY member_join_datetime desc", nativeQuery = true)
+    @Query(value = "SELECT * FROM `member` WHERE member_rate = :findByType1 AND member_name LIKE CONCAT('%',:keyword,'%') order BY member_join_datetime desc", nativeQuery = true)
     Page<MemberEntity> findByType1(@Param(value="findByType1")String findByType1, @Param(value="keyword")String keyword, Pageable pageable);
 
     @Query(value = "SELECT * FROM `member` WHERE member_id LIKE CONCAT('%',:keyword,'%') order BY member_join_datetime desc", nativeQuery = true)
@@ -31,11 +31,14 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     Page<MemberEntity> findByMemberName(@Param(value="keyword")String keyword, Pageable pageable);
 
 
-    @Query(value = "SELECT * FROM `member` WHERE `member_rating` = :findByType1 AND member_name LIKE CONCAT('%',:keyword,'%') order BY member_join_datetime desc", nativeQuery = true)
+    @Query(value = "SELECT * FROM `member` WHERE `member_rate` = :findByType1 AND member_name LIKE CONCAT('%',:keyword,'%') order BY member_join_datetime desc", nativeQuery = true)
     Page<MemberEntity> findByMemberName(@Param(value="findByType1")String findByType1, @Param(value="keyword")String keyword, Pageable pageable);
 
-    @Query(value = "SELECT * FROM `member` WHERE `member_rating` = :findByType1 AND member_id LIKE CONCAT('%',:keyword,'%') order BY member_join_datetime desc", nativeQuery = true)
+    @Query(value = "SELECT * FROM `member` WHERE `member_rate` = :findByType1 AND member_id LIKE CONCAT('%',:keyword,'%') order BY member_join_datetime desc", nativeQuery = true)
     Page<MemberEntity> findByMemberId(@Param(value="findByType1")String findByType1, @Param(value="keyword")String keyword, Pageable pageable);
 
+//---------------------------------------------------이준하 2023-02-21 21:30부터
 
+@Query(value = "select * from member m where m.member_id = :member_id", nativeQuery = true)
+List<MemberEntity> findByUserId(@Param("member_id") String user_id);
 }

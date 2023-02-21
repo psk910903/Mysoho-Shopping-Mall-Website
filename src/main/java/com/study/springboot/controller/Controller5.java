@@ -44,7 +44,9 @@ public class Controller5 {
                        @RequestParam(value = "findBy", required = false ) String findBy,
                        @RequestParam(value = "page", defaultValue = "0") int page) throws ParseException {
         Page<InquiryResponseDto> list = null;
-        if(keyword == null && findBy == null && dateStart == null && dateEnd == null){
+        if(keyword == null && findBy == null && dateStart == null && dateEnd == null
+                || (dateStart.equals("null")) && (dateEnd.equals("null")) && (keyword.equals("null"))
+                || (dateStart.equals("")) && (dateEnd.equals("")) && (keyword.equals(""))){
             list = inquiryService.getPage(page);
         }else {
             if(!dateStart.equals("") && dateEnd.equals("")){
@@ -58,18 +60,21 @@ public class Controller5 {
         int totalPage = list.getTotalPages();
         List<Integer> pageList = inquiryService.getPageList(totalPage, page);
 
+
         List<String> itemList = new ArrayList<>();
         for (InquiryResponseDto dto: list){
             Long itemNo = dto.getItemNo();
             ProductResponseDto itemDto = productService.findById(itemNo);
             itemList.add(itemDto.getItemName());
         }
-
+//        model.addAttribute("count", count);
         model.addAttribute("itemList", itemList);
         model.addAttribute("list", list);
         model.addAttribute("findBy", findBy);
         model.addAttribute("keyword", keyword);
         model.addAttribute("pageList", pageList);
+        model.addAttribute("dateStart", dateStart);
+        model.addAttribute("dateEnd", dateEnd);
 
         long listCount = inquiryRepository.count();
         model.addAttribute("listCount",listCount );
@@ -86,6 +91,13 @@ public class Controller5 {
         model.addAttribute("dto",dto);
         List<InReplyEntity> list = inReplyRepository.findAllByReplyInquiryNo(inquiryNo);
         model.addAttribute("list",list);
+
+
+            Long itemNo = dto.getItemNo();
+            ProductResponseDto itemDto = productService.findById(itemNo);
+            String itemName = itemDto.getItemName();
+
+        model.addAttribute("itemName", itemName);
 
         if (list.size() == 0) {
             model.addAttribute("nullCheck", "null");

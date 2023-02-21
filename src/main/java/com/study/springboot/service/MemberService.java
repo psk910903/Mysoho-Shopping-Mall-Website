@@ -1,7 +1,8 @@
 package com.study.springboot.service;
 
 import com.study.springboot.dto.member.MemberResponseDto;
-import com.study.springboot.entity.Member.MemberEntity;
+import com.study.springboot.dto.member.MemberSaveRequestDto;
+import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,23 +21,6 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-//    public void delete(final Long member_no) {
-//        MemberEntity memberEntity = memberRepository.findById(member_no)
-//                .orElseThrow() -> new IllegalArgumentException()
-//    }
-
-//    @GetMapping("/member-delete/{index}")
-//    public String member_delete(@PathVariable("index") Integer index,
-//                                Model model){
-//
-//        list.remove( index.intValue() );
-//
-//        return "redirect:/member/all";
-//    }
-
-//    =================================================================
-//    @Transactional
-//    public MemberEntity
 public MemberResponseDto findById(long id) {
     MemberEntity entity = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
     MemberResponseDto dto = new MemberResponseDto(entity);
@@ -44,25 +28,17 @@ public MemberResponseDto findById(long id) {
 }
 
 @Transactional
-public MemberResponseDto modify(final Long memberNo, final MemberResponseDto memberResponseDto){
-    MemberEntity entity = memberRepository.findById(memberNo)
-            .orElseThrow(() -> new IllegalArgumentException("없는 사용자"));
+public boolean modify(MemberSaveRequestDto dto){
 
-    entity.modify(memberResponseDto.getMemberName(),memberResponseDto.getMemberPhone(),
-            memberResponseDto.getMemberAddrNumber(),memberResponseDto.getMemberAddr1(),
-            memberResponseDto.getMemberAddr2(),memberResponseDto.getMemberEmail(),
-            entity.getMemberNo());
-//
-//    String memberName, String memberPhone, String memberAddrNumber,
-//            String memberAddr1, String memberAddr2,
-//            String memberEmail,Long memberNo){
-
-
-    System.out.println(entity.getMemberId()); // 서버저장확인
-    
-    MemberEntity newEntity = memberRepository.save(entity);
-    MemberResponseDto dto = new MemberResponseDto(newEntity);
-    return dto;
+    MemberEntity entity = memberRepository.findById(dto.getMemberNo()).get();
+    dto.setMemberJoinDatetime(entity.getMemberJoinDatetime());
+    try {
+        memberRepository.save(dto.toUpdateEntity());
+    } catch (Exception e) {
+        e.printStackTrace();
+        return false;
+    }
+    return true;
 }
 
 
