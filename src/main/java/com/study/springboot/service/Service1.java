@@ -4,14 +4,9 @@ import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.entity.ProductEntity;
 import com.study.springboot.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,23 +14,24 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class Service1 {
     final ProductRepository productRepository;
+    final ProductService productService;
 
     @Transactional(readOnly = true)
-    public List<ProductResponseDto> findBestItem() {
-
-        List<ProductEntity> list = productRepository.findLimit6();
-        String itemName = list.get(0).getItemName();
-        System.out.println("itemName = " + itemName);
-
-        return list.stream().map(ProductResponseDto::new).collect(Collectors.toList());
+    public List<ProductResponseDto> findByItem(int num) {
+        List<ProductEntity> Limit= productRepository.findLimit(num);
+        List<ProductResponseDto> list = Limit.stream().map(ProductResponseDto::new).collect(Collectors.toList());
+        for (int i = 0; i < list.size(); i++) {
+            Long itemPrice = list.get(i).getItemPrice();
+            Long itemDiscountRate = list.get(i).getItemDiscountRate();
+            long price = (long) (Math.floor((itemPrice * ( (100 - itemDiscountRate) * 0.01))/100)) *100;
+            list.get(i).setItemDiscountPrice(price);
+        }
+        return list;
     }
 
     @Transactional(readOnly = true)
-    public List<ProductResponseDto> findLimit9() {
-
-        List<ProductEntity> list = productRepository.findLimit9();
-        String itemName = list.get(0).getItemName();
-        System.out.println("itemName = " + itemName);
+    public List<ProductResponseDto> findByKeyword(String keyword) {
+        List<ProductEntity> list =productRepository.findByItemNameContaining(keyword);
         return list.stream().map(ProductResponseDto::new).collect(Collectors.toList());
     }
 }

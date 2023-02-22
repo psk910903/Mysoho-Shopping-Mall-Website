@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="/css/share-btn.css" />
     <link rel="stylesheet" href="/css/home.css" />
   </head>
-  <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
   <body>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <div class="wrap">
@@ -137,7 +137,7 @@
               <p class="price-info">
                 <th:block th:if="${dto.itemDiscountRate} != 0">
                   <span class="sale-rate" th:text="${ (dto.itemDiscountRate)+'%' }">9%</span>
-                  <span class="price" data-th-text="${#numbers.formatInteger(((dto.itemPrice)*((100-(dto.itemDiscountRate))*0.01)), 3, 'COMMA') + '원'}">49,000원</span>
+                  <span class="price" data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}">49,000원</span>
                 </th:block>
                 <th:block th:unless="${dto.itemDiscountRate} != 0">
                   <span class="price" data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}">49,000원</span>
@@ -200,9 +200,6 @@
             <ul class="type1">
               <!-- 첫번째 타입 -->
               <div class="listType0">
-<!--                <script>-->
-<!--                  $(".listType0").load("/category-object/listType0.html");-->
-<!--                </script>-->
                 <li class="type3" th:each="dto:${ list }">
                   <div class="between">
                     <div class="prd-img">
@@ -220,7 +217,7 @@
                       <p class="price-info">
                         <th:block th:if="${dto.itemDiscountRate} != 0">
                           <span class="sale-rate" th:text="${ (dto.itemDiscountRate)+'%' }">9%</span>
-                          <span class="price" data-th-text="${#numbers.formatInteger(((dto.itemPrice)*((100-(dto.itemDiscountRate))*0.01)), 3, 'COMMA') + '원'}">49,000원</span>
+                          <span class="price" data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}">49,000원</span>
                           <span class="gray-through" data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}">49,000원</span>
                         </th:block>
                         <th:block th:unless="${dto.itemDiscountRate} != 0">
@@ -282,7 +279,7 @@
                 <p class="price-info">
                   <th:block th:if="${dto.itemDiscountRate} != 0">
                     <span class="sale-rate" th:text="${ (dto.itemDiscountRate)+'%' }">9%</span>
-                    <span class="price" data-th-text="${#numbers.formatInteger(((dto.itemPrice)*((100-(dto.itemDiscountRate))*0.01)), 3, 'COMMA') + '원'}">49,000원</span>
+                    <span class="price" data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}">49,000원</span>
                   </th:block>
                   <th:block th:unless="${dto.itemDiscountRate} != 0">
                     <span class="price" data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}">49,000원</span>
@@ -291,9 +288,12 @@
               </li>
             </ul>
             <!-- 네번째 타입 -->
-            <ul>
-              <li th:each="dto:${ list }">
-            <div class="type4 listType3" >
+
+            <div  class="type4 listType3" >
+                <ul >
+                    <li th:each="dto:${ list }">
+
+
                 <!-- 상품 리스트 시작 -->
                 <div class="swiper-wrapper">
                     <!-- 메인사진 -->
@@ -319,7 +319,7 @@
                         <div class="price txt-black">
                             <th:block th:if="${dto.itemDiscountRate} != 0">
                                 <div class="sale-rate fs-21 " th:text="${ (dto.itemDiscountRate)+'%' }">9%</div>
-                                <div class="fs-21 black" data-th-text="${#numbers.formatInteger(((dto.itemPrice)*((100-(dto.itemDiscountRate))*0.01)), 3, 'COMMA')}"><b> 44,500</b></div>
+                                <div class="fs-21 black" data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA')}"><b> 44,500</b></div>
                                 <div class="fs-15 black"><b>원</b></div>
                             </th:block>
                             <th:block th:unless="${dto.itemDiscountRate} != 0">
@@ -432,9 +432,9 @@
                     <div class="buy bold">구매하기</div>
                 </div>
                 <!-- 상품 리스트 끝 -->
+                    </li>
+                </ul>
             </div>
-              </li>
-            </ul>
           </div>
           <!-- 구분선 -->
           <div class="mainNotice-top"></div>

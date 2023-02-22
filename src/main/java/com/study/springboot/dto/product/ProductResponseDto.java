@@ -12,6 +12,7 @@ public class ProductResponseDto {
     private String itemImageUrl;
     private String itemName;
     private Long itemPrice;
+    private Long itemDiscountPrice; //할인적용한 가격
     private Long itemDiscountRate;
     private String itemOptionColor;
     private String itemOptionSize;

@@ -39,10 +39,11 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     //----------------------------------------------------------------------------------------------------------------------
 
-    @Query(value = "SELECT * FROM item order BY item_update_datetime DESC LIMIT 6;", nativeQuery = true)
-    List<ProductEntity> findLimit6();
+    @Query(value = "SELECT * FROM item order BY item_update_datetime DESC LIMIT :num;", nativeQuery = true)
+    List<ProductEntity> findLimit(@Param(value="num")int num);
 
-    @Query(value = "SELECT * FROM item order BY item_update_datetime DESC LIMIT 9;", nativeQuery = true)
-    List<ProductEntity> findLimit9();
 
+
+    @Query(value = "SELECT * FROM `item` WHERE item_name LIKE CONCAT('%',:keyword,'%') order BY `item_name` desc", nativeQuery = true)
+    List<ProductEntity> findByItemNameContaining(@Param(value="keyword")String keyword);
 }

@@ -7,7 +7,6 @@ import com.study.springboot.dto.product.ProductResponseDto;
 
 import com.study.springboot.dto.product.ProductSaveRequestDto;
 import com.study.springboot.entity.CartEntity;
-import com.study.springboot.entity.ProductEntity;
 import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ProductRepository;
 import com.study.springboot.service.*;
@@ -23,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.text.ParseException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -87,7 +85,7 @@ public class Controller1 {
 
   //상품 단건조회
   //http://localhost:8080/admin/product/content?item_no=1
-  @GetMapping("/product/content")
+  @GetMapping("/admin/product/content")
   public String productContent(@RequestParam(value = "itemNo") long id, Model model) {
     ProductResponseDto dto = productService.findById(id);
     model.addAttribute("dto", dto);
@@ -283,11 +281,30 @@ public class Controller1 {
 
   @GetMapping("/")
   public String mySoho(Model model) {
-    List<ProductResponseDto> bestItem = service1.findBestItem();
-    List<ProductResponseDto> list = service1.findLimit9();
+    List<ProductResponseDto> bestItem = service1.findByItem(6);
+    List<ProductResponseDto> list = service1.findByItem(9);
+
     model.addAttribute("bestItem", bestItem);
     model.addAttribute("list", list);
+
     return "/user/category/home";
   };
+
+
+  @GetMapping("search")
+  public String search(Model model,
+                          @RequestParam(value = "keyword", required = false) String keyword) {
+//    if (keyword == null || keyword.equals("")) {
+//
+//    } else {
+      List<ProductResponseDto> list = service1.findByKeyword(keyword);
+      int count = list.size();
+      model.addAttribute("list", list);
+      model.addAttribute("keyword", keyword);
+      model.addAttribute("count", count);
+//    }
+    return "/user/category/search";
+  }
+
 }
 

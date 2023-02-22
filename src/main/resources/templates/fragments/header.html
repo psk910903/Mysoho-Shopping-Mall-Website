@@ -69,13 +69,14 @@
     <div class="overlay-inner">
       <h3>어떤 상품을 찾고 계신가요?</h3>
       <div class="overlay-content">
-        <form action="/action_page.php">
+        <form action="/search" name="keywordForm">
           <input
             type="text"
             placeholder="검색어를 입력해주세요"
-            name="search"
+            name="keyword"
+            id="keyword"
           />
-          <button type="submit">
+          <button type="button" onclick="checkTxt()">
             <i class="fa fa-search"></i>
           </button>
         </form>
@@ -83,7 +84,7 @@
     </div>
   </div>
 </div>
-<a href="/category/home.html"
+<a href="/"
   ><img
     class="logo"
     src="https://img.makeshop.co.kr/1/1371/201908/583f98cc6e004ec7b3ba880bf0eaf1c9.png"
@@ -103,4 +104,19 @@
       alt=""
   /></a>
 </div>
+  <script>
+
+      function checkTxt() {
+        // 입력값이 공백일 때
+        let val = document.querySelector("#keyword").value;
+        if (val === "") {
+          alert("검색어를 입력해주세요.");
+
+        } else{
+        let key = document.keywordForm;
+        key.value = val;
+        key.submit();
+        }
+      }
+    </script>
 </th:block>
