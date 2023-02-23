@@ -279,6 +279,7 @@ public class Controller1 {
 
   // 사용자화면 홈-----------------------------------------------------------------------------
 
+  //홈페이지
   @GetMapping("/")
   public String mySoho(Model model) {
     List<ProductResponseDto> bestItem = service1.findByItem(6);
@@ -290,21 +291,35 @@ public class Controller1 {
     return "/user/category/home";
   };
 
-
-  @GetMapping("search")
+  //상품검색
+  @GetMapping("/search")
   public String search(Model model,
                           @RequestParam(value = "keyword", required = false) String keyword) {
-//    if (keyword == null || keyword.equals("")) {
-//
-//    } else {
       List<ProductResponseDto> list = service1.findByKeyword(keyword);
       int count = list.size();
       model.addAttribute("list", list);
       model.addAttribute("keyword", keyword);
       model.addAttribute("count", count);
-//    }
     return "/user/category/search";
   }
 
+  //카테고리 페이지
+  @GetMapping("/plan/item/{category}")
+  public String planItem(Model model,@PathVariable(value = "category") String category) {
+    List<ProductResponseDto> list = service1.findByCategory(category);
+
+    model.addAttribute("list", list);
+    model.addAttribute("category", category);
+    return "/user/category/content";
+  }
+
+  //상품상세
+  @GetMapping("/product/{itemNo}")
+  public String productContent(Model model,@PathVariable(value = "itemNo") Long itemNo) {
+    ProductResponseDto dto = productService.findById(itemNo);
+
+    model.addAttribute("dto", dto);
+    return "/user/product/content";
+  }
 }
 

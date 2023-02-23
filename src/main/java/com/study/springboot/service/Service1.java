@@ -18,8 +18,18 @@ public class Service1 {
 
     @Transactional(readOnly = true)
     public List<ProductResponseDto> findByItem(int num) {
-        List<ProductEntity> Limit= productRepository.findLimit(num);
-        List<ProductResponseDto> list = Limit.stream().map(ProductResponseDto::new).collect(Collectors.toList());
+        List<ProductEntity> entityList;
+        if (num == 6) {
+            entityList= productRepository.findLimit6();
+        } else {
+            entityList= productRepository.findLimit9();
+        }
+
+        List<ProductResponseDto> list = entityList.stream().map(ProductResponseDto::new).collect(Collectors.toList());
+        return setItemDiscountPrice(list);
+    }
+
+    List<ProductResponseDto> setItemDiscountPrice( List<ProductResponseDto> list){
         for (int i = 0; i < list.size(); i++) {
             Long itemPrice = list.get(i).getItemPrice();
             Long itemDiscountRate = list.get(i).getItemDiscountRate();
@@ -29,9 +39,24 @@ public class Service1 {
         return list;
     }
 
+
     @Transactional(readOnly = true)
     public List<ProductResponseDto> findByKeyword(String keyword) {
         List<ProductEntity> list =productRepository.findByItemNameContaining(keyword);
         return list.stream().map(ProductResponseDto::new).collect(Collectors.toList());
     }
+
+
+    @Transactional(readOnly = true)
+    public List<ProductResponseDto> findByCategory(String keyword) {
+        List<ProductEntity> entityList;
+        if ( keyword.equals("SALE") ) {
+            entityList =productRepository.findByCategorySale(keyword);
+        } else {
+            entityList =productRepository.findByCategory(keyword);
+        }
+        List<ProductResponseDto> list = entityList.stream().map(ProductResponseDto::new).collect(Collectors.toList());
+        return setItemDiscountPrice(list);
+    }
+
 }

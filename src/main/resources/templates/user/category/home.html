@@ -35,15 +35,11 @@
         </div>
         <div class="navbar">
           <ul>
-            <li>
-              <a href="/category/NURIRI_SALE.html">♡ NURIRI SALE ♡</a>
-            </li>
-            <li><a href="/category/TOP.html">TOP</a></li>
-            <li><a href="/category/BOTTOM.html">BOTTOM</a></li>
-            <li>
-              <a href="/category/ONE-PIECE.html">ONE-PIECE</a>
-            </li>
-            <li><a href="/category/ACC.html" id="acc">ACC</a></li>
+            <li><a href="/plan/item/SALE">♡ NURIRI SALE ♡</a></li>
+            <li><a href="/plan/item/TOP">TOP</a></li>
+            <li><a href="/plan/item/BOTTOM">BOTTOM</a></li>
+            <li><a href="/plan/item/ONE-PIECE">ONE-PIECE</a></li>
+            <li><a href="/plan/item/ACC" id="acc">ACC</a></li>
           </ul>
         </div>
       </div>
@@ -73,8 +69,7 @@
               <!-- active 현재 보여주고 있는 이미지 -->
               <div class="carousel-item active">
                 <!-- src 이미지링크, display block, width 100% -->
-                <a href="/product/product-top1.html"
-                ><img
+                <a href="/product/20001"><img
                         src="https://img.makeshop.co.kr/1/1371/201908/f2a81f39b4ab14bdd219af6e8fec7297.jpg"
                         class="d-block w-100"
                         alt="..."
@@ -84,7 +79,7 @@
                 <div class="carousel-caption d-none d-md-block"></div>
               </div>
               <div class="carousel-item">
-                <a href="/category/NURIRI_SALE.html">
+                <a href="/plan/item/SALE">
                   <img
                           src="https://img.makeshop.co.kr/1/1371/201908/2e61ee8f4c58844901ff686a616f03ae.jpg"
                           class="d-block w-100"
@@ -118,15 +113,12 @@
       </div>
       <div class="container">
         <div class="best-itemBox">
-<!--          <script>-->
-<!--            $(".best-itemBox").load("/category-object/best-itemBox.html");-->
-<!--          </script>-->
           <div><h3>베스트 상품</h3></div>
 
           <ul class="threeAlign" >
             <li th:each="dto:${ bestItem }">
               <p class="img">
-                <a href="">
+                <a th:href="|/product/${dto.itemNo}|">
                   <img th:src="${ dto.itemImageUrl }"
                           alt=""
                           class="img1"
@@ -203,7 +195,7 @@
                 <li class="type3" th:each="dto:${ list }">
                   <div class="between">
                     <div class="prd-img">
-                      <a href="" class="focusTag"
+                      <a th:href="|/product/${dto.itemNo}|" class="focusTag"
                       ><img
                               th:src="${ dto.itemImageUrl }"
                               alt=""
@@ -212,7 +204,7 @@
                     </div>
                     <div class="tbl-cell">
                       <p class="txt">
-                        <a href="" th:text="${ dto.itemName }">퍼프 블라우스 화이트</a>
+                        <a th:href="|/product/${dto.itemNo}|" th:text="${ dto.itemName }">퍼프 블라우스 화이트</a>
                       </p>
                       <p class="price-info">
                         <th:block th:if="${dto.itemDiscountRate} != 0">
@@ -239,7 +231,7 @@
             <ul class="threeAlign threeAlign2 listType1">
               <li th:each="dto:${ list }">
                 <p class="img">
-                  <a href="">
+                  <a th:href="|/product/${dto.itemNo}|">
                     <img
                             th:src="${ dto.itemImageUrl }"
                             alt=""
@@ -266,7 +258,7 @@
                         src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
                         alt=""
                 /></a>
-                <a href="">
+                <a th:href="|/product/${dto.itemNo}|">
                   <p class="img">
                     <img
                             th:src="${ dto.itemImageUrl }"
@@ -298,6 +290,7 @@
                 <div class="swiper-wrapper">
                     <!-- 메인사진 -->
                     <img
+                            th:href="|/product/${dto.itemNo}|"
                             th:src="${ dto.itemImageUrl }"
                             alt=""
                     />
@@ -311,7 +304,7 @@
                 <!-- 상품명 -->
                 <div class="prd-info MSH-prd-info-19520">
                     <div class="MSH-prd-name">
-                        <strong th:text="${ dto.itemName }"> 퍼프 블라우스 화이트</strong>
+                        <strong th:text="${ dto.itemName }">상품명</strong>
                     </div>
                 </div>
                 <div class="prd-desc">
@@ -429,7 +422,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="buy bold">구매하기</div>
+                    <a th:href="|/product/${dto.itemNo}|" class="buy bold">구매하기</a>
                 </div>
                 <!-- 상품 리스트 끝 -->
                     </li>

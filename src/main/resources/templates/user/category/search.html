@@ -138,7 +138,8 @@
                   onkeydown="return enterkey(event);"
                   name="keywordFrom"
           >
-            <a href="javascript:history.back();location.href = document.referrer;" class="btnHback"></a>
+            <a href="javascript:history.back();
+                    if(document.referrer == 'http://localhost:8080/'){location.href = document.referrer;}" class="btnHback"></a>
             <input
                     th:value="${keyword}"
                     type="text"
