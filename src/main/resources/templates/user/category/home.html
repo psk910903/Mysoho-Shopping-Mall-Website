@@ -200,6 +200,13 @@
                               th:src="${ dto.itemImageUrl }"
                               alt=""
                       />
+                          <th:block th:if="${dto.itemSoldOut} == '품절'">
+                          <div class="sold-out-text sold-out-text-type1">
+                              SOLD <br />
+                              OUT
+                          </div>
+                          <div class="sold-out-bg sold-out-bg-type1"></div>
+                          </th:block>
                       </a>
                     </div>
                     <div class="tbl-cell">
@@ -230,23 +237,44 @@
             <!-- 두번째 타입 -->
             <ul class="threeAlign threeAlign2 listType1">
               <li th:each="dto:${ list }">
-                <p class="img">
-                  <a th:href="|/product/${dto.itemNo}|">
-                    <img
-                            th:src="${ dto.itemImageUrl }"
-                            alt=""
-                            class="img1"
-                    />
-                    <th:block th:if="${dto.itemDiscountRate} != 0">
-                    <img
-                            src="https://sohonara.mysoho.com/assets/shop/img/common/ico_sale.png"
-                            alt=""
-                            class="redico"
-                    />
-                    <span class="redico-dis" th:text="${ (dto.itemDiscountRate)+'%' }">9%</span>
-                    </th:block>
-                  </a>
-                </p>
+                  <th:block th:if="${dto.itemSoldOut} == '품절'">
+                  <div class="img sold-out-wrap">
+                      <div class="sold-out-bg sold-out-bg-type2"></div>
+                      <div class="sold-out-text sold-out-text-type2">
+                          SOLD
+                          <br />
+                          OUT
+                      </div>
+                      <a href="">
+                          <!-- 품절두번째 -->
+
+                          <img
+                                  th:src="${ dto.itemImageUrl }"
+                                  alt=""
+                                  class="img1"
+                          />
+                      </a>
+                  </div>
+                  </th:block>
+                  <th:block th:unless="${dto.itemSoldOut} == '품절'">
+                    <p class="img">
+                      <a th:href="|/product/${dto.itemNo}|">
+                        <img
+                                th:src="${ dto.itemImageUrl }"
+                                alt=""
+                                class="img1"
+                        />
+                        <th:block th:if="${dto.itemDiscountRate} != 0">
+                        <img
+                                src="https://sohonara.mysoho.com/assets/shop/img/common/ico_sale.png"
+                                alt=""
+                                class="redico"
+                        />
+                        <span class="redico-dis" th:text="${ (dto.itemDiscountRate)+'%' }">9%</span>
+                        </th:block>
+                      </a>
+                    </p>
+                  </th:block>
               </li>
             </ul>
             <!-- 세번째 타입 -->
@@ -259,13 +287,30 @@
                         alt=""
                 /></a>
                 <a th:href="|/product/${dto.itemNo}|">
-                  <p class="img">
-                    <img
-                            th:src="${ dto.itemImageUrl }"
-                            alt=""
-                            class="img1"
-                    />
-                  </p>
+                    <th:block th:if="${dto.itemSoldOut} == '품절'">
+                    <div class="img sold-out-wrap">
+                        <div class="sold-out-bg sold-out-bg-type3"></div>
+                        <div class="sold-out-text sold-out-text-type3">
+                            SOLD
+                            <br />
+                            OUT
+                        </div>
+                        <img
+                                th:src="${ dto.itemImageUrl }"
+                                alt=""
+                                class="img1"
+                        />
+                    </div>
+                    </th:block>
+                    <th:block th:unless="${dto.itemSoldOut} == '품절'">
+                      <p class="img">
+                        <img
+                                th:src="${ dto.itemImageUrl }"
+                                alt=""
+                                class="img1"
+                        />
+                      </p>
+                    </th:block>
                 </a>
                 <p class="txt" th:text="${ dto.itemName }">퍼프블라우스 화이트</p>
                 <p class="price-info">
@@ -288,9 +333,25 @@
 
                 <!-- 상품 리스트 시작 -->
                 <div class="swiper-wrapper">
+                    <th:block th:if="${dto.itemSoldOut} == '품절'">
+                    <div class="sold-out-wrap">
+                        <div class="sold-out-bg sold-out-bg-type4"></div>
+                        <div class="sold-out-text sold-out-text-type4">
+                            SOLD
+                            <br />
+                            OUT
+                        </div>
+                        <!-- 메인사진 -->
+                        <img
+                                src="https://img.makeshop.co.kr/1/1371/201902/81f5662d13dcab1ce7ee6fd978bbb5f5.png"
+                                alt=""
+                        />
+                    </div>
+                    </th:block>
+                    <th:block th:unless="${dto.itemSoldOut} == '품절'">
                     <!-- 메인사진 -->
                     <img
-                            th:href="|/product/${dto.itemNo}|"
+
                             th:src="${ dto.itemImageUrl }"
                             alt=""
                     />
@@ -300,11 +361,12 @@
                             src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
                             alt=""
                     /></a>
+                    </th:block>
                 </div>
                 <!-- 상품명 -->
                 <div class="prd-info MSH-prd-info-19520">
                     <div class="MSH-prd-name">
-                        <strong th:text="${ dto.itemName }">상품명</strong>
+                        <strong th:text="${ dto.itemName }" >상품명</strong>
                     </div>
                 </div>
                 <div class="prd-desc">

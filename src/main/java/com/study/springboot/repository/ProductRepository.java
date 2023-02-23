@@ -39,18 +39,18 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     //----------------------------------------------------------------------------------------------------------------------
 
-    @Query(value = "SELECT * FROM item order BY item_update_datetime DESC LIMIT 6;", nativeQuery = true)
+    @Query(value = "SELECT * FROM item where item_exposure='노출함' order BY item_update_datetime DESC LIMIT 6;", nativeQuery = true)
     List<ProductEntity> findLimit6();
 
-    @Query(value = "SELECT * FROM item order BY item_update_datetime DESC LIMIT 9;", nativeQuery = true)
+    @Query(value = "SELECT * FROM item where item_exposure='노출함' order BY item_update_datetime DESC LIMIT 9;", nativeQuery = true)
     List<ProductEntity> findLimit9();
 
-    @Query(value = "SELECT * FROM `item` WHERE item_name LIKE CONCAT('%',:keyword,'%') order BY `item_name` desc", nativeQuery = true)
+    @Query(value = "SELECT * FROM `item` WHERE item_name LIKE CONCAT('%',:keyword,'%') and item_exposure='노출함' order BY `item_name` desc", nativeQuery = true)
     List<ProductEntity> findByItemNameContaining(@Param(value="keyword")String keyword);
 
-    @Query(value = "SELECT * FROM item where item_category LIKE :keyword order BY item_update_datetime DESC ;", nativeQuery = true)
+    @Query(value = "SELECT * FROM item where item_category=:keyword AND item_sold_out='판매중' AND item_exposure='노출함' order BY item_update_datetime DESC ;", nativeQuery = true)
     List<ProductEntity> findByCategory(@Param(value="keyword")String keyword);
 
-    @Query(value = "SELECT * FROM item where item_discount_rate BETWEEN 1 AND 100 order BY item_update_datetime DESC;", nativeQuery = true)
+    @Query(value = "SELECT * FROM item where item_discount_rate BETWEEN 1 AND 100 and item_exposure='노출함' order BY item_update_datetime DESC;", nativeQuery = true)
     List<ProductEntity> findByCategorySale(@Param(value="keyword")String keyword);
 }
