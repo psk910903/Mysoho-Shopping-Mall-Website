@@ -46,8 +46,8 @@ public class MemberSaveRequestDto {
     public MemberEntity toUpdateEntity() {
         return MemberEntity.builder()
                 .memberNo(memberNo)
-                .memberId(memberId)
-                .memberPw(memberPw)
+                .username(memberId)
+                .password(memberPw)
                 .memberName(memberName)
                 .memberRate(memberRate)
                 .memberEmail(memberEmail)
