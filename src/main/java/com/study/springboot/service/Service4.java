@@ -17,25 +17,9 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class Service4 {
-    private final MemberRepository memberRepository;
+
     private final QnaRepository qnaRepository;
-
-    @Transactional
-    public boolean save(MemberEntity entity) {
-        try{
-            memberRepository.save(entity);
-        }catch (Exception e){
-            e.printStackTrace();
-            return false;
-        }
-        return true;
-    }
-
-    public List<MemberEntity> findByUserId(String userId) {
-        List<MemberEntity> list= memberRepository.findByUserId(userId);
-        return list;
-    }
-
+    
 
     public List<QnaResponseDto> findEvery() {
 
