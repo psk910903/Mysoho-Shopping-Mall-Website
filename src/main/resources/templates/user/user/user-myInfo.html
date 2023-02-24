@@ -41,7 +41,8 @@
         </div>
         <div class="users-cont">
           <div class="users-cont-tit">기본정보</div>
-          <form action="modifyUserContent" method="post" >
+          <form action="/user/user/user-myInfo/modifyUserContent" method="post" >
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <input type="hidden" name="memberNo" th:value="${member.memberNo}"/>
             <input type="hidden" name="memberRate" th:value="${member.memberRate}"/>
             <input type="hidden" name="memberMileage" th:value="${member.memberMileage}"/>
