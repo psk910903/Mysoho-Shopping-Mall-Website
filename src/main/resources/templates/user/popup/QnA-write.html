@@ -46,6 +46,7 @@
         </div>
         <div id="searchForm">
           <form action="/user/qna/write" method="post" name="qnaInfo" onsubmit="return checkValue();">
+	    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <input type="hidden" name="memberId" value="hong">
             <input type="hidden" name="qnaTitle" value=" ">
           <div class="qa-write-wrap">
