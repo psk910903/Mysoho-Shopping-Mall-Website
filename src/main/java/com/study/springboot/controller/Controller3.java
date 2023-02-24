@@ -35,7 +35,6 @@ public class Controller3 {
     private final ProductService productService;
     private final MemberRepository memberRepository;
     final private PasswordEncoder passwordEncoder;
-    private final Service3 service3;
 
     @RequestMapping("/admin/review")
     public String main(){
