@@ -7,6 +7,7 @@ import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.repository.MemberRepository;
 import com.study.springboot.service.MemberService;
+import com.study.springboot.service.Service6;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,6 +25,7 @@ import java.util.Optional;
 public class Controller6 {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
+    private final Service6 service6;
 
 
     @GetMapping("/admin/member")
@@ -115,7 +117,7 @@ public class Controller6 {
     @PostMapping("user/user/user-myInfo/modifyUserContent")
     @ResponseBody
     public String modifyUserContent( MemberSaveRequestDto dto){
-        boolean pwCheck = memberService.pwCheck(dto);
+        boolean pwCheck = service6.pwCheck(dto);
 
         if (pwCheck) {
             boolean result = memberService.modify(dto);
