@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -23,14 +23,16 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <div class="wrap">
       <div class="betweenbtn">
-        <script>
-          $(".betweenbtn").load("/public-object/betweenbtn.html");
-        </script>
+        <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
+<!--        <script>-->
+<!--          $(".betweenbtn").load("/public-object/betweenbtn.html");-->
+<!--        </script>-->
       </div>
       <div class="header">
-        <script>
-          $(".header").load("/public-object/header.html");
-        </script>
+        <div th:replace="/fragments/header.html :: fragment-header"></div>
+<!--        <script>-->
+<!--          $(".header").load("/public-object/header.html");-->
+<!--        </script>-->
       </div>
       <!-- 회원가입 -->
       <div class="containerlogin">
@@ -39,32 +41,31 @@
         </div>
         <div class="users-cont">
           <div class="users-cont-tit">기본정보</div>
-          <form action="frmLogin" method="post" action="/user/loginProcess">
+          <form action="modifyUserContent" method="post" >
+            <input type="hidden" name="memberNo" th:value="${member.memberNo}"/>
+            <input type="hidden" name="memberRate" th:value="${member.memberRate}"/>
+            <input type="hidden" name="memberMileage" th:value="${member.memberMileage}"/>
+            <input type="hidden" name="memberRole" th:value="${member.memberRole}"/>
+            <input type="hidden" name="memberExited" th:value="${member.memberExited}"/>
+
             <input
               class="input-st01 users-login-input input-id"
               type="text"
-              name="user_id"
-              value="psk910903"
-              disabled
+              name="memberId"
+              value="psk"
+              readonly
               style="
                 background-color: #dedede;
                 border: 1px solid #dedede;
                 font-size: 12px;
                 color: black;
               "
+              th:value="${member.memberId}"
             />
-            <div class="red check-txt check-txt-id">아이디를 입력해주세요</div>
-            <div class="red check-txt check-txt-id2">
-              아이디는 영문 또는 영문, 숫자를 포함하여 5자~20자 내로 입력
-              가능합니다. (-,_를 제외한 특수 문자 입력 불가)
-            </div>
-            <div class="blue check-txt check-txt-id3">
-              사용가능한 아이디입니다.
-            </div>
             <input
               class="input-st01 users-login-input mt-10"
               type="password"
-              name="user_password"
+              name="memberPw"
               placeholder="기존 비밀번호"
               value=""
             />
@@ -73,7 +74,7 @@
               id="check-txt-pw"
               class="input-st01 users-login-input mt-10"
               type="password"
-              name="user_password"
+              name="memberNewPw"
               placeholder="새 비밀번호"
               value=""
               onchange="checkUserinfo('pw', this.value)"
@@ -91,9 +92,7 @@
               id="check-txt-pwcheck"
               class="input-st01 users-login-input mt-10"
               type="password"
-              name="user_password"
               placeholder="비밀번호 확인"
-              value=""
               onBlur="checkPW(this.value)"
               onchange="checkTxt('pw', this.value)"
             />
@@ -106,11 +105,12 @@
             <input
               class="input-st01 users-login-input mt-10"
               type="text"
-              name="user_name"
+              name="memberName"
               placeholder="이름"
               onBlur="checkTxt('name', this.value)"
               onchange="checkUserinfo('name', this.value)"
               value="박선교"
+              th:value="${member.memberName}"
             />
             <div class="red check-txt check-txt-name">이름을 입력해주세요</div>
             <div class="red check-txt check-txt-name2">
@@ -120,11 +120,12 @@
             <input
               class="input-st01 users-login-input mt-10"
               type="email"
-              name="user_email"
+              name="memberEmail"
               placeholder="이메일(비밀번호 찾기 시 이메일로 발송됩니다"
               onBlur="checkTxt('email', this.value)"
               onchange="checkUserinfo('email', this.value)"
               value="psk910903@gmail.com"
+              th:value="${member.memberEmail}"
             />
             <div class="red check-txt check-txt-email">
               이메일 주소를 입력하세요.
@@ -138,11 +139,12 @@
             <input
               class="input-st01 users-login-input mt-10"
               type="text"
-              name="user_mobileNumber"
+              name="memberPhone"
               placeholder="휴대폰번호"
               onBlur="checkTxt('phone', this.value)"
               onchange="checkUserinfo('phone', this.value)"
               value="01040246575"
+              th:value="${member.memberPhone}"
             />
             <div class="red check-txt check-txt-phone">
               전화번호를 입력 해주세요
@@ -153,7 +155,7 @@
             <div class="blue check-txt check-txt-phone3">
               사용가능한 전화번호입니다.
             </div>
-          </form>
+
           <div class="receiver-wrap same js-useDeliveryOff same2">
             <div class="mt-40">
               <strong> 주소</strong>
@@ -164,11 +166,12 @@
                   class="input-st01 mt-10"
                   id="sample6_postcode"
                   type="text"
-                  name="delivery_address"
+                  name="memberAddrNumber"
                   placeholder="우편번호"
                   value
                   readonly
                   onclick="sample6_execDaumPostcode()"
+                  th:value="${member.memberAddrNumber}"
                 />
                 <!-- 돋보기 이미지 -->
 
@@ -182,21 +185,23 @@
                   class="input-st01 mt-10"
                   id="sample6_address"
                   type="text"
-                  name="delivery_address1"
+                  name="memberAddr1"
                   placeholder="기본주소"
                   value
                   maxlength="100"
+                  th:value="${member.memberAddr1}"
                 />
               </li>
               <li class="delivery-address2">
                 <input
                   class="input-st01 mt-10"
                   id="sample6_extraAddress"
-                  type="text"
-                  name="delivery_address2"
+                  type="hidden"
+                  name="Addr2"
                   placeholder="참고항목"
                   value
                   maxlength="100"
+
                 />
               </li>
               <li class="delivery-address2">
@@ -204,10 +209,11 @@
                   class="input-st01 mt-10"
                   id="sample6_detailAddress"
                   type="text"
-                  name="delivery_address2"
+                  name="memberAddr2"
                   placeholder="나머지주소"
                   value
                   maxlength="100"
+                  th:value="${member.memberAddr2}"
                 />
               </li>
             </ul>
@@ -223,40 +229,41 @@
                     id="agreeAllBtn"
                     checked
                   />
-                  <label for="check1"></label>
                   <div class="cbx-content">
                     개인정보 수집 이용동의(선택) <br />(쇼핑/할인소식 SMS수신)
                   </div>
-                  <button class="btn-view" onclick="openPopup4()">보기</button>
+                  <button type="button" class="btn-view" onclick="openPopup4()">보기</button>
+<!--                  <a href="javascript:openPopup4()">보기</a>-->
                 </div>
               </li>
               <div class="btn-box">
                 <a
-                  href="myorder-list-user.html"
-                  type="submit"
-                  id="join"
+                  href="myorder-list-user"
                   class="btn-h42-gray width30"
                 >
                   취소
                 </a>
+
                 <button
                   type="submit"
                   id="join"
                   class="btn-h42-gray width70"
-                  onclick="alert('변경되었습니다.')"
                 >
                   변경하기
                 </button>
+<!--                  onclick="alert('변경되었습니다.')"-->
               </div>
             </ul>
           </div>
+          </form>
         </div>
       </div>
       <!-- 푸터 -->
       <div class="footer">
-        <script>
-          $(".footer").load("/public-object/footer.html");
-        </script>
+        <div th:replace="/fragments/footer.html :: fragment-footer"></div>
+<!--        <script>-->
+<!--          $(".footer").load("/public-object/footer.html");-->
+<!--        </script>-->
       </div>
     </div>
     <script
