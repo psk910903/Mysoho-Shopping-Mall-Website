@@ -21,9 +21,6 @@ public interface InquiryRepository extends JpaRepository<InquiryEntity,Long> {
     Page<InquiryEntity> findByMemberIdContaining(String keyword, Pageable sort);
     List<InquiryEntity> findByMemberIdContaining(String keyword);
 
-    Page<InquiryEntity> findByInquiryTitleContaining(String keyword, Pageable sort);
-    List<InquiryEntity> findByInquiryTitleContaining(String keyword);
-
     Page<InquiryEntity> findByInquiryContentContaining(String keyword, Pageable sort);
     List<InquiryEntity> findByInquiryContentContaining(String keyword);
 

@@ -1,4 +1,4 @@
-package com.study.springboot.entity.inquiry;
+package com.study.springboot.entity;
 
 import lombok.*;
 

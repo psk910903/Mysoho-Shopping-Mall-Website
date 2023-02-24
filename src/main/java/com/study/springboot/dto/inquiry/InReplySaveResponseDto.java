@@ -1,6 +1,6 @@
 package com.study.springboot.dto.inquiry;
 
-import com.study.springboot.entity.inquiry.InReplyEntity;
+import com.study.springboot.entity.InReplyEntity;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 

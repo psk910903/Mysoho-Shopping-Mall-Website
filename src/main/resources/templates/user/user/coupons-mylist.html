@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -24,14 +24,10 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <div class="wrap">
       <div class="betweenbtn">
-        <script>
-          $(".betweenbtn").load("/public-object/betweenbtn.html");
-        </script>
+          <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
       </div>
       <div class="header">
-        <script>
-          $(".header").load("/public-object/header.html");
-        </script>
+          <div th:replace="/fragments/header.html :: fragment-header"></div>
       </div>
       <!-- 나의 쿠폰 -->
       <div class="container-coupons">
@@ -42,18 +38,18 @@
           <div class="myCouponWrap">
             <div class="totalCoupon">총 보유 쿠폰 (0개)</div>
             <div class="couponIntro">
-              <img
-                src="https://sohonara.mysoho.com/assets/shop/img/common/ico_help_m.png"
-                alt=""
-              />
+<!--              <img-->
+<!--                src="https://sohonara.mysoho.com/assets/shop/img/common/ico_help_m.png"-->
+<!--                alt=""-->
+<!--              />-->
               <div>쿠폰 안내보기</div>
-              <img
-                src="https://sohonara.mysoho.com/assets/shop/img/common/ico_arrow_m.png"
-                alt=""
-                onclick="couponInfoBtn()"
-                id="couponIntroBtn"
-                class="transform"
-              />
+<!--              <img-->
+<!--                src="https://sohonara.mysoho.com/assets/shop/img/common/ico_arrow_m.png"-->
+<!--                alt=""-->
+<!--                onclick="couponInfoBtn()"-->
+<!--                id="couponIntroBtn"-->
+<!--                class="transform"-->
+<!--              />-->
             </div>
             <div id="coupon-hidden-info-wrap">
               <div class="coupon-hidden-info">
@@ -92,15 +88,13 @@
                 </div>
               </div>
             </div>
-            <div class="couponNon">보유중인 쿠폰이 없습니다.</div>
+            <div class="couponNon" th:text="|${memberCoupon}원|">보유중인 쿠폰이 없습니다.</div>
           </div>
         </div>
       </div>
       <!-- 푸터 -->
       <div class="footer">
-        <script>
-          $(".footer").load("/public-object/footer.html");
-        </script>
+          <div th:replace="/fragments/footer.html :: fragment-footer"></div>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>

@@ -35,4 +35,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     @Query(value = "SELECT * FROM `item` WHERE `item_category` = :findByType1 AND item_price LIKE CONCAT('%',:keyword,'%') order BY item_update_datetime desc", nativeQuery = true)
     Page<ProductEntity> findByItemPrice(@Param(value="findByType1")String findByType1, @Param(value="keyword")String keyword, Pageable sort);
+
+
+
 }

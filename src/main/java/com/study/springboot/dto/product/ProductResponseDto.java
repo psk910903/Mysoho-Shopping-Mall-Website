@@ -1,6 +1,8 @@
 package com.study.springboot.dto.product;
 
 import com.study.springboot.entity.ProductEntity;
+import jdk.jshell.Snippet;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -34,4 +36,6 @@ public class ProductResponseDto {
         this.itemExposure = entity.getItemExposure();
         this.itemSoldOut = entity.getItemSoldOut();
     }
+
+
 }

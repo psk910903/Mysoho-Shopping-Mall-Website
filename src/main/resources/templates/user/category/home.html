@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -25,6 +25,7 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <div class="wrap">
       <div class="betweenbtn">
+        <div th:replace="/fragments/between.html :: fragment-between"></div>
         <script>
           $(".betweenbtn").load("/public-object/betweenbtn.html");
         </script>
@@ -188,4 +189,5 @@
       var myCarousel = document.querySelector("#carouselExampleCaptions");
     </script>
   </body>
-</html>
+  </html>
+

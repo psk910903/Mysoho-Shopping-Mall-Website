@@ -13,35 +13,39 @@ import java.time.LocalDateTime;
 public class InquirySaveResponseDto {
 
     private String memberId;
+    private String inquiryNickname;
+    private String inquiryPassword;
     private Long itemNo;
-    private String inquiryTitle;
     private String inquiryContent;
     private String inquiryHit;
     private String inquirySecret;
+
     @Builder//생성자
     public InquirySaveResponseDto(String memberId,
+                                  String inquiryNickname,
+                                  String inquiryPassword,
                                   Long itemNo,
-                                  String inquiryTitle,
                                   String inquiryContent,
                                   String inquirySecret,
                                   String inquiryHit) {
         this.memberId = memberId;
+        this.inquiryNickname = inquiryNickname;
+        this.inquiryPassword = inquiryPassword;
         this.itemNo = itemNo;
-        this.inquiryTitle = inquiryTitle;
         this.inquiryContent = inquiryContent;
         this.inquirySecret = inquirySecret;
         this.inquiryHit = inquiryHit;
     }
-//    //dto를 entity로 바꿔주는 메서드
+    //    //dto를 entity로 바꿔주는 메서드
     public InquiryEntity toEntity(){
         return InquiryEntity.builder()
                 .memberId(memberId)
+                .inquiryNickname(inquiryNickname)
+                .inquiryPassword(inquiryPassword)
                 .itemNo(itemNo)
-                .inquiryTitle(inquiryTitle)
                 .inquiryContent(inquiryContent)
                 .inquirySecret(inquirySecret)
                 .inquiryHit(inquiryHit)
                 .build();
     }
-
 }

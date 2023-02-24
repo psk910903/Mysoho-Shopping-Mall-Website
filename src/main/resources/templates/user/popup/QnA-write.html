@@ -1,162 +1,169 @@
 <!DOCTYPE html>
-<html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>마이소호 샘플샵</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <link rel="stylesheet" href="/css/header.css" />
-    <link rel="stylesheet" href="/css/footer.css" />
-    <link rel="stylesheet" href="/css/QnA-write.css" />
-  </head>
-  <body>
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-    <div class="wrap">
-      <div class="betweenbtn">
-        <script>
-          $(".betweenbtn").load("/public-object/betweenbtn.html");
-        </script>
-      </div>
-      <div class="header">
-        <script>
-          $(".header").load("/public-object/header.html");
-        </script>
-      </div>
-      <!-- 문의작성 -->
-      <div class="container-write">
-        <div class="users-title-line-hd">
-          <h2>문의작성</h2>
-          <a href="javascript:closePopup()" class="qna-closebtn"
-            ><img
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>마이소호 샘플샵</title>
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+          crossorigin="anonymous"
+  />
+  <link
+          rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+  />
+  <link rel="stylesheet" href="/css/header.css" />
+  <link rel="stylesheet" href="/css/footer.css" />
+  <link rel="stylesheet" href="/css/QnA-write.css" />
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<div class="wrap">
+  <div class="betweenbtn">
+    <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
+  </div>
+  <div class="header">
+    <div th:replace="/fragments/header.html :: fragment-header"></div>
+  </div>
+  <!-- 문의작성 -->
+  <div class="container-write">
+    <div class="users-title-line-hd">
+      <h2>문의작성</h2>
+      <a href="javascript:closePopup()" class="qna-closebtn"
+      ><img
               src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
               alt=""
-          /></a>
-        </div>
-        <form id="searchForm">
-          <div class="qa-write-wrap">
-            <div class="qa-write">
-              <div class="select">
-                <select id="standard-select">
-                  <option value="Option 1">상품문의</option>
-                  <option value="Option 2">배송문의</option>
-                  <option value="Option 3">교환문의</option>
-                  <option value="Option 4">반품문의</option>
-                  <option value="Option 5">환불문의</option>
-                  <option value="Option 6">기타문의</option>
-                </select>
-                <img
-                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
-                  alt=""
-                />
-              </div>
-            </div>
-            <div class="chekck-title">
-              <div><strong>문의내용</strong></div>
-              <div class="fl-r">
-                <input type="checkbox" name="ckeck1" />
-                <label for="check1"></label>
-                <div class="cbx-content">비밀글</div>
-              </div>
-            </div>
-            <div class="input-box">
-              <input
-                type="text"
-                name="writer"
-                placeholder="닉네임을 입력해주세요. (20자 이내)"
-              />
-              <textarea
-                name="contents"
-                placeholder="문의 내용을 입력해주세요.(1,000자 이내)"
-                maxlength="1000"
-                style="width: 100%"
-                class="mt-10"
-              ></textarea>
-              <div>
-                <input
-                  type="password"
-                  name="password"
-                  class="mt-10"
-                  placeholder="비밀번호를 입력하세요."
-                />
-                <p class="gray-txt mt-10">
-                  ※ 입력한 비밀번호는 게시글 확인 시 필요합니다.
-                </p>
-              </div>
-            </div>
-            <div class="txt-box mt-15">
-              <div class="security-txt-wrap">
-                <div class="security-txt">
-                  <img
-                    src="data:image/gif;base64,R0lGODdhyAAyAMIAAP///3/AmjogB4F5haW4qQAAAAAAAAAAACwAAAAAyAAyAAAD/gi6BL0wyknrfBLbzXX0XKiAEDicaKqurOoRpCiXjPjEs9TufN8TLGAwhyPmIr6kcuk7Oje4YkiqY1qftifmZsR6Px9qhRR7Wbgd2Hdd67Ip4jdWTZPL4vZLBp+fOgOAAX2DemCFhHYafBlrgYEEgnJ8ioaIiQ6WdiiYFY6QgJmhooRilBsqI2OcEo6Oh3VtqZWwl1Cjr4wiqFlnFJ6faLeqootuMidAIQEwrV8arYG4ubySDcXCVShSwazQ3oJmq7HfbOGxftPYtgC7ssbDEN+tn8qfrvCM1+pr7bP67+cAzPMGqRu0Xu6I/NOyTgGqOAvx0ZJmQZ7FaOiERWSX/qJcQ0tkJE642EzSrX6zvJgS1yHgvg2AINmDVhChRwodEXKjmI5OBAFAgwJtWUEolqELgC4CBDRmgKYkJyBVMDVdP6NEhVVds9Um1aldRQjQAPVeBG9lnwqI5A6lhLBzRG7oWuwBXCpY4XZAGpbcWwFfFQRS4Y2WXpYu+xxOnFBvyK98AcuFgBWXzHlG+5GQl/YmHBmLc4QuCnjo6DOAIxIGlfGnZMEkMVo6Lfa116QNTNt2ctgnko5b/YZYHCM269tJd9+Rmpq3ZKP6CEylkpOy8pGF/x6hEhWxdYCve88am/z6jMVuv8/AEGgtU/MCjS8r6V2sb+cAtvIBS7xI/tcBQgyQEBzmkYHWWmnNJ9ty6dxG20RBfVEVbSQMlZ447L03kEUUROhLdimtsVF9Jnmxmnz0NahiKRkIR80oVIxI0onHkZJJcTPVuF1GLzxWkVOx2TOBCxMVicmIHw3ioiUo5ggQRyf0YU0oSMrwCAcoHpSHjxcOUuVLH3IIZgi7fMngmIyFqCYi12jQ5WdoxqnSlmkW4laMA2pEpZyZEIncmXp6mWeSDK1HZnUvQmEmic4kSiifECD6xjaBFjonmPdlkwyklsLZGoyeilSECZI6MQmnqKr46SmlhrEQGhGV8dKil+Lz5p+pdqrOToTc6hmmucrpJ67BDlqsoZpsPHIsMbSeuo+vNxqp6q+NSssSCFV6AC2PyEFk6rKCzgCggMRyQmu4PE3rI6NS1jnglOdsUYu7+5wL6qcJAAA7"
+      /></a>
+    </div>
+    <form onsubmit="checkboxMaster();" id="searchForm" action="/inquiry/productInquiryWriteForm/writeAction" method="post">
+      <input type="hidden" th:value="${itemNo}" name="itemNo">
+      <div class="qa-write-wrap">
+        <div class="qa-write">
+          <div class="select">
+            <!--                02 23 상품문의 고정값으로 지정하기-->
+            <div id="standard-select" value="상품문의">상품문의</div>
+            <img
+                    src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
                     alt=""
-                  />
-                </div>
-                <div class="btns">
-                  <a href="" class="js-reCreateCaptchaImage">
-                    <div class="refresh">
-                      <img
-                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_refresh.png"
-                        alt=""
-                      />
-                      새로고침
-                    </div>
-                  </a>
-                </div>
-              </div>
-              <div class="input-box mt-10">
-                <input
+            />
+          </div>
+        </div>
+        <div class="chekck-title">
+          <div><strong>문의내용</strong></div>
+          <div class="fl-r">
+            <!--                  id="check1" /    첫번째 레이블 for="check1"-->
+            <input type="checkbox" name="inquirySecret" value="비공개" id="check1"/>
+            <label></label>
+            <div class="cbx-content">비밀글</div>
+          </div>
+        </div>
+        <div class="input-box">
+          <div type="hidden"><input
                   type="text"
-                  name="captchaText"
-                  placeholder="보안문자를 입력해주세요."
-                />
-              </div>
+                  name="inquiryNickname"
+                  placeholder="닉네임을 입력해주세요. (20자 이내)"
+                  th:unless="${inquiryMemberId != null}"
+          /></div>
+          <textarea
+                  name="inquiryContent"
+                  placeholder="문의 내용을 입력해주세요.(1,000자 이내)"
+                  maxlength="1000"
+                  style="width: 100%"
+                  class="mt-10"
+          ></textarea>
+          <div>
+            <input
+                    type="password"
+                    name="inquiryPassword"
+                    class="mt-10"
+                    placeholder="비밀번호를 입력하세요."
+                    th:unless="${inquiryMemberId != null}"
+            />
+            <p class="gray-txt mt-10" th:unless="${inquiryMemberId != null}">
+              ※ 입력한 비밀번호는 게시글 확인 시 필요합니다.
+            </p>
+          </div>
+        </div>
+        <div class="txt-box mt-15" th:unless="${inquiryMemberId != null}">
+          <div class="security-txt-wrap">
+            <div class="security-txt">
+              <img
+                      src="data:image/gif;base64,R0lGODdhyAAyAMIAAP///3/AmjogB4F5haW4qQAAAAAAAAAAACwAAAAAyAAyAAAD/gi6BL0wyknrfBLbzXX0XKiAEDicaKqurOoRpCiXjPjEs9TufN8TLGAwhyPmIr6kcuk7Oje4YkiqY1qftifmZsR6Px9qhRR7Wbgd2Hdd67Ip4jdWTZPL4vZLBp+fOgOAAX2DemCFhHYafBlrgYEEgnJ8ioaIiQ6WdiiYFY6QgJmhooRilBsqI2OcEo6Oh3VtqZWwl1Cjr4wiqFlnFJ6faLeqootuMidAIQEwrV8arYG4ubySDcXCVShSwazQ3oJmq7HfbOGxftPYtgC7ssbDEN+tn8qfrvCM1+pr7bP67+cAzPMGqRu0Xu6I/NOyTgGqOAvx0ZJmQZ7FaOiERWSX/qJcQ0tkJE642EzSrX6zvJgS1yHgvg2AINmDVhChRwodEXKjmI5OBAFAgwJtWUEolqELgC4CBDRmgKYkJyBVMDVdP6NEhVVds9Um1aldRQjQAPVeBG9lnwqI5A6lhLBzRG7oWuwBXCpY4XZAGpbcWwFfFQRS4Y2WXpYu+xxOnFBvyK98AcuFgBWXzHlG+5GQl/YmHBmLc4QuCnjo6DOAIxIGlfGnZMEkMVo6Lfa116QNTNt2ctgnko5b/YZYHCM269tJd9+Rmpq3ZKP6CEylkpOy8pGF/x6hEhWxdYCve88am/z6jMVuv8/AEGgtU/MCjS8r6V2sb+cAtvIBS7xI/tcBQgyQEBzmkYHWWmnNJ9ty6dxG20RBfVEVbSQMlZ447L03kEUUROhLdimtsVF9Jnmxmnz0NahiKRkIR80oVIxI0onHkZJJcTPVuF1GLzxWkVOx2TOBCxMVicmIHw3ioiUo5ggQRyf0YU0oSMrwCAcoHpSHjxcOUuVLH3IIZgi7fMngmIyFqCYi12jQ5WdoxqnSlmkW4laMA2pEpZyZEIncmXp6mWeSDK1HZnUvQmEmic4kSiifECD6xjaBFjonmPdlkwyklsLZGoyeilSECZI6MQmnqKr46SmlhrEQGhGV8dKil+Lz5p+pdqrOToTc6hmmucrpJ67BDlqsoZpsPHIsMbSeuo+vNxqp6q+NSssSCFV6AC2PyEFk6rKCzgCggMRyQmu4PE3rI6NS1jnglOdsUYu7+5wL6qcJAAA7"
+                      alt=""
+              />
             </div>
-            <a href="" class="input-box btn-h42-gray"> 등록하기 </a>
-            <div class="txt-box mt-15">
-              <p class="gray-txt2">
-                쇼핑몰 이용과 관련되지 않은 광고, 욕설, 비방, 도배 등이 포함된
-                글은 예고 없이 비공개로 전환 및 삭제될 수 있습니다. 전화번호,
-                이메일 등의 소중한 개인정보는 남기지 말아주세요.
-              </p>
+            <div class="btns" >
+              <a href="" class="js-reCreateCaptchaImage">
+                <div class="refresh">
+                  <img
+                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_refresh.png"
+                          alt=""
+                  />
+                  새로고침
+                </div>
+              </a>
             </div>
           </div>
-        </form>
+          <div class="input-box mt-10">
+            <!--                  02 23 보안문자는 우선 div처리 해둠, 나중에 보안필요-->
+            <div
+                    type="text"
+                    name="captchaText"
+                    placeholder="보안문자를 입력해주세요.">
+            </div>
+          </div>
+        </div>
+        <button class="input-box btn-h42-gray" type="submit"> 등록하기 </button>
+        <div class="txt-box mt-15">
+          <p class="gray-txt2">
+            쇼핑몰 이용과 관련되지 않은 광고, 욕설, 비방, 도배 등이 포함된
+            글은 예고 없이 비공개로 전환 및 삭제될 수 있습니다. 전화번호,
+            이메일 등의 소중한 개인정보는 남기지 말아주세요.
+          </p>
+        </div>
       </div>
-      <!-- 푸터 -->
-      <div class="footer">
-        <script>
-          $(".footer").load("/public-object/footer.html");
-        </script>
-      </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
-      integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
-      crossorigin="anonymous"
-    ></script>
-    <script src="/js/header.js"></script>
-    <script src="/js/footer.js"></script>
+    </form>
+  </div>
+  <!-- 푸터 -->
+  <div class="footer">
+    <div th:replace="/fragments/footer.html :: fragment-footer"></div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+        crossorigin="anonymous"
+></script>
+<script src="/js/header.js"></script>
+<script src="/js/footer.js"></script>
 
-    <script>
+<script>
       function closePopup() {
         window.close();
       }
+
+        $("#check1").change(function() {
+            if(this.checked) {
+                 $("#check1").val('비공개');
+            }else{
+                $("#check1").val('공개');
+
+            }
+        });
+
+      //if(document.getElementById("check1").checked) {
+      //document.getElementById("check1_hidden").disabled = true;
+      //}
     </script>
-  </body>
+</body>
+</html>
 </html>

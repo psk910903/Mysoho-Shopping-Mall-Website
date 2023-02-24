@@ -1,4 +1,3 @@
-
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
@@ -23,10 +22,6 @@
         <div class="contentWrap">
           <h3 class="sub-title"> 문의</h3>
           <table class="table table-bordered" >
-            <tr>
-              <th style="text-align: center;" class="w250 table-light align-middle">제목</th>
-              <td th:text="${ dto.inquiryTitle }">제목.</td>
-            </tr>
             <tr>
               <th style="text-align: center;" class="w250 table-light align-middle">작성자</th>
               <td  th:text="${ dto.memberId }" >작성자</td>
@@ -84,33 +79,33 @@
         </div>
       </div>
 
-<!--      답변등록-->
+      <!--      답변등록-->
       <th:block th:if="${nullCheck == 'null'} ">
-      <div class="contentWrap">
-        <div>
-          <form action="writeAction" method="post"
-                name="userInfo" onsubmit="return checkValue();">
-            <h3 class="sub-title"> 답변 등록</h3>
-            <table class="table table-bordered" >
-              <tr>
-                <th style="text-align: center;" class="w250 table-light align-middle">작성자</th>
-                <td >관리자</td>
-              </tr>
-              <tr>
-                <th style="text-align: center;" class="w250 table-light align-middle">답변내용</th>
-                <td >
-                  <textarea name="replyContent" class="form-control" style="height: 100px"></textarea>
-                </td>
-              </tr>
-            </table>
-            <div style="text-align: center">
-              <input type="hidden" name="replyInquiryNo" th:value="${ dto.inquiryNo }">
-              <button type="submit" id="dap" class="btn btn-danger">등록</button>
-              <a href="/admin/inquiry/list" class="btn btn-outline-secondary">목록</a>
-            </div>
-          </form>
+        <div class="contentWrap">
+          <div>
+            <form action="writeAction" method="post"
+                  name="userInfo" onsubmit="return checkValue();">
+              <h3 class="sub-title"> 답변 등록</h3>
+              <table class="table table-bordered" >
+                <tr>
+                  <th style="text-align: center;" class="w250 table-light align-middle">작성자</th>
+                  <td >관리자</td>
+                </tr>
+                <tr>
+                  <th style="text-align: center;" class="w250 table-light align-middle">답변내용</th>
+                  <td >
+                    <textarea name="replyContent" class="form-control" style="height: 100px"></textarea>
+                  </td>
+                </tr>
+              </table>
+              <div style="text-align: center">
+                <input type="hidden" name="replyInquiryNo" th:value="${ dto.inquiryNo }">
+                <button type="submit" id="dap" class="btn btn-danger">등록</button>
+                <a href="/admin/inquiry/list" class="btn btn-outline-secondary">목록</a>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
       </th:block>
     </div>
   </div>
@@ -138,6 +133,3 @@ return true;
 }
 </script>
 </html>
-
-
-

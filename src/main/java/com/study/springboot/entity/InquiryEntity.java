@@ -15,12 +15,14 @@ public class InquiryEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="inquiry_no", nullable = false)
     private Long inquiryNo;
-    @Column(name="member_id", nullable = false)
+    @Column(name="member_id")
     private String memberId;
+    @Column(name="inquiry_nickname")
+    private String inquiryNickname;
+    @Column(name="inquiry_password")
+    private String inquiryPassword;
     @Column(name = "item_no", nullable = false)
     private Long itemNo;
-    @Column(name = "inquiry_title", nullable = false)
-    private String inquiryTitle;
     @Column(name = "inquiry_content", nullable = false)
     private String inquiryContent;
     @Column(name = "inquiry_hit")
@@ -32,28 +34,32 @@ public class InquiryEntity {
 
     @Builder
     public InquiryEntity(String memberId,
+                         String inquiryNickname,
+                         String inquiryPassword,
                          Long itemNo,
-                         String inquiryTitle,
                          String inquiryContent,
                          String inquiryHit,
                          String inquirySecret) {
         this.memberId = memberId;
+        this.inquiryNickname = inquiryNickname;
+        this.inquiryPassword = inquiryPassword;
         this.itemNo = itemNo;
-        this.inquiryTitle = inquiryTitle;
         this.inquiryContent = inquiryContent;
         this.inquiryHit = inquiryHit;
         this.inquirySecret = inquirySecret;
 
     }
     public void update(String memberId,
+                       String inquiryNickname,
+                       String inquiryPassword,
                        Long itemNo,
-                       String inquiryTitle,
                        String inquiryContent,
                        String inquiryHit,
                        String inquirySecret) {
         this.memberId = memberId;
+        this.inquiryNickname = inquiryNickname;
+        this.inquiryPassword = inquiryPassword;
         this.itemNo = itemNo;
-        this.inquiryTitle = inquiryTitle;
         this.inquiryContent = inquiryContent;
         this.inquiryHit = inquiryHit;
         this.inquirySecret = inquirySecret;
