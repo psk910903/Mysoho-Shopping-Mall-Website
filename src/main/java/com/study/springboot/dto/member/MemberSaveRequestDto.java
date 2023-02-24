@@ -17,6 +17,7 @@ public class MemberSaveRequestDto {
     private Long memberNo;
     private String memberId;
     private String memberPw;
+    private String memberNewPw;
     private String memberName;
     private String memberRate;
     private String memberEmail;
