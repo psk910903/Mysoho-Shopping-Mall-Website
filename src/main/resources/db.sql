@@ -56,7 +56,7 @@ CREATE TABLE member (
    member_addr2 CHAR(255) NOT NULL, -- 나머지 주소
    member_join_datetime DATETIME DEFAULT NOW(),-- 회원가입 날짜
    member_exit_datetime DATETIME DEFAULT NULL, -- 탈퇴 날짜
-  	member_role CHAR(10) DEFAULT '일반',
+  	member_role CHAR(10) DEFAULT 'ROLE_USER',
    member_exited VARCHAR(255) DEFAULT '회원' -- 탈퇴 여부(0: 회원, 1: 탈퇴 회원)
 );
 -- role을 테이블에 넣었을 때 데이터 입력값
@@ -127,10 +127,6 @@ INSERT INTO item VALUES(NULL, 'TOP', '골지 브이티', '블랙', 'FREE', '1990
 
 SELECT * FROM item
 
-SELECT * FROM item order BY item_update_datetime DESC LIMIT '6';
-SELECT * FROM item where item_category LIKE 'TOP' order BY item_update_datetime DESC ;
-SELECT * FROM item where item_discount_rate BETWEEN 1 AND 100 order BY item_update_datetime DESC ;
-
 -- 장바구니 테이블 선교 --------------------------------------------------------------
 
 DROP TABLE if EXISTS cart;
@@ -140,11 +136,12 @@ CREATE TABLE cart (
    cart_code VARCHAR(255) NOT NULL UNIQUE, -- 장바구니 코드(UUID포맷-32자리)
 	member_id VARCHAR(255) NULL, -- 아이디(회원)
    session_id VARCHAR(255) NULL, -- 세션아이디(비회원) 예)32자리 - 3CB361E0BE1A9A7DE7DB926DF0772BAE
-   item_code VARCHAR(255) NOT NULL, -- UNIQUE  상품 코드(UUID포맷-32자리)
+   item_code VARCHAR(255) NOT NULL, -- 상품 코드
 	item_name TEXT NOT NULL, -- 상품이름
 	item_option_color VARCHAR(255) NULL, -- 색상
 	item_option_size VARCHAR(255) NULL, -- 사이즈
 	cart_item_amount BIGINT(255) DEFAULT 1, -- 구매갯수
+	cart_item_price BIGINT(255) , -- 상품가격
 	cart_date DATETIME DEFAULT NOW() -- 장바구니에 담긴 시간/날짜
   -- FOREIGN KEY(member_id)
    	-- REFERENCES member(member_id)
@@ -157,11 +154,13 @@ CREATE TABLE cart (
 );
 ALTER TABLE `cart` AUTO_INCREMENT=10000;
 
-INSERT INTO `cart` VALUES(NULL, '22222', 'hong', NULL , '20001', '퍼프블라우스', '화이트', 'FREE', 1, DEFAULT);
+INSERT INTO `cart` VALUES(NULL, '22222', 'hong', NULL , '20001', '퍼프블라우스', '화이트', 'FREE', 1, '44500', DEFAULT);
 SELECT * FROM `cart`;
-INSERT INTO `cart` VALUES(NULL, '33333', 'lee', NULL , '20001', '퍼프블라우스', '화이트', 'FREE', 1, DEFAULT);
+INSERT INTO `cart` VALUES(NULL, '22223', 'hong', NULL , '20001', '퍼프블라우스', '퍼플', 'FREE', 1, '44500', DEFAULT);
 SELECT * FROM `cart`;
-INSERT INTO `cart` VALUES(NULL, '44444', 'right', NULL , '20001', '퍼프블라우스', '화이트', 'FREE', 1, DEFAULT);
+INSERT INTO `cart` VALUES(NULL, '33333', 'lee', NULL , '20001', '퍼프블라우스', '화이트', 'FREE', 1, '44500', DEFAULT);
+SELECT * FROM `cart`;
+INSERT INTO `cart` VALUES(NULL, '44444', 'right', NULL , '20001', '퍼프블라우스', '화이트', 'FREE', 1, '44500', DEFAULT);
 SELECT * FROM `cart`;
 
 -- 구매경로 : 1. 장바구니에 넣고 결제하기 2. 바로 결제하기(1개 장바구니에 넣고 결제)
@@ -223,7 +222,7 @@ ALTER TABLE `order` AUTO_INCREMENT=10000;
 
 
 INSERT INTO `order`
-	VALUES (NULL, '22222', NULL, NULL, NULL, NULL, 35000, 1,
+	VALUES (NULL, '22222', '22223', NULL, NULL, NULL, 35000, 1,
           '홍길동', '01022223333', '홍길동엄마', '01044445555', '12345', '서울시 마포구 갈매기동', '나머지주소',
           default, default, '무통장입금', '입금전', default);
           INSERT INTO `order`
@@ -233,6 +232,7 @@ INSERT INTO `order`
 
 SELECT * FROM `order`;
 
+SELECT * FROM `order` WHERE order_name LIKE CONCAT('%','홍길동','%') AND order_phone LIKE CONCAT('%','01022223333','%') order BY order_datetime desc
 
 -- 상품문의 테이블 은진&희진 --------------------------------------------------------------
 
