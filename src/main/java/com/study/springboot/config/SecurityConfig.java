@@ -29,11 +29,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
        .and()
                 .formLogin() //로그인 인증에 대한 설정을 시작
-                .loginPage("/user/login") //로그인 페이지를 /loginForm URL로 하겠다.
+                .loginPage("/user/login") //
                 .loginProcessingUrl("/user/loginAction") //로그인 액션 URI를 지정한다.
                 .successHandler( (request,response,authentication) -> {
                     System.out.println("로그인 성공했습니다.");
-                    response.sendRedirect("/");
+                    response.sendRedirect("/loginForm");
                 })
                 .failureUrl("/user/login?error")
                 .permitAll()
