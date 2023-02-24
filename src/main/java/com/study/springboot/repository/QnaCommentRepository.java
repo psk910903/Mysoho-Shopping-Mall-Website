@@ -14,4 +14,8 @@ public interface QnaCommentRepository extends JpaRepository<QnaCommentEntity,Lon
 
 //    @Query(value = "SELECT * FROM reply WHERE reply_board_idx = :replyBoardIdx", nativeQuery = true)
 //    List<Reply> findByreplyBoardIdx_nativeQuery(Long replyBoardIdx);
+
+    // 0224 희진 수정 -----------------------------------------------------------------------------
+    @Query(value = "SELECT COUNT(*) FROM `qnacomment` WHERE comment_qna_id = :qnaId", nativeQuery = true)
+    Long countByQnaId(@Param(value="qnaId")Long qnaId);
 }

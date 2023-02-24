@@ -44,4 +44,8 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     @Query(value = "select * from member m where m.member_id = :username_param", nativeQuery = true)
     Optional<MemberEntity> findByUserId(@Param("username_param") String username);
 
+    // 희진 02 24 수정 ----------------------------------------------------------------
+
+    @Query(value = "SELECT member_name FROM `member` WHERE `member_id` = :memberId", nativeQuery = true)
+    String findMemberNameByMemberId(String memberId);
 }

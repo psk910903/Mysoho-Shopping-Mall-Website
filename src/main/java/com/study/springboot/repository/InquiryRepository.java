@@ -24,4 +24,7 @@ public interface InquiryRepository extends JpaRepository<InquiryEntity,Long> {
     Page<InquiryEntity> findByInquiryContentContaining(String keyword, Pageable sort);
     List<InquiryEntity> findByInquiryContentContaining(String keyword);
 
+    // 2.23 희진 추가 -----------------------------------------------------------------
+    List<InquiryEntity> findByMemberId(String memberId);
+
 }

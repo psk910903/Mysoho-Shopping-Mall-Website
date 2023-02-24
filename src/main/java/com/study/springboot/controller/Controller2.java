@@ -1,12 +1,14 @@
 package com.study.springboot.controller;
 
+import com.study.springboot.dto.inquiry.InquiryResponseDto;
 import com.study.springboot.dto.notice.NoticeResponseDto;
 import com.study.springboot.dto.notice.NoticeSaveRequestDto;
 import com.study.springboot.dto.notice.NoticeUpdateRequestDto;
+import com.study.springboot.dto.product.ProductResponseDto;
+import com.study.springboot.dto.qna.QnaResponseDto;
 import com.study.springboot.object.FileResponse;
 import com.study.springboot.repository.NoticeRepository;
-import com.study.springboot.service.AwsS3Service;
-import com.study.springboot.service.NoticeService;
+import com.study.springboot.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -16,27 +18,31 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/admin/notice")
 public class Controller2 {
+
+    // '/admin/notice' 시작 -----------------------------------------------------------------------------------------------
 
     private final NoticeService noticeService;
     private final AwsS3Service awsS3Service;
     private final NoticeRepository noticeRepository;
 
+    private final Service2 service2;
 
-    // URL: localhost8080:/admin/notice/
-    @GetMapping("/")
+
+    // URL: localhost8080:/admin/notice
+    @GetMapping("/admin/notice")
     public String noticeHome(){
         return "redirect:/admin/notice/list?page=0"; // localhost8080:/admin/notice/list로 redirect
     }
 
     // URL: localhost8080:/admin/notice/list
     // 공지글 리스트 페이지
-    @GetMapping("/list")
+    @GetMapping("/admin/notice/list")
     public String noticeList(@RequestParam(value = "findBy", required = false) String findBy,   // findBy : type(종류), title(제목), content(내용)에 따라 글 분류
                        @RequestParam(value = "keyword", required = false) String keyword, // keyword: 어떤 keyword로 찾을 것인지 결정
                        @RequestParam(value = "page", defaultValue = "0") int page,        // page: 0에서부터 시작
@@ -66,7 +72,7 @@ public class Controller2 {
 
     // URL: localhost8080:/admin/notice/content/{정수}
     // 상세 페이지
-    @GetMapping("/content/{noticeNo}")
+    @GetMapping("/admin/notice/content/{noticeNo}")
     public String noticeContent(@PathVariable("noticeNo") Long noticeNo, Model model) {
 
         NoticeResponseDto dto = noticeService.findById(noticeNo);
@@ -81,7 +87,7 @@ public class Controller2 {
 
     // URL: localhost8080:/admin/notice/write
     // 새 글 작성 페이지
-    @GetMapping("/write")
+    @GetMapping("/admin/notice/write")
     public String noticeWrite(Model model) {
 
         NoticeResponseDto dto = NoticeResponseDto.builder()
@@ -97,7 +103,7 @@ public class Controller2 {
 
     // URL: localhost8080:/admin/notice/modify/{정수}
     // 기존 글 수정 페이지
-    @GetMapping("/modify")
+    @GetMapping("/admin/notice/modify")
     public String noticeModify(@RequestParam("noticeNo") Long noticeNo, Model model) {
 
         NoticeResponseDto dto = noticeService.findById(noticeNo);
@@ -111,7 +117,7 @@ public class Controller2 {
     }
 
     // 수정된 기존 글 데이터 데이터베이스에 넣기
-    @PostMapping("/modifyAction")
+    @PostMapping("/admin/notice/modifyAction")
     @ResponseBody
     public String noticeModifyAction(NoticeUpdateRequestDto dto) {
 
@@ -124,7 +130,7 @@ public class Controller2 {
     }
 
     // 작성된 새로운 글 데이터 데이터베이스에 넣기
-    @PostMapping("/writeAction")
+    @PostMapping("/admin/notice/writeAction")
     @ResponseBody
     public String noticeWriteAction(NoticeSaveRequestDto dto) {
 
@@ -137,7 +143,7 @@ public class Controller2 {
     }
 
     // 기존 글 데이터베이스에서 삭제하기
-    @GetMapping("/deleteAction")
+    @GetMapping("/admin/notice/deleteAction")
     @ResponseBody
     public String noticeDeleteAction(@RequestParam("noticeNo") Long noticeNo) {
 
@@ -151,7 +157,7 @@ public class Controller2 {
     }
 
     // 글 작성 시 이미지 업로드 할 때 awsS3에 이미지를 넣고 이미지 url 반환 (ckeditor로 이동)
-    @PostMapping("/imgUpload")
+    @PostMapping("/admin/notice/imgUpload")
     @ResponseBody
     public ResponseEntity<FileResponse> noticeImgUpload(
             @RequestPart(value = "upload", required = false) MultipartFile fileload) throws Exception {
@@ -162,4 +168,175 @@ public class Controller2 {
                 build(), HttpStatus.OK);
     }
 
+    // '/admin/notice' 끝 -----------------------------------------------------------------------------------------------
+    // '/notice' 시작 -----------------------------------------------------------------------------------------------
+
+    @RequestMapping(value = "/notice", method =  {RequestMethod.GET, RequestMethod.POST})
+    public String notice( @RequestParam(value = "keyword", required = false) String keyword,
+                          @RequestParam(value = "page", defaultValue = "0") int page,
+                          Model model) {
+
+        Page<NoticeResponseDto> list;
+        if (keyword == null) { // 검색 기능을 쓰지 않을 때
+            list = noticeService.findAll(page);
+        } else{ // 검색 기능을 쓸 때
+            list = noticeService.findByKeyword("title", keyword, page);
+        }
+
+        int totalPage = list.getTotalPages(); // 전체 페이지 개수
+        List<Integer> pageList = noticeService.getPageList(totalPage, page); // 해당 page에서 아래쪽 페이지바에 보이는 숫자 list
+
+        model.addAttribute("list", list);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("pageList", pageList);
+        model.addAttribute("listCount", service2.count());
+
+        return "user/category/notice";
+    }
+
+    // 나중에 함수이름 noticeContent로 바꾸기
+    @GetMapping("/notice/{noticeNo}")
+    public String notice( @PathVariable("noticeNo") Long noticeNo,
+                          Model model) {
+
+        NoticeResponseDto dto = noticeService.findById(noticeNo);
+        model.addAttribute("dto", dto);
+
+        return "user/category/notice-content";
+    }
+    // '/notice' 끝 -----------------------------------------------------------------------------------------------
+    // '/inquiry/myProductInquiries' 시작 -----------------------------------------------------------------------------------------------
+
+    private final ProductService productService;
+
+    @GetMapping("/inquiry/myProductInquiries")
+    public String inquiryMyProductInquiries(Model model) {
+
+//        HttpSession session = request.getSession(false);
+//        Long memberNo = (String)session.getAttribute("memberNo");
+
+        String memberId = "hong";
+
+        List<InquiryResponseDto> inquiryList = service2.findByMemberId(memberId);
+        List<ProductResponseDto> itemList = new ArrayList<>();
+        List<Long> replyCountList = new ArrayList<>();
+
+        for(InquiryResponseDto inquiryDto : inquiryList) {
+            // itemList
+            Long itemNo = inquiryDto.getItemNo();
+            ProductResponseDto productDto = productService.findById(itemNo);
+            itemList.add(productDto);
+
+            // replyCountList
+            Long replyCount = service2.countByInquiryNo(inquiryDto.getInquiryNo());
+            replyCountList.add(replyCount);
+
+        }
+
+        // memberHiddenName
+        String memberName = service2.findMemberNameByMemberId(memberId);
+        String memberHiddenName;
+
+        if (memberName.length() <= 2){
+            memberHiddenName = memberName;
+        }
+        else{
+            memberHiddenName = memberName.substring(0,2);
+            for (int i=0; i<memberName.length()-2; i++){
+                memberHiddenName += "*";
+            }
+        }
+
+        model.addAttribute("itemList", itemList);
+        model.addAttribute("inquiryList", inquiryList);
+        model.addAttribute("replyCountList", replyCountList);
+        model.addAttribute("memberHiddenName", memberHiddenName);
+
+        return "user/user/myProductInquiries";
+    }
+
+    @PostMapping("/inquiry/myProductInquiries/deleteAction")
+    @ResponseBody
+    public String inquiryMyProductInquiriesDeleteAction(@RequestParam Long inquiryNo) {
+
+        Boolean success = service2.delete(inquiryNo);
+        if(success) {
+            return "<script>alert('삭제되었습니다.'); location.href='/inquiry/myProductInquiries';</script>";
+        }else{
+            return "<script>alert('삭제 실패했습니다.'); history.back();</script>";
+        }
+
+
+    }
+
+    // '/inquiry/myProductInquiries' 끝 -----------------------------------------------------------------------------------------------
+    // '/qna/user' 시작 -----------------------------------------------------------------------------------------------
+
+    final QnaService qnaService;
+
+    @GetMapping("/qna/user")
+    public String qnaUser(Model model) {
+
+//        HttpSession session = request.getSession(false);
+//        Long memberNo = (String)session.getAttribute("memberNo");
+
+        String memberId = "sung";
+
+        List<QnaResponseDto> qnaList = service2.findByMemberIdQna(memberId);
+        List<Long> replyCountList = new ArrayList<>();
+
+        for(QnaResponseDto qnaDto : qnaList) {
+            // replyCountList
+            Long replyCount = service2.countByQnaId(qnaDto.getQnaId());
+            replyCountList.add(replyCount);
+        }
+
+        // memberHiddenName
+        String memberName = service2.findMemberNameByMemberId(memberId); // "홍길동임"
+        String memberHiddenName; // "홍길**"
+
+        if (memberName.length() <= 2){
+            memberHiddenName = memberName;
+        }
+        else{
+            memberHiddenName = memberName.substring(0,2);
+            for (int i=0; i<memberName.length()-2; i++){
+                memberHiddenName += "*";
+            }
+        }
+
+        model.addAttribute("qnaList", qnaList);
+        model.addAttribute("replyCountList", replyCountList);
+        model.addAttribute("memberHiddenName", memberHiddenName);
+
+        return "user/user/qna-user";
+    }
+
+    @PostMapping("/qna/user/deleteAction")
+    @ResponseBody
+    public String qnaUserDeleteAction(@RequestParam Long qnaId) {
+
+        Boolean success = qnaService.delete(qnaId);
+        if(success) {
+            return "<script>alert('삭제되었습니다.'); location.href='/qna/user';</script>";
+        }else{
+            return "<script>alert('삭제 실패했습니다.'); history.back();</script>";
+        }
+
+
+    }
+
+    // '/qna/user' 끝 -----------------------------------------------------------------------------------------------
+
+    @PostMapping("/inquiry/test1")
+    @ResponseBody
+    public String test1(@RequestParam Long inquiryNo) {
+        return ""+inquiryNo;
+    }
+
+    @PostMapping("/qna/test1")
+    @ResponseBody
+    public String test2(@RequestParam Long qnaId) {
+        return ""+qnaId;
+    }
 }

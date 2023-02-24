@@ -31,4 +31,9 @@ public interface QnaRepository extends JpaRepository<QnaEntity,Long> {
     //----------------------------------------여기서부터 사용자----------------------------------
     @Query(value = "SELECT * FROM `qna` WHERE `qna_content` LIKE CONCAT('%',:keyword,'%') order BY qna_id DESC", nativeQuery = true)
     List<QnaEntity> findByQnaContentContaining(@Param(value="keyword") String keyword);
+
+
+    // 0224 희진 수정 -----------------------------------------------------------------------
+    List<QnaEntity> findByMemberId(String memberId);
+
 }
