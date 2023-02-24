@@ -47,8 +47,8 @@
         <div class="users-cont">
           <form  method="post" action="/user/loginAction">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-            <input class="input-st01 users-login-input" type="text" name="username" value="admin" placeholder="아이디를 입력해 주세요."/>
-            <input class="input-st01 users-login-input mt-10" type="password" name="password" value="1234" placeholder="비밀번호를 입력해 주세요."/>
+            <input class="input-st01 users-login-input" type="text" name="username" value="" placeholder="아이디를 입력해 주세요."/>
+            <input class="input-st01 users-login-input mt-10" type="password" name="password" value="" placeholder="비밀번호를 입력해 주세요."/>
 <!--            <a href="myorder-list-user.html" -->
             <button type="submit" id="login" class="btn-h42-gray mt-10">로그인</button>
 <!--            </a>-->
