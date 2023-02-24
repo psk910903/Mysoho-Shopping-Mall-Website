@@ -116,7 +116,7 @@ public class Controller3 {
 
     /////////////////  로그인 /////////////////////
 
-    @GetMapping ("/")
+    @GetMapping ("/loginForm")
     public String home(){
         return "user/user/userlogintest";
     }
@@ -132,60 +132,6 @@ public class Controller3 {
         return "user/user/userjoin";
     }
 
-//    @PostMapping("/user/loginAction")
-//    @ResponseBody
-//    public String loginAction(@Valid MemberLoginDto dto,
-//                              BindingResult bindingResult,
-//                              HttpServletRequest request) {
-//        System.out.println("start");
-//
-//        if (bindingResult.hasErrors()) {
-//            //DTO에 설정한 message값을 가져온다.
-//            String detail = bindingResult.getFieldError().getDefaultMessage();
-//            //DTO에 유효성체크를 걸어놓은 어노테이션명을 가져온다.
-//            String bindResultCode = bindingResult.getFieldError().getCode();
-//            System.out.println(detail + ":" + bindResultCode);
-//            return "<script>alert('" + detail + "'); history.back();</script>";
-//        }
-//
-//        System.out.println(dto.getUsername());
-//        System.out.println(dto.getPassword());
-//
-//        //로그인 액션 처리 : 실제는 DB에 쿼리를 던진다.
-//        List<MemberEntity> list = memberRepository.findByMemberIdAndMemberPw(
-//                dto.getUsername(), dto.getPassword());
-//
-//        HttpStatus status = HttpStatus.OK;
-//        if (list.isEmpty()) {
-//            status = HttpStatus.NOT_FOUND;
-//        } else {
-//            status = HttpStatus.OK;
-//        }
-//        if (status == HttpStatus.OK) {
-//            System.out.println("success!");
-//
-//            MemberEntity entity = list.get(0);
-//            //로그아웃시까지 로그인한 회원정보(Member테이블)을 가지고 있다.
-//            request.getSession().setAttribute("memberEntity", entity);
-//            //세션객체에 로그인성공 값 저장(로그아웃시까지 저장됨.)
-//            request.getSession().setAttribute("isLogin", true);
-//            request.getSession().setAttribute("user_name", entity.getMemberName());
-//            request.getSession().setAttribute("user_role", entity.getMemberRole());
-//            return "<script>alert('로그인 성공');location.href='/';</script>";
-//        } else {
-//            return "<script>alert('로그인 실패'); history.back();</script>";
-//        }
-//
-//    }
-//
-//    @GetMapping("/user/logout")
-//    @ResponseBody
-//    public String logoutAction(HttpServletRequest request) {
-//        //세션 종료
-//        request.getSession().invalidate();
-//
-//        return "<script>alert('로그아웃 되었습니다.'); location.href='/';</script>";
-//    }
 
     @RequestMapping("/user/findId")
     @ResponseBody
@@ -260,39 +206,5 @@ public class Controller3 {
             return "<script>alert('회원가입 실패'); history.back();</script>";
         }
     }
-
-
-
-    //글쓰기
-//    @RequestMapping("/write")
-//    public String write(){
-//        return "/admin/review/writeForm";
-//    }
-//
-//    @RequestMapping("/writeAction")
-//    public String writeAction(ReviewSaveResponseDto dto){
-//        reviewService.save(dto);
-//        return "redirect:/admin/review/list";
-//    }
-//
-//    //단건조회
-//    @RequestMapping("/admin/review/modify")
-//    public String modify(@RequestParam("reviewNo") int reviewNo,
-//                         Model model) {
-//        ReviewEntity review = reviewService.findById((long) reviewNo);
-//
-//        model.addAttribute("review", review);
-//        return "/admin/review/modify";
-//    }
-//    //단건수정
-//    @RequestMapping("/admin/review/modifyAction")
-//    @ResponseBody
-//    public String modifyAction(ReviewSaveResponseDto reviewSaveResponseDto){
-//        boolean result = reviewService.update(reviewSaveResponseDto);
-//        if(!result){
-//            return "<script>alert('수정 실패');history.back();</script>";
-//        }return "<script>alert('수정 완료');location.href='/admin/review/list';</script>";
-//    }
-
 
 }//class
