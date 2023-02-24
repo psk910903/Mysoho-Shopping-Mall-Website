@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +25,7 @@ public class Service1 {
     final ProductService productService;
     final OrderRepository orderRepository;
     final CartRepository cartRepository;
+    final CartService cartService;
 
     @Transactional(readOnly = true)
     public List<ProductResponseDto> findByItem(int num) {
@@ -80,8 +82,46 @@ public class Service1 {
     }
 
 
+
     @Transactional(readOnly = true)
-    public CartEntity findByCart(String cartCode) {
-        return cartRepository.findByCart(cartCode);
+    public List<CartResponseDto> getCartList(OrderResponseDto dto) {
+        List<CartResponseDto> cartList = new ArrayList<>();
+        if (dto.getCartCode1() != null) {
+            cartList.add(cartService.findByCart(dto.getCartCode1()));
+        }
+        if (dto.getCartCode2() != null) {
+            cartList.add(cartService.findByCart(dto.getCartCode2()));
+        }
+        if (dto.getCartCode3() != null) {
+            cartList.add(cartService.findByCart(dto.getCartCode3()));
+        }
+        if (dto.getCartCode4() != null) {
+            cartList.add(cartService.findByCart(dto.getCartCode4()));
+        }
+        if (dto.getCartCode5() != null) {
+            cartList.add(cartService.findByCart(dto.getCartCode5()));
+        }
+
+        return cartList;
     }
+
+
+    @Transactional(readOnly = true)
+    public Long getTotalPrice(List<CartResponseDto> cartList) {
+        Long totalPrice = 0L;
+        for (int i = 0; i < cartList.size(); i++) {
+            totalPrice += cartList.get(i).getCartItemPrice();
+        }
+        return totalPrice;
+    }
+
+    @Transactional(readOnly = true)
+    public Long getTotalCount(List<CartResponseDto> cartList) {
+        Long totalCount = 0L;
+        for (int i = 0; i < cartList.size(); i++) {
+            totalCount += cartList.get(i).getCartItemAmount();
+        }
+        return totalCount;
+    }
+
 }

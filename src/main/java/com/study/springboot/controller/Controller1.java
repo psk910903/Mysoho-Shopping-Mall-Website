@@ -1,5 +1,6 @@
 package com.study.springboot.controller;
 
+import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.order.OrderSearchDto;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.text.ParseException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -245,12 +247,14 @@ public class Controller1 {
 
     //주문정보
     OrderResponseDto dto = orderService.findById(id);
-    model.addAttribute("dto", dto);
+    List<CartResponseDto> cartList = service1.getCartList(dto);
+    Long totalPrice = service1.getTotalPrice(cartList);
+    Long totalCount = service1.getTotalCount(cartList);
 
-    //장바구니 정보
-    String cartCode1 = dto.getCartCode1();
-    CartEntity cartEntity = cartService.findByCart(cartCode1);
-    model.addAttribute("cartDto", cartEntity);
+    dto.setOrderTotalPrice(totalPrice);
+    dto.setOrderTotalCount(totalCount);
+    model.addAttribute("cartList", cartList);
+    model.addAttribute("dto", dto);
 
     return "/admin/order/content";
   }
@@ -325,21 +329,22 @@ public class Controller1 {
   }
 
   // 비회원 주문조회-----------------------------------------------------------------------------
-  @GetMapping("/myorder")
-  public String myorder(OrderSearchDto dto) {
-
-    List<OrderResponseDto> orderDto = service1.findByOrder(dto);
-    for (int i = 0; i < orderDto.size(); i++) {
-      String cartCode1 = orderDto.get(i).getCartCode1();
-
-      CartEntity cartEntity = service1.findByCart(cartCode1);
-
-    }
-
-
-
-    return "/user/user/myorder";
-  }
+//  @GetMapping("/myorder")
+//  public String myorder(OrderSearchDto dto) {
+//
+//    List<OrderResponseDto> orderDto = service1.findByOrder(dto);
+//    for (int i = 0; i < orderDto.size(); i++) {
+//      String cartCode1 = orderDto.get(i).getCartCode1();
+//      String cartCode2 = orderDto.get(i).getCartCode2();
+//      String cartCode3 = orderDto.get(i).getCartCode3();
+//      String cartCode4 = orderDto.get(i).getCartCode4();
+//      String cartCode5 = orderDto.get(i).getCartCode5();
+//
+//      List<CartResponseDto> byCart = cartService.findByCart(cartCode1);
+//
+//    }
+//    return "/user/user/myorder";
+//  }
 }
 
 

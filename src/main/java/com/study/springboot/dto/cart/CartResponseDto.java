@@ -16,6 +16,7 @@ public class CartResponseDto {
     private String itemOptionColor; // 색상
     private String itemOptionSize; // 사이즈
     private Long cartItemAmount; // 구매수량
+    private Long cartItemPrice; // (할인 적용된 결제당시)상품가격
     private LocalDateTime cartDate; // 장바구니 생성일
 
     public CartResponseDto(CartEntity entity) {
@@ -27,6 +28,7 @@ public class CartResponseDto {
         this.itemOptionColor = entity.getItemOptionColor();
         this.itemOptionSize = entity.getItemOptionSize();
         this.cartItemAmount = entity.getCartItemAmount();
+        this.cartItemPrice = entity.getCartItemPrice();
         this.cartDate = entity.getCartDate();
     }
 }

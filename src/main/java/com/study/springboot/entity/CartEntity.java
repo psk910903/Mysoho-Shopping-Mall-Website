@@ -32,11 +32,13 @@ public class CartEntity {
     private String itemOptionSize;//사이즈
     @Column(name = "cart_item_amount")
     private Long cartItemAmount;//수량
+    @Column(name = "cart_item_price")
+    private Long cartItemPrice;//(할인 적용된 결제당시)상품가격
     @Column(name = "cart_date")
     private LocalDateTime cartDate;//장바구니 생성시간
 
     @Builder
-    public CartEntity(Long cartNo, String memberId, String sessionId, String itemCode, String itemName, String itemOptionColor, String itemOptionSize, Long cartItemAmount, LocalDateTime cartDate) {
+    public CartEntity(Long cartNo, String memberId, String sessionId, String itemCode, String itemName, String itemOptionColor, String itemOptionSize, Long cartItemAmount, Long cartItemPrice, LocalDateTime cartDate) {
         this.cartNo = cartNo;
         this.memberId = memberId;
         this.sessionId = sessionId;
@@ -45,6 +47,7 @@ public class CartEntity {
         this.itemOptionColor = itemOptionColor;
         this.itemOptionSize = itemOptionSize;
         this.cartItemAmount = cartItemAmount;
+        this.cartItemPrice = cartItemPrice;
         this.cartDate = cartDate;
     }
 }
