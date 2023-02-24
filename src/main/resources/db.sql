@@ -47,6 +47,10 @@ CREATE TABLE member (
 
 INSERT INTO member VALUES( NULL, 'hong', '1234', '홍길동', 'hong@gmail.com',
   '01022223333', default, default, default, default);
+INSERT INTO member VALUES( NULL, 'lee', '1234', '이거', 'this@gmail.com',
+  '01022223333', default, default, default, default);
+INSERT INTO member VALUES( NULL, 'right', '1234', '맞냐', 'IsItRight@gmail.com',
+  '01022223333', default, default, default, default);
 SELECT * FROM member;
 
 -- 쿠폰
