@@ -31,6 +31,8 @@ import java.util.UUID;
 public class ProductService {
     final ProductRepository productRepository;
 
+
+
     @Transactional(readOnly = true)
     public Page<ProductResponseDto> findAll(int page) {
 
@@ -41,6 +43,7 @@ public class ProductService {
 
         return list.map(ProductResponseDto::new);
     }
+
 
     //페이징
     public List<Integer> getPageList(final int totalPage, final int page) {
@@ -110,8 +113,18 @@ public class ProductService {
 
         ProductEntity entity = productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
-        return new ProductResponseDto(entity);
+        ProductResponseDto dto = setItemDiscountPrice(new ProductResponseDto(entity));
+        return dto;
+    }
 
+    ProductResponseDto setItemDiscountPrice( ProductResponseDto dto){
+
+        Long itemPrice = dto.getItemPrice();
+        Long itemDiscountRate = dto.getItemDiscountRate();
+        long price = (long) (Math.floor((itemPrice * ( (100 - itemDiscountRate) * 0.01))/100)) *100;
+        dto.setItemDiscountPrice(price);
+
+        return dto;
     }
 
     //삭제

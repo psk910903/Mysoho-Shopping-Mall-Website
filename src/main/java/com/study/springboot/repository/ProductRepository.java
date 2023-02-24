@@ -1,5 +1,6 @@
 package com.study.springboot.repository;
 
+import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.entity.OrderEntity;
 import com.study.springboot.entity.ProductEntity;
 import org.springframework.data.domain.Page;
@@ -35,4 +36,21 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     @Query(value = "SELECT * FROM `item` WHERE `item_category` = :findByType1 AND item_price LIKE CONCAT('%',:keyword,'%') order BY item_update_datetime desc", nativeQuery = true)
     Page<ProductEntity> findByItemPrice(@Param(value="findByType1")String findByType1, @Param(value="keyword")String keyword, Pageable sort);
+
+    //----------------------------------------------------------------------------------------------------------------------
+
+    @Query(value = "SELECT * FROM item where item_exposure='노출함' order BY item_update_datetime DESC LIMIT 6;", nativeQuery = true)
+    List<ProductEntity> findLimit6();
+
+    @Query(value = "SELECT * FROM item where item_exposure='노출함' order BY item_update_datetime DESC LIMIT 9;", nativeQuery = true)
+    List<ProductEntity> findLimit9();
+
+    @Query(value = "SELECT * FROM `item` WHERE item_name LIKE CONCAT('%',:keyword,'%') and item_exposure='노출함' order BY `item_name` desc", nativeQuery = true)
+    List<ProductEntity> findByItemNameContaining(@Param(value="keyword")String keyword);
+
+    @Query(value = "SELECT * FROM item where item_category=:keyword AND item_sold_out='판매중' AND item_exposure='노출함' order BY item_update_datetime DESC ;", nativeQuery = true)
+    List<ProductEntity> findByCategory(@Param(value="keyword")String keyword);
+
+    @Query(value = "SELECT * FROM item where item_discount_rate BETWEEN 1 AND 100 and item_exposure='노출함' order BY item_update_datetime DESC;", nativeQuery = true)
+    List<ProductEntity> findByCategorySale(@Param(value="keyword")String keyword);
 }

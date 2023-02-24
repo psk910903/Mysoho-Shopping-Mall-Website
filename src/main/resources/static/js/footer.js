@@ -43,7 +43,7 @@ function footerbtn2() {
 
 // 클릭하면 상단으로 이동하는 버튼
 // Get the button
-let mybutton = document.getElementById("myBtnfooter");
+//let mybutton = document.getElementById("myBtnfooter");
 
 // When the user scrolls down 20px from the top of the document, show the button
 window.onscroll = function () {

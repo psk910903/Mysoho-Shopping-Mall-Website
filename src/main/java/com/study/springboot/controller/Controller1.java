@@ -7,13 +7,9 @@ import com.study.springboot.dto.product.ProductResponseDto;
 
 import com.study.springboot.dto.product.ProductSaveRequestDto;
 import com.study.springboot.entity.CartEntity;
-import com.study.springboot.entity.ProductEntity;
 import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ProductRepository;
-import com.study.springboot.service.AwsS3Service;
-import com.study.springboot.service.CartService;
-import com.study.springboot.service.OrderService;
-import com.study.springboot.service.ProductService;
+import com.study.springboot.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -26,13 +22,12 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.text.ParseException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin")
+@RequestMapping("/")
 public class Controller1 {
   final ProductService productService;
   final OrderService orderService;
@@ -40,14 +35,15 @@ public class Controller1 {
   final ProductRepository productRepository;
   final OrderRepository orderRepository;
   final AwsS3Service awsS3Service;
+  final Service1 service1;
 
-  @GetMapping("/product")
+  @GetMapping("/admin/product")
   public String productHome(){
     return "redirect:/admin/product/list?page=0";
   }
 
   //상품리스트
-  @GetMapping("/product/list")
+  @GetMapping("/admin/product/list")
   public String productList(Model model,
                             @RequestParam(value = "findByType1", required = false) String findByType1,
                             @RequestParam(value = "findByType2", required = false) String findByType2,
@@ -81,7 +77,7 @@ public class Controller1 {
   }
 
   //상품등록 폼
-  @GetMapping("/product/registration")
+  @GetMapping("/admin/product/registration")
   public String productRegistration() {
     return "/admin/product/registration";
   }
@@ -89,7 +85,7 @@ public class Controller1 {
 
   //상품 단건조회
   //http://localhost:8080/admin/product/content?item_no=1
-  @GetMapping("/product/content")
+  @GetMapping("/admin/product/content")
   public String productContent(@RequestParam(value = "itemNo") long id, Model model) {
     ProductResponseDto dto = productService.findById(id);
     model.addAttribute("dto", dto);
@@ -100,7 +96,7 @@ public class Controller1 {
   //상품삭제
   //http://localhost:8080/admin/product/delete?item_no=20000
   @ResponseBody
-  @GetMapping("/product/delete")
+  @GetMapping("/admin/product/delete")
   public String productDelete(@RequestParam(value = "itemNo") long id) {
     boolean result = productService.productDelete(id);
     if (!result) {
@@ -111,7 +107,7 @@ public class Controller1 {
 
   //상품 선택삭제
   @ResponseBody
-  @RequestMapping("/product/delete/check")
+  @RequestMapping("/admin/product/delete/check")
   public String delete (@RequestParam("itemNo") String arrStr){
     boolean result = productService.productDeleteCheck(arrStr);
     if (!result) {
@@ -123,7 +119,7 @@ public class Controller1 {
 
   //상품수정
   @ResponseBody
-  @RequestMapping("/product/modify/action")
+  @RequestMapping("/admin/product/modify/action")
   public String productModify(@RequestParam MultipartFile uploadfile, ProductSaveRequestDto dto) {
     String url;
     if (uploadfile.getOriginalFilename().equals("")) {
@@ -146,7 +142,7 @@ public class Controller1 {
 
   //리스트에서 수정
   @ResponseBody
-  @RequestMapping("/product/list/modify/action")
+  @RequestMapping("/admin/product/list/modify/action")
   public String productModify(ProductSaveRequestDto dto) {
 
     boolean result = productService.productModify(dto);
@@ -159,7 +155,7 @@ public class Controller1 {
 
   //상품등록
   @ResponseBody
-  @RequestMapping("/product/registration/action")
+  @RequestMapping("/admin/product/registration/action")
   public String productRegistrationAction(@RequestParam MultipartFile uploadfile, ProductSaveRequestDto dto)
           throws IllegalStateException, IOException {
 
@@ -180,7 +176,7 @@ public class Controller1 {
 
   }
 
-  @PostMapping("/imgUpload")
+  @PostMapping("/admin/imgUpload")
   @ResponseBody
   public ResponseEntity<FileResponse> imgUpload(
           @RequestPart(value = "upload", required = false) MultipartFile fileload) throws Exception {
@@ -194,12 +190,12 @@ public class Controller1 {
 
   // 주문-----------------------------------------------------------------------------
 
-  @GetMapping("/order")
+  @GetMapping("/admin/order")
   public String orderHome(){
     return "redirect:/admin/order/list?page=0";
   }
 
-  @GetMapping("/order/list")
+  @GetMapping("/admin/order/list")
   public String orderList(Model model,
                           @RequestParam(value = "findBy", required = false) String findBy,
                           @RequestParam(value = "keyword", required = false) String keyword,
@@ -243,7 +239,7 @@ public class Controller1 {
   }
 
   //주문 정보 단건 조회
-  @GetMapping("/order/content")
+  @GetMapping("/admin/order/content")
   public String orderContent(@RequestParam(value = "orderNo") long id, Model model) {
 
     //주문정보
@@ -260,7 +256,7 @@ public class Controller1 {
 
   //리스트페이지에서 주문상태 변경
   @ResponseBody
-  @RequestMapping("/order/status/modify")
+  @RequestMapping("/admin/order/status/modify")
   public String orderStatusModify(OrderContentSaveRequestDto dto) {
     boolean result = orderService.statusModify(dto.getOrderNo(), dto.getOrderState());
     if (!result) {
@@ -271,7 +267,7 @@ public class Controller1 {
 
   //단건 주문정보 수정
   @ResponseBody
-  @RequestMapping("/order/content/action")
+  @RequestMapping("/admin/order/content/action")
   public String orderContentAction(OrderContentSaveRequestDto dto) {
 
     boolean result = orderService.updateOrderContent(dto);
@@ -280,4 +276,50 @@ public class Controller1 {
     }
     return "<script>alert('수정 완료');location.href='/admin/order/list/';</script>";
   }
+
+  // 사용자화면 홈-----------------------------------------------------------------------------
+
+  //홈페이지
+  @GetMapping("/")
+  public String mySoho(Model model) {
+    List<ProductResponseDto> bestItem = service1.findByItem(6);
+    List<ProductResponseDto> list = service1.findByItem(9);
+
+    model.addAttribute("bestItem", bestItem);
+    model.addAttribute("list", list);
+
+    return "/user/category/home";
+  };
+
+  //상품검색
+  @GetMapping("/search")
+  public String search(Model model,
+                          @RequestParam(value = "keyword", required = false) String keyword) {
+      List<ProductResponseDto> list = service1.findByKeyword(keyword);
+      int count = list.size();
+      model.addAttribute("list", list);
+      model.addAttribute("keyword", keyword);
+      model.addAttribute("count", count);
+    return "/user/category/search";
+  }
+
+  //카테고리 페이지
+  @GetMapping("/plan/item/{category}")
+  public String planItem(Model model,@PathVariable(value = "category") String category) {
+    List<ProductResponseDto> list = service1.findByCategory(category);
+
+    model.addAttribute("list", list);
+    model.addAttribute("category", category);
+    return "/user/category/content";
+  }
+
+  //상품상세
+  @GetMapping("/product/{itemNo}")
+  public String productContent(Model model,@PathVariable(value = "itemNo") Long itemNo) {
+    ProductResponseDto dto = productService.findById(itemNo);
+
+    model.addAttribute("dto", dto);
+    return "/user/product/content";
+  }
 }
+
