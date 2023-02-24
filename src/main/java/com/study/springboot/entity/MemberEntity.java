@@ -50,10 +50,17 @@ public class MemberEntity {
 
 
     @Builder
-    public MemberEntity(Long memberNo, String memberId, String memberPw, String memberName, String memberRate, String memberEmail, String memberPhone, Long memberMileage, String memberAddrNumber, String memberAddr1, String memberAddr2, String memberRole, LocalDate memberJoinDatetime, LocalDate memberExitDatetime, String memberExited) {
+    public MemberEntity(Long memberNo, String username,
+                        String password, String memberName,
+                        String memberRate, String memberEmail,
+                        String memberPhone, Long memberMileage,
+                        String memberAddrNumber, String memberAddr1,
+                        String memberAddr2, String memberRole,
+                        LocalDate memberJoinDatetime, LocalDate memberExitDatetime,
+                        String memberExited) {
         this.memberNo = memberNo;
-        this.memberId = memberId;
-        this.memberPw = memberPw;
+        this.memberId = username;
+        this.memberPw = password;
         this.memberName = memberName;
         this.memberRate = memberRate;
         this.memberEmail = memberEmail;
