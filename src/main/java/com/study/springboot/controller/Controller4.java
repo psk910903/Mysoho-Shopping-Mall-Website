@@ -5,7 +5,9 @@ import com.study.springboot.dto.member.MemberSaveDto2;
 import com.study.springboot.dto.qna.QnaCommentResponseDto;
 import com.study.springboot.dto.qna.QnaCommentSaveDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
+import com.study.springboot.dto.qna.QnaSaveDto;
 import com.study.springboot.entity.MemberEntity;
+import com.study.springboot.entity.QnaEntity;
 import com.study.springboot.repository.QnaRepository;
 import com.study.springboot.service.QnaCommentService;
 import com.study.springboot.service.QnaService;
@@ -107,10 +109,10 @@ public String delete(@PathVariable("id") Long id){
     return "<script>alert('삭제 완료');location.href='/admin/qna/list';</script>";
 }
 //    쓰기폼 가기(셀렉트 테스트용-사용자페이지에서해야함)
-    @GetMapping("/write")
-    public String qnaWrite(){
-        return "/admin/qna/write";
-    }
+//    @GetMapping("/write")
+//    public String qnaWrite(){
+//        return "/admin/qna/write";
+//    }
 
 //    여기서부터 코멘트----------------------------------------------------------------------
 
@@ -155,20 +157,21 @@ public String delete(@PathVariable("id") Long id){
     }
 
     //-------------여기서부터 사용자페이지------------------------------------------
+    // 회원가입 시작
     // 회원가입폼가기
     @GetMapping("user/join")
     public String userjoin(){
         return "user/user/userjoin";
     }
     // 홈화면가기
-    @GetMapping("home")
+    @GetMapping("/")
     public String home(){
         return "user/category/home";
     }
+    // 회원가입폼 join/action 받기
     @PostMapping("join/action")
     @ResponseBody
     public String joinAction(@Valid MemberSaveDto2 dto2, BindingResult bindingResult){
-        System.out.println("dto2 = " + dto2 + ", bindingResult = " + bindingResult);
         if( bindingResult.hasErrors() ) {
             //DTO에 설정한 message값을 가져온다.
             String detail = bindingResult.getFieldError().getDefaultMessage();
@@ -179,7 +182,7 @@ public String delete(@PathVariable("id") Long id){
         if(!saveResult){
             return "<script>alert('회원가입 실패'); histroy.back();</script>";
         }
-        return "<script>alert('축하합니다 회원가입 성공하셨습니다'); location.href='/home';</script>";
+        return "<script>alert('축하합니다 회원가입 성공하셨습니다'); location.href='/';</script>";
     }
 
     // ajax 아이디중복체크 요청처리
@@ -192,8 +195,59 @@ public String delete(@PathVariable("id") Long id){
        }else{
            return "1"; // 중복됨
        }
+    }//회원가입 끝
+
+// Qna 시작
+
+// 게시판에서 문의작성눌렀을떄 글쓰는 폼 들어가기
+    @GetMapping("user/qna/writeForm")
+    public String userQnaWrite(){
+        return "/user/popup/QnA-write";
+    }
+
+// Qna 검색액션받기랑 게시판가기
+@GetMapping("user/category/qna")
+public String qnaSearchAction(@RequestParam(value ="keyword", required = false) String keyword,
+                              Model model){
+    List<QnaResponseDto> list;
+        if(keyword ==null){// 검색기능 없을 때
+            list = service4.findEvery();
+            model.addAttribute("list",list);
+            return "/user/category/QnA";
+        }else{ //검색기능 있을 때
+             list = service4.keyword(keyword);
+        }
+    System.out.println(list);
+        model.addAttribute("list",list);
+    return "/user/category/QnA";
+    }
+
+    @PostMapping("user/qna/write")
+    @ResponseBody
+    public String userQnaWriteAction(QnaSaveDto saveDto){
+//        System.out.println("saveDto = " + saveDto);
+        QnaEntity qnaEntity= saveDto.toEntity();
+        boolean qnasave = service4.qnasave(qnaEntity);
+        if(!qnasave){
+            return "<script>alert('등록 실패 하였습니다'); histroy.back();</script>";
+        }
+        return "<script>alert('등록에 성공 하였습니다.'); location.href='/user/category/qna';</script>";
+    }
+    //리스트로감
+
+
+    // 글 삭제
+    @GetMapping("user/qna/delete/{id}")
+    @ResponseBody
+    public String userDelete (@PathVariable("id")long id){
+        boolean delete = service4.delete(id);
+        if(!delete){
+            return "<script>alert('삭제 실패 하였습니다'); histroy.back();</script>";
+        }
+        return "<script>alert('삭제 성공 하였습니다.'); location.href='/user/category/qna';</script>";
     }
 
 
+    //qna 리스트가기
 }
 //qnaList

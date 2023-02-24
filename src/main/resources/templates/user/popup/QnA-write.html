@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -23,14 +23,16 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <div class="wrap">
       <div class="betweenbtn">
-        <script>
-          $(".betweenbtn").load("/public-object/betweenbtn.html");
-        </script>
+        <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
+<!--        <script>-->
+<!--          $(".betweenbtn").load("/public-object/betweenbtn.html");-->
+<!--        </script>-->
       </div>
       <div class="header">
-        <script>
-          $(".header").load("/public-object/header.html");
-        </script>
+        <div th:replace="/fragments/header.html :: fragment-header"></div>
+<!--        <script>-->
+<!--          $(".header").load("/public-object/header.html");-->
+<!--        </script>-->
       </div>
       <!-- 문의작성 -->
       <div class="container-write">
@@ -42,17 +44,20 @@
               alt=""
           /></a>
         </div>
-        <form id="searchForm">
+        <div id="searchForm">
+          <form action="/user/qna/write" method="post" name="qnaInfo" onsubmit="return checkValue();">
+            <input type="hidden" name="memberId" value="hong">
+            <input type="hidden" name="qnaTitle" value=" ">
           <div class="qa-write-wrap">
             <div class="qa-write">
               <div class="select">
-                <select id="standard-select">
-                  <option value="Option 1">상품문의</option>
-                  <option value="Option 2">배송문의</option>
-                  <option value="Option 3">교환문의</option>
-                  <option value="Option 4">반품문의</option>
-                  <option value="Option 5">환불문의</option>
-                  <option value="Option 6">기타문의</option>
+                <select id="standard-select" name="qnaCategory">
+                  <option value="상품">상품문의</option>
+                  <option value="배송">배송문의</option>
+                  <option value="교환">교환문의</option>
+                  <option value="반품">반품문의</option>
+                  <option value="환불">환불문의</option>
+                  <option value="기타">기타문의</option>
                 </select>
                 <img
                   src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
@@ -63,19 +68,21 @@
             <div class="chekck-title">
               <div><strong>문의내용</strong></div>
               <div class="fl-r">
-                <input type="checkbox" name="ckeck1" />
-                <label for="check1"></label>
+                <input type="checkbox" name="qnaSecret" value="1"/>
+<!--                <label for="check1"></label>-->
                 <div class="cbx-content">비밀글</div>
               </div>
             </div>
             <div class="input-box">
               <input
                 type="text"
-                name="writer"
+                name="qnaName"
+                id="qnaName"
                 placeholder="닉네임을 입력해주세요. (20자 이내)"
               />
               <textarea
-                name="contents"
+                name="qnaContent"
+                id="qnaContent"
                 placeholder="문의 내용을 입력해주세요.(1,000자 이내)"
                 maxlength="1000"
                 style="width: 100%"
@@ -84,7 +91,8 @@
               <div>
                 <input
                   type="password"
-                  name="password"
+                  name="qnaPassword"
+                  id="qnaPassword"
                   class="mt-10"
                   placeholder="비밀번호를 입력하세요."
                 />
@@ -116,12 +124,14 @@
               <div class="input-box mt-10">
                 <input
                   type="text"
-                  name="captchaText"
+                  name="securityText"
+                  id="securityText"
                   placeholder="보안문자를 입력해주세요."
                 />
               </div>
             </div>
-            <a href="" class="input-box btn-h42-gray"> 등록하기 </a>
+            <button type="submit" class="input-box btn-h42-gray">등록하기</button>
+<!--            <a href="" class="input-box btn-h42-gray"> 등록하기 </a>-->
             <div class="txt-box mt-15">
               <p class="gray-txt2">
                 쇼핑몰 이용과 관련되지 않은 광고, 욕설, 비방, 도배 등이 포함된
@@ -130,13 +140,15 @@
               </p>
             </div>
           </div>
-        </form>
+          </form>
+        </div>
       </div>
       <!-- 푸터 -->
       <div class="footer">
-        <script>
-          $(".footer").load("/public-object/footer.html");
-        </script>
+        <div th:replace="/fragments/footer.html :: fragment-footer"></div>
+<!--        <script>-->
+<!--          $(".footer").load("/public-object/footer.html");-->
+<!--        </script>-->
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
@@ -158,5 +170,36 @@
         window.close();
       }
     </script>
+
+    <script>
+	function checkValue() {
+
+		if(!document.qnaInfo.qnaName.value) { //empty: null, 길이 0
+			alert("닉네임을 입력해주세요");
+			document.getElementById('qnaName').focus();
+			return false; //submit전송이 안됨
+		}
+		if(!document.qnaInfo.qnaContent.value) { //empty: null, 길이 0
+			alert("내용을 입력해주세요");
+			document.getElementById('qnaContent').focus();
+			return false; //submit전송이 안됨
+		}
+		if(!document.qnaInfo.qnaPassword.value) { //empty: null, 길이 0
+			alert("비밀번호를 입력해주세요");
+			document.getElementById('qnaPassword').focus();
+			return false; //submit전송이 안됨
+		}
+		if(!document.qnaInfo.securityText.value) {
+			alert("보안문자를 입력해주세요");
+			document.getElementById('securityText').focus();
+			return false;
+		}
+		return true;
+	}
+
+</script>
+
+
+
   </body>
 </html>

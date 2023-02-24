@@ -13,10 +13,11 @@ CREATE TABLE `qna`
 	qna_title VARCHAR(255) NOT NULL,
 	qna_password VARCHAR(255) NOT NULL,
 	qna_content TEXT NOT NULL,
-	qna_secret  VARCHAR(255) NOT NULL,
+    qna_secret  VARCHAR(255) NOT NULL,
 	qna_hit INT DEFAULT 0 NOT NULL,
 	qna_local_date_time  DATETIME DEFAULT NOW()
 );
+
 
 INSERT INTO qna VALUES (1,'hong','환불문의' , '홍길동', '제목1', '1234' ,'내용1','비공개',DEFAULT, DEFAULT);
 

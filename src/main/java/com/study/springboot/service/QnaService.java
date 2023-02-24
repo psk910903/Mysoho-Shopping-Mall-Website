@@ -1,6 +1,7 @@
 package com.study.springboot.service;
 
 import com.study.springboot.dto.qna.QnaResponseDto;
+import com.study.springboot.entity.NoticeEntity;
 import com.study.springboot.entity.QnaCommentEntity;
 import com.study.springboot.entity.QnaEntity;
 import com.study.springboot.repository.QnaCommentRepository;
@@ -198,4 +199,7 @@ public class QnaService {
         }
         return true;
     }
+
+    // ----------여기서부터 사용자페이지 서비스 ----------------------------------------
+
 }

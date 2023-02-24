@@ -13,17 +13,23 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class QnaResponseDto {
     private Long qnaId; // 번호
+
+    private String memberId; // 회원아이디
+    //회원아이디 추가 02-22 이준하
     private String qnaCategory; // 상품유형
+
     private String qnaTitle; // 제목
     private String qnaContent; // 내용
     private String qnaPassword; // 비밀번호
     private String qnaName; // 작성자
-    private String qnaSecret;//비밀글 여부
+    private int qnaSecret;// 비밀글여부 String-> int 으로수정 0223 이준하
     private Long qnaHit; // 조회 수
     private LocalDateTime qnaDate; // 생성일,수정일
 
     public QnaResponseDto(QnaEntity qnaEntity) {
         this.qnaId = qnaEntity.getQnaId();
+        this.memberId = qnaEntity.getMemberId();
+        //추가 02-22 이준하
         this.qnaCategory = qnaEntity.getQnaCategory();
         this.qnaTitle = qnaEntity.getQnaTitle();
         this.qnaContent = qnaEntity.getQnaContent();
