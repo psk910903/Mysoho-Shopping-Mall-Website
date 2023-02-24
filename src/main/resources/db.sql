@@ -56,7 +56,7 @@ CREATE TABLE member (
    member_addr2 CHAR(255) NOT NULL, -- 나머지 주소
    member_join_datetime DATETIME DEFAULT NOW(),-- 회원가입 날짜
    member_exit_datetime DATETIME DEFAULT NULL, -- 탈퇴 날짜
-  	member_role CHAR(10) DEFAULT '일반',
+   member_role CHAR(10) DEFAULT 'ROLE_USER',
    member_exited VARCHAR(255) DEFAULT '회원' -- 탈퇴 여부(0: 회원, 1: 탈퇴 회원)
 );
 -- role을 테이블에 넣었을 때 데이터 입력값
