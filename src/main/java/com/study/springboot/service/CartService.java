@@ -13,7 +13,7 @@ public class CartService {
 //    @Transactional(readOnly = true)
 //    public CartResponseDto findByCart(String cartCode1) {
     public CartEntity findByCart(String cartCode1) {
-        CartEntity entity = cartRepository.findByCartCodeNativeQuery(cartCode1);
+        CartEntity entity = cartRepository.findByCart(cartCode1);
         return entity;
     }
 }

@@ -8,5 +8,7 @@ public interface CartRepository extends JpaRepository<CartEntity, Long> {
 
     //네이티브 쿼리
     @Query(value = "SELECT * FROM cart WHERE cart_code = :cart_code", nativeQuery = true)
-    CartEntity findByCartCodeNativeQuery(String cart_code);
+    CartEntity findByCart(String cart_code);
+
+
 }

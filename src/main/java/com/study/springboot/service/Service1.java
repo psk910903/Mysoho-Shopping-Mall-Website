@@ -1,7 +1,14 @@
 package com.study.springboot.service;
 
+import com.study.springboot.dto.cart.CartResponseDto;
+import com.study.springboot.dto.order.OrderResponseDto;
+import com.study.springboot.dto.order.OrderSearchDto;
 import com.study.springboot.dto.product.ProductResponseDto;
+import com.study.springboot.entity.CartEntity;
+import com.study.springboot.entity.OrderEntity;
 import com.study.springboot.entity.ProductEntity;
+import com.study.springboot.repository.CartRepository;
+import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +22,8 @@ import java.util.stream.Collectors;
 public class Service1 {
     final ProductRepository productRepository;
     final ProductService productService;
+    final OrderRepository orderRepository;
+    final CartRepository cartRepository;
 
     @Transactional(readOnly = true)
     public List<ProductResponseDto> findByItem(int num) {
@@ -59,4 +68,20 @@ public class Service1 {
         return setItemDiscountPrice(list);
     }
 
+
+    @Transactional(readOnly = true)
+    public List<OrderResponseDto> findByOrder(OrderSearchDto dto) {
+        String sender = dto.getSender();
+        String phone = dto.getPhone1() + dto.getPhone2();
+
+        List<OrderEntity> orderEntity = orderRepository.findByOrder(sender, phone);
+
+        return orderEntity.stream().map(OrderResponseDto::new).collect(Collectors.toList());
+    }
+
+
+    @Transactional(readOnly = true)
+    public CartEntity findByCart(String cartCode) {
+        return cartRepository.findByCart(cartCode);
+    }
 }

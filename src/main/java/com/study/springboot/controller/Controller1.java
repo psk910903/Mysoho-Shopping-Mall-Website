@@ -2,6 +2,7 @@ package com.study.springboot.controller;
 
 import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
+import com.study.springboot.dto.order.OrderSearchDto;
 import com.study.springboot.dto.product.FileResponse;
 import com.study.springboot.dto.product.ProductResponseDto;
 
@@ -303,7 +304,8 @@ public class Controller1 {
     return "/user/category/search";
   }
 
-  //카테고리 페이지
+  // 카테고리-----------------------------------------------------------------------------
+
   @GetMapping("/plan/item/{category}")
   public String planItem(Model model,@PathVariable(value = "category") String category) {
     List<ProductResponseDto> list = service1.findByCategory(category);
@@ -313,7 +315,7 @@ public class Controller1 {
     return "/user/category/content";
   }
 
-  //상품상세
+  //상품상세-----------------------------------------------------------------------------
   @GetMapping("/product/{itemNo}")
   public String productContent(Model model,@PathVariable(value = "itemNo") Long itemNo) {
     ProductResponseDto dto = productService.findById(itemNo);
@@ -321,5 +323,24 @@ public class Controller1 {
     model.addAttribute("dto", dto);
     return "/user/product/content";
   }
+
+  // 비회원 주문조회-----------------------------------------------------------------------------
+  @GetMapping("/myorder")
+  public String myorder(OrderSearchDto dto) {
+
+    List<OrderResponseDto> orderDto = service1.findByOrder(dto);
+    for (int i = 0; i < orderDto.size(); i++) {
+      String cartCode1 = orderDto.get(i).getCartCode1();
+
+      CartEntity cartEntity = service1.findByCart(cartCode1);
+
+    }
+
+
+
+    return "/user/user/myorder";
+  }
 }
+
+
 
