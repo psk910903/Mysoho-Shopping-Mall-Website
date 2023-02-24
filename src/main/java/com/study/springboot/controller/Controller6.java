@@ -3,8 +3,11 @@ package com.study.springboot.controller;
 
 import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.member.MemberSaveRequestDto;
+import com.study.springboot.dto.product.ProductResponseDto;
+import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.repository.MemberRepository;
 import com.study.springboot.service.MemberService;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -13,20 +16,22 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/member")
+@RequestMapping("/")
 public class Controller6 {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
 
 
-    @GetMapping("/")
+    @GetMapping("/admin/member")
     public String home() {
         return "redirect:/admin/member/list?page=0";
     }
-    @GetMapping("/list")
+
+    @GetMapping("/admin/member/list")
     public String list(@RequestParam(value = "findByType1", required = false) String findByType1,
                        @RequestParam(value = "findByType2", required = false) String findByType2,
                        @RequestParam(value = "keyword", required = false) String keyword, // keyword: 어떤 keyword로 찾을 것인지 결정
@@ -60,10 +65,10 @@ public class Controller6 {
         long listCount = memberRepository.count();
         model.addAttribute("listCount", listCount);
 
-        return "admin/member/list"; //listForm.html로 응답
+        return "/admin/member/list"; //listForm.html로 응답
     }
 
-    @GetMapping("/content/{id}")
+    @GetMapping("/admin/member/content/{id}")
 //                            @파람detail?id=
     public String content(@PathVariable("id") long id, Model model) {
         MemberResponseDto dto = memberService.findById(id);
@@ -72,9 +77,9 @@ public class Controller6 {
         return "/admin/member/content";
     }
 
-    @PostMapping("/content/modify")  //수정
+    @PostMapping("/admin/member/content/modify")  //수정
     @ResponseBody
-    public  String contentModify(MemberSaveRequestDto dto) {
+    public String contentModify(MemberSaveRequestDto dto) {
 
 
         boolean result = memberService.modify(dto);
@@ -86,10 +91,52 @@ public class Controller6 {
         }
     }
 
-    @RequestMapping("/delete/check")
-    public String deleteCheck (@RequestParam("memberNo") String memberNo) {
+    @RequestMapping("/admin/member/delete/check")
+    public String deleteCheck(@RequestParam("memberNo") String memberNo) {
         memberService.deleteCheck(memberNo);
         return "redirect:/admin/member/list";
     }
-}
 
+
+    //  유저-------------------------------------------------------------------------------------------------------
+    // 마이페이지
+    @GetMapping("user/user-myInfo")
+    public String myInfo() {
+        return "/user/user/user-myInfo";
+    }
+    @GetMapping("user/user/user-myInfo/{id}")
+    public String ContentMyInfo(@PathVariable("id")long id, Model model) {
+        MemberResponseDto memberResponseDto = memberService.findById(id);
+        model.addAttribute("member", memberResponseDto);
+        return "user/user/user-myInfo";
+    }
+
+
+    @PostMapping("user/user/user-myInfo/modifyUserContent")
+    @ResponseBody
+    public String modifyUserContent( MemberSaveRequestDto dto){
+        boolean pwCheck = memberService.pwCheck(dto);
+
+        if (pwCheck) {
+            boolean result = memberService.modify(dto);
+            if (result) {
+                return "<script>alert('정보수정 완료'); location.href='/user/user/user-myInfo/"+ dto.getMemberNo() +"';</script>";
+            } else {
+                return "<script>alert('정보수정 실패'); history.back();</script>";
+            }
+        } else {
+            return "<script>alert('비밀번호가 다릅니다.'); history.back();</script>";
+        }
+    }
+//    return "<script>alert('정보수정 완료'); location.href='user/user/user-myInfo';</script>";
+//} else {
+//        return "<script>alert('정보수정 실패'); history.back();</script>";
+//        }
+
+    @GetMapping("popup/pop-page4")
+    public String popPage4 () {
+        return "user/popup/pop-page4";
+    }
+
+//    마이페이지
+}
