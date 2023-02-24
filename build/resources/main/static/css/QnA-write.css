@@ -1,0 +1,180 @@
+.container-write {
+  margin: 0;
+  padding: 0;
+
+  border-bottom: 1px solid #d6d6d6;
+}
+.users-title-line-hd {
+  height: 62px;
+  border-bottom: 1px solid #d6d6d6;
+  border-left: 0;
+  border-right: 0;
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.users-title-line-hd h2 {
+  font-size: 20px;
+  line-height: 52px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+}
+
+.qa-write-wrap {
+  padding: 20px 18px 100px;
+  display: flex;
+  flex-direction: column;
+}
+.qa-write {
+  border: 1px solid #d6d6d6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.qna-closebtn {
+  position: absolute;
+  right: 10px;
+}
+.qna-closebtn img {
+  width: 15px;
+  height: 15px;
+}
+.select,
+#standard-select {
+  width: 100%;
+  border: none;
+  font-size: 15px;
+  height: 42px;
+}
+#standard-select {
+  padding: 10px;
+  appearance: none;
+}
+.select {
+  position: relative;
+}
+.select img {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  width: 10px;
+  height: 7px;
+}
+.chekck-title {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 0 7px;
+}
+/* 비밀글 체크박스 */
+.fl-r {
+  display: flex;
+}
+.fl-r div {
+  font-size: 14px;
+}
+.input-box input,
+textarea {
+  width: 100%;
+  border: 1px solid #d6d6d6;
+  height: 42px;
+  padding: 0 10px;
+  font-size: 15px;
+}
+textarea {
+  height: 130px;
+  padding: 10px;
+  font-size: 13px;
+}
+.mt-10 {
+  margin-top: 10px;
+}
+.mt-15 {
+  margin-top: 15px;
+}
+.gray-txt {
+  font-size: 11px;
+  color: #666666;
+  margin-bottom: 0;
+}
+.gray-txt2 {
+  font-size: 11px;
+  color: #999999;
+}
+.btn-h42-gray {
+  width: 100%;
+  line-height: 52px;
+  background: #333;
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+.txt-box {
+  padding: 15px 0;
+  border-top: 1px solid #d6d6d6;
+}
+.security-txt-wrap {
+  display: flex;
+  justify-content: space-between;
+}
+.security-txt {
+  height: 50px;
+  width: 73.23%;
+  border: 1px solid #d9d9d9;
+  display: flex;
+}
+.security-txt img {
+  width: 100%;
+}
+.js-reCreateCaptchaImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 50px;
+  background-color: #f0f0f0;
+}
+.js-reCreateCaptchaImage div {
+  color: #666666;
+  font-size: 13px;
+}
+.js-reCreateCaptchaImage img {
+  width: 12px;
+}
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: #fff;
+  border: 1px solid #d0d0d0;
+  cursor: pointer;
+  height: 20px;
+  outline: 0;
+  width: 20px;
+}
+input[type="checkbox"]::after {
+  border: solid #fff;
+  border-width: 0 1px 1px 0;
+  content: "";
+  display: none;
+  height: 45%;
+  left: 40%;
+  position: relative;
+  top: 20%;
+  transform: rotate(45deg);
+  width: 30%;
+}
+input[type="checkbox"]:checked {
+  background: #333;
+}
+input[type="checkbox"]:checked::after {
+  display: block;
+}
+.cbx-content {
+  margin-left: 11px;
+}

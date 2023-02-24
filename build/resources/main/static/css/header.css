@@ -1,0 +1,226 @@
+* {
+  /* border: 1px solid red; */
+  margin: 0;
+  padding: 0;
+}
+body {
+  line-height: 1.25;
+}
+a {
+  color: black;
+}
+ul,
+li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.warp {
+  min-height: 100%;
+}
+body {
+  max-width: 640px;
+  justify-content: center;
+  line-height: 1.25;
+  font-family: "NanumBarunGothic", "malgun gothic", "dotum", sans-serif;
+  color: black;
+  margin: 0px auto;
+}
+
+.logo {
+  width: 100px;
+  height: 30px;
+}
+.side-icon-left,
+.side-icon-right {
+  display: flex;
+  flex-direction: row;
+}
+.btn-hambergerMenu img,
+.btn-serch img,
+.btn-basket img,
+.btn-login img {
+  width: 33px;
+  height: 20px;
+  padding: 0 5px;
+}
+a {
+  text-decoration: none;
+}
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: white;
+  overflow-x: hidden;
+  transition: 0.5s;
+}
+.sidenav ul {
+  padding: 0 20px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 12px;
+  color: #666;
+  display: block;
+  transition: 0.3s;
+  padding: 15px 5px;
+}
+.aside-cont a {
+  border-bottom: 1px solid rgb(236, 236, 236);
+}
+
+.sidenav a:hover {
+  color: #000000;
+}
+
+.sidenav .closebtn {
+  font-size: 30px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+  .sidenav a {
+    font-size: 18px;
+  }
+}
+
+.aside-bot {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+.aside-notice,
+.aside-qna {
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  border: 1px solid rgb(236, 236, 236);
+}
+.aside-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 25px;
+}
+.aside-hd img {
+  width: 17px;
+  height: 20px;
+}
+.aside-cont {
+  border-top: 1px solid rgb(236, 236, 236);
+}
+#acc {
+  border-bottom: 0px;
+}
+.aside-bot img {
+  width: 15px;
+}
+.overlay {
+  height: 100%;
+  width: 100%;
+  display: none;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  background-color: white;
+}
+
+.overlay-content {
+  position: relative;
+  top: 46%;
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  border-bottom: 2px solid black;
+}
+
+.overlay .closebtn {
+  position: absolute;
+  top: 20px;
+  right: 45px;
+  font-size: 30px;
+  cursor: pointer;
+  color: black;
+}
+
+.overlay .closebtn:hover {
+  color: #ccc;
+}
+
+.overlay input[type="text"] {
+  padding: 15px;
+  font-size: 17px;
+  border: none;
+  float: left;
+  width: 90%;
+  background: white;
+}
+
+.overlay input[type="text"]:hover {
+  background: #f1f1f1;
+}
+input:focus {
+  outline: none;
+}
+
+.overlay button {
+  float: left;
+  width: 10%;
+  padding: 15px;
+  background: white;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.overlay button:hover {
+  background: #bbb;
+}
+.overlay-inner {
+  display: flex;
+  max-width: 640px;
+  margin: 70px auto;
+  flex-direction: column;
+}
+.overlay-inner h3 {
+  margin: 0;
+}
+.header {
+  position: sticky;
+  top: 0;
+  background-color: white;
+  border-bottom: 1px solid rgb(214, 214, 214);
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 65px;
+  padding: 0 10px;
+}
+.wrap {
+  position: relative;
+}
+/* 장바구니 숫자 */
+.basket-num {
+  position: absolute;
+  left: 14px;
+  top: -5px;
+  font-size: 12px;
+}
+.btn-basket {
+  position: relative;
+}

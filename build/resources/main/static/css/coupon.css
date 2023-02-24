@@ -1,0 +1,70 @@
+.container-coupons {
+  padding-bottom: 100px;
+  min-height: 550px;
+}
+.couponIntro {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  color: #c70000;
+  line-height: 1;
+  font-weight: 400;
+  padding-right: 21px;
+}
+.couponIntro img:first-child {
+  width: 14px;
+  height: 14px;
+  margin-right: 5px;
+}
+.couponIntro img:last-child {
+  width: 11px;
+  height: 7px;
+  margin-left: 5px;
+}
+.couponIntro ul li {
+  position: relative;
+  font-size: 14px;
+  color: #666;
+  line-height: 23px;
+  font-weight: 400;
+  padding-left: 11px;
+}
+.coupon-hidden-info {
+  display: flex;
+  margin-bottom: 5px;
+  font-size: 13px;
+}
+.totalCoupon {
+  font-size: 20px;
+
+  line-height: 1;
+  font-weight: 700;
+  margin-bottom: 21px;
+}
+.myCouponWrap {
+  padding: 20px 20px 30px;
+  letter-spacing: -0.4px;
+  word-break: keep-all;
+}
+#coupon-hidden-info-wrap {
+  padding: 10px 0;
+  display: none;
+}
+#coupon-hidden-info-wrap span {
+  margin-right: 5px;
+}
+.transform {
+  transform: rotate(180deg);
+}
+.couponNon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 108px;
+  position: relative;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  padding: 21px 20px 18px;
+  margin-top: 20px;
+  font-size: 15px;
+}
