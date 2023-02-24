@@ -2,7 +2,7 @@ package com.study.springboot.service;
 
 import com.study.springboot.dto.inquiry.InReplyResponseDto;
 import com.study.springboot.dto.inquiry.InReplySaveResponseDto;
-import com.study.springboot.entity.inquiry.InReplyEntity;
+import com.study.springboot.entity.InReplyEntity;
 import com.study.springboot.repository.InReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

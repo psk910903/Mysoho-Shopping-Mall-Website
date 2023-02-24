@@ -1,6 +1,7 @@
 package com.study.springboot.service;
 
 import com.study.springboot.dto.inquiry.InquiryResponseDto;
+import com.study.springboot.dto.inquiry.InquirySaveResponseDto;
 import com.study.springboot.entity.InquiryEntity;
 import com.study.springboot.repository.InquiryRepository;
 import lombok.RequiredArgsConstructor;
@@ -107,9 +108,7 @@ public class InquiryService {
         if(findBy.contains("memberId")){
             list =  inquiryRepository.findByMemberIdContaining(keyword, pageable);
         }
-        else if (findBy.contains("inquiryTitle")) {
-            list = inquiryRepository.findByInquiryTitleContaining(keyword, pageable);
-        }else {
+        else {
             list = inquiryRepository.findByInquiryContentContaining(keyword, pageable);
         }
         return  list.map(InquiryResponseDto::new);
@@ -146,5 +145,8 @@ public class InquiryService {
                 .orElseThrow( () -> new IllegalArgumentException("해당 사용자가 없습니다. board_idx="+inquiryNo));
         return new InquiryResponseDto(entity);
     }
+
+
+
 
 }//class

@@ -240,17 +240,24 @@ DROP TABLE if EXISTS inquiry;
 
 create table inquiry(
    inquiry_no BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-   member_id VARCHAR(255) NOT NULL,
+   member_id VARCHAR(255),
+   inquiry_nickname VARCHAR(255),
+   inquiry_password VARCHAR(255),
    item_no INT NOT NULL,
-   inquiry_title VARCHAR(255) NOT NULL,
    inquiry_content VARCHAR(255) NOT NULL,
    inquiry_secret  VARCHAR(255) NOT NULL,
    inquiry_hit INT DEFAULT 0,
    inquiry_date DATETIME DEFAULT NOW()
 );
-INSERT INTO inquiry VALUE(NULL,'hong', '20002','배송언제 오나요?','배송빨리빨리','비공개',DEFAULT,DEFAULT);
-INSERT INTO inquiry VALUE(NULL,'lee', '20003','제품사이즈문의요?','정사이즈인가요','비공개',DEFAULT,DEFAULT);
-INSERT INTO inquiry VALUE(NULL,'right', '20004','색깔문의요?','스크린이랑 같나요','공개',DEFAULT,DEFAULT);
+-- 회원일 때
+INSERT INTO inquiry VALUE(NULL,'hong',NULL, NULL, '20002','배송빨리빨리','비공개',DEFAULT,DEFAULT);
+INSERT INTO inquiry VALUE(NULL,'lee',NULL, NULL, '20003','정사이즈인가요','비공개',DEFAULT,DEFAULT);
+INSERT INTO inquiry VALUE(NULL,'right',NULL, NULL, '20004','스크린이랑 같나요','공개',DEFAULT,DEFAULT);
+
+-- 비회원일 때
+INSERT INTO inquiry VALUE(NULL,NULL,'hong', '1234', '20002','배송빨리빨리','비공개',DEFAULT,DEFAULT);
+INSERT INTO inquiry VALUE(NULL,NULL,'lee', '1234', '20003','정사이즈인가요','비공개',DEFAULT,DEFAULT);
+INSERT INTO inquiry VALUE(NULL,NULL,'right', '1234', '20004','스크린이랑 같나요','공개',DEFAULT,DEFAULT);
 SELECT * FROM inquiry;
 
 

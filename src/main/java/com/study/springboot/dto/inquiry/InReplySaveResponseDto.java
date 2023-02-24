@@ -1,6 +1,6 @@
 package com.study.springboot.dto.inquiry;
 
-import com.study.springboot.entity.inquiry.InReplyEntity;
+import com.study.springboot.entity.InReplyEntity;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 //@AllArgsConstructor
 //@Builder
 public class InReplySaveResponseDto {
-//    private Long inquiryReplyNo;
+    //    private Long inquiryReplyNo;
     private String replyContent;
     private Long replyInquiryNo;
 
