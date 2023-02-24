@@ -3,35 +3,42 @@ package com.study.springboot.controller;
 
 import com.study.springboot.dto.qna.QnaCommentResponseDto;
 import com.study.springboot.dto.qna.QnaCommentSaveDto;
-import com.study.springboot.dto.qna.QnaSaveDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
+import com.study.springboot.dto.qna.QnaSaveDto;
+import com.study.springboot.entity.MemberEntity;
+import com.study.springboot.entity.QnaEntity;
 import com.study.springboot.repository.QnaRepository;
 import com.study.springboot.service.QnaCommentService;
 import com.study.springboot.service.QnaService;
+import com.study.springboot.service.Service4;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.ParseException;
-import java.time.LocalDateTime;
 import java.util.List;
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/admin/qna")
+@RequestMapping("/")
+//   /admin/qna
+
 public class Controller4 {
+    private final Service4 service4;
 
     private final QnaService qnaService;
     private final QnaCommentService qnaCommentService;
     private final QnaRepository qnaRepository;
 
-    @GetMapping("/")
+    @GetMapping("/admin/qna")
     public String qnaHome(){
         return "redirect:/admin/qna/list";
     }
 
-    @GetMapping("/list")
+    @GetMapping("admin/qna/list")
     public String list(@RequestParam(value = "keywordType", required = false) String keywordType,
                          @RequestParam(value = "keyword", required = false) String keyword,
                          @RequestParam(value = "dateStart", required = false) String dateStart,
@@ -74,7 +81,7 @@ public class Controller4 {
         return "/admin/qna/list";
     }
 
-@GetMapping("/content/{id}")
+@GetMapping("admin/qna/content/{id}")
 public String content(@PathVariable("id") long id, Model model) {
         qnaService.modifyHits(id);
 
@@ -90,7 +97,7 @@ public String content(@PathVariable("id") long id, Model model) {
     return "/admin/qna/content";
 }
 
-@GetMapping("/delete/{id}")
+@GetMapping("admin/qna/delete/{id}")
 @ResponseBody
 public String delete(@PathVariable("id") Long id){
     boolean delete = qnaService.delete(id);
@@ -100,14 +107,14 @@ public String delete(@PathVariable("id") Long id){
     return "<script>alert('삭제 완료');location.href='/admin/qna/list';</script>";
 }
 //    쓰기폼 가기(셀렉트 테스트용-사용자페이지에서해야함)
-    @GetMapping("/write")
-    public String qnaWrite(){
-        return "/admin/qna/write";
-    }
+//    @GetMapping("/write")
+//    public String qnaWrite(){
+//        return "/admin/qna/write";
+//    }
 
 //    여기서부터 코멘트----------------------------------------------------------------------
 
-    @PostMapping("/comment/write")
+    @PostMapping("admin/qna/comment/write")
     @ResponseBody
     public String commentWrite(QnaCommentSaveDto dto){
         Long commentQnaId = dto.getCommentQnaId();
@@ -118,7 +125,7 @@ public String delete(@PathVariable("id") Long id){
         return "<script>alert('답변등록 완료'); location.href='/admin/qna/content/" + commentQnaId + "'; </script>";
     }
 
-    @GetMapping("/comment/delete/{id}")
+    @GetMapping("admin/qna/comment/delete/{id}")
     @ResponseBody
     public String commentDelete(@PathVariable("id") long id){
         boolean result = qnaCommentService.delete(id);
@@ -129,7 +136,7 @@ public String delete(@PathVariable("id") Long id){
     }
 
     //수정
-    @PostMapping("/comment/modify")
+    @PostMapping("admin/qna/comment/modify")
     @ResponseBody
     public String commentModify(QnaCommentSaveDto dto){
         Long commentQnaId = dto.getCommentQnaId();
@@ -141,11 +148,71 @@ public String delete(@PathVariable("id") Long id){
     }
 
 //  선택삭제
-    @GetMapping("/select/delete")
+    @GetMapping("admin/qna/select/delete")
     public String selectDelete (@RequestParam("qnaNo") String qnaNo){
         qnaService.selectDelete(qnaNo);
         return "redirect:/admin/qna/list";
     }
 
+    //-------------여기서부터 사용자페이지------------------------------------------
+
+// Qna 시작
+
+// 게시판에서 문의작성눌렀을떄 글쓰는 폼 들어가기
+    @GetMapping("user/qna/writeForm")
+    public String userQnaWrite(){
+        return "/user/popup/QnA-write";
+    }
+
+// Qna 검색액션받기랑 게시판가기
+@GetMapping("user/category/qna")
+public String qnaSearchAction(@RequestParam(value ="keyword", required = false) String keyword,
+                              Model model){
+    List<QnaResponseDto> list;
+        if(keyword ==null){// 검색기능 없을 때
+            list = service4.findEvery();
+            model.addAttribute("list",list);
+            System.out.println(1);
+            return "/user/category/QnA";
+        }else{ //검색기능 있을 때
+            System.out.println(2);
+             list = service4.keyword(keyword);
+        }
+        model.addAttribute("list",list);
+    System.out.println(list);
+    return "/user/category/QnA";
+    }
+
+    @PostMapping("user/qna/write")
+    @ResponseBody
+    public String userQnaWriteAction(QnaSaveDto saveDto){
+
+        if( saveDto.getQnaSecret() == null ){
+            saveDto.setQnaSecret("공개");
+        }
+
+        QnaEntity qnaEntity= saveDto.toEntity();
+        boolean qnaSave = service4.qnaSave(qnaEntity);
+        if(!qnaSave){
+            return "<script>alert('등록 실패 하였습니다'); histroy.back();</script>";
+        }
+        return "<script>alert('등록에 성공 하였습니다.'); location.href='/user/category/qna';</script>";
+    }
+    //리스트로감
+
+
+    // 글 삭제
+    @GetMapping("user/qna/delete/{id}")
+    @ResponseBody
+    public String userDelete (@PathVariable("id")long id){
+        boolean delete = service4.delete(id);
+        if(!delete){
+            return "<script>alert('삭제 실패 하였습니다'); histroy.back();</script>";
+        }
+        return "<script>alert('삭제 성공 하였습니다.'); location.href='/user/category/qna';</script>";
+    }
+
+
+    //qna 리스트가기
 }
 //qnaList
