@@ -15,11 +15,14 @@ import java.util.stream.Collectors;
 public class CartService {
     final CartRepository cartRepository;
 
-//    @Transactional(readOnly = true)
-//    public CartResponseDto findByCart(String cartCode1) {
     @Transactional(readOnly = true)
     public CartResponseDto findByCart(String cartCode) {
         CartEntity entity = cartRepository.findByCart(cartCode);
+        return new CartResponseDto(entity);
+    }
+    @Transactional(readOnly = true)
+    public CartResponseDto findByCartNonMember(String cartCode) {
+        CartEntity entity = cartRepository.findByCartNonMember(cartCode);
         return new CartResponseDto(entity);
     }
 }

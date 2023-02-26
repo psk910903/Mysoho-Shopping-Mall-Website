@@ -126,6 +126,8 @@ INSERT INTO item VALUES(NULL, 'TOP', '골지 브이티', '블랙', 'FREE', '1990
 
 SELECT * FROM item
 
+SELECT item_image_url FROM `item` WHERE item_no LIKE '20001' and item_exposure='노출함' order BY `item_name` desc
+
 -- 장바구니 테이블 선교 --------------------------------------------------------------
 
 DROP TABLE if EXISTS cart;
@@ -153,14 +155,22 @@ CREATE TABLE cart (
 );
 ALTER TABLE `cart` AUTO_INCREMENT=10000;
 
-INSERT INTO `cart` VALUES(NULL, '22222', 'hong', NULL , '20001', '퍼프블라우스', '화이트', 'FREE', 1, '44500', DEFAULT);
+INSERT INTO `cart` VALUES(NULL, '22222', 'hong', NULL , '20000', '퍼프블라우스', '화이트', 'FREE', 1, '44500', DEFAULT);
 SELECT * FROM `cart`;
 INSERT INTO `cart` VALUES(NULL, '22223', 'hong', NULL , '20001', '퍼프블라우스', '퍼플', 'FREE', 1, '44500', DEFAULT);
 SELECT * FROM `cart`;
 INSERT INTO `cart` VALUES(NULL, '33333', 'lee', NULL , '20001', '퍼프블라우스', '화이트', 'FREE', 1, '44500', DEFAULT);
 SELECT * FROM `cart`;
 INSERT INTO `cart` VALUES(NULL, '44444', 'right', NULL , '20001', '퍼프블라우스', '화이트', 'FREE', 1, '44500', DEFAULT);
+
+INSERT INTO `cart` VALUES(NULL, '11111', NULL , NULL , '20000', '퍼프블라우스', '화이트', 'FREE', 1, '44500', DEFAULT);
 SELECT * FROM `cart`;
+INSERT INTO `cart` VALUES(NULL, '11112', NULL , NULL , '20001', '퍼프블라우스', '퍼플', 'FREE', 1, '44500', DEFAULT);
+
+SELECT * FROM `cart`;
+
+SELECT * FROM cart WHERE cart_code = 11112 AND member_id is NULL
+
 
 -- 구매경로 : 1. 장바구니에 넣고 결제하기 2. 바로 결제하기(1개 장바구니에 넣고 결제)
 
@@ -223,12 +233,16 @@ ALTER TABLE `order` AUTO_INCREMENT=10000;
 INSERT INTO `order`
 	VALUES (NULL, '22222', '22223', NULL, NULL, NULL, 35000, 1,
           '홍길동', '01022223333', '홍길동엄마', '01044445555', '12345', '서울시 마포구 갈매기동', '나머지주소',
-          default, default, '무통장입금', '입금전', default);
+          default, default, '무통장입금', '결제대기', default);
           INSERT INTO `order`
 	VALUES (NULL, '33333', NULL, NULL, NULL, NULL, 35000, 1,
           '둘리', '01098765432', '둘리엄마', '01012345678', '54321', '제주 서귀포시 토평동', '산15-1',
-          default, default, '휴대폰결제', '입금완료', default);
+          default, default, '휴대폰결제', '배송대기', default);
 
+INSERT INTO `order`
+	VALUES (NULL, '11111', '11112', NULL, NULL, NULL, 35000, 1,
+          '박선교', '01040246575', '박선교', '01040246575', '12345', '서울시 마포구 갈매기동', '나머지주소',
+          default, default, '무통장입금', '결제대기', default);
 SELECT * FROM `order`;
 
 SELECT * FROM `order` WHERE order_name LIKE CONCAT('%','홍길동','%') AND order_phone LIKE CONCAT('%','01022223333','%') order BY order_datetime desc

@@ -30,7 +30,10 @@
       </div>
       <!-- 컨텐츠 -->
       <div class="container-myorder">
-        <div class="users-title-line-hd">
+        <form action="/myorder/list" method="post" id="keywordForm">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
+          <div class="users-title-line-hd">
           <div>비회원 주문조회</div>
         </div>
         <div class="order-inquiry">
@@ -48,8 +51,9 @@
                 type="text"
                 name="sender"
                 placeholder="주문자명"
-                value
+                value=""
                 maxlength="20"
+                id="sender"
               />
             </li>
             <li class="array-2x">
@@ -57,7 +61,7 @@
                 src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
                 alt=""
               />
-              <select name="phone1">
+              <select name="phone1" >
                 <option value="010" selected>010</option>
                 <option value="011">011</option>
                 <option value="016">016</option>
@@ -66,17 +70,19 @@
                 <option value="019">019</option>
               </select>
               <input
-                type="tel"
+                type="text"
                 name="phone2"
-                value
+                value=""
                 placeholder="- 없이 숫자만 입력"
+                id="phone2"
               />
             </li>
           </ul>
-          <a href="myorder-list.html" id="btn_search" class="btn-h42-gray mt-15"
-            >주문조회</a
+          <button type="button" id="btn_search" class="btn-h42-gray mt-15" onclick="checkTxt()"
+            >주문조회</button
           >
         </div>
+        </form>
       </div>
       <!-- 푸터 -->
       <div class="footer">
@@ -96,5 +102,21 @@
     ></script>
     <script src="/js/header.js"></script>
     <script src="/js/footer.js"></script>
+    <script>
+
+      function checkTxt() {
+        // 입력값이 공백일 때
+        let sender = document.querySelector("#sender").value;
+        let phone2 = document.querySelector("#phone2").value;
+
+        if (sender === "") {
+          alert("주문자를 입력해주세요.");
+        } else if(phone2 === ""){
+         alert("연락처를 입력해주세요.");
+        }else{
+        document.getElementById('keywordForm').submit();
+        }
+      }
+    </script>
   </body>
 </html>

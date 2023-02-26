@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.text.ParseException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -334,16 +335,24 @@ public class Controller1 {
   }
   // 비회원 주문조회-----------------------------------------------------------------------------
   @GetMapping("/myorder")
-  public String myorder(OrderSearchDto dto) {
-
-    List<OrderResponseDto> orderDto = service1.findByOrder(dto);
-    String cartCode1 = orderDto.get(0).getCartCode1();
-    String cartCode2 = orderDto.get(0).getCartCode2();
-    String cartCode3 = orderDto.get(0).getCartCode3();
-    String cartCode4 = orderDto.get(0).getCartCode4();
-    String cartCode5 = orderDto.get(0).getCartCode5();
-
+  public String myorderList() {
     return "/user/user/myorder";
+  }
+
+  @RequestMapping("/myorder/list")
+  public String myorder(OrderSearchDto dto, Model model) {
+
+    List<OrderResponseDto> orderList = service1.findByOrder(dto);
+    List<CartResponseDto> cartList = new ArrayList<>();
+    for (int i = 0; i < orderList.size(); i++) {
+      OrderResponseDto orderResponseDto = orderList.get(i);
+      cartList = service1.getCartListNonMember(orderResponseDto);
+    }
+    int count = cartList.size();
+    model.addAttribute("count", count);
+    model.addAttribute("orderList", orderList);
+    model.addAttribute("cartList", cartList);
+    return "/user/user/myorder-list";
   }
 
 }

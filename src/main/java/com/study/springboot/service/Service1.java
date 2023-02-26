@@ -30,16 +30,16 @@ public class Service1 {
     public List<ProductResponseDto> findByItem(int num) {
         List<ProductEntity> entityList;
         if (num == 6) {
-            entityList= productRepository.findLimit6();
+            entityList = productRepository.findLimit6();
         } else {
-            entityList= productRepository.findLimit9();
+            entityList = productRepository.findLimit9();
         }
 
         List<ProductResponseDto> list = entityList.stream().map(ProductResponseDto::new).collect(Collectors.toList());
         return setItemDiscountPrice(list);
     }
 
-    List<ProductResponseDto> setItemDiscountPrice( List<ProductResponseDto> list){
+    List<ProductResponseDto> setItemDiscountPrice(List<ProductResponseDto> list) {
         for (ProductResponseDto dto : list) {
             Long itemPrice = dto.getItemPrice();
             Long itemDiscountRate = dto.getItemDiscountRate();
@@ -52,7 +52,7 @@ public class Service1 {
 
     @Transactional(readOnly = true)
     public List<ProductResponseDto> findByKeyword(String keyword) {
-        List<ProductEntity> list =productRepository.findByItemNameContaining(keyword);
+        List<ProductEntity> list = productRepository.findByItemNameContaining(keyword);
         return list.stream().map(ProductResponseDto::new).collect(Collectors.toList());
     }
 
@@ -60,10 +60,10 @@ public class Service1 {
     @Transactional(readOnly = true)
     public List<ProductResponseDto> findByCategory(String keyword) {
         List<ProductEntity> entityList;
-        if ( keyword.equals("SALE") ) {
-            entityList =productRepository.findByCategorySale(keyword);
+        if (keyword.equals("SALE")) {
+            entityList = productRepository.findByCategorySale(keyword);
         } else {
-            entityList =productRepository.findByCategory(keyword);
+            entityList = productRepository.findByCategory(keyword);
         }
         List<ProductResponseDto> list = entityList.stream().map(ProductResponseDto::new).collect(Collectors.toList());
         return setItemDiscountPrice(list);
@@ -80,15 +80,17 @@ public class Service1 {
         return orderEntity.stream().map(OrderResponseDto::new).collect(Collectors.toList());
     }
 
-
-
     @Transactional(readOnly = true)
     public List<CartResponseDto> getCartList(OrderResponseDto dto) {
         List<CartResponseDto> cartList = new ArrayList<>();
         if (dto.getCartCode1() != null) {
-            cartList.add(cartService.findByCart(dto.getCartCode1()));
+            //주문정보의 장바구니 코드로 장바구니 정보 dto 생성
+            CartResponseDto responseDto = cartService.findByCart(dto.getCartCode1());
+            //장바구니 리스트에 셋팅된 dto 담기
+            cartList.add(responseDto);
         }
         if (dto.getCartCode2() != null) {
+            //반복
             cartList.add(cartService.findByCart(dto.getCartCode2()));
         }
         if (dto.getCartCode3() != null) {
@@ -99,6 +101,53 @@ public class Service1 {
         }
         if (dto.getCartCode5() != null) {
             cartList.add(cartService.findByCart(dto.getCartCode5()));
+        }
+        return cartList;
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<CartResponseDto> getCartListNonMember(OrderResponseDto dto) {
+        List<CartResponseDto> cartList = new ArrayList<>();
+        if (dto.getCartCode1() != null) {
+            //주문정보의 장바구니 코드로 장바구니 정보 dto 생성
+            CartResponseDto responseDto = cartService.findByCartNonMember(dto.getCartCode1());
+            //장바구니에 주문정보 셋팅(뷰에서 뿌려질 때 필요함)
+            responseDto.setOrderNo(dto.getOrderNo());
+            //장바구니에 상품 이미지 url 셋팅
+            String byUrl = productRepository.findByUrl(responseDto.getItemCode());
+            responseDto.setItemImageUrl(byUrl);
+            //장바구니 리스트에 셋팅된 dto 담기
+            cartList.add(responseDto);
+        }
+        if (dto.getCartCode2() != null) {
+            //반복
+            CartResponseDto responseDto = cartService.findByCartNonMember(dto.getCartCode2());
+            responseDto.setOrderNo(dto.getOrderNo());
+            String byUrl = productRepository.findByUrl(responseDto.getItemCode());
+            responseDto.setItemImageUrl(byUrl);
+            cartList.add(responseDto);
+        }
+        if (dto.getCartCode3() != null) {
+            CartResponseDto responseDto = cartService.findByCartNonMember(dto.getCartCode3());
+            responseDto.setOrderNo(dto.getOrderNo());
+            String byUrl = productRepository.findByUrl(responseDto.getItemCode());
+            responseDto.setItemImageUrl(byUrl);
+            cartList.add(responseDto);
+        }
+        if (dto.getCartCode4() != null) {
+            CartResponseDto responseDto = cartService.findByCartNonMember(dto.getCartCode4());
+            responseDto.setOrderNo(dto.getOrderNo());
+            String byUrl = productRepository.findByUrl(responseDto.getItemCode());
+            responseDto.setItemImageUrl(byUrl);
+            cartList.add(responseDto);
+        }
+        if (dto.getCartCode5() != null) {
+            CartResponseDto responseDto = cartService.findByCartNonMember(dto.getCartCode5());
+            responseDto.setOrderNo(dto.getOrderNo());
+            String byUrl = productRepository.findByUrl(responseDto.getItemCode());
+            responseDto.setItemImageUrl(byUrl);
+            cartList.add(responseDto);
         }
 
         return cartList;
