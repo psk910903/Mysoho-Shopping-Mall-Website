@@ -4,7 +4,6 @@ import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.order.OrderSearchDto;
 import com.study.springboot.dto.product.ProductResponseDto;
-import com.study.springboot.entity.CartEntity;
 import com.study.springboot.entity.OrderEntity;
 import com.study.springboot.entity.ProductEntity;
 import com.study.springboot.repository.CartRepository;
@@ -41,11 +40,11 @@ public class Service1 {
     }
 
     List<ProductResponseDto> setItemDiscountPrice( List<ProductResponseDto> list){
-        for (int i = 0; i < list.size(); i++) {
-            Long itemPrice = list.get(i).getItemPrice();
-            Long itemDiscountRate = list.get(i).getItemDiscountRate();
-            long price = (long) (Math.floor((itemPrice * ( (100 - itemDiscountRate) * 0.01))/100)) *100;
-            list.get(i).setItemDiscountPrice(price);
+        for (ProductResponseDto dto : list) {
+            Long itemPrice = dto.getItemPrice();
+            Long itemDiscountRate = dto.getItemDiscountRate();
+            long price = (long) (Math.floor((itemPrice * ((100 - itemDiscountRate) * 0.01)) / 100)) * 100;
+            dto.setItemDiscountPrice(price);
         }
         return list;
     }
@@ -109,8 +108,8 @@ public class Service1 {
     @Transactional(readOnly = true)
     public Long getTotalPrice(List<CartResponseDto> cartList) {
         Long totalPrice = 0L;
-        for (int i = 0; i < cartList.size(); i++) {
-            totalPrice += cartList.get(i).getCartItemPrice();
+        for (CartResponseDto dto : cartList) {
+            totalPrice += dto.getCartItemPrice();
         }
         return totalPrice;
     }
@@ -118,8 +117,8 @@ public class Service1 {
     @Transactional(readOnly = true)
     public Long getTotalCount(List<CartResponseDto> cartList) {
         Long totalCount = 0L;
-        for (int i = 0; i < cartList.size(); i++) {
-            totalCount += cartList.get(i).getCartItemAmount();
+        for (CartResponseDto dto : cartList) {
+            totalCount += dto.getCartItemAmount();
         }
         return totalCount;
     }
