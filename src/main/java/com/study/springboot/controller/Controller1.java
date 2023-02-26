@@ -329,22 +329,18 @@ public class Controller1 {
   }
 
   // 비회원 주문조회-----------------------------------------------------------------------------
-//  @GetMapping("/myorder")
-//  public String myorder(OrderSearchDto dto) {
-//
-//    List<OrderResponseDto> orderDto = service1.findByOrder(dto);
-//    for (int i = 0; i < orderDto.size(); i++) {
-//      String cartCode1 = orderDto.get(i).getCartCode1();
-//      String cartCode2 = orderDto.get(i).getCartCode2();
-//      String cartCode3 = orderDto.get(i).getCartCode3();
-//      String cartCode4 = orderDto.get(i).getCartCode4();
-//      String cartCode5 = orderDto.get(i).getCartCode5();
-//
-//      List<CartResponseDto> byCart = cartService.findByCart(cartCode1);
-//
-//    }
-//    return "/user/user/myorder";
-//  }
+  @GetMapping("/myorder")
+  public String myorder(OrderSearchDto dto) {
+
+    List<OrderResponseDto> orderDto = service1.findByOrder(dto);
+    String cartCode1 = orderDto.get(0).getCartCode1();
+    String cartCode2 = orderDto.get(0).getCartCode2();
+    String cartCode3 = orderDto.get(0).getCartCode3();
+    String cartCode4 = orderDto.get(0).getCartCode4();
+    String cartCode5 = orderDto.get(0).getCartCode5();
+
+    return "/user/user/myorder";
+  }
 }
 
 
