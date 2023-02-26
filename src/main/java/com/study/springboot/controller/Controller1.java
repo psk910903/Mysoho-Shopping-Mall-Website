@@ -1,12 +1,13 @@
 package com.study.springboot.controller;
 
+import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
+import com.study.springboot.dto.order.OrderSearchDto;
 import com.study.springboot.dto.product.FileResponse;
 import com.study.springboot.dto.product.ProductResponseDto;
 
 import com.study.springboot.dto.product.ProductSaveRequestDto;
-import com.study.springboot.entity.CartEntity;
 import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ProductRepository;
 import com.study.springboot.service.*;
@@ -245,11 +246,14 @@ public class Controller1 {
     //주문정보
     OrderResponseDto dto = orderService.findById(id);
     model.addAttribute("dto", dto);
+    List<CartResponseDto> cartList = service1.getCartList(dto);
+    Long totalPrice = service1.getTotalPrice(cartList);
+    Long totalCount = service1.getTotalCount(cartList);
 
-    //장바구니 정보
-    String cartCode1 = dto.getCartCode1();
-    CartEntity cartEntity = cartService.findByCart(cartCode1);
-    model.addAttribute("cartDto", cartEntity);
+    dto.setOrderTotalPrice(totalPrice);
+    dto.setOrderTotalCount(totalCount);
+    model.addAttribute("cartList", cartList);
+    model.addAttribute("dto", dto);
 
     return "/admin/order/content";
   }
@@ -303,7 +307,8 @@ public class Controller1 {
     return "/user/category/search";
   }
 
-  //카테고리 페이지
+  // 카테고리-----------------------------------------------------------------------------
+
   @GetMapping("/plan/item/{category}")
   public String planItem(Model model,@PathVariable(value = "category") String category) {
     List<ProductResponseDto> list = service1.findByCategory(category);
@@ -313,7 +318,7 @@ public class Controller1 {
     return "/user/category/content";
   }
 
-  //상품상세
+  //상품상세-----------------------------------------------------------------------------
   @GetMapping("/product/{itemNo}")
   public String productContent(Model model,@PathVariable(value = "itemNo") Long itemNo) {
     ProductResponseDto dto = productService.findById(itemNo);
@@ -327,5 +332,21 @@ public class Controller1 {
   public String popupQnaWrite() {
     return "/user/popup/qna-write";
   }
+  // 비회원 주문조회-----------------------------------------------------------------------------
+  @GetMapping("/myorder")
+  public String myorder(OrderSearchDto dto) {
+
+    List<OrderResponseDto> orderDto = service1.findByOrder(dto);
+    String cartCode1 = orderDto.get(0).getCartCode1();
+    String cartCode2 = orderDto.get(0).getCartCode2();
+    String cartCode3 = orderDto.get(0).getCartCode3();
+    String cartCode4 = orderDto.get(0).getCartCode4();
+    String cartCode5 = orderDto.get(0).getCartCode5();
+
+    return "/user/user/myorder";
+  }
+
 }
+
+
 

@@ -28,4 +28,10 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     //날짜로 검색
     @Query(value = "SELECT * FROM `order` WHERE order_datetime BETWEEN :start AND :end order BY order_datetime desc", nativeQuery = true)
     Page<OrderEntity> findByOrderNoContaining(@Param(value="start")String start, @Param(value="end")String end, Pageable sort);
+
+
+
+    //주문자명, 전화번호로 주문조회 sender, phone
+    @Query(value = "SELECT * FROM `order` WHERE order_name LIKE CONCAT('%',:sender,'%') AND order_phone LIKE CONCAT('%',:phone,'%') order BY order_datetime desc", nativeQuery = true)
+    List<OrderEntity> findByOrder(@Param(value="sender")String sender, @Param(value="phone")String phone  );
 }

@@ -22,7 +22,7 @@
       <form action="/admin/order/content/action" method="post">
         <div class="contentWrap">
         <h3 class="sub-title"> 구매 상품 정보</h3>
-        <table class="table table-bordered" >
+        <table class="table table-bordered" th:each="cartDto:${ cartList }">
 
           <tr>
             <th style="text-align: center;" class="w250 table-light align-middle">상품명</th>
@@ -53,10 +53,10 @@
             </td>
           </tr>
           <tr>
-            <th style="text-align: center;" class="w250 table-light align-middle" >결제금액</th>
+            <th style="text-align: center;" class="w250 table-light align-middle" >상품금액</th>
             <td class="align-middle">
-              <input th:value="${ dto.orderTotalPrice }"  name=""  placeholder="판매가" disabled class="form-control">
-              <input th:value="${ dto.orderTotalPrice }" name="orderTotalPrice"  type="hidden" >
+              <input th:value="${ cartDto.cartItemPrice }"  name=""  placeholder="판매가" disabled class="form-control">
+              <input th:value="${ cartDto.cartItemPrice }" name="cartItemPrice"  type="hidden" >
             </td>
           </tr>
         </table>
@@ -142,6 +142,20 @@
             <td class="align-middle">
               <input th:value="${ dto.orderPayType }" name=""  placeholder="0" disabled class="form-control">
               <input th:value="${ dto.orderPayType }" name="orderPayType"  type="hidden" >
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w250 table-light align-middle">주문 총수량</th>
+            <td class="align-middle">
+              <input th:value="${ dto.orderTotalCount }" name=""  placeholder="0" disabled class="form-control">
+              <input th:value="${ dto.orderTotalCount }" name="orderTotalPrice"  type="hidden" >
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="w250 table-light align-middle">결제금액</th>
+            <td class="align-middle">
+              <input th:value="${ dto.orderTotalPrice }" name=""  placeholder="0" disabled class="form-control">
+              <input th:value="${ dto.orderTotalPrice }" name="orderTotalPrice"  type="hidden" >
             </td>
           </tr>
           <tr>
