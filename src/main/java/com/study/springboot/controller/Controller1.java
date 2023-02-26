@@ -321,5 +321,11 @@ public class Controller1 {
     model.addAttribute("dto", dto);
     return "/user/product/content";
   }
+
+  //qna 작성 팝업 폼
+  @GetMapping("/popup/qna-write")
+  public String popupQnaWrite() {
+    return "/user/popup/qna-write";
+  }
 }
 

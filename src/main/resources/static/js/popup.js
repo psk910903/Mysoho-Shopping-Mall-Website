@@ -39,7 +39,7 @@ function alertbtn() {
 //문의작성 팝업
 var popup;
 function openPopupQnAWrite() {
-  popup = window.open("/popup/QnA-write.html");
+  popup = window.open("/user/popup/qna-write");
 }
 
 //삼성페이 결제 지원 단말 확인
@@ -52,7 +52,7 @@ function openPopUpTop1() {
 }
 
 function openPopupWrite() {
-  popup = window.open("/popup/QnA-write.html");
+  popup = window.open("/popup/qna-write");
 }
 
 function openPopup(name) {

@@ -158,15 +158,15 @@ public String delete(@PathVariable("id") Long id){
 
 // Qna 시작
 
-// 게시판에서 문의작성눌렀을떄 글쓰는 폼 들어가기
-    @GetMapping("user/qna/writeForm")
+    // 게시판에서 문의작성눌렀을떄 글쓰는 폼 들어가기
+    @GetMapping("qna/writeForm")
     public String userQnaWrite(){
-        return "/user/popup/QnA-write";
+        return "/user/popup/qna-write";
     }
 
-// Qna 검색액션받기랑 게시판가기
-@GetMapping("user/category/qna")
-public String qnaSearchAction(@RequestParam(value ="keyword", required = false) String keyword,
+    // Qna 검색액션받기랑 게시판가기
+    @GetMapping("qna")
+    public String qnaSearchAction(@RequestParam(value ="keyword", required = false) String keyword,
                               Model model){
     List<QnaResponseDto> list;
         if(keyword ==null){// 검색기능 없을 때
@@ -180,7 +180,7 @@ public String qnaSearchAction(@RequestParam(value ="keyword", required = false) 
         }
         model.addAttribute("list",list);
     System.out.println(list);
-    return "/user/category/QnA";
+    return "/user/category/qna";
     }
 
     @PostMapping("user/qna/write")
@@ -196,7 +196,7 @@ public String qnaSearchAction(@RequestParam(value ="keyword", required = false) 
         if(!qnaSave){
             return "<script>alert('등록 실패 하였습니다'); histroy.back();</script>";
         }
-        return "<script>alert('등록에 성공 하였습니다.'); location.href='/user/category/qna';</script>";
+        return "<script>alert('등록에 성공 하였습니다.'); location.href='/qna';</script>";
     }
     //리스트로감
 
@@ -209,7 +209,7 @@ public String qnaSearchAction(@RequestParam(value ="keyword", required = false) 
         if(!delete){
             return "<script>alert('삭제 실패 하였습니다'); histroy.back();</script>";
         }
-        return "<script>alert('삭제 성공 하였습니다.'); location.href='/user/category/qna';</script>";
+        return "<script>alert('삭제 성공 하였습니다.'); location.href='/qna';</script>";
     }
 
 

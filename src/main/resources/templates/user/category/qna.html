@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마이소호 샘플샵</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+            crossorigin="anonymous"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/QnA.css" />
+    <style>
+      #QnA-searchBtn {
+        border: none;
+        background-color: #ffffff;
+      }
+
+      .qa-list-wrap {
+  display: flex;
+  border-top: 1px solid #d6d6d6;
+  padding: 20px 0;
+  position: relative;
+}
+.qna-board-list {
+  display: flex;
+}
+.qa-list-icon {
+  margin-left: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid;
+  color: #999999;
+  background: #edeff2;
+  font-weight: bold;
+  font-size: 11px;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  border: none;
+}
+.qna-info {
+  display: flex;
+}
+
+.threedot {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+}
+.threedot img {
+  width: 3px;
+}
+
+.sort {
+  text-align: center;
+  right: 20px;
+  top: 50px;
+  display: none;
+  width: 50px;
+  padding: 0 5px;
+  position: absolute;
+  z-index: 100;
+  background: #ffffff;
+  box-shadow: 0px 1px 1.68px 1.82px rgb(0 0 0 / 15%);
+  border-radius: 5px;
+  font-size: 14px;
+}
+.sort li {
+  padding: 5px;
+  border-bottom: 1px solid #edeff2;
+}
+.sort li:hover {
+  background-color: rgb(228, 228, 228);
+}
+
+
+    </style>
+</head>
+<body>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<div class="wrap">
+    <div class="betweenbtn">
+        <div
+                th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"
+        ></div>
+    </div>
+    <div class="header">
+        <div th:replace="/fragments/header.html :: fragment-header"></div>
+    </div>
+    <!-- QnA -->
+    <div class="container-QnA">
+        <div class="users-title-line-hd">
+            <h2>Q&A 게시판</h2>
+        </div>
+
+        <div id="searchForm" >
+            <div class="qa-search-wrap">
+                <form action="/user/category/qna" method="get">
+                    <div class="qa-search">
+                        <input
+                                type="text"
+                                placeholder="검색어를 입력하세요"
+                                name="keyword"
+                        />
+                        <!-- 돋보기 이미지 -->
+                        <button type="submit" id="QnA-searchBtn">
+                            <img
+                                    src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_search_h34.png"
+                                    alt=""
+                            />
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="btnBwrite js-btnMoveWritePage" >
+                <a href="#" onclick="openQnAwrite()">
+                    <!--               javascript:openPopupQnAWrite()-->
+                    <img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/bg_ico_write.png"
+                            alt=""
+                    /><strong> 문의작성</strong></a
+                >
+
+            </div>
+
+
+
+<!--        <th:block th:unless="${list.isEmpty()}">-->
+            <div id="inquiryTab" class="tab-cont" th:each="qna:${list}">
+                <th:block th:if="${qna.qnaSecret}=='비공개'">
+                    <div class="qa-list-wrap js-qnasArea">
+                        <a href="" class="js-qnasArea qna-board-list">
+                            <div class="qa-list-icon">
+                                답변
+                                <br />
+                                대기
+                            </div>
+                            <div class="tit-wrap js-qna">
+                                <div>
+                                <span class="tit js-qnaContents">
+                                비밀글입니다.
+                      <img
+                              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_qa_lock.png"
+                              alt=""
+                              onclick="alert('작성자만 확인할 수 있습니다.')"
+                      />
+                    </span>
+                                    <div class="qna-info">
+                                        <div class="dil js-qnaType bar" th:text="${qna.qnaCategory}">상품</div>
+                                        <div class="name js-qnaWriter bar" th:text="${qna.qnaName}">dl******...</div>
+                                        <div class="date js-qnaDate" th:text="${qna.qnaDate}">2022.04.11</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </a>
+                        <a href="javascript:sortSelect()" class="threedot"
+                        ><img
+                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png"
+                                alt=""
+                        /></a>
+                        <ul class="sort">
+                            <li><a href="">수정</a></li>
+                            <li><a th:href="@{/user/qna/delete/{id}(id=${qna.qnaId})}">삭제</a></li>
+                        </ul>
+                    </div>
+                </th:block>
+
+                <th:block th:unless="${qna.qnaSecret}=='비공개'">
+                    <div class="qa-list-wrap js-qnasArea">
+                        <a href="" class="js-qnasArea qna-board-list">
+                            <div class="qa-list-icon">
+                                답변
+                                <br />
+                                대기
+                            </div>
+                            <div class="tit-wrap js-qna">
+                                <div>
+                <span class="tit js-qnaContents" th:text="${qna.qnaContent}">
+                문의합니다.
+    </span>
+                                    <div class="qna-info">
+                                        <div class="dil js-qnaType bar" th:text="${qna.qnaCategory}">상품</div>
+                                        <div class="name js-qnaWriter bar" th:text="${qna.qnaName}">dl******...</div>
+                                        <div class="date js-qnaDate" th:text="${qna.qnaDate}">2022.04.11</div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </a>
+                        <a href="javascript:sortSelect()" class="threedot"
+                        ><img
+                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png"
+                                alt=""
+                        /></a>
+                        <ul class="sort">
+                            <li><a href="">수정</a></li>
+                            <li><a th:href="@{/user/qna/delete/{id}(id=${qna.qnaId})}">삭제</a></li>
+                        </ul>
+                    </div>
+                </th:block>
+            </div>
+
+            <th:block th:if="${list.isEmpty()}">
+
+                <div class="back" id="back">
+                    <p> 검색된 결과가 없습니다. </p>
+                    <a href="/user/category/qna">
+                        <img
+                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_reset_h26.png"
+                                alt="">
+                        <strong>초기화</strong></a
+                    ></div>
+                </th:block>
+        </div>
+
+    </div>
+    <!--        </th:block>-->
+
+
+
+    </form>
+
+</div>
+<!-- 푸터 -->
+<div class="footer">
+    <div th:replace="/fragments/footer.html :: fragment-footer"></div>
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"
+></script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+        crossorigin="anonymous"
+></script>
+<script src="/js/header.js"></script>
+<script src="/js/footer.js"></script>
+<script src="/js/popup.js"></script>
+<script>
+    function openQnAwrite() {
+        popup = window.open("/popup/qna-write");
+  }
+    function sortSelect() {
+  if (document.querySelector(".sort").style.display === "block") {
+    document.querySelector(".sort").style.display = "none";
+  } else {
+    document.querySelector(".sort").style.display = "block";
+  }
+
+}
+</script>
+</body>
+<style>
+.back {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.back a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 195px;
+    height: 47px;
+    border-radius: 100px;
+    border: 1px solid black;
+}
+
+</style>
+</html>
