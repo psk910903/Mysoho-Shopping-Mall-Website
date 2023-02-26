@@ -172,14 +172,11 @@ public String delete(@PathVariable("id") Long id){
         if(keyword ==null){// 검색기능 없을 때
             list = service4.findEvery();
             model.addAttribute("list",list);
-            System.out.println(1);
             return "/user/category/QnA";
         }else{ //검색기능 있을 때
-            System.out.println(2);
              list = service4.keyword(keyword);
         }
         model.addAttribute("list",list);
-    System.out.println(list);
     return "/user/category/qna";
     }
 
