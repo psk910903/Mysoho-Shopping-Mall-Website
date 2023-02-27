@@ -102,16 +102,17 @@
     </a>
   </span>
     <span sec:authorize ="isAuthenticated()">
-    <span sec:authorize ="hasRole('USER')">
-      <a href="/myorder/lists" class="btn-login">
-        <img src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logon_000000.png" alt=""/>
-      </a>
-    </span>
-    <span sec:authorize ="hasRole('ADMIN')">
-      <a href="/admin/member/list?page=0" class="btn-login">
-        <img src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logon_000000.png" alt=""/>
-      </a>
-    </span>
+      <span sec:authorize ="hasRole('USER')">
+        <a href="/myorder/lists" class="btn-login">
+          <img src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logon_000000.png" alt=""/>
+        </a>
+      </span>
+      <span sec:authorize ="hasRole('ADMIN')">
+        <a href="/admin/member/list?page=0" class="btn-login">
+          <img src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logon_000000.png" alt=""/>
+        </a>
+        <a href="/myorder/lists"><button>myPage</button></a>    
+      </span>
    </span>
     <!--로그인 버튼 수정 부분 -->
 </div>
