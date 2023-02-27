@@ -157,20 +157,20 @@ public class Controller5 {
         }
     }
     // 적립금-------------------------------------------------02 21
-    @GetMapping("/user/mileage") // 테스트는 Get, 끝나고 Post로 바꿈
-
-    public String userMileage(@RequestParam("memberMileage") int memberMileage, Model model ) {
-        model.addAttribute("memberMileage", memberMileage);
-        return "/user/user/user-mileage";
-    }
+//    @GetMapping("/user/mileage") // 테스트는 Get, 끝나고 Post로 바꿈
+//
+//    public String userMileage(@RequestParam("memberMileage") int memberMileage, Model model ) {
+//        model.addAttribute("memberMileage", memberMileage);
+//        return "/user/user/user-mileage";
+//    }
     // 쿠폰------------------------------------------------
     // 적립금과 동일, 추후에 연결작업 필요함
-    @GetMapping("/user/coupon") // 테스트는 Get, 끝나고 Post로 바꿈
-
-    public String userCoupon(@RequestParam("memberCoupon") int memberCoupon, Model model) {
-        model.addAttribute("memberCoupon", memberCoupon);
-        return "/user/user/coupons-mylist";
-    }
+//    @GetMapping("/user/coupon") // 테스트는 Get, 끝나고 Post로 바꿈
+//
+//    public String userCoupon(@RequestParam("memberCoupon") int memberCoupon, Model model) {
+//        model.addAttribute("memberCoupon", memberCoupon);
+//        return "/user/user/coupons-mylist";
+//    }
     // itemNo에 따라 출력되는 상품문의 폼(혹시 몰라 주석처리) --------------------------------↓
 //    @GetMapping("/inquiry/productInquiryWriteForm/{itemNo}")
 //        public String inquiryProductInquiryWriteForm(@PathVariable("itemNo") Long itemNo, Model model) {
