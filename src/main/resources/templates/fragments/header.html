@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:fragment="fragment-header">
 <div class="side-icon-left">
   <div id="mySidenav" class="sidenav">
@@ -87,18 +88,32 @@
     alt=""
 /></a>
 <div class="side-icon-right">
-  <a class="btn-basket" href="/order/shopping-basket.html">
+  <a class="btn-basket" href="/order">
     <img
       src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_basket_000000.png"
       alt=""
     />
   </a>
 
-  <a href="/user/login" class="btn-login"
-    ><img
-      src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logoff_000000.png"
-      alt=""
-  /></a>
+<!--로그인 버튼 수정 부분 -->
+    <span sec:authorize ="isAnonymous()" >
+    <a href="/user/login" class="btn-login">
+      <img src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logoff_000000.png" alt=""/>
+    </a>
+  </span>
+    <span sec:authorize ="isAuthenticated()">
+    <span sec:authorize ="hasRole('USER')">
+      <a href="/myorder/lists" class="btn-login">
+        <img src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logon_000000.png" alt=""/>
+      </a>
+    </span>
+    <span sec:authorize ="hasRole('ADMIN')">
+      <a href="/admin/member/list?page=0" class="btn-login">
+        <img src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logon_000000.png" alt=""/>
+      </a>
+    </span>
+   </span>
+    <!--로그인 버튼 수정 부분 -->
 </div>
   <script>
 
