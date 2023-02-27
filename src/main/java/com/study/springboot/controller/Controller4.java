@@ -165,7 +165,7 @@ public String delete(@PathVariable("id") Long id){
 // 게시판에서 문의작성눌렀을떄 글쓰는 폼 들어가기
     @GetMapping("qna/writeForm")
     public String userQnaWrite(){
-        return "/user/popup/QnA-write";
+        return "/user/popup/qna-write";
     }
 
 // Qna 검색액션받기랑 게시판가기
@@ -206,7 +206,7 @@ public String qnaSearchAction(@RequestParam(value ="keyword", required = false) 
             model.addAttribute("list",list);
             model.addAttribute("namelist",nameList);
 
-            return "/user/category/QnA";
+            return "/user/category/qna";
         }else{ //검색기능 있을 때
              list = service4.keyword(keyword);
 
@@ -237,7 +237,7 @@ public String qnaSearchAction(@RequestParam(value ="keyword", required = false) 
             model.addAttribute("namelist",nameList);
             model.addAttribute("list",list);
             model.addAttribute("qnaCommentCount",qnaCommentCount);
-            return "/user/category/QnA";
+            return "/user/category/qna";
         }
     }
 
@@ -304,7 +304,7 @@ public String qnaSearchAction(@RequestParam(value ="keyword", required = false) 
                              Model model){
         QnaResponseDto qnaResponseDto = service4.findById(num);
         model.addAttribute("dto",qnaResponseDto);
-        return "/user/popup/QnA-modify";
+        return "/user/popup/qna-modify";
     }
 
     //수정 액션받기
