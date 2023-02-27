@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="container-shopping-basket-summary">
+    <div class="order-terms">
+        <div class="inner">
+            <div class="price-box">
+                <div class="between">
+                    <div class="price-tit">총 상품금액</div>
+                    <div>
+                        <strong class="price-tit-price">49,000원</strong>
+                    </div>
+                </div>
+                <div>
+                    <div class="between mt-10 mb-6">
+                        <div class="price-tit">총 배송비</div>
+                        <div class="price-tit-price bold">+ 0원</div>
+                    </div>
+                    <div class="between h23">
+                        <div class="price-text">- 기본 배송비</div>
+                        <div class="price-text-price">
+                            <span class="gray">(+)</span>0원
+                        </div>
+                    </div>
+                    <div class="between h23">
+                        <div class="price-text">- 지역 배송비</div>
+                        <div class="price-text-price">
+                            <span class="gray">(+)</span>0원
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="between mt-10 mb-6">
+                        <div class="price-tit">총 할인/적립금 사용 금액</div>
+                        <div class="price-tit-price bold">- 4,5000원</div>
+                    </div>
+                    <div class="between h23">
+                        <div class="price-text">- 상품 할인</div>
+                        <div class="price-text-price">
+                            <span class="gray">(-)</span>4,500원
+                        </div>
+                    </div>
+                    <div class="between h23">
+                        <div class="price-text">- 쿠폰 할인</div>
+                        <div class="price-text-price">
+                            <span class="gray">(-)</span>0원
+                        </div>
+                    </div>
+                    <div class="between h23">
+                        <div class="price-text">- 적립금 사용</div>
+                        <div class="price-text-price">
+                            <span class="gray">(-)</span>0원
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pay-price">
+                <div class="between">
+                    <div>
+                        <strong>최종 주문금액</strong>
+                    </div>
+                    <div>
+                        <strong class="red2">44,500원</strong>
+                    </div>
+                </div>
+                <div class="left blue">
+                    <strong>(예상 적립금 <span>0</span>원, 비회원적립 불가)</strong>
+                </div>
+            </div>
+            <a
+                    href="order-complete.html"
+                    class="js-btnOrder js-mo-tpl btn-h42-gray mt-25"
+            >결제하기</a
+            >
+
+            <div class="warning-labels-font">
+                <img
+                        src="https://image.makeshop.co.kr/mysoho/assets/admin/images/common/m-notice-icon.png"
+                        alt=""
+                />
+                마이소호는 통신판매 당사자가 아닙니다.
+                <br />
+                상품정보/주문/배송/환불 등 일체의 책임을 지지 않습니다.
+            </div>
+        </div>
+    </div>
+</th:block>
+</html>

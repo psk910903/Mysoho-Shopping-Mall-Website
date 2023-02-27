@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="container-shopping-basket-option">
+
+    <div class="prd-option-result MSH-prd-option-result-19520">
+        <button class="red2 bold btn-h38-bd mt-10 MSH-open js-btn-open-option-addtion option-tap-btn show-option-list" th:onclick="popupOptionList([[${cart.cartNo}]])">
+            옵션수정
+            <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt=""/>
+        </button>
+        <div class="bg-option" th:id="|bg-option${cart.cartNo}|">
+            <div class="window">
+                <div class="popup">
+                    <div class="popup-inner">
+                        <div class="lhd-option">
+                            <button id="closeBtn-option" th:onclick="closeOptionList([[${cart.cartNo}]])">
+                                <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h38_close_down.png" alt=""/>
+                            </button>
+                        </div>
+                        <div class="option-tit">
+                            <div class="bold" th:text="${cart.itemName}">상품명</div>
+                        </div>
+                        <div class="hidden-option-tap">
+                            <div class="hidden-size-tap">
+                                <div class="final-size" th:text="${cart.itemName}">상품명</div>
+                            </div>
+                            <div class="prd-option-non MSH-prd-option-non-19520">
+                                <div class="count">
+                                    <a href="javascript:sub()" class="btn-minus">
+                                        <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_minus.gif" alt=""/>
+                                    </a>
+                                    <input type="text" value="1" class="MSH-sto-stock" />
+                                    <a href="javascript:sum()" class="btn-plus">
+                                        <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_plus.gif" alt=""/>
+                                    </a>
+                                </div>
+                                <div class="price" id="option-price">44,500원</div>
+                            </div>
+                        </div>
+                        <div class="MSH-total-price-opt">
+                    <span>합계</span
+                    ><span class="option-total-price">44,500</span
+                        ><span>원</span>
+                        </div>
+                        <button
+                                class="js-btnOrder js-mo-tpl btn-h42-gray mt-25"
+                                id="final-choice"
+                                onclick="finalChoice()"
+                        >
+                            선택완료
+                        </button>
+
+                        <div class="layerOptionNot">
+                            <div class="option-choice">옵션을 선택해 주세요</div>
+                            <div class="option-btn-bg"></div>
+                            <button class="btn1" onclick="cartBtn()">장바구니</button>
+                            <button class="btn2" onclick="buyBtn()">결제하기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="gray fs-15">
+            <span th:text="${cart.itemName}">퍼프 블라우스 퍼플</span>, <span id="product-count" th:text="${cart.cartItemAmount}">1</span>개
+        </div>
+        <div class="fs-14 gray2">
+            <span id="first cost" th:text="${#numbers.formatInteger(cart.cartItemOriginalPrice, 3, 'COMMA') + '원'}"> 할인 전 가격</span>
+        </div>
+        <div class="fs-21 bold red2">
+            <span id="final-product-price" th:text="${#numbers.formatInteger(cart.cartItemPrice, 3, 'COMMA') + '원'}">할인 후 가격</span>
+        </div>
+    </div>
+
+</th:block>
+</html>

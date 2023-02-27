@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="container-shopping-basket-orderer">
+    <div class="order-hd lnk-tab">
+        <strong>주문자 정보</strong>
+        <div class="flexbox">
+            <span class="blue fs-14 span1">정보를 입력하세요.</span>
+            <a href="javascript:orderInfo(1)" class="order-hd-open-1"
+            ><img
+                    src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
+                    alt=""
+            />
+            </a>
+            <a href="javascript:orderInfo(1)" class="order-hd-close-1"
+            ><img
+                    src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png"
+                    alt=""
+            /></a>
+        </div>
+    </div>
+    <div class="order-frm basket order1">
+        <div class="receiver-wrap same">
+            <div class="title js-useDeliveryOff">
+                <div><strong>주문자정보</strong></div>
+                <div class="cbx-tit">
+                    <input type="checkbox" onclick="onclickCbx()" />
+                    회원가입
+                </div>
+            </div>
+            <ul>
+                <li class="mt-none">
+                    <input
+                            type="text"
+                            name="sender"
+                            placeholder="이름"
+                            value
+                            maxlength="20"
+                            id="order-first-input"
+                    />
+                </li>
+                <li class="array-2x">
+                    <select name="phone1">
+                        <option value="010" selected>010</option>
+                        <option value="011">011</option>
+                        <option value="016">016</option>
+                        <option value="017">107</option>
+                        <option value="018">018</option>
+                        <option value="019">019</option>
+                    </select>
+                    <input
+                            type="tel"
+                            name="phone2"
+                            value
+                            placeholder="- 없이 숫자만 입력"
+                            id="order-sec-input"
+                    />
+                </li>
+            </ul>
+        </div>
+        <!-- 회원가입 -->
+        <div id="userJoinFormDiv" class="receiver-wrap users-join-line">
+            <div class="title bold">회원가입 정보</div>
+            <div class="users-cont nopd">
+                <div>
+                    <input
+                            class="input-st01 users-login-input input-id"
+                            type="text"
+                            name="user_id"
+                            placeholder="아이디(5자~20자 이내)"
+                            value=""
+                            onBlur="checkTxt('id', this.value)"
+                            onchange="checkUserinfo('id', this.value)"
+                    />
+                    <div class="red check-txt check-txt-id">
+                        아이디를 입력해주세요
+                    </div>
+                    <div class="red check-txt check-txt-id2">
+                        아이디는 영문 또는 영문, 숫자를 포함하여 5자~20자 내로 입력
+                        가능합니다. (-,_를 제외한 특수 문자 입력 불가)
+                    </div>
+                    <div class="blue check-txt check-txt-id3">
+                        사용가능한 아이디입니다.
+                    </div>
+                </div>
+                <div>
+                    <input
+                            class="input-st01 users-login-input mt-10"
+                            type="email"
+                            name="user_email"
+                            placeholder="이메일(비밀번호 찾기 시 이메일로 발송됩니다"
+                            value=""
+                            onBlur="checkTxt('email', this.value)"
+                            onchange="checkUserinfo('email', this.value)"
+                    />
+                    <div class="red check-txt check-txt-email">
+                        이메일 주소를 입력하세요.
+                    </div>
+                    <div class="red check-txt check-txt-email2">
+                        이메일 형식을 확인 해주세요.
+                    </div>
+                    <div class="blue check-txt check-txt-email3">
+                        가입 가능한 이메일입니다.
+                    </div>
+                </div>
+                <div class="passwordTxt">
+                    - 비밀번호를 잃어버린 경우 해당 이메일로 비밀번호 관련 정보가
+                    제공 됩니다. 바르게 입력해주세요.
+                </div>
+            </div>
+            <div>
+                <input
+                        id="check-txt-pw"
+                        class="input-st01 users-login-input mt-10"
+                        type="password"
+                        name="user_password"
+                        placeholder="비밀번호 (영문,숫자,특수문자 조합 8자리 이상)"
+                        value=""
+                        onchange="checkUserinfo('pw', this.value)"
+                />
+                <div class="red check-txt check-txt-pw">
+                    올바른 비밀번호 형식이 아닙니다.
+                </div>
+                <div class="red check-txt check-txt-pw2">
+                    올바른 비밀번호 형식이 아닙니다.
+                </div>
+                <div class="blue check-txt check-txt-pw3">
+                    사용가능한 비밀번호 입니다.
+                </div>
+            </div>
+            <div>
+                <input
+                        id="check-txt-pwcheck"
+                        class="input-st01 users-login-input mt-10"
+                        type="password"
+                        name="user_password"
+                        placeholder="비밀번호 재입력"
+                        value=""
+                        onBlur="checkPW(this.value)"
+                        onchange="checkTxt('pw', this.value)"
+                />
+                <div class="blue check-txt check-txt-pwcheck-same">
+                    비밀번호가 일치합니다.
+                </div>
+                <div class="red check-txt check-txt-pwcheck-not">
+                    비밀번호가 일치하지 않습니다.
+                </div>
+            </div>
+        </div>
+        <!-- 수령자정보 -->
+        <div class="receiver-wrap same same2">
+            <div class="title js-useDeliveryOff">
+                <strong>수령자정보</strong>
+                <div class="cbx-tit">
+                    <input
+                            type="checkbox"
+                            onclick="onclickCbxCopy()"
+                            id="cdxCopy"
+                    />
+                    주문자 정보와 같습니다.
+                </div>
+            </div>
+            <ul>
+                <li class="mt-none">
+                    <input
+                            type="text"
+                            name="sender"
+                            placeholder="이름"
+                            value
+                            maxlength="20"
+                            id="order-first-input-copy"
+                    />
+                </li>
+                <li class="array-2x">
+                    <select name="phone1">
+                        <option value="010" selected>010</option>
+                        <option value="011">011</option>
+                        <option value="016">016</option>
+                        <option value="017">107</option>
+                        <option value="018">018</option>
+                        <option value="019">019</option>
+                    </select>
+                    <input
+                            type="tel"
+                            name="phone2"
+                            value
+                            placeholder="- 없이 숫자만 입력"
+                            id="order-sec-input-copy"
+                    />
+                </li>
+            </ul>
+        </div>
+        <div class="receiver-wrap same js-useDeliveryOff same2">
+            <div class="title red">
+                <strong class="red2"> 수령자 주소</strong>
+            </div>
+            <ul>
+                <li class="box open-layer-addr mt-none">
+                    <input
+                            id="sample6_postcode"
+                            type="text"
+                            name="delivery_address"
+                            placeholder="우편번호"
+                            value
+                            readonly
+                            onclick="sample6_execDaumPostcode()"
+                    />
+                    <!-- 돋보기 이미지 -->
+                    <a href=""
+                    ><img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h24_search.png"
+                            alt=""
+                    /></a>
+                </li>
+                <li class="delivery-address1">
+                    <input
+                            id="sample6_address"
+                            type="text"
+                            name="delivery_address1"
+                            placeholder="기본주소"
+                            value
+                            maxlength="100"
+                    />
+                </li>
+                <li class="delivery-address2">
+                    <input
+                            id="sample6_extraAddress"
+                            type="text"
+                            name="delivery_address2"
+                            placeholder="참고항목"
+                            value
+                            maxlength="100"
+                    />
+                </li>
+                <li class="delivery-address2">
+                    <input
+                            id="sample6_detailAddress"
+                            type="text"
+                            name="delivery_address2"
+                            placeholder="나머지주소"
+                            value
+                            maxlength="100"
+                    />
+                </li>
+                <li class="relative-li">
+                    <select name="message">
+                        <option value="0" selected>배송 전 연락 바랍니다.</option>
+                        <option value="1">부재시 휴대폰으로 연락 바랍니다.</option>
+                        <option value="2">부재시 경비실에 맡겨주세요.</option>
+                        <option value="3">집 앞에 놓아주세요.</option>
+                        <option value="4">택배함에 넣어주세요.</option>
+                        <option value="direct">직접 입력</option>
+                    </select>
+                    <!-- 셀렉트 여는 이모티콘 -->
+                    <img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
+                            alt=""
+                            class="imgOpen"
+                    />
+                </li>
+            </ul>
+        </div>
+        <!-- 구분선 빈박스-->
+        <div class="bg-blank none"></div>
+    </div>
+
+</th:block>
+</html>

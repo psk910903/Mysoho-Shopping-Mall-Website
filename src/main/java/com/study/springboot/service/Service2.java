@@ -1,7 +1,9 @@
 package com.study.springboot.service;
 
+import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.inquiry.InquiryResponseDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
+import com.study.springboot.entity.CartEntity;
 import com.study.springboot.entity.InReplyEntity;
 import com.study.springboot.entity.InquiryEntity;
 import com.study.springboot.entity.QnaEntity;
@@ -91,28 +93,40 @@ public class Service2 {
         return count;
     }
 
+    // 장바구니 ----------------------------------------
 
-//    @Transactional
-//    public boolean delete(Long inquiryNo) {
-//
-//        Optional<InquiryEntity> entity = inquiryRepository.findById(inquiryNo);
-//        List<InReplyEntity> replyList = inReplyRepository.findAllByReplyInquiryNo(inquiryNo);
-//
-//        if (!entity.isPresent()){
-//            return false;
-//        }
-//        try{
-//            inquiryRepository.delete(entity.get());
-//            for (InReplyEntity replyEntity : replyList) {
-//                inReplyRepository.delete(replyEntity);
-//            }
-//        }
-//        catch(Exception e){
-//            e.printStackTrace();
-//            return false;
-//        }
-//        return true;
-//    }
+    final private CartRepository cartRepository;
+
+    @Transactional(readOnly = true)
+    public List<CartResponseDto> findByMemberIdCart(String memberId){ // 이름 중복됨 나중에 service 옮길때 함수 명 변경해야함
+        List<CartEntity> list = cartRepository.findByMemberId(memberId);
+        return list.stream().map(CartResponseDto::new).collect(Collectors.toList());
+    };
+
+    @Transactional(readOnly = true)
+    public List<CartResponseDto> findBySessionId(String sessionId){
+        List<CartEntity> list = cartRepository.findBySessionId(sessionId);
+        return list.stream().map(CartResponseDto::new).collect(Collectors.toList());
+    };
+
+    @Transactional
+    public boolean deleteList(List<Long> cartNoList) {
+
+        for (Long cartNo: cartNoList) {
+            Optional<CartEntity> entity = cartRepository.findById(cartNo);
+
+            if (!entity.isPresent()) {
+                return false;
+            }
+            try {
+                cartRepository.delete(entity.get());
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
+    }
 
 
 }

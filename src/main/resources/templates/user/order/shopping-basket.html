@@ -1,20 +1,12 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>마이소호 샘플샵</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="/css/header.css" />
     <link rel="stylesheet" href="/css/footer.css" />
     <link rel="stylesheet" href="/css/option-popup.css" />
@@ -25,862 +17,95 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <div class="wrap">
       <div class="betweenbtn">
-        <script>
-          $(".betweenbtn").load("/public-object/betweenbtn.html");
-        </script>
+        <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
       </div>
       <div class="header">
-        <script>
-          $(".header").load("/public-object/header.html");
-        </script>
+        <div th:replace="/fragments/header.html :: fragment-header"></div>
       </div>
-      <!--  -->
+      <!-- content  -->
       <div class="content-view text-align-center">
-        <!-- 장바구니 -->
-        <div class="page-hd">
-          <div class="basket-hd txt-c">
-            <div class="basket-hd-cbx">
-              <!-- 체크박스 -->
-              <input type="checkbox" checked />
-              <div>전체</div>
-              <div class="red2 bold">1</div>
-            </div>
-            <div>장바구니</div>
-            <!-- 휴지통이미지 -->
-            <div class="trash-box">
-              <img
-                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h34_waste.png"
-                alt=""
-                onclick="trash()"
-              />
-            </div>
-          </div>
-        </div>
-        <!-- 구분선 빈박스 -->
-        <div class="bg-blank"></div>
-        <div class="prd-info MSH-prd-info-19520">
-          <input type="checkbox" checked />
-          <div class="cart-info">
-            <div class="bsk-info">
-              <!-- 상품이미지 -->
-              <a href="product-top1.html" class="product-a">
-                <img
-                  src="https://img.makeshop.co.kr/1/1371/201902/115892be102b381a004ea0022421d6e7.png"
-                  alt=""
-                  class="product-img"
-                />
-              </a>
-              <!-- 네임에 릴레이티브주고 엑스, 공유로고 엡솔예정 -->
-              <div class="name bold">퍼프 블라우스 퍼플</div>
-              <!-- 엑스 -->
-              <div>
-                <img
-                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h22_delete.png"
-                  alt=""
-                  class="delete-img"
-                  onclick="trash()"
-                />
-              </div>
-              <!-- 공유 -->
-              <button class="show-share-list" id="bsk-info-sharebtn">
-                <img
-                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h26_share.gif"
-                  alt=""
-                  class="share-img"
-                />
-              </button>
-              <!-- 공유하기 버튼 팝업 -->
-              <div class="bg-share">
-                <div class="window">
-                  <div class="popup-share">
-                    <div class="lhd-share">
-                      <a href="javascript:closeOrderList()" class="closebtn"
-                        ><img
-                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
-                          alt=""
-                      /></a>
-                    </div>
-                    <div class="share-tit">
-                      <div>상품 정보를</div>
-                      <div><b> 공유해 보세요</b></div>
-                    </div>
-                    <div class="share-con">
-                      <a
-                        class="share-con-ico"
-                        href="javascript:openPopupShareBtn(name)"
-                        ><img
-                          src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_sms.png"
-                          alt=""
-                      /></a>
-                      <a
-                        class="share-con-ico"
-                        href="javascript:openPopupShareBtn('https://www.facebook.com/login.php?skip_api_login=1&api_key=966242223397117&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fsharer%2Fsharer.php%3Fu%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D&cancel_url=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Fclose_window%2F%3Fapp_id%3D966242223397117%26connect%3D0%23_%3D_&display=popup&locale=ko_KR')"
-                        ><img
-                          src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_facebook.png"
-                          alt=""
-                      /></a>
-                      <a
-                        class="share-con-ico"
-                        href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fstory.kakao.com%2Fshare%3Furl%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
-                        ><img
-                          src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaostory.png"
-                          alt=""
-                      /></a>
-                      <a
-                        class="share-con-ico"
-                        href="javascript:openPopupShareBtn('https://nid.naver.com/nidlogin.login?mode=form&template=plogin&url=http%3A%2F%2Fblog.naver.com%2FLinkShare.naver%3Furl%3Dnull')"
-                        ><img
-                          src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_blog.png"
-                          alt=""
-                      /></a>
-                      <a
-                        class="share-con-ico"
-                        href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fsharer.kakao.com%2Fpicker%2Flink%3Fapp_key%3D1628990893d01e42e811ef2f1fdae357%26short_key%3Ddb2f53c5-a414-409f-82b4-9f83ed61a80a')"
-                        ><img
-                          src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaotalk.gif"
-                          alt=""
-                      /></a>
-                      <a
-                        class="share-con-ico"
-                        href="javascript:openPopupShareBtn('https://access.line.me/oauth2/v2.1/login?returnUri=%2Foauth2%2Fv2.1%2Fauthorize%2Fconsent%3Fresponse_type%3Dcode%26client_id%3D1446101138%26state%3D17554c14c87549e5e97a17c817c3fb%26redirect_uri%3Dhttps%253A%252F%252Fsocial-plugins.line.me%252Flineit%252FloginCallback%253FreturnUrl%253Dhttps%25253A%25252F%25252Fsocial-plugins.line.me%25252Flineit%25252Fshare%25253Furl%25253Dhttps%25253A%25252F%25252Fsohonara.mysoho.com%25252F%252526text%25253Dhttp%2525253A%2525252F%2525252Fqqc.kr%2525252FXKR2Y0D%252526from%25253Dline_scheme%26scope%3Dopenid%2Bprofile%2Bfriends%2Bgroups%2Btimeline.post%2Bmessage.write&loginChannelId=1446101138&loginState=wBkM1D2i6jLDRjh6zfFIm3&fromDomain=access-auto.line.me&line_auto_login_error=universal_link_error#/')"
-                        ><img
-                          src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_line.png"
-                          alt=""
-                      /></a>
-                      <a
-                        class="share-con-ico"
-                        href="javascript:openPopupShareBtn('https://auth.band.us/login_page?display=popup&next_url=https%3A%2F%2Fband.us%2Fplugin%2Fshare%3Froute%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D%26body%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
-                        ><img
-                          src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_band.png"
-                          alt=""
-                      /></a>
-                      <a
-                        class="share-con-ico"
-                        href="javascript:openPopupShareBtn('https://twitter.com/intent/tweet?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D&text=퍼프블라우스%20화이트')"
-                        ><img
-                          src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_twitter_blue.png"
-                          alt=""
-                      /></a>
-                      <a
-                        class="share-con-ico"
-                        href="javascript:openPopupShareBtn('https://accounts.google.com/ServiceLogin/signinchooser?passive=1209600&osid=1&continue=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&followup=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&ifkv=AeAAQh5CLvwfHxrmxVosQDHyr3jYWKi9iRFjmo_M9cg7vkQYEbsMzjH1HjT1D14TqO933bOG0zaR&flowName=GlifWebSignIn&flowEntry=ServiceLogin')"
-                        ><img
-                          src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_google.png"
-                          alt=""
-                      /></a>
-                      <a
-                        class="share-con-ico"
-                        href="javascript:openPopupShareBtn('https://telegram.me/share?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D')"
-                        ><img
-                          src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_telegram.png"
-                          alt=""
-                      /></a>
-                      <a class="share-con-ico" href="javascript:alertbtn()"
-                        ><img
-                          src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_urlcopy.png"
-                          alt=""
-                      /></a>
-                    </div>
-                    <div class="lcont"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="prd-option-result MSH-prd-option-result-19520">
-              <button
-                class="red2 bold btn-h38-bd mt-10 MSH-open js-btn-open-option-addtion option-tap-btn show-option-list"
-              >
-                옵션수정
-                <img
-                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
-                  alt=""
-                />
-              </button>
-              <div class="bg-option">
-                <div class="window">
-                  <div class="popup">
-                    <div class="popup-inner">
-                      <div class="lhd-option">
-                        <button id="closeBtn-option">
-                          <img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h38_close_down.png"
-                            alt=""
-                          />
-                        </button>
-                      </div>
-
-                      <div class="option-tit">
-                        <div class="bold">퍼프블라우스 퍼플</div>
-                      </div>
-
-                      <div class="hidden-option-tap">
-                        <div class="hidden-size-tap">
-                          <div class="final-size">퍼프블라우스 퍼플</div>
-                        </div>
-                        <div class="prd-option-non MSH-prd-option-non-19520">
-                          <div class="count">
-                            <a href="javascript:sub()" class="btn-minus"
-                              ><img
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_minus.gif"
-                                alt=""
-                            /></a>
-                            <input
-                              type="text"
-                              value="1"
-                              class="MSH-sto-stock"
-                            />
-                            <a href="javascript:sum()" class="btn-plus"
-                              ><img
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_plus.gif"
-                                alt=""
-                            /></a>
-                          </div>
-                          <div class="price" id="option-price">44,500원</div>
-                        </div>
-                      </div>
-                      <div class="MSH-total-price-opt">
-                        <span>합계</span
-                        ><span class="option-total-price">44,500</span
-                        ><span>원</span>
-                      </div>
-                      <button
-                        class="js-btnOrder js-mo-tpl btn-h42-gray mt-25"
-                        id="final-choice"
-                        onclick="finalChoice()"
-                      >
-                        선택완료
-                      </button>
-
-                      <div class="layerOptionNot">
-                        <div class="option-choice">옵션을 선택해 주세요</div>
-                        <div class="option-btn-bg"></div>
-                        <button class="btn1" onclick="cartBtn()">
-                          장바구니
-                        </button>
-                        <button class="btn2" onclick="buyBtn()">
-                          결제하기
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="gray fs-15">
-                퍼프 블라우스 퍼플, <span id="product-count">1</span>개
-              </div>
-              <div class="fs-14 gray2">
-                원 <span id="first cost"> 49,000</span>
-              </div>
-              <div class="fs-21 bold red2">
-                원<span id="final-product-price">44,500</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- 구분선 빈박스 -->
-        <div class="bg-blank"></div>
-        <div class="order-hd lnk-tab">
-          <strong>주문자 정보</strong>
-          <div class="flexbox">
-            <span class="blue fs-14 span1">정보를 입력하세요.</span>
-            <a href="javascript:orderInfo(1)" class="order-hd-open-1"
-              ><img
-                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
-                alt=""
-              />
-            </a>
-            <a href="javascript:orderInfo(1)" class="order-hd-close-1"
-              ><img
-                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png"
-                alt=""
-            /></a>
-          </div>
-        </div>
-        <div class="order-frm basket order1">
-          <div class="receiver-wrap same">
-            <div class="title js-useDeliveryOff">
-              <div><strong>주문자정보</strong></div>
-              <div class="cbx-tit">
-                <input type="checkbox" onclick="onclickCbx()" />
-                회원가입
-              </div>
-            </div>
-            <ul>
-              <li class="mt-none">
-                <input
-                  type="text"
-                  name="sender"
-                  placeholder="이름"
-                  value
-                  maxlength="20"
-                  id="order-first-input"
-                />
-              </li>
-              <li class="array-2x">
-                <select name="phone1">
-                  <option value="010" selected>010</option>
-                  <option value="011">011</option>
-                  <option value="016">016</option>
-                  <option value="017">107</option>
-                  <option value="018">018</option>
-                  <option value="019">019</option>
-                </select>
-                <input
-                  type="tel"
-                  name="phone2"
-                  value
-                  placeholder="- 없이 숫자만 입력"
-                  id="order-sec-input"
-                />
-              </li>
-            </ul>
-          </div>
-          <!-- 회원가입 -->
-          <div id="userJoinFormDiv" class="receiver-wrap users-join-line">
-            <div class="title bold">회원가입 정보</div>
-            <div class="users-cont nopd">
-              <div>
-                <input
-                  class="input-st01 users-login-input input-id"
-                  type="text"
-                  name="user_id"
-                  placeholder="아이디(5자~20자 이내)"
-                  value=""
-                  onBlur="checkTxt('id', this.value)"
-                  onchange="checkUserinfo('id', this.value)"
-                />
-                <div class="red check-txt check-txt-id">
-                  아이디를 입력해주세요
-                </div>
-                <div class="red check-txt check-txt-id2">
-                  아이디는 영문 또는 영문, 숫자를 포함하여 5자~20자 내로 입력
-                  가능합니다. (-,_를 제외한 특수 문자 입력 불가)
-                </div>
-                <div class="blue check-txt check-txt-id3">
-                  사용가능한 아이디입니다.
-                </div>
-              </div>
-              <div>
-                <input
-                  class="input-st01 users-login-input mt-10"
-                  type="email"
-                  name="user_email"
-                  placeholder="이메일(비밀번호 찾기 시 이메일로 발송됩니다"
-                  value=""
-                  onBlur="checkTxt('email', this.value)"
-                  onchange="checkUserinfo('email', this.value)"
-                />
-                <div class="red check-txt check-txt-email">
-                  이메일 주소를 입력하세요.
-                </div>
-                <div class="red check-txt check-txt-email2">
-                  이메일 형식을 확인 해주세요.
-                </div>
-                <div class="blue check-txt check-txt-email3">
-                  가입 가능한 이메일입니다.
-                </div>
-              </div>
-              <div class="passwordTxt">
-                - 비밀번호를 잃어버린 경우 해당 이메일로 비밀번호 관련 정보가
-                제공 됩니다. 바르게 입력해주세요.
-              </div>
-            </div>
-            <div>
-              <input
-                id="check-txt-pw"
-                class="input-st01 users-login-input mt-10"
-                type="password"
-                name="user_password"
-                placeholder="비밀번호 (영문,숫자,특수문자 조합 8자리 이상)"
-                value=""
-                onchange="checkUserinfo('pw', this.value)"
-              />
-              <div class="red check-txt check-txt-pw">
-                올바른 비밀번호 형식이 아닙니다.
-              </div>
-              <div class="red check-txt check-txt-pw2">
-                올바른 비밀번호 형식이 아닙니다.
-              </div>
-              <div class="blue check-txt check-txt-pw3">
-                사용가능한 비밀번호 입니다.
-              </div>
-            </div>
-            <div>
-              <input
-                id="check-txt-pwcheck"
-                class="input-st01 users-login-input mt-10"
-                type="password"
-                name="user_password"
-                placeholder="비밀번호 재입력"
-                value=""
-                onBlur="checkPW(this.value)"
-                onchange="checkTxt('pw', this.value)"
-              />
-              <div class="blue check-txt check-txt-pwcheck-same">
-                비밀번호가 일치합니다.
-              </div>
-              <div class="red check-txt check-txt-pwcheck-not">
-                비밀번호가 일치하지 않습니다.
-              </div>
-            </div>
-          </div>
-          <!-- 수령자정보 -->
-          <div class="receiver-wrap same same2">
-            <div class="title js-useDeliveryOff">
-              <strong>수령자정보</strong>
-              <div class="cbx-tit">
-                <input
-                  type="checkbox"
-                  onclick="onclickCbxCopy()"
-                  id="cdxCopy"
-                />
-                주문자 정보와 같습니다.
-              </div>
-            </div>
-            <ul>
-              <li class="mt-none">
-                <input
-                  type="text"
-                  name="sender"
-                  placeholder="이름"
-                  value
-                  maxlength="20"
-                  id="order-first-input-copy"
-                />
-              </li>
-              <li class="array-2x">
-                <select name="phone1">
-                  <option value="010" selected>010</option>
-                  <option value="011">011</option>
-                  <option value="016">016</option>
-                  <option value="017">107</option>
-                  <option value="018">018</option>
-                  <option value="019">019</option>
-                </select>
-                <input
-                  type="tel"
-                  name="phone2"
-                  value
-                  placeholder="- 없이 숫자만 입력"
-                  id="order-sec-input-copy"
-                />
-              </li>
-            </ul>
-          </div>
-          <div class="receiver-wrap same js-useDeliveryOff same2">
-            <div class="title red">
-              <strong class="red2"> 수령자 주소</strong>
-            </div>
-            <ul>
-              <li class="box open-layer-addr mt-none">
-                <input
-                  id="sample6_postcode"
-                  type="text"
-                  name="delivery_address"
-                  placeholder="우편번호"
-                  value
-                  readonly
-                  onclick="sample6_execDaumPostcode()"
-                />
-                <!-- 돋보기 이미지 -->
-                <a href=""
-                  ><img
-                    src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h24_search.png"
-                    alt=""
-                /></a>
-              </li>
-              <li class="delivery-address1">
-                <input
-                  id="sample6_address"
-                  type="text"
-                  name="delivery_address1"
-                  placeholder="기본주소"
-                  value
-                  maxlength="100"
-                />
-              </li>
-              <li class="delivery-address2">
-                <input
-                  id="sample6_extraAddress"
-                  type="text"
-                  name="delivery_address2"
-                  placeholder="참고항목"
-                  value
-                  maxlength="100"
-                />
-              </li>
-              <li class="delivery-address2">
-                <input
-                  id="sample6_detailAddress"
-                  type="text"
-                  name="delivery_address2"
-                  placeholder="나머지주소"
-                  value
-                  maxlength="100"
-                />
-              </li>
-              <li class="relative-li">
-                <select name="message">
-                  <option value="0" selected>배송 전 연락 바랍니다.</option>
-                  <option value="1">부재시 휴대폰으로 연락 바랍니다.</option>
-                  <option value="2">부재시 경비실에 맡겨주세요.</option>
-                  <option value="3">집 앞에 놓아주세요.</option>
-                  <option value="4">택배함에 넣어주세요.</option>
-                  <option value="direct">직접 입력</option>
-                </select>
-                <!-- 셀렉트 여는 이모티콘 -->
-                <img
-                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
-                  alt=""
-                  class="imgOpen"
-                />
-              </li>
-            </ul>
-          </div>
-          <!-- 구분선 빈박스-->
-          <div class="bg-blank none"></div>
-        </div>
-
+        <!-- cart -->
+        <div th:replace="/user/order-object/container-shopping-basket-cart.html :: container-shopping-basket-cart"></div>
+        <!-- 주문자 정보-->
+        <div th:replace="/user/order-object/container-shopping-basket-orderer.html :: container-shopping-basket-orderer"></div>
         <!-- 적립금 -->
-        <div class="order-hd lnk-tab">
-          <strong>적립금 사용</strong>
-          <!-- 버튼 이미지 -->
-          <div class="flexbox">
-            <span class="blue fs-14 span2">로그인 후, 사용 가능합니다.</span>
-            <a href="javascript:orderInfo(2)" class="order-hd-open-2"
-              ><img
-                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
-                alt=""
-            /></a>
-            <a href="javascript:orderInfo(2)" class="order-hd-close-2"
-              ><img
-                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png"
-                alt=""
-            /></a>
-          </div>
-        </div>
-        <div class="order2">
-          <div class="order-mileage">
-            <div class="order-use-mileage">
-              <div class="title">
-                <div>
-                  보유적립금
-                  <span class="js-userMileageText">0원</span>
-                </div>
-                <div class="cbx-tit">
-                  <input type="checkbox" />
-                  모두 사용
-                </div>
-              </div>
-              <ul>
-                <li>
-                  <input
-                    type="tel"
-                    name="use_mileage"
-                    placeholder="로그인 후, 사용 가능합니다."
-                    readonly="readonly"
-                    class="readonly-input"
-                  />
-                </li>
-              </ul>
-            </div>
-          </div>
-          <!-- 구분선 빈박스-->
-          <div class="bg-blank none"></div>
-        </div>
-
+        <div th:replace="/user/order-object/container-shopping-basket-mileage.html :: container-shopping-basket-mileage"></div>
         <!-- 결제방법 -->
-        <div class="order-hd lnk-tab js-order-paymethod-area">
-          <strong>결제방법</strong>
-          <!-- 버튼 이미지 -->
-          <div class="flexbox">
-            <span class="blue fs-14 span3 pay-checked" id="pay1display"
-              >휴대폰결제</span
-            >
-            <span class="blue fs-14 span3" id="pay2display">무통장입금</span>
-            <a href="javascript:orderInfo(3)" class="order-hd-open-3"
-              ><img
-                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
-                alt=""
-            /></a>
-            <a href="javascript:orderInfo(3)" class="order-hd-close-3"
-              ><img
-                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png"
-                alt=""
-            /></a>
-          </div>
-        </div>
-        <div class="order-pay order3">
-          <div class="order-pay-div">
-            <div>
-              <label
-                class="js-activate"
-                style="color: rgb(136, 136, 136)"
-              ></label>
-
-              <input
-                type="radio"
-                name="pay_method"
-                value="SSP"
-                autocomplete="off"
-                disabled
-              />
-            </div>
-            <div>
-              <div class="order-pay-div-tit gray">
-                삼성페이
-                <a href="javascript:openPopupMobile()">지원 단말 확인></a>
-              </div>
-              <div class="order-pay-div-text">
-                삼성페이 결제는 안드로이드 기종에서만 가능합니다.
-              </div>
-            </div>
-          </div>
-          <div class="order-pay-div">
-            <div>
-              <label class="js-activate" style="color: rgb(0, 0, 0)"></label>
-
-              <input
-                type="radio"
-                name="pay_method"
-                value="PMP"
-                autocomplete="off"
-                id="pay1"
-                checked
-                onclick="selecpay()"
-              />
-            </div>
-            <div>
-              <div class="order-pay-div-tit" id="pay1color">휴대폰결제</div>
-              <div class="txt-desc mt-10 mb-10 js-txt-desc" id="pay1text">
-                <div class="order-pay-div-text">
-                  핸드폰 요금청구서에 '소액결제'로 표시됩니다.
-                </div>
-                <div class="order-pay-div-text">
-                  결제건의 취소는 해당 달에만 가능합니다.
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="order-pay-div">
-            <div>
-              <label
-                class="js-activate"
-                style="color: rgb(136, 136, 136)"
-              ></label>
-
-              <input
-                type="radio"
-                name="pay_method"
-                value="MBA"
-                autocomplete="off"
-                id="pay2"
-                onclick="selecpay()"
-              />
-            </div>
-            <div class="payWrap">
-              <div class="order-pay-div-tit gray" id="pay2color">
-                무통장입금
-                <span class="order-pay-div-text red">
-                  (반드시 주문자 성함으로 입금)
-                </span>
-              </div>
-              <div class="txt-desc mt-10 mb-10 js-txt-desc" id="pay2text">
-                <div class="order-pay-div-text relative-li">
-                  <select name="message" id="paySelect">
-                    <option value="">입금 계좌번호 선택</option>
-                    <option
-                      value="기업은행"
-                      data-acnt-name="소호나라"
-                      data-acnt-num="0106-859-3030119"
-                    >
-                      기업은행 0106-859-3030119 (예금주 :소호나라)
-                    </option>
-                  </select>
-
-                  <img
-                    src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
-                    alt=""
-                    class="imgOpen"
-                  />
-                </div>
-                <div class="order-pay-div-text mt-10">
-                  빠른 처리를 위해 주문자를 입금자로 사용하세요.
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- 구분선 빈박스-->
-        <div class="bg-blank none"></div>
+        <div th:replace="/user/order-object/container-shopping-basket-payment.html :: container-shopping-basket-payment"></div>
         <!-- 약관/결제 전체 동의 -->
-        <div class="order-from-new">
-          <div class="order-hd">
-            <input
-              id="agreeAllBtn"
-              name="ckeck1"
-              type="checkbox"
-              autocomplete="off"
-              onclick="onclickAgree()"
-            />
-            <label for="check1"></label>
-            <div>
-              <strong> 약관/결제 전체 동의</strong>
-            </div>
-          </div>
-          <div class="agree-box">
-            <ul>
-              <li>
-                <div>
-                  <input
-                    type="checkbox"
-                    name="terms_agree"
-                    autocomplete="off"
-                  />
-                  <div>이용약관 동의(필수)</div>
-                </div>
-                <a href="javascript:openPopup3()">보기</a>
-              </li>
-              <li>
-                <div>
-                  <input
-                    type="checkbox"
-                    name="terms_agree"
-                    autocomplete="off"
-                  />
-                  <div>개인정보 수집 이용 동의 (필수)</div>
-                </div>
-                <a href="javascript:openPopup4()">보기</a>
-              </li>
-              <li>
-                <div>
-                  <input
-                    type="checkbox"
-                    name="terms_agree"
-                    autocomplete="off"
-                  />
-                  <div>개인정보 수집 이용 동의 (선택)</div>
-                </div>
-                <a href="javascript:openPopup4()">보기</a>
-              </li>
-              <li>
-                <div>
-                  <input
-                    type="checkbox"
-                    name="terms_agree"
-                    autocomplete="off"
-                  />
-                  <div>위 구매조건 확인 및 결제진행 동의</div>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="order-terms">
-          <div class="inner">
-            <div class="price-box">
-              <div class="between">
-                <div class="price-tit">총 상품금액</div>
-                <div>
-                  <strong class="price-tit-price">49,000원</strong>
-                </div>
-              </div>
-              <div>
-                <div class="between mt-10 mb-6">
-                  <div class="price-tit">총 배송비</div>
-                  <div class="price-tit-price bold">+ 0원</div>
-                </div>
-                <div class="between h23">
-                  <div class="price-text">- 기본 배송비</div>
-                  <div class="price-text-price">
-                    <span class="gray">(+)</span>0원
-                  </div>
-                </div>
-                <div class="between h23">
-                  <div class="price-text">- 지역 배송비</div>
-                  <div class="price-text-price">
-                    <span class="gray">(+)</span>0원
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div class="between mt-10 mb-6">
-                  <div class="price-tit">총 할인/적립금 사용 금액</div>
-                  <div class="price-tit-price bold">- 4,5000원</div>
-                </div>
-                <div class="between h23">
-                  <div class="price-text">- 상품 할인</div>
-                  <div class="price-text-price">
-                    <span class="gray">(-)</span>4,500원
-                  </div>
-                </div>
-                <div class="between h23">
-                  <div class="price-text">- 쿠폰 할인</div>
-                  <div class="price-text-price">
-                    <span class="gray">(-)</span>0원
-                  </div>
-                </div>
-                <div class="between h23">
-                  <div class="price-text">- 적립금 사용</div>
-                  <div class="price-text-price">
-                    <span class="gray">(-)</span>0원
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="pay-price">
-              <div class="between">
-                <div>
-                  <strong>최종 주문금액</strong>
-                </div>
-                <div>
-                  <strong class="red2">44,500원</strong>
-                </div>
-              </div>
-              <div class="left blue">
-                <strong>(예상 적립금 <span>0</span>원, 비회원적립 불가)</strong>
-              </div>
-            </div>
-            <a
-              href="order-complete.html"
-              class="js-btnOrder js-mo-tpl btn-h42-gray mt-25"
-              >결제하기</a
-            >
-
-            <div class="warning-labels-font">
-              <img
-                src="https://image.makeshop.co.kr/mysoho/assets/admin/images/common/m-notice-icon.png"
-                alt=""
-              />
-              마이소호는 통신판매 당사자가 아닙니다.
-              <br />
-              상품정보/주문/배송/환불 등 일체의 책임을 지지 않습니다.
-            </div>
-          </div>
-        </div>
+        <div th:replace="/user/order-object/container-shopping-basket-concent.html :: container-shopping-basket-concent"></div>
+        <!-- 결제 요약 -->
+        <div th:replace="/user/order-object/container-shopping-basket-summary.html :: container-shopping-basket-summary"></div>
       </div>
       <!-- 푸터 -->
       <div class="footer">
-        <script>
-          $(".footer").load("/public-object/footer.html");
-        </script>
+        <div th:replace="/fragments/footer.html :: fragment-footer"></div>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
-      integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
     <!-- 우편번호 -->
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="/js/header.js"></script>
     <script src="/js/footer.js"></script>
+
+    <!-- 체크박스 선택 -->
+    <script th:inline="javascript">
+      let checkList = [[${cartList}]];
+
+      function checkBoxAll(){
+        let checkBoxAll = document.getElementById("checkBoxAll");
+        let checkBox = document.getElementsByName("checkBox");
+
+        if (checkBoxAll.checked == true){
+          checkList = [[${cartList}]];
+          for (c of checkBox){
+            c.checked = true;
+          }
+        }else{
+          checkList = [];
+          for (c of checkBox){
+            c.checked = false;
+          }
+        }
+
+        let countSelected = document.getElementById("countSelected");
+        countSelected.innerText = checkList.length;
+      }
+
+      function checkBox(cartNo){
+        let checkBox = document.getElementById("checkBox"+cartNo);
+        if (checkBox.checked == true){
+          for (cart of [[${cartList}]]){
+            if (cart.cartNo == cartNo){
+              checkList.push(cart);
+            }
+          }
+        }else{
+          for (idx in checkList){
+            if (checkList[idx].cartNo == cartNo){
+              checkList.splice(idx, 1);
+              idx--;
+            }
+          }
+        }
+
+        let countSelected = document.getElementById("countSelected");
+        countSelected.innerText = checkList.length;
+      }
+
+      function deleteAll(){
+
+        let checkNoList = [];
+        for (c of checkList){
+          checkNoList.push(c.cartNo);
+        }
+        let trashCan = document.getElementById("trashCan");
+        trashCan.value = checkNoList;
+
+      };
+    </script>
     <script src="/js/popup.js"></script>
     <script src="/js/shopping-basket.js"></script>
     <script>
@@ -890,12 +115,6 @@
 
     <!-- 옵션선택 팝업 -->
     <script>
-      document
-        .querySelector(".show-option-list")
-        .addEventListener("click", showoptionList);
-      document
-        .querySelector("#closeBtn-option")
-        .addEventListener("click", closeOrderList);
 
       document
         .querySelector(".show-share-list")

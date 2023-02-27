@@ -1,5 +1,6 @@
 package com.study.springboot.controller;
 
+import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.inquiry.InquiryResponseDto;
 import com.study.springboot.dto.notice.NoticeResponseDto;
 import com.study.springboot.dto.notice.NoticeSaveRequestDto;
@@ -20,6 +21,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -325,6 +328,94 @@ public class Controller2 {
     }
 
     // '/qna/user' 끝 -----------------------------------------------------------------------------------------------
+    // '/order' 시작 -----------------------------------------------------------------------------------------------
+
+    @GetMapping("/order")
+    public String order(Model model) {
+
+        // HttpSession session = request.getSession(false);
+        // String memberId = (String)session.getAttribute("memberId");
+        // String sessionId = (String)session.getAttribute("sessionId");
+
+        // 비회원일때
+//        String memberId = null;
+//        String sessionId = "bf6f75a4-a1e9-4c0b-9b17-e9b6b5c0e5ed";
+
+        // 회원일 때
+        String memberId = "hong";
+        String sessionId = null;
+
+        List<CartResponseDto> cartList = null;
+        List<ProductResponseDto> itemList = new ArrayList<>();
+
+        if (memberId != null) { // 회원일 때
+            cartList = service2.findByMemberIdCart(memberId);
+        }else{ // 비회원일때
+            cartList = service2.findBySessionId(sessionId);
+        }
+
+        // itemList
+        for (CartResponseDto cart :cartList){
+            String itemCode = cart.getItemCode();
+            itemList.add(productService.findById(Long.parseLong(itemCode)));
+        }
+
+        model.addAttribute("itemList", itemList);
+        model.addAttribute("cartList", cartList);
+
+        return "/user/order/shopping-basket";
+
+    }
+
+    @GetMapping("/order/test1")
+    public String orderTest1(Model model,  HttpServletResponse response) {
+
+        Cookie cookie;
+
+        cookie = new Cookie("itemCode", "20001");
+        response.addCookie(cookie);
+        cookie = new Cookie("itemName", "퍼프블라우스");
+        response.addCookie(cookie);
+        cookie = new Cookie("itemOptionColor", "화이트");
+        response.addCookie(cookie);
+        cookie = new Cookie("itemOptionSize", "FREE");
+        response.addCookie(cookie);
+        cookie = new Cookie("cartItemAmount", "1");
+        response.addCookie(cookie);
+        cookie = new Cookie("cartItemOriginalPrice", "49000");
+        response.addCookie(cookie);
+        cookie = new Cookie("cartDiscountPrice", "4900");
+        response.addCookie(cookie);
+        cookie = new Cookie("cartItemPrice", "44100");
+        response.addCookie(cookie);
+
+        return "/user/order/test";
+
+    }
+
+    @GetMapping("/order/test2")
+    @ResponseBody
+    public String orderTest2(Model model) {
+
+
+        return "/user/order/shopping-basket";
+
+    }
+
+    @PostMapping("/order/deleteAction")
+    @ResponseBody
+    public String orderDeleteAction(@RequestParam List<Long> cartNoList, Model model) {
+
+        Boolean success = service2.deleteList(cartNoList);
+        if(success) {
+            return "<script>location.href='/order';</script>";
+        }else{
+            return "<script>alert('삭제 실패했습니다.'); history.back();</script>";
+        }
+
+    }
+
+    // '/order' 끝 -----------------------------------------------------------------------------------------------
 
     @PostMapping("/inquiry/test1")
     @ResponseBody

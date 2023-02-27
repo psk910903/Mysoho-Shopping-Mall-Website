@@ -328,3 +328,11 @@ function basketNumCount() {
   basketNum++;
   document.querySelector(".basket-num").innerHTML = basketNum;
 }
+
+function popupOptionList(cartNo) {
+    document.querySelector("#bg-option" + cartNo).className = "bg-option showoptionList";
+}
+
+function closeOptionList(cartNo) {
+  document.querySelector("#bg-option" + cartNo).className = "bg-option";
+}

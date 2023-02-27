@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="container-shopping-basket-mileage">
+
+  <div class="order-hd lnk-tab">
+    <strong>적립금 사용</strong>
+    <!-- 버튼 이미지 -->
+    <div class="flexbox">
+      <span class="blue fs-14 span2">로그인 후, 사용 가능합니다.</span>
+      <a href="javascript:orderInfo(2)" class="order-hd-open-2"
+      ><img
+              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
+              alt=""
+      /></a>
+      <a href="javascript:orderInfo(2)" class="order-hd-close-2"
+      ><img
+              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png"
+              alt=""
+      /></a>
+    </div>
+  </div>
+  <div class="order2">
+    <div class="order-mileage">
+      <div class="order-use-mileage">
+        <div class="title">
+          <div>
+            보유적립금
+            <span class="js-userMileageText">0원</span>
+          </div>
+          <div class="cbx-tit">
+            <input type="checkbox" />
+            모두 사용
+          </div>
+        </div>
+        <ul>
+          <li>
+            <input
+                    type="tel"
+                    name="use_mileage"
+                    placeholder="로그인 후, 사용 가능합니다."
+                    readonly="readonly"
+                    class="readonly-input"
+            />
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- 구분선 빈박스-->
+    <div class="bg-blank none"></div>
+  </div>
+
+</th:block>
+</html>
