@@ -33,8 +33,8 @@ public class MemberSaveRequestDto {
     public MemberSaveRequestDto(MemberEntity entity) {
         this.memberNo = entity.getMemberNo();
         this.memberName = entity.getMemberName();
-        this.memberId = entity.getMemberId();
-        this.memberPw = entity.getMemberPw();
+        this.memberId = entity.getUsername();
+        this.memberPw = entity.getPassword();
         this.memberPhone = entity.getMemberPhone();
         this.memberEmail = entity.getMemberEmail();
         this.memberMileage = entity.getMemberMileage();
