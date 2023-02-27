@@ -22,9 +22,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Controller
@@ -330,73 +333,102 @@ public class Controller2 {
     // '/qna/user' 끝 -----------------------------------------------------------------------------------------------
     // '/order' 시작 -----------------------------------------------------------------------------------------------
 
-    @GetMapping("/order")
-    public String order(Model model) {
-
-        // HttpSession session = request.getSession(false);
-        // String memberId = (String)session.getAttribute("memberId");
-        // String sessionId = (String)session.getAttribute("sessionId");
-
-        // 비회원일때
-//        String memberId = null;
-//        String sessionId = "bf6f75a4-a1e9-4c0b-9b17-e9b6b5c0e5ed";
-
-        // 회원일 때
-        String memberId = "hong";
-        String sessionId = null;
-
-        List<CartResponseDto> cartList = null;
-        List<ProductResponseDto> itemList = new ArrayList<>();
-
-        if (memberId != null) { // 회원일 때
-            cartList = service2.findByMemberIdCart(memberId);
-        }else{ // 비회원일때
-            cartList = service2.findBySessionId(sessionId);
-        }
-
-        // itemList
-        for (CartResponseDto cart :cartList){
-            String itemCode = cart.getItemCode();
-            itemList.add(productService.findById(Long.parseLong(itemCode)));
-        }
-
-        model.addAttribute("itemList", itemList);
-        model.addAttribute("cartList", cartList);
-
-        return "/user/order/shopping-basket";
-
-    }
+//    @GetMapping("/order")
+//    public String order(Model model) {
+//
+//        // HttpSession session = request.getSession(false);
+//        // String memberId = (String)session.getAttribute("memberId");
+//        // String sessionId = (String)session.getAttribute("sessionId");
+//
+//        // 비회원일때
+////        String memberId = null;
+////        String sessionId = "bf6f75a4-a1e9-4c0b-9b17-e9b6b5c0e5ed";
+//
+//        // 회원일 때
+//        String memberId = "hong";
+//        String sessionId = null;
+//
+//        List<CartResponseDto> cartList = null;
+//        List<ProductResponseDto> itemList = new ArrayList<>();
+//
+//        if (memberId != null) { // 회원일 때
+//            cartList = service2.findByMemberIdCart(memberId);
+//        }else{ // 비회원일때
+//            cartList = service2.findBySessionId(sessionId);
+//        }
+//
+//        // itemList
+//        for (CartResponseDto cart :cartList){
+//            String itemCode = cart.getItemCode();
+//            itemList.add(productService.findById(Long.parseLong(itemCode)));
+//        }
+//
+//        model.addAttribute("itemList", itemList);
+//        model.addAttribute("cartList", cartList);
+//
+//        return "/user/order/shopping-basket";
+//
+//    }
 
     @GetMapping("/order/test1")
     public String orderTest1(Model model,  HttpServletResponse response) {
 
         Cookie cookie;
 
-        cookie = new Cookie("itemCode", "20001");
+        cookie = new Cookie("itemIdx.20001", "퍼플..2"); // 색상.사이즈.수량
         response.addCookie(cookie);
-        cookie = new Cookie("itemName", "퍼프블라우스");
+        cookie = new Cookie("itemIdx.20003", ".S.4");
         response.addCookie(cookie);
-        cookie = new Cookie("itemOptionColor", "화이트");
+        cookie = new Cookie("itemIdx.20007", "연청.M.1");
         response.addCookie(cookie);
-        cookie = new Cookie("itemOptionSize", "FREE");
-        response.addCookie(cookie);
-        cookie = new Cookie("cartItemAmount", "1");
-        response.addCookie(cookie);
-        cookie = new Cookie("cartItemOriginalPrice", "49000");
-        response.addCookie(cookie);
-        cookie = new Cookie("cartDiscountPrice", "4900");
-        response.addCookie(cookie);
-        cookie = new Cookie("cartItemPrice", "44100");
+        cookie = new Cookie("itemIdx.20007", "연청.S.3");
         response.addCookie(cookie);
 
-        return "/user/order/test";
+        return "redirect:/order";
 
     }
 
-    @GetMapping("/order/test2")
-    @ResponseBody
-    public String orderTest2(Model model) {
+    @GetMapping("/order")
+    public String order(Model model, HttpServletRequest request) {
 
+        List<ProductResponseDto> itemList = new ArrayList<>();
+        List<CartResponseDto> cartList = new ArrayList<>();
+
+        Cookie[] cookies = request.getCookies(); // 모든 쿠키 가져오기
+        if(cookies!=null){
+            for (Cookie c : cookies) {
+                String name = c.getName(); // 쿠키 이름 가져오기
+                String value = c.getValue(); // 쿠키 값 가져오기
+
+                if (name.startsWith("itemIdx.")) {
+                    System.out.println(name);
+                    System.out.println(value);
+
+                    // itemList
+                    Long itemNo = Long.parseLong(name.split("\\.")[1]);
+                    System.out.println(itemNo);
+                    ProductResponseDto productResponseDto = productService.findById(itemNo);
+                    itemList.add(productResponseDto);
+
+                    // cartList
+                    String[] valueList = value.split("\\.");
+                    CartResponseDto cartResponseDto = CartResponseDto.builder()
+                            .itemName(productResponseDto.getItemName())
+                            .itemOptionColor(valueList[0])
+                            .itemOptionSize(valueList[1])
+                            .cartItemAmount(Long.parseLong(valueList[2]))
+                            .cartItemOriginalPrice(productResponseDto.getItemPrice())
+                            .cartDiscountPrice(productResponseDto.getItemDiscountRate())
+                            .cartItemPrice(productResponseDto.getItemPrice())
+                            .build();
+                    cartList.add(cartResponseDto);
+
+                }
+            }
+        }
+
+        model.addAttribute("itemList", itemList);
+        model.addAttribute("cartList", cartList);
 
         return "/user/order/shopping-basket";
 

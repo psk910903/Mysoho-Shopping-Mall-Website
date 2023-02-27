@@ -1,6 +1,7 @@
 package com.study.springboot.dto.cart;
 
 import com.study.springboot.entity.CartEntity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,5 +45,22 @@ public class CartResponseDto {
         this.cartDate = entity.getCartDate();
     }
 
-
+    @Builder
+    public CartResponseDto(Long cartNo, String cartCode, Long orderNo, String memberId, String sessionId, String itemCode, String itemName, String itemOptionColor, String itemOptionSize, Long cartItemAmount, Long cartItemOriginalPrice, Long cartDiscountPrice, Long cartItemPrice, LocalDateTime cartDate, String itemImageUrl) {
+        this.cartNo = cartNo;
+        this.cartCode = cartCode;
+        this.orderNo = orderNo;
+        this.memberId = memberId;
+        this.sessionId = sessionId;
+        this.itemCode = itemCode;
+        this.itemName = itemName;
+        this.itemOptionColor = itemOptionColor;
+        this.itemOptionSize = itemOptionSize;
+        this.cartItemAmount = cartItemAmount;
+        this.cartItemOriginalPrice = cartItemOriginalPrice;
+        this.cartDiscountPrice = cartDiscountPrice;
+        this.cartItemPrice = cartItemPrice;
+        this.cartDate = cartDate;
+        this.itemImageUrl = itemImageUrl;
+    }
 }
