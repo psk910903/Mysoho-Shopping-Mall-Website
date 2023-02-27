@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -77,16 +78,9 @@
 <div class="wrap">
   <div class="betweenbtn">
     <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
-    <!--        <script>-->
-    <!--        -->
-    <!--          $(".betweenbtn").load("/public-object/betweenbtn.html")-->
-    <!--        </script>-->
   </div>
   <div class="header">
     <div th:replace="/fragments/header.html :: fragment-header"></div>
-    <!--        <script>-->
-    <!--          $(".header").load("/public-object/header.html");-->
-    <!--        </script>-->
   </div>
   <!-- 나의 적립금 -->
   <div class="container-mileage">
@@ -95,7 +89,8 @@
     </div>
     <div class="users-cont" id="mileage">
       <div>보유 적립금</div>
-      <div class="mileage-price" th:text="|${memberMileage}원|">0원</div>
+      <div class="mileage-price" >
+        <span   th:text="${session.memberMileage}"></span>원</div>
       <div class="info-balloon">
         <p></p>
         <img
@@ -104,14 +99,13 @@
         />보유 적립금 0원 부터 사용 가능합니다.
       </div>
     </div>
-    <div class="non-data" th:if="${memberMileage}==0"> 보유한 마일리지가 없습니다.</div>
+    <div class="non-data"  th:if="${session.memberMileage}==0" > 보유한 마일리지가 없습니다.</div>
+
+
   </div>
   <!-- 푸터 -->
   <div class="footer">
     <div th:replace="/fragments/footer.html :: fragment-footer"></div>
-    <!--        <script>-->
-    <!--          $(".footer").load("/public-object/footer.html");-->
-    <!--        </script>-->
   </div>
 </div>
 <script
