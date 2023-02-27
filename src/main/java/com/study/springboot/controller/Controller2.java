@@ -275,13 +275,9 @@ public class Controller2 {
     final QnaService qnaService;
 
     @GetMapping("/qna/user")
-    public String qnaUser(Model model) {
-
-//        HttpSession session = request.getSession(false);
-//        Long memberNo = (String)session.getAttribute("memberNo");
-
-        String memberId = "sung";
-
+    public String qnaUser(Model model,
+                          @AuthenticationPrincipal User user) {
+        String memberId = user.getUsername();
         List<QnaResponseDto> qnaList = service2.findByMemberIdQna(memberId);
         List<Long> replyCountList = new ArrayList<>();
 
