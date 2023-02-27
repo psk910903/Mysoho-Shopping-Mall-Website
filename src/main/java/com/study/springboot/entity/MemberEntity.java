@@ -18,9 +18,9 @@ public class MemberEntity {
     @Column(name = "member_no")
     private Long memberNo;
     @Column(name = "member_id")
-    private String memberId;
+    private String username;
     @Column(name = "member_pw")
-    private String memberPw;
+    private String password;
     @Column(name = "member_name")
     private String memberName;
     @Column(name = "member_rate")
@@ -59,8 +59,8 @@ public class MemberEntity {
                         LocalDate memberJoinDatetime, LocalDate memberExitDatetime,
                         String memberExited) {
         this.memberNo = memberNo;
-        this.memberId = username;
-        this.memberPw = password;
+        this.username = username;
+        this.password = password;
         this.memberName = memberName;
         this.memberRate = memberRate;
         this.memberEmail = memberEmail;
@@ -73,5 +73,19 @@ public class MemberEntity {
         this.memberJoinDatetime = memberJoinDatetime;
         this.memberExitDatetime = memberExitDatetime;
         this.memberExited = memberExited;
+    }
+
+    public void update(String password, String memberName,
+                       String memberEmail, String memberPhone,
+                       String memberAddrNumber, String memberAddr1,
+                       String memberAddr2 ) {
+        this.password = password;
+        this.memberName = memberName;
+        this.memberEmail = memberEmail;
+        this.memberPhone = memberPhone;
+        this.memberAddrNumber = memberAddrNumber;
+        this.memberAddr1 = memberAddr1;
+        this.memberAddr2 = memberAddr2;
+
     }
 }
