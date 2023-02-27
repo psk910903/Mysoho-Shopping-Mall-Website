@@ -83,6 +83,7 @@
         <tbody id="tbody">
         <tr th:each="dto:${ list }">
           <form action="/admin/product/list/modify/action" method="post" enctype="multipart/form-data">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
           <td class="align-middle"><input type="checkbox" name="RowCheck" th:value="${ dto.itemNo }"></td>
           <td class="align-middle" th:text="${ dto.itemNo }">상품코드</td>
           <!--          이미지-->

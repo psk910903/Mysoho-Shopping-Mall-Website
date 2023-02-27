@@ -25,6 +25,7 @@ import java.text.ParseException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Controller
@@ -344,17 +345,66 @@ public class Controller1 {
 
     List<OrderResponseDto> orderList = service1.findByOrder(dto);
     List<CartResponseDto> cartList = new ArrayList<>();
+
+    int stateType1 = 0;
+    int stateType2 = 0;
+    int stateType3 = 0;
+    int stateType4 = 0;
+    int stateType5 = 0;
+
+    
+
     for (int i = 0; i < orderList.size(); i++) {
-      OrderResponseDto orderResponseDto = orderList.get(i);
-      cartList = service1.getCartListNonMember(orderResponseDto);
+      OrderResponseDto orderDto = orderList.get(i);
+      String orderState = orderDto.getOrderState();
+      if (orderState.equals("결제대기")) {
+        stateType1++;
+      } else if (orderState.equals("배송대기")) {
+        stateType2++;
+      }else if (orderState.equals("배송중")) {
+        stateType3++;
+      } else if (orderState.equals("배송완료")) {
+        stateType4++;
+      } else { //취소/반품
+        stateType5++;
+      }
+      //비회원 주문번호에서 카트정보 가져오기
+      cartList = service1.getCartListNonMember(orderDto);
+
+      Long originalPrice =0L;
+      Long discountPrice =0L;
+      Long itemPrice =0L;
+
+      for (int j = 0; j < cartList.size(); j++) {
+
+        if (Objects.equals(cartList.get(j).getOrderNo(), orderDto.getOrderNo())) {
+          originalPrice += cartList.get(j).getCartItemOriginalPrice();
+          discountPrice += cartList.get(j).getCartDiscountPrice();
+          itemPrice += cartList.get(j).getCartItemPrice();
+        }
+
+      }
+      orderDto.setOrderItemOriginalPrice(originalPrice); //(할인 전)상품가격
+      orderDto.setOrderDiscountPrice(discountPrice);//할인율이 적용된 차감될 금액
+      orderDto.setOrderItemPrice(itemPrice); // (할인 적용된 결제당시)상품가격
     }
-    int count = cartList.size();
-    model.addAttribute("count", count);
+    int cartCount = cartList.size();
+    int orderCount = orderList.size();
+    model.addAttribute("orderCount", orderCount);
+    model.addAttribute("stateType1", stateType1);
+    model.addAttribute("stateType2", stateType2);
+    model.addAttribute("stateType3", stateType3);
+    model.addAttribute("stateType4", stateType4);
+    model.addAttribute("stateType5", stateType5);
+
+    model.addAttribute("cartCount", cartCount);
     model.addAttribute("orderList", orderList);
     model.addAttribute("cartList", cartList);
+
+
+
     return "/user/user/myorder-list";
   }
-
 }
 
 

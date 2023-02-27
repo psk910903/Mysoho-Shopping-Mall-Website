@@ -25,7 +25,12 @@
           <table class="table table-bordered" >
             <tr>
               <th style="text-align: center;" class="w250 table-light align-middle">작성자</th>
-              <td  th:text="${ dto.memberId }" >작성자</td>
+              <th:block th:if="${dto.memberId != null} or ${dto.memberId} == ''">
+                <td  th:text="${ dto.memberId }" >작성자</td>
+              </th:block>
+              <th:block th:unless="${dto.memberId != null} or ${dto.memberId} == ''">
+                <td >비회원</td>
+              </th:block>
             </tr>
             <tr>
               <th style="text-align: center;" class="w250 table-light align-middle">상품명</th>
@@ -52,6 +57,7 @@
         <div class="contentWrap" th:each="reply,status : ${list}">
           <form action="/admin/inquiry/modifyAction" method="post"
                 name="userInfo" onsubmit="return checkValue();">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <h3 class="sub-title"> 답변</h3>
             <table class="table table-bordered" >
               <tr>
@@ -86,6 +92,7 @@
         <div>
           <form action="writeAction" method="post"
                 name="userInfo" onsubmit="return checkValue();">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <h3 class="sub-title"> 답변 등록</h3>
             <table class="table table-bordered" >
               <tr>

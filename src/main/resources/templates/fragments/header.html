@@ -1,118 +1,137 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="fragment-header">
-<div class="side-icon-left">
-  <div id="mySidenav" class="sidenav">
-    <div>
-      <div class="aside-hd">
+  <th:block th:fragment="fragment-header">
+    <div class="side-icon-left">
+      <div id="mySidenav" class="sidenav">
         <div>
-          <a href="/">
-            <img
-              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h40_home.gif"
-              alt=""
-            />
-          </a>
+          <div class="aside-hd">
+            <div>
+              <a href="/">
+                <img
+                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h40_home.gif"
+                  alt=""
+                />
+              </a>
+            </div>
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+              >&times;</a
+            >
+          </div>
+          <ul class="aside-cont">
+            <li><a href="/plan/item/SALE">♡ NURIRI SALE ♡</a></li>
+            <li><a href="/plan/item/TOP">TOP</a></li>
+            <li><a href="/plan/item/BOTTOM">BOTTOM</a></li>
+            <li><a href="/plan/item/ONE-PIECE">ONE-PIECE</a></li>
+            <li><a href="/plan/item/ACC" id="acc">ACC</a></li>
+          </ul>
+          <div class="aside-bot">
+            <div class="aside-notice">
+              <a href="/notice"
+                ><img
+                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_notice.png"
+                  alt=""
+                />
+                공지사항</a
+              >
+            </div>
+            <div class="aside-qna">
+              <a href="/qna"
+                ><img
+                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_qna_h25.png"
+                  alt=""
+                />
+                Q&A 게시판</a
+              >
+            </div>
+          </div>
         </div>
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
-          >&times;</a
+      </div>
+      <div
+        class="btn-hambergerMenu"
+        style="cursor: pointer"
+        onclick="openNav()"
+      >
+        <img
+          src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_hamburger_menu_000000.png"
+          alt=""
+        />
+      </div>
+      <a href="javascript:openSearch()" class="btn-serch">
+        <img
+          class="openBtn"
+          src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_search_000000.png"
+          alt=""
+      /></a>
+      <div id="myOverlay" class="overlay">
+        <span class="closebtn" onclick="closeSearch()" title="Close Overlay"
+          >×</span
         >
-      </div>
-      <ul class="aside-cont">
-        <li><a href="/plan/item/SALE">♡ NURIRI SALE ♡</a></li>
-        <li><a href="/plan/item/TOP">TOP</a></li>
-        <li><a href="/plan/item/BOTTOM">BOTTOM</a></li>
-        <li><a href="/plan/item/ONE-PIECE">ONE-PIECE</a></li>
-        <li><a href="/plan/item/ACC" id="acc">ACC</a></li>
-      </ul>
-      <div class="aside-bot">
-        <div class="aside-notice">
-          <a href="/notice"
-            ><img
-              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_notice.png"
-              alt=""
-            />
-            공지사항</a
-          >
-        </div>
-        <div class="aside-qna">
-          <a href="/qna"
-            ><img
-              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_qna_h25.png"
-              alt=""
-            />
-            Q&A 게시판</a
-          >
+        <div class="overlay-inner">
+          <h3>어떤 상품을 찾고 계신가요?</h3>
+          <div class="overlay-content">
+            <form action="/search" name="keywordForm">
+              <input
+                type="text"
+                placeholder="검색어를 입력해주세요"
+                name="keyword"
+                id="keyword"
+              />
+              <button type="button" onclick="checkTxt()">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="btn-hambergerMenu" style="cursor: pointer" onclick="openNav()">
-    <img
-      src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_hamburger_menu_000000.png"
-      alt=""
-    />
-  </div>
-  <a href="javascript:openSearch()" class="btn-serch">
-    <img
-      class="openBtn"
-      src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_search_000000.png"
-      alt=""
-  /></a>
-  <div id="myOverlay" class="overlay">
-    <span class="closebtn" onclick="closeSearch()" title="Close Overlay"
-      >×</span
-    >
-    <div class="overlay-inner">
-      <h3>어떤 상품을 찾고 계신가요?</h3>
-      <div class="overlay-content">
-        <form action="/search" name="keywordForm">
-          <input
-            type="text"
-            placeholder="검색어를 입력해주세요"
-            name="keyword"
-            id="keyword"
-          />
-          <button type="button" onclick="checkTxt()">
-            <i class="fa fa-search"></i>
-          </button>
-        </form>
-      </div>
+    <a href="/"
+      ><img
+        class="logo"
+        src="https://img.makeshop.co.kr/1/1371/201908/583f98cc6e004ec7b3ba880bf0eaf1c9.png"
+        alt=""
+    /></a>
+    <div class="side-icon-right">
+      <div class="basket-num" type="Number">0</div>
+      <a class="btn-basket" href="/order/shopping-basket.html">
+        <img
+          src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_basket_000000.png"
+          alt=""
+        />
+      </a>
+
+      <a href="/user/login" class="btn-login"
+        ><img
+          src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logoff_000000.png"
+          alt=""
+      /></a>
     </div>
-  </div>
-</div>
-<a href="/"
-  ><img
-    class="logo"
-    src="https://img.makeshop.co.kr/1/1371/201908/583f98cc6e004ec7b3ba880bf0eaf1c9.png"
-    alt=""
-/></a>
-<div class="side-icon-right">
-  <a class="btn-basket" href="/order/shopping-basket.html">
-    <img
-      src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_basket_000000.png"
-      alt=""
-    />
-  </a>
-
-  <a href="/user/login" class="btn-login"
-    ><img
-      src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logoff_000000.png"
-      alt=""
-  /></a>
-</div>
-  <script>
-
+    <script>
       function checkTxt() {
         // 입력값이 공백일 때
         let val = document.querySelector("#keyword").value;
         if (val === "") {
           alert("검색어를 입력해주세요.");
-
-        } else{
-        let key = document.keywordForm;
-        key.value = val;
-        key.submit();
+        } else {
+          let key = document.keywordForm;
+          key.value = val;
+          key.submit();
         }
       }
+
+      function getCookies() {
+        /* 로컬에 저장된 쿠키 뿌려주기 */
+        const allCookies = document.cookie;
+        // 하나의 문자열로 리턴 --> cookie1=value; cookie2=value; cookie3=value
+        console.log(typeof allCookies); // string
+
+        /* if 조건문 -> 쿠키가 있으면 */
+        if (allCookies != "")
+          alert(
+            `저장된 쿠키의 값은 ${allCookies} \n다시 방문해주셔서 환영합니다.`
+          );
+        else alert(`저장된 쿠키가 없습니다. \n(첫방문을 환영합니다.)`);
+      }
     </script>
-</th:block>
+
+  </th:block>
+</html>

@@ -60,8 +60,8 @@
           <span>전체 문의 내역 : </span>
           <strong th:text="${ listCount }">5</strong>
 
-          <span>검색 내역 : </span>
-          <strong th:text="${ count }">5</strong>
+<!--          <span>검색 내역 : </span>-->
+<!--          <strong th:text="${ count }">5</strong>-->
         </div>
       </div>
 
@@ -81,7 +81,12 @@
           <td class="align-middle" th:text="${ dto.inquiryNo }">번호</td>
           <td class="align-middle" th:text="${ itemList[status.index]  }">상품명</td>
           <td class="align-middle" th:text="${ dto.inquiryContent }">내용</td>
+          <th:block th:if="${dto.memberId != null} or ${dto.memberId} == ''">
           <td class="align-middle" th:text="${ dto.memberId }">작성자</td>
+          </th:block>
+          <th:block th:unless="${dto.memberId != null} or ${dto.memberId} == ''">
+            <td class="align-middle" >비회원</td>
+          </th:block>
           <td class="align-middle" th:text="${ dto.inquiryHit }">조회수</td>
           <td class="align-middle" th:text="${#temporals.format(dto.inquiryDatetime, 'yyyy-MM-dd HH:mm')}">작성일</td>
           <td class="align-middle">

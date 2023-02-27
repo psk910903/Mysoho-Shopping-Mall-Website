@@ -77,8 +77,13 @@ public class OrderService {
         try {
             OrderEntity entity = orderRepository.findById(dto.getOrderNo()).get();
             OrderResponseDto responseDto = new OrderResponseDto(entity);
-            dto.setOrderDatetime(responseDto.getOrderDatetime());
-            orderRepository.save(dto.toEntity());
+            responseDto.setOrderRecipientName(dto.getOrderRecipientName());
+            responseDto.setOrderRecipientPhone(dto.getOrderRecipientPhone());
+            responseDto.setOrderRecipientAddrNumber(dto.getOrderRecipientAddrNumber());
+            responseDto.setOrderRecipientAddr1(dto.getOrderRecipientAddr1());
+            responseDto.setOrderRecipientAddr2(dto.getOrderRecipientAddr2());
+            responseDto.setOrderState(dto.getOrderState());
+            orderRepository.save(responseDto.toEntity());
         } catch (Exception e) {
             e.printStackTrace();
             return false;

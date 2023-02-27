@@ -30,6 +30,10 @@ public class OrderResponseDto {
     private String orderState; // 주문상태
     private LocalDateTime orderDatetime;
 
+    private Long orderItemOriginalPrice;//(할인 전)상품가격
+    private Long orderDiscountPrice;//할인율이 적용된 차감될 금액
+    private Long orderItemPrice; // (할인 적용된 결제당시)상품가격
+
     public OrderResponseDto(OrderEntity entity) {
         this.orderNo = entity.getOrderNo();
         this.cartCode1 = entity.getCartCode1();
@@ -57,6 +61,10 @@ public class OrderResponseDto {
         return OrderEntity.builder()
                 .orderNo(orderNo)
                 .cartCode1(cartCode1)
+                .cartCode2(cartCode2)
+                .cartCode3(cartCode3)
+                .cartCode4(cartCode4)
+                .cartCode5(cartCode5)
                 .orderTotalPrice(orderTotalPrice)
                 .orderTotalCount(orderTotalCount)
                 .orderName(orderName)

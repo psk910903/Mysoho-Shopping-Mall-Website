@@ -20,13 +20,18 @@
     <link rel="stylesheet" href="/css/myorder-list-user.css" />
   </head>
   <body>
-  <th:block th:if="${count == 0}" >
-    <script>alert('주문 정보가 없습니다.');location.href='/myorder'; </script>
-  </th:block>
+    <th:block th:if="${cartCount == 0}">
+      <script>
+        alert("주문 정보가 없습니다.");
+        location.href = "/myorder";
+      </script>
+    </th:block>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <div class="wrap">
       <div class="betweenbtn">
-        <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
+        <div
+          th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"
+        ></div>
       </div>
       <div class="header">
         <div th:replace="/fragments/header.html :: fragment-header"></div>
@@ -46,7 +51,13 @@
             <div class="order-status-info">
               <div class="grow red">
                 <div class="count order-status-item">
-                  <a href="javascript: changeRed(0) " id="value0"> 1</a>
+                  <a
+                    th:text="(${ orderCount })"
+                    href="javascript: changeRed(0) "
+                    id="value0"
+                  >
+                    0</a
+                  >
                 </div>
                 <div class="countName order-status-item">
                   <a href="javascript: changeRed(0)">전체</a>
@@ -54,7 +65,13 @@
               </div>
               <div class="grow">
                 <div class="count order-status-item">
-                  <a href="javascript: changeRed(1) " id="value1">1</a>
+                  <a
+                    th:text="(${ stateType1 })"
+                    href="javascript: changeRed(0) "
+                    id="value1"
+                  >
+                    0</a
+                  >
                 </div>
                 <div class="countName order-status-item">
                   <a href="javascript: changeRed(1)">미입금/주문완료</a>
@@ -62,7 +79,12 @@
               </div>
               <div class="grow">
                 <div class="count order-status-item">
-                  <a href="javascript: changeRed(2) " id="value2">0</a>
+                  <a
+                    th:text="(${ stateType2 })"
+                    href="javascript: changeRed(2) "
+                    id="value2"
+                    >0</a
+                  >
                 </div>
                 <div class="countName order-status-item">
                   <a href="javascript: changeRed(2)">배송대기</a>
@@ -73,7 +95,12 @@
             <div class="order-status-info">
               <div class="grow">
                 <div class="count order-status-item">
-                  <a href="javascript: changeRed(3)" id="value3">0</a>
+                  <a
+                    th:text="(${ stateType3 })"
+                    href="javascript: changeRed(3)"
+                    id="value3"
+                    >0</a
+                  >
                 </div>
                 <div class="countName order-status-item">
                   <a href="javascript: changeRed(3)">배송중</a>
@@ -81,7 +108,12 @@
               </div>
               <div class="grow">
                 <div class="count order-status-item">
-                  <a href="javascript: changeRed(4) " id="value4">0</a>
+                  <a
+                    th:text="(${ stateType4 })"
+                    href="javascript: changeRed(4) "
+                    id="value4"
+                    >0</a
+                  >
                 </div>
                 <div class="countName order-status-item">
                   <a href="javascript: changeRed(4)">배송/처리완료</a>
@@ -89,174 +121,216 @@
               </div>
               <div class="grow">
                 <div class="count order-status-item">
-                  <a href="javascript: changeRed(5) " id="value5">0</a>
+                  <a
+                    th:text="(${ stateType5 })"
+                    href="javascript: changeRed(5) "
+                    id="value5"
+                    >0</a
+                  >
                 </div>
                 <div class="countName order-status-item">
                   <a href="javascript: changeRed(5)">취소/반품/교환</a>
                 </div>
               </div>
             </div>
-            <!-- 구분선 -->
-            <div class="bg-blank"></div>
+
           </div>
-          <div th:each="dto:${ orderList }" class="order_list list-type0 list-type1" >
-            <th:block th:if="${dto.orderNo != null}" >
-            <div class="list-wrap">
-              <div class="list-hd">
-                <div>
-                  <div class="od-num" th:text="${ (dto.orderNo) }">2023010608355933</div>
-                  <div class="od-date" th:text="${#temporals.format(dto.orderDatetime, 'yyyy-MM-dd HH:mm')}">2023-01-06 08:35:59</div>
-                </div>
-                <button
-                  class="btn-h30-black open-layer btn-order-layer"
-                  id="show-order-list"
-                >
-                  주문정보
-                </button>
-                <div class="bg">
-                  <div class="window">
-                    <div class="popup">
-                      <div class="lhd">
-                        <div>주문번호</div>
-                        <div class="ord-num" th:text="${ (dto.orderNo) }">2023010608355933</div>
-                        <button id="closeBtn">
-                          <img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
-                            alt=""
-                          />
-                        </button>
-                      </div>
-                      <div class="lcont">
-                        <div class="lcont-con">
-                          <div class="lcont-tit">주문자 정보</div>
-                          <div class="lcont-info">
-                            <span th:text="|${ (dto.orderName) }, |">주문자명</span>
-                            <span th:text="${ (dto.orderPhone) }">주문자연락처</span>
-                          </div>
-                        </div>
-                        <div class="lcont-con">
-                          <div class="lcont-tit">배송지 정보</div>
-                          <div class="lcont-info">
-                            <span th:text="|(${ (dto.orderRecipientAddrNumber) }) |">우편번호</span>
-                            <span th:text="|${ (dto.orderRecipientAddr1) }" |>주소1</span>
-                            <span th:text="${ (dto.orderRecipientAddr1) }">주소2</span>
-                          </div>
-                        </div>
-                        <div class="lcont-con">
-                          <div class="lcont-tit">결제정보</div>
-                          <th:block th:if="${dto.orderPayType} == '무통장입금'">
-                          <div class="lcont-info">무통장</div>
-                          <div class="lcont-info">
-                            기업은행 0106-859-3030119
-                          </div>
-                          <div class="lcont-info">(예금주: 소호나라)</div>
-                          </th:block>
-                          <th:block th:unless="${dto.orderPayType} == '무통장입금'">
-                            <div class="lcont-info">휴대폰결제</div>
-                          </th:block>
-                        </div>
-<!--                        0226 여기까지 함-->
-                        <div class="lcont-con">
-                          <div class="lcont-tit">결제금액</div>
-                          <div class="between">
-                            <div class="lcont-tit-sub">총 상품금액</div>
-                            <div class="lcont-info-sub" >49,000원</div>
-                          </div>
-                          <div class="between">
-                            <div class="lcont-tit-sub">총 배송비</div>
-                            <div class="lcont-info-sub">+ 0원</div>
-                          </div>
-                          <div class="between">
-                            <div class="lcont-tit-gray">- 기본 배송비</div>
-                            <div class="lcont-info-gray">(+)0원</div>
-                          </div>
-                          <div class="between">
-                            <div class="lcont-tit-gray">- 지역 배송비</div>
-                            <div class="lcont-info-gray">(+)0원</div>
-                          </div>
-                          <div class="between">
-                            <div class="lcont-tit-sub">
-                              총 할인/적립금 사용 금액
-                            </div>
-                            <div class="lcont-info-sub">- 4,500원</div>
-                          </div>
-                          <div class="between">
-                            <div class="lcont-tit-gray">- 상품 할인</div>
-                            <div class="lcont-info-gray">(-)4,500원</div>
-                          </div>
-                          <div class="between">
-                            <div class="lcont-tit-gray">- 쿠폰</div>
-                            <div class="lcont-info-gray">(+)0원</div>
-                          </div>
-                          <div class="between">
-                            <div class="lcont-tit-gray">
-                              - 프로모션 할인코드
-                            </div>
-                            <div class="lcont-info-gray">(+)0원</div>
-                          </div>
-                          <div class="between">
-                            <div class="lcont-tit-gray">- 적립금 사용</div>
-                            <div class="lcont-info-gray">(+)0원</div>
-                          </div>
+          <!-- 구분선 -->
+          <div class="bg-blank"></div>
+          <div
+            th:each="dto:${ orderList }"
+            class="order_list list-type0 list-type1"
+          >
 
-                          <div class="between final">
-                            <div class="final-price-tit">최종 결제금액</div>
-                            <div class="final-price">
-                              44,500
-                              <span class="final-price-tit"> 원</span>
+            <th:block th:if="${dto.orderNo != null}">
+              <div class="list-wrap">
+                <div class="list-hd">
+                  <div>
+                    <div class="od-num" th:text="${ (dto.orderNo) }">
+                      2023010608355933
+                    </div>
+                    <div
+                      class="od-date"
+                      th:text="${#temporals.format(dto.orderDatetime, 'yyyy-MM-dd HH:mm')}"
+                    >
+                      2023-01-06 08:35:59
+                    </div>
+                  </div>
+                  <button
+                    class="btn-h30-black open-layer btn-order-layer"
+                    id="show-order-list"
+                  >
+
+                    주문정보
+                  </button>
+                  <div class="bg">
+                    <div class="window">
+                      <div class="popup">
+                        <div class="lhd">
+                          <div>주문번호</div>
+                          <div th:text="${ (dto.orderNo) }" class="ord-num" >
+                            2023010608355933
+                          </div>
+                          <button id="closeBtn">
+                            <img
+                              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
+                              alt=""
+                            />
+                          </button>
+                        </div>
+                        <div class="lcont">
+                          <div class="lcont-con">
+                            <div class="lcont-tit">주문자 정보</div>
+                            <div class="lcont-info">
+                              <span th:text="|${ (dto.orderName) }, |"
+                                >주문자명</span
+                              >
+                              <span th:text="${ (dto.orderPhone) }"
+                                >주문자연락처</span
+                              >
                             </div>
                           </div>
-                        </div>
-                        <div class="lcont-con">
-                          <div class="lcont-tit">환불/재결제 금액</div>
-                          <div class="between">
-                            <div class="lcont-tit-sub">환불금액</div>
-                            <div class="lcont-info-sub">- 0원</div>
+                          <div class="lcont-con">
+                            <div class="lcont-tit">배송지 정보</div>
+                            <div class="lcont-info">
+                              <span
+                                th:text="|(${ (dto.orderRecipientAddrNumber) }) |"
+                                >우편번호</span
+                              >
+                              <span th:text="|${ (dto.orderRecipientAddr1) }" |
+                                >주소1</span
+                              >
+                              <span th:text="${ (dto.orderRecipientAddr1) }"
+                                >주소2</span
+                              >
+                            </div>
                           </div>
-                          <div class="between">
-                            <div class="lcont-tit-sub">재결제금액</div>
-                            <div class="lcont-info-sub">+ 0원</div>
+                          <div class="lcont-con">
+                            <div class="lcont-tit">결제정보</div>
+                            <th:block
+                              th:if="${dto.orderPayType} == '무통장입금'"
+                            >
+                              <div class="lcont-info">무통장</div>
+                              <div class="lcont-info">
+                                기업은행 0106-859-3030119
+                              </div>
+                              <div class="lcont-info">(예금주: 소호나라)</div>
+                            </th:block>
+                            <th:block
+                              th:unless="${dto.orderPayType} == '무통장입금'"
+                            >
+                              <div class="lcont-info">휴대폰결제</div>
+                            </th:block>
                           </div>
-                        </div>
-                        <div></div>
+                          <!--                        0226 여기까지 함-->
+                          <div class="lcont-con">
+                            <div class="lcont-tit">결제금액</div>
+                            <div class="between">
+                              <div class="lcont-tit-sub">총 상품금액</div>
+                              <div data-th-text="${#numbers.formatInteger(dto.orderItemOriginalPrice, 3, 'COMMA') + '원'}" class="lcont-info-sub">- 4,500원</div>
+                            </div>
+                            <div class="between">
+                              <div class="lcont-tit-sub">총 배송비</div>
+                              <div class="lcont-info-sub">+ 0원</div>
+                            </div>
+                            <div class="between">
+                              <div class="lcont-tit-gray">- 기본 배송비</div>
+                              <div class="lcont-info-gray">(+)0원</div>
+                            </div>
+                            <div class="between">
+                              <div class="lcont-tit-gray">- 지역 배송비</div>
+                              <div class="lcont-info-gray">(+)0원</div>
+                            </div>
+                            <div class="between">
+                              <div class="lcont-tit-sub">
+                                총 할인/적립금 사용 금액
+                              </div>
+                              <div data-th-text="'- ' + ${#numbers.formatInteger(dto.orderDiscountPrice, 3, 'COMMA') + '원'}" class="lcont-info-sub">- 4,500원</div>
+                            </div>
+                            <div class="between">
+                              <div class="lcont-tit-gray">- 상품 할인</div>
+                              <div data-th-text="'(-)' + ${#numbers.formatInteger(dto.orderDiscountPrice, 3, 'COMMA') + '원'}" class="lcont-info-gray">(-)4,500원</div>
+                            </div>
+                            <div class="between">
+                              <div class="lcont-tit-gray">- 쿠폰</div>
+                              <div class="lcont-info-gray">(-)0원</div>
+                            </div>
+                            <div class="between">
+                              <div class="lcont-tit-gray">
+                                - 프로모션 할인코드
+                              </div>
+                              <div class="lcont-info-gray">(-)0원</div>
+                            </div>
+                            <div class="between">
+                              <div class="lcont-tit-gray">- 적립금 사용</div>
+                              <div class="lcont-info-gray">(-)0원</div>
+                            </div>
 
-                        <button
-                          type="submit"
-                          class="btn-h42-gray"
-                          id="closeBtnStr"
-                        >
-                          닫기
-                        </button>
+                            <div class="between final">
+                              <div class="final-price-tit">최종 결제금액</div>
+                              <div  class="final-price" >
+                                <span data-th-text="${#numbers.formatInteger(dto.orderItemPrice, 3, 'COMMA')}" > </span>
+                                <span class="final-price-tit"> 원</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="lcont-con">
+                            <div class="lcont-tit">환불/재결제 금액</div>
+                            <div class="between">
+                              <div class="lcont-tit-sub">환불금액</div>
+                              <div class="lcont-info-sub">- 0원</div>
+                            </div>
+                            <div class="between">
+                              <div class="lcont-tit-sub">재결제금액</div>
+                              <div class="lcont-info-sub">+ 0원</div>
+                            </div>
+                          </div>
+                          <div></div>
+
+                          <button
+                            type="submit"
+                            class="btn-h42-gray"
+                            id="closeBtnStr"
+                          >
+                            닫기
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div class="list" th:each="cart:${ cartList }">
-              <th:block th:if="${cart.orderNo == dto.orderNo}">
-              <a href="product-top1.html">
-                <img
-                  th:src="${ cart.itemImageUrl }"
-                  alt=""
-                />
-              </a>
-              <div class="info">
-                <div class="label type1" th:text="${ dto.orderState }">결제대기</div>
-                <div class="name" th:text="${ cart.itemName }" >퍼프 블라우스 퍼플</div>
-                <div class="price" data-th-text="${#numbers.formatInteger(cart.cartItemPrice, 3, 'COMMA') + '원'}">44,500원</div>
-                <div class="option" th:text="|/ ${ cart.cartItemAmount }개|">/ 1개</div>
+              <div class="list" th:each="cart:${ cartList }">
+                <th:block th:if="${cart.orderNo == dto.orderNo}">
+                  <a th:href="|/product/${cart.itemCode}|">
+                    <img th:src="${ cart.itemImageUrl }" alt="" />
+                  </a>
+                  <div class="info">
+                    <div class="label type1" th:text="${ dto.orderState }">
+                      결제대기
+                    </div>
+                    <div class="name" th:text="${ cart.itemName }">
+                      퍼프 블라우스 퍼플
+                    </div>
+                    <div
+                      class="price"
+                      data-th-text="${#numbers.formatInteger(cart.cartItemPrice, 3, 'COMMA') + '원'}"
+                    >
+                      44,500원
+                    </div>
+                    <div
+                      class="option"
+                      th:text="|/ ${ cart.cartItemAmount }개|"
+                    >
+                      / 1개
+                    </div>
+                  </div>
+                  <!-- 구분선 -->
+                </th:block>
               </div>
-              <!-- 구분선 -->
-              </th:block>
-
-            </div>
-            <div class="bg-blank"></div>
-
-
+              <div class="bg-blank"></div>
             </th:block>
-
           </div>
 
         </div>
@@ -284,10 +358,10 @@
         growArr = document.querySelectorAll(".grow ");
         for (let i = 0; i < 6; i++) {
           growArr[i].classList.remove("red");
-          document.querySelector(".list-type" + i).style.display = "none";
+          // document.querySelector(".list-type" + i).style.display = "none";
         }
         growArr[n].classList.add("red");
-        document.querySelector(".list-type" + n).style.display = "block";
+        // document.querySelector(".list-type" + n).style.display = "block";
 
         if (document.querySelector("#value" + n).innerHTML === "0") {
           alert("주문정보가 없습니다.");

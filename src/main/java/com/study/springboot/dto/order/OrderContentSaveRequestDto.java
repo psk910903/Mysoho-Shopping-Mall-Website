@@ -12,6 +12,10 @@ import java.time.LocalDateTime;
 public class OrderContentSaveRequestDto {
     private Long orderNo; //pk
     private String cartCode1; //장바구니 코드
+    private String cartCode2; //장바구니 코드
+    private String cartCode3; //장바구니 코드
+    private String cartCode4; //장바구니 코드
+    private String cartCode5; //장바구니 코드
     private Long orderTotalPrice; //주문 총금액
     private Long orderTotalCount; //주문 상품 개수
     private String orderName; // 주문자 이름
@@ -31,6 +35,10 @@ public class OrderContentSaveRequestDto {
         return OrderEntity.builder()
                 .orderNo(orderNo)
                 .cartCode1(cartCode1)
+                .cartCode2(cartCode2)
+                .cartCode3(cartCode3)
+                .cartCode4(cartCode4)
+                .cartCode5(cartCode5)
                 .orderTotalPrice(orderTotalPrice)
                 .orderTotalCount(orderTotalCount)
                 .orderName(orderName)

@@ -111,43 +111,41 @@ public class Service1 {
         List<CartResponseDto> cartList = new ArrayList<>();
         if (dto.getCartCode1() != null) {
             //주문정보의 장바구니 코드로 장바구니 정보 dto 생성
-            CartResponseDto responseDto = cartService.findByCartNonMember(dto.getCartCode1());
-            //장바구니에 주문정보 셋팅(뷰에서 뿌려질 때 필요함)
-            responseDto.setOrderNo(dto.getOrderNo());
+            CartResponseDto cartDto = cartService.findByCartNonMember(dto.getCartCode1());
             //장바구니에 상품 이미지 url 셋팅
-            String byUrl = productRepository.findByUrl(responseDto.getItemCode());
-            responseDto.setItemImageUrl(byUrl);
+            String byUrl = productRepository.findByUrl(cartDto.getItemCode());
+            cartDto.setItemImageUrl(byUrl);
             //장바구니 리스트에 셋팅된 dto 담기
-            cartList.add(responseDto);
+            cartList.add(cartDto);
         }
         if (dto.getCartCode2() != null) {
             //반복
-            CartResponseDto responseDto = cartService.findByCartNonMember(dto.getCartCode2());
-            responseDto.setOrderNo(dto.getOrderNo());
-            String byUrl = productRepository.findByUrl(responseDto.getItemCode());
-            responseDto.setItemImageUrl(byUrl);
-            cartList.add(responseDto);
+            CartResponseDto cartDto = cartService.findByCartNonMember(dto.getCartCode2());
+
+            String byUrl = productRepository.findByUrl(cartDto.getItemCode());
+            cartDto.setItemImageUrl(byUrl);
+            cartList.add(cartDto);
         }
         if (dto.getCartCode3() != null) {
-            CartResponseDto responseDto = cartService.findByCartNonMember(dto.getCartCode3());
-            responseDto.setOrderNo(dto.getOrderNo());
-            String byUrl = productRepository.findByUrl(responseDto.getItemCode());
-            responseDto.setItemImageUrl(byUrl);
-            cartList.add(responseDto);
+            CartResponseDto cartDto = cartService.findByCartNonMember(dto.getCartCode3());
+
+            String byUrl = productRepository.findByUrl(cartDto.getItemCode());
+            cartDto.setItemImageUrl(byUrl);
+            cartList.add(cartDto);
         }
         if (dto.getCartCode4() != null) {
-            CartResponseDto responseDto = cartService.findByCartNonMember(dto.getCartCode4());
-            responseDto.setOrderNo(dto.getOrderNo());
-            String byUrl = productRepository.findByUrl(responseDto.getItemCode());
-            responseDto.setItemImageUrl(byUrl);
-            cartList.add(responseDto);
+            CartResponseDto cartDto = cartService.findByCartNonMember(dto.getCartCode4());
+
+            String byUrl = productRepository.findByUrl(cartDto.getItemCode());
+            cartDto.setItemImageUrl(byUrl);
+            cartList.add(cartDto);
         }
         if (dto.getCartCode5() != null) {
-            CartResponseDto responseDto = cartService.findByCartNonMember(dto.getCartCode5());
-            responseDto.setOrderNo(dto.getOrderNo());
-            String byUrl = productRepository.findByUrl(responseDto.getItemCode());
-            responseDto.setItemImageUrl(byUrl);
-            cartList.add(responseDto);
+            CartResponseDto cartDto = cartService.findByCartNonMember(dto.getCartCode5());
+
+            String byUrl = productRepository.findByUrl(cartDto.getItemCode());
+            cartDto.setItemImageUrl(byUrl);
+            cartList.add(cartDto);
         }
 
         return cartList;
