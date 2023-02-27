@@ -352,7 +352,7 @@ public class Controller1 {
     int stateType4 = 0;
     int stateType5 = 0;
 
-    
+
 
     for (int i = 0; i < orderList.size(); i++) {
       OrderResponseDto orderDto = orderList.get(i);
