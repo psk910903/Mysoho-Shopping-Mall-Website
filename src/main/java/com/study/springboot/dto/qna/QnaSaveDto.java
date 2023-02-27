@@ -38,4 +38,20 @@ public class QnaSaveDto {
                 .build();
     }
 
+    public QnaEntity toModifyEntity() {
+
+        return QnaEntity.builder()
+                .qnaId(qnaId)
+                .qnaCategory(qnaCategory)
+                .memberId(memberId)
+                .qnaName(qnaName)
+                .qnaTitle(qnaTitle)
+                .qnaPassword(qnaPassword)
+                .qnaContent(qnaContent)
+                .qnaSecret(qnaSecret)
+                .qnaHit(0l)
+                .qnaLocalDateTime(qnaDate)
+                .build();
+    }
 }
+
