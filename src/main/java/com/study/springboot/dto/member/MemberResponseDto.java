@@ -21,6 +21,7 @@ public class MemberResponseDto {
     private String memberEmail;
     private String memberPhone;
     private Long memberMileage;
+    private Long memberCoupon;
     private String memberAddrNumber;
     private String memberAddr1;
     private String memberAddr2;
@@ -38,6 +39,7 @@ public class MemberResponseDto {
         this.memberEmail = entity.getMemberEmail();
         this.memberJoinDatetime = entity.getMemberJoinDatetime();
         this.memberMileage = entity.getMemberMileage();
+        this.memberCoupon = entity.getMemberCoupon();
         this.memberAddrNumber = entity.getMemberAddrNumber();
         this.memberAddr1 = entity.getMemberAddr1();
         this.memberAddr2 = entity.getMemberAddr2();
