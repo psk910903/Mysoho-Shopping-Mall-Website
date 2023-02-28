@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:fragment="container-shopping-basket-mileage">
 
   <div class="order-hd lnk-tab">
     <strong>적립금 사용</strong>
     <!-- 버튼 이미지 -->
     <div class="flexbox">
-      <span class="blue fs-14 span2">로그인 후, 사용 가능합니다.</span>
+      <span class="blue fs-14 span2" sec:authorize="isAnonymous()">로그인 후, 사용 가능합니다.</span>
+      <span class="blue fs-14 span2" sec:authorize="isAuthenticated()"></span>
       <a href="javascript:orderInfo(2)" class="order-hd-open-2">
         <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt=""/>
       </a>
@@ -21,7 +22,7 @@
         <div class="title">
           <div>
             보유적립금
-            <span class="js-userMileageText" th:text="${memberMileage}">0원</span>
+            <span class="js-userMileageText" th:text="|${memberMileage}원|"></span>
           </div>
           <div class="cbx-tit">
             <input type="checkbox" />
@@ -30,13 +31,8 @@
         </div>
         <ul>
           <li>
-            <input
-                    type="tel"
-                    name="use_mileage"
-                    placeholder="로그인 후, 사용 가능합니다."
-                    readonly="readonly"
-                    class="readonly-input"
-            />
+            <input sec:authorize="isAnonymous()" type="tel" name="memberMileage" placeholder="로그인 후, 사용 가능합니다." readonly="readonly" class="readonly-input"/>
+            <input sec:authorize="isAuthenticated()" type="tel" name="memberMileage"/>
           </li>
         </ul>
       </div>

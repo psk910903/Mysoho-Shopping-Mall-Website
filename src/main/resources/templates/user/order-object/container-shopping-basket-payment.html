@@ -7,37 +7,21 @@
     <strong>결제방법</strong>
     <!-- 버튼 이미지 -->
     <div class="flexbox">
-            <span class="blue fs-14 span3 pay-checked" id="pay1display"
-            >휴대폰결제</span
-            >
-      <span class="blue fs-14 span3" id="pay2display">무통장입금</span>
-      <a href="javascript:orderInfo(3)" class="order-hd-open-3"
-      ><img
-              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
-              alt=""
-      /></a>
-      <a href="javascript:orderInfo(3)" class="order-hd-close-3"
-      ><img
-              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png"
-              alt=""
-      /></a>
+      <span class="blue fs-14 span3 pay-checked" id="pay1display" style="display:none">휴대폰결제</span>
+      <span class="blue fs-14 span3" id="pay2display" style="display:none">무통장입금</span>
+      <a href="javascript:orderInfo(3)" class="order-hd-open-3 " style="display:none">
+        <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt=""/>
+      </a>
+      <a href="javascript:orderInfo(3)" class="order-hd-close-3" style="display:block">
+        <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png" alt=""/>
+      </a>
     </div>
   </div>
-  <div class="order-pay order3">
+  <div class="order-pay order3" style="display:block">
     <div class="order-pay-div">
       <div>
-        <label
-                class="js-activate"
-                style="color: rgb(136, 136, 136)"
-        ></label>
-
-        <input
-                type="radio"
-                name="pay_method"
-                value="SSP"
-                autocomplete="off"
-                disabled
-        />
+        <label class="js-activate" style="color: rgb(136, 136, 136)"></label>
+        <input type="radio" name="orderPayType1" value="삼성페이" autocomplete="off" disabled/>
       </div>
       <div>
         <div class="order-pay-div-tit gray">
@@ -52,16 +36,7 @@
     <div class="order-pay-div">
       <div>
         <label class="js-activate" style="color: rgb(0, 0, 0)"></label>
-
-        <input
-                type="radio"
-                name="pay_method"
-                value="PMP"
-                autocomplete="off"
-                id="pay1"
-                checked
-                onclick="selecpay()"
-        />
+        <input type="radio" name="orderPayType1" value="휴대폰결제" autocomplete="off" id="pay1" checked onclick="selecpay()"/>
       </div>
       <div>
         <div class="order-pay-div-tit" id="pay1color">휴대폰결제</div>
@@ -77,45 +52,23 @@
     </div>
     <div class="order-pay-div">
       <div>
-        <label
-                class="js-activate"
-                style="color: rgb(136, 136, 136)"
-        ></label>
-
-        <input
-                type="radio"
-                name="pay_method"
-                value="MBA"
-                autocomplete="off"
-                id="pay2"
-                onclick="selecpay()"
-        />
+        <label class="js-activate" style="color: rgb(136, 136, 136)"></label>
+        <input type="radio" name="orderPayType1" value="무통장입금" autocomplete="off" id="pay2" onclick="selecpay()"/>
       </div>
       <div class="payWrap">
         <div class="order-pay-div-tit gray" id="pay2color">
           무통장입금
-          <span class="order-pay-div-text red">
-                  (반드시 주문자 성함으로 입금)
-                </span>
+          <span class="order-pay-div-text red">(반드시 주문자 성함으로 입금)</span>
         </div>
         <div class="txt-desc mt-10 mb-10 js-txt-desc" id="pay2text">
           <div class="order-pay-div-text relative-li">
             <select name="message" id="paySelect">
               <option value="">입금 계좌번호 선택</option>
-              <option
-                      value="기업은행"
-                      data-acnt-name="소호나라"
-                      data-acnt-num="0106-859-3030119"
-              >
+              <option value="기업은행" data-acnt-name="소호나라" data-acnt-num="0106-859-3030119">
                 기업은행 0106-859-3030119 (예금주 :소호나라)
               </option>
             </select>
-
-            <img
-                    src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
-                    alt=""
-                    class="imgOpen"
-            />
+            <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt="" class="imgOpen"/>
           </div>
           <div class="order-pay-div-text mt-10">
             빠른 처리를 위해 주문자를 입금자로 사용하세요.
@@ -124,6 +77,7 @@
       </div>
     </div>
   </div>
+  <input type="hidden" name="orderPayType" id="orderPayType">
   <!-- 구분선 빈박스-->
   <div class="bg-blank none"></div>
 

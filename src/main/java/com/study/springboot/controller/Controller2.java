@@ -433,12 +433,18 @@ public class Controller2 {
         }
 
         // memberMileage
-        String memberId = user.getUsername();
-        MemberResponseDto memberResponseDto = service2.findByMemberIdMember(memberId);
+        Long memberMileage = 0L;
+        if (user != null) {
+            String memberId = user.getUsername();
+            MemberResponseDto memberResponseDto = service2.findByMemberIdMember(memberId);
+            if (memberResponseDto != null) {
+                memberMileage = memberResponseDto.getMemberMileage();
+            }
+        }
 
         model.addAttribute("itemList", itemList);
         model.addAttribute("cartList", cartList);
-        model.addAttribute("memberMileage", memberResponseDto.getMemberMileage());
+        model.addAttribute("memberMileage", memberMileage);
 
         return "/user/order/shopping-basket";
 

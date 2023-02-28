@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" >
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -120,6 +120,17 @@
         let orderRecipientAddr1 = document.getElementById("sample6_address").value;
         let orderRecipientAddr2 = document.getElementById("sample6_extraAddress").value;
         document.getElementById("orderRecipientAddr1").value = orderRecipientAddr1 + orderRecipientAddr2;
+
+        // orderPayType
+        let orderPayTypeList = document.getElementsByName("orderPayType1");
+        console.log(orderPayTypeList);
+        for (orderPayTypeObj of orderPayTypeList){
+          console.log(orderPayTypeObj.checked);
+          console.log(orderPayTypeObj.value);
+          if(orderPayTypeObj.checked){
+            document.getElementById("orderPayType").value = orderPayTypeObj.value;
+          }
+        }
       }
     </script>
 
