@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests() // 요청에 대한 보안설정을 시작
-                .antMatchers("/","/order/**","/plan/**","/product/**","/order","/qna","/notice","/inquiry/**","/myorder").permitAll()
+                .antMatchers("/","/order/**","/plan/**","/product/**","/qna/**","/notice/**","/inquiry/**","/myorder").permitAll()
                 .antMatchers("/user/join").permitAll()
                 .antMatchers("/user/joinAction").permitAll()
                 .antMatchers("/myorder/**").hasAnyRole("USER","ADMIN")
