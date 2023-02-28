@@ -23,13 +23,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers("/css/**", "/js/**", "/img/**");
+                .antMatchers("/css/**", "/js/**", "/img/**","/find/**");
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests() // 요청에 대한 보안설정을 시작
-                .antMatchers("/","/order/**","/plan/**","/product/**").permitAll()
+                .antMatchers("/","/order/**","/plan/**","/product/**","/order","/qna","/notice","/inquiry/**","/myorder").permitAll()
                 .antMatchers("/user/join").permitAll()
                 .antMatchers("/user/joinAction").permitAll()
                 .antMatchers("/myorder/**").hasAnyRole("USER","ADMIN")
@@ -51,8 +51,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .deleteCookies("JSESSIONID")
                 .invalidateHttpSession(true)
                 .logoutSuccessUrl("/");
-
-
     }
 
     @Bean
