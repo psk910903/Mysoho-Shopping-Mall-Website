@@ -340,7 +340,7 @@ public class Controller1 {
     return "/user/user/myorder";
   }
 
-  @RequestMapping("/myorder/list")
+  @RequestMapping("/find/myorder/list")
   public String myorder(OrderSearchDto dto, Model model) {
 
     List<OrderResponseDto> orderList = service1.findByOrder(dto);

@@ -281,7 +281,7 @@ public class Controller3 {
         return "/user/user/user-mileage";
     }
     //
-    @RequestMapping("/user/findId")
+    @RequestMapping("/find/Id")
     @ResponseBody
     public String findId(@Valid MemberFindId dto,
                          BindingResult bindingResult){
