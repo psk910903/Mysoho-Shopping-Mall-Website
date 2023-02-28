@@ -20,6 +20,7 @@
     <div style="width:100%" >
 
       <form action="/admin/product/modify/action" method="post" enctype="multipart/form-data">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <div class="contentWrap">
         <div class="sub-title"> 이미지</div>
         <table class="table table-bordered" >

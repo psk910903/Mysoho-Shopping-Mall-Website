@@ -20,6 +20,7 @@
   <div class="content" style="width:100%"> <!-- content 시작 -->
 
     <form method="POST" th:action="(${notice.noticeNo} == null) ? '/admin/notice/writeAction' : '/admin/notice/modifyAction'">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
       <div class="contentWrap">
       <table class="table table-horizontal table-bordered"> <!-- 번호, 제목, 카테고리 테이블 시작 -->
         <tr th:if="${notice.noticeNo} != null">

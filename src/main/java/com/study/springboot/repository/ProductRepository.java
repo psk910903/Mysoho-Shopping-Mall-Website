@@ -53,4 +53,11 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     @Query(value = "SELECT * FROM item where item_discount_rate BETWEEN 1 AND 100 and item_exposure='노출함' order BY item_update_datetime DESC;", nativeQuery = true)
     List<ProductEntity> findByCategorySale(@Param(value="keyword")String keyword);
+
+    //---
+    @Query(value = "SELECT item_image_url FROM `item` WHERE item_no LIKE :keyword and item_exposure='노출함' order BY `item_name` desc", nativeQuery = true)
+    String findByUrl(@Param(value="keyword")String keyword);
+
+
+
 }

@@ -149,11 +149,9 @@
 .showOrderList {
   opacity: 1;
   z-index: 1000;
-  transition: all 0.5s;
 }
 .showOrderList .popup {
   transform: translate(-50%, -110%);
-  transition: all 0.5s;
 }
 #closeOrderList {
   position: absolute;
@@ -315,14 +313,14 @@ h2 {
 .final {
   margin-top: 20px;
 }
-#closeBtn {
+.closeBtn {
   background-color: white;
   border: none;
   position: absolute;
   right: 10px;
   top: 10px;
 }
-#closeBtn img {
+.closeBtn img {
   width: 15px;
 }
 /* 로그인 후 마이페이지 */

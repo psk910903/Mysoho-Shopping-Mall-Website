@@ -20,6 +20,7 @@
     <div style="width:100%" >
 
       <form action="/admin/order/content/action" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <div class="contentWrap">
         <h3 class="sub-title"> 구매 상품 정보</h3>
         <table class="table table-bordered" th:each="cartDto:${ cartList }">
@@ -28,35 +29,30 @@
             <th style="text-align: center;" class="w250 table-light align-middle">상품명</th>
             <td class="align-middle">
               <input th:value="${ cartDto.itemName }" name=""  placeholder="상품명" disabled class="form-control">
-              <input th:value="${ cartDto.itemName }" name="itemName"  type="hidden" >
             </td>
           </tr>
           <tr>
             <th style="text-align: center;" class="w250 table-light align-middle">색상</th>
             <td class="align-middle">
               <input th:value="${ cartDto.itemOptionColor }" name=""  placeholder="색상" disabled class="form-control">
-              <input th:value="${ cartDto.itemOptionColor }" name="itemOptionColor"  type="hidden" >
             </td>
           </tr>
           <tr>
             <th style="text-align: center;" class="w250 table-light align-middle">사이즈</th>
             <td class="align-middle">
               <input th:value="${ cartDto.itemOptionSize }" name=""  placeholder="사이즈" disabled class="form-control">
-              <input th:value="${ cartDto.itemOptionSize }" name="itemOptionSize"  type="hidden" >
             </td>
           </tr>
           <tr>
             <th style="text-align: center;" class="w250 table-light align-middle">수량</th>
             <td class="align-middle">
               <input th:value="${ cartDto.cartItemAmount }" name=""  placeholder="수량" disabled class="form-control">
-              <input th:value="${ cartDto.cartItemAmount }" name="cartItemAmount"  type="hidden" >
             </td>
           </tr>
           <tr>
             <th style="text-align: center;" class="w250 table-light align-middle" >상품금액</th>
             <td class="align-middle">
               <input th:value="${ cartDto.cartItemPrice }"  name=""  placeholder="판매가" disabled class="form-control">
-              <input th:value="${ cartDto.cartItemPrice }" name="cartItemPrice"  type="hidden" >
             </td>
           </tr>
         </table>
@@ -69,14 +65,12 @@
             <th style="text-align: center;" class="w250 table-light align-middle">주문자명</th>
             <td class="align-middle">
               <input th:value="${ dto.orderName }" name=""  placeholder="주문자명" disabled class="form-control">
-              <input th:value="${ dto.orderName }" name="orderName"  type="hidden" >
             </td>
           </tr>
           <tr>
             <th style="text-align: center;" class="w250 table-light align-middle">주문자 연락처</th>
             <td class="align-middle">
               <input th:value="${ dto.orderPhone }" name=""  placeholder="주문자 연락처" disabled class="form-control">
-              <input th:value="${ dto.orderPhone }" name="orderPhone"  type="hidden" >
             </td>
           </tr>
           <tr>
@@ -127,35 +121,30 @@
             <th style="text-align: center;" class="w250 table-light align-middle">적립금</th>
             <td class="align-middle">
               <input th:value="${ dto.memberMileage }" name=""  placeholder="0" disabled class="form-control">
-              <input th:value="${ dto.memberMileage }" name="memberMileage"  type="hidden" >
             </td>
           </tr>
           <tr>
             <th style="text-align: center;" class="w250 table-light align-middle">쿠폰</th>
             <td class="align-middle">
               <input th:value="${ dto.memberCoupon }" name=""  placeholder="0" disabled class="form-control">
-              <input th:value="${ dto.memberCoupon }" name="memberCoupon"  type="hidden" >
             </td>
           </tr>
           <tr>
             <th style="text-align: center;" class="w250 table-light align-middle">결제방식</th>
             <td class="align-middle">
               <input th:value="${ dto.orderPayType }" name=""  placeholder="0" disabled class="form-control">
-              <input th:value="${ dto.orderPayType }" name="orderPayType"  type="hidden" >
             </td>
           </tr>
           <tr>
             <th style="text-align: center;" class="w250 table-light align-middle">주문 총수량</th>
             <td class="align-middle">
               <input th:value="${ dto.orderTotalCount }" name=""  placeholder="0" disabled class="form-control">
-              <input th:value="${ dto.orderTotalCount }" name="orderTotalPrice"  type="hidden" >
             </td>
           </tr>
           <tr>
             <th style="text-align: center;" class="w250 table-light align-middle">결제금액</th>
             <td class="align-middle">
               <input th:value="${ dto.orderTotalPrice }" name=""  placeholder="0" disabled class="form-control">
-              <input th:value="${ dto.orderTotalPrice }" name="orderTotalPrice"  type="hidden" >
             </td>
           </tr>
           <tr>
@@ -175,7 +164,7 @@
             <td class="align-middle">
               <select name="orderState" class="form-select">
                 <option value="" selected="selected" th:text="${ dto.orderState }" th:value="${ dto.orderState }">주문상태</option>
-                <option value="미입금/주문완료">미입금/주문완료</option>
+                <option value="결제대기">결제대기</option>
                 <option value="배송대기">배송대기</option>
                 <option value="배송중">배송중</option>
                 <option value="배송완료">배송완료</option>
@@ -187,8 +176,6 @@
         </div>
         <div style="text-align: center;">
           <input th:value="${ dto.orderNo }" name="orderNo" type="hidden">
-          <input th:value="${ dto.cartCode1 }" name="cartCode1" type="hidden">
-          <input th:value="${ dto.orderTotalCount }" name="orderTotalCount" type="hidden">
           <button type="submit" class="btn btn-danger">수정</button>
           <a href="/admin/order/list?page=0" class="btn btn-outline-secondary">목록</a>
         </div>

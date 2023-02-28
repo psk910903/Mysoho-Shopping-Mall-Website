@@ -27,7 +27,9 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <div class="wrap">
       <div class="betweenbtn">
-        <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
+        <div
+          th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"
+        ></div>
       </div>
       <div class="header-wrap">
         <div class="header">
@@ -46,22 +48,26 @@
       <div class="carousel">
         <!-- 메인 페이지 캐러셀 -->
         <div class="swiper-pagination">
-          <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="false">
+          <div
+            id="carouselExampleCaptions"
+            class="carousel slide"
+            data-bs-ride="false"
+          >
             <!-- 인디케이터 : 하단버튼 -->
             <div class="carousel-indicators">
               <button
-                      type="button"
-                      data-bs-target="#carouselExampleCaptions"
-                      data-bs-slide-to="0"
-                      class="active"
-                      aria-current="true"
-                      aria-label="Slide 1"
+                type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="0"
+                class="active"
+                aria-current="true"
+                aria-label="Slide 1"
               ></button>
               <button
-                      type="button"
-                      data-bs-target="#carouselExampleCaptions"
-                      data-bs-slide-to="1"
-                      aria-label="Slide 2"
+                type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to="1"
+                aria-label="Slide 2"
               ></button>
             </div>
             <!-- 실제 컨텐츠 -->
@@ -69,11 +75,12 @@
               <!-- active 현재 보여주고 있는 이미지 -->
               <div class="carousel-item active">
                 <!-- src 이미지링크, display block, width 100% -->
-                <a href="/product/20001"><img
-                        src="https://img.makeshop.co.kr/1/1371/201908/f2a81f39b4ab14bdd219af6e8fec7297.jpg"
-                        class="d-block w-100"
-                        alt="..."
-                />
+                <a href="/product/20001"
+                  ><img
+                    src="https://img.makeshop.co.kr/1/1371/201908/f2a81f39b4ab14bdd219af6e8fec7297.jpg"
+                    class="d-block w-100"
+                    alt="..."
+                  />
                 </a>
                 <!-- 폰사이즈일때 글씨 숨기기 -->
                 <div class="carousel-caption d-none d-md-block"></div>
@@ -81,64 +88,78 @@
               <div class="carousel-item">
                 <a href="/plan/item/SALE">
                   <img
-                          src="https://img.makeshop.co.kr/1/1371/201908/2e61ee8f4c58844901ff686a616f03ae.jpg"
-                          class="d-block w-100"
-                          alt="..."
+                    src="https://img.makeshop.co.kr/1/1371/201908/2e61ee8f4c58844901ff686a616f03ae.jpg"
+                    class="d-block w-100"
+                    alt="..."
                   />
                 </a>
                 <div class="carousel-caption d-none d-md-block"></div>
               </div>
             </div>
             <button
-                    class="carousel-control-prev"
-                    type="button"
-                    data-bs-target="#carouselExampleCaptions"
-                    data-bs-slide="prev"
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              data-bs-slide="prev"
             >
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
               <span class="visually-hidden">Previous</span>
             </button>
             <button
-                    class="carousel-control-next"
-                    type="button"
-                    data-bs-target="#carouselExampleCaptions"
-                    data-bs-slide="next"
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#carouselExampleCaptions"
+              data-bs-slide="next"
             >
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
               <span class="visually-hidden">Next</span>
             </button>
           </div>
         </div>
-
       </div>
       <div class="container">
         <div class="best-itemBox">
           <div><h3>베스트 상품</h3></div>
 
-          <ul class="threeAlign" >
+          <ul class="threeAlign">
             <li th:each="dto:${ bestItem }">
               <p class="img">
                 <a th:href="|/product/${dto.itemNo}|">
-                  <img th:src="${ dto.itemImageUrl }"
-                          alt=""
-                          class="img1"
-                  />
+                  <img th:src="${ dto.itemImageUrl }" alt="" class="img1" />
                 </a>
               </p>
               <p class="txt" th:text="${ dto.itemName }">아크네데님 연청</p>
               <p class="price-info">
                 <th:block th:if="${dto.itemDiscountRate} != 0">
-                  <span class="sale-rate" th:text="${ (dto.itemDiscountRate)+'%' }">9%</span>
-                  <span class="price" data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}">49,000원</span>
+                  <span
+                    class="sale-rate"
+                    th:text="${ (dto.itemDiscountRate)+'%' }"
+                    >9%</span
+                  >
+                  <span
+                    class="price"
+                    data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
+                    >49,000원</span
+                  >
                 </th:block>
                 <th:block th:unless="${dto.itemDiscountRate} != 0">
-                  <span class="price" data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}">49,000원</span>
+                  <span
+                    class="price"
+                    data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                    >49,000원</span
+                  >
                 </th:block>
               </p>
             </li>
           </ul>
 
-<!--          -->
+          <!--          -->
         </div>
         <div class="mid-bnr">
           <a href=""
@@ -196,40 +217,60 @@
                   <div class="between">
                     <div class="prd-img">
                       <a th:href="|/product/${dto.itemNo}|" class="focusTag"
-                      ><img
-                              th:src="${ dto.itemImageUrl }"
-                              alt=""
-                      />
-                          <th:block th:if="${dto.itemSoldOut} == '품절'">
+                        ><img th:src="${ dto.itemImageUrl }" alt="" />
+                        <th:block th:if="${dto.itemSoldOut} == '품절'">
                           <div class="sold-out-text sold-out-text-type1">
-                              SOLD <br />
-                              OUT
+                            SOLD <br />
+                            OUT
                           </div>
                           <div class="sold-out-bg sold-out-bg-type1"></div>
-                          </th:block>
+                        </th:block>
                       </a>
                     </div>
                     <div class="tbl-cell">
                       <p class="txt">
-                        <a th:href="|/product/${dto.itemNo}|" th:text="${ dto.itemName }">퍼프 블라우스 화이트</a>
+                        <a
+                          th:href="|/product/${dto.itemNo}|"
+                          th:text="${ dto.itemName }"
+                          >퍼프 블라우스 화이트</a
+                        >
                       </p>
                       <p class="price-info">
                         <th:block th:if="${dto.itemDiscountRate} != 0">
-                          <span class="sale-rate" th:text="${ (dto.itemDiscountRate)+'%' }">9%</span>
-                          <span class="price" data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}">49,000원</span>
-                          <span class="gray-through" data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}">49,000원</span>
+                          <span
+                            class="sale-rate"
+                            th:text="${ (dto.itemDiscountRate)+'%' }"
+                            >9%</span
+                          >
+                          <span
+                            class="price"
+                            data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
+                            >49,000원</span
+                          >
+                          <span
+                            class="gray-through"
+                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                            >49,000원</span
+                          >
                         </th:block>
                         <th:block th:unless="${dto.itemDiscountRate} != 0">
-                          <span class="price" data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}">49,000원</span>
+                          <span
+                            class="price"
+                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                            >49,000원</span
+                          >
                         </th:block>
                       </p>
                     </div>
                   </div>
-                  <a href="javascript:basketNumCount()" class="btn-cart-type1"
-                  ><img
-                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                          alt=""
-                  />
+                  <a
+                    class="btn-cart-type1"
+                    onclick="basketNumCount(this)"
+                    th:value="${dto.itemNo}"
+                    ><img
+                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                      alt=""
+                    />
                   </a>
                 </li>
               </div>
@@ -237,258 +278,279 @@
             <!-- 두번째 타입 -->
             <ul class="threeAlign threeAlign2 listType1">
               <li th:each="dto:${ list }">
-                  <th:block th:if="${dto.itemSoldOut} == '품절'">
+                <th:block th:if="${dto.itemSoldOut} == '품절'">
                   <div class="img sold-out-wrap">
-                      <div class="sold-out-bg sold-out-bg-type2"></div>
-                      <div class="sold-out-text sold-out-text-type2">
-                          SOLD
-                          <br />
-                          OUT
-                      </div>
-                      <a href="">
-                          <!-- 품절두번째 -->
+                    <div class="sold-out-bg sold-out-bg-type2"></div>
+                    <div class="sold-out-text sold-out-text-type2">
+                      SOLD
+                      <br />
+                      OUT
+                    </div>
+                    <a href="">
+                      <!-- 품절두번째 -->
 
-                          <img
-                                  th:src="${ dto.itemImageUrl }"
-                                  alt=""
-                                  class="img1"
-                          />
-                      </a>
+                      <img th:src="${ dto.itemImageUrl }" alt="" class="img1" />
+                    </a>
                   </div>
-                  </th:block>
-                  <th:block th:unless="${dto.itemSoldOut} == '품절'">
-                    <p class="img">
-                      <a th:href="|/product/${dto.itemNo}|">
+                </th:block>
+                <th:block th:unless="${dto.itemSoldOut} == '품절'">
+                  <p class="img">
+                    <a th:href="|/product/${dto.itemNo}|">
+                      <img th:src="${ dto.itemImageUrl }" alt="" class="img1" />
+                      <th:block th:if="${dto.itemDiscountRate} != 0">
                         <img
-                                th:src="${ dto.itemImageUrl }"
-                                alt=""
-                                class="img1"
+                          src="https://sohonara.mysoho.com/assets/shop/img/common/ico_sale.png"
+                          alt=""
+                          class="redico"
                         />
-                        <th:block th:if="${dto.itemDiscountRate} != 0">
-                        <img
-                                src="https://sohonara.mysoho.com/assets/shop/img/common/ico_sale.png"
-                                alt=""
-                                class="redico"
-                        />
-                        <span class="redico-dis" th:text="${ (dto.itemDiscountRate)+'%' }">9%</span>
-                        </th:block>
-                      </a>
-                    </p>
-                  </th:block>
+                        <span
+                          class="redico-dis"
+                          th:text="${ (dto.itemDiscountRate)+'%' }"
+                          >9%</span
+                        >
+                      </th:block>
+                    </a>
+                  </p>
+                </th:block>
               </li>
             </ul>
             <!-- 세번째 타입 -->
             <ul class="twoAlign listType2">
               <li th:each="dto:${ list }">
                 <a href="javascript:basketNumCount()" class="cart">
-<!--                  카트이미지-->
+                  <!--                  카트이미지-->
                   <img
-                        src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                        alt=""
+                    src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                    alt=""
                 /></a>
                 <a th:href="|/product/${dto.itemNo}|">
-                    <th:block th:if="${dto.itemSoldOut} == '품절'">
+                  <th:block th:if="${dto.itemSoldOut} == '품절'">
                     <div class="img sold-out-wrap">
-                        <div class="sold-out-bg sold-out-bg-type3"></div>
-                        <div class="sold-out-text sold-out-text-type3">
-                            SOLD
-                            <br />
-                            OUT
-                        </div>
-                        <img
-                                th:src="${ dto.itemImageUrl }"
-                                alt=""
-                                class="img1"
-                        />
+                      <div class="sold-out-bg sold-out-bg-type3"></div>
+                      <div class="sold-out-text sold-out-text-type3">
+                        SOLD
+                        <br />
+                        OUT
+                      </div>
+                      <img th:src="${ dto.itemImageUrl }" alt="" class="img1" />
                     </div>
-                    </th:block>
-                    <th:block th:unless="${dto.itemSoldOut} == '품절'">
-                      <p class="img">
-                        <img
-                                th:src="${ dto.itemImageUrl }"
-                                alt=""
-                                class="img1"
-                        />
-                      </p>
-                    </th:block>
+                  </th:block>
+                  <th:block th:unless="${dto.itemSoldOut} == '품절'">
+                    <p class="img">
+                      <img th:src="${ dto.itemImageUrl }" alt="" class="img1" />
+                    </p>
+                  </th:block>
                 </a>
-                <p class="txt" th:text="${ dto.itemName }">퍼프블라우스 화이트</p>
+                <p class="txt" th:text="${ dto.itemName }">
+                  퍼프블라우스 화이트
+                </p>
                 <p class="price-info">
                   <th:block th:if="${dto.itemDiscountRate} != 0">
-                    <span class="sale-rate" th:text="${ (dto.itemDiscountRate)+'%' }">9%</span>
-                    <span class="price" data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}">49,000원</span>
+                    <span
+                      class="sale-rate"
+                      th:text="${ (dto.itemDiscountRate)+'%' }"
+                      >9%</span
+                    >
+                    <span
+                      class="price"
+                      data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
+                      >49,000원</span
+                    >
                   </th:block>
                   <th:block th:unless="${dto.itemDiscountRate} != 0">
-                    <span class="price" data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}">49,000원</span>
+                    <span
+                      class="price"
+                      data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                      >49,000원</span
+                    >
                   </th:block>
                 </p>
               </li>
             </ul>
             <!-- 네번째 타입 -->
 
-            <div  class="type4 listType3" >
-                <ul >
-                    <li th:each="dto:${ list }">
-
-
-                <!-- 상품 리스트 시작 -->
-                <div class="swiper-wrapper">
+            <div class="type4 listType3">
+              <ul>
+                <li th:each="dto:${ list }">
+                  <!-- 상품 리스트 시작 -->
+                  <div class="swiper-wrapper">
                     <th:block th:if="${dto.itemSoldOut} == '품절'">
-                    <div class="sold-out-wrap">
+                      <div class="sold-out-wrap">
                         <div class="sold-out-bg sold-out-bg-type4"></div>
                         <div class="sold-out-text sold-out-text-type4">
-                            SOLD
-                            <br />
-                            OUT
+                          SOLD
+                          <br />
+                          OUT
                         </div>
                         <!-- 메인사진 -->
                         <img
-                                src="https://img.makeshop.co.kr/1/1371/201902/81f5662d13dcab1ce7ee6fd978bbb5f5.png"
-                                alt=""
+                          src="https://img.makeshop.co.kr/1/1371/201902/81f5662d13dcab1ce7ee6fd978bbb5f5.png"
+                          alt=""
                         />
-                    </div>
+                      </div>
                     </th:block>
                     <th:block th:unless="${dto.itemSoldOut} == '품절'">
-                    <!-- 메인사진 -->
-                    <img
-
-                            th:src="${ dto.itemImageUrl }"
-                            alt=""
-                    />
-                    <!-- 확대링크이미지 z-index예정 -->
-                    <a href="javascript:basketNumCount()" class="cart"
-                    ><img
-                            src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                            alt=""
-                    /></a>
+                      <!-- 메인사진 -->
+                      <img th:src="${ dto.itemImageUrl }" alt="" />
+                      <!-- 확대링크이미지 z-index예정 -->
+                      <a href="javascript:basketNumCount()" class="cart"
+                        ><img
+                          src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                          alt=""
+                      /></a>
                     </th:block>
-                </div>
-                <!-- 상품명 -->
-                <div class="prd-info MSH-prd-info-19520">
+                  </div>
+                  <!-- 상품명 -->
+                  <div class="prd-info MSH-prd-info-19520">
                     <div class="MSH-prd-name">
-                        <strong th:text="${ dto.itemName }" >상품명</strong>
+                      <strong th:text="${ dto.itemName }">상품명</strong>
                     </div>
-                </div>
-                <div class="prd-desc">
+                  </div>
+                  <div class="prd-desc">
                     <div class="between4">
-                        <div class="price txt-black">
-                            <th:block th:if="${dto.itemDiscountRate} != 0">
-                                <div class="sale-rate fs-21 " th:text="${ (dto.itemDiscountRate)+'%' }">9%</div>
-                                <div class="fs-21 black" data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA')}"><b> 44,500</b></div>
-                                <div class="fs-15 black"><b>원</b></div>
-                            </th:block>
-                            <th:block th:unless="${dto.itemDiscountRate} != 0">
-                                <span class="fs-21 black" data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA')}">49,000원</span>
-                                <div class="fs-15 black"><b>원</b></div>
-                            </th:block>
-                        </div>
-                        <button class="show-share-list-home" onclick="showShareListHome()">
-                            <img
-                                    class="between4-img"
-                                    src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/bul_share.png"
-                                    alt=""
-                            />
-                        </button>
-                        <!-- 공유하기 버튼 팝업 -->
-                        <div class="bg-share">
-                            <div class="window-share">
-                                <div class="popup-share">
-                                    <div class="lhd-share">
-                                        <a href="javascript:closeOrderList()" class="closebtn"
-                                        ><img
-                                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
-                                                alt=""
-                                        /></a>
-                                    </div>
-                                    <div class="share-tit">
-                                        <div>상품 정보를</div>
-                                        <div><b> 공유해 보세요</b></div>
-                                    </div>
-                                    <div class="share-con">
-                                        <a class="share-con-ico" href="javascript:openPopupShareBtn(name)"
-                                        ><img
-                                                src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_sms.png"
-                                                alt=""
-                                        /></a>
-                                        <a
-                                                class="share-con-ico"
-                                                href="javascript:openPopupShareBtn('https://www.facebook.com/login.php?skip_api_login=1&api_key=966242223397117&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fsharer%2Fsharer.php%3Fu%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D&cancel_url=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Fclose_window%2F%3Fapp_id%3D966242223397117%26connect%3D0%23_%3D_&display=popup&locale=ko_KR')"
-                                        ><img
-                                                src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_facebook.png"
-                                                alt=""
-                                        /></a>
-                                        <a
-                                                class="share-con-ico"
-                                                href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fstory.kakao.com%2Fshare%3Furl%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
-                                        ><img
-                                                src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaostory.png"
-                                                alt=""
-                                        /></a>
-                                        <a
-                                                class="share-con-ico"
-                                                href="javascript:openPopupShareBtn('https://nid.naver.com/nidlogin.login?mode=form&template=plogin&url=http%3A%2F%2Fblog.naver.com%2FLinkShare.naver%3Furl%3Dnull')"
-                                        ><img
-                                                src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_blog.png"
-                                                alt=""
-                                        /></a>
-                                        <a
-                                                class="share-con-ico"
-                                                href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fsharer.kakao.com%2Fpicker%2Flink%3Fapp_key%3D1628990893d01e42e811ef2f1fdae357%26short_key%3Ddb2f53c5-a414-409f-82b4-9f83ed61a80a')"
-                                        ><img
-                                                src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaotalk.gif"
-                                                alt=""
-                                        /></a>
-                                        <a
-                                                class="share-con-ico"
-                                                href="javascript:openPopupShareBtn('https://access.line.me/oauth2/v2.1/login?returnUri=%2Foauth2%2Fv2.1%2Fauthorize%2Fconsent%3Fresponse_type%3Dcode%26client_id%3D1446101138%26state%3D17554c14c87549e5e97a17c817c3fb%26redirect_uri%3Dhttps%253A%252F%252Fsocial-plugins.line.me%252Flineit%252FloginCallback%253FreturnUrl%253Dhttps%25253A%25252F%25252Fsocial-plugins.line.me%25252Flineit%25252Fshare%25253Furl%25253Dhttps%25253A%25252F%25252Fsohonara.mysoho.com%25252F%252526text%25253Dhttp%2525253A%2525252F%2525252Fqqc.kr%2525252FXKR2Y0D%252526from%25253Dline_scheme%26scope%3Dopenid%2Bprofile%2Bfriends%2Bgroups%2Btimeline.post%2Bmessage.write&loginChannelId=1446101138&loginState=wBkM1D2i6jLDRjh6zfFIm3&fromDomain=access-auto.line.me&line_auto_login_error=universal_link_error#/')"
-                                        ><img
-                                                src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_line.png"
-                                                alt=""
-                                        /></a>
-                                        <a
-                                                class="share-con-ico"
-                                                href="javascript:openPopupShareBtn('https://auth.band.us/login_page?display=popup&next_url=https%3A%2F%2Fband.us%2Fplugin%2Fshare%3Froute%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D%26body%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
-                                        ><img
-                                                src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_band.png"
-                                                alt=""
-                                        /></a>
-                                        <a
-                                                class="share-con-ico"
-                                                href="javascript:openPopupShareBtn('https://twitter.com/intent/tweet?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D&text=퍼프블라우스%20화이트')"
-                                        ><img
-                                                src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_twitter_blue.png"
-                                                alt=""
-                                        /></a>
-                                        <a
-                                                class="share-con-ico"
-                                                href="javascript:openPopupShareBtn('https://accounts.google.com/ServiceLogin/signinchooser?passive=1209600&osid=1&continue=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&followup=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&ifkv=AeAAQh5CLvwfHxrmxVosQDHyr3jYWKi9iRFjmo_M9cg7vkQYEbsMzjH1HjT1D14TqO933bOG0zaR&flowName=GlifWebSignIn&flowEntry=ServiceLogin')"
-                                        ><img
-                                                src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_google.png"
-                                                alt=""
-                                        /></a>
-                                        <a
-                                                class="share-con-ico"
-                                                href="javascript:openPopupShareBtn('https://telegram.me/share?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D')"
-                                        ><img
-                                                src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_telegram.png"
-                                                alt=""
-                                        /></a>
-                                        <a class="share-con-ico" href="javascript:alertbtn()"
-                                        ><img
-                                                src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_urlcopy.png"
-                                                alt=""
-                                        /></a>
-                                    </div>
-                                    <div class="lcont"></div>
-                                </div>
+                      <div class="price txt-black">
+                        <th:block th:if="${dto.itemDiscountRate} != 0">
+                          <div
+                            class="sale-rate fs-21"
+                            th:text="${ (dto.itemDiscountRate)+'%' }"
+                          >
+                            9%
+                          </div>
+                          <div
+                            class="fs-21 black"
+                            data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA')}"
+                          >
+                            <b> 44,500</b>
+                          </div>
+                          <div class="fs-15 black"><b>원</b></div>
+                        </th:block>
+                        <th:block th:unless="${dto.itemDiscountRate} != 0">
+                          <span
+                            class="fs-21 black"
+                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA')}"
+                            >49,000원</span
+                          >
+                          <div class="fs-15 black"><b>원</b></div>
+                        </th:block>
+                      </div>
+                      <button
+                        class="show-share-list-home"
+                        onclick="showShareListHome()"
+                      >
+                        <img
+                          class="between4-img"
+                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/bul_share.png"
+                          alt=""
+                        />
+                      </button>
+                      <!-- 공유하기 버튼 팝업 -->
+                      <div class="bg-share">
+                        <div class="window-share">
+                          <div class="popup-share">
+                            <div class="lhd-share">
+                              <a
+                                href="javascript:closeOrderList()"
+                                class="closebtn"
+                                ><img
+                                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
+                                  alt=""
+                              /></a>
                             </div>
+                            <div class="share-tit">
+                              <div>상품 정보를</div>
+                              <div><b> 공유해 보세요</b></div>
+                            </div>
+                            <div class="share-con">
+                              <a
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn(name)"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_sms.png"
+                                  alt=""
+                              /></a>
+                              <a
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://www.facebook.com/login.php?skip_api_login=1&api_key=966242223397117&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fsharer%2Fsharer.php%3Fu%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D&cancel_url=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Fclose_window%2F%3Fapp_id%3D966242223397117%26connect%3D0%23_%3D_&display=popup&locale=ko_KR')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_facebook.png"
+                                  alt=""
+                              /></a>
+                              <a
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fstory.kakao.com%2Fshare%3Furl%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaostory.png"
+                                  alt=""
+                              /></a>
+                              <a
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://nid.naver.com/nidlogin.login?mode=form&template=plogin&url=http%3A%2F%2Fblog.naver.com%2FLinkShare.naver%3Furl%3Dnull')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_blog.png"
+                                  alt=""
+                              /></a>
+                              <a
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fsharer.kakao.com%2Fpicker%2Flink%3Fapp_key%3D1628990893d01e42e811ef2f1fdae357%26short_key%3Ddb2f53c5-a414-409f-82b4-9f83ed61a80a')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaotalk.gif"
+                                  alt=""
+                              /></a>
+                              <a
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://access.line.me/oauth2/v2.1/login?returnUri=%2Foauth2%2Fv2.1%2Fauthorize%2Fconsent%3Fresponse_type%3Dcode%26client_id%3D1446101138%26state%3D17554c14c87549e5e97a17c817c3fb%26redirect_uri%3Dhttps%253A%252F%252Fsocial-plugins.line.me%252Flineit%252FloginCallback%253FreturnUrl%253Dhttps%25253A%25252F%25252Fsocial-plugins.line.me%25252Flineit%25252Fshare%25253Furl%25253Dhttps%25253A%25252F%25252Fsohonara.mysoho.com%25252F%252526text%25253Dhttp%2525253A%2525252F%2525252Fqqc.kr%2525252FXKR2Y0D%252526from%25253Dline_scheme%26scope%3Dopenid%2Bprofile%2Bfriends%2Bgroups%2Btimeline.post%2Bmessage.write&loginChannelId=1446101138&loginState=wBkM1D2i6jLDRjh6zfFIm3&fromDomain=access-auto.line.me&line_auto_login_error=universal_link_error#/')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_line.png"
+                                  alt=""
+                              /></a>
+                              <a
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://auth.band.us/login_page?display=popup&next_url=https%3A%2F%2Fband.us%2Fplugin%2Fshare%3Froute%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D%26body%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_band.png"
+                                  alt=""
+                              /></a>
+                              <a
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://twitter.com/intent/tweet?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D&text=퍼프블라우스%20화이트')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_twitter_blue.png"
+                                  alt=""
+                              /></a>
+                              <a
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://accounts.google.com/ServiceLogin/signinchooser?passive=1209600&osid=1&continue=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&followup=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&ifkv=AeAAQh5CLvwfHxrmxVosQDHyr3jYWKi9iRFjmo_M9cg7vkQYEbsMzjH1HjT1D14TqO933bOG0zaR&flowName=GlifWebSignIn&flowEntry=ServiceLogin')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_google.png"
+                                  alt=""
+                              /></a>
+                              <a
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://telegram.me/share?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_telegram.png"
+                                  alt=""
+                              /></a>
+                              <a
+                                class="share-con-ico"
+                                href="javascript:alertbtn()"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_urlcopy.png"
+                                  alt=""
+                              /></a>
+                            </div>
+                            <div class="lcont"></div>
+                          </div>
                         </div>
+                      </div>
                     </div>
-                    <a th:href="|/product/${dto.itemNo}|" class="buy bold">구매하기</a>
-                </div>
-                <!-- 상품 리스트 끝 -->
-                    </li>
-                </ul>
+                    <a th:href="|/product/${dto.itemNo}|" class="buy bold"
+                      >구매하기</a
+                    >
+                  </div>
+                  <!-- 상품 리스트 끝 -->
+                </li>
+              </ul>
             </div>
           </div>
           <!-- 구분선 -->
@@ -508,7 +570,7 @@
         </div>
         <!-- 푸터 -->
         <div class="footer">
-            <div th:replace="/fragments/footer.html :: fragment-footer"></div>
+          <div th:replace="/fragments/footer.html :: fragment-footer"></div>
         </div>
       </div>
     </div>
@@ -529,16 +591,80 @@
     <script src="/js/home-sort-btn.js"></script>
     <script src="/js/home-displayTypeChange.js"></script>
     <script src="/js/popup.js"></script>
-<!--    <script>-->
-<!--      //장바구니 버튼 클릭시 숫자 증가-->
-<!--      let basketNum = document.querySelector(".basket-num").innerHTML;-->
-<!--      console.log(basketNum);-->
-<!--      function basketNumCount() {-->
-<!--        basketNum++;-->
-<!--        console.log(basketNum);-->
-<!--        document.querySelector(".basket-num").innerHTML = basketNum;-->
-<!--      }-->
-<!--      var myCarousel = document.querySelector("#carouselExampleCaptions");-->
-<!--    </script>-->
   </body>
+  <script>
+      const cookies = document.cookie.split("; "); //쿠키를 전부 불러와서 배열에 담는다.
+      let cartNum = 0; //올라가야할 숫자가 몇개인지
+
+      // for (let i = 0; i < cookies.length; i++) {
+      //   if (cookies[i].includes(": ")) { // 가져온 모든 쿠키중에서 우리가 설정한 쿠키만 추출
+      //     cartNum += Number(cookies[i].substring(12)); //추출한 숫자를 cartNum에 담는다. (장바구니에 몇개가 담겨있는지 알기 위해서)
+      //   }
+      // }
+
+      var setCookie = function (item_idx, quantity) {
+        //쿠키 생성 함수 (매개변수로 "item_idx 1", 1)이 들어옴
+        var date = new Date(); //
+        date.setTime(date.getTime() + 3 * 24 * 60 * 60 * 1000); //date를 현재시간 + 3일 후로 설정한다.
+        document.cookie =
+          item_idx + //쿠키이름 (key)
+          "=" +
+          quantity + // 쿠키(value)
+          ";expires=" +
+          date.toUTCString() + //쿠키 기한 // 설정한 데이트타임으로 기한을 준다.
+          ";path=/";
+      };
+
+      document.querySelector(".basket-num").innerHTML = cartNum; //더한숫자를 장바구니 숫자로 보여지게 해준다.
+
+      let basketNum = document.querySelector(".basket-num").innerHTML;
+
+      function basketNumCount(a) {
+        //장바구니 아이콘 선택시 실행되는 함수 / 매개변수로 this가 들어온다.(itemNo)
+        basketNum++;
+        let item_idx = $(a).attr("value"); //attr("value") : value값을 가져온다. 만약 ""안에 class면 class이름을 가져온다.
+        let item_quantity = 0; //아이템 수량 초기화
+        document.querySelector(".basket-num").innerHTML = basketNum; //오른 숫자 반영
+
+        if (getCookie("item_idx: " + item_idx) == null) {
+          //해당 상품이 쿠키로 만들어진적이 없으면 새로 생성하라는 뜻
+
+          setCookie("item_idx: " + item_idx, item_quantity + 1);
+        } else {
+          item_quantity = getCookie("item_idx: " + item_idx); //  getCookie("item_idx: " + item_idx) => value이다 "2"
+          setCookie("item_idx: " + item_idx, Number(item_quantity) + 1); //만약 같은 idx가 있으면 수량만 +1해서 기존 쿠키에 덮어씌운다.
+        }
+        console.log(getCookie("item_idx: " + item_idx));
+      }
+
+      var getCookie = function (name) {
+        //매개변수로 쿠키이름을 넣어주면 value로 반환
+        var value = document.cookie.match("(^|;) ?" + name + "=([^;]*)(;|$)");
+        return value ? value[2] : null; //3항 연산자 : 값이 있으면 가져오고 없으면 null로 반환
+      };
+
+      for (let i = 0; i < cookies.length; i++) {
+        //보안토큰 제외
+        if (!cookies[i].includes("XSRF")) {
+          //includes 해당 문자열이 포함됬는지 확인 //XSRF : 보안토큰 앞글자
+          cartNum += Number(cookies[i].substring(2));
+        }
+      }
+      // document.querySelector(".basket-num").innerHTML = cartNum;
+      console.log(cookies);
+
+      function getCookies() {
+        /* 로컬에 저장된 쿠키 뿌려주기 */
+        const allCookies = document.cookie;
+        // 하나의 문자열로 리턴 --> cookie1=value; cookie2=value; cookie3=value
+        console.log(typeof allCookies); // string
+
+        /* if 조건문 -> 쿠키가 있으면 */
+        if (allCookies != "")
+          alert(
+            `저장된 쿠키의 값은 ${allCookies} \n다시 방문해주셔서 환영합니다.`
+          );
+        else alert(`저장된 쿠키가 없습니다. \n(첫방문을 환영합니다.)`);
+      }
+    </script>
 </html>
