@@ -1,6 +1,6 @@
 package com.study.springboot.controller;
 
-import com.study.springboot.dto.security.MailDto;
+//import com.study.springboot.dto.security.MailDto;
 import com.study.springboot.dto.security.MemberJoinDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
@@ -11,7 +11,7 @@ import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ReviewRepository;
 import com.study.springboot.service.ProductService;
 import com.study.springboot.service.ReviewService;
-import com.study.springboot.service.SendEmailService;
+//import com.study.springboot.service.SendEmailService;
 import com.study.springboot.service.Service3;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -42,7 +42,7 @@ public class Controller3 {
     private final MemberRepository memberRepository;
     final private PasswordEncoder passwordEncoder;
     final private Service3 service3;
-    final private SendEmailService sendEmailService;
+  //  final private SendEmailService sendEmailService;
 
     final private OrderRepository orderRepository;
 
