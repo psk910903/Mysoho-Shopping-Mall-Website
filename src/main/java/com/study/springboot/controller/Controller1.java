@@ -345,6 +345,7 @@ public class Controller1 {
 
     List<OrderResponseDto> orderList = service1.findByOrder(dto);
     List<CartResponseDto> cartList = new ArrayList<>();
+    List<List<CartResponseDto>> cartListModel = new ArrayList<>();
 
     int stateType1 = 0;
     int stateType2 = 0;
@@ -370,7 +371,7 @@ public class Controller1 {
       }
       //비회원 주문번호에서 카트정보 가져오기
       cartList = service1.getCartListNonMember(orderDto);
-
+      cartListModel.add(cartList);
       Long originalPrice =0L;
       Long discountPrice =0L;
       Long itemPrice =0L;
@@ -388,7 +389,7 @@ public class Controller1 {
       orderDto.setOrderDiscountPrice(discountPrice);//할인율이 적용된 차감될 금액
       orderDto.setOrderItemPrice(itemPrice); // (할인 적용된 결제당시)상품가격
     }
-    int cartCount = cartList.size();
+    int cartCount = cartListModel.size();
     int orderCount = orderList.size();
     model.addAttribute("orderCount", orderCount);
     model.addAttribute("stateType1", stateType1);
@@ -399,7 +400,7 @@ public class Controller1 {
 
     model.addAttribute("cartCount", cartCount);
     model.addAttribute("orderList", orderList);
-    model.addAttribute("cartList", cartList);
+    model.addAttribute("cartListModel", cartListModel);
 
 
 
