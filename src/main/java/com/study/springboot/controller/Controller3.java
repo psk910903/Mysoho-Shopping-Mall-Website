@@ -1,6 +1,6 @@
 package com.study.springboot.controller;
 
-import com.study.springboot.dto.security.MemberFindId;
+import com.study.springboot.dto.security.MailDto;
 import com.study.springboot.dto.security.MemberJoinDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
@@ -11,6 +11,7 @@ import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ReviewRepository;
 import com.study.springboot.service.ProductService;
 import com.study.springboot.service.ReviewService;
+import com.study.springboot.service.SendEmailService;
 import com.study.springboot.service.Service3;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -30,6 +31,7 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -40,6 +42,7 @@ public class Controller3 {
     private final MemberRepository memberRepository;
     final private PasswordEncoder passwordEncoder;
     final private Service3 service3;
+    final private SendEmailService sendEmailService;
 
     final private OrderRepository orderRepository;
 
@@ -207,6 +210,7 @@ public class Controller3 {
             request.getSession().setAttribute("username", entity.getMemberName());
             System.out.println("myPage memberMileage:" + entity.getMemberMileage());
             request.getSession().setAttribute("memberMileage", entity.getMemberMileage());
+            request.getSession().setAttribute("memberCoupon", entity.getMemberCoupon());
         }
         return "/user/user/myorder-list-user";
     }
@@ -223,7 +227,7 @@ public class Controller3 {
     public String checkPswd(@AuthenticationPrincipal User user,
                             @RequestParam("getPassword") String getPassword) {
         MemberEntity entity = service3.findByUserId(user.getUsername());
-        String encodePassword = entity.getPassword();
+        String encodePassword = entity.getPassword();//
         if (passwordEncoder.matches(getPassword, encodePassword)) {
             return "<script> alert('비밀번호 확인완료'); location.href='/user/myInfo';</script>";
         } else {
@@ -262,11 +266,9 @@ public class Controller3 {
             return "<script> alert('비밀번호가 다릅니다'); history.back(); </script>";
         }
     }
-
-    //마일리지 상세 페이지 user/mileage로 url하면 안됨.
+    //마일리지 상세
     @RequestMapping("/user/mileage")
     public String mileage(@AuthenticationPrincipal User user,
-                          //HttpServletRequest request,
                           Model model) {
         if (user == null) {
             System.out.println("no user");
@@ -274,73 +276,77 @@ public class Controller3 {
             String username = user.getUsername();
             System.out.println("mileage username:" + username);
             MemberEntity entity = service3.findByUserId(username);
-            //request.getSession().setAttribute("username",entity.getMemberName());
             System.out.println("mileage :" + entity.getMemberMileage());
             model.addAttribute("memberMileage", entity.getMemberMileage());
         }
         return "/user/user/user-mileage";
     }
-    //
-    @RequestMapping("/find/Id")
-    @ResponseBody
-    public String findId(@Valid MemberFindId dto,
-                         BindingResult bindingResult){
-        System.out.println("start");
-        if (bindingResult.hasErrors()) {
-            //DTO에 설정한 message값을 가져온다.
-            String detail = bindingResult.getFieldError().getDefaultMessage();
-            //DTO에 유효성체크를 걸어놓은 어노테이션명을 가져온다.
-            String bindResultCode = bindingResult.getFieldError().getCode();
-            System.out.println(detail + ":" + bindResultCode);
-            return "<script>alert('" + detail + "'); history.back();</script>";
+    //쿠폰 상세
+    @RequestMapping("/coupons/mylist")
+    public String coupons(@AuthenticationPrincipal User user,
+                          Model model) {
+        if (user == null) {
+            System.out.println("no user");
+        } else {
+            String username = user.getUsername();
+            System.out.println("coupons username:" + username);
+            MemberEntity entity = service3.findByUserId(username);
+            System.out.println("coupons :" + entity.getMemberCoupon());
+            model.addAttribute("memberCoupon", entity.getMemberCoupon());
         }
+        return "user/user/coupons-mylist";
+    }
+    //로그인 전 아이디 찾기
+    @RequestMapping("/find/id")
+    @ResponseBody
+    public String findId(@RequestParam("memberName") String memberName,
+                         @RequestParam("memberPhone")  String memberPhone
+                         ){
+        System.out.println(memberName);
+        System.out.println(memberPhone);
 
-        System.out.println(dto.getMemberName());
-        System.out.println(dto.getMemberPhone());
-
-        List<MemberEntity> list = memberRepository.findByMemberNameAndMemberPhone(
-                dto.getMemberName(), dto.getMemberPhone());
-        MemberEntity entity = list.get(0);
-
-        String id = entity.getUsername();
-
-        if( id==null ){
+        Optional<MemberEntity> optional = memberRepository.findByMemberNameAndMemberPhone(memberName,memberPhone);
+        String id = optional.get().getUsername();
+        if(id==null){
             return "<script>alert('가입된 회원 정보가 없습니다. 이름/휴대폰번호를 확인해주세요.'); history.back();</script>";
         } else {
             return "<script>alert('회원님의 아이디는 "+id+" 입니다.'); location.href='/user/login';</script>";
         }
     }
 
-    //쿠폰 상세 페이지
-    @RequestMapping("/coupons/mylist")
-    public String coupons() {
-        return "user/user/coupons-mylist";
-    }
+    //로그인 전 암호 재설정
+//    @RequestMapping("/find/password")
+//    @ResponseBody
+//    public String findPassword(@RequestParam("getEmail") String getEmail,
+//                               MailDto dto
+//
+//    ){
+//        System.out.println(getEmail);
+//        Optional<MemberEntity> optional = memberRepository.findByMemberEmail(getEmail);
+//        if(optional == null){
+//            return "<script>alert('가입된 회원 정보가 없습니다. 이메일 주소를 확인해주세요.'); history.back();</script>";
+//        }
+//        String memberEmail = optional.get().getMemberEmail();
+//        if(getEmail!=memberEmail){
+//            return "<script>alert('정보가 일치하지 않습니다. 이메일 주소를 확인해주세요.'); history.back(); </script>";
+//        } else {
+//            sendEmailService.createMailAndChangePassword(getEmail,dto);
+//            return null;
+//        }
+//    }
 
-    //나의 후기 내역
+    //나의 후기 내역 - 없어서 페이지만 연결
     @RequestMapping("/review/myList")
     public String myReview() {
         return "user/user/review-mylist";
     }
 
-    //나의 상품 문의 내역
-    @RequestMapping("/inquiry/myProductInquiries")
-    public String inquiry() {
-        return "user/user/myProductInquiries";
-    }
-
-    //나의 Q&A
-//    @RequestMapping("/qna/user")
-//    public String qna() {
-//        return "user/user/qna-user";
+    //나의 상품 문의 내역 -> 연결해야 됨
+//    @RequestMapping("/inquiry/myProductInquiries")
+//    public String inquiry() {
+//        return "user/user/myProductInquiries";
 //    }
-    //주문내역
 
-    //장바구니
-    @RequestMapping("/order")
-    public String orderbasket() {
-        return "order/shopping-basket";
-    }
-
+    //나의 Q&A->controller2에 있음
 
 }//class
