@@ -504,6 +504,8 @@ public class Controller2 {
     public String test2(@RequestParam Long qnaId) {
         return ""+qnaId;
     }
+
     //
     //
+
 }
