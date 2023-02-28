@@ -1,6 +1,8 @@
 package com.study.springboot.controller;
 
 //import com.study.springboot.dto.security.MailDto;
+import com.study.springboot.dto.cart.CartResponseDto;
+import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.security.MemberJoinDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
@@ -9,10 +11,8 @@ import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.repository.MemberRepository;
 import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ReviewRepository;
-import com.study.springboot.service.ProductService;
-import com.study.springboot.service.ReviewService;
+import com.study.springboot.service.*;
 //import com.study.springboot.service.SendEmailService;
-import com.study.springboot.service.Service3;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -31,6 +31,7 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
@@ -42,6 +43,8 @@ public class Controller3 {
     private final MemberRepository memberRepository;
     final private PasswordEncoder passwordEncoder;
     final private Service3 service3;
+    final private Service1 service1;
+    final private CartService cartService;
   //  final private SendEmailService sendEmailService;
 
     final private OrderRepository orderRepository;
@@ -200,17 +203,74 @@ public class Controller3 {
     //마이페이지 폼
     @RequestMapping("/myorder/lists")
     public String myInfo(@AuthenticationPrincipal User user,
-                         HttpServletRequest request) {
+                         HttpServletRequest request, Model model) {
         if (user == null) {
             System.out.println("no user");
         } else {
-            String username = user.getUsername();
-            System.out.println("myPage username:" + username);
+            String username = user.getUsername(); //멤버 아이디
             MemberEntity entity = service3.findByUserId(username);
             request.getSession().setAttribute("username", entity.getMemberName());
-            System.out.println("myPage memberMileage:" + entity.getMemberMileage());
             request.getSession().setAttribute("memberMileage", entity.getMemberMileage());
-            request.getSession().setAttribute("memberCoupon", entity.getMemberCoupon());
+//            request.getSession().setAttribute("memberCoupon", entity.getMemberCoupon());
+
+            //0228 선교 작업
+            List<OrderResponseDto> orderList = cartService.findByOrderList(username);
+            List<CartResponseDto> cartList = new ArrayList<>();
+            List<List<CartResponseDto>> cartListModel = new ArrayList<>();
+
+            int stateType1 = 0;
+            int stateType2 = 0;
+            int stateType3 = 0;
+            int stateType4 = 0;
+            int stateType5 = 0;
+
+            for (int i = 0; i < orderList.size(); i++) {
+                OrderResponseDto orderDto = orderList.get(i);
+                String orderState = orderDto.getOrderState();
+                if (orderState.equals("결제대기")) {
+                    stateType1++;
+                } else if (orderState.equals("배송대기")) {
+                    stateType2++;
+                }else if (orderState.equals("배송중")) {
+                    stateType3++;
+                } else if (orderState.equals("배송완료")) {
+                    stateType4++;
+                } else { //취소/반품
+                    stateType5++;
+                }
+                //회원 주문번호에서 카트정보 가져오기
+                cartList = service1.getCartListMember(orderDto);
+
+                cartListModel.add(cartList);
+                Long originalPrice =0L;
+                Long discountPrice =0L;
+                Long itemPrice =0L;
+
+                for (int j = 0; j < cartList.size(); j++) {
+
+                    if (Objects.equals(cartList.get(j).getOrderNo(), orderDto.getOrderNo())) {
+                        originalPrice += cartList.get(j).getCartItemOriginalPrice();
+                        discountPrice += cartList.get(j).getCartDiscountPrice();
+                        itemPrice += cartList.get(j).getCartItemPrice();
+                    }
+                }
+                orderDto.setOrderItemOriginalPrice(originalPrice); //(할인 전)상품가격
+                orderDto.setOrderDiscountPrice(discountPrice);//할인율이 적용된 차감될 금액
+                orderDto.setOrderItemPrice(itemPrice); // (할인 적용된 결제당시)상품가격
+            }
+            int cartCount = cartListModel.size();
+            int orderCount = orderList.size();
+            model.addAttribute("orderCount", orderCount);
+            model.addAttribute("stateType1", stateType1);
+            model.addAttribute("stateType2", stateType2);
+            model.addAttribute("stateType3", stateType3);
+            model.addAttribute("stateType4", stateType4);
+            model.addAttribute("stateType5", stateType5);
+
+            model.addAttribute("cartCount", cartCount);
+            model.addAttribute("orderList", orderList);
+            model.addAttribute("cartListModel", cartListModel);
+
         }
         return "/user/user/myorder-list-user";
     }
@@ -291,8 +351,8 @@ public class Controller3 {
             String username = user.getUsername();
             System.out.println("coupons username:" + username);
             MemberEntity entity = service3.findByUserId(username);
-            System.out.println("coupons :" + entity.getMemberCoupon());
-            model.addAttribute("memberCoupon", entity.getMemberCoupon());
+//            System.out.println("coupons :" + entity.getMemberCoupon());
+//            model.addAttribute("memberCoupon", entity.getMemberCoupon());
         }
         return "user/user/coupons-mylist";
     }

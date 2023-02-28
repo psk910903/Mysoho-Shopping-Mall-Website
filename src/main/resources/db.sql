@@ -167,11 +167,18 @@ INSERT INTO `cart` VALUES(NULL, '11112', '10002', NULL, NULL , '20001', '퍼프�
 
 INSERT INTO `cart` VALUES(NULL, '11113', '10003', NULL, NULL , '20002', '브라운 사각 bag', '브라운', 'FREE', 1, '32000', '0', '32000',DEFAULT);
 INSERT INTO `cart` VALUES(NULL, '11114', '10003', NULL, NULL , '20003', '린넨 ops 베이지', '베이지', 'S', 1, '49000', '4900', '44100', DEFAULT);
-SELECT * FROM `cart`;
+
+INSERT INTO `cart` VALUES(NULL, '11121', '10004', 'psk910903', NULL , '20000', '퍼프블라우스', '화이트', 'FREE', 1, '49000', '4500', '44500',DEFAULT);
+INSERT INTO `cart` VALUES(NULL, '11122', '10004', 'psk910903', NULL , '20001', '퍼프블라우스', '퍼플', 'FREE', 1, '49000', '4500', '44500', DEFAULT);
+
+INSERT INTO `cart` VALUES(NULL, '11123', '10005', 'psk910903', NULL , '20002', '브라운 사각 bag', '브라운', 'FREE', 1, '32000', '0', '32000',DEFAULT);
+INSERT INTO `cart` VALUES(NULL, '11124', '10005', 'psk910903', NULL , '20003', '린넨 ops 베이지', '베이지', 'S', 1, '49000', '4900', '44100', DEFAULT);
 
 SELECT * FROM `cart`;
 
-SELECT * FROM cart WHERE cart_code = 11112 AND member_id is NULL
+SELECT * FROM cart WHERE cart_code = 11124 AND NOT member_id is NULL
+
+SELECT * FROM cart WHERE member_id = 'psk910903'
 
 
 -- 구매경로 : 1. 장바구니에 넣고 결제하기 2. 바로 결제하기(1개 장바구니에 넣고 결제)
@@ -247,6 +254,17 @@ INSERT INTO `order`
           default, default, '무통장입금', '결제대기', default);
 INSERT INTO `order`
 	VALUES (NULL, '11113', '11114', NULL, NULL, NULL, 35000, 1,
+          '박선교', '01040246575', '박선교', '01040246575', '12345', '서울시 마포구 갈매기동', '나머지주소',
+          default, default, '무통장입금', '결제대기', default);
+
+INSERT INTO `order`
+	VALUES (NULL, '11121', '11122', NULL, NULL, NULL, 35000, 1,
+          '박선교', '01040246575', '박선교', '01040246575', '12345', '서울시 마포구 갈매기동', '나머지주소',
+          default, default, '무통장입금', '결제대기', default);
+
+
+INSERT INTO `order`
+	VALUES (NULL, '11123', '11124', NULL, NULL, NULL, 35000, 1,
           '박선교', '01040246575', '박선교', '01040246575', '12345', '서울시 마포구 갈매기동', '나머지주소',
           default, default, '무통장입금', '결제대기', default);
 SELECT * FROM `order`;

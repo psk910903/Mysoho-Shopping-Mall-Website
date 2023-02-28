@@ -34,4 +34,6 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     //주문자명, 전화번호로 주문조회 sender, phone
     @Query(value = "SELECT * FROM `order` WHERE order_name LIKE CONCAT('%',:sender,'%') AND order_phone LIKE CONCAT('%',:phone,'%') order BY order_datetime desc", nativeQuery = true)
     List<OrderEntity> findByOrder(@Param(value="sender")String sender, @Param(value="phone")String phone  );
+
+
 }

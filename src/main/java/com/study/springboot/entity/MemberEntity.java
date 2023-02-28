@@ -31,8 +31,8 @@ public class MemberEntity {
     private String memberPhone; // = member_phone = memberphone
     @Column(name = "member_mileage")
     private Long memberMileage;
-    @Column(name = "member_coupon")
-    private Long memberCoupon;//
+//    @Column(name = "member_coupon")
+//    private Long memberCoupon;//
 
     @Column(name = "member_addr_number")
     private String memberAddrNumber;
@@ -60,7 +60,7 @@ public class MemberEntity {
                         String memberAddrNumber, String memberAddr1,
                         String memberAddr2, String memberRole,
                         LocalDate memberJoinDatetime, LocalDate memberExitDatetime,
-                        String memberExited, Long memberCoupon) {
+                        String memberExited) { //, Long memberCoupon
         this.memberNo = memberNo;
         this.username = username;
         this.password = password;
@@ -69,7 +69,7 @@ public class MemberEntity {
         this.memberEmail = memberEmail;
         this.memberPhone = memberPhone;
         this.memberMileage = memberMileage;
-        this.memberCoupon = memberCoupon;
+//        this.memberCoupon = memberCoupon;
         this.memberAddrNumber = memberAddrNumber;
         this.memberAddr1 = memberAddr1;
         this.memberAddr2 = memberAddr2;

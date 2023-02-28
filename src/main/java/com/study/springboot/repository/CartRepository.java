@@ -16,5 +16,9 @@ public interface CartRepository extends JpaRepository<CartEntity, Long> {
     @Query(value = "SELECT * FROM cart WHERE cart_code = :cart_code and member_id is NULL", nativeQuery = true)
     CartEntity findByCartNonMember(String cart_code);
 
+    @Query(value = "SELECT * FROM cart WHERE cart_code = :cart_code and NOT member_id is NULL", nativeQuery = true)
+    CartEntity findByCartMember(String cart_code);
 
+    @Query(value = "SELECT * FROM cart WHERE member_id = :id", nativeQuery = true)
+    List<CartEntity> findByCartMemberId(String id);
 }

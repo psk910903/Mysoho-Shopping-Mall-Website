@@ -39,7 +39,7 @@ public class MemberResponseDto {
         this.memberEmail = entity.getMemberEmail();
         this.memberJoinDatetime = entity.getMemberJoinDatetime();
         this.memberMileage = entity.getMemberMileage();
-        this.memberCoupon = entity.getMemberCoupon();
+//        this.memberCoupon = entity.getMemberCoupon();
         this.memberAddrNumber = entity.getMemberAddrNumber();
         this.memberAddr1 = entity.getMemberAddr1();
         this.memberAddr2 = entity.getMemberAddr2();
