@@ -7,16 +7,12 @@
     <!-- 버튼 이미지 -->
     <div class="flexbox">
       <span class="blue fs-14 span2">로그인 후, 사용 가능합니다.</span>
-      <a href="javascript:orderInfo(2)" class="order-hd-open-2"
-      ><img
-              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
-              alt=""
-      /></a>
-      <a href="javascript:orderInfo(2)" class="order-hd-close-2"
-      ><img
-              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png"
-              alt=""
-      /></a>
+      <a href="javascript:orderInfo(2)" class="order-hd-open-2">
+        <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt=""/>
+      </a>
+      <a href="javascript:orderInfo(2)" class="order-hd-close-2">
+        <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png" alt=""/>
+      </a>
     </div>
   </div>
   <div class="order2">
@@ -25,7 +21,7 @@
         <div class="title">
           <div>
             보유적립금
-            <span class="js-userMileageText">0원</span>
+            <span class="js-userMileageText" th:text="${memberMileage}">0원</span>
           </div>
           <div class="cbx-tit">
             <input type="checkbox" />

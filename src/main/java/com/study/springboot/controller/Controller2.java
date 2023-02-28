@@ -2,9 +2,11 @@ package com.study.springboot.controller;
 
 import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.inquiry.InquiryResponseDto;
+import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.notice.NoticeResponseDto;
 import com.study.springboot.dto.notice.NoticeSaveRequestDto;
 import com.study.springboot.dto.notice.NoticeUpdateRequestDto;
+import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
 import com.study.springboot.object.FileResponse;
@@ -332,6 +334,7 @@ public class Controller2 {
     // '/qna/user' 끝 -----------------------------------------------------------------------------------------------
     // '/order' 시작 -----------------------------------------------------------------------------------------------
 
+    final private MemberService memberService;
 //    @GetMapping("/order")
 //    public String order(Model model) {
 //
@@ -388,7 +391,7 @@ public class Controller2 {
     }
 
     @GetMapping("/order")
-    public String order(Model model, HttpServletRequest request) {
+    public String order(Model model, HttpServletRequest request, @AuthenticationPrincipal User user) {
 
         List<ProductResponseDto> itemList = new ArrayList<>();
         List<CartResponseDto> cartList = new ArrayList<>();
@@ -410,6 +413,8 @@ public class Controller2 {
                     // cartList
                     String[] valueList = value.split("\\.");
                     String cartCode = UUID.randomUUID().toString();
+                    Long cartDiscountPrice = productResponseDto.getItemPrice() * productResponseDto.getItemDiscountRate() / 100;
+                    Long cartItemPrice = (productResponseDto.getItemPrice() - cartDiscountPrice) /100 * 100;
 
                     CartResponseDto cartResponseDto = CartResponseDto.builder()
                             .cartCode(cartCode)
@@ -418,8 +423,8 @@ public class Controller2 {
                             .itemOptionSize(valueList[1])
                             .cartItemAmount(Long.parseLong(valueList[2]))
                             .cartItemOriginalPrice(productResponseDto.getItemPrice())
-                            .cartDiscountPrice(productResponseDto.getItemDiscountRate())
-                            .cartItemPrice(productResponseDto.getItemPrice())
+                            .cartDiscountPrice(cartDiscountPrice)
+                            .cartItemPrice(cartItemPrice)
                             .build();
                     cartList.add(cartResponseDto);
 
@@ -427,8 +432,13 @@ public class Controller2 {
             }
         }
 
+        // memberMileage
+        String memberId = user.getUsername();
+        MemberResponseDto memberResponseDto = service2.findByMemberIdMember(memberId);
+
         model.addAttribute("itemList", itemList);
         model.addAttribute("cartList", cartList);
+        model.addAttribute("memberMileage", memberResponseDto.getMemberMileage());
 
         return "/user/order/shopping-basket";
 
@@ -442,6 +452,7 @@ public class Controller2 {
         if(cookies!=null){
             for(Cookie c : cookies){
                 String name = c.getName();
+
                 if (name.startsWith("itemIdx.")) {
                     c.setMaxAge(0);
                     response.addCookie(c);
@@ -454,16 +465,30 @@ public class Controller2 {
 
     @PostMapping("/order/deleteAction")
     @ResponseBody
-    public String orderDeleteAction(@RequestParam List<Long> cartCodeList, Model model, HttpServletRequest request) {
+    public String orderDeleteAction(@RequestParam String itemOptionColor, @RequestParam String itemOptionSize,
+                                    @RequestParam String itemNo, HttpServletRequest request, HttpServletResponse response) {
 
+        Cookie[] cookies = request.getCookies();
+        if(cookies!=null){
+            for(Cookie c : cookies){
+                String name = c.getName();
+                String value = c.getValue();
 
-        Boolean success = service2.deleteList(cartCodeList);
-        if(success) {
-            return "<script>location.href='/order';</script>";
-        }else{
-            return "<script>alert('삭제 실패했습니다.'); history.back();</script>";
+                if (name.equals("itemIdx."+itemNo) && value.startsWith(itemOptionColor+"."+itemOptionSize)) {
+                    c.setMaxAge(0);
+                    response.addCookie(c);
+                }
+            }
         }
 
+        return "<script>location.href='/order';</script>";
+    }
+
+    @PostMapping("/order/test2")
+    @ResponseBody
+    public String orderTest2(OrderContentSaveRequestDto orderContentSaveRequestDto) {
+
+        return "<script>location.href='/order';</script>";
     }
 
     // '/order' 끝 -----------------------------------------------------------------------------------------------

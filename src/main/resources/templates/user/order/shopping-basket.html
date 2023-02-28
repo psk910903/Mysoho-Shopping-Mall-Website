@@ -26,16 +26,19 @@
       <div class="content-view text-align-center">
         <!-- cart -->
         <div th:replace="/user/order-object/container-shopping-basket-cart.html :: container-shopping-basket-cart"></div>
-        <!-- 주문자 정보-->
-        <div th:replace="/user/order-object/container-shopping-basket-orderer.html :: container-shopping-basket-orderer"></div>
-        <!-- 적립금 -->
-        <div th:replace="/user/order-object/container-shopping-basket-mileage.html :: container-shopping-basket-mileage"></div>
-        <!-- 결제방법 -->
-        <div th:replace="/user/order-object/container-shopping-basket-payment.html :: container-shopping-basket-payment"></div>
-        <!-- 약관/결제 전체 동의 -->
-        <div th:replace="/user/order-object/container-shopping-basket-concent.html :: container-shopping-basket-concent"></div>
-        <!-- 결제 요약 -->
-        <div th:replace="/user/order-object/container-shopping-basket-summary.html :: container-shopping-basket-summary"></div>
+        <form action="/order/test2" method="POST" onsubmit="processBeforeSubmit()">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+          <!-- 주문자 정보-->
+          <div th:replace="/user/order-object/container-shopping-basket-orderer.html :: container-shopping-basket-orderer"></div>
+          <!-- 적립금 -->
+          <div th:replace="/user/order-object/container-shopping-basket-mileage.html :: container-shopping-basket-mileage"></div>
+          <!-- 결제방법 -->
+          <div th:replace="/user/order-object/container-shopping-basket-payment.html :: container-shopping-basket-payment"></div>
+          <!-- 약관/결제 전체 동의 -->
+          <div th:replace="/user/order-object/container-shopping-basket-concent.html :: container-shopping-basket-concent"></div>
+          <!-- 결제 요약 -->
+          <div th:replace="/user/order-object/container-shopping-basket-summary.html :: container-shopping-basket-summary"></div>
+        </form>
       </div>
       <!-- 푸터 -->
       <div class="footer">
@@ -98,6 +101,30 @@
     </script>
     <script src="/js/popup.js"></script>
     <script src="/js/shopping-basket.js"></script>
+    <script>
+      function processBeforeSubmit(){
+        combineInput();
+      }
+      function combineInput(){
+        // orderPhone
+        let orderPhone1 = document.getElementById("orderPhone1").value;
+        let orderPhone2 = document.getElementById("order-sec-input").value;
+        document.getElementById("orderPhone").value = orderPhone1 + orderPhone2;
+
+        // orderRecipientPhone
+        let orderRecipientPhone1 = document.getElementById("orderRecipientPhone1").value;
+        let orderRecipientPhone2 = document.getElementById("order-sec-input-copy").value;
+        document.getElementById("orderRecipientPhone").value = orderRecipientPhone1 + orderRecipientPhone2;
+
+        // orderRecipientAddr1
+        let orderRecipientAddr1 = document.getElementById("sample6_address").value;
+        let orderRecipientAddr2 = document.getElementById("sample6_extraAddress").value;
+        document.getElementById("orderRecipientAddr1").value = orderRecipientAddr1 + orderRecipientAddr2;
+      }
+    </script>
+
+
+
     <script>
       let agree = document.querySelectorAll(".agree-box input");
       let agreeAllBtn = document.querySelector("#agreeAllBtn");
