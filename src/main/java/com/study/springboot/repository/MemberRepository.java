@@ -18,8 +18,11 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
                                                  @Param("member_pw_param") String member_pw);
 
     @Query(value = "select * from member m where m.member_name = :member_name_param and m.member_phone = :member_phone_param", nativeQuery = true)
-    List<MemberEntity> findByMemberNameAndMemberPhone(@Param("member_name_param") String member_name,
+    Optional<MemberEntity> findByMemberNameAndMemberPhone(@Param("member_name_param") String member_name,
                                                       @Param("member_phone_param") String member_phone);
+
+    @Query(value = "select * from member m where m.member_email = :member_email_param", nativeQuery = true)
+    Optional<MemberEntity> findByMemberEmail(@Param("member_email_param") String member_email);
 
 
     @Query(value = "SELECT * FROM `member` WHERE member_no LIKE CONCAT('%',:keyword,'%') OR member_id LIKE CONCAT('%',:keyword,'%') or member_name LIKE CONCAT('%',:keyword,'%') or member_email LIKE CONCAT('%',:keyword,'%') or member_phone LIKE CONCAT('%',:keyword,'%') order BY `member_join_datetime`", nativeQuery = true)
