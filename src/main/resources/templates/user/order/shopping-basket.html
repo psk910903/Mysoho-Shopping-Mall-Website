@@ -74,17 +74,17 @@
         countSelected.innerText = checkList.length;
       }
 
-      function checkBox(cartNo){
-        let checkBox = document.getElementById("checkBox"+cartNo);
+      function checkBox(cartCode){
+        let checkBox = document.getElementById("checkBox"+cartCode);
         if (checkBox.checked == true){
           for (cart of [[${cartList}]]){
-            if (cart.cartNo == cartNo){
+            if (cart.cartCode == cartCode){
               checkList.push(cart);
             }
           }
         }else{
           for (idx in checkList){
-            if (checkList[idx].cartNo == cartNo){
+            if (checkList[idx].cartCode == cartCode){
               checkList.splice(idx, 1);
               idx--;
             }
@@ -95,16 +95,6 @@
         countSelected.innerText = checkList.length;
       }
 
-      function deleteAll(){
-
-        let checkNoList = [];
-        for (c of checkList){
-          checkNoList.push(c.cartNo);
-        }
-        let trashCan = document.getElementById("trashCan");
-        trashCan.value = checkNoList;
-
-      };
     </script>
     <script src="/js/popup.js"></script>
     <script src="/js/shopping-basket.js"></script>

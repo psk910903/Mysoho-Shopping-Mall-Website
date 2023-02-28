@@ -3,16 +3,16 @@
 <th:block th:fragment="container-shopping-basket-option">
 
     <div class="prd-option-result MSH-prd-option-result-19520">
-        <button class="red2 bold btn-h38-bd mt-10 MSH-open js-btn-open-option-addtion option-tap-btn show-option-list" th:onclick="popupOptionList([[${cart.cartNo}]])">
+        <button class="red2 bold btn-h38-bd mt-10 MSH-open js-btn-open-option-addtion option-tap-btn show-option-list" th:onclick="popupOptionList([[${cart.cartCode}]])">
             옵션수정
             <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt=""/>
         </button>
-        <div class="bg-option" th:id="|bg-option${cart.cartNo}|">
+        <div class="bg-option" th:id="|bg-option${cart.cartCode}|">
             <div class="window">
                 <div class="popup">
                     <div class="popup-inner">
                         <div class="lhd-option">
-                            <button id="closeBtn-option" th:onclick="closeOptionList([[${cart.cartNo}]])">
+                            <button id="closeBtn-option" th:onclick="closeOptionList([[${cart.cartCode}]])">
                                 <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h38_close_down.png" alt=""/>
                             </button>
                         </div>

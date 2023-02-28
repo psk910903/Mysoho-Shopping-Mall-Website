@@ -24,10 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Controller
@@ -371,7 +370,7 @@ public class Controller2 {
 //    }
 
     @GetMapping("/order/test1")
-    public String orderTest1(Model model,  HttpServletResponse response) {
+    public String orderTest1(HttpServletResponse response) {
 
         Cookie cookie;
 
@@ -401,18 +400,19 @@ public class Controller2 {
                 String value = c.getValue(); // 쿠키 값 가져오기
 
                 if (name.startsWith("itemIdx.")) {
-                    System.out.println(name);
-                    System.out.println(value);
 
                     // itemList
                     Long itemNo = Long.parseLong(name.split("\\.")[1]);
-                    System.out.println(itemNo);
+
                     ProductResponseDto productResponseDto = productService.findById(itemNo);
                     itemList.add(productResponseDto);
 
                     // cartList
                     String[] valueList = value.split("\\.");
+                    String cartCode = UUID.randomUUID().toString();
+
                     CartResponseDto cartResponseDto = CartResponseDto.builder()
+                            .cartCode(cartCode)
                             .itemName(productResponseDto.getItemName())
                             .itemOptionColor(valueList[0])
                             .itemOptionSize(valueList[1])
@@ -434,11 +434,30 @@ public class Controller2 {
 
     }
 
+    @PostMapping("/order/deleteAllAction")
+    @ResponseBody
+    public String orderDeleteAllAction(HttpServletRequest request, HttpServletResponse response) {
+
+        Cookie[] cookies = request.getCookies();
+        if(cookies!=null){
+            for(Cookie c : cookies){
+                String name = c.getName();
+                if (name.startsWith("itemIdx.")) {
+                    c.setMaxAge(0);
+                    response.addCookie(c);
+                }
+            }
+        }
+
+        return "<script>alert('장바구니가 비었습니다.\\n관심있는 상품을 담아보세요.');location.href='/';</script>";
+    }
+
     @PostMapping("/order/deleteAction")
     @ResponseBody
-    public String orderDeleteAction(@RequestParam List<Long> cartNoList, Model model) {
+    public String orderDeleteAction(@RequestParam List<Long> cartCodeList, Model model, HttpServletRequest request) {
 
-        Boolean success = service2.deleteList(cartNoList);
+
+        Boolean success = service2.deleteList(cartCodeList);
         if(success) {
             return "<script>location.href='/order';</script>";
         }else{

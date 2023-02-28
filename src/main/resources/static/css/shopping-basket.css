@@ -612,3 +612,6 @@ input[type="checkbox"]:checked::after {
 .mgl20{
     margin-left: 20px;
 }
+#trashCanImg{
+    background: white;
+}
