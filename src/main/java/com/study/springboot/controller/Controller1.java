@@ -334,12 +334,12 @@ public class Controller1 {
   public String popupQnaWrite() {
     return "/user/popup/qna-write";
   }
-  // 비회원 주문조회-----------------------------------------------------------------------------
+  // 주문조회-----------------------------------------------------------------------------
   @GetMapping("/myorder")
   public String myorderList() {
     return "/user/user/myorder";
   }
-
+//비회원
   @RequestMapping("/find/myorder/list")
   public String myorder(OrderSearchDto dto, Model model) {
 
@@ -401,8 +401,6 @@ public class Controller1 {
     model.addAttribute("cartCount", cartCount);
     model.addAttribute("orderList", orderList);
     model.addAttribute("cartListModel", cartListModel);
-
-
 
     return "/user/user/myorder-list";
   }
