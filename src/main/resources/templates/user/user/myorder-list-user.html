@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -38,7 +37,7 @@
     <div class="mypage-top">
       <div class="info-header">
 <!--        은진변경부분-->
-        <div><span class="user-name" sec:authorize ="isAuthenticated()" th:text="${session.username} "></span>님</div>
+        <div><span class="user-name"  th:text="${session.username} "></span>님</div>
         <div>
           <a href="/user/myInfoPswd" class="info-header-myinfo">내 정보</a>
           <a href="/user/logoutAction" class="info-header-logout">로그아웃</a>
@@ -50,13 +49,13 @@
           <div class="myPoint-tit">
             <span class="myPoint-radio">P</span>나의 적립금
           </div>
-          <div class="myPoint-info"><span  sec:authorize ="isAuthenticated()" th:text="${session.memberMileage}"></span>원</div>
+          <div class="myPoint-info"><span   th:text="${session.memberMileage}"></span>원</div>
         </a>
         <a href="/coupons/mylist" class="myPoint">
           <div class="myPoint-tit">
             <span class="myPoint-radio">C</span>나의 쿠폰
           </div>
-          <div class="myPoint-info"><span>0</span>원</div>
+          <div class="myPoint-info"><span th:text="${session.memberCoupon}"></span>원</div>
         </a>
       </div>
       <div class="review-qa-list">
