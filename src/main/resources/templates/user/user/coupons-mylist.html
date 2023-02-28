@@ -20,6 +20,15 @@
   <link rel="stylesheet" href="/css/login.css" />
   <link rel="stylesheet" href="/css/coupon.css" />
 </head>
+<style>
+  .coupon{
+     font-weight: bold;
+     font-size: 25px;
+     color: #ff5a3f;
+     margin-top: 10px;
+
+  }
+</style>
 <body>
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <div class="wrap">
@@ -88,7 +97,9 @@
             </div>
           </div>
         </div>
-        <div class="couponNon" th:text="|${memberCoupon}원|">보유중인 쿠폰이 없습니다.</div>
+        <div class="couponNon" ><span class="coupon"><span  th:text="${session.memberCoupon}">
+        </span>원</span></div>
+        <div class="non-data"  th:if="${session.memberCoupon}==0" align="center"> 보유중인 쿠폰이 없습니다.</div>
       </div>
     </div>
   </div>
