@@ -40,6 +40,7 @@
         <input type="hidden" name="memberRole" value="ROLE_ADMIN">
         <input type="hidden" name="memberRate" value="일반">
         <input type="hidden" name="memberMileage" value="3000">
+        <input type="hidden" name="memberCoupon" value="0">
         <input type="hidden" name="memberExited" value="회원">
         <input
                 class="input-st01 users-login-input input-id"
@@ -220,7 +221,7 @@
             <div class="agree">
               <li>
                 <div>
-                  <input name="ckeck1" type="checkbox" />
+                  <input name="ckeck1" type="checkbox" class="essential" required/>
                   <!--                    <label for="check1"></label>-->
                   <div class="cbx-content cbx-content-li">
                     이용약관 동의 (필수)
@@ -230,9 +231,9 @@
               </li>
               <li>
                 <div>
-                  <input name="ckeck1" type="checkbox" />
+                  <input name="ckeck1" type="checkbox" class="essential" required/>
                   <!--                    <label for="check1"></label>-->
-                  <div class="cbx-content cbx-content-li">
+                  <div class="cbx-content cbx-content-li" req>
                     개인정보 수집ㆍ이용 동의 (필수)
                   </div>
                 </div>
