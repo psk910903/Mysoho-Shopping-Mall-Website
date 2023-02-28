@@ -72,7 +72,7 @@
                         <p>이름과 휴대폰 번호를 입력해주세요</p>
                       </div>
 
-                      <form method="post" action="/user/findId">
+                      <form method="post" action="/find/id">
                         <input class="input-st01 users-login-input" type="text" name="memberName" placeholder="이름을 입력하세요"/>
                         <input class="input-st01 users-login-input mt-10" type="text" name="memberPhone" placeholder="전화번호를 입력하세요"/>
                         <button class="btn-h42-gray mt-10" type="submit">찾기</button>
@@ -101,8 +101,8 @@
                         <div>가능한 링크를 보내드립니다.</div>
                       </div>
 
-                      <form action="/user/loginProcess" method="post">
-                        <input class="input-st01 users-login-input" type="email" name="user_name" placeholder="이메일을 입력해주세요"/>
+                      <form action="/find/password" method="post">
+                        <input class="input-st01 users-login-input" type="mail" name="getEmail" placeholder="이메일을 입력해주세요"/>
                         <button type="submit" class="btn-h42-gray mt-10" onclick="alert('이메일 주소를 입력해주세요.')">발송하기
                         </button>
                       </form>
@@ -156,5 +156,49 @@
       document.querySelector("#show2").addEventListener("click", show2);
       document.querySelector("#close2").addEventListener("click", close2);
     </script>
+    <script>
+
+    $('.modal').on('hidden.bs.modal', function (e) {
+        console.log('modal close');
+        $(this).find('form')[0].reset()
+    });
+
+    $("#checkEmail").click(function () {
+        let userEmail = $("#userEmail").val();
+        let userName = $("#userName").val();
+
+        $.ajax({
+            type: "GET",
+            url: "/check/findPw",
+            data: {
+                "userEmail": userEmail,
+                "userName": userName
+            },
+            success: function (res) {
+                if (res['check']) {
+                    swal("발송 완료!", "입력하신 이메일로 임시비밀번호가 발송되었습니다.", "success").then((OK) = > {
+                        if(OK) {
+                            $.ajax({
+                                type: "POST",
+                                url: "/check/findPw/sendEmail",
+                                data: {
+                                    "userEmail": userEmail,
+                                    "userName": userName
+                                }
+                            })
+                            window.location = "/login";
+                        }
+
+
+                    }
+                )
+                    $('#checkMsg').html('<p style="color:darkblue"></p>');
+                } else {
+                    $('#checkMsg').html('<p style="color:red">일치하는 정보가 없습니다.</p>');
+                }
+            }
+        })
+    })
+</script>
   </body>
 </html>
