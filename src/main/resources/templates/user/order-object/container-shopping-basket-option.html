@@ -76,9 +76,7 @@
 
                             </div>
                         </div>
-<!--                        <button class="js-btnOrder js-mo-tpl btn-h42-gray mt-25" id="final-choice" onclick="finalChoice()">-->
-<!--                            선택완료-->
-<!--                        </button>-->
+
                         <input type="hidden" th:value="${itemList[status.index].itemNo}" name="itemNo">
                         <input type="hidden" th:value="${cart.itemOptionSize}" name="originalSize">
                         <input type="hidden" th:value="${cart.itemOptionColor}" name="originalColor">
@@ -91,13 +89,15 @@
             </div>
         </div>
         <div class="gray fs-15">
-            <span th:text="${cart.itemName}">퍼프 블라우스 퍼플</span>, <span id="product-count" th:text="${cart.cartItemAmount}">1</span>개
+            <span th:text="${cart.itemOptionSize}">사이즈</span>,
+            <span th:text="${cart.itemOptionColor}">색상</span>,
+            <span id="product-count" th:text="${cart.cartItemAmount}">1</span>개
         </div>
         <div class="fs-14 gray2">
-            <span id="first cost" th:text="${#numbers.formatInteger(cart.cartItemOriginalPrice, 3, 'COMMA') + '원'}"> 할인 전 가격</span>
+            <span id="first cost" th:text="${#numbers.formatInteger(cart.cartItemOriginalPrice * cart.cartItemAmount, 3, 'COMMA') + '원'}"> 할인 전 가격</span>
         </div>
         <div class="fs-21 bold red2">
-            <span id="final-product-price" th:text="${#numbers.formatInteger(cart.cartItemPrice, 3, 'COMMA') + '원'}">할인 후 가격</span>
+            <span id="final-product-price" th:text="${#numbers.formatInteger(cart.cartItemPrice * cart.cartItemAmount, 3, 'COMMA') + '원'}">할인 후 가격</span>
         </div>
     </div>
 

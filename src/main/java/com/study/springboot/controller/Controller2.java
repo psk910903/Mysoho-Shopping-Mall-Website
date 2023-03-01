@@ -374,31 +374,34 @@ public class Controller2 {
 //
 //    }
 
-    @GetMapping("/order/test1")
-    public String orderTest1(HttpServletResponse response) {
-
-        Cookie cookie;
-        String color;
-
-        try {
-            color = URLEncoder.encode("오렌지", "UTF-8");
-            cookie = new Cookie("item_idx.20004."+ color + ".FREE", "2"); // 색상.사이즈.수량111);
-            response.addCookie(cookie);;
-
-            color = URLEncoder.encode("베이지", "UTF-8");
-            cookie = new Cookie("item_idx.20003." + color + ".M", "3");
-            response.addCookie(cookie);
-
-            color = URLEncoder.encode("화이트", "UTF-8");
-            cookie = new Cookie("item_idx.20000." + color + ".FREE", "1");
-            response.addCookie(cookie);
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return "redirect:/order";
-
-    }
+//    @GetMapping("/order/test1")
+//    public String orderTest1(HttpServletResponse response) {
+//
+//        Cookie cookie;
+//        String color;
+//
+//        try {
+//            color = URLEncoder.encode("오렌지", "UTF-8");
+//            cookie = new Cookie("item_idx.20004."+ color + ".FREE", "2"); // 색상.사이즈.수량111);
+//            cookie.setPath("/");
+//            response.addCookie(cookie);;
+//
+//            color = URLEncoder.encode("베이지", "UTF-8");
+//            cookie = new Cookie("item_idx.20003." + color + ".M", "3");
+//            cookie.setPath("/");
+//            response.addCookie(cookie);
+//
+//            color = URLEncoder.encode("화이트", "UTF-8");
+//            cookie = new Cookie("item_idx.20000." + color + ".FREE", "1");
+//            cookie.setPath("/");
+//            response.addCookie(cookie);
+//
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return "redirect:/order";
+//
+//    }
 
     @GetMapping("/order")
     public String order(Model model, HttpServletRequest request, @AuthenticationPrincipal User user) {
@@ -407,16 +410,27 @@ public class Controller2 {
         List<CartResponseDto> cartList = new ArrayList<>();
 
         Cookie[] cookies = request.getCookies(); // 모든 쿠키 가져오기
-        System.out.println(cookies.length);
+
+        // 쿠키 정렬하기
+        Arrays.sort(cookies, new Comparator<Cookie>() {
+            @Override
+            public int compare(Cookie c1, Cookie c2) {
+                String c1Name = c1.getName();
+                String c2Name = c2.getName();
+
+                return c2Name.compareTo(c1Name);
+            }
+        });
+
+
         if(cookies!=null){
             for (Cookie c : cookies) {
                 String name = c.getName(); // 쿠키 이름 가져오기
                 String value = c.getValue(); // 쿠키 값 가져오기
 
-                System.out.println(name);
-
                 if (name.startsWith("item_idx.")) {
 
+                    // 변수 선언
                     Long itemNo = Long.parseLong(name.split("\\.")[1]);
                     Long cartItemAmount = Long.parseLong(value);
                     String itemOptionColor = "";
@@ -506,11 +520,11 @@ public class Controller2 {
             for(Cookie c : cookies){
                 String name = c.getName();
                 String value = c.getValue();
-
-                if ((name.equals("item_idx."+ itemNo + "." + itemOptionColor + "." + itemOptionSize)) ||
-                   (name.equals("item_idx."+ itemNo + "." + encodedItemOptionColor + "." + itemOptionSize))) {
-                    c.setMaxAge(0);
-                    response.addCookie(c);
+                if (name.equals("item_idx."+ itemNo + "." + encodedItemOptionColor + "." + itemOptionSize)) {
+                    Cookie cookie = new Cookie(name, value);
+                    cookie.setPath("/");
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
                 }
             }
         }
@@ -538,10 +552,11 @@ public class Controller2 {
                 String name = c.getName();
                 String value = c.getValue();
 
-                if ((name.equals("item_idx."+ itemNo + "." + originalColor + "." + originalSize)) ||
-                    (name.equals("item_idx."+ itemNo + "." + encodedOriginalColor + "." + originalSize))) {
-                    c.setMaxAge(0);
-                    response.addCookie(c);
+                if (name.equals("item_idx."+ itemNo + "." + encodedOriginalColor + "." + originalSize)) {
+                    Cookie cookie = new Cookie(name, value);
+                    cookie.setPath("/");
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
                 }
             }
         }
@@ -552,7 +567,8 @@ public class Controller2 {
 
         try {
             encodedChangedColor = URLEncoder.encode(changedColor, "UTF-8");
-            cookie = new Cookie("itemIdx."+ itemNo + "." + encodedChangedColor + "." + changedSize, changedAmount);
+            cookie = new Cookie("item_idx."+ itemNo + "." + encodedChangedColor + "." + changedSize, changedAmount);
+            cookie.setPath("/");
             response.addCookie(cookie);;
 
         }catch (Exception e){
@@ -585,8 +601,5 @@ public class Controller2 {
     public String test2(@RequestParam Long qnaId) {
         return ""+qnaId;
     }
-
-    //
-    //
 
 }
