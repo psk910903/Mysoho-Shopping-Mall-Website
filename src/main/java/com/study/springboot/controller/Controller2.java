@@ -419,8 +419,6 @@ public class Controller2 {
                     String itemOptionColor = "";
                     try {
                         itemOptionColor = URLDecoder.decode(name.split("\\.")[2], "UTF-8");
-                        System.out.println(itemOptionColor);
-                        System.out.println(URLDecoder.decode("화이트", "UTF-8"));
                     }catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -494,12 +492,20 @@ public class Controller2 {
                                     @RequestParam String itemNo, HttpServletRequest request, HttpServletResponse response) {
 
         Cookie[] cookies = request.getCookies();
+        String encodedItemOptionColor = itemOptionColor;
+        try {
+            encodedItemOptionColor = URLEncoder.encode(itemOptionColor, "UTF-8");
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
         if(cookies!=null){
             for(Cookie c : cookies){
                 String name = c.getName();
                 String value = c.getValue();
 
-                if (name.equals("itemIdx."+itemNo) && value.startsWith(itemOptionColor+"."+itemOptionSize)) {
+                if ((name.equals("itemIdx."+ itemNo + "." + itemOptionColor + "." + itemOptionSize)) ||
+                   (name.equals("itemIdx."+ itemNo + "." + encodedItemOptionColor + "." + itemOptionSize))) {
                     c.setMaxAge(0);
                     response.addCookie(c);
                 }
@@ -511,12 +517,47 @@ public class Controller2 {
 
     @PostMapping("/order/modifyAction")
     @ResponseBody
-    public String orderModifyAction(@RequestParam String changedSize, @RequestParam String changedColor, @RequestParam String changedAmount
-                                    ) {
+    public String orderModifyAction(@RequestParam String changedSize, @RequestParam String changedColor, @RequestParam String changedAmount,
+                                    @RequestParam String originalColor, @RequestParam String originalSize, HttpServletResponse response,
+                                    @RequestParam String itemNo, HttpServletRequest request) {
 
+        // 기존에 있던 쿠키 삭제
+        Cookie[] cookies = request.getCookies();
+        String encodedOriginalColor = originalColor;
 
+        try {
+            encodedOriginalColor = URLEncoder.encode(originalColor, "UTF-8");
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        return changedSize + changedColor + changedAmount;
+        if(cookies!=null){
+            for(Cookie c : cookies){
+                String name = c.getName();
+                String value = c.getValue();
+
+                if ((name.equals("itemIdx."+ itemNo + "." + originalColor + "." + originalSize)) ||
+                        (name.equals("itemIdx."+ itemNo + "." + encodedOriginalColor + "." + originalSize))) {
+                    c.setMaxAge(0);
+                    response.addCookie(c);
+                }
+            }
+        }
+
+        // 쿠키 재생성
+        Cookie cookie;
+        String encodedChangedColor;
+
+        try {
+            encodedChangedColor = URLEncoder.encode(changedColor, "UTF-8");
+            cookie = new Cookie("itemIdx."+ itemNo + "." + encodedChangedColor + "." + changedSize, changedAmount);
+            response.addCookie(cookie);;
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "redirect:/order";
+
     }
 
 

@@ -79,6 +79,9 @@
 <!--                        <button class="js-btnOrder js-mo-tpl btn-h42-gray mt-25" id="final-choice" onclick="finalChoice()">-->
 <!--                            선택완료-->
 <!--                        </button>-->
+                        <input type="hidden" th:value="${itemList[status.index].itemNo}" name="itemNo">
+                        <input type="hidden" th:value="${cart.itemOptionSize}" name="originalSize">
+                        <input type="hidden" th:value="${cart.itemOptionColor}" name="originalColor">
                         <button class="js-btnOrder js-mo-tpl btn-h42-gray mt-25">
                             선택완료
                         </button>
