@@ -3,11 +3,13 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/7.git-blog.mySohoAdmin.Ex19_LoginJoin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/7.git-blog.mySohoAdmin.Ex19_LoginJoin.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/7.git.mySohoAdmin.Ex19_LoginJoin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/7.git.mySohoAdmin.Ex19_LoginJoin.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Desktop.mySohoAdmin.Ex19_LoginJoin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Desktop.mySohoAdmin.Ex19_LoginJoin.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Documents.7.git-blog.mySohoAdmin.Ex19_LoginJoin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Documents.7.git-blog.mySohoAdmin.Ex19_LoginJoin.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Ex19_LoginJoin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Ex19_LoginJoin.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.study.Ex19_LoginJoin.iml" filepath="$PROJECT_DIR$/.idea/modules/com.study.Ex19_LoginJoin.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.study.Ex19_LoginJoin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.study.Ex19_LoginJoin.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.study.Ex19_LoginJoin.main~1.iml" filepath="$PROJECT_DIR$/.idea/modules/com.study.Ex19_LoginJoin.main~1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.study.Ex19_LoginJoin.test.iml" filepath="$PROJECT_DIR$/.idea/modules/com.study.Ex19_LoginJoin.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/mySohoAdmin.Ex19_LoginJoin.main.iml" filepath="$PROJECT_DIR$/.idea/modules/mySohoAdmin.Ex19_LoginJoin.main.iml" />
     </modules>
   </component>
