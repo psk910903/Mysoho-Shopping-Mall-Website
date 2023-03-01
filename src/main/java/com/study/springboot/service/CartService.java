@@ -40,22 +40,22 @@ public class CartService {
     @Transactional(readOnly = true)
     public List<OrderResponseDto> findByOrderList(String id) {
         //회원 아이디로 카트테이블에서 정보 가져오기
-        List<CartEntity> entityList = cartRepository.findByCartMemberId(id);
+        List<CartEntity> cartEntityList = cartRepository.findByCartMemberId(id);
         //entity -> dto로 변환
-        List<CartResponseDto> dtoList = entityList.stream().map(CartResponseDto::new).collect(Collectors.toList());
+        List<CartResponseDto> cartDtoList = cartEntityList.stream().map(CartResponseDto::new).toList();
         //카트 테이블에서 주문번호만 추출해서 담을 orderNoList 생성
         List<Long> orderNoList = new ArrayList<>();
         //반복해서 주문번호만 추출 후 리스트에 담기
-        for (int i = 0; i < dtoList.size(); i++) {
-            orderNoList.add(dtoList.get(i).getOrderNo());
+        for (int i = 0; i < cartDtoList.size(); i++) {
+            orderNoList.add(cartDtoList.get(i).getOrderNo());
         }
         //주문번호리스트에서 중복 값 제거
-        List<Long> newList = orderNoList.stream().distinct().collect(Collectors.toList());
+        List<Long> newList = orderNoList.stream().distinct().toList();
         //주문번호들로 주문테이블에서 정보 가져와서 담을 리스트 생성
         List<OrderResponseDto> orderList = new ArrayList<>();
         //반복해서 주문테이블 객체 가져와서 dto로 변환 후 리스트에 담기
-        for (int i = 0; i < newList.size(); i++) {
-            OrderEntity orderEntity = orderRepository.findById(newList.get(i)).get();
+        for (Long orderNo : newList) {
+            OrderEntity orderEntity = orderRepository.findById(orderNo).get();
             OrderResponseDto dto = new OrderResponseDto(orderEntity);
             orderList.add(dto);
         }

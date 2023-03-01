@@ -71,11 +71,11 @@ public class Service1 {
 
 
     @Transactional(readOnly = true)
-    public List<OrderResponseDto> findByOrder(OrderSearchDto dto) {
+    public List<OrderResponseDto> findByOrderNonMember(OrderSearchDto dto) {
         String sender = dto.getSender();
         String phone = dto.getPhone1() + dto.getPhone2();
 
-        List<OrderEntity> orderEntity = orderRepository.findByOrder(sender, phone);
+        List<OrderEntity> orderEntity = orderRepository.findByOrderNonMember(sender, phone);
 
         return orderEntity.stream().map(OrderResponseDto::new).collect(Collectors.toList());
     }
@@ -109,47 +109,39 @@ public class Service1 {
     @Transactional(readOnly = true)
     public List<CartResponseDto> getCartListNonMember(OrderResponseDto dto) {
         List<CartResponseDto> cartList = new ArrayList<>();
+
         if (dto.getCartCode1() != null) {
             //주문정보의 장바구니 코드로 장바구니 정보 dto 생성
             CartResponseDto cartDto = cartService.findByCartNonMember(dto.getCartCode1());
             //장바구니에 상품 이미지 url 셋팅
-            String byUrl = productRepository.findByUrl(cartDto.getItemCode());
-            cartDto.setItemImageUrl(byUrl);
+            cartDto.setItemImageUrl(productRepository.findByUrl(cartDto.getItemCode()));
             //장바구니 리스트에 셋팅된 dto 담기
             cartList.add(cartDto);
         }
         if (dto.getCartCode2() != null) {
-            //반복
+            //2~5 카트 반복
             CartResponseDto cartDto = cartService.findByCartNonMember(dto.getCartCode2());
-
-            String byUrl = productRepository.findByUrl(cartDto.getItemCode());
-            cartDto.setItemImageUrl(byUrl);
+            cartDto.setItemImageUrl(productRepository.findByUrl(cartDto.getItemCode()));
             cartList.add(cartDto);
         }
         if (dto.getCartCode3() != null) {
             CartResponseDto cartDto = cartService.findByCartNonMember(dto.getCartCode3());
-
-            String byUrl = productRepository.findByUrl(cartDto.getItemCode());
-            cartDto.setItemImageUrl(byUrl);
+            cartDto.setItemImageUrl(productRepository.findByUrl(cartDto.getItemCode()));
             cartList.add(cartDto);
-        }
-        if (dto.getCartCode4() != null) {
+        }if (dto.getCartCode4() != null) {
             CartResponseDto cartDto = cartService.findByCartNonMember(dto.getCartCode4());
-
-            String byUrl = productRepository.findByUrl(cartDto.getItemCode());
-            cartDto.setItemImageUrl(byUrl);
+            cartDto.setItemImageUrl(productRepository.findByUrl(cartDto.getItemCode()));
             cartList.add(cartDto);
-        }
-        if (dto.getCartCode5() != null) {
+        }if (dto.getCartCode5() != null) {
             CartResponseDto cartDto = cartService.findByCartNonMember(dto.getCartCode5());
-
-            String byUrl = productRepository.findByUrl(cartDto.getItemCode());
-            cartDto.setItemImageUrl(byUrl);
+            cartDto.setItemImageUrl(productRepository.findByUrl(cartDto.getItemCode()));
             cartList.add(cartDto);
         }
 
         return cartList;
     }
+
+
 
     @Transactional(readOnly = true)
     public List<CartResponseDto> getCartListMember(OrderResponseDto dto) {

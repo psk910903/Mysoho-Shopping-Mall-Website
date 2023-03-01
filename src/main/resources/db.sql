@@ -180,6 +180,8 @@ SELECT * FROM cart WHERE cart_code = 11124 AND NOT member_id is NULL
 
 SELECT * FROM cart WHERE member_id = 'psk910903'
 
+SELECT * FROM cart WHERE cart_code = 11121 and member_id is NULL
+
 
 -- 구매경로 : 1. 장바구니에 넣고 결제하기 2. 바로 결제하기(1개 장바구니에 넣고 결제)
 
@@ -205,6 +207,8 @@ CREATE TABLE `order` (
 	order_recipient_addr_number CHAR(255) NOT NULL, -- 수령자 우편번호
 	order_recipient_addr_1 CHAR(255) NOT NULL, -- 수령자 기본주소
 	order_recipient_addr_2 CHAR(255) NOT NULL, -- 수령자 나머지주소
+	-- 회원 아이디
+	member_id VARCHAR(255) NULL,
 	-- 적립금 사용
 	member_mileage INT DEFAULT 0, -- 사용 마일리지(적립금)
   -- 쿠폰 사용
@@ -241,35 +245,35 @@ ALTER TABLE `order` AUTO_INCREMENT=10000;
 
 INSERT INTO `order`
 	VALUES (NULL, '22222', '22223', NULL, NULL, NULL, 35000, 1,
-          '홍길동', '01022223333', '홍길동엄마', '01044445555', '12345', '서울시 마포구 갈매기동', '나머지주소',
+          '홍길동', '01022223333', '홍길동엄마', '01044445555', '12345', '서울시 마포구 갈매기동', '나머지주소', 'hong',
           default, default, '무통장입금', '결제대기', default);
 INSERT INTO `order`
 	VALUES (NULL, '33333', NULL, NULL, NULL, NULL, 35000, 1,
-          '둘리', '01098765432', '둘리엄마', '01012345678', '54321', '제주 서귀포시 토평동', '산15-1',
+          '둘리', '01098765432', '둘리엄마', '01012345678', '54321', '제주 서귀포시 토평동', '산15-1', 'lee',
           default, default, '휴대폰결제', '배송대기', default);
 
 INSERT INTO `order`
 	VALUES (NULL, '11111', '11112', NULL, NULL, NULL, 35000, 1,
-          '박선교', '01040246575', '박선교', '01040246575', '12345', '서울시 마포구 갈매기동', '나머지주소',
+          '박선교', '01040246575', '박선교', '01040246575', '12345', '서울시 마포구 갈매기동', '나머지주소', null,
           default, default, '무통장입금', '결제대기', default);
 INSERT INTO `order`
 	VALUES (NULL, '11113', '11114', NULL, NULL, NULL, 35000, 1,
-          '박선교', '01040246575', '박선교', '01040246575', '12345', '서울시 마포구 갈매기동', '나머지주소',
+          '박선교', '01040246575', '박선교', '01040246575', '12345', '서울시 마포구 갈매기동', '나머지주소', null,
           default, default, '무통장입금', '결제대기', default);
 
 INSERT INTO `order`
 	VALUES (NULL, '11121', '11122', NULL, NULL, NULL, 35000, 1,
           '박선교', '01040246575', '박선교', '01040246575', '12345', '서울시 마포구 갈매기동', '나머지주소',
-          default, default, '무통장입금', '결제대기', default);
+          'psk910903', default, default, '무통장입금', '결제대기', default);
 
 
 INSERT INTO `order`
 	VALUES (NULL, '11123', '11124', NULL, NULL, NULL, 35000, 1,
           '박선교', '01040246575', '박선교', '01040246575', '12345', '서울시 마포구 갈매기동', '나머지주소',
-          default, default, '무통장입금', '결제대기', default);
+          'psk910903', default, default, '무통장입금', '결제대기', default);
 SELECT * FROM `order`;
 
-SELECT * FROM `order` WHERE order_name LIKE CONCAT('%','홍길동','%') AND order_phone LIKE CONCAT('%','01022223333','%') order BY order_datetime DESC
+SELECT * FROM `order` WHERE order_name LIKE CONCAT('%','박선교','%') AND order_phone LIKE CONCAT('%','01040246575','%') and member_id is NULL order BY order_datetime desc
 
 
 -- 상품문의 테이블 은진&희진 --------------------------------------------------------------

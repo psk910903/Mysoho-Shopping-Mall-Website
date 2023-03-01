@@ -343,17 +343,15 @@ public class Controller1 {
   @RequestMapping("/find/myorder/list")
   public String myorder(OrderSearchDto dto, Model model) {
 
-    List<OrderResponseDto> orderList = service1.findByOrder(dto);
-    List<CartResponseDto> cartList = new ArrayList<>();
+    List<OrderResponseDto> orderList = service1.findByOrderNonMember(dto);
+    List<CartResponseDto> cartList;
     List<List<CartResponseDto>> cartListModel = new ArrayList<>();
 
-    int stateType1 = 0;
-    int stateType2 = 0;
-    int stateType3 = 0;
-    int stateType4 = 0;
-    int stateType5 = 0;
-
-
+    int stateType1 = 0; //결제대기
+    int stateType2 = 0; //배송대기
+    int stateType3 = 0; //배송중
+    int stateType4 = 0; //배송완료
+    int stateType5 = 0; //취소/반품
 
     for (int i = 0; i < orderList.size(); i++) {
       OrderResponseDto orderDto = orderList.get(i);

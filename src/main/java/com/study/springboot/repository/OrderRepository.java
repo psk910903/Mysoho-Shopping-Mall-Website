@@ -1,7 +1,6 @@
 package com.study.springboot.repository;
 
 import com.study.springboot.entity.OrderEntity;
-import com.study.springboot.entity.ProductEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,8 +31,8 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
 
     //주문자명, 전화번호로 주문조회 sender, phone
-    @Query(value = "SELECT * FROM `order` WHERE order_name LIKE CONCAT('%',:sender,'%') AND order_phone LIKE CONCAT('%',:phone,'%') order BY order_datetime desc", nativeQuery = true)
-    List<OrderEntity> findByOrder(@Param(value="sender")String sender, @Param(value="phone")String phone  );
+    @Query(value = "SELECT * FROM `order` WHERE order_name LIKE CONCAT('%',:sender,'%') AND order_phone LIKE CONCAT('%',:phone,'%') and member_id is NULL order BY order_datetime desc", nativeQuery = true)
+    List<OrderEntity> findByOrderNonMember(@Param(value="sender")String sender, @Param(value="phone")String phone  );
 
 
 }
