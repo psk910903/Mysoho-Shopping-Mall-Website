@@ -26,9 +26,7 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <div class="wrap">
       <div class="betweenbtn">
-        <div
-          th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"
-        ></div>
+        <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
       </div>
       <div class="header-wrap">
         <div class="header">
@@ -48,7 +46,11 @@
       <div>
         <div class="swiper-wrapper">
           <!-- 메인사진 -->
-          <img class="main-image" th:src="${ dto.itemImageUrl }" alt="" />
+          <img
+            class="main-image"
+            th:src="${ dto.itemImageUrl }"
+            alt=""
+          />
           <!-- 확대링크이미지 z-index예정 -->
           <a
             href="javascript:openPopup('/product-zoom/product-onepiece3-zoom.html')"
@@ -61,38 +63,19 @@
         <div class="prd-info MSH-prd-info-19520">
           <div class="MSH-prd-name">
             <strong th:text="${ dto.itemName }">상품명</strong>
-            <!--            <div class="MSH-prd-name-sub">특별한 날에 best !</div>-->
+<!--            <div class="MSH-prd-name-sub">특별한 날에 best !</div>-->
           </div>
         </div>
         <div class="prd-desc">
           <div class="price txt-black">
             <th:block th:if="${dto.itemDiscountRate} != 0">
-              <div
-                class="sale-rate fs-21"
-                th:text="${ (dto.itemDiscountRate)+'%' }"
-              >
-                9%
-              </div>
-              <div
-                class="fs-21 black"
-                data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA')}"
-              >
-                <b> 44,500</b>
-              </div>
+              <div class="sale-rate fs-21 " th:text="${ (dto.itemDiscountRate)+'%' }">9%</div>
+              <div class="fs-21 black" data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA')}"><b> 44,500</b></div>
               <div class="fs-15 black"><b>원</b></div>
-              <div
-                class="gray-through detail-ori-price fs-15"
-                data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA')}+원"
-              >
-                49,000 원
-              </div>
+              <div class="gray-through detail-ori-price fs-15" data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA')}+원">49,000 원</div>
             </th:block>
             <th:block th:unless="${dto.itemDiscountRate} != 0">
-              <span
-                class="fs-21 black"
-                data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA')}"
-                >49,000원</span
-              >
+              <span class="fs-21 black" data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA')}">49,000원</span>
               <div class="fs-15 black"><b>원</b></div>
             </th:block>
           </div>
@@ -357,13 +340,7 @@
                   <div class="sect">
                     <div class="image">
                       <!-- 상세 이미지 -->
-                      <div
-                        class="image-div"
-                        th:utext="${ dto.itemInfo }"
-                        style="text-align: center"
-                      >
-                        상품정보
-                      </div>
+                      <div class="image-div" th:utext="${ dto.itemInfo }" style="text-align: center;">상품정보</div>
                     </div>
                   </div>
                 </div>
@@ -1239,13 +1216,13 @@
     </script>
     <!-- 장바구니 버튼, 공유 버튼 -->
     <script>
-      // //장바구니 버튼 클릭시 숫자 증가
-      // let basketNum = document.querySelector(".basket-num").innerHTML;
-      // console.log(basketNum);
-      // function basketNumCount() {
-      //   basketNum++;
-      //   document.querySelector(".basket-num").innerHTML = basketNum;
-      // }
+      //장바구니 버튼 클릭시 숫자 증가
+      let basketNum = document.querySelector(".basket-num").innerHTML;
+      console.log(basketNum);
+      function basketNumCount() {
+        basketNum++;
+        document.querySelector(".basket-num").innerHTML = basketNum;
+      }
       function closeOrderList() {
         document.querySelector(".bg-share").className = "bg-share";
       }

@@ -263,34 +263,15 @@
                       </p>
                     </div>
                   </div>
-                  <th:block
-                          th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
-                  >
                   <a
                     class="btn-cart-type1"
-
-                    onclick="alertAndItemLink(this)"
-
+                    onclick="basketNumCount(this)"
                     th:value="${dto.itemNo}"
                     ><img
                       src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
                       alt=""
                     />
                   </a>
-                  </th:block>
-                  <th:block
-                          th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
-                  >
-                    <a
-                            class="btn-cart-type1"
-                            onclick="basketNumCount(this)"
-                            th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
-                    ><img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                            alt=""
-                    />
-                    </a>
-                  </th:block>
                 </li>
               </div>
             </ul>
@@ -612,6 +593,78 @@
     <script src="/js/popup.js"></script>
   </body>
   <script>
+      const cookies = document.cookie.split("; "); //쿠키를 전부 불러와서 배열에 담는다.
+      let cartNum = 0; //올라가야할 숫자가 몇개인지
 
+      // for (let i = 0; i < cookies.length; i++) {
+      //   if (cookies[i].includes(": ")) { // 가져온 모든 쿠키중에서 우리가 설정한 쿠키만 추출
+      //     cartNum += Number(cookies[i].substring(12)); //추출한 숫자를 cartNum에 담는다. (장바구니에 몇개가 담겨있는지 알기 위해서)
+      //   }
+      // }
+
+      var setCookie = function (item_idx, quantity) {
+        //쿠키 생성 함수 (매개변수로 "item_idx 1", 1)이 들어옴
+        var date = new Date(); //
+        date.setTime(date.getTime() + 3 * 24 * 60 * 60 * 1000); //date를 현재시간 + 3일 후로 설정한다.
+        document.cookie =
+          item_idx + //쿠키이름 (key)
+          "=" +
+          quantity + // 쿠키(value)
+          ";expires=" +
+          date.toUTCString() + //쿠키 기한 // 설정한 데이트타임으로 기한을 준다.
+          ";path=/";
+      };
+
+      document.querySelector(".basket-num").innerHTML = cartNum; //더한숫자를 장바구니 숫자로 보여지게 해준다.
+
+      let basketNum = document.querySelector(".basket-num").innerHTML;
+
+      function basketNumCount(a) {
+        //장바구니 아이콘 선택시 실행되는 함수 / 매개변수로 this가 들어온다.(itemNo)
+        basketNum++;
+        let item_idx = $(a).attr("value"); //attr("value") : value값을 가져온다. 만약 ""안에 class면 class이름을 가져온다.
+        let item_quantity = 0; //아이템 수량 초기화
+        document.querySelector(".basket-num").innerHTML = basketNum; //오른 숫자 반영
+
+        if (getCookie("item_idx: " + item_idx) == null) {
+          //해당 상품이 쿠키로 만들어진적이 없으면 새로 생성하라는 뜻
+
+          setCookie("item_idx: " + item_idx, item_quantity + 1);
+        } else {
+          item_quantity = getCookie("item_idx: " + item_idx); //  getCookie("item_idx: " + item_idx) => value이다 "2"
+          setCookie("item_idx: " + item_idx, Number(item_quantity) + 1); //만약 같은 idx가 있으면 수량만 +1해서 기존 쿠키에 덮어씌운다.
+        }
+        console.log(getCookie("item_idx: " + item_idx));
+      }
+
+      var getCookie = function (name) {
+        //매개변수로 쿠키이름을 넣어주면 value로 반환
+        var value = document.cookie.match("(^|;) ?" + name + "=([^;]*)(;|$)");
+        return value ? value[2] : null; //3항 연산자 : 값이 있으면 가져오고 없으면 null로 반환
+      };
+
+      for (let i = 0; i < cookies.length; i++) {
+        //보안토큰 제외
+        if (!cookies[i].includes("XSRF")) {
+          //includes 해당 문자열이 포함됬는지 확인 //XSRF : 보안토큰 앞글자
+          cartNum += Number(cookies[i].substring(2));
+        }
+      }
+      // document.querySelector(".basket-num").innerHTML = cartNum;
+      console.log(cookies);
+
+      function getCookies() {
+        /* 로컬에 저장된 쿠키 뿌려주기 */
+        const allCookies = document.cookie;
+        // 하나의 문자열로 리턴 --> cookie1=value; cookie2=value; cookie3=value
+        console.log(typeof allCookies); // string
+
+        /* if 조건문 -> 쿠키가 있으면 */
+        if (allCookies != "")
+          alert(
+            `저장된 쿠키의 값은 ${allCookies} \n다시 방문해주셔서 환영합니다.`
+          );
+        else alert(`저장된 쿠키가 없습니다. \n(첫방문을 환영합니다.)`);
+      }
     </script>
 </html>
