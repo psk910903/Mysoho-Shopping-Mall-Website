@@ -1,6 +1,7 @@
 package com.study.springboot.controller;
 
 import com.study.springboot.dto.cart.CartResponseDto;
+import com.study.springboot.dto.cart.CartSaveRequestDto;
 import com.study.springboot.dto.inquiry.InquiryResponseDto;
 import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.notice.NoticeResponseDto;
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -449,9 +451,11 @@ public class Controller2 {
                     String cartCode = UUID.randomUUID().toString();
                     Long cartDiscountPrice = productResponseDto.getItemPrice() * productResponseDto.getItemDiscountRate() / 100;
                     Long cartItemPrice = (productResponseDto.getItemPrice() - cartDiscountPrice) /100 * 100;
+                    cartDiscountPrice = productResponseDto.getItemPrice() - cartItemPrice;
 
                     CartResponseDto cartResponseDto = CartResponseDto.builder()
                             .cartCode(cartCode)
+                            .itemCode(String.valueOf(itemNo))
                             .itemName(productResponseDto.getItemName())
                             .itemOptionColor(itemOptionColor)
                             .itemOptionSize(itemOptionSize)
@@ -581,11 +585,89 @@ public class Controller2 {
 
     @PostMapping("/order/test2")
     @ResponseBody
-    public String orderTest2(OrderContentSaveRequestDto orderContentSaveRequestDto) {
+    public String orderTest2(OrderContentSaveRequestDto orderContentSaveRequestDto, HttpServletRequest request,
+                             @AuthenticationPrincipal User user, HttpServletResponse response,
+                             @RequestParam String[] colorList, @RequestParam String[] sizeList,
+                             @RequestParam String[] amountList, @RequestParam String[] itemCodeList) {
 
+        // cart DB에 넣기
+        Cookie[] cookies = request.getCookies(); // 모든 쿠키 가져오기
+        if(cookies!=null){
+            for (Cookie c : cookies) {
+                String name = c.getName(); // 쿠키 이름 가져오기
+                String value = c.getValue(); // 쿠키 값 가져오기
 
+                if (name.startsWith("item_idx.")) {
 
-        return orderContentSaveRequestDto.toString();
+                    // cartItemAmount
+                    Long cartItemAmount = Long.parseLong(value);
+
+                    // itemOptionColor
+                    String itemOptionColor = "";
+                    try {
+                        itemOptionColor = URLDecoder.decode(name.split("\\.")[2], "UTF-8");
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    // itemOptionSize
+                    String itemOptionSize = name.split("\\.")[3];
+
+                    // itemCode
+                    String itemCode = name.split("\\.")[1];
+                    ProductResponseDto productResponseDto = productService.findById(Long.parseLong(itemCode));
+
+                    // cartCode
+                    String cartCode = UUID.randomUUID().toString();
+
+                    // orderNo
+                    SimpleDateFormat format = new SimpleDateFormat( "yyyyMMddHHmmss");
+                    String orderNo1 = format.format(new Date());
+                    String orderNo2 = String.format("%04d", (long)(Math.random()*10000));
+                    Long orderNo = Long.parseLong(orderNo1 + orderNo2);
+
+                    // memberId
+                    String memberId = null;
+                    if (user != null) {
+                        memberId = user.getUsername();
+                    }
+
+                    // cartDiscountPrice, cartItemPrice
+                    Long cartDiscountPrice = productResponseDto.getItemPrice() * productResponseDto.getItemDiscountRate() / 100;
+                    Long cartItemPrice = (productResponseDto.getItemPrice() - cartDiscountPrice) /100 * 100;
+                    cartDiscountPrice = productResponseDto.getItemPrice() - cartItemPrice;
+
+                    CartSaveRequestDto cartSaveRequestDto = CartSaveRequestDto.builder()
+                            .cartCode(cartCode)
+                            .orderNo(orderNo)
+                            .memberId(memberId)
+                            .itemCode(itemCode)
+                            .itemName(productResponseDto.getItemName())
+                            .itemOptionColor(itemOptionColor)
+                            .itemOptionSize(itemOptionSize)
+                            .cartItemAmount(cartItemAmount)
+                            .cartItemOriginalPrice(productResponseDto.getItemPrice())
+                            .cartDiscountPrice(cartDiscountPrice)
+                            .cartItemPrice(cartItemPrice)
+                            .cartDate(LocalDateTime.now())
+                            .build();
+
+                    boolean success = service2.save(cartSaveRequestDto);
+                    if (success){
+                        Cookie cookie = new Cookie(name, value);
+                        cookie.setPath("/");
+                        cookie.setMaxAge(0);
+                        response.addCookie(cookie);
+                    }else{
+                        //// 넣기
+                    }
+
+                }
+            }
+        }
+
+        return orderContentSaveRequestDto.toString() + "\n" + sizeList[0] + "\n"
+                + colorList[0] +"\n" + itemCodeList[0] + "\n" + amountList[0];
     }
 
     // '/order' 끝 -----------------------------------------------------------------------------------------------

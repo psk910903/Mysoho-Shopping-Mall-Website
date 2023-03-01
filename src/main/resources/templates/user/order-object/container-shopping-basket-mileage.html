@@ -32,7 +32,7 @@
         <ul>
           <li>
             <input sec:authorize="isAnonymous()" type="tel" name="memberMileage" placeholder="로그인 후, 사용 가능합니다." readonly="readonly" class="readonly-input"/>
-            <input sec:authorize="isAuthenticated()" type="tel" name="memberMileage"/>
+            <input sec:authorize="isAuthenticated()" type="tel" name="memberMileage" class="readonly-input" />
           </li>
         </ul>
       </div>

@@ -25,7 +25,7 @@
       <div class="content-view text-align-center">
         <!-- cart -->
         <div th:replace="/user/order-object/container-shopping-basket-cart.html :: container-shopping-basket-cart"></div>
-        <form action="/order/test2" method="POST" onsubmit="processBeforeSubmit()">
+        <form name="orderForm" action="/order/test2" method="POST" onsubmit="processBeforeSubmit()">
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
           <!-- 주문자 정보-->
           <div th:replace="/user/order-object/container-shopping-basket-orderer.html :: container-shopping-basket-orderer"></div>
@@ -62,8 +62,10 @@
     <script src="/js/popup.js"></script>
     <script src="/js/shopping-basket.js"></script>
 
-    <!-- 체크박스 선택 -->
     <script th:inline="javascript">
+
+      //////////// 체크박스 선택
+
       let checkList = [[${cartList}]];
 
       function checkBoxAll(){
@@ -105,6 +107,76 @@
 
         let countSelected = document.getElementById("countSelected");
         countSelected.innerText = checkList.length;
+      }
+
+      ////////////////// order 관련 함수
+
+      function processBeforeSubmit(){
+        combineInput();
+        addCartInput();
+      }
+
+      function combineInput(){
+        // orderPhone
+        let orderPhone1 = document.getElementById("orderPhone1").value;
+        let orderPhone2 = document.getElementById("order-sec-input").value;
+        document.getElementById("orderPhone").value = orderPhone1 + orderPhone2;
+
+        // orderRecipientPhone
+        let orderRecipientPhone1 = document.getElementById("orderRecipientPhone1").value;
+        let orderRecipientPhone2 = document.getElementById("order-sec-input-copy").value;
+        document.getElementById("orderRecipientPhone").value = orderRecipientPhone1 + orderRecipientPhone2;
+
+        // orderRecipientAddr1
+        let orderRecipientAddr1 = document.getElementById("sample6_address").value;
+        let orderRecipientAddr2 = document.getElementById("sample6_extraAddress").value;
+        document.getElementById("orderRecipientAddr1").value = orderRecipientAddr1 + orderRecipientAddr2;
+
+        // orderPayType
+        let orderPayTypeList = document.getElementsByName("orderPayType1");
+        let orderPayType2 = document.getElementById("paySelect").value;
+        for (orderPayTypeObj of orderPayTypeList){
+          if(orderPayTypeObj.checked){
+            document.getElementById("orderPayType").value = orderPayTypeObj.value + orderPayType2;
+          }
+        }
+
+      }
+
+      function addCartInput(){
+        let form = document.orderForm;
+
+        for (cart of checkList){
+
+          // colorList
+          let inputColor = document.createElement("input");
+          inputColor.setAttribute("type", "hidden");
+          inputColor.setAttribute("name", "colorList");
+          inputColor.setAttribute("value", cart.itemOptionColor);
+          form.appendChild(inputColor);
+
+          // sizeList
+          let inputSize = document.createElement("input");
+          inputSize.setAttribute("type", "hidden");
+          inputSize.setAttribute("name", "sizeList");
+          inputSize.setAttribute("value", cart.itemOptionSize);
+          form.appendChild(inputSize);
+
+          // amountList
+          let inputAmount = document.createElement("input");
+          inputAmount.setAttribute("type", "hidden");
+          inputAmount.setAttribute("name", "amountList");
+          inputAmount.setAttribute("value", cart.cartItemAmount);
+          form.appendChild(inputAmount);
+
+          // itemCode
+          let inputItemCode = document.createElement("input");
+          inputItemCode.setAttribute("type", "hidden");
+          inputItemCode.setAttribute("name", "itemCodeList");
+          inputItemCode.setAttribute("value", cart.itemCode);
+          form.appendChild(inputItemCode);
+        }
+
       }
 
     </script>
@@ -171,38 +243,7 @@
       }
     </script>
 
-    <!-- order 관련 함수 -->
-    <script>
-      function processBeforeSubmit(){
-        combineInput();
-      }
-      function combineInput(){
-        // orderPhone
-        let orderPhone1 = document.getElementById("orderPhone1").value;
-        let orderPhone2 = document.getElementById("order-sec-input").value;
-        document.getElementById("orderPhone").value = orderPhone1 + orderPhone2;
 
-        // orderRecipientPhone
-        let orderRecipientPhone1 = document.getElementById("orderRecipientPhone1").value;
-        let orderRecipientPhone2 = document.getElementById("order-sec-input-copy").value;
-        document.getElementById("orderRecipientPhone").value = orderRecipientPhone1 + orderRecipientPhone2;
-
-        // orderRecipientAddr1
-        let orderRecipientAddr1 = document.getElementById("sample6_address").value;
-        let orderRecipientAddr2 = document.getElementById("sample6_extraAddress").value;
-        document.getElementById("orderRecipientAddr1").value = orderRecipientAddr1 + orderRecipientAddr2;
-
-        // orderPayType
-        let orderPayTypeList = document.getElementsByName("orderPayType1");
-        let orderPayType2 = document.getElementById("paySelect").value;
-        for (orderPayTypeObj of orderPayTypeList){
-          if(orderPayTypeObj.checked){
-            document.getElementById("orderPayType").value = orderPayTypeObj.value + orderPayType2;
-          }
-        }
-
-      }
-    </script>
 
 
 
