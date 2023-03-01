@@ -324,7 +324,14 @@ public class Controller1 {
   @GetMapping("/product/{itemNo}")
   public String productContent(Model model,@PathVariable(value = "itemNo") Long itemNo) {
     ProductResponseDto dto = productService.findById(itemNo);
-
+    String[] colorList = dto.getItemOptionColor().split(",");
+    String[] sizeList = dto.getItemOptionSize().split(",");
+    int colorCount = colorList.length;
+    int sizeCount = sizeList.length;
+    model.addAttribute("colorCount", colorCount);
+    model.addAttribute("sizeCount", sizeCount);
+    model.addAttribute("colorList", colorList);
+    model.addAttribute("sizeList", sizeList);
     model.addAttribute("dto", dto);
     return "/user/product/content";
   }
