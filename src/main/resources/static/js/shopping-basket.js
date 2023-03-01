@@ -253,6 +253,7 @@ function sum() {
   let a = String(optionTotalPrice);
   var output = [a.slice(0, position), b, a.slice(position)].join("");
   document.querySelector("#option-price").innerHTML = output + "원";
+  document.querySelector("#finalPrice").innerHTML = output + "원";
   document.querySelector(".option-total-price").innerHTML = output;
   finalPrice = output;
   //갯수
@@ -266,6 +267,7 @@ function sub() {
     let a = String(optionTotalPrice);
     var output = [a.slice(0, position), b, a.slice(position)].join("");
     document.querySelector("#option-price").innerHTML = output + "원";
+    document.querySelector("#finalPrice").innerHTML = output + "원";
     document.querySelector(".option-total-price").innerHTML = output;
     finalPrice = output;
     //갯수
@@ -274,6 +276,7 @@ function sub() {
   } else {
     document.querySelector(".MSH-sto-stock").value = optionAmount;
     document.querySelector("#option-price").innerHTML = optionStr;
+    document.querySelector("#finalPrice").innerHTML = optionStr;
   }
 }
 //선택완료 버튼
@@ -305,6 +308,7 @@ function productSum() {
   let a = String(totalPrice);
   var output = [a.slice(0, position), b, a.slice(position)].join("");
   document.querySelector("#price").innerHTML = output + "원";
+  document.querySelector("#finalPrice").innerHTML = output + "원";
   //갯수
   amount++;
   document.querySelector(".MSH-sto-stock").value = amount;
@@ -316,12 +320,14 @@ function productSub() {
     let a = String(totalPrice);
     var output = [a.slice(0, position), b, a.slice(position)].join("");
     document.querySelector("#price").innerHTML = output + "원";
+    document.querySelector("#finalPrice").innerHTML = output + "원";
     //갯수
     amount--;
     document.querySelector(".MSH-sto-stock").value = amount;
   } else {
     document.querySelector(".MSH-sto-stock").value = amount;
     document.querySelector("#price").innerHTML = str;
+    document.querySelector("#finalPrice").innerHTML = str;
   }
 }
 function basketNumCount() {
