@@ -382,15 +382,15 @@ public class Controller2 {
 
         try {
             color = URLEncoder.encode("오렌지", "UTF-8");
-            cookie = new Cookie("itemIdx.20004."+ color + ".FREE", "2"); // 색상.사이즈.수량111);
+            cookie = new Cookie("item_idx.20004."+ color + ".FREE", "2"); // 색상.사이즈.수량111);
             response.addCookie(cookie);;
 
             color = URLEncoder.encode("베이지", "UTF-8");
-            cookie = new Cookie("itemIdx.20003." + color + ".M", "3");
+            cookie = new Cookie("item_idx.20003." + color + ".M", "3");
             response.addCookie(cookie);
 
             color = URLEncoder.encode("화이트", "UTF-8");
-            cookie = new Cookie("itemIdx.20000." + color + ".FREE", "1");
+            cookie = new Cookie("item_idx.20000." + color + ".FREE", "1");
             response.addCookie(cookie);
 
         }catch (Exception e){
@@ -407,12 +407,15 @@ public class Controller2 {
         List<CartResponseDto> cartList = new ArrayList<>();
 
         Cookie[] cookies = request.getCookies(); // 모든 쿠키 가져오기
+        System.out.println(cookies.length);
         if(cookies!=null){
             for (Cookie c : cookies) {
                 String name = c.getName(); // 쿠키 이름 가져오기
                 String value = c.getValue(); // 쿠키 값 가져오기
 
-                if (name.startsWith("itemIdx.")) {
+                System.out.println(name);
+
+                if (name.startsWith("item_idx.")) {
 
                     Long itemNo = Long.parseLong(name.split("\\.")[1]);
                     Long cartItemAmount = Long.parseLong(value);
@@ -476,7 +479,7 @@ public class Controller2 {
             for(Cookie c : cookies){
                 String name = c.getName();
 
-                if (name.startsWith("itemIdx.")) {
+                if (name.startsWith("item_idx.")) {
                     c.setMaxAge(0);
                     response.addCookie(c);
                 }
@@ -504,8 +507,8 @@ public class Controller2 {
                 String name = c.getName();
                 String value = c.getValue();
 
-                if ((name.equals("itemIdx."+ itemNo + "." + itemOptionColor + "." + itemOptionSize)) ||
-                   (name.equals("itemIdx."+ itemNo + "." + encodedItemOptionColor + "." + itemOptionSize))) {
+                if ((name.equals("item_idx."+ itemNo + "." + itemOptionColor + "." + itemOptionSize)) ||
+                   (name.equals("item_idx."+ itemNo + "." + encodedItemOptionColor + "." + itemOptionSize))) {
                     c.setMaxAge(0);
                     response.addCookie(c);
                 }
@@ -516,7 +519,6 @@ public class Controller2 {
     }
 
     @PostMapping("/order/modifyAction")
-    @ResponseBody
     public String orderModifyAction(@RequestParam String changedSize, @RequestParam String changedColor, @RequestParam String changedAmount,
                                     @RequestParam String originalColor, @RequestParam String originalSize, HttpServletResponse response,
                                     @RequestParam String itemNo, HttpServletRequest request) {
@@ -536,8 +538,8 @@ public class Controller2 {
                 String name = c.getName();
                 String value = c.getValue();
 
-                if ((name.equals("itemIdx."+ itemNo + "." + originalColor + "." + originalSize)) ||
-                        (name.equals("itemIdx."+ itemNo + "." + encodedOriginalColor + "." + originalSize))) {
+                if ((name.equals("item_idx."+ itemNo + "." + originalColor + "." + originalSize)) ||
+                    (name.equals("item_idx."+ itemNo + "." + encodedOriginalColor + "." + originalSize))) {
                     c.setMaxAge(0);
                     response.addCookie(c);
                 }
