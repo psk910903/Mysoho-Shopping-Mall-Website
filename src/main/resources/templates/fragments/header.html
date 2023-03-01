@@ -163,11 +163,15 @@
       const cookies = document.cookie.split("; "); //쿠키를 전부 불러와서 배열에 담는다.
       let cartNum = 0; //올라가야할 숫자가 몇개인지
 
-      // for (let i = 0; i < cookies.length; i++) {
-      //   if (cookies[i].includes(": ")) { // 가져온 모든 쿠키중에서 우리가 설정한 쿠키만 추출
-      //     cartNum += Number(cookies[i].substring(12)); //추출한 숫자를 cartNum에 담는다. (장바구니에 몇개가 담겨있는지 알기 위해서)
-      //   }
-      // }
+      for (let i = 0; i < cookies.length; i++) {
+        //보안토큰 제외
+        if (!cookies[i].includes("XSRF")) {
+          //includes 해당 문자열이 포함됬는지 확인 //XSRF : 보안토큰 앞글자
+          cartNum += Number(cookies[i].substr(cookies[i].indexOf("=") + 1));
+        }
+      }
+      document.querySelector(".basket-num").innerHTML = cartNum;
+      console.log(cookies);
 
       var setCookie = function (cookieName, cookieValue) {
         //쿠키 생성 함수 (매개변수로 "item_idx 1", 1)이 들어옴
@@ -209,16 +213,14 @@
         var value = document.cookie.match("(^|;) ?" + name + "=([^;]*)(;|$)");
         return value ? value[2] : null; //3항 연산자 : 값이 있으면 가져오고 없으면 null로 반환
       };
-
-      for (let i = 0; i < cookies.length; i++) {
-        //보안토큰 제외
-        if (!cookies[i].includes("XSRF")) {
-          //includes 해당 문자열이 포함됬는지 확인 //XSRF : 보안토큰 앞글자
-          cartNum += Number(cookies[i].substr(cookies[i].indexOf("=") + 1));
-        }
-      }
       document.querySelector(".basket-num").innerHTML = cartNum;
-      console.log(cookies);
+
+      function alertAndItemLink(value) {
+        alert("옵션을 선택해주세요.");
+        let itemNo = $(value).attr("value"); //attr("value") : value값을 가져온다. 만약 ""안에 class면 class이름을 가져온다.
+        console.log(itemNo);
+        location.href = "/product/" + itemNo;
+      }
     </script>
   </th:block>
 </html>
