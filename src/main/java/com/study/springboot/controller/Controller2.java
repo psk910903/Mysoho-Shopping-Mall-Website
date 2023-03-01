@@ -26,6 +26,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -376,16 +378,24 @@ public class Controller2 {
     public String orderTest1(HttpServletResponse response) {
 
         Cookie cookie;
+        String color;
 
-        cookie = new Cookie("itemIdx.20001", "퍼플..2"); // 색상.사이즈.수량
-        response.addCookie(cookie);
-        cookie = new Cookie("itemIdx.20003", ".S.4");
-        response.addCookie(cookie);
-        cookie = new Cookie("itemIdx.20007", "연청.M.1");
-        response.addCookie(cookie);
-        cookie = new Cookie("itemIdx.20007", "연청.S.3");
-        response.addCookie(cookie);
+        try {
+            color = URLEncoder.encode("오렌지", "UTF-8");
+            cookie = new Cookie("itemIdx.20004."+ color + ".FREE", "2"); // 색상.사이즈.수량111);
+            response.addCookie(cookie);;
 
+            color = URLEncoder.encode("베이지", "UTF-8");
+            cookie = new Cookie("itemIdx.20003." + color + ".M", "3");
+            response.addCookie(cookie);
+
+            color = URLEncoder.encode("화이트", "UTF-8");
+            cookie = new Cookie("itemIdx.20000." + color + ".FREE", "1");
+            response.addCookie(cookie);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return "redirect:/order";
 
     }
@@ -404,14 +414,23 @@ public class Controller2 {
 
                 if (name.startsWith("itemIdx.")) {
 
-                    // itemList
                     Long itemNo = Long.parseLong(name.split("\\.")[1]);
+                    Long cartItemAmount = Long.parseLong(value);
+                    String itemOptionColor = "";
+                    try {
+                        itemOptionColor = URLDecoder.decode(name.split("\\.")[2], "UTF-8");
+                        System.out.println(itemOptionColor);
+                        System.out.println(URLDecoder.decode("화이트", "UTF-8"));
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    String itemOptionSize = name.split("\\.")[3];
 
+                    // itemList
                     ProductResponseDto productResponseDto = productService.findById(itemNo);
                     itemList.add(productResponseDto);
 
                     // cartList
-                    String[] valueList = value.split("\\.");
                     String cartCode = UUID.randomUUID().toString();
                     Long cartDiscountPrice = productResponseDto.getItemPrice() * productResponseDto.getItemDiscountRate() / 100;
                     Long cartItemPrice = (productResponseDto.getItemPrice() - cartDiscountPrice) /100 * 100;
@@ -419,9 +438,9 @@ public class Controller2 {
                     CartResponseDto cartResponseDto = CartResponseDto.builder()
                             .cartCode(cartCode)
                             .itemName(productResponseDto.getItemName())
-                            .itemOptionColor(valueList[0])
-                            .itemOptionSize(valueList[1])
-                            .cartItemAmount(Long.parseLong(valueList[2]))
+                            .itemOptionColor(itemOptionColor)
+                            .itemOptionSize(itemOptionSize)
+                            .cartItemAmount(cartItemAmount)
                             .cartItemOriginalPrice(productResponseDto.getItemPrice())
                             .cartDiscountPrice(cartDiscountPrice)
                             .cartItemPrice(cartItemPrice)
@@ -490,11 +509,24 @@ public class Controller2 {
         return "<script>location.href='/order';</script>";
     }
 
+    @PostMapping("/order/modifyAction")
+    @ResponseBody
+    public String orderModifyAction(@RequestParam String changedSize, @RequestParam String changedColor, @RequestParam String changedAmount
+                                    ) {
+
+
+
+        return changedSize + changedColor + changedAmount;
+    }
+
+
     @PostMapping("/order/test2")
     @ResponseBody
     public String orderTest2(OrderContentSaveRequestDto orderContentSaveRequestDto) {
 
-        return "<script>location.href='/order';</script>";
+
+
+        return orderContentSaveRequestDto.toString();
     }
 
     // '/order' 끝 -----------------------------------------------------------------------------------------------

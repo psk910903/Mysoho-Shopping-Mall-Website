@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="/css/shopping-basket.css" />
   </head>
   <body>
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <div class="wrap">
       <div class="betweenbtn">
         <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
@@ -52,6 +51,8 @@
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <script src="/js/header.js"></script>
     <script src="/js/footer.js"></script>
+    <script src="/js/popup.js"></script>
+    <script src="/js/shopping-basket.js"></script>
 
     <!-- 체크박스 선택 -->
     <script th:inline="javascript">
@@ -99,8 +100,31 @@
       }
 
     </script>
-    <script src="/js/popup.js"></script>
-    <script src="/js/shopping-basket.js"></script>
+
+    <script>
+      function sumPrice(index, pricePerItem) {
+        let regexp = /\B(?=(\d{3})+(?!\d))/g;
+        let amountObj = document.getElementById("option-amount" + index);
+        let priceObj = document.getElementById("option-price" + index);
+
+        amountObj.value = parseInt(amountObj.value) + 1;
+        let price = amountObj.value * pricePerItem;
+        priceObj.innerText = price.toString().replace(regexp, ',') + '원';
+      }
+      function subPrice(index, pricePerItem) {
+        let regexp = /\B(?=(\d{3})+(?!\d))/g;
+        let amountObj = document.getElementById("option-amount" + index);
+        let priceObj = document.getElementById("option-price" + index);
+
+        if (parseInt(amountObj.value) > 1){
+          amountObj.value = parseInt(amountObj.value) - 1;
+        }
+        let price = amountObj.value * pricePerItem;
+        priceObj.innerText = price.toString().replace(regexp, ',') + '원';
+      }
+    </script>
+
+    <!-- order 관련 함수 -->
     <script>
       function processBeforeSubmit(){
         combineInput();
@@ -123,16 +147,16 @@
 
         // orderPayType
         let orderPayTypeList = document.getElementsByName("orderPayType1");
-        console.log(orderPayTypeList);
+        let orderPayType2 = document.getElementById("paySelect").value;
         for (orderPayTypeObj of orderPayTypeList){
-          console.log(orderPayTypeObj.checked);
-          console.log(orderPayTypeObj.value);
           if(orderPayTypeObj.checked){
-            document.getElementById("orderPayType").value = orderPayTypeObj.value;
+            document.getElementById("orderPayType").value = orderPayTypeObj.value + orderPayType2;
           }
         }
+
       }
     </script>
+
 
 
 
