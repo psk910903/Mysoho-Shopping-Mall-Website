@@ -207,7 +207,8 @@ public class Controller3 {
             request.getSession().setAttribute("username", entity.getMemberName());
             System.out.println("myPage memberMileage:" + entity.getMemberMileage());
             request.getSession().setAttribute("memberMileage", entity.getMemberMileage());
-            //request.getSession().setAttribute("memberCoupon", entity.getMemberCoupon());
+            System.out.println("myPage memberCoupon:" + entity.getMemberCoupon());
+            request.getSession().setAttribute("memberCoupon", entity.getMemberCoupon());
         }
         return "/user/user/myorder-list-user";
     }

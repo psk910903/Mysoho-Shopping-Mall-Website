@@ -32,7 +32,7 @@ public class MemberJoinDto {
 
     private Long memberMileage;//마일리지
 
-//    private Long memberCoupon;
+    private Long memberCoupon;
     @NotBlank
     private String memberAddrNumber;
     @NotBlank
@@ -60,7 +60,7 @@ public class MemberJoinDto {
                 .memberRate(memberRate)
                 .memberPhone(memberPhone)
                 .memberMileage(memberMileage)
-//                .memberCoupon(memberCoupon)
+                .memberCoupon(memberCoupon)
                 .memberAddrNumber(memberAddrNumber)
                 .memberAddr1(memberAddr1)
                 .memberAddr2(memberAddr2)
@@ -80,7 +80,7 @@ public class MemberJoinDto {
                 .memberRate(memberRate)
                 .memberPhone(memberPhone)
                 .memberMileage(memberMileage)
-//                .memberCoupon(memberCoupon)
+                .memberCoupon(memberCoupon)
                 .memberAddrNumber(memberAddrNumber)
                 .memberAddr1(memberAddr1)
                 .memberAddr2(memberAddr2)

@@ -43,31 +43,45 @@ SELECT * FROM qna;
 -- 회원테이블 경빈 --------------------------------------------------------------
 DROP TABLE if EXISTS member;
 CREATE TABLE member (
-  member_no INT PRIMARY KEY AUTO_INCREMENT, -- 고유키
-   member_id VARCHAR(255) NOT NULL UNIQUE, -- 회원아이디
-   member_pw VARCHAR(255) NOT NULL, -- 비밀번호
-   member_name CHAR(255) NOT NULL, -- 회원이름
-   member_rate VARCHAR(255) NOT NULL,
-   member_email VARCHAR(255) NOT NULL, -- 이메일
-   member_phone CHAR(255) NOT NULL, -- 전화번호(중간에 -는 제거)
-   member_mileage INT DEFAULT 0, -- 마일리지(적립금)
-   member_addr_number CHAR(255) NOT NULL, -- 우편번호
-   member_addr1 CHAR(255) NOT NULL, -- 기본주소
-   member_addr2 CHAR(255) NOT NULL, -- 나머지 주소
-   member_join_datetime DATETIME DEFAULT NOW(),-- 회원가입 날짜
-   member_exit_datetime DATETIME DEFAULT NULL, -- 탈퇴 날짜
-   member_role CHAR(10) DEFAULT 'ROLE_USER',
-   member_exited VARCHAR(255) DEFAULT '회원' -- 탈퇴 여부(0: 회원, 1: 탈퇴 회원)
+ member_no INT PRIMARY KEY AUTO_INCREMENT, -- 고유키
+ member_id
+VARCHAR(255) NOT NULL UNIQUE, -- 회원아이디
+ member_pw
+VARCHAR(255) NOT NULL, -- 비밀번호
+ member_name
+CHAR(255) NOT NULL, -- 회원이름
+ member_rate
+VARCHAR(255) NOT NULL,
+ member_email VARCHAR(255) NOT NULL UNIQUE,-- 이메일
+ member_phone
+CHAR(255) NOT NULL, -- 전화번호(중간에 -는 제거)
+ member_mileage
+INT DEFAULT 0, -- 마일리지(적립금)
+ member_coupon
+INT DEFAULT 0, -- 마일리지(적립금)
+ member_addr_number
+CHAR(255) NOT NULL, -- 우편번호
+ member_addr1
+CHAR(255) NOT NULL, -- 기본주소
+ member_addr2
+CHAR(255) NOT NULL, -- 나머지 주소
+ member_join_datetime
+DATETIME DEFAULT NOW(),-- 회원가입 날짜
+ member_exit_datetime
+DATETIME DEFAULT NULL, -- 탈퇴 날짜
+ member_role
+CHAR(10) DEFAULT 'ROLE_USER',
+ member_exited VARCHAR(255) DEFAULT '회원' -- 탈퇴 여부(0: 회원, 1: 탈퇴 회원)
 );
 -- role을 테이블에 넣었을 때 데이터 입력값
-INSERT INTO member VALUES( NULL, 'hong', '1234', '홍길동', 'VIP', 'hong@gmail.com',
-  '01022223333', DEFAULT,'54321','파푸아뉴기니','앞바다',DEFAULT ,DEFAULT, DEFAULT ,DEFAULT );
-INSERT INTO member VALUES( NULL, 'lee', '1234', '이거','일반회원', 'this@gmail.com',
-  '01022223333', DEFAULT,'3210','대포동','미사일', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
-INSERT INTO member VALUES( NULL, 'right', '1234', '맞냐', '일반회원','IsThatRight@gmail.com',
-  '01022223333', DEFAULT,'12345','금수산태양궁전','정문', DEFAULT, DEFAULT, DEFAULT , DEFAULT);
-INSERT INTO member VALUES( NULL, 'ADMIN1', '1234', '관리자','VIP', 'ADMIN_EMAIL',
-  'ADMIN_NUM', DEFAULT,'ADMIN_POST','ADMIN_ADDR1','ADMIN_ADDR2', default, DEFAULT,'관리자', default);
+INSERT INTO member VALUES(NULL, 'hong', '1234', '홍길동', 'VIP', 'hong@gmail.com',
+ '01022223333', DEFAULT,'54321','파푸아뉴기니','앞바다', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO member VALUES(NULL, 'lee', '1234', '이거','일반회원', 'this@gmail.com',
+ '01022223333', DEFAULT,DEFAULT,'3210','대포동','미사일', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO member VALUES(NULL, 'right', '1234', '맞냐', '일반회원','IsThatRight@gmail.com',
+ '01022223333', DEFAULT,DEFAULT,'12345','금수산태양궁전','정문', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO member VALUES(NULL, 'ADMIN1', '1234', '관리자','VIP', 'ADMIN_EMAIL',
+ 'ADMIN_NUM', DEFAULT,DEFAULT,'ADMIN_POST','ADMIN_ADDR1','ADMIN_ADDR2', DEFAULT, DEFAULT,'관리자', DEFAULT);
 
 SELECT * FROM member;
 -- 리뷰테이블 은진 --------------------------------------------------------------
