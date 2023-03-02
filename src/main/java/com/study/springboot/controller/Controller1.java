@@ -8,6 +8,7 @@ import com.study.springboot.dto.product.FileResponse;
 import com.study.springboot.dto.product.ProductResponseDto;
 
 import com.study.springboot.dto.product.ProductSaveRequestDto;
+import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ProductRepository;
 import com.study.springboot.service.*;
@@ -15,11 +16,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.ParseException;
 
@@ -39,6 +43,7 @@ public class Controller1 {
   final OrderRepository orderRepository;
   final AwsS3Service awsS3Service;
   final Service1 service1;
+  final Service3 service3;
 
   @GetMapping("/admin/product")
   public String productHome(){
@@ -408,6 +413,84 @@ public class Controller1 {
     model.addAttribute("cartListModel", cartListModel);
 
     return "/user/user/myorder-list";
+  }
+
+  //마이페이지 홈 회원
+  @RequestMapping("/myorder/lists")
+  public String myInfo(@AuthenticationPrincipal User user,
+                       HttpServletRequest request, Model model) {
+    if (user == null) {
+      System.out.println("no user");
+    } else {
+      String username = user.getUsername();
+      System.out.println("myPage username:" + username);
+      MemberEntity entity = service3.findByUserId(username);
+      request.getSession().setAttribute("username", entity.getMemberName());
+      System.out.println("myPage memberMileage:" + entity.getMemberMileage());
+      request.getSession().setAttribute("memberMileage", entity.getMemberMileage());
+      System.out.println("myPage memberCoupon:" + entity.getMemberCoupon());
+      request.getSession().setAttribute("memberCoupon", entity.getMemberCoupon());
+
+      //0228 선교 작업
+      List<OrderResponseDto> orderList = cartService.findByOrderList(username);
+      List<CartResponseDto> cartList = new ArrayList<>();
+      List<List<CartResponseDto>> cartListModel = new ArrayList<>();
+
+      int stateType1 = 0;
+      int stateType2 = 0;
+      int stateType3 = 0;
+      int stateType4 = 0;
+      int stateType5 = 0;
+
+      for (int i = 0; i < orderList.size(); i++) {
+        OrderResponseDto orderDto = orderList.get(i);
+        String orderState = orderDto.getOrderState();
+        if (orderState.equals("결제대기")) {
+          stateType1++;
+        } else if (orderState.equals("배송대기")) {
+          stateType2++;
+        }else if (orderState.equals("배송중")) {
+          stateType3++;
+        } else if (orderState.equals("배송완료")) {
+          stateType4++;
+        } else { //취소/반품
+          stateType5++;
+        }
+        //회원 주문번호에서 카트정보 가져오기
+        cartList = service1.getCartListMember(orderDto);
+
+        cartListModel.add(cartList);
+        Long originalPrice =0L;
+        Long discountPrice =0L;
+        Long itemPrice =0L;
+
+        for (int j = 0; j < cartList.size(); j++) {
+
+          if (Objects.equals(cartList.get(j).getOrderNo(), orderDto.getOrderNo())) {
+            originalPrice += cartList.get(j).getCartItemOriginalPrice();
+            discountPrice += cartList.get(j).getCartDiscountPrice();
+            itemPrice += cartList.get(j).getCartItemPrice();
+          }
+        }
+        orderDto.setOrderItemOriginalPrice(originalPrice); //(할인 전)상품가격
+        orderDto.setOrderDiscountPrice(discountPrice);//할인율이 적용된 차감될 금액
+        orderDto.setOrderItemPrice(itemPrice); // (할인 적용된 결제당시)상품가격
+      }
+      int cartCount = cartListModel.size();
+      int orderCount = orderList.size();
+      model.addAttribute("orderCount", orderCount);
+      model.addAttribute("stateType1", stateType1);
+      model.addAttribute("stateType2", stateType2);
+      model.addAttribute("stateType3", stateType3);
+      model.addAttribute("stateType4", stateType4);
+      model.addAttribute("stateType5", stateType5);
+
+      model.addAttribute("cartCount", cartCount);
+      model.addAttribute("orderList", orderList);
+      model.addAttribute("cartListModel", cartListModel);
+
+    }
+    return "/user/user/myorder-list-user";
   }
 }
 

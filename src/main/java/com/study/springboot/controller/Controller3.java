@@ -194,24 +194,7 @@ public class Controller3 {
         }
     }
 
-    //마이페이지 폼
-    @RequestMapping("/myorder/lists")
-    public String myInfo(@AuthenticationPrincipal User user,
-                         HttpServletRequest request) {
-        if (user == null) {
-            System.out.println("no user");
-        } else {
-            String username = user.getUsername();
-            System.out.println("myPage username:" + username);
-            MemberEntity entity = service3.findByUserId(username);
-            request.getSession().setAttribute("username", entity.getMemberName());
-            System.out.println("myPage memberMileage:" + entity.getMemberMileage());
-            request.getSession().setAttribute("memberMileage", entity.getMemberMileage());
-            System.out.println("myPage memberCoupon:" + entity.getMemberCoupon());
-            request.getSession().setAttribute("memberCoupon", entity.getMemberCoupon());
-        }
-        return "/user/user/myorder-list-user";
-    }
+
 
     //비밀 번호 확인 폼
     @RequestMapping("/user/myInfoPswd")
