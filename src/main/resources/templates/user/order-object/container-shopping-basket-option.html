@@ -9,7 +9,7 @@
         </button>
         <div class="bg-option" th:id="|bg-option${cart.cartCode}|">
             <div class="window">
-                <div class="popup" style="height:70%">
+                <div class="popup" style="height:100%">
                     <form action="/order/modifyAction" class="popup-inner" method="POST">
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                         <!-- close 버튼 -->
