@@ -36,6 +36,7 @@ body {
 .side-icon-right {
   display: flex;
   flex-direction: row;
+  position: relative;
 }
 .btn-hambergerMenu img,
 .btn-serch img,
@@ -215,14 +216,18 @@ input:focus {
   position: relative;
 }
 /* 장바구니 숫자 */
-
+.basket-num {
+  position: absolute;
+  left: 14px;
+  top: -5px;
+  font-size: 12px;
+}
 .btn-basket {
   position: relative;
 }
 .basket-num {
   position: absolute;
-  left:55%;
-  top: -4px;
-  font-size: 11px;
-  transform: translate(-50%, 0);
+  left: 14px;
+  top: -5px;
+  font-size: 12px;
 }
