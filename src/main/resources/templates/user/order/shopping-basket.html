@@ -64,28 +64,59 @@
 
     <script th:inline="javascript">
 
-      //////////// 체크박스 선택
+      ///////////// 체크박스 선택 /////////////
 
       let checkList = [[${cartList}]];
+      changePriceSummary();
+
+      function changePriceSummary(){
+        let regexp = /\B(?=(\d{3})+(?!\d))/g;
+
+        // 체크 숫자 변동
+        let countSelected = document.getElementById("countSelected");
+        countSelected.innerText = checkList.length;
+
+        // 총 상품 금액 변동
+        let totalProductPrice = document.getElementById("totalProductPrice");
+        let totalProductPriceValue = 0;
+        for (cart of checkList){
+           totalProductPriceValue += cart.cartItemOriginalPrice * cart.cartItemAmount;
+        }
+        totalProductPrice.innerText = totalProductPriceValue.toString().replace(regexp, ',') + '원';
+
+        // 상품 할인 금액 변동
+        let productDiscount = document.getElementById("productDiscount");
+        let productDiscountValue = 0;
+        for (cart of checkList){
+           productDiscountValue += cart.cartDiscountPrice * cart.cartItemAmount;
+        }
+        productDiscount.innerText = '(-)' + productDiscountValue.toString().replace(regexp, ',') + '원';
+
+        // 총 할인 금액 변동
+        let totalDiscount = document.getElementById("totalDiscount");
+        totalDiscount.innerText = '- ' + productDiscountValue.toString().replace(regexp, ',') + '원';
+      }
 
       function checkBoxAll(){
         let checkBoxAll = document.getElementById("checkBoxAll");
         let checkBox = document.getElementsByName("checkBox");
 
+        // 모두 체크의 체크박스를 체크했을 때
         if (checkBoxAll.checked == true){
           checkList = [[${cartList}]];
           for (c of checkBox){
             c.checked = true;
           }
-        }else{
+        }
+        // 모두 체크의 체크박스가 해제됐을 때
+        else{
           checkList = [];
           for (c of checkBox){
             c.checked = false;
           }
         }
 
-        let countSelected = document.getElementById("countSelected");
-        countSelected.innerText = checkList.length;
+        changePriceSummary();
       }
 
       function checkBox(cartCode){
@@ -105,11 +136,10 @@
           }
         }
 
-        let countSelected = document.getElementById("countSelected");
-        countSelected.innerText = checkList.length;
+        changePriceSummary();
       }
 
-      ////////////////// order 관련 함수
+      ///////////// order 관련 함수 /////////////
 
       function processBeforeSubmit(){
         combineInput();

@@ -100,37 +100,6 @@ public class Service2 {
     final private CartRepository cartRepository;
 
     @Transactional(readOnly = true)
-    public List<CartResponseDto> findByMemberIdCart(String memberId){ // 이름 중복됨 나중에 service 옮길때 함수 명 변경해야함
-        List<CartEntity> list = cartRepository.findByMemberId(memberId);
-        return list.stream().map(CartResponseDto::new).collect(Collectors.toList());
-    };
-
-    @Transactional(readOnly = true)
-    public List<CartResponseDto> findBySessionId(String sessionId){
-        List<CartEntity> list = cartRepository.findBySessionId(sessionId);
-        return list.stream().map(CartResponseDto::new).collect(Collectors.toList());
-    };
-
-    @Transactional
-    public boolean deleteList(List<Long> cartNoList) {
-
-        for (Long cartNo: cartNoList) {
-            Optional<CartEntity> entity = cartRepository.findById(cartNo);
-
-            if (!entity.isPresent()) {
-                return false;
-            }
-            try {
-                cartRepository.delete(entity.get());
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-        return true;
-    }
-
-    @Transactional(readOnly = true)
     public MemberResponseDto findByMemberIdMember(String memberId){ // 이름 바꿔야함
         Optional<MemberEntity> entity = memberRepository.findByMemberId(memberId);
         if (!entity.isPresent()){

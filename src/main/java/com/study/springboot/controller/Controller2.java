@@ -339,71 +339,6 @@ public class Controller2 {
     // '/order' 시작 -----------------------------------------------------------------------------------------------
 
     final private MemberService memberService;
-//    @GetMapping("/order")
-//    public String order(Model model) {
-//
-//        // HttpSession session = request.getSession(false);
-//        // String memberId = (String)session.getAttribute("memberId");
-//        // String sessionId = (String)session.getAttribute("sessionId");
-//
-//        // 비회원일때
-////        String memberId = null;
-////        String sessionId = "bf6f75a4-a1e9-4c0b-9b17-e9b6b5c0e5ed";
-//
-//        // 회원일 때
-//        String memberId = "hong";
-//        String sessionId = null;
-//
-//        List<CartResponseDto> cartList = null;
-//        List<ProductResponseDto> itemList = new ArrayList<>();
-//
-//        if (memberId != null) { // 회원일 때
-//            cartList = service2.findByMemberIdCart(memberId);
-//        }else{ // 비회원일때
-//            cartList = service2.findBySessionId(sessionId);
-//        }
-//
-//        // itemList
-//        for (CartResponseDto cart :cartList){
-//            String itemCode = cart.getItemCode();
-//            itemList.add(productService.findById(Long.parseLong(itemCode)));
-//        }
-//
-//        model.addAttribute("itemList", itemList);
-//        model.addAttribute("cartList", cartList);
-//
-//        return "/user/order/shopping-basket";
-//
-//    }
-
-//    @GetMapping("/order/test1")
-//    public String orderTest1(HttpServletResponse response) {
-//
-//        Cookie cookie;
-//        String color;
-//
-//        try {
-//            color = URLEncoder.encode("오렌지", "UTF-8");
-//            cookie = new Cookie("item_idx.20004."+ color + ".FREE", "2"); // 색상.사이즈.수량111);
-//            cookie.setPath("/");
-//            response.addCookie(cookie);;
-//
-//            color = URLEncoder.encode("베이지", "UTF-8");
-//            cookie = new Cookie("item_idx.20003." + color + ".M", "3");
-//            cookie.setPath("/");
-//            response.addCookie(cookie);
-//
-//            color = URLEncoder.encode("화이트", "UTF-8");
-//            cookie = new Cookie("item_idx.20000." + color + ".FREE", "1");
-//            cookie.setPath("/");
-//            response.addCookie(cookie);
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        return "redirect:/order";
-//
-//    }
 
     @GetMapping("/order")
     public String order(Model model, HttpServletRequest request, @AuthenticationPrincipal User user) {
@@ -590,80 +525,75 @@ public class Controller2 {
                              @RequestParam String[] colorList, @RequestParam String[] sizeList,
                              @RequestParam String[] amountList, @RequestParam String[] itemCodeList) {
 
-        // cart DB에 넣기
-        Cookie[] cookies = request.getCookies(); // 모든 쿠키 가져오기
-        if(cookies!=null){
-            for (Cookie c : cookies) {
-                String name = c.getName(); // 쿠키 이름 가져오기
-                String value = c.getValue(); // 쿠키 값 가져오기
+        ////////////////////////////////////// cart DB에 넣기 ////////////////////////////////////////////
+        for (int i=0; i<itemCodeList.length; i++) {
 
-                if (name.startsWith("item_idx.")) {
+            // cartItemAmount
+            Long cartItemAmount = Long.parseLong(amountList[i]);
 
-                    // cartItemAmount
-                    Long cartItemAmount = Long.parseLong(value);
+            // itemOptionColor
+            String itemOptionColor = colorList[i];
 
-                    // itemOptionColor
-                    String itemOptionColor = "";
-                    try {
-                        itemOptionColor = URLDecoder.decode(name.split("\\.")[2], "UTF-8");
-                    }catch (Exception e) {
-                        e.printStackTrace();
-                    }
+            // itemOptionSize
+            String itemOptionSize = sizeList[i];
 
-                    // itemOptionSize
-                    String itemOptionSize = name.split("\\.")[3];
+            // itemCode
+            String itemCode = itemCodeList[i];
+            ProductResponseDto productResponseDto = productService.findById(Long.parseLong(itemCode));
 
-                    // itemCode
-                    String itemCode = name.split("\\.")[1];
-                    ProductResponseDto productResponseDto = productService.findById(Long.parseLong(itemCode));
+            // cartCode
+            String cartCode = UUID.randomUUID().toString();
 
-                    // cartCode
-                    String cartCode = UUID.randomUUID().toString();
+            // orderNo
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+            String orderNo1 = format.format(new Date());
+            String orderNo2 = String.format("%04d", (long) (Math.random() * 10000));
+            Long orderNo = Long.parseLong(orderNo1 + orderNo2);
 
-                    // orderNo
-                    SimpleDateFormat format = new SimpleDateFormat( "yyyyMMddHHmmss");
-                    String orderNo1 = format.format(new Date());
-                    String orderNo2 = String.format("%04d", (long)(Math.random()*10000));
-                    Long orderNo = Long.parseLong(orderNo1 + orderNo2);
-
-                    // memberId
-                    String memberId = null;
-                    if (user != null) {
-                        memberId = user.getUsername();
-                    }
-
-                    // cartDiscountPrice, cartItemPrice
-                    Long cartDiscountPrice = productResponseDto.getItemPrice() * productResponseDto.getItemDiscountRate() / 100;
-                    Long cartItemPrice = (productResponseDto.getItemPrice() - cartDiscountPrice) /100 * 100;
-                    cartDiscountPrice = productResponseDto.getItemPrice() - cartItemPrice;
-
-                    CartSaveRequestDto cartSaveRequestDto = CartSaveRequestDto.builder()
-                            .cartCode(cartCode)
-                            .orderNo(orderNo)
-                            .memberId(memberId)
-                            .itemCode(itemCode)
-                            .itemName(productResponseDto.getItemName())
-                            .itemOptionColor(itemOptionColor)
-                            .itemOptionSize(itemOptionSize)
-                            .cartItemAmount(cartItemAmount)
-                            .cartItemOriginalPrice(productResponseDto.getItemPrice())
-                            .cartDiscountPrice(cartDiscountPrice)
-                            .cartItemPrice(cartItemPrice)
-                            .cartDate(LocalDateTime.now())
-                            .build();
-
-                    boolean success = service2.save(cartSaveRequestDto);
-                    if (success){
-                        Cookie cookie = new Cookie(name, value);
-                        cookie.setPath("/");
-                        cookie.setMaxAge(0);
-                        response.addCookie(cookie);
-                    }else{
-                        //// 넣기
-                    }
-
-                }
+            // memberId
+            String memberId = null;
+            if (user != null) {
+                memberId = user.getUsername();
             }
+
+            // cartDiscountPrice, cartItemPrice
+            Long cartDiscountPrice = productResponseDto.getItemPrice() * productResponseDto.getItemDiscountRate() / 100;
+            Long cartItemPrice = (productResponseDto.getItemPrice() - cartDiscountPrice) / 100 * 100;
+            cartDiscountPrice = productResponseDto.getItemPrice() - cartItemPrice;
+
+            CartSaveRequestDto cartSaveRequestDto = CartSaveRequestDto.builder()
+                    .cartCode(cartCode)
+                    .orderNo(orderNo)
+                    .memberId(memberId)
+                    .itemCode(itemCode)
+                    .itemName(productResponseDto.getItemName())
+                    .itemOptionColor(itemOptionColor)
+                    .itemOptionSize(itemOptionSize)
+                    .cartItemAmount(cartItemAmount)
+                    .cartItemOriginalPrice(productResponseDto.getItemPrice())
+                    .cartDiscountPrice(cartDiscountPrice)
+                    .cartItemPrice(cartItemPrice)
+                    .cartDate(LocalDateTime.now())
+                    .build();
+
+            // DB에 넣기
+            boolean success = service2.save(cartSaveRequestDto);
+            if (success) {
+                try {
+                    // 기존에 있던 쿠키 삭제하기
+                    String encodedColor = URLEncoder.encode(itemOptionColor, "UTF-8");
+                    Cookie cookie = new Cookie("item_idx." + itemCode +"." + encodedColor + "." + itemOptionSize, String.valueOf(cartItemAmount));
+                    cookie.setPath("/");
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    // /////////////////////////넣기
+                }
+            } else {
+                ///////////////////////////////// 넣기
+            }
+
         }
 
         return orderContentSaveRequestDto.toString() + "\n" + sizeList[0] + "\n"
