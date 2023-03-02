@@ -135,7 +135,7 @@ DROP TABLE if EXISTS cart;
 CREATE TABLE cart (
    cart_no BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY, -- 고유키
    cart_code VARCHAR(255) NOT NULL UNIQUE, -- 장바구니 코드(UUID포맷-32자리)
-   order_no INT, -- 주문정보 PK
+   order_no BIGINT, -- 주문정보 PK
    member_id VARCHAR(255) NULL, -- 아이디(회원)
    session_id VARCHAR(255) NULL, -- 세션아이디(비회원) 예)32자리 - 3CB361E0BE1A9A7DE7DB926DF0772BAE
    item_code VARCHAR(255) NOT NULL, -- 상품 코드
@@ -190,7 +190,7 @@ SELECT * FROM cart WHERE cart_code = 11121 and member_id is NULL;
 
 DROP TABLE if EXISTS `order`;
 CREATE TABLE `order` (
-  order_no INT AUTO_INCREMENT PRIMARY KEY, -- 고유키
+  order_no BIGINT AUTO_INCREMENT PRIMARY KEY, -- 고유키
   -- 구매상품 정보
   cart_code_1 VARCHAR(255) NOT NULL UNIQUE, -- 장바구니 코드(UUID포맷-32자리)
   cart_code_2 VARCHAR(255) UNIQUE, -- 장바구니 코드(UUID포맷-32자리)
