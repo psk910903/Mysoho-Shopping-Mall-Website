@@ -58,3 +58,8 @@ function openPopupWrite() {
 function openPopup(name) {
   popup = window.open(name);
 }
+
+//지성 펑션
+function openPopUpInquiryWrite(itemNo) {
+  popup = window.open("/inquiry/productInquiryWriteForm/"+itemNo);
+}
