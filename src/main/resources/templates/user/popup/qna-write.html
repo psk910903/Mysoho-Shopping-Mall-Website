@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -47,7 +48,12 @@
         </div>
 
         <div id="searchForm">
-          <form action="/user/qna/write" method="post" name="qnaInfo" onsubmit="return checkValue();">
+          <th:block sec:authorize="isAnonymous()">
+          </th:block>
+          <th:block sec:authorize="isAuthenticated()">
+          </th:block>
+
+          <form action="/qna/write" method="post" name="qnaInfo" onsubmit="return checkValue();">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <input type="hidden" name="memberId" value="hong">
             <input type="hidden" name="qnaTitle" value=" ">
@@ -78,14 +84,14 @@
             </div>
             <div class="input-box">
 
-              <th:block th:if="${session.isLogin != true}">
+
               <input
                 type="text"
                 name="qnaName"
                 id="qnaName"
                 placeholder="닉네임을 입력해주세요. (20자 이내)"
               />
-              </th:block>
+
 
               <textarea
                 name="qnaContent"

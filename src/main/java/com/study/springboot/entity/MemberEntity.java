@@ -51,7 +51,6 @@ public class MemberEntity {
     @Column(name = "member_exited")
     private String memberExited;
 
-
     @Builder
     public MemberEntity(Long memberNo, String username,
                         String password, String memberName,
@@ -93,5 +92,9 @@ public class MemberEntity {
     }
     public void updatePassword(String password){
         this.password = password;
+    }
+
+    public void exited(String memberExited){
+        this.memberExited = memberExited;
     }
 }

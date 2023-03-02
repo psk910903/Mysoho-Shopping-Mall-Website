@@ -162,7 +162,7 @@ public class Controller3 {
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-            return "<script>alert('이미 등록된 사용자입니다.');history.back();</script>";
+            return "<script>alert('사용중인 아이디나 멜 주소 입니다.');history.back();</script>";
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return "<script>alert('회원가입 실패했습니다.');history.back();</script>";
@@ -177,20 +177,20 @@ public class Controller3 {
         }
     }
 
-    //회원탈퇴
-    @RequestMapping("/user/delete")
+    //탈퇴 회원으로 변경
+    @RequestMapping("/user/exited")
     @ResponseBody
-    public String delete(@AuthenticationPrincipal User user,
+    public String exited(@AuthenticationPrincipal User user,
                          HttpServletRequest request
     ) throws Exception {
         String username = user.getUsername();
         System.out.println("탈퇴할 회원 id:" + user.getUsername());
-        boolean result = service3.delete(username);
+        boolean result = service3.exited(username);
         request.getSession().invalidate();//세션종료
         if (result) {
-            return "<script>alert('회원정보 삭제 성공'); location.href='/';</script>";
+            return "<script>alert('회원탈퇴 성공했습니다.'); location.href='/';</script>";
         } else {
-            return "<script>alert('회원정보 삭제 실패'); history.back();</script>";
+            return "<script>alert('회원탈퇴 실패했습니다.'); history.back();</script>";
         }
     }
 
@@ -292,8 +292,8 @@ public class Controller3 {
             String username = user.getUsername();
             System.out.println("coupons username:" + username);
             MemberEntity entity = service3.findByUserId(username);
-            //System.out.println("coupons :" + entity.getMemberCoupon());
-           // model.addAttribute("memberCoupon", entity.getMemberCoupon());
+            System.out.println("coupons :" + entity.getMemberCoupon());
+            model.addAttribute("memberCoupon", entity.getMemberCoupon());
         }
         return "user/user/coupons-mylist";
     }
@@ -313,6 +313,7 @@ public class Controller3 {
             return "<script>alert('회원님의 아이디는 "+id+" 입니다.'); location.href='/user/login';</script>";
         }
     }
+    //로그인 전 패스워드 재설정 멜 보내기
     @RequestMapping("/find/password")
     @ResponseBody
     public String findPw(@RequestParam("getEmail") String getEmail)  {
