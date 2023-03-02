@@ -163,7 +163,10 @@ public String delete(@PathVariable("id") Long id){
 // Qna 시작
 
 // 게시판에서 문의작성눌렀을떄 글쓰는 폼 들어가기
-
+    @GetMapping("qna/writeForm")
+    public String userQnaWrite(){
+        return "/user/popup/qna-write";
+    }
 
 // Qna 검색액션받기랑 게시판가기
 
@@ -238,13 +241,7 @@ public String qnaSearchAction(@RequestParam(value ="keyword", required = false) 
         }
     }
 
-    //문의작성 폼
-    @GetMapping("qna/writeForm")
-    public String userQnaWrite(){
-        return "/user/popup/qna-write";
-    }
-    //글쓰기
-    @PostMapping("/qna/write")
+    @PostMapping("user/qna/write")
     @ResponseBody
     public String userQnaWriteAction(QnaSaveDto saveDto){
 
@@ -259,8 +256,7 @@ public String qnaSearchAction(@RequestParam(value ="keyword", required = false) 
         }
         return "<script>alert('등록에 성공 하였습니다.'); location.href='/qna';</script>";
     }
-
-
+    //리스트로감
 
 
     // 글 삭제
