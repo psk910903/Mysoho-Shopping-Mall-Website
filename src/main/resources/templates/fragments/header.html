@@ -211,6 +211,7 @@
           cookieValue = getCookie("item_idx." + cookieName); //  getCookie("item_idx:" + item_idx) => value이다 "2"
           setCookie("item_idx." + cookieName, Number(cookieValue) + 1); //만약 같은 idx가 있으면 수량만 +1해서 기존 쿠키에 덮어씌운다.
           if (confirm('장바구니에 담긴 수량이 있어 수량이 추가되었습니다.\n \n 지금 확인하시겠습니까?')== true){
+          location.href = "/order";
         //장바구니링크 추가 예정
           }else{
 

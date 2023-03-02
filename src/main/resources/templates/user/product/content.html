@@ -21,6 +21,12 @@
     <link rel="stylesheet" href="/css/option-popup.css" />
     <link rel="stylesheet" href="/css/share-btn.css" />
     <link rel="stylesheet" href="/css/product-onepiece3.css" />
+    <style>
+      .final-color,
+      .final-size{
+      padding : 0;
+      }
+    </style>
   </head>
   <body>
   <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
@@ -125,19 +131,20 @@
         <div class="prd-btn-type1">
           <button class="option-tap-btn show-option-list">
             <div>
-              옵션선택
+              옵션수정
               <img
                 src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
                 alt=""
               />
             </div>
           </button>
+
           <div class="bg-option">
             <div class="window">
               <div class="popup">
                 <div class="popup-inner">
                   <div class="lhd-option">
-                    <button id="closeBtn-option" onclick="closeOrderList()">
+                    <button id="closeBtn-option" onclick="closeOptionList()">
                       <img
                         src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h38_close_down.png"
                         alt=""
@@ -152,7 +159,7 @@
                   <div class="cont-top">
 
                     <a href="javascript:sizeTap('option')" class="tap"
-                      ><div class="bold">옵션선택</div>
+                      ><div class="bold">옵션수정</div>
                       <!--  -->
                       <img
                         class="btn-up btn-up-option"
@@ -184,7 +191,7 @@
                       <div class="size-wrap">
                         <th:block th:each="colorList:${ colorList }">
                         <a th:text="${colorList}"
-                           th:href="|javascript:finalSize('${colorList}')|"class="tap">color</a>
+                           th:href="|javascript:finalColor('${colorList}')|"class="tap">color</a>
                         </th:block>
                       </div>
                     </div>
@@ -216,7 +223,21 @@
 
                   <div class="hidden-option-tap">
                     <div class="hidden-size-tap">
-                      <div class="final-size">S</div>
+                      <div class="final-option">
+                      <th:block th:if="${ colorCount == 1}">
+                        <span class="final-color" th:text="${dto.itemOptionColor}">black</span>
+                      </th:block>
+                      <th:block th:unless="${ colorCount == 1}">
+                        <span class="final-color">black</span>
+                      </th:block>
+                      ,
+                      <th:block th:if="${ sizeCount == 1}">
+                        <span class="final-size" th:text="${dto.itemOptionSize}">black</span>
+                      </th:block>
+                      <th:block th:unless="${ sizeCount == 1}">
+                        <span class="final-size">S</span>
+                      </th:block>
+                      </div>
                       <a href="javascript:hiddenSizeTap()"
                         ><img
                           src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h22_delete.png"
@@ -253,14 +274,24 @@
                   <div class="layerOptionNot">
                     <div class="option-choice">옵션을 선택해 주세요</div>
                     <div class="option-btn-bg"></div>
-                    <button class="btn1" onclick="cartBtn()">장바구니</button>
-                    <button class="btn2" onclick="buyBtn()">결제하기</button>
+                    <button class="btn1" type="button" onclick="basketNumProduct()">장바구니</button>
+                    <input type="hidden" th:value="${dto.itemNo}" id="itemNo">
+                    <button class="btn2" type="button" onclick="buyBtn()">결제하기</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+<!--          -->
+          <div class="prd-btn-type1" id="hidden" >
+            <div class="prd-option-result">
+              <span class="final-color-result">색상</span>,
+              <span class="final-size-result">사이즈</span>,
+              <span id="product-count" >1</span>개
+            </div>
+          </div>
+
         </th:block>
         <div class="prd-btn-type2">
           <!-- 장바구니담기버튼 -->
@@ -1191,8 +1222,6 @@
       let agree = document.querySelectorAll(".agree-box input");
       let agreeAllBtn = document.querySelector("#agreeAllBtn");
 
-
-
       // 옵션선택 팝업
       function showoptionList() {
         document.querySelector(".bg-option").className =
@@ -1249,6 +1278,14 @@
       function buyBtn() {
         document.querySelector(".bg-option").className = "bg-option";
         document.querySelector(".order-frm").style.display = "block";
+        let finalColorResult = document.querySelector(".final-color").innerHTML;
+        let finalSizeResult = document.querySelector(".final-size").innerHTML;
+        let productCount = document.querySelector(".MSH-sto-stock").value;
+        document.querySelector(".final-size-result").innerHTML = finalSizeResult;
+        document.querySelector(".final-color-result").innerHTML = finalColorResult;
+        document.querySelector("#product-count").innerHTML = productCount;
+        document.querySelector("#hidden").style.display = "block";
+
         document.getElementById("order-first-input").focus();
       }
       function cartBtn() {
@@ -1260,6 +1297,83 @@
         basketNum++;
         document.querySelector(".basket-num").innerHTML = basketNum;
       }
+
+  function closeOptionList() {
+    let finalColorResult = document.querySelector(".final-color").innerHTML;
+    let finalSizeResult = document.querySelector(".final-size").innerHTML;
+    let productCount = document.querySelector(".MSH-sto-stock").value;
+    document.querySelector(".final-size-result").innerHTML = finalSizeResult;
+    document.querySelector(".final-color-result").innerHTML = finalColorResult;
+    document.querySelector("#product-count").innerHTML = productCount;
+    document.querySelector("#hidden").style.display = "block";
+
+    if(document.querySelector(".option-choice").style.display == "block"){
+      document.querySelector("#hidden").style.display = "none";
+    }
+  }
+
+
+    // 장바구니 구현중
+    function basketNumProduct() {
+        let itemNo = document.querySelector("#itemNo").innerHTML;
+        let finalColorResult = document.querySelector(".final-color").innerHTML;
+        let finalSizeResult = document.querySelector(".final-size").innerHTML;
+        let productCount = document.querySelector(".MSH-sto-stock").value;
+        console.out(finalColorResult);
+        console.out(finalSizeResult);
+        console.out(productCount);
+
+        basketNum++;
+        let cookieName = itemNo
+        cookieName += '.'+finalColorResult;
+        cookieName += '.'+finalSizeResult;
+
+        console.out(cookieName);
+
+        let cookieValue = productCount; //아이템 수량으로 쿠키벨류 초기화
+        document.querySelector(".basket-num").innerHTML = basketNum; //오른 숫자 반영
+
+        if (getCookie("item_idx." + cookieName) == null) {
+          //해당 상품이 쿠키로 만들어진적이 없으면 새로 생성하라는 뜻
+
+          setCookie("item_idx." + cookieName, cookieValue + 1);
+        } else {
+          cookieValue = getCookie("item_idx." + cookieName); //  getCookie("item_idx:" + item_idx) => value이다 "2"
+          setCookie("item_idx." + cookieName, Number(cookieValue) + 1); //만약 같은 idx가 있으면 수량만 +1해서 기존 쿠키에 덮어씌운다.
+          if (confirm('장바구니에 담긴 수량이 있어 수량이 추가되었습니다.\n \n 지금 확인하시겠습니까?')== true){
+          location.href = "/order";
+        //장바구니링크 추가 예정
+          }else{
+
+          }
+        }
+      }
+        var getCookie = function (cookieName) {
+
+          let encodedCookieName = "";
+          let splitedCookieName = cookieName.split('.');
+
+          let encodedColor = encodeURIComponent(splitedCookieName[2]);
+          for (let idx in splitedCookieName){
+            if (idx == 0){
+              encodedCookieName += splitedCookieName[idx];
+            }
+            else if (idx == 2){
+              encodedCookieName += "." + encodedColor;
+            }
+            else{
+              encodedCookieName += "." + splitedCookieName[idx];
+            }
+          }
+          console.log(encodedCookieName)
+
+        //매개변수로 쿠키이름을 넣어주면 value로 반환
+        var value = document.cookie.match("(^|;) ?" + encodedCookieName + "=([^;]*)(;|$)");
+        return value ? value[2] : null; //3항 연산자 : 값이 있으면 가져오고 없으면 null로 반환
+      };
+
+}
+
     </script>
   </body>
 </html>

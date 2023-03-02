@@ -223,6 +223,7 @@ function sizeTap(type) {
         document.querySelector(".option-choice").style.display = "none";
         document.querySelector(".option-btn-bg").style.display = "none";
         document.querySelector(".final-size").innerHTML = size;
+
         let strPrice = document.querySelector("#option-price").innerHTML;
 
         let strPrice2 = strPrice.replace("원", "");
@@ -236,6 +237,24 @@ function sizeTap(type) {
         document.querySelector(".option-total-price").innerHTML = output;
 
       }
+
+        function finalColor(color) {
+          document.querySelector(".size-wrap").style.display = "none";
+          document.querySelector(".hidden-option-tap").style.display = "block";
+          document.querySelector(".option-choice").style.display = "none";
+          document.querySelector(".option-btn-bg").style.display = "none";
+          document.querySelector(".final-color").innerHTML = color;
+          let strPrice = document.querySelector("#option-price").innerHTML;
+          let strPrice2 = strPrice.slice(0, -1);
+          let price = Number(strPrice2.replace(",", ""));
+          let b = ",";
+          var position = -3;
+          // 매개변수로 받은 사이즈를 final-size 클래스의 값으로 넣어야함
+          // 이 탭 디스플레이 블록으로
+          let a = String(price);
+              var output = [a.slice(0, position), b, a.slice(position)].join("");
+              document.querySelector(".option-total-price").innerHTML = output;
+        }
 
 function sum() {
   optionTotalPrice += optionPrice;
@@ -283,6 +302,7 @@ function showShareList() {
 function closeOrderList() {
   document.querySelector(".bg-share").className = "bg-share";
 }
+
 
 // 공유 아이콘 팝업
 function openPopupShareBtn(name) {
