@@ -334,3 +334,34 @@ function basketNumCount() {
   basketNum++;
   document.querySelector(".basket-num").innerHTML = basketNum;
 }
+
+function popupOptionList(cartNo) {
+    document.querySelector("#bg-option" + cartNo).className = "bg-option showoptionList";
+}
+
+function closeOptionList(cartNo) {
+  document.querySelector("#bg-option" + cartNo).className = "bg-option";
+}
+
+// 옵션탭 열고 닫기
+function optionTap(type, index) {
+  if (document.querySelector("#" + type + "-wrap" + index).style.display !== "none") {
+    document.querySelector("#" + type + "-wrap" + index).style.display = "none";
+    document.querySelector("#btn-up-" + type + index).style.display = "none";
+    document.querySelector("#btn-down-" + type + index).style.display = "block";
+  } else {
+    document.querySelector("#" + type + "-wrap" + index).style.display = "block";
+    document.querySelector("#btn-up-" + type + index).style.display = "block";
+    document.querySelector("#btn-down-" + type + index).style.display = "none";
+  }
+}
+// 옵션 선택시
+function finalOption(type, option ,index) {
+  document.querySelector("#" + type + "-wrap" + index).style.display = "none";
+  document.querySelector("#final-"+ type + index).innerText = option;
+  document.querySelector("#final-"+ type + "-input"+ index).value = option;
+}
+
+
+
+

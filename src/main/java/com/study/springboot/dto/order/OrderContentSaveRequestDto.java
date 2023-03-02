@@ -4,9 +4,11 @@ package com.study.springboot.dto.order;
 import com.study.springboot.entity.OrderEntity;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
+@ToString
 @Getter
 @Setter
 public class OrderContentSaveRequestDto {

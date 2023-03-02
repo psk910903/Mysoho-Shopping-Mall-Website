@@ -1,9 +1,13 @@
 package com.study.springboot.controller;
 
+import com.study.springboot.dto.cart.CartResponseDto;
+import com.study.springboot.dto.cart.CartSaveRequestDto;
 import com.study.springboot.dto.inquiry.InquiryResponseDto;
+import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.notice.NoticeResponseDto;
 import com.study.springboot.dto.notice.NoticeSaveRequestDto;
 import com.study.springboot.dto.notice.NoticeUpdateRequestDto;
+import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
 import com.study.springboot.object.FileResponse;
@@ -20,8 +24,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Controller
@@ -325,6 +336,271 @@ public class Controller2 {
     }
 
     // '/qna/user' 끝 -----------------------------------------------------------------------------------------------
+    // '/order' 시작 -----------------------------------------------------------------------------------------------
+
+    final private MemberService memberService;
+
+    @GetMapping("/order")
+    public String order(Model model, HttpServletRequest request, @AuthenticationPrincipal User user) {
+
+        List<ProductResponseDto> itemList = new ArrayList<>();
+        List<CartResponseDto> cartList = new ArrayList<>();
+
+        Cookie[] cookies = request.getCookies(); // 모든 쿠키 가져오기
+
+        // 쿠키 정렬하기
+        Arrays.sort(cookies, new Comparator<Cookie>() {
+            @Override
+            public int compare(Cookie c1, Cookie c2) {
+                String c1Name = c1.getName();
+                String c2Name = c2.getName();
+
+                return c2Name.compareTo(c1Name);
+            }
+        });
+
+
+        if(cookies!=null){
+            for (Cookie c : cookies) {
+                String name = c.getName(); // 쿠키 이름 가져오기
+                String value = c.getValue(); // 쿠키 값 가져오기
+
+                if (name.startsWith("item_idx.")) {
+
+                    // 변수 선언
+                    Long itemNo = Long.parseLong(name.split("\\.")[1]);
+                    Long cartItemAmount = Long.parseLong(value);
+                    String itemOptionColor = "";
+                    try {
+                        itemOptionColor = URLDecoder.decode(name.split("\\.")[2], "UTF-8");
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    String itemOptionSize = name.split("\\.")[3];
+
+                    // itemList
+                    ProductResponseDto productResponseDto = productService.findById(itemNo);
+                    itemList.add(productResponseDto);
+
+                    // cartList
+                    String cartCode = UUID.randomUUID().toString();
+                    Long cartDiscountPrice = productResponseDto.getItemPrice() * productResponseDto.getItemDiscountRate() / 100;
+                    Long cartItemPrice = (productResponseDto.getItemPrice() - cartDiscountPrice) /100 * 100;
+                    cartDiscountPrice = productResponseDto.getItemPrice() - cartItemPrice;
+
+                    CartResponseDto cartResponseDto = CartResponseDto.builder()
+                            .cartCode(cartCode)
+                            .itemCode(String.valueOf(itemNo))
+                            .itemName(productResponseDto.getItemName())
+                            .itemOptionColor(itemOptionColor)
+                            .itemOptionSize(itemOptionSize)
+                            .cartItemAmount(cartItemAmount)
+                            .cartItemOriginalPrice(productResponseDto.getItemPrice())
+                            .cartDiscountPrice(cartDiscountPrice)
+                            .cartItemPrice(cartItemPrice)
+                            .build();
+                    cartList.add(cartResponseDto);
+
+                }
+            }
+        }
+
+        // memberMileage
+        Long memberMileage = 0L;
+        if (user != null) {
+            String memberId = user.getUsername();
+            MemberResponseDto memberResponseDto = service2.findByMemberIdMember(memberId);
+            if (memberResponseDto != null) {
+                memberMileage = memberResponseDto.getMemberMileage();
+            }
+        }
+
+        model.addAttribute("itemList", itemList);
+        model.addAttribute("cartList", cartList);
+        model.addAttribute("memberMileage", memberMileage);
+
+        return "/user/order/shopping-basket";
+
+    }
+
+    @PostMapping("/order/deleteAllAction")
+    @ResponseBody
+    public String orderDeleteAllAction(HttpServletRequest request, HttpServletResponse response) {
+
+        Cookie[] cookies = request.getCookies();
+        if(cookies!=null){
+            for(Cookie c : cookies){
+                String name = c.getName();
+
+                if (name.startsWith("item_idx.")) {
+                    c.setMaxAge(0);
+                    response.addCookie(c);
+                }
+            }
+        }
+
+        return "<script>alert('장바구니가 비었습니다.\\n관심있는 상품을 담아보세요.');location.href='/';</script>";
+    }
+
+    @PostMapping("/order/deleteAction")
+    @ResponseBody
+    public String orderDeleteAction(@RequestParam String itemOptionColor, @RequestParam String itemOptionSize,
+                                    @RequestParam String itemNo, HttpServletRequest request, HttpServletResponse response) {
+
+        Cookie[] cookies = request.getCookies();
+        String encodedItemOptionColor = itemOptionColor;
+        try {
+            encodedItemOptionColor = URLEncoder.encode(itemOptionColor, "UTF-8");
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(cookies!=null){
+            for(Cookie c : cookies){
+                String name = c.getName();
+                String value = c.getValue();
+                if (name.equals("item_idx."+ itemNo + "." + encodedItemOptionColor + "." + itemOptionSize)) {
+                    Cookie cookie = new Cookie(name, value);
+                    cookie.setPath("/");
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                }
+            }
+        }
+
+        return "<script>location.href='/order';</script>";
+    }
+
+    @PostMapping("/order/modifyAction")
+    public String orderModifyAction(@RequestParam String changedSize, @RequestParam String changedColor, @RequestParam String changedAmount,
+                                    @RequestParam String originalColor, @RequestParam String originalSize, HttpServletResponse response,
+                                    @RequestParam String itemNo, HttpServletRequest request) {
+
+        // 기존에 있던 쿠키 삭제
+        Cookie[] cookies = request.getCookies();
+        String encodedOriginalColor = originalColor;
+
+        try {
+            encodedOriginalColor = URLEncoder.encode(originalColor, "UTF-8");
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(cookies!=null){
+            for(Cookie c : cookies){
+                String name = c.getName();
+                String value = c.getValue();
+
+                if (name.equals("item_idx."+ itemNo + "." + encodedOriginalColor + "." + originalSize)) {
+                    Cookie cookie = new Cookie(name, value);
+                    cookie.setPath("/");
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                }
+            }
+        }
+
+        // 쿠키 재생성
+        Cookie cookie;
+        String encodedChangedColor;
+
+        try {
+            encodedChangedColor = URLEncoder.encode(changedColor, "UTF-8");
+            cookie = new Cookie("item_idx."+ itemNo + "." + encodedChangedColor + "." + changedSize, changedAmount);
+            cookie.setPath("/");
+            response.addCookie(cookie);;
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return "redirect:/order";
+
+    }
+
+
+    @PostMapping("/order/test2")
+    @ResponseBody
+    public String orderTest2(OrderContentSaveRequestDto orderContentSaveRequestDto, HttpServletRequest request,
+                             @AuthenticationPrincipal User user, HttpServletResponse response,
+                             @RequestParam String[] colorList, @RequestParam String[] sizeList,
+                             @RequestParam String[] amountList, @RequestParam String[] itemCodeList) {
+
+        ////////////////////////////////////// cart DB에 넣기 ////////////////////////////////////////////
+        for (int i=0; i<itemCodeList.length; i++) {
+
+            // cartItemAmount
+            Long cartItemAmount = Long.parseLong(amountList[i]);
+
+            // itemOptionColor
+            String itemOptionColor = colorList[i];
+
+            // itemOptionSize
+            String itemOptionSize = sizeList[i];
+
+            // itemCode
+            String itemCode = itemCodeList[i];
+            ProductResponseDto productResponseDto = productService.findById(Long.parseLong(itemCode));
+
+            // cartCode
+            String cartCode = UUID.randomUUID().toString();
+
+            // orderNo
+            SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+            String orderNo1 = format.format(new Date());
+            String orderNo2 = String.format("%04d", (long) (Math.random() * 10000));
+            Long orderNo = Long.parseLong(orderNo1 + orderNo2);
+
+            // memberId
+            String memberId = null;
+            if (user != null) {
+                memberId = user.getUsername();
+            }
+
+            // cartDiscountPrice, cartItemPrice
+            Long cartDiscountPrice = productResponseDto.getItemPrice() * productResponseDto.getItemDiscountRate() / 100;
+            Long cartItemPrice = (productResponseDto.getItemPrice() - cartDiscountPrice) / 100 * 100;
+            cartDiscountPrice = productResponseDto.getItemPrice() - cartItemPrice;
+
+            CartSaveRequestDto cartSaveRequestDto = CartSaveRequestDto.builder()
+                    .cartCode(cartCode)
+                    .orderNo(orderNo)
+                    .memberId(memberId)
+                    .itemCode(itemCode)
+                    .itemName(productResponseDto.getItemName())
+                    .itemOptionColor(itemOptionColor)
+                    .itemOptionSize(itemOptionSize)
+                    .cartItemAmount(cartItemAmount)
+                    .cartItemOriginalPrice(productResponseDto.getItemPrice())
+                    .cartDiscountPrice(cartDiscountPrice)
+                    .cartItemPrice(cartItemPrice)
+                    .cartDate(LocalDateTime.now())
+                    .build();
+
+            // DB에 넣기
+            boolean success = service2.save(cartSaveRequestDto);
+            if (success) {
+                try {
+                    // 기존에 있던 쿠키 삭제하기
+                    String encodedColor = URLEncoder.encode(itemOptionColor, "UTF-8");
+                    Cookie cookie = new Cookie("item_idx." + itemCode +"." + encodedColor + "." + itemOptionSize, String.valueOf(cartItemAmount));
+                    cookie.setPath("/");
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    // /////////////////////////넣기
+                }
+            } else {
+                ///////////////////////////////// 넣기
+            }
+
+        }
+
+        return orderContentSaveRequestDto.toString() + "\n" + sizeList[0] + "\n"
+                + colorList[0] +"\n" + itemCodeList[0] + "\n" + amountList[0];
+    }
+
+    // '/order' 끝 -----------------------------------------------------------------------------------------------
 
     @PostMapping("/inquiry/test1")
     @ResponseBody
@@ -337,4 +613,5 @@ public class Controller2 {
     public String test2(@RequestParam Long qnaId) {
         return ""+qnaId;
     }
+
 }

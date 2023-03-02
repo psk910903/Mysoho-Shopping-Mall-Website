@@ -223,3 +223,22 @@ a {
   margin-right: 20px;
   width: 13px;
 }
+.close-button-option {
+  position: absolute;
+  top: -19px;
+  left: 295px;
+  border: none;
+
+  border-radius: 0;
+  padding: 10px;
+
+  background-color: white;
+  width: 53px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.close-button-option img {
+  width: 50px;
+}
