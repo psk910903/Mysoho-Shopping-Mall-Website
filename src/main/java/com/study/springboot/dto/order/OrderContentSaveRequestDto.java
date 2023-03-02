@@ -27,6 +27,7 @@ public class OrderContentSaveRequestDto {
     private String orderRecipientAddrNumber; // 수령자 우편번호
     private String orderRecipientAddr1; // 수령자 기본주소
     private String orderRecipientAddr2; // 수령자 나머지주소
+    private String memberId; // 회원 아이디
     private Long memberMileage; // 적립금 사용
     private String memberCoupon; // 쿠폰 사용
     private String orderPayType; // 휴대폰결제 or 무통장입금 선택
@@ -50,6 +51,7 @@ public class OrderContentSaveRequestDto {
                 .orderRecipientAddrNumber(orderRecipientAddrNumber)
                 .orderRecipientAddr1(orderRecipientAddr1)
                 .orderRecipientAddr2(orderRecipientAddr2)
+                .memberId(memberId)
                 .memberMileage(memberMileage)
                 .memberCoupon(memberCoupon)
                 .orderPayType(orderPayType)

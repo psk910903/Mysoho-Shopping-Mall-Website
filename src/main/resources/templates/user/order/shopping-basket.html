@@ -91,11 +91,31 @@
         for (cart of checkList){
            productDiscountValue += cart.cartDiscountPrice * cart.cartItemAmount;
         }
-        productDiscount.innerText = '(-)' + productDiscountValue.toString().replace(regexp, ',') + '원';
+        productDiscount.innerText = productDiscountValue.toString().replace(regexp, ',') + '원';
 
         // 총 할인 금액 변동
         let totalDiscount = document.getElementById("totalDiscount");
         totalDiscount.innerText = '- ' + productDiscountValue.toString().replace(regexp, ',') + '원';
+
+        // 총 금액 변동
+        let totalPrice = document.getElementById("totalPrice");
+        let totalPriceValue = 0;
+        for (cart of checkList){
+          totalPriceValue += cart.cartItemPrice * cart.cartItemAmount;
+        }
+        totalPrice.innerText = totalPriceValue.toString().replace(regexp, ',') + '원';
+
+        let totalPriceInput = document.getElementById("totalPriceInput");
+        totalPriceInput.value = totalPriceValue;
+
+        // 총 아이템 개수 변동
+        let orderTotalCount = document.getElementById("orderTotalCount");
+        let orderTotalCountValue = 0;
+        for (cart of checkList){
+          orderTotalCountValue += cart.cartItemAmount;
+        }
+        orderTotalCount.value = orderTotalCountValue;
+
       }
 
       function checkBoxAll(){
@@ -169,6 +189,14 @@
         for (orderPayTypeObj of orderPayTypeList){
           if(orderPayTypeObj.checked){
             document.getElementById("orderPayType").value = orderPayTypeObj.value + orderPayType2;
+          }
+        }
+
+        // memberMileage
+        let memberMileageList = document.getElementsByName("memberMileage");
+        for (memberMileageObj of memberMileageList){
+          if(!memberMileageObj.value){
+            memberMileageObj.value = 0;
           }
         }
 

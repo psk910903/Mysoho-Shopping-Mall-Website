@@ -526,6 +526,9 @@ public class Controller2 {
                              @RequestParam String[] amountList, @RequestParam String[] itemCodeList) {
 
         ////////////////////////////////////// cart DB에 넣기 ////////////////////////////////////////////
+        String[] cartCodeList = {null, null, null, null, null};
+        String memberId = null;
+
         for (int i=0; i<itemCodeList.length; i++) {
 
             // cartItemAmount
@@ -543,6 +546,7 @@ public class Controller2 {
 
             // cartCode
             String cartCode = UUID.randomUUID().toString();
+            cartCodeList[i] = cartCode;
 
             // orderNo
             SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
@@ -551,7 +555,6 @@ public class Controller2 {
             Long orderNo = Long.parseLong(orderNo1 + orderNo2);
 
             // memberId
-            String memberId = null;
             if (user != null) {
                 memberId = user.getUsername();
             }
@@ -595,6 +598,33 @@ public class Controller2 {
             }
 
         }
+
+
+        ////////////////////////////////////// order DB에 넣기 ////////////////////////////////////////////
+
+        // orderDTO 세팅하기
+        orderContentSaveRequestDto.setCartCode1(cartCodeList[0]);
+        orderContentSaveRequestDto.setCartCode2(cartCodeList[1]);
+        orderContentSaveRequestDto.setCartCode3(cartCodeList[2]);
+        orderContentSaveRequestDto.setCartCode4(cartCodeList[3]);
+        orderContentSaveRequestDto.setCartCode5(cartCodeList[4]);
+        orderContentSaveRequestDto.setOrderDatetime(LocalDateTime.now());
+        orderContentSaveRequestDto.setMemberId(memberId);
+        if (orderContentSaveRequestDto.getOrderPayType().contains("휴대폰결제") ||
+                orderContentSaveRequestDto.getOrderPayType().contains("삼성페이")) {
+            orderContentSaveRequestDto.setOrderState("배송대기");
+        }else{
+            orderContentSaveRequestDto.setOrderState("미입금/주문완료");
+        }
+
+        boolean success = service2.saveOrder(orderContentSaveRequestDto);
+        if (success) {
+            ///////////////////////////////// 넣기
+        } else {
+            ///////////////////////////////// 넣기
+        }
+
+
 
         return orderContentSaveRequestDto.toString() + "\n" + sizeList[0] + "\n"
                 + colorList[0] +"\n" + itemCodeList[0] + "\n" + amountList[0];

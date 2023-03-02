@@ -33,7 +33,6 @@ public class MemberEntity {
     private Long memberMileage;
     @Column(name = "member_coupon")
     private Long memberCoupon;//
-
     @Column(name = "member_addr_number")
     private String memberAddrNumber;
     @Column(name = "member_addr1")

@@ -6,6 +6,7 @@ import com.study.springboot.dto.inquiry.InquiryResponseDto;
 import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.notice.NoticeResponseDto;
 import com.study.springboot.dto.notice.NoticeSaveRequestDto;
+import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
 import com.study.springboot.entity.*;
@@ -115,6 +116,22 @@ public class Service2 {
         try{
             CartEntity entity = dto.toEntity();
             cartRepository.save(entity);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    final private OrderRepository orderRepository;
+
+    @Transactional
+    public Boolean saveOrder(final OrderContentSaveRequestDto dto) { // 이름 나중에 바꾸기
+
+        try{
+            OrderEntity entity = dto.toEntity();
+            orderRepository.save(entity);
         }
         catch(Exception e){
             e.printStackTrace();

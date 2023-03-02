@@ -46,6 +46,8 @@ public class OrderEntity {
     private String orderRecipientAddr1; // 수령자 기본주소
     @Column(name = "order_recipient_addr_2", nullable = false)
     private String orderRecipientAddr2; // 수령자 나머지주소
+    @Column(name = "member_id")
+    private String memberId; // 회원 아이디
     @Column(name = "member_mileage")
     private Long memberMileage; // 적립금 사용
     @Column(name = "member_coupon")
@@ -58,7 +60,7 @@ public class OrderEntity {
     private LocalDateTime orderDatetime = LocalDateTime.now(); // 결제시간
 
     @Builder
-    public OrderEntity(Long orderNo, String cartCode1, String cartCode2, String cartCode3, String cartCode4, String cartCode5, Long orderTotalPrice, Long orderTotalCount, String orderName, String orderPhone, String orderRecipientName, String orderRecipientPhone, String orderRecipientAddrNumber, String orderRecipientAddr1, String orderRecipientAddr2, Long memberMileage, String memberCoupon, String orderPayType, String orderState, LocalDateTime orderDatetime) {
+    public OrderEntity(Long orderNo, String cartCode1, String cartCode2, String cartCode3, String cartCode4, String cartCode5, Long orderTotalPrice, Long orderTotalCount, String orderName, String orderPhone, String orderRecipientName, String orderRecipientPhone, String orderRecipientAddrNumber, String orderRecipientAddr1, String orderRecipientAddr2, String memberId, Long memberMileage, String memberCoupon, String orderPayType, String orderState, LocalDateTime orderDatetime) {
         this.orderNo = orderNo;
         this.cartCode1 = cartCode1;
         this.cartCode2 = cartCode2;
@@ -74,6 +76,7 @@ public class OrderEntity {
         this.orderRecipientAddrNumber = orderRecipientAddrNumber;
         this.orderRecipientAddr1 = orderRecipientAddr1;
         this.orderRecipientAddr2 = orderRecipientAddr2;
+        this.memberId = memberId;
         this.memberMileage = memberMileage;
         this.memberCoupon = memberCoupon;
         this.orderPayType = orderPayType;

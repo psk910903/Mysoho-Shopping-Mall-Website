@@ -36,7 +36,8 @@
                     <div class="between h23">
                         <div class="price-text">- 상품 할인</div>
                         <div class="price-text-price">
-                            <span class="gray"id="productDiscount"></span>
+                            <span class="gray">(-)</span>
+                            <span id="productDiscount"></span>
                         </div>
                     </div>
                     <div class="between h23">
@@ -60,12 +61,14 @@
                     </div>
                     <div>
                         <strong class="red2" id="totalPrice"></strong>
+                        <input type="hidden" name="orderTotalPrice" id="totalPriceInput"/>
                     </div>
                 </div>
                 <div class="left blue">
                     <strong>(예상 적립금 <span>0</span>원, 비회원적립 불가)</strong>
                 </div>
             </div>
+            <input type="hidden" name="orderTotalCount" id="orderTotalCount" />
             <button class="js-btnOrder js-mo-tpl btn-h42-gray mt-25">결제하기</button>
             <div class="warning-labels-font">
                 <img src="https://image.makeshop.co.kr/mysoho/assets/admin/images/common/m-notice-icon.png" alt=""/>
