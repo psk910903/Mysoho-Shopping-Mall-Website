@@ -125,9 +125,9 @@ INSERT INTO item VALUES(NULL, 'ONE-PIECE', '골지원피스', '블랙, 베이지
 INSERT INTO item VALUES(NULL, 'BOTTOM', '아크네데님 연청', '연청', 'S,M,L', '35000', '0', 'https://img.makeshop.co.kr/1/1371/201902/15dac27e8d767f405ecd84786413ad19.png', '<figure class="image"><img src="https://s3-doreen-bucket.s3.ap-northeast-2.amazonaws.com/626dade6-dd35-4c9f-a7ff-6bd44f50d6ae.jpg"></figure><p>&nbsp;</p><figure class="image"><img src="https://s3-doreen-bucket.s3.ap-northeast-2.amazonaws.com/8c2b8966-9acc-4b70-950f-78abb7148e62.jpg"></figure><p>&nbsp;</p><figure class="image"><img src="https://s3-doreen-bucket.s3.ap-northeast-2.amazonaws.com/291a27ee-b8cc-45b1-a75d-70514990bfb1.png"></figure><p>&nbsp;</p><p>&nbsp;</p><figure class="image"><img src="https://s3-doreen-bucket.s3.ap-northeast-2.amazonaws.com/06ef1bab-e6bf-45cb-ba9f-afd27060452f.jpg"></figure><p>&nbsp;</p><figure class="image"><img src="https://s3-doreen-bucket.s3.ap-northeast-2.amazonaws.com/2a3c2709-f68c-423b-9eba-0342867ec835.png"></figure><p>&nbsp;</p><p>위 컬러가 모두 뚜렷하게 구분이 되는지 확인하세요.</p><p>제품의 정확한 정보 표현을 위하여</p><p>모니터의 밝기 및 명암 감마 조정을 권장합니다.</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>', DEFAULT, DEFAULT, DEFAULT);
 INSERT INTO item VALUES(NULL, 'TOP', '골지 브이티', '블랙', 'FREE', '19900', '0', 'https://img.makeshop.co.kr/1/1371/201902/81f5662d13dcab1ce7ee6fd978bbb5f5.png', '<figure class="image"><img src="https://s3-doreen-bucket.s3.ap-northeast-2.amazonaws.com/b0168fb5-e9ca-49bf-80b5-0d4be8afae8a.jpg"></figure><p>&nbsp;</p><figure class="image"><img src="https://s3-doreen-bucket.s3.ap-northeast-2.amazonaws.com/4c3b86b0-66bf-4824-abd2-e72c5619dc70.jpg"></figure><p>&nbsp;</p><figure class="image"><img src="https://s3-doreen-bucket.s3.ap-northeast-2.amazonaws.com/78b59d18-6d82-4d1c-89fc-d4a909ba749e.png"></figure><p>&nbsp;</p><figure class="image"><img src="https://s3-doreen-bucket.s3.ap-northeast-2.amazonaws.com/303a1b2f-2e60-4556-824f-8bd9c9c273ba.jpg"></figure><p>&nbsp;</p><figure class="image"><img src="https://s3-doreen-bucket.s3.ap-northeast-2.amazonaws.com/97b78b4b-e5cb-4e45-8455-4d20f57c11eb.png"></figure><p>&nbsp;</p><p>위 컬러가 모두 뚜렷하게 구분이 되는지 확인하세요.</p><p>제품의 정확한 정보 표현을 위하여</p><p>모니터의 밝기 및 명암 감마 조정을 권장합니다.</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p>', DEFAULT, '품절', DEFAULT);
 
-SELECT * FROM item
+SELECT * FROM item;
 
-SELECT item_image_url FROM `item` WHERE item_no LIKE '20001' and item_exposure='노출함' order BY `item_name` desc
+SELECT item_image_url FROM `item` WHERE item_no LIKE '20001' and item_exposure='노출함' order BY `item_name` DESC;
 
 -- 장바구니 테이블 선교 --------------------------------------------------------------
 DROP TABLE if EXISTS cart;
@@ -176,11 +176,11 @@ INSERT INTO `cart` VALUES(NULL, '11124', '10005', 'psk910903', NULL , '20003', '
 
 SELECT * FROM `cart`;
 
-SELECT * FROM cart WHERE cart_code = 11124 AND NOT member_id is NULL
+SELECT * FROM cart WHERE cart_code = 11124 AND NOT member_id is NULL;
 
-SELECT * FROM cart WHERE member_id = 'psk910903'
+SELECT * FROM cart WHERE member_id = 'psk910903';
 
-SELECT * FROM cart WHERE cart_code = 11121 and member_id is NULL
+SELECT * FROM cart WHERE cart_code = 11121 and member_id is NULL;
 
 
 -- 구매경로 : 1. 장바구니에 넣고 결제하기 2. 바로 결제하기(1개 장바구니에 넣고 결제)
@@ -273,7 +273,7 @@ INSERT INTO `order`
           'psk910903', default, default, '무통장입금', '결제대기', default);
 SELECT * FROM `order`;
 
-SELECT * FROM `order` WHERE order_name LIKE CONCAT('%','박선교','%') AND order_phone LIKE CONCAT('%','01040246575','%') and member_id is NULL order BY order_datetime desc
+SELECT * FROM `order` WHERE order_name LIKE CONCAT('%','박선교','%') AND order_phone LIKE CONCAT('%','01040246575','%') and member_id is NULL order BY order_datetime DESC;
 
 
 -- 상품문의 테이블 은진&희진 --------------------------------------------------------------
