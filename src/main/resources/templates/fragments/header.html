@@ -94,8 +94,9 @@
         alt=""
     /></a>
     <div class="side-icon-right">
-      <div class="basket-num" type="Number">0</div>
+
       <a class="btn-basket" href="/order">
+        <strong class="basket-num" type="Number">0</strong>
         <img
           src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_basket_000000.png"
           alt=""
@@ -162,8 +163,26 @@
         //쿠키 생성 함수 (매개변수로 "item_idx 1", 1)이 들어옴
         var date = new Date(); //
         date.setTime(date.getTime() + 24 * 60 * 60 * 1000); //date를 현재시간 + 3일 후로 설정한다.
+
+          let encodedCookieName = "";
+          let splitedCookieName = cookieName.split('.');
+
+          let encodedColor = encodeURIComponent(splitedCookieName[2]);
+          for (let idx in splitedCookieName){
+            if (idx == 0){
+              encodedCookieName += splitedCookieName[idx];
+            }
+            else if (idx == 2){
+              encodedCookieName += "." + encodedColor;
+            }
+            else{
+              encodedCookieName += "." + splitedCookieName[idx];
+            }
+          }
+          console.log(encodedCookieName)
+
         document.cookie =
-          cookieName + //쿠키이름 (key)
+          encodedCookieName + //쿠키이름 (key)
           "=" +
           cookieValue + // 쿠키(value)
           ";expires=" +
@@ -178,33 +197,60 @@
       function basketNumCount(a) {
         //장바구니 아이콘 선택시 실행되는 함수 / 매개변수로 this가 들어온다.(itemNo)
         basketNum++;
-        let item_idx = $(a).attr("value"); //attr("value") : value값을 가져온다. 만약 ""안에 class면 class이름을 가져온다.
-        item_idx = item_idx.replace(/,/g, ".");
-        let item_quantity = 0; //아이템 수량 초기화
+        let cookieName = $(a).attr("value"); //attr("value") : value값을 가져온다. 만약 ""안에 class면 class이름을 가져온다.
+        cookieName = cookieName.replace(/,/g, ".");
+        let cookieValue = 0; //아이템 수량 초기화
         document.querySelector(".basket-num").innerHTML = basketNum; //오른 숫자 반영
 
-        if (getCookie("item_idx." + item_idx) == null) {
+        if (getCookie("item_idx." + cookieName) == null) {
           //해당 상품이 쿠키로 만들어진적이 없으면 새로 생성하라는 뜻
 
-          setCookie("item_idx." + item_idx, item_quantity + 1);
+          setCookie("item_idx." + cookieName, cookieValue + 1);
         } else {
-          item_quantity = getCookie("item_idx." + item_idx); //  getCookie("item_idx:" + item_idx) => value이다 "2"
-          setCookie("item_idx." + item_idx, Number(item_quantity) + 1); //만약 같은 idx가 있으면 수량만 +1해서 기존 쿠키에 덮어씌운다.
+          cookieValue = getCookie("item_idx." + cookieName); //  getCookie("item_idx:" + item_idx) => value이다 "2"
+          setCookie("item_idx." + cookieName, Number(cookieValue) + 1); //만약 같은 idx가 있으면 수량만 +1해서 기존 쿠키에 덮어씌운다.
+          if (confirm('장바구니에 담긴 수량이 있어 수량이 추가되었습니다.\n \n 지금 확인하시겠습니까?')== true){
+        //장바구니링크 추가 예정
+          }else{
+
+          }
+
         }
       }
 
-      var getCookie = function (name) {
+      var getCookie = function (cookieName) {
+
+          let encodedCookieName = "";
+          let splitedCookieName = cookieName.split('.');
+
+          let encodedColor = encodeURIComponent(splitedCookieName[2]);
+          for (let idx in splitedCookieName){
+            if (idx == 0){
+              encodedCookieName += splitedCookieName[idx];
+            }
+            else if (idx == 2){
+              encodedCookieName += "." + encodedColor;
+            }
+            else{
+              encodedCookieName += "." + splitedCookieName[idx];
+            }
+          }
+          console.log(encodedCookieName)
+
         //매개변수로 쿠키이름을 넣어주면 value로 반환
-        var value = document.cookie.match("(^|;) ?" + name + "=([^;]*)(;|$)");
+        var value = document.cookie.match("(^|;) ?" + encodedCookieName + "=([^;]*)(;|$)");
         return value ? value[2] : null; //3항 연산자 : 값이 있으면 가져오고 없으면 null로 반환
       };
       document.querySelector(".basket-num").innerHTML = cartNum;
 
       function alertAndItemLink(value) {
-        alert("옵션을 선택해주세요.");
         let itemNo = $(value).attr("value");
-        console.log(itemNo);
-        location.href = "/product/" + itemNo;
+
+        if (confirm('해당상품은 옵션을 설정해야 장바구니에 담을 수 있습니다. \n \n 상세페이지로 이동하시겠습니까?')== true){
+          location.href = "/product/" + itemNo;
+          }else{
+
+          }
       }
     </script>
   </th:block>
