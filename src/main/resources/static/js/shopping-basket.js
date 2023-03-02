@@ -216,36 +216,26 @@ function sizeTap(type) {
   }
 }
 // 사이즈 선택시
-function finalSize(size) {
-  document.querySelector(".size-wrap").style.display = "none";
-  document.querySelector(".hidden-option-tap").style.display = "block";
-  document.querySelector(".option-choice").style.display = "none";
-  document.querySelector(".option-btn-bg").style.display = "none";
-  document.querySelector(".final-size").innerHTML = size;
-  let strPrice = document.querySelector("#option-price").innerHTML;
+// 사이즈 선택시
+      function finalSize(size) {
+        document.querySelector(".size-wrap").style.display = "none";
+        document.querySelector(".hidden-option-tap").style.display = "block";
+        document.querySelector(".option-choice").style.display = "none";
+        document.querySelector(".option-btn-bg").style.display = "none";
+        document.querySelector(".final-size").innerHTML = size;
+        let strPrice = document.querySelector("#option-price").innerHTML;
 
-  let strPrice2 = strPrice.replace("원", "");
-  let price = Number(strPrice2.replace(",", ""));
-  let b = ",";
-  var position = -3;
-  // 매개변수로 받은 사이즈를 final-size 클래스의 값으로 넣어야함
-  // 이 탭 디스플레이 블록으로
-  if ((size === "S" || size === "M") && price % 44100 === 0) {
-    let a = String(price);
-    var output = [a.slice(0, position), b, a.slice(position)].join("");
-    document.querySelector(".option-total-price").innerHTML = output;
-  } else if (size === "L" || price % 44100 === 0) {
-    let a = String(price + 1000);
-    var output = [a.slice(0, position), b, a.slice(position)].join("");
-    document.querySelector(".option-total-price").innerHTML = output;
-    document.querySelector("#option-price").innerHTML = output + "원";
-  } else if ((size === "S" || size === "M") && price % 45100 === 0) {
-    let a = String(price - 1000);
-    var output = [a.slice(0, position), b, a.slice(position)].join("");
-    document.querySelector(".option-total-price").innerHTML = output;
-    document.querySelector("#option-price").innerHTML = output + "원";
-  }
-}
+        let strPrice2 = strPrice.replace("원", "");
+        let price = Number(strPrice2.replace(",", ""));
+        let b = ",";
+        var position = -3;
+        // 매개변수로 받은 사이즈를 final-size 클래스의 값으로 넣어야함
+        // 이 탭 디스플레이 블록으로
+        let a = String(price);
+        var output = [a.slice(0, position), b, a.slice(position)].join("");
+        document.querySelector(".option-total-price").innerHTML = output;
+
+      }
 
 function sum() {
   optionTotalPrice += optionPrice;

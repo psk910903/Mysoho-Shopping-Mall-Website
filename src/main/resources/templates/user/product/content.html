@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="/css/product-onepiece3.css" />
   </head>
   <body>
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <div class="wrap">
       <div class="betweenbtn">
@@ -1209,40 +1210,6 @@
         .querySelector("#closeBtn-option")
         .addEventListener("click", closeOrderList);
 
-      // 사이즈탭 열고 닫기
-      function sizeTap(type) {
-        if (
-          document.querySelector("." + type + "-wrap").style.display !== "none"
-        ) {
-          document.querySelector("." + type + "-wrap").style.display = "none";
-          document.querySelector(".btn-up-" + type).style.display = "none";
-          document.querySelector(".btn-down-" + type).style.display = "block";
-        } else {
-          document.querySelector("." + type + "-wrap").style.display = "block";
-          document.querySelector(".btn-up-" + type).style.display = "block";
-          document.querySelector(".btn-down-" + type).style.display = "none";
-        }
-      }
-      // 사이즈 선택시
-      function finalSize(size) {
-        document.querySelector(".size-wrap").style.display = "none";
-        document.querySelector(".hidden-option-tap").style.display = "block";
-        document.querySelector(".option-choice").style.display = "none";
-        document.querySelector(".option-btn-bg").style.display = "none";
-        document.querySelector(".final-size").innerHTML = size;
-        let strPrice = document.querySelector("#option-price").innerHTML;
-
-        let strPrice2 = strPrice.replace("원", "");
-        let price = Number(strPrice2.replace(",", ""));
-        let b = ",";
-        var position = -3;
-        // 매개변수로 받은 사이즈를 final-size 클래스의 값으로 넣어야함
-        // 이 탭 디스플레이 블록으로
-        let a = String(price);
-        var output = [a.slice(0, position), b, a.slice(position)].join("");
-        document.querySelector(".option-total-price").innerHTML = output;
-
-      }
 
       let optionStr = document.querySelector("#option-price").innerHTML;
       // 가격 형변환 후 쉼표추가 함수
@@ -1277,9 +1244,7 @@
       //  basketNum++;
       //  document.querySelector(".basket-num").innerHTML = basketNum;
       //}
-      function closeOrderList() {
-        document.querySelector(".bg-share").className = "bg-share";
-      }
+
 
       function buyBtn() {
         document.querySelector(".bg-option").className = "bg-option";

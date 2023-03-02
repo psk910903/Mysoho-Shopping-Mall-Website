@@ -581,9 +581,6 @@ input[type="checkbox"]:checked::after {
 .layerOptionNot {
   display: none;
 }
-.popup {
-  bottom: -50%;
-  height: 39%;
 
   /* 초기에 약간 아래에 배치 */
   /* transform: translate(-50%, -40%); */
