@@ -4,7 +4,7 @@
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
   <th:block th:fragment="fragment-header">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
     <div class="side-icon-left">
       <div id="mySidenav" class="sidenav">
         <div>
@@ -250,6 +250,11 @@
           }else{
 
           }
+      }
+
+      function logout() {
+        alert("로그아웃 되었습니다.");
+        location.href="/user/logoutAction";
       }
     </script>
   </th:block>
