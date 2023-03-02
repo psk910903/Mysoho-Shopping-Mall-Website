@@ -90,6 +90,8 @@ public class MemberEntity {
         this.memberAddrNumber = memberAddrNumber;
         this.memberAddr1 = memberAddr1;
         this.memberAddr2 = memberAddr2;
-
+    }
+    public void updatePassword(String password){
+        this.password = password;
     }
 }

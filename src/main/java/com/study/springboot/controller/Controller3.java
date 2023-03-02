@@ -1,22 +1,20 @@
 package com.study.springboot.controller;
 
-//import com.study.springboot.dto.security.MailDto;
-import com.study.springboot.dto.cart.CartResponseDto;
-import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.security.MemberJoinDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.review.ReviewSaveResponseDto;
 import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.repository.MemberRepository;
-import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ReviewRepository;
-import com.study.springboot.service.*;
-//import com.study.springboot.service.SendEmailService;
+import com.study.springboot.service.ProductService;
+import com.study.springboot.service.ReviewService;
+import com.study.springboot.service.Service3;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,11 +29,11 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
-@Controller
+
+
 @RequiredArgsConstructor
+@Controller
 public class Controller3 {
     private final ReviewService reviewService;
     private final ReviewRepository reviewRepository;
@@ -43,11 +41,8 @@ public class Controller3 {
     private final MemberRepository memberRepository;
     final private PasswordEncoder passwordEncoder;
     final private Service3 service3;
-    final private Service1 service1;
-    final private CartService cartService;
-  //  final private SendEmailService sendEmailService;
 
-    final private OrderRepository orderRepository;
+
 
     @RequestMapping("/admin/review")
     public String main() {
@@ -111,7 +106,6 @@ public class Controller3 {
         reviewService.delete(reviewNo);
         return "redirect:/admin/review/list";
     }
-
 
     @ResponseBody
     @RequestMapping("admin/review/status/modify")
@@ -203,74 +197,17 @@ public class Controller3 {
     //마이페이지 폼
     @RequestMapping("/myorder/lists")
     public String myInfo(@AuthenticationPrincipal User user,
-                         HttpServletRequest request, Model model) {
+                         HttpServletRequest request) {
         if (user == null) {
             System.out.println("no user");
         } else {
-            String username = user.getUsername(); //멤버 아이디
+            String username = user.getUsername();
+            System.out.println("myPage username:" + username);
             MemberEntity entity = service3.findByUserId(username);
             request.getSession().setAttribute("username", entity.getMemberName());
+            System.out.println("myPage memberMileage:" + entity.getMemberMileage());
             request.getSession().setAttribute("memberMileage", entity.getMemberMileage());
-//            request.getSession().setAttribute("memberCoupon", entity.getMemberCoupon());
-
-            //0228 선교 작업
-            List<OrderResponseDto> orderList = cartService.findByOrderList(username);
-            List<CartResponseDto> cartList = new ArrayList<>();
-            List<List<CartResponseDto>> cartListModel = new ArrayList<>();
-
-            int stateType1 = 0;
-            int stateType2 = 0;
-            int stateType3 = 0;
-            int stateType4 = 0;
-            int stateType5 = 0;
-
-            for (int i = 0; i < orderList.size(); i++) {
-                OrderResponseDto orderDto = orderList.get(i);
-                String orderState = orderDto.getOrderState();
-                if (orderState.equals("결제대기")) {
-                    stateType1++;
-                } else if (orderState.equals("배송대기")) {
-                    stateType2++;
-                }else if (orderState.equals("배송중")) {
-                    stateType3++;
-                } else if (orderState.equals("배송완료")) {
-                    stateType4++;
-                } else { //취소/반품
-                    stateType5++;
-                }
-                //회원 주문번호에서 카트정보 가져오기
-                cartList = service1.getCartListMember(orderDto);
-
-                cartListModel.add(cartList);
-                Long originalPrice =0L;
-                Long discountPrice =0L;
-                Long itemPrice =0L;
-
-                for (int j = 0; j < cartList.size(); j++) {
-
-                    if (Objects.equals(cartList.get(j).getOrderNo(), orderDto.getOrderNo())) {
-                        originalPrice += cartList.get(j).getCartItemOriginalPrice();
-                        discountPrice += cartList.get(j).getCartDiscountPrice();
-                        itemPrice += cartList.get(j).getCartItemPrice();
-                    }
-                }
-                orderDto.setOrderItemOriginalPrice(originalPrice); //(할인 전)상품가격
-                orderDto.setOrderDiscountPrice(discountPrice);//할인율이 적용된 차감될 금액
-                orderDto.setOrderItemPrice(itemPrice); // (할인 적용된 결제당시)상품가격
-            }
-            int cartCount = cartListModel.size();
-            int orderCount = orderList.size();
-            model.addAttribute("orderCount", orderCount);
-            model.addAttribute("stateType1", stateType1);
-            model.addAttribute("stateType2", stateType2);
-            model.addAttribute("stateType3", stateType3);
-            model.addAttribute("stateType4", stateType4);
-            model.addAttribute("stateType5", stateType5);
-
-            model.addAttribute("cartCount", cartCount);
-            model.addAttribute("orderList", orderList);
-            model.addAttribute("cartListModel", cartListModel);
-
+            //request.getSession().setAttribute("memberCoupon", entity.getMemberCoupon());
         }
         return "/user/user/myorder-list-user";
     }
@@ -315,6 +252,7 @@ public class Controller3 {
         String encodePassword = entity.getPassword();
         if (passwordEncoder.matches(getPassword, encodePassword)) {//암호 같으면
             String encodedPassword = passwordEncoder.encode(newPassword);
+            //dto에 수정된 정보를 받았음
             dto.setPassword(encodedPassword);
             boolean result = service3.update(dto);
             if (result) {
@@ -326,6 +264,7 @@ public class Controller3 {
             return "<script> alert('비밀번호가 다릅니다'); history.back(); </script>";
         }
     }
+
     //마일리지 상세
     @RequestMapping("/user/mileage")
     public String mileage(@AuthenticationPrincipal User user,
@@ -341,6 +280,7 @@ public class Controller3 {
         }
         return "/user/user/user-mileage";
     }
+
     //쿠폰 상세
     @RequestMapping("/coupons/mylist")
     public String coupons(@AuthenticationPrincipal User user,
@@ -351,8 +291,8 @@ public class Controller3 {
             String username = user.getUsername();
             System.out.println("coupons username:" + username);
             MemberEntity entity = service3.findByUserId(username);
-//            System.out.println("coupons :" + entity.getMemberCoupon());
-//            model.addAttribute("memberCoupon", entity.getMemberCoupon());
+            //System.out.println("coupons :" + entity.getMemberCoupon());
+           // model.addAttribute("memberCoupon", entity.getMemberCoupon());
         }
         return "user/user/coupons-mylist";
     }
@@ -361,39 +301,29 @@ public class Controller3 {
     @ResponseBody
     public String findId(@RequestParam("memberName") String memberName,
                          @RequestParam("memberPhone")  String memberPhone
-                         ){
+    ){
         System.out.println(memberName);
         System.out.println(memberPhone);
 
-        Optional<MemberEntity> optional = memberRepository.findByMemberNameAndMemberPhone(memberName,memberPhone);
-        String id = optional.get().getUsername();
+        String id = service3.findByMemberNameAndMemberPhone(memberName,memberPhone);
         if(id==null){
             return "<script>alert('가입된 회원 정보가 없습니다. 이름/휴대폰번호를 확인해주세요.'); history.back();</script>";
         } else {
             return "<script>alert('회원님의 아이디는 "+id+" 입니다.'); location.href='/user/login';</script>";
         }
     }
-
-    //로그인 전 암호 재설정
-//    @RequestMapping("/find/password")
-//    @ResponseBody
-//    public String findPassword(@RequestParam("getEmail") String getEmail,
-//                               MailDto dto
-//
-//    ){
-//        System.out.println(getEmail);
-//        Optional<MemberEntity> optional = memberRepository.findByMemberEmail(getEmail);
-//        if(optional == null){
-//            return "<script>alert('가입된 회원 정보가 없습니다. 이메일 주소를 확인해주세요.'); history.back();</script>";
-//        }
-//        String memberEmail = optional.get().getMemberEmail();
-//        if(getEmail!=memberEmail){
-//            return "<script>alert('정보가 일치하지 않습니다. 이메일 주소를 확인해주세요.'); history.back(); </script>";
-//        } else {
-//            sendEmailService.createMailAndChangePassword(getEmail,dto);
-//            return null;
-//        }
-//    }
+    @RequestMapping("/find/password")
+    @ResponseBody
+    public String findPw(@RequestParam("getEmail") String getEmail)  {
+        String result = service3.changPassword(getEmail);
+        if(result.equals("0")){
+            return "<script> alert('멜에서 새로운 비밀번호를 확인하세요.'); history.back(); </script>";
+        }else if(result.equals("1")){
+            return "<script> alert('메일 주소를 확인해 주세요.'); history.back(); </script>";
+        }else {
+            return "<script> alert('멜보내기 실패했습니다.'); history.back(); </script>";
+        }
+    }
 
     //나의 후기 내역 - 없어서 페이지만 연결
     @RequestMapping("/review/myList")

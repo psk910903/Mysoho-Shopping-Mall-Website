@@ -34,3 +34,14 @@ logging:
       amazonaws:
         util:
           EC2MetadataUtils: ERROR
+
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: mysoho2023@naver.com
+    password: plehohos2023!
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.ssl.enable: true
+      mail.smtp.ssl.trust: smtp.naver.com
+      mail.smtp.starttls.enable: true

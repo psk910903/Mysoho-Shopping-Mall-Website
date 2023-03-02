@@ -13,9 +13,6 @@ import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
-    @Query(value = "select * from member m where m.member_id = :member_id_param and m.member_pw = :member_pw_param", nativeQuery = true)
-    List<MemberEntity> findByMemberIdAndMemberPw(@Param("member_id_param") String member_id,
-                                                 @Param("member_pw_param") String member_pw);
 
     @Query(value = "select * from member m where m.member_name = :member_name_param and m.member_phone = :member_phone_param", nativeQuery = true)
     Optional<MemberEntity> findByMemberNameAndMemberPhone(@Param("member_name_param") String member_name,
