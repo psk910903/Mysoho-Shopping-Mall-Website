@@ -65,11 +65,11 @@
 
     <script th:inline="javascript">
 
-      ///////////// 체크박스 선택 /////////////
-
       let checkList = [[${cartList}]];
       changePriceSummary();
+      orderInit();
 
+      /////////////////////////////////////// 체크박스 선택 ///////////////////////////////////////
       function changePriceSummary(){
         let regexp = /\B(?=(\d{3})+(?!\d))/g;
 
@@ -159,8 +159,26 @@
 
         changePriceSummary();
       }
+      ///////////////////////////////////////////////////////////////////////////////////////////////////
+      /////////////////////////////////////// order init 관련 함수 ///////////////////////////////////////
 
-      ///////////// order 관련 함수 /////////////
+      function orderInit(){
+
+        if ([[${member}]] != null){
+          document.getElementById("order-first-input").value = [[${member}]].memberName; // 주문자 정보 이름
+          document.getElementById("orderRecipientPhone1").value = [[${member}]].memberPhone.substr(0,3); // 주문자 정보 전화번호 (앞 3자리)
+          document.getElementById("order-sec-input").value = [[${member}]].memberPhone.substr(3); // 주문자 정보 전화번호 (뒷자리)
+          document.getElementById("sample6_postcode").value = [[${member}]].memberAddrNumber; // 우편번호
+          document.getElementById("sample6_address").value = [[${member}]].memberPhone.substr(0,3); // 기본주소
+          document.getElementById("order-sec-input").value = [[${member}]].memberPhone.substr(3); // 참고항목
+          document.getElementById("order-sec-input").value = [[${member}]].memberPhone.substr(3); // 나머지주소
+          document.getElementById("order-sec-input").value = [[${member}]].memberPhone.substr(3); // 마일리지
+        }
+
+      }
+
+      /////////////////////////////////////////////////////////////////////////////////////////////////////
+      /////////////////////////////////////// order submit 관련 함수 ///////////////////////////////////////
 
       function processBeforeSubmit(){
         combineInput();
@@ -178,32 +196,10 @@
         let orderRecipientPhone2 = document.getElementById("order-sec-input-copy").value;
         document.getElementById("orderRecipientPhone").value = orderRecipientPhone1 + orderRecipientPhone2;
 
-        // orderRecipientAddr1
-        let orderRecipientAddr1 = document.getElementById("sample6_address").value;
-        let orderRecipientAddr2 = document.getElementById("sample6_extraAddress").value;
-        document.getElementById("orderRecipientAddr1").value = orderRecipientAddr1 + orderRecipientAddr2;
-
-        // orderPayType
-        let orderPayTypeList = document.getElementsByName("orderPayType1");
-        let orderPayType2 = document.getElementById("paySelect").value;
-        for (orderPayTypeObj of orderPayTypeList){
-          if(orderPayTypeObj.checked){
-            if (orderPayType2 == ""){
-              document.getElementById("orderPayType").value = orderPayTypeObj.value;
-            }
-            else{
-              document.getElementById("orderPayType").value = orderPayTypeObj.value + " " + orderPayType2;
-            }
-          }
-        }
-
-        // memberMileage
-        let memberMileageList = document.getElementsByName("memberMileage");
-        for (memberMileageObj of memberMileageList){
-          if(!memberMileageObj.value){
-            memberMileageObj.value = 0;
-          }
-        }
+        // orderRecipientAddr2
+        let orderRecipientAddr21 = document.getElementById("sample6_extraAddress").value;
+        let orderRecipientAddr22 = document.getElementById("sample6_detailAddress").value;
+        document.getElementById("orderRecipientAddr2").value = orderRecipientAddr21 + "," + orderRecipientAddr22;
 
       }
 

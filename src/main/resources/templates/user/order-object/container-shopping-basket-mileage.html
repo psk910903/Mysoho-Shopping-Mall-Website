@@ -22,7 +22,7 @@
         <div class="title">
           <div>
             보유적립금
-            <span class="js-userMileageText" th:text="|${memberMileage}원|"></span>
+            <span class="js-userMileageText">0원</span>
           </div>
           <div class="cbx-tit">
             <input type="checkbox" />
@@ -31,8 +31,8 @@
         </div>
         <ul>
           <li>
-            <input sec:authorize="isAnonymous()" type="tel" name="memberMileage" placeholder="로그인 후, 사용 가능합니다." readonly="readonly" class="readonly-input"/>
-            <input sec:authorize="isAuthenticated()" type="tel" name="memberMileage" class="readonly-input" />
+            <input sec:authorize="isAnonymous()" type="tel" placeholder="로그인 후, 사용 가능합니다." readonly="readonly" class="readonly-input"/>
+            <input sec:authorize="isAuthenticated()" type="tel" class="readonly-input" />
           </li>
         </ul>
       </div>

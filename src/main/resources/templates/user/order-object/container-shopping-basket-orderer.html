@@ -162,14 +162,14 @@
                         </a>
                     </li>
                     <li class="delivery-address1">
-                        <input id="sample6_address" type="text" placeholder="기본주소" maxlength="100" readonly/>
+                        <input id="sample6_address" name="orderRecipientAddr1" type="text" placeholder="기본주소" maxlength="100" readonly/>
                     </li>
                     <li class="delivery-address2">
                         <input id="sample6_extraAddress" type="text" placeholder="참고항목" maxlength="100" readonly/>
                     </li>
                     <li class="delivery-address2">
-                        <input hidden="orderRecipientAddr1" id="orderRecipientAddr1" name="orderRecipientAddr1"/>
-                        <input id="sample6_detailAddress" type="text" name="orderRecipientAddr2" placeholder="나머지주소" maxlength="100"/>
+                        <input id="sample6_detailAddress" type="text" placeholder="나머지주소" maxlength="100"/>
+                        <input type="hidden" id="orderRecipientAddr2" name="orderRecipientAddr2"/>
                     </li>
                     <li class="relative-li">
                         <select name="message">
