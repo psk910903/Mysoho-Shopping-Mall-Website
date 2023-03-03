@@ -1,11 +1,14 @@
 package com.study.springboot.controller;
 
+import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.security.MemberJoinDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.review.ReviewSaveResponseDto;
+import com.study.springboot.entity.CartEntity;
 import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.entity.OrderEntity;
+import com.study.springboot.repository.CartRepository;
 import com.study.springboot.repository.MemberRepository;
 import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ReviewRepository;
@@ -44,6 +47,7 @@ public class Controller3 {
     final private PasswordEncoder passwordEncoder;
     final private Service3 service3;
     final private OrderRepository orderRepository;
+    final private CartRepository cartRepository;
 
 
 
@@ -320,6 +324,7 @@ public class Controller3 {
         List<Long> list = orderRepository.findByMemberIdAndOrderState(memberId,"배송완료");
         for (Long l : list){
             System.out.println(l);
+            List<CartEntity> list1 = cartRepository.findByOrderCode(l);
         }
         return "user/user/review-mylist";
     }
