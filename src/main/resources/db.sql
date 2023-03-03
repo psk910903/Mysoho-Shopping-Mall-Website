@@ -230,7 +230,7 @@ CREATE TABLE `order` (
 	-- 결제방법
 	order_pay_type VARCHAR(255) DEFAULT '휴대폰결제' NOT NULL, -- 휴대폰결제 or 무통장입금 선택
   -- 주문상태
-  -- 미입금/주문완료 -> 배송대기 -> 배송중 -> 배송완료, 취소/반품/교환
+  -- 미입금/주문완료 -> 배송대기 -> 배송중 -> 배송완료, 취소/반품/교환, 구매확정
 	order_state VARCHAR(255) NOT NULL DEFAULT '미입금/주문완료', -- 주문상태
 	order_datetime DATETIME DEFAULT NOW() -- 결제시간
   -- FOREIGN KEY(cart_code_1)

@@ -93,8 +93,4 @@ public class MemberEntity {
     public void updatePassword(String password){
         this.password = password;
     }
-
-    public void exited(String memberExited){
-        this.memberExited = memberExited;
-    }
 }

@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import java.time.LocalDate;
 import java.util.Optional;
 @RequiredArgsConstructor
 @Service
@@ -38,12 +39,13 @@ public class Service3 {
             throw new Exception("member id is not present!");
         }
         try {
-            optional.get().exited("탈퇴");
+            memberRepository.delete(optional.get());
+            return true;
+
         }catch (IllegalArgumentException e){
             e.printStackTrace();
             return false;
         }
-        return true;
     }
     @Transactional
     public boolean update(final MemberJoinDto dto){

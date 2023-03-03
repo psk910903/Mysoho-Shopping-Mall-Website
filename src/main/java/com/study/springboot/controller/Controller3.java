@@ -6,6 +6,7 @@ import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.review.ReviewSaveResponseDto;
 import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.repository.MemberRepository;
+import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ReviewRepository;
 import com.study.springboot.service.ProductService;
 import com.study.springboot.service.ReviewService;
@@ -41,6 +42,7 @@ public class Controller3 {
     private final MemberRepository memberRepository;
     final private PasswordEncoder passwordEncoder;
     final private Service3 service3;
+    final private OrderRepository orderRepository;
 
 
 
@@ -181,8 +183,7 @@ public class Controller3 {
     @RequestMapping("/user/exited")
     @ResponseBody
     public String exited(@AuthenticationPrincipal User user,
-                         HttpServletRequest request
-    ) throws Exception {
+                         HttpServletRequest request) throws Exception {
         String username = user.getUsername();
         System.out.println("탈퇴할 회원 id:" + user.getUsername());
         boolean result = service3.exited(username);
@@ -327,18 +328,18 @@ public class Controller3 {
         }
     }
 
+    //나의 상품 문의 내역 -> controller2에 있음
+    //나의 Q&A->controller2에 있음
+
     //나의 후기 내역 - 없어서 페이지만 연결
     @RequestMapping("/review/myList")
     public String myReview() {
+
         return "user/user/review-mylist";
     }
 
-    //나의 상품 문의 내역 -> 연결해야 됨
-//    @RequestMapping("/inquiry/myProductInquiries")
-//    public String inquiry() {
-//        return "user/user/myProductInquiries";
-//    }
 
-    //나의 Q&A->controller2에 있음
+
+
 
 }//class
