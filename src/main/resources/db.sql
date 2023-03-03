@@ -43,45 +43,31 @@ SELECT * FROM qna;
 -- 회원테이블 경빈 --------------------------------------------------------------
 DROP TABLE if EXISTS member;
 CREATE TABLE member (
- member_no INT PRIMARY KEY AUTO_INCREMENT, -- 고유키
- member_id
-VARCHAR(255) NOT NULL UNIQUE, -- 회원아이디
- member_pw
-VARCHAR(255) NOT NULL, -- 비밀번호
- member_name
-CHAR(255) NOT NULL, -- 회원이름
- member_rate
-VARCHAR(255) NOT NULL,
- member_email VARCHAR(255) NOT NULL UNIQUE,-- 이메일
- member_phone
-CHAR(255) NOT NULL, -- 전화번호(중간에 -는 제거)
- member_mileage
-INT DEFAULT 0, -- 마일리지(적립금)
- member_coupon
-INT DEFAULT 0, -- 마일리지(적립금)
- member_addr_number
-CHAR(255) NOT NULL, -- 우편번호
- member_addr1
-CHAR(255) NOT NULL, -- 기본주소
- member_addr2
-CHAR(255) NOT NULL, -- 나머지 주소
- member_join_datetime
-DATETIME DEFAULT NOW(),-- 회원가입 날짜
- member_exit_datetime
-DATETIME DEFAULT NULL, -- 탈퇴 날짜
- member_role
-CHAR(10) DEFAULT 'ROLE_USER',
- member_exited VARCHAR(255) DEFAULT '회원' -- 탈퇴 여부(0: 회원, 1: 탈퇴 회원)
+  member_no INT PRIMARY KEY AUTO_INCREMENT, -- 고유키
+   member_id VARCHAR(255) NOT NULL UNIQUE, -- 회원아이디
+   member_pw VARCHAR(255) NOT NULL, -- 비밀번호
+   member_name CHAR(255) NOT NULL, -- 회원이름
+   member_rate VARCHAR(255) NOT NULL,
+   member_email VARCHAR(255) NOT NULL, -- 이메일
+   member_phone CHAR(255) NOT NULL, -- 전화번호(중간에 -는 제거)
+   member_mileage INT DEFAULT 0, -- 마일리지(적립금)
+   member_addr_number CHAR(255) NOT NULL, -- 우편번호
+   member_addr1 CHAR(255) NOT NULL, -- 기본주소
+   member_addr2 CHAR(255) NOT NULL, -- 나머지 주소
+   member_join_datetime DATETIME DEFAULT NOW(),-- 회원가입 날짜
+   member_exit_datetime DATETIME DEFAULT NULL, -- 탈퇴 날짜
+   member_role CHAR(10) DEFAULT 'ROLE_USER',
+   member_exited VARCHAR(255) DEFAULT '회원' -- 탈퇴 여부(0: 회원, 1: 탈퇴 회원)
 );
 -- role을 테이블에 넣었을 때 데이터 입력값
-INSERT INTO member VALUES(NULL, 'hong', '1234', '홍길동', 'VIP', 'hong@gmail.com',
- '01022223333', DEFAULT,'54321','파푸아뉴기니','앞바다', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
-INSERT INTO member VALUES(NULL, 'lee', '1234', '이거','일반회원', 'this@gmail.com',
- '01022223333', DEFAULT,DEFAULT,'3210','대포동','미사일', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
-INSERT INTO member VALUES(NULL, 'right', '1234', '맞냐', '일반회원','IsThatRight@gmail.com',
- '01022223333', DEFAULT,DEFAULT,'12345','금수산태양궁전','정문', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
-INSERT INTO member VALUES(NULL, 'ADMIN1', '1234', '관리자','VIP', 'ADMIN_EMAIL',
- 'ADMIN_NUM', DEFAULT,DEFAULT,'ADMIN_POST','ADMIN_ADDR1','ADMIN_ADDR2', DEFAULT, DEFAULT,'관리자', DEFAULT);
+INSERT INTO member VALUES( NULL, 'hong', '1234', '홍길동', 'VIP', 'hong@gmail.com',
+  '01022223333', DEFAULT,'54321','파푸아뉴기니','앞바다',DEFAULT ,DEFAULT, DEFAULT ,DEFAULT );
+INSERT INTO member VALUES( NULL, 'lee', '1234', '이거','일반회원', 'this@gmail.com',
+  '01022223333', DEFAULT,'3210','대포동','미사일', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+INSERT INTO member VALUES( NULL, 'right', '1234', '맞냐', '일반회원','IsThatRight@gmail.com',
+  '01022223333', DEFAULT,'12345','금수산태양궁전','정문', DEFAULT, DEFAULT, DEFAULT , DEFAULT);
+INSERT INTO member VALUES( NULL, 'ADMIN1', '1234', '관리자','VIP', 'ADMIN_EMAIL',
+  'ADMIN_NUM', DEFAULT,'ADMIN_POST','ADMIN_ADDR1','ADMIN_ADDR2', default, DEFAULT,'관리자', default);
 
 SELECT * FROM member;
 -- 리뷰테이블 은진 --------------------------------------------------------------
@@ -149,7 +135,7 @@ DROP TABLE if EXISTS cart;
 CREATE TABLE cart (
    cart_no BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY, -- 고유키
    cart_code VARCHAR(255) NOT NULL UNIQUE, -- 장바구니 코드(UUID포맷-32자리)
-   order_no INT, -- 주문정보 PK
+   order_code BIGINT, -- 주문정보 PK
    member_id VARCHAR(255) NULL, -- 아이디(회원)
    session_id VARCHAR(255) NULL, -- 세션아이디(비회원) 예)32자리 - 3CB361E0BE1A9A7DE7DB926DF0772BAE
    item_code VARCHAR(255) NOT NULL, -- 상품 코드
@@ -173,9 +159,9 @@ CREATE TABLE cart (
 ALTER TABLE `cart` AUTO_INCREMENT=10000;
 
 INSERT INTO `cart` VALUES(NULL, '22222', '10000','hong', NULL , '20000', '퍼프블라우스', '화이트', 'FREE', 1, '49000', '4500', '44500',DEFAULT);
-INSERT INTO `cart` VALUES(NULL, '22223', NULL,'hong', NULL , '20001', '퍼프블라우스', '퍼플', 'FREE', 1, '49000', '4500', '44500', DEFAULT);
+INSERT INTO `cart` VALUES(NULL, '22223', '10000','hong', NULL , '20001', '퍼프블라우스', '퍼플', 'FREE', 1, '49000', '4500', '44500', DEFAULT);
 INSERT INTO `cart` VALUES(NULL, '33333', '10001','lee', NULL , '20000', '퍼프블라우스', '화이트', 'FREE', 1, '49000', '4500', '44500', DEFAULT);
-INSERT INTO `cart` VALUES(NULL, '44444', NULL,'right', NULL , '20000', '퍼프블라우스', '화이트', 'FREE', 1, '49000', '4500', '44500', DEFAULT);
+INSERT INTO `cart` VALUES(NULL, '44444', '10000','right', NULL , '20000', '퍼프블라우스', '화이트', 'FREE', 1, '49000', '4500', '44500', DEFAULT);
 INSERT INTO `cart` VALUES(NULL, '11111', '10002', NULL, NULL , '20000', '퍼프블라우스', '화이트', 'FREE', 1, '49000', '4500', '44500',DEFAULT);
 INSERT INTO `cart` VALUES(NULL, '11112', '10002', NULL, NULL , '20001', '퍼프블라우스', '퍼플', 'FREE', 1, '49000', '4500', '44500', DEFAULT);
 
@@ -204,7 +190,8 @@ SELECT * FROM cart WHERE cart_code = 11121 and member_id is NULL;
 
 DROP TABLE if EXISTS `order`;
 CREATE TABLE `order` (
-  order_no INT AUTO_INCREMENT PRIMARY KEY, -- 고유키
+  order_no BIGINT AUTO_INCREMENT PRIMARY KEY, -- 고유키
+  order_code BIGINT NOT NULL UNIQUE,
   -- 구매상품 정보
   cart_code_1 VARCHAR(255) NOT NULL UNIQUE, -- 장바구니 코드(UUID포맷-32자리)
   cart_code_2 VARCHAR(255) UNIQUE, -- 장바구니 코드(UUID포맷-32자리)
@@ -258,31 +245,31 @@ ALTER TABLE `order` AUTO_INCREMENT=10000;
 
 
 INSERT INTO `order`
-	VALUES (NULL, '22222', '22223', NULL, NULL, NULL, 35000, 1,
+	VALUES (NULL, '10000','22222', '22223', NULL, NULL, NULL, 35000, 1,
           '홍길동', '01022223333', '홍길동엄마', '01044445555', '12345', '서울시 마포구 갈매기동', '나머지주소', 'hong',
           default, default, '무통장입금', '결제대기', default);
 INSERT INTO `order`
-	VALUES (NULL, '33333', NULL, NULL, NULL, NULL, 35000, 1,
+	VALUES (NULL, '10001','33333', NULL, NULL, NULL, NULL, 35000, 1,
           '둘리', '01098765432', '둘리엄마', '01012345678', '54321', '제주 서귀포시 토평동', '산15-1', 'lee',
           default, default, '휴대폰결제', '배송대기', default);
 
 INSERT INTO `order`
-	VALUES (NULL, '11111', '11112', NULL, NULL, NULL, 35000, 1,
+	VALUES (NULL, '10002','11111', '11112', NULL, NULL, NULL, 35000, 1,
           '박선교', '01040246575', '박선교', '01040246575', '12345', '서울시 마포구 갈매기동', '나머지주소', null,
           default, default, '무통장입금', '결제대기', default);
 INSERT INTO `order`
-	VALUES (NULL, '11113', '11114', NULL, NULL, NULL, 35000, 1,
+	VALUES (NULL, '10003','11113', '11114', NULL, NULL, NULL, 35000, 1,
           '박선교', '01040246575', '박선교', '01040246575', '12345', '서울시 마포구 갈매기동', '나머지주소', null,
           default, default, '무통장입금', '결제대기', default);
 
 INSERT INTO `order`
-	VALUES (NULL, '11121', '11122', NULL, NULL, NULL, 35000, 1,
+	VALUES (NULL, '10004','11121', '11122', NULL, NULL, NULL, 35000, 1,
           '박선교', '01040246575', '박선교', '01040246575', '12345', '서울시 마포구 갈매기동', '나머지주소',
           'psk910903', default, default, '무통장입금', '결제대기', default);
 
 
 INSERT INTO `order`
-	VALUES (NULL, '11123', '11124', NULL, NULL, NULL, 35000, 1,
+	VALUES (NULL, '10005','11123', '11124', NULL, NULL, NULL, 35000, 1,
           '박선교', '01040246575', '박선교', '01040246575', '12345', '서울시 마포구 갈매기동', '나머지주소',
           'psk910903', default, default, '무통장입금', '결제대기', default);
 SELECT * FROM `order`;

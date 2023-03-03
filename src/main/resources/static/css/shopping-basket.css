@@ -581,9 +581,6 @@ input[type="checkbox"]:checked::after {
 .layerOptionNot {
   display: none;
 }
-.popup {
-  bottom: -50%;
-  height: 39%;
 
   /* 초기에 약간 아래에 배치 */
   /* transform: translate(-50%, -40%); */
@@ -604,4 +601,14 @@ input[type="checkbox"]:checked::after {
   display: flex;
   flex-direction: row-reverse;
   width: 75px;
+}
+.btn-nodesign{
+    border: 0;
+    outline: 0;
+}
+.mgl20{
+    margin-left: 20px;
+}
+#trashCanImg{
+    background: white;
 }

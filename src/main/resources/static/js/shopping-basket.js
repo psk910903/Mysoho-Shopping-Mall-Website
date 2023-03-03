@@ -216,36 +216,45 @@ function sizeTap(type) {
   }
 }
 // 사이즈 선택시
-function finalSize(size) {
-  document.querySelector(".size-wrap").style.display = "none";
-  document.querySelector(".hidden-option-tap").style.display = "block";
-  document.querySelector(".option-choice").style.display = "none";
-  document.querySelector(".option-btn-bg").style.display = "none";
-  document.querySelector(".final-size").innerHTML = size;
-  let strPrice = document.querySelector("#option-price").innerHTML;
+// 사이즈 선택시
+      function finalSize(size) {
+        document.querySelector(".size-wrap").style.display = "none";
+        document.querySelector(".hidden-option-tap").style.display = "block";
+        document.querySelector(".option-choice").style.display = "none";
+        document.querySelector(".option-btn-bg").style.display = "none";
+        document.querySelector(".final-size").innerHTML = size;
 
-  let strPrice2 = strPrice.replace("원", "");
-  let price = Number(strPrice2.replace(",", ""));
-  let b = ",";
-  var position = -3;
-  // 매개변수로 받은 사이즈를 final-size 클래스의 값으로 넣어야함
-  // 이 탭 디스플레이 블록으로
-  if ((size === "S" || size === "M") && price % 44100 === 0) {
-    let a = String(price);
-    var output = [a.slice(0, position), b, a.slice(position)].join("");
-    document.querySelector(".option-total-price").innerHTML = output;
-  } else if (size === "L" || price % 44100 === 0) {
-    let a = String(price + 1000);
-    var output = [a.slice(0, position), b, a.slice(position)].join("");
-    document.querySelector(".option-total-price").innerHTML = output;
-    document.querySelector("#option-price").innerHTML = output + "원";
-  } else if ((size === "S" || size === "M") && price % 45100 === 0) {
-    let a = String(price - 1000);
-    var output = [a.slice(0, position), b, a.slice(position)].join("");
-    document.querySelector(".option-total-price").innerHTML = output;
-    document.querySelector("#option-price").innerHTML = output + "원";
-  }
-}
+        let strPrice = document.querySelector("#option-price").innerHTML;
+
+        let strPrice2 = strPrice.replace("원", "");
+        let price = Number(strPrice2.replace(",", ""));
+        let b = ",";
+        var position = -3;
+        // 매개변수로 받은 사이즈를 final-size 클래스의 값으로 넣어야함
+        // 이 탭 디스플레이 블록으로
+        let a = String(price);
+        var output = [a.slice(0, position), b, a.slice(position)].join("");
+        document.querySelector(".option-total-price").innerHTML = output;
+
+      }
+
+        function finalColor(color) {
+          document.querySelector(".size-wrap").style.display = "none";
+          document.querySelector(".hidden-option-tap").style.display = "block";
+          document.querySelector(".option-choice").style.display = "none";
+          document.querySelector(".option-btn-bg").style.display = "none";
+          document.querySelector(".final-color").innerHTML = color;
+          let strPrice = document.querySelector("#option-price").innerHTML;
+          let strPrice2 = strPrice.slice(0, -1);
+          let price = Number(strPrice2.replace(",", ""));
+          let b = ",";
+          var position = -3;
+          // 매개변수로 받은 사이즈를 final-size 클래스의 값으로 넣어야함
+          // 이 탭 디스플레이 블록으로
+          let a = String(price);
+              var output = [a.slice(0, position), b, a.slice(position)].join("");
+              document.querySelector(".option-total-price").innerHTML = output;
+        }
 
 function sum() {
   optionTotalPrice += optionPrice;
@@ -294,6 +303,7 @@ function closeOrderList() {
   document.querySelector(".bg-share").className = "bg-share";
 }
 
+
 // 공유 아이콘 팝업
 function openPopupShareBtn(name) {
   popup = window.open(name);
@@ -334,3 +344,34 @@ function basketNumCount() {
   basketNum++;
   document.querySelector(".basket-num").innerHTML = basketNum;
 }
+
+function popupOptionList(cartNo) {
+    document.querySelector("#bg-option" + cartNo).className = "bg-option showoptionList";
+}
+
+function closeOptionList(cartNo) {
+  document.querySelector("#bg-option" + cartNo).className = "bg-option";
+}
+
+// 옵션탭 열고 닫기
+function optionTap(type, index) {
+  if (document.querySelector("#" + type + "-wrap" + index).style.display !== "none") {
+    document.querySelector("#" + type + "-wrap" + index).style.display = "none";
+    document.querySelector("#btn-up-" + type + index).style.display = "none";
+    document.querySelector("#btn-down-" + type + index).style.display = "block";
+  } else {
+    document.querySelector("#" + type + "-wrap" + index).style.display = "block";
+    document.querySelector("#btn-up-" + type + index).style.display = "block";
+    document.querySelector("#btn-down-" + type + index).style.display = "none";
+  }
+}
+// 옵션 선택시
+function finalOption(type, option ,index) {
+  document.querySelector("#" + type + "-wrap" + index).style.display = "none";
+  document.querySelector("#final-"+ type + index).innerText = option;
+  document.querySelector("#final-"+ type + "-input"+ index).value = option;
+}
+
+
+
+

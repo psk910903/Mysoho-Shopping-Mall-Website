@@ -47,7 +47,7 @@ public class CartService {
         List<Long> orderNoList = new ArrayList<>();
         //반복해서 주문번호만 추출 후 리스트에 담기
         for (int i = 0; i < cartDtoList.size(); i++) {
-            orderNoList.add(cartDtoList.get(i).getOrderNo());
+            orderNoList.add(cartDtoList.get(i).getOrderCode());
         }
         //주문번호리스트에서 중복 값 제거
         List<Long> newList = orderNoList.stream().distinct().toList();

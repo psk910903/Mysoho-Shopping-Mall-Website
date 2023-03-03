@@ -24,6 +24,7 @@
   </head>
 
   <body>
+  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <div class="wrap">
       <div class="betweenbtn">
@@ -263,6 +264,18 @@
                       </p>
                     </div>
                   </div>
+                  <!--                  품절-->
+                  <th:block th:if="${dto.itemSoldOut} == '품절'">
+                    <a
+                            class="btn-cart-type1"
+                            onclick="alert('품절상품입니다.')"
+                    ><img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                    />
+                    </a>
+                  </th:block>
+                  <th:block th:unless="${dto.itemSoldOut} == '품절'">
                   <th:block
                           th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                   >
@@ -288,6 +301,7 @@
                             alt=""
                     />
                     </a>
+                  </th:block>
                   </th:block>
                 </li>
               </div>

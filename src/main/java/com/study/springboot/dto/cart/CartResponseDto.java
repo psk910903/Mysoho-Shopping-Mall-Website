@@ -1,6 +1,7 @@
 package com.study.springboot.dto.cart;
 
 import com.study.springboot.entity.CartEntity;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,7 +14,7 @@ public class CartResponseDto {
 
     private Long cartNo; // PK
     private String cartCode; //장바구니 코드(UUID포맷-32자리)
-    private Long orderNo; //주문정보 PK
+    private Long orderCode; //주문정보 PK
     private String memberId; // 아이디(회원)
     private String sessionId; // 세션아이디(비회원)
     private String itemCode; // 상품코드
@@ -31,7 +32,7 @@ public class CartResponseDto {
     public CartResponseDto(CartEntity entity) {
         this.cartNo = entity.getCartNo();
         this.cartCode = entity.getCartCode();
-        this.orderNo = entity.getOrderNo();
+        this.orderCode = entity.getOrderCode();
         this.memberId = entity.getMemberId();
         this.sessionId = entity.getSessionId();
         this.itemCode = entity.getItemCode();
@@ -44,4 +45,25 @@ public class CartResponseDto {
         this.cartItemPrice = entity.getCartItemPrice();
         this.cartDate = entity.getCartDate();
     }
+
+
+    @Builder
+    public CartResponseDto(Long cartNo, String cartCode, Long orderCode, String memberId, String sessionId, String itemCode, String itemName, String itemOptionColor, String itemOptionSize, Long cartItemAmount, Long cartItemOriginalPrice, Long cartDiscountPrice, Long cartItemPrice, LocalDateTime cartDate, String itemImageUrl) {
+        this.cartNo = cartNo;
+        this.cartCode = cartCode;
+        this.orderCode = orderCode;
+        this.memberId = memberId;
+        this.sessionId = sessionId;
+        this.itemCode = itemCode;
+        this.itemName = itemName;
+        this.itemOptionColor = itemOptionColor;
+        this.itemOptionSize = itemOptionSize;
+        this.cartItemAmount = cartItemAmount;
+        this.cartItemOriginalPrice = cartItemOriginalPrice;
+        this.cartDiscountPrice = cartDiscountPrice;
+        this.cartItemPrice = cartItemPrice;
+        this.cartDate = cartDate;
+        this.itemImageUrl = itemImageUrl;
+    }
 }
+

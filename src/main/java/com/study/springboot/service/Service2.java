@@ -1,10 +1,14 @@
 package com.study.springboot.service;
 
+import com.study.springboot.dto.cart.CartResponseDto;
+import com.study.springboot.dto.cart.CartSaveRequestDto;
 import com.study.springboot.dto.inquiry.InquiryResponseDto;
+import com.study.springboot.dto.member.MemberResponseDto;
+import com.study.springboot.dto.notice.NoticeResponseDto;
+import com.study.springboot.dto.notice.NoticeSaveRequestDto;
+import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
-import com.study.springboot.entity.InReplyEntity;
-import com.study.springboot.entity.InquiryEntity;
-import com.study.springboot.entity.QnaEntity;
+import com.study.springboot.entity.*;
 import com.study.springboot.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -91,28 +95,33 @@ public class Service2 {
         return count;
     }
 
+    // 장바구니 ----------------------------------------
 
-//    @Transactional
-//    public boolean delete(Long inquiryNo) {
-//
-//        Optional<InquiryEntity> entity = inquiryRepository.findById(inquiryNo);
-//        List<InReplyEntity> replyList = inReplyRepository.findAllByReplyInquiryNo(inquiryNo);
-//
-//        if (!entity.isPresent()){
-//            return false;
-//        }
-//        try{
-//            inquiryRepository.delete(entity.get());
-//            for (InReplyEntity replyEntity : replyList) {
-//                inReplyRepository.delete(replyEntity);
-//            }
-//        }
-//        catch(Exception e){
-//            e.printStackTrace();
-//            return false;
-//        }
-//        return true;
-//    }
+    final private CartRepository cartRepository;
+
+    @Transactional(readOnly = true)
+    public MemberResponseDto findByMemberIdMember(String memberId){ // 이름 바꿔야함
+        Optional<MemberEntity> entity = memberRepository.findByMemberId(memberId);
+        if (!entity.isPresent()){
+            return null;
+        }
+
+        return new MemberResponseDto(entity.get());
+    };
+
+    @Transactional
+    public Boolean save(final CartSaveRequestDto dto) {
+
+        try{
+            CartEntity entity = dto.toEntity();
+            cartRepository.save(entity);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
 
 
 }

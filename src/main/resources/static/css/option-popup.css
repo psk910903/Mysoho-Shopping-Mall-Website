@@ -101,7 +101,8 @@
   width: 100%;
 }
 
-.layerOptionNot button {
+.layerOptionNot button,
+.layerOptionNot a{
   width: 49%;
 
   font-size: 15px;
@@ -211,6 +212,14 @@ a {
   color: #297bcf;
   padding: 16px;
 }
+.final-color {
+  color: #297bcf;
+  padding: 16px;
+}
+.final-option {
+  color: #297bcf;
+  padding: 16px;
+}
 .hidden-option-tap {
   display: none;
 }
@@ -222,4 +231,23 @@ a {
   margin-top: 20px;
   margin-right: 20px;
   width: 13px;
+}
+.close-button-option {
+  position: absolute;
+  top: -19px;
+  left: 295px;
+  border: none;
+
+  border-radius: 0;
+  padding: 10px;
+
+  background-color: white;
+  width: 53px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.close-button-option img {
+  width: 50px;
 }

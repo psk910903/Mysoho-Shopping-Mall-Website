@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 public class OrderResponseDto {
     private Long orderNo; //pk
+    private Long orderCode; // 주문 코드
     private String cartCode1; //장바구니 코드
     private String cartCode2; //장바구니 코드
     private String cartCode3; //장바구니 코드
@@ -24,6 +25,7 @@ public class OrderResponseDto {
     private String orderRecipientAddrNumber; // 수령자 우편번호
     private String orderRecipientAddr1; // 수령자 기본주소
     private String orderRecipientAddr2; // 수령자 나머지주소
+    private String memberId; // 회원 아이디
     private Long memberMileage; // 적립금 사용
     private String memberCoupon; // 쿠폰 사용
     private String orderPayType; // 휴대폰결제 or 무통장입금 선택
@@ -36,6 +38,7 @@ public class OrderResponseDto {
 
     public OrderResponseDto(OrderEntity entity) {
         this.orderNo = entity.getOrderNo();
+        this.orderCode = entity.getOrderCode();
         this.cartCode1 = entity.getCartCode1();
         this.cartCode2 = entity.getCartCode2();
         this.cartCode3 = entity.getCartCode3();
@@ -50,6 +53,7 @@ public class OrderResponseDto {
         this.orderRecipientAddrNumber = entity.getOrderRecipientAddrNumber();
         this.orderRecipientAddr1 = entity.getOrderRecipientAddr1();
         this.orderRecipientAddr2 = entity.getOrderRecipientAddr2();
+        this.memberId = entity.getMemberId();
         this.memberMileage = entity.getMemberMileage();
         this.memberCoupon = entity.getMemberCoupon();
         this.orderPayType = entity.getOrderPayType();
@@ -60,6 +64,7 @@ public class OrderResponseDto {
     public OrderEntity toEntity(){
         return OrderEntity.builder()
                 .orderNo(orderNo)
+                .orderCode(orderCode)
                 .cartCode1(cartCode1)
                 .cartCode2(cartCode2)
                 .cartCode3(cartCode3)
@@ -74,6 +79,7 @@ public class OrderResponseDto {
                 .orderRecipientAddrNumber(orderRecipientAddrNumber)
                 .orderRecipientAddr1(orderRecipientAddr1)
                 .orderRecipientAddr2(orderRecipientAddr2)
+                .memberId(memberId)
                 .memberMileage(memberMileage)
                 .memberCoupon(memberCoupon)
                 .orderPayType(orderPayType)
