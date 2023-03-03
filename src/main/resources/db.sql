@@ -51,6 +51,7 @@ CREATE TABLE member (
    member_email VARCHAR(255) NOT NULL, -- 이메일
    member_phone CHAR(255) NOT NULL, -- 전화번호(중간에 -는 제거)
    member_mileage INT DEFAULT 0, -- 마일리지(적립금)
+   member_coupon INT DEFAULT 0,
    member_addr_number CHAR(255) NOT NULL, -- 우편번호
    member_addr1 CHAR(255) NOT NULL, -- 기본주소
    member_addr2 CHAR(255) NOT NULL, -- 나머지 주소
@@ -61,13 +62,13 @@ CREATE TABLE member (
 );
 -- role을 테이블에 넣었을 때 데이터 입력값
 INSERT INTO member VALUES( NULL, 'hong', '1234', '홍길동', 'VIP', 'hong@gmail.com',
-  '01022223333', DEFAULT,'54321','파푸아뉴기니','앞바다',DEFAULT ,DEFAULT, DEFAULT ,DEFAULT );
+  '01022223333', DEFAULT,DEFAULT,'54321','파푸아뉴기니','앞바다',DEFAULT ,DEFAULT, DEFAULT ,DEFAULT );
 INSERT INTO member VALUES( NULL, 'lee', '1234', '이거','일반회원', 'this@gmail.com',
-  '01022223333', DEFAULT,'3210','대포동','미사일', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+  '01022223333', DEFAULT,DEFAULT,'3210','대포동','미사일', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
 INSERT INTO member VALUES( NULL, 'right', '1234', '맞냐', '일반회원','IsThatRight@gmail.com',
-  '01022223333', DEFAULT,'12345','금수산태양궁전','정문', DEFAULT, DEFAULT, DEFAULT , DEFAULT);
+  '01022223333', DEFAULT,DEFAULT,'12345','금수산태양궁전','정문', DEFAULT, DEFAULT, DEFAULT , DEFAULT);
 INSERT INTO member VALUES( NULL, 'ADMIN1', '1234', '관리자','VIP', 'ADMIN_EMAIL',
-  'ADMIN_NUM', DEFAULT,'ADMIN_POST','ADMIN_ADDR1','ADMIN_ADDR2', default, DEFAULT,'관리자', default);
+  'ADMIN_NUM', DEFAULT,DEFAULT,'ADMIN_POST','ADMIN_ADDR1','ADMIN_ADDR2', default, DEFAULT,'관리자', default);
 
 SELECT * FROM member;
 -- 리뷰테이블 은진 --------------------------------------------------------------

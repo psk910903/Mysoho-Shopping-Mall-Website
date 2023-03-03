@@ -4,6 +4,7 @@ import com.study.springboot.dto.inquiry.InReplyResponseDto;
 import com.study.springboot.dto.inquiry.InReplySaveResponseDto;
 import com.study.springboot.dto.inquiry.InquiryResponseDto;
 import com.study.springboot.dto.inquiry.InquirySaveResponseDto;
+import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.product.ProductSearchDto;
 import com.study.springboot.entity.InquiryEntity;
@@ -12,10 +13,7 @@ import com.study.springboot.entity.InReplyEntity;
 import com.study.springboot.repository.InReplyRepository;
 import com.study.springboot.repository.InquiryRepository;
 import com.study.springboot.repository.ProductRepository;
-import com.study.springboot.service.InReplyService;
-import com.study.springboot.service.InquiryService;
-import com.study.springboot.service.ProductService;
-import com.study.springboot.service.Service5;
+import com.study.springboot.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,9 +23,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.nio.file.Path;
 import java.text.ParseException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RequiredArgsConstructor
 @Controller
@@ -40,6 +42,7 @@ public class Controller5 {
     private final ProductService productService; // 02 22
     private final ProductRepository productRepository; //02 22
     private final Service5 service5; // 02 23
+    private final MemberService memberService; //0303
 
     @GetMapping ("/admin/inquiry")
     public String inquiryMain(){
@@ -159,29 +162,7 @@ public class Controller5 {
             return "<script>alert('답변삭제 실패'); history.back();</script>";
         }
     }
-    // 적립금-------------------------------------------------02 21
-//    @GetMapping("/user/mileage") // 테스트는 Get, 끝나고 Post로 바꿈
-//
-//    public String userMileage(@RequestParam("memberMileage") int memberMileage, Model model ) {
-//        model.addAttribute("memberMileage", memberMileage);
-//        return "/user/user/user-mileage";
-//    }
-    // 쿠폰------------------------------------------------
-    // 적립금과 동일, 추후에 연결작업 필요함
-//    @GetMapping("/user/coupon") // 테스트는 Get, 끝나고 Post로 바꿈
-//
-//    public String userCoupon(@RequestParam("memberCoupon") int memberCoupon, Model model) {
-//        model.addAttribute("memberCoupon", memberCoupon);
-//        return "/user/user/coupons-mylist";
-//    }
-    // itemNo에 따라 출력되는 상품문의 폼(혹시 몰라 주석처리) --------------------------------↓
-//    @GetMapping("/inquiry/productInquiryWriteForm/{itemNo}")
-//        public String inquiryProductInquiryWriteForm(@PathVariable("itemNo") Long itemNo, Model model) {
-//        model.addAttribute("itemNo", itemNo);
-//
-//        return "/user/popup/QnA-write";
-//    }
-    // 상품 문의 공개, 비공개 및 등록 결과 출력-------------------------------
+    // 상품 문의 공개, 비공개 및 등록 결과 출력-------------------------------a
     @PostMapping("/inquiry/productInquiryWriteForm/writeAction")
     @ResponseBody
     public String productInquiryWriteFormWriteAction(InquirySaveResponseDto inquirySaveResponseDto) {
@@ -197,22 +178,17 @@ public class Controller5 {
         if(!result){
             return "<script>alert('등록에 실패하였습니다');history.back();</script>";
         }
-        return "<script>alert('등록되었습니다');self.opener=self;window.close();</script>";
-    }
-    // 상품 문의작성, 작성후 페이지 종료 테스트 -----------↓
-    @GetMapping("/test")
-    public String test () {
-        return "/user/popup/test";
+        return "<script>alert('등록되었습니다');opener.parent.location.reload();window.close();</script>";
     }
 
     // 상품 문의작성 폼(회원/비회원 나누기)------------------------------↓
     @GetMapping("/inquiry/productInquiryWriteForm/{itemNo}")
     public String inquiryProductInquiryWriteForm(@PathVariable("itemNo") String itemNo, Model model,
                                                  @AuthenticationPrincipal User user) {
-        if(user!=null) {
+        if(user!=null) { // 회원일 때
             String memberId = user.getUsername();
             model.addAttribute("inquiryMemberId", memberId);
-        }else {
+        }else {// 비회원일때
             model.addAttribute("inquiryMemberId", null);
         }
 
@@ -220,4 +196,54 @@ public class Controller5 {
 
         return "/user/popup/inquiry-write";
     }
+
+    //상품상세----------------------------------------------------------------------------- 0303 리스트 출력 테스트
+    @GetMapping("/product/test/{itemNo}")
+    public String productContent(Model model,@PathVariable(value = "itemNo") Long itemNo) {
+        ProductResponseDto dto = productService.findById(itemNo);
+        String[] colorList = dto.getItemOptionColor().split(",");
+        String[] sizeList = dto.getItemOptionSize().split(",");
+        int colorCount = colorList.length;
+        int sizeCount = sizeList.length;
+
+        List<InquiryResponseDto> list2 = service5.findAll();
+        int listSize = list2.size();
+
+
+        //마스킹처리
+        List<String> nameList = new ArrayList<>();
+        for(int i=0 ; i < list2.size();i++){
+
+            String qnaName = list2.get(i).getInquiryNickname();
+            if(qnaName == null){
+                qnaName = list2.get(i).getMemberId();
+            }
+            String qnaHiddenName;
+            if (qnaName.length() == 2){
+                qnaHiddenName = qnaName.replace(qnaName.charAt(1), '*');
+            }else if(qnaName.length() == 1){
+                qnaHiddenName = qnaName;
+            }
+            else{
+                qnaHiddenName = qnaName.substring(0,2);;
+                //
+                for (int j=0; j<qnaName.length()-2; j++){
+                    qnaHiddenName += "*";
+                }
+            }
+            nameList.add(qnaHiddenName);
+        }
+        // 마스킹 처리 끝
+        model.addAttribute("colorCount", colorCount);
+        model.addAttribute("sizeCount", sizeCount);
+        model.addAttribute("colorList", colorList);
+        model.addAttribute("sizeList", sizeList);
+        model.addAttribute("dto", dto);
+        model.addAttribute("namelist",nameList);
+        model.addAttribute("inquiry",list2);
+        model.addAttribute("listSize",listSize);
+            return "/user/product/contentTest";
+    }
+
+
 }

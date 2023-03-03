@@ -15,10 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -145,8 +142,9 @@ public class InquiryService {
                 .orElseThrow( () -> new IllegalArgumentException("해당 사용자가 없습니다. board_idx="+inquiryNo));
         return new InquiryResponseDto(entity);
     }
-
-
-
-
+    //0303 지성추가
+    public List<InquiryResponseDto> findAll() {
+        List<InquiryEntity> list = inquiryRepository.findAll();
+        return list.stream().map(InquiryResponseDto::new).collect(Collectors.toList());
+    }
 }//class

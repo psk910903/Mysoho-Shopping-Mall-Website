@@ -275,8 +275,8 @@ public class Controller3 {
             String username = user.getUsername();
             System.out.println("coupons username:" + username);
             MemberEntity entity = service3.findByUserId(username);
-            //System.out.println("coupons :" + entity.getMemberCoupon());
-           // model.addAttribute("memberCoupon", entity.getMemberCoupon());
+            System.out.println("coupons :" + entity.getMemberCoupon());
+            model.addAttribute("memberCoupon", entity.getMemberCoupon());
         }
         return "user/user/coupons-mylist";
     }

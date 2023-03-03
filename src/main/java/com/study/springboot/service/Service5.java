@@ -1,6 +1,7 @@
 package com.study.springboot.service;
 
 import com.study.springboot.dto.inquiry.InReplySaveResponseDto;
+import com.study.springboot.dto.inquiry.InquiryResponseDto;
 import com.study.springboot.dto.inquiry.InquirySaveResponseDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.product.ProductSearchDto;
@@ -14,6 +15,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +33,11 @@ public class Service5 {
             return false ;
         }
         return true;
+    }
+
+    public List<InquiryResponseDto> findAll() {
+        List<InquiryEntity> list = inquiryRepository.findAll();
+        return list.stream().map(InquiryResponseDto::new).collect(Collectors.toList());
     }
 }
 
