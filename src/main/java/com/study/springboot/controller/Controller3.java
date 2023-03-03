@@ -5,6 +5,7 @@ import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.review.ReviewSaveResponseDto;
 import com.study.springboot.entity.MemberEntity;
+import com.study.springboot.entity.OrderEntity;
 import com.study.springboot.repository.MemberRepository;
 import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ReviewRepository;
@@ -195,8 +196,6 @@ public class Controller3 {
         }
     }
 
-
-
     //비밀 번호 확인 폼
     @RequestMapping("/user/myInfoPswd")
     public String password() {
@@ -316,8 +315,12 @@ public class Controller3 {
 
     //나의 후기 내역 - 없어서 페이지만 연결
     @RequestMapping("/review/myList")
-    public String myReview() {
-
+    public String myReview(@AuthenticationPrincipal User user) {
+        String memberId = user.getUsername();
+        List<Long> list = orderRepository.findByMemberIdAndOrderState(memberId,"배송완료");
+        for (Long l : list){
+            System.out.println(l);
+        }
         return "user/user/review-mylist";
     }
 
