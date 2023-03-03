@@ -563,7 +563,7 @@ public class Controller2 {
 
             CartSaveRequestDto cartSaveRequestDto = CartSaveRequestDto.builder()
                     .cartCode(cartCode)
-                    .orderNo(orderNo)
+                    .orderCode(orderNo)
                     .memberId(memberId)
                     .itemCode(itemCode)
                     .itemName(productResponseDto.getItemName())

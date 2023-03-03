@@ -20,8 +20,8 @@ public class CartEntity {
     private Long cartNo; //pk
     @Column(name = "cart_code")
     private String cartCode; //장바구니 코드(UUID포맷-32자리)
-    @Column(name = "order_no")
-    private Long orderNo; //주문정보 PK
+    @Column(name = "order_code")
+    private Long orderCode; //주문정보 코드
     @Column(name = "member_id")
     private String memberId; //아이디(회원)
     @Column(name = "session_id")
@@ -46,12 +46,12 @@ public class CartEntity {
     private LocalDateTime cartDate;//장바구니 생성시간
 
     @Builder
-    public CartEntity(Long cartNo, String cartCode, Long orderNo, String memberId, String sessionId, String itemCode, String itemName,
+    public CartEntity(Long cartNo, String cartCode, Long orderCode, String memberId, String sessionId, String itemCode, String itemName,
                       String itemOptionColor, String itemOptionSize, Long cartItemAmount, Long cartItemOriginalPrice, Long cartDiscountPrice,
                       Long cartItemPrice, LocalDateTime cartDate) {
         this.cartNo = cartNo;
         this.cartCode = cartCode;
-        this.orderNo = orderNo;
+        this.orderCode = orderCode;
         this.memberId = memberId;
         this.sessionId = sessionId;
         this.itemCode = itemCode;

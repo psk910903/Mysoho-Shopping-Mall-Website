@@ -14,7 +14,7 @@ public class CartSaveRequestDto {
 
     private Long cartNo; // PK
     private String cartCode; //장바구니 코드(UUID포맷-32자리)
-    private Long orderNo; //주문정보 PK
+    private Long orderCode; //주문정보 PK
     private String memberId; // 아이디(회원)
     private String sessionId; // 세션아이디(비회원)
     private String itemCode; // 상품코드
@@ -29,10 +29,10 @@ public class CartSaveRequestDto {
     private LocalDateTime cartDate; // 장바구니 생성일
 
     @Builder
-    public CartSaveRequestDto(Long cartNo, String cartCode, Long orderNo, String memberId, String sessionId, String itemCode, String itemName, String itemOptionColor, String itemOptionSize, Long cartItemAmount, Long cartItemOriginalPrice, Long cartDiscountPrice, Long cartItemPrice, LocalDateTime cartDate) {
+    public CartSaveRequestDto(Long cartNo, String cartCode, Long orderCode, String memberId, String sessionId, String itemCode, String itemName, String itemOptionColor, String itemOptionSize, Long cartItemAmount, Long cartItemOriginalPrice, Long cartDiscountPrice, Long cartItemPrice, LocalDateTime cartDate) {
         this.cartNo = cartNo;
         this.cartCode = cartCode;
-        this.orderNo = orderNo;
+        this.orderCode = orderCode;
         this.memberId = memberId;
         this.sessionId = sessionId;
         this.itemCode = itemCode;
@@ -49,7 +49,7 @@ public class CartSaveRequestDto {
     public CartEntity toEntity(){
         return CartEntity.builder()
                 .cartCode(cartCode)
-                .orderNo(orderNo)
+                .orderCode(orderCode)
                 .memberId(memberId)
                 .itemCode(itemCode)
                 .itemName(itemName)
@@ -63,3 +63,4 @@ public class CartSaveRequestDto {
                 .build();
     }
 }
+
