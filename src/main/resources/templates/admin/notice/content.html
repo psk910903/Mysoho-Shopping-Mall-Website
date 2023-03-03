@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/css/admin.css">
+    <title>마이소호 관리자페이지</title>
+</head>
+<body>
+<div id="wrap">
+    <div th:replace="/fragments/nav.html :: fragment-adminNav"></div>
+    <div id="contentWrap" style="width:100%">
+        <div class="contentHeader" style="width:100%">
+            <div>공지사항관리</div>
+            <div>
+                <a href="javascript:logout();" type="button" class="btn btn-secondary">로그아웃</a>
+            </div>
+        </div>
+        <div class="content" style="width:100%"> <!-- content 시작 -->
+            <div class="contentWrap">
+            <table class="table table-horizontal table-bordered"> <!-- 번호, 제목,카테고리, 작성일 테이블 시작 -->
+                <tr>
+                    <th class="table-light align-middle w250" style="text-align: center">번호</th>
+                    <td th:text="${notice.noticeNo}"></td>
+                </tr>
+                <tr>
+                    <th class="table-light align-middle w250" style="text-align: center">제목</th>
+                    <td th:text="${notice.noticeTitle}"></td>
+                </tr>
+                <tr>
+                    <th class="table-light align-middle w250" style="text-align: center">카테고리</th>
+                    <td th:text="${notice.noticeType}"></td>
+                </tr>
+                <tr>
+                    <th class="table-light align-middle w250" style="text-align: center">작성일</th>
+                    <td th:text="${#temporals.format(notice.noticeDatetime, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" id="content_area" style="height: 500px;">
+                        <div th:utext="${notice.noticeContent}"></div>
+                    </td>
+                </tr>
+            </table> <!-- 번호, 제목,카테고리, 작성일 테이블 끝 -->
+            <div style="text-align: center">
+                <a th:href="|/admin/notice/list|" class="btn btn-outline-secondary">목록</a>
+                <a th:href="|/admin/notice/modify?noticeNo=${notice.noticeNo}|" class="btn btn-outline-secondary">수정</a>
+                <a th:href="|/admin/notice/deleteAction?noticeNo=${notice.noticeNo}|" class="btn btn-outline-danger">삭제</a>
+            </div>
+            </div>
+        </div> <!-- content 끝 -->
+    </div>
+</div>
+</body>
+</html>

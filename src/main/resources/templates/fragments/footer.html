@@ -1,10 +1,100 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
-<footer th:fragment="fragment-footer" class="footer">
-    <div class="row justify-content-center">
-        <small class="d-flex justify-content-center mb-3 ml-3 text-muted">&copy; 코딩강사 2023</small>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="fragment-footer">
+<div class="info down">
+    <div class="footer-wrap">
+      <!-- 클릭이벤트 -->
+      <div>
+        <a href="javascript:footerbtn()"
+          >쇼핑몰 사업자정보
+          <img
+            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_h9_bottom.png"
+            alt=""
+            class="footer-down" />
+          <img
+            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_h9_top.png"
+            alt=""
+            class="footer-up"
+        /></a>
+      </div>
+      <div class="hidden">
+        <div class="store-info">
+          <div>상호 : (주)코리아센터닷컴</div>
+          <div>대표 : 김기록</div>
+          <div class="store-info-a">
+            사업자등록번호 : 206-81-21131
+            <a href="javascript:footerbtn2()">[사업자정보확인]</a>
+          </div>
+          <div>통신판매업신고 : 통신판매 제 2005-00874호</div>
+          <div>
+            주소 : 서울 금천구 가산디지털1로 168 (가산동,우림라이온스밸리)
+            A동 14층
+          </div>
+          <div>개인정보보호책임자 : 홍길동</div>
+        </div>
+      </div>
     </div>
-</footer>
-
-</html>
+  </div>
+  <div class="bt">
+    <p>10:00~18:00(주말, 공휴일 휴무)</p>
+    <ul class="cscenter">
+      <li>
+        <a href=""
+          ><img
+            class="footer-ico-phone"
+            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/bul_num.png"
+            alt=""
+          />
+          02-6903-9118</a
+        >
+      </li>
+      <li>
+        <a href="">
+          <img
+            class="footer-ico-email"
+            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/bul_email.png"
+            alt=""
+          />help@mysoho.com</a
+        >
+      </li>
+    </ul>
+    <ul class="link">
+      <li class="link1">
+        <a href="javascript:openPopup1()">이용약관 |</a>
+      </li>
+      <li class="link2">
+        <a href="javascript:openPopup2()"><b>개인정보처리방침</b></a>
+      </li>
+      <li class="link1">
+        <a href="/category/QnA.html">| Q&A 게시판</a>
+      </li>
+    </ul>
+    <div class="copy">
+      <div class="copy-left">
+        free service by
+        <a href="javascript:openPopupsoho1()"><b>mysoho</b></a>
+      </div>
+      <div>
+        <a href="javascript:openPopupsoho2()"
+          ><img
+            class="ico-footer-lens"
+            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/bg_ico_h26.png"
+            alt="" />
+          <b> 소호마켓</b>
+          <img
+            class="btnSohoSch"
+            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/bg_arr_h14.png"
+            alt=""
+        /></a>
+      </div>
+    </div>
+  </div>
+  <div class="fix-body">
+    <a href="" class="btn-tel"></a>
+    <a href="" class="btn-top"></a>
+  </div>
+</div>
+<script>
+  let mybutton = document.getElementById("myBtnfooter");
+</script>
+</th:block>

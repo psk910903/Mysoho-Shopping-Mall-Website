@@ -1,30 +1,262 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+  <th:block th:fragment="fragment-header">
 
-<!--th:replace에서 가져올 내용-->
-<th:block th:fragment="fragment-header">
-  <meta charset="UTF-8">
-  <title>게시판 목록보기</title>
+    <div class="side-icon-left">
+      <div id="mySidenav" class="sidenav">
+        <div>
+          <div class="aside-hd">
+            <div>
+              <a href="/">
+                <img
+                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h40_home.gif"
+                  alt=""
+                />
+              </a>
+            </div>
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()"
+              >&times;</a
+            >
+          </div>
+          <ul class="aside-cont">
+            <li><a href="/plan/item/SALE">♡ NURIRI SALE ♡</a></li>
+            <li><a href="/plan/item/TOP">TOP</a></li>
+            <li><a href="/plan/item/BOTTOM">BOTTOM</a></li>
+            <li><a href="/plan/item/ONE-PIECE">ONE-PIECE</a></li>
+            <li><a href="/plan/item/ACC" id="acc">ACC</a></li>
+          </ul>
+          <div class="aside-bot">
+            <div class="aside-notice">
+              <a href="/notice"
+                ><img
+                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_notice.png"
+                  alt=""
+                />
+                공지사항</a
+              >
+            </div>
+            <div class="aside-qna">
+              <a href="/qna"
+                ><img
+                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_qna_h25.png"
+                  alt=""
+                />
+                Q&A 게시판</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="btn-hambergerMenu"
+        style="cursor: pointer"
+        onclick="openNav()"
+      >
+        <img
+          src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_hamburger_menu_000000.png"
+          alt=""
+        />
+      </div>
+      <a href="javascript:openSearch()" class="btn-serch">
+        <img
+          class="openBtn"
+          src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_search_000000.png"
+          alt=""
+      /></a>
+      <div id="myOverlay" class="overlay">
+        <span class="closebtn" onclick="closeSearch()" title="Close Overlay"
+          >×</span
+        >
+        <div class="overlay-inner">
+          <h3>어떤 상품을 찾고 계신가요?</h3>
+          <div class="overlay-content">
+            <form action="/search" name="keywordForm">
+              <input
+                type="text"
+                placeholder="검색어를 입력해주세요"
+                name="keyword"
+                id="keyword"
+              />
+              <button type="button" onclick="checkTxt()">
+                <i class="fa fa-search"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <a href="/"
+      ><img
+        class="logo"
+        src="https://img.makeshop.co.kr/1/1371/201908/583f98cc6e004ec7b3ba880bf0eaf1c9.png"
+        alt=""
+    /></a>
+    <div class="side-icon-right">
 
-  <style>
-        #wrap {
-            margin: 0 auto;
-            width: 700px;
+      <a class="btn-basket" href="/order">
+        <strong class="basket-num" type="Number">0</strong>
+        <img
+          src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_basket_000000.png"
+          alt=""
+        />
+      </a>
+
+      <!--로그인 버튼 수정 부분 -->
+      <span sec:authorize="isAnonymous()">
+        <a href="/user/login" class="btn-login">
+          <img
+            src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logoff_000000.png"
+            alt=""
+          />
+        </a>
+      </span>
+      <span sec:authorize="isAuthenticated()">
+        <span sec:authorize="hasRole('USER')">
+          <a href="/myorder/lists" class="btn-login">
+            <img
+              src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logon_000000.png"
+              alt=""
+            />
+          </a>
+        </span>
+        <span sec:authorize="hasRole('ADMIN')">
+          <a href="/admin/member/list?page=0" class="btn-login">
+            <img
+              src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logon_000000.png"
+              alt=""
+            />
+          </a>
+          <a href="/myorder/lists"><button>myPage</button></a>
+        </span>
+      </span>
+      <!--로그인 버튼 수정 부분 -->
+    </div>
+    <script>
+      function checkTxt() {
+        // 입력값이 공백일 때
+        let val = document.querySelector("#keyword").value;
+        if (val === "") {
+          alert("검색어를 입력해주세요.");
+        } else {
+          let key = document.keywordForm;
+          key.value = val;
+          key.submit();
         }
-        table {
-          text-align: center;
+      }
+
+      const cookies = document.cookie.split("; "); //쿠키를 전부 불러와서 배열에 담는다.
+      let cartNum = 0; //올라가야할 숫자가 몇개인지
+
+      for (let i = 0; i < cookies.length; i++) {
+        //보안토큰 제외
+        if (!cookies[i].includes("XSRF")) {
+          //includes 해당 문자열이 포함됬는지 확인 //XSRF : 보안토큰 앞글자
+          cartNum += Number(cookies[i].substr(cookies[i].indexOf("=") + 1));
         }
-        .sub-title {
-          text-align: center;
+      }
+      document.querySelector(".basket-num").innerHTML = cartNum;
+      console.log(cookies);
+
+      var setCookie = function (cookieName, cookieValue) {
+        //쿠키 생성 함수 (매개변수로 "item_idx 1", 1)이 들어옴
+        var date = new Date(); //
+        date.setTime(date.getTime() + 24 * 60 * 60 * 1000); //date를 현재시간 + 3일 후로 설정한다.
+
+        let encodedCookieName = "";
+          let splitedCookieName = cookieName.split('.');
+
+          let encodedColor = encodeURIComponent(splitedCookieName[2]);
+          for (let idx in splitedCookieName){
+            if (idx == 0){
+              encodedCookieName += splitedCookieName[idx];
+            }
+            else if (idx == 2){
+              encodedCookieName += "." + encodedColor;
+            }
+            else{
+              encodedCookieName += "." + splitedCookieName[idx];
+            }
+          }
+          console.log(encodedCookieName)
+
+        document.cookie =
+          encodedCookieName + //쿠키이름 (key)
+          "=" +
+          cookieValue + // 쿠키(value)
+          ";expires=" +
+          date.toUTCString() + //쿠키 기한 // 설정한 데이트타임으로 기한을 준다.
+          ";path=/";
+      };
+
+      document.querySelector(".basket-num").innerHTML = cartNum; //더한숫자를 장바구니 숫자로 보여지게 해준다.
+
+      let basketNum = document.querySelector(".basket-num").innerHTML;
+
+      function basketNumCount(a) {
+        //장바구니 아이콘 선택시 실행되는 함수 / 매개변수로 this가 들어온다.(itemNo)
+        basketNum++;
+        let cookieName = $(a).attr("value"); //attr("value") : value값을 가져온다. 만약 ""안에 class면 class이름을 가져온다.
+        cookieName = cookieName.replace(/,/g, ".");
+        let cookieValue = 0; //아이템 수량 초기화
+        document.querySelector(".basket-num").innerHTML = basketNum; //오른 숫자 반영
+
+        if (getCookie("item_idx." + cookieName) == null) {
+          //해당 상품이 쿠키로 만들어진적이 없으면 새로 생성하라는 뜻
+
+          setCookie("item_idx." + cookieName, cookieValue + 1);
+        } else {
+          cookieValue = getCookie("item_idx." + cookieName); //  getCookie("item_idx:" + item_idx) => value이다 "2"
+          setCookie("item_idx." + cookieName, Number(cookieValue) + 1); //만약 같은 idx가 있으면 수량만 +1해서 기존 쿠키에 덮어씌운다.
+          if (confirm('장바구니에 담긴 수량이 있어 수량이 추가되었습니다.\n \n 지금 확인하시겠습니까?')== true){
+          location.href = "/order";
+        //장바구니링크 추가 예정
+          }else{
+
+          }
         }
+      }
 
-    </style>
+            var getCookie = function (cookieName) {
 
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
+          let encodedCookieName = "";
+          let splitedCookieName = cookieName.split('.');
 
-</th:block>
+          let encodedColor = encodeURIComponent(splitedCookieName[2]);
+          for (let idx in splitedCookieName){
+            if (idx == 0){
+              encodedCookieName += splitedCookieName[idx];
+            }
+            else if (idx == 2){
+              encodedCookieName += "." + encodedColor;
+            }
+            else{
+              encodedCookieName += "." + splitedCookieName[idx];
+            }
+          }
+          console.log(encodedCookieName)
 
+        //매개변수로 쿠키이름을 넣어주면 value로 반환
+        var value = document.cookie.match("(^|;) ?" + encodedCookieName + "=([^;]*)(;|$)");
+        return value ? value[2] : null; //3항 연산자 : 값이 있으면 가져오고 없으면 null로 반환
+      };
+      document.querySelector(".basket-num").innerHTML = cartNum;
+
+      function alertAndItemLink(value) {
+        let itemNo = $(value).attr("value");
+                if (confirm('해당상품은 옵션을 설정해야 장바구니에 담을 수 있습니다. \n \n 상세페이지로 이동하시겠습니까?')== true){
+          location.href = "/product/" + itemNo;
+          }else{
+
+          }
+      }
+
+      function logout() {
+        alert("로그아웃 되었습니다.");
+        location.href="/user/logoutAction";
+      }
+    </script>
+  </th:block>
 </html>

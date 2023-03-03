@@ -1,0 +1,253 @@
+/* 공유하기 팝업 */
+.bg-option {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+
+  /* 숨기기 */
+  z-index: -1;
+  opacity: 0;
+}
+
+.showoptionList {
+  opacity: 1;
+  z-index: 1000;
+  transition: all 0.5s;
+}
+.showoptionList .popup {
+  transition: all 0.5s;
+}
+
+.window {
+  position: relative;
+  width: 640px;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.popup {
+  position: absolute;
+  bottom: 0;
+  /* transform: translate(-50%, -50%); */
+  background-color: #ffffff;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.8);
+  width: 100%;
+
+  /* 초기에 약간 아래에 배치 */
+  /* transform: translate(-50%, -40%); */
+}
+.lhd-option {
+  position: relative;
+}
+
+#closeBtn-option {
+  position: absolute;
+  top: -19px;
+  left: 295px;
+  border: none;
+
+  border-radius: 0;
+  padding: 10px;
+
+  background-color: white;
+  width: 53px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#closeBtn-option img {
+  width: 50px;
+}
+.option-tit {
+  padding: 24px 0 6px 15px;
+}
+.cont-top {
+  padding: 0 15px;
+}
+.tap {
+  padding: 13px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #d9d9d9;
+  border-top: none;
+}
+.tap {
+  border-top: 1px solid #d9d9d9;
+}
+.MSH-total-price-opt {
+  padding: 17px 15px 20px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #c70000;
+  text-align: right;
+}
+.MSH-total-price-opt span:first-child {
+  margin-right: 10px;
+  color: black;
+  font-size: 16px;
+}
+.layerOptionNot {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.layerOptionNot button,
+.layerOptionNot a{
+  width: 49%;
+
+  font-size: 15px;
+  line-height: 47px;
+  height: 47px;
+
+  border-radius: 4px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 1px;
+}
+.btn1 {
+  color: #333;
+  border: 1px solid #333;
+  background: #fff;
+}
+.btn2 {
+  color: #fff;
+  border: 1px solid #333;
+  background: #333;
+}
+.option-choice {
+  margin: 16px 140px;
+  width: 56.5%;
+  height: 36px;
+  line-height: 36px;
+  text-align: center;
+  border-radius: 100px;
+  color: #fff;
+  background: #333;
+  font-size: 14px;
+  z-index: 100;
+  position: absolute;
+  /* background: rgba(255, 255, 255, 0.6); */
+}
+.option-btn-bg {
+  position: absolute;
+  width: 640px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.6);
+}
+.bold {
+  font-weight: bold;
+}
+a {
+  text-decoration: none;
+  color: black;
+}
+.size-tap {
+  background-color: #f0f0f0;
+}
+.btn-up,
+.btn-down {
+  width: 10px;
+}
+.btn-down {
+  display: none;
+}
+.popup-inner {
+  position: relative;
+  height: 100%;
+
+  width: 100%;
+}
+/* 더하기 빼기 */
+.count {
+  border: 1px solid #ccc;
+  display: flex;
+}
+.btn-minus,
+.btn-plus {
+  width: 33px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-minus img,
+.btn-plus img {
+  width: 8px;
+  height: 8px;
+}
+.price {
+  font-size: 21px;
+  font-weight: bold;
+  color: #c70000;
+}
+.MSH-sto-stock {
+  width: 50px;
+  height: 32px;
+  border: none;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  text-align: center;
+}
+.prd-option-non {
+  padding: 0px 16px 16px;
+
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+}
+.final-size {
+  color: #297bcf;
+  padding: 16px;
+}
+.final-color {
+  color: #297bcf;
+  padding: 16px;
+}
+.final-option {
+  color: #297bcf;
+  padding: 16px;
+}
+.hidden-option-tap {
+  display: none;
+}
+.hidden-size-tap {
+  display: flex;
+  justify-content: space-between;
+}
+.hidden-size-tap img {
+  margin-top: 20px;
+  margin-right: 20px;
+  width: 13px;
+}
+.close-button-option {
+  position: absolute;
+  top: -19px;
+  left: 295px;
+  border: none;
+
+  border-radius: 0;
+  padding: 10px;
+
+  background-color: white;
+  width: 53px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.close-button-option img {
+  width: 50px;
+}

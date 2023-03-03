@@ -1,0 +1,395 @@
+.container-myorder-list {
+  padding-bottom: 140px;
+  min-height: 440px;
+}
+.users-title-line-hd {
+  height: 50px;
+  background: #fafafa;
+  border-bottom: 1px solid #d6d6d6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+.users-cont {
+  padding: 20px;
+  padding-bottom: 0;
+}
+.order-tit {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.order-status-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.order-status-info {
+  display: flex;
+  width: 100%;
+}
+.grow {
+  width: 33.3%;
+  padding: 13px 0 10px;
+  border: 1px solid #f5f5f5;
+}
+.count a {
+  font-size: 20px;
+}
+.countName {
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.red {
+  font-weight: bold;
+
+  border-bottom: 1px solid #ff5a3f;
+}
+.red a {
+  color: #ff5a3f;
+}
+.order-status {
+  margin-top: 20px;
+}
+.bg-blank {
+  height: 9px;
+  border-top: 1px solid #d0d0d0;
+  background: rgb(242, 243, 245);
+}
+.list-hd {
+  padding: 13px 15px;
+  border-bottom: 1px solid #e6e6e6;
+  display: flex;
+  justify-content: space-between;
+}
+.od-num {
+  margin-top: 5px;
+  margin-bottom: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  line-height: 16px;
+}
+.od-date {
+  font-size: 15px;
+  color: #b2b2b2;
+  line-height: 11px;
+}
+.btn-h30-black {
+  width: 75px;
+  height: 38px;
+  background: #202020;
+  font-size: 12px;
+  color: #fff;
+  line-height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.list {
+  padding: 19px 15px 15px;
+  border-bottom: 1px solid #e2e1e1;
+  display: flex;
+}
+.list a {
+  width: 15%;
+}
+.list img {
+  width: 100%;
+}
+.info {
+  margin-left: 15px;
+}
+.label {
+  border: 1px solid #a79342;
+  color: #a79342;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 15px;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 20px;
+  width: 60px;
+}
+.name {
+  margin: 5px 0 2px;
+  font-size: 15px;
+}
+.price {
+  font-size: 15px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+.option {
+  color: #b2b2b2;
+  font-size: 14px;
+  line-height: 20px;
+}
+/* 주문정보 팝업 */
+.bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.9);
+  z-index: 1000;
+
+  /* 숨기기 */
+  z-index: -1;
+  opacity: 0;
+}
+
+.showOrderList {
+  opacity: 1;
+  z-index: 1000;
+}
+.showOrderList .popup {
+  transform: translate(-50%, -110%);
+}
+#closeOrderList {
+  position: absolute;
+  right: 0;
+}
+.window {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.popup {
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.8);
+
+  max-width: 640px;
+  height: 400px;
+  margin: auto;
+
+  /* 초기에 약간 아래에 배치 */
+  /* transform: translate(-50%, -40%); */
+}
+
+.popup-tit {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+}
+h2 {
+  font-size: 19px;
+}
+
+.input-st01 {
+  padding: 0 10px;
+  width: 100%;
+  border: 1px solid #dedede;
+  font-weight: normal;
+  font-size: 16px;
+  height: 42px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  background: #fff;
+}
+.users-cont {
+  padding: 20px;
+}
+.users-cont form input {
+  text-align: left;
+}
+.input-st01 {
+  padding: 0 10px;
+  width: 100%;
+  border: 1px solid #dedede;
+  font-weight: normal;
+  font-size: 16px;
+  height: 42px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  background: #fff;
+}
+.mt-10 {
+  margin-top: 10px;
+}
+.users-cont-p {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.btn-h42-gray {
+  width: 100%;
+
+  line-height: 52px;
+  background: #333;
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+}
+.users-cont-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 20px;
+}
+/* 주문정보 팝업 */
+.lhd {
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 18px;
+  font-weight: bold;
+  position: relative;
+}
+.ord-num {
+  color: #e44343;
+  padding-top: 8px;
+  font-size: 14px;
+}
+.lcont {
+  padding: 0;
+  background: #f5f5f5;
+}
+.lcont-con {
+  padding: 15px 20px;
+  border-bottom: 1px dashed #d2d2d2;
+}
+.lcont-con:last-child {
+  border: 0;
+}
+.lcont-tit {
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+.lcont-info {
+  font-size: 14px;
+  color: #999;
+  line-height: 24px;
+}
+.between {
+  display: flex;
+  justify-content: space-between;
+}
+.lcont-tit-sub,
+.lcont-info-sub,
+.lcont-tit-gray,
+.lcont-info-gray {
+  font-size: 14px;
+  height: 23px;
+}
+.lcont-info-sub {
+  font-weight: 700;
+}
+.lcont-tit-gray,
+.lcont-info-gray {
+  color: #999;
+}
+.final-price-tit {
+  font-size: 21px !important;
+  font-weight: bold !important;
+  color: #000 !important;
+}
+.final-price {
+  font-size: 21px !important;
+  font-weight: bold !important;
+  color: #c70000 !important;
+}
+.final {
+  margin-top: 20px;
+}
+.closeBtn {
+  background-color: white;
+  border: none;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+.closeBtn img {
+  width: 15px;
+}
+/* 로그인 후 마이페이지 */
+.mypage-top {
+  padding: 20px 20px 0;
+}
+.info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20px;
+}
+.info-header-myinfo,
+.info-header-logout {
+  background: #f0f0f0;
+  font-size: 12px;
+  color: #666666;
+  border-radius: 50px;
+  border: 1px solid #f0f0f0;
+  padding: 6px;
+}
+.user-name {
+  font-weight: bold;
+}
+.myPointBox {
+  margin-top: 25px;
+  display: flex;
+  justify-content: space-between;
+}
+.myPoint {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 49%;
+  background: #f6f6f6;
+  padding: 18px 0 20px;
+  color: #ff5a3f;
+  font-weight: 700;
+}
+.review-qa-list-tit {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  padding: 15px 10px 15px 0;
+}
+.review-qa-list-tit:first-child {
+  border-bottom: 1px solid #f0f0f0;
+}
+.review-qa-list img {
+  width: 5px;
+  height: 10px;
+}
+.myPoint-tit {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+}
+.myPoint-info {
+  font-size: 18px;
+  margin-top: 6px;
+}
+.myPoint-radio {
+  padding: 0 3px;
+  width: 15px;
+  height: 15px;
+  border: 1px solid #ff5a3f;
+  border-radius: 100%;
+  font-size: 10px;
+  margin-right: 3px;
+}

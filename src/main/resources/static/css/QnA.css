@@ -1,0 +1,139 @@
+.container-QnA {
+  margin: 0;
+  padding: 0;
+  height: 550px;
+  border-bottom: 1px solid #d6d6d6;
+}
+.users-title-line-hd {
+  height: 50px;
+  background: #fafafa;
+  text-align: center;
+  border-bottom: 1px solid #d6d6d6;
+  border-left: 0;
+  border-right: 0;
+  margin-top: 0;
+}
+.users-title-line-hd h2 {
+  font-size: 16px;
+  line-height: 52px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+}
+.notice-cont {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 470px;
+}
+
+.qa-search-wrap {
+  padding: 20px 18px;
+  border-bottom: 1px solid #d6d6d6;
+}
+.qa-search {
+  border: 1px solid #d6d6d6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.qa-search input {
+  width: 80%;
+  height: 42px;
+}
+.qa-search a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+}
+.qa-search img {
+  width: 22px;
+  height: 22px;
+}
+.btnBwrite {
+  margin: 25px auto;
+  display: flex;
+  justify-content: center;
+}
+.btnBwrite a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 195px;
+  height: 47px;
+  border-radius: 100px;
+  border: 1px solid black;
+}
+.btnBwrite img {
+  width: 17px;
+  height: 17px;
+  margin-right: 3px;
+}
+.qa-search input {
+  padding-left: 10px;
+  border: none;
+}
+.qa-list-wrap {
+  display: flex;
+  border-top: 1px solid #d6d6d6;
+  padding: 20px 0;
+}
+.qna-board-list {
+  display: flex;
+}
+.qa-list-icon {
+  margin-left: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid;
+  color: #999999;
+  background: #edeff2;
+  font-weight: bold;
+  font-size: 11px;
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  border: none;
+}
+.dil,
+.name,
+.date {
+  color: #999999;
+  font-size: 11px;
+}
+.tit {
+  color: #999999;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  padding-bottom: 5px;
+}
+.tit img {
+  width: 12px;
+  height: 12px;
+  margin-left: 5px;
+}
+.tit-wrap {
+  padding-left: 15px;
+  display: flex;
+  align-items: center;
+}
+.qna-info {
+  display: flex;
+}
+.qna-board-list {
+  width: 100%;
+}
+.qna-info div {
+  padding: 0 8px;
+}
+.qna-info div:first-child {
+  padding-left: 0;
+}
+.name {
+  border-left: 1px solid #d6d6d6;
+  border-right: 1px solid #d6d6d6;
+}

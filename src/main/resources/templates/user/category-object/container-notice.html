@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="container-notice">
+
+  <div class="users-title-line-hd">
+    <h2>공지사항</h2>
+  </div>
+
+  <!--  공지사항이 없을 때 -->
+  <div th:if="${listCount} == 0" class="notice-cont">
+    등록된 공지사항이 없습니다.
+  </div>
+
+  <!-- 찾기 -->
+  <form name="searchForm" th:unless="${listCount} == 0" action="/notice" method="POST">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    <div class="notice-search-wrap">
+      <div class="notice-search">
+        <input type="text" placeholder="검색어를 입력하세요" name="keyword" />
+        <!-- 돋보기 이미지 -->
+        <button type="submit">
+          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_search_h34.png" alt=""/>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <!--  공지사항 리스트 -->
+  <div class="notice-list-wrap" th:each="notice, status:${list}" th:unless="${listCount} == 0">
+    <a th:href="|/notice/${notice.noticeNo}|" class="notice-board-list">
+      <div class="tit-wrap">
+        <div>
+          <div class="tit" th:text="${notice.noticeTitle}">제목</div>
+          <div class="notice-info">
+            <div class="dil" th:text="${notice.noticeType}">타입</div>
+            <div class="date" th:text="${#temporals.format(notice.noticeDatetime, 'yyyy-MM-dd')}">
+              날짜
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- 페이지 -->
+  <form id="page-form" name="pageForm" th:unless="${listCount} == 0" action="/notice" method="POST">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    <input type="hidden" name="keyword" th:value="${keyword}" />
+    <div class="container">
+      <div th:if="${!list.isEmpty()}">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" th:classappend="${!list.hasPrevious} ? 'disabled'">
+            <!-- 이전 버튼 시작 -->
+            <a th:href="|javascript:movePage(${list.number-1})|" class="page-link">
+              <span>이전</span>
+            </a>
+          </li>
+          <!-- 이전 버튼 끝 -->
+          <li th:each="page: ${pageList}" th:classappend="${page == list.number} ? 'active'" class="page-item">
+            <!-- 숫자 페이지 버튼 시작 -->
+            <a th:href="|javascript:movePage(${page})|" th:text="${page+1}" class="page-link"></a>
+          </li>
+          <!-- 숫자 페이지 버튼 끝 -->
+          <li class="page-item" th:classappend="${!list.hasNext} ? 'disabled'">
+            <!-- 다음 버튼 시작 -->
+            <a th:href="|javascript:movePage(${list.number+1})|" class="page-link">
+              <span>다음</span>
+            </a>
+          </li>
+          <!-- 다음 버튼 끝 -->
+        </ul>
+      </div>
+    </div>
+  </form>
+
+</th:block>
+</html>
