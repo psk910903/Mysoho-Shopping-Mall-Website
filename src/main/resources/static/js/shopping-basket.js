@@ -348,24 +348,24 @@ function productSub() {
     document.querySelector("#price").innerHTML = output + "원";
     document.querySelector("#finalPrice").innerHTML = output + "원";
 
-
     //갯수
     amount--;
     document.querySelector(".MSH-sto-stock").value = amount;
 
     if (itemDiscountRate != 0) {
-          totalPrice2 -= price2;
-          let discount = totalPrice2 - totalPrice;
-          let a2 = String(totalPrice2);
-          let a3 = String(discount);
-          var output2 = [a2.slice(0, position), b, a2.slice(position)].join("");
-          var output3 = [a3.slice(0, position), b, a3.slice(position)].join("");
-          document.querySelector("#finalTotalPrice").innerHTML = output2 + "원";
-          document.querySelector("#discountPrice").innerHTML = "- " + output3 + "원";
-          document.querySelector("#discountPrice2").innerHTML = output3 + "원";
-        } else {
-          document.querySelector("#finalTotalPrice").innerHTML = output + "원";
-        }
+      totalPrice2 -= price2;
+      let discount = totalPrice2 - totalPrice;
+      let a2 = String(totalPrice2);
+      let a3 = String(discount);
+      var output2 = [a2.slice(0, position), b, a2.slice(position)].join("");
+      var output3 = [a3.slice(0, position), b, a3.slice(position)].join("");
+      document.querySelector("#finalTotalPrice").innerHTML = output2 + "원";
+      document.querySelector("#discountPrice").innerHTML =
+        "- " + output3 + "원";
+      document.querySelector("#discountPrice2").innerHTML = output3 + "원";
+    } else {
+      document.querySelector("#finalTotalPrice").innerHTML = output + "원";
+    }
   } else {
     document.querySelector(".MSH-sto-stock").value = amount;
     var output = [str.slice(0, position), b, str.slice(position)].join("");
@@ -389,19 +389,18 @@ function optionSum() {
   document.querySelector(".MSH-sto-stock").value = optionAmount;
 
   if (itemDiscountRate != 0) {
-      totalPrice2 += price2;
-      let discount = totalPrice2 - optionTotalPrice;
-      let a2 = String(totalPrice2);
-      let a3 = String(discount);
-      var output2 = [a2.slice(0, position), b, a2.slice(position)].join("");
-      var output3 = [a3.slice(0, position), b, a3.slice(position)].join("");
-      document.querySelector("#finalTotalPrice").innerHTML = output2 + "원";
-      document.querySelector("#discountPrice").innerHTML = "- " + output3 + "원";
-      document.querySelector("#discountPrice2").innerHTML = output3 + "원";
-    } else {
-      document.querySelector("#finalTotalPrice").innerHTML = output + "원";
-    }
-
+    totalPrice2 += price2;
+    let discount = totalPrice2 - optionTotalPrice;
+    let a2 = String(totalPrice2);
+    let a3 = String(discount);
+    var output2 = [a2.slice(0, position), b, a2.slice(position)].join("");
+    var output3 = [a3.slice(0, position), b, a3.slice(position)].join("");
+    document.querySelector("#finalTotalPrice").innerHTML = output2 + "원";
+    document.querySelector("#discountPrice").innerHTML = "- " + output3 + "원";
+    document.querySelector("#discountPrice2").innerHTML = output3 + "원";
+  } else {
+    document.querySelector("#finalTotalPrice").innerHTML = output + "원";
+  }
 }
 function optionSub() {
   if (optionAmount > 1) {
@@ -418,28 +417,32 @@ function optionSub() {
     document.querySelector(".MSH-sto-stock").value = optionAmount;
 
     if (itemDiscountRate != 0) {
-              totalPrice2 -= price2;
-              let discount = totalPrice2 - totalPrice;
-              let a2 = String(totalPrice2);
-              let a3 = String(discount);
-              var output2 = [a2.slice(0, position), b, a2.slice(position)].join("");
-              var output3 = [a3.slice(0, position), b, a3.slice(position)].join("");
-              document.querySelector("#finalTotalPrice").innerHTML = output2 + "원";
-              document.querySelector("#discountPrice").innerHTML = "- " + output3 + "원";
-              document.querySelector("#discountPrice2").innerHTML = output3 + "원";
-            } else {
-              document.querySelector("#finalTotalPrice").innerHTML = output + "원";
-            }
+      totalPrice2 -= price2;
+      let discount = totalPrice2 - totalPrice;
+      let a2 = String(totalPrice2);
+      let a3 = String(discount);
+      var output2 = [a2.slice(0, position), b, a2.slice(position)].join("");
+      var output3 = [a3.slice(0, position), b, a3.slice(position)].join("");
+      document.querySelector("#finalTotalPrice").innerHTML = output2 + "원";
+      document.querySelector("#discountPrice").innerHTML =
+        "- " + output3 + "원";
+      document.querySelector("#discountPrice2").innerHTML = output3 + "원";
+    } else {
+      document.querySelector("#finalTotalPrice").innerHTML = output + "원";
+    }
   } else {
     document.querySelector(".MSH-sto-stock").value = optionAmount;
-    var output = [optionStr.slice(0, position), b, optionStr.slice(position)].join("");
-        document.querySelector("#price").innerHTML = output + "원";
-        document.querySelector("#finalPrice").innerHTML = output + "원";
-        document.querySelector("#option-price").innerHTML = optionStr + "원";
-        document.querySelector("#finalTotalPrice").innerHTML = output + "원";
+    var output = [
+      optionStr.slice(0, position),
+      b,
+      optionStr.slice(position),
+    ].join("");
+    document.querySelector("#price").innerHTML = output + "원";
+    document.querySelector("#finalPrice").innerHTML = output + "원";
+    document.querySelector("#option-price").innerHTML = optionStr + "원";
+    document.querySelector("#finalTotalPrice").innerHTML = output + "원";
   }
 }
-
 
 function basketNumCount() {
   basketNum++;
