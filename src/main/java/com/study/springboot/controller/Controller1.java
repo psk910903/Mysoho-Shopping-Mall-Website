@@ -388,7 +388,7 @@ public class Controller1 {
 
       for (int j = 0; j < cartList.size(); j++) {
 
-        if (Objects.equals(cartList.get(j).getOrderNo(), orderDto.getOrderNo())) {
+        if (Objects.equals(cartList.get(j).getOrderCode(), orderDto.getOrderNo())) {
           originalPrice += cartList.get(j).getCartItemOriginalPrice();
           discountPrice += cartList.get(j).getCartDiscountPrice();
           itemPrice += cartList.get(j).getCartItemPrice();
@@ -466,7 +466,7 @@ public class Controller1 {
 
         for (int j = 0; j < cartList.size(); j++) {
 
-          if (Objects.equals(cartList.get(j).getOrderNo(), orderDto.getOrderNo())) {
+          if (Objects.equals(cartList.get(j).getOrderCode(), orderDto.getOrderNo())) {
             originalPrice += cartList.get(j).getCartItemOriginalPrice();
             discountPrice += cartList.get(j).getCartDiscountPrice();
             itemPrice += cartList.get(j).getCartItemPrice();

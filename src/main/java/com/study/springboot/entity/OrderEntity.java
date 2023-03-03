@@ -18,6 +18,8 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_no", nullable = false)
     private Long orderNo; //pk
+    @Column(name = "order_code", nullable = false)
+    private Long orderCode; //주문정보 코드
     @Column(name = "cart_code_1", nullable = false)
     private String cartCode1; //장바구니 코드
     @Column(name = "cart_code_2")
@@ -60,8 +62,9 @@ public class OrderEntity {
     private LocalDateTime orderDatetime = LocalDateTime.now(); // 결제시간
 
     @Builder
-    public OrderEntity(Long orderNo, String cartCode1, String cartCode2, String cartCode3, String cartCode4, String cartCode5, Long orderTotalPrice, Long orderTotalCount, String orderName, String orderPhone, String orderRecipientName, String orderRecipientPhone, String orderRecipientAddrNumber, String orderRecipientAddr1, String orderRecipientAddr2, String memberId, Long memberMileage, String memberCoupon, String orderPayType, String orderState, LocalDateTime orderDatetime) {
+    public OrderEntity(Long orderNo, Long orderCode, String cartCode1, String cartCode2, String cartCode3, String cartCode4, String cartCode5, Long orderTotalPrice, Long orderTotalCount, String orderName, String orderPhone, String orderRecipientName, String orderRecipientPhone, String orderRecipientAddrNumber, String orderRecipientAddr1, String orderRecipientAddr2, String memberId, Long memberMileage, String memberCoupon, String orderPayType, String orderState, LocalDateTime orderDatetime) {
         this.orderNo = orderNo;
+        this.orderCode = orderCode;
         this.cartCode1 = cartCode1;
         this.cartCode2 = cartCode2;
         this.cartCode3 = cartCode3;

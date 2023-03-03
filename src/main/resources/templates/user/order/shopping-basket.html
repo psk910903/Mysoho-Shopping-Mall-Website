@@ -25,7 +25,7 @@
       <div class="content-view text-align-center">
         <!-- cart -->
         <div th:replace="/user/order-object/container-shopping-basket-cart.html :: container-shopping-basket-cart"></div>
-        <form name="orderForm" action="/order/test2" method="POST" onsubmit="processBeforeSubmit()">
+        <form name="orderForm" action="/order/payAction" method="POST" onsubmit="processBeforeSubmit()">
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
           <!-- 주문자 정보-->
           <div th:replace="/user/order-object/container-shopping-basket-orderer.html :: container-shopping-basket-orderer"></div>
@@ -188,7 +188,12 @@
         let orderPayType2 = document.getElementById("paySelect").value;
         for (orderPayTypeObj of orderPayTypeList){
           if(orderPayTypeObj.checked){
-            document.getElementById("orderPayType").value = orderPayTypeObj.value + orderPayType2;
+            if (orderPayType2 == ""){
+              document.getElementById("orderPayType").value = orderPayTypeObj.value;
+            }
+            else{
+              document.getElementById("orderPayType").value = orderPayTypeObj.value + " " + orderPayType2;
+            }
           }
         }
 

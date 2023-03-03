@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 public class OrderContentSaveRequestDto {
     private Long orderNo; //pk
+    private  Long orderCode; // 주문 코드
     private String cartCode1; //장바구니 코드
     private String cartCode2; //장바구니 코드
     private String cartCode3; //장바구니 코드
@@ -37,6 +38,7 @@ public class OrderContentSaveRequestDto {
     public OrderEntity toEntity(){
         return OrderEntity.builder()
                 .orderNo(orderNo)
+                .orderCode(orderCode)
                 .cartCode1(cartCode1)
                 .cartCode2(cartCode2)
                 .cartCode3(cartCode3)

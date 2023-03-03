@@ -7,6 +7,7 @@ import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.notice.NoticeResponseDto;
 import com.study.springboot.dto.notice.NoticeSaveRequestDto;
 import com.study.springboot.dto.order.OrderContentSaveRequestDto;
+import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
 import com.study.springboot.entity.*;
@@ -139,6 +140,15 @@ public class Service2 {
         }
         return true;
     }
+
+    @Transactional(readOnly = true)
+    public OrderResponseDto findByOrderCode(Long orderCode){
+        Optional<OrderEntity> entity = orderRepository.findByOrderCode(orderCode);
+        if (!entity.isPresent()){
+            return null;
+        }
+        return new OrderResponseDto(entity.get());
+    };
 
 
 }

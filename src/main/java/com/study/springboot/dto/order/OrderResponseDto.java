@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @Setter
 public class OrderResponseDto {
     private Long orderNo; //pk
+    private Long orderCode; // 주문 코드
     private String cartCode1; //장바구니 코드
     private String cartCode2; //장바구니 코드
     private String cartCode3; //장바구니 코드
@@ -37,6 +38,7 @@ public class OrderResponseDto {
 
     public OrderResponseDto(OrderEntity entity) {
         this.orderNo = entity.getOrderNo();
+        this.orderCode = entity.getOrderCode();
         this.cartCode1 = entity.getCartCode1();
         this.cartCode2 = entity.getCartCode2();
         this.cartCode3 = entity.getCartCode3();
@@ -62,6 +64,7 @@ public class OrderResponseDto {
     public OrderEntity toEntity(){
         return OrderEntity.builder()
                 .orderNo(orderNo)
+                .orderCode(orderCode)
                 .cartCode1(cartCode1)
                 .cartCode2(cartCode2)
                 .cartCode3(cartCode3)

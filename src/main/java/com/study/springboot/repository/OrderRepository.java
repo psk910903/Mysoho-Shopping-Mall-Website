@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
@@ -34,5 +35,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     @Query(value = "SELECT * FROM `order` WHERE order_name LIKE CONCAT('%',:sender,'%') AND order_phone LIKE CONCAT('%',:phone,'%') and member_id is NULL order BY order_datetime desc", nativeQuery = true)
     List<OrderEntity> findByOrderNonMember(@Param(value="sender")String sender, @Param(value="phone")String phone  );
 
+    // ------------------------------------------------------------------------------------------  희진 추가
+    Optional<OrderEntity> findByOrderCode(Long orderCode);
 
 }
