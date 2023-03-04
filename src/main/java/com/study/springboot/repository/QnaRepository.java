@@ -1,5 +1,6 @@
 package com.study.springboot.repository;
 
+import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.entity.QnaEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface QnaRepository extends JpaRepository<QnaEntity,Long> {
@@ -35,5 +37,7 @@ public interface QnaRepository extends JpaRepository<QnaEntity,Long> {
 
     // 0224 희진 수정 -----------------------------------------------------------------------
     List<QnaEntity> findByMemberId(String memberId);
-
+    //0302 이준하 수정
+    @Query(value = "select * from qna q where q.member_id = :username_param", nativeQuery = true)
+    Optional<QnaEntity> findByUserId(@Param("username_param") String username);
 }

@@ -1,6 +1,5 @@
 package com.study.springboot.controller;
-
-
+import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.qna.QnaCommentResponseDto;
 import com.study.springboot.dto.qna.QnaCommentSaveDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
@@ -8,19 +7,19 @@ import com.study.springboot.dto.qna.QnaSaveDto;
 import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.entity.QnaEntity;
 import com.study.springboot.repository.QnaRepository;
-import com.study.springboot.service.QnaCommentService;
-import com.study.springboot.service.QnaService;
-import com.study.springboot.service.Service2;
-import com.study.springboot.service.Service4;
+import com.study.springboot.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,9 @@ import java.util.List;
 //   /admin/qna
 
 public class Controller4 {
+    final private PasswordEncoder passwordEncoder;
     private final Service4 service4;
+    private final Service3 service3;
 
     private final QnaService qnaService;
     private final QnaCommentService qnaCommentService;
@@ -43,11 +44,11 @@ public class Controller4 {
 
     @GetMapping("admin/qna/list")
     public String list(@RequestParam(value = "keywordType", required = false) String keywordType,
-                         @RequestParam(value = "keyword", required = false) String keyword,
-                         @RequestParam(value = "dateStart", required = false) String dateStart,
-                         @RequestParam(value = "dateEnd", required = false) String dateEnd,
-                         @RequestParam(value = "page", defaultValue = "0") int page,
-                         Model model) throws ParseException {
+                       @RequestParam(value = "keyword", required = false) String keyword,
+                       @RequestParam(value = "dateStart", required = false) String dateStart,
+                       @RequestParam(value = "dateEnd", required = false) String dateEnd,
+                       @RequestParam(value = "page", defaultValue = "0") int page,
+                       Model model) throws ParseException {
         Page<QnaResponseDto> list;
 
         int totalPage;
@@ -84,37 +85,32 @@ public class Controller4 {
         return "/admin/qna/list";
     }
 
-@GetMapping("admin/qna/content/{id}")
-public String content(@PathVariable("id") long id,
-                      Model model) {
+    @GetMapping("admin/qna/content/{id}")
+    public String content(@PathVariable("id") long id,
+                          Model model) {
         qnaService.modifyHits(id);
 
-    List<QnaCommentResponseDto> comment = qnaCommentService.findbyIdx(id);
+        List<QnaCommentResponseDto> comment = qnaCommentService.findbyIdx(id);
 
-    if (comment.size() == 0) {
-        model.addAttribute("nullCheck", "null");
+        if (comment.size() == 0) {
+            model.addAttribute("nullCheck", "null");
+        }
+
+        model.addAttribute("comment",comment);
+        model.addAttribute("qna", qnaService.findbyid(id));
+
+        return "/admin/qna/content";
     }
 
-    model.addAttribute("comment",comment);
-    model.addAttribute("qna", qnaService.findbyid(id));
-
-    return "/admin/qna/content";
-}
-
-@GetMapping("admin/qna/delete/{id}")
-@ResponseBody
-public String delete(@PathVariable("id") Long id){
-    boolean delete = qnaService.delete(id);
-    if(!delete){
-        return "<script>alert('삭제 실패');history.back();</script>";
+    @GetMapping("admin/qna/delete/{id}")
+    @ResponseBody
+    public String delete(@PathVariable("id") Long id){
+        boolean delete = qnaService.delete(id);
+        if(!delete){
+            return "<script>alert('삭제 실패');history.back();</script>";
+        }
+        return "<script>alert('삭제 완료');location.href='/admin/qna/list';</script>";
     }
-    return "<script>alert('삭제 완료');location.href='/admin/qna/list';</script>";
-}
-//    쓰기폼 가기(셀렉트 테스트용-사용자페이지에서해야함)
-//    @GetMapping("/write")
-//    public String qnaWrite(){
-//        return "/admin/qna/write";
-//    }
 
 //    여기서부터 코멘트----------------------------------------------------------------------
 
@@ -151,7 +147,7 @@ public String delete(@PathVariable("id") Long id){
         return "<script>alert('답변수정 완료'); location.href='/admin/qna/content/" + commentQnaId + "'; </script>";
     }
 
-//  선택삭제
+    //  선택삭제
     @GetMapping("admin/qna/select/delete")
     public String selectDelete (@RequestParam("qnaNo") String qnaNo){
         qnaService.selectDelete(qnaNo);
@@ -160,27 +156,55 @@ public String delete(@PathVariable("id") Long id){
 
     //-------------여기서부터 사용자페이지------------------------------------------
 
-// Qna 시작
 
-// 게시판에서 문의작성눌렀을떄 글쓰는 폼 들어가기
+    // 게시판에서 문의작성눌렀을떄 글쓰는 폼 들어가기
+    // 로그인 Q&A 페이지 가기
     @GetMapping("qna/writeForm")
-    public String userQnaWrite(){
+    public String userQnaWrite( @AuthenticationPrincipal User user,
+                                Model model){
+
+        String username = user.getUsername();
+        MemberEntity entity = service3.findByUserId(username);
+
+        model.addAttribute("userName",entity.getUsername());
+        model.addAttribute("userPassword",entity.getPassword());
+
+        return "/user/popup/qna-write";
+
+    }
+    // 비로그인 Q&A 페이지가기
+    @GetMapping("qna/writeFormGuest")
+    public String userQnaWriteGuest(){
         return "/user/popup/qna-write";
     }
 
 // Qna 검색액션받기랑 게시판가기
 
-@GetMapping("qna")
-public String qnaSearchAction(@RequestParam(value ="keyword", required = false) String keyword,
-                              Model model){
-    List<QnaResponseDto> list;
-        if(keyword ==null){// 검색기능 없을 때
+    @GetMapping("qna")
+    public String qnaSearchAction(@RequestParam(value ="keyword", required = false) String keyword,
+                                  HttpServletRequest request,
+                                  Model model){
+        //세션 가져오기
+        HttpSession session = request.getSession();
+        String name = (String)session.getAttribute("username");
+        System.out.println(name);
+        //세션 설정하기
+        session.setAttribute("name", name);
+
+        List<QnaResponseDto> list;
+
+        if(keyword ==null){
+            // 검색기능 없을 때
+
             list = service4.findEvery();
             //마스킹처리
             List<String> nameList = new ArrayList<>();
             for(int i=0 ; i < list.size();i++){
 
                 String qnaName = list.get(i).getQnaName();
+                if(qnaName == null){
+                    qnaName = list.get(i).getMemberId();
+                }
                 String qnaHiddenName;
                 if (qnaName.length() == 2){
                     qnaHiddenName = qnaName.replace(qnaName.charAt(1), '*');
@@ -188,7 +212,8 @@ public String qnaSearchAction(@RequestParam(value ="keyword", required = false) 
                     qnaHiddenName = qnaName;
                 }
                 else{
-                    qnaHiddenName = qnaName.substring(0,2);
+                    qnaHiddenName = qnaName.substring(0,2);;
+                    //
                     for (int j=0; j<qnaName.length()-2; j++){
                         qnaHiddenName += "*";
                     }
@@ -196,24 +221,31 @@ public String qnaSearchAction(@RequestParam(value ="keyword", required = false) 
                 nameList.add(qnaHiddenName);
             }
             // 마스킹 처리 끝
+
             // 답변불러오기
             List<Long> qnaCommentCount = new ArrayList<>();
             for(int i =0; i< list.size(); i++){
                 Long CommentCount = service4.countByQnaId(list.get(i).getQnaId());
                 qnaCommentCount.add(CommentCount);
             }
+            //답변카운트 불러오기 끝
             model.addAttribute("qnaCommentCount",qnaCommentCount);
             model.addAttribute("list",list);
             model.addAttribute("namelist",nameList);
 
             return "/user/category/qna";
         }else{ //검색기능 있을 때
-             list = service4.keyword(keyword);
 
+            list = service4.keyword(keyword);
+
+            //마스킹처리
             List<String> nameList = new ArrayList<>();
             for(int i=0 ; i < list.size();i++){
 
                 String qnaName = list.get(i).getQnaName();
+                if(qnaName == null){
+                    qnaName = list.get(i).getMemberId();
+                }
                 String qnaHiddenName;
                 if (qnaName.length() == 2){
                     qnaHiddenName = qnaName.replace(qnaName.charAt(1), '*');
@@ -221,19 +253,23 @@ public String qnaSearchAction(@RequestParam(value ="keyword", required = false) 
                     qnaHiddenName = qnaName;
                 }
                 else{
-                    qnaHiddenName = qnaName.substring(0,2);
+                    qnaHiddenName = qnaName.substring(0,2);;
+                    //
                     for (int j=0; j<qnaName.length()-2; j++){
                         qnaHiddenName += "*";
                     }
                 }
                 nameList.add(qnaHiddenName);
             }
+            //마스킹처리끝
 
+            //답변카운트 불러오기
             List<Long> qnaCommentCount = new ArrayList<>();
             for(int i =0; i< list.size(); i++){
                 Long CommentCount = service4.countByQnaId(list.get(i).getQnaId());
                 qnaCommentCount.add(CommentCount);
             }
+            //답변카운트 불러오기 끝
             model.addAttribute("namelist",nameList);
             model.addAttribute("list",list);
             model.addAttribute("qnaCommentCount",qnaCommentCount);
@@ -241,7 +277,8 @@ public String qnaSearchAction(@RequestParam(value ="keyword", required = false) 
         }
     }
 
-    @PostMapping("user/qna/write")
+
+    @PostMapping("qna/write")
     @ResponseBody
     public String userQnaWriteAction(QnaSaveDto saveDto){
 
@@ -254,13 +291,13 @@ public String qnaSearchAction(@RequestParam(value ="keyword", required = false) 
         if(!qnaSave){
             return "<script>alert('등록 실패 하였습니다'); history.back();</script>";
         }
-        return "<script>alert('등록에 성공 하였습니다.'); location.href='/qna';</script>";
+        return "<script>alert('등록되었습니다');opener.parent.location.reload();window.close();</script>";
     }
     //리스트로감
 
-
     // 글 삭제
-    @GetMapping("user/qna/delete/{id}")
+
+    @GetMapping("qna/delete/{id}")
     @ResponseBody
     public String userDelete (@PathVariable("id")long id){
         boolean delete = service4.delete(id);
@@ -271,44 +308,54 @@ public String qnaSearchAction(@RequestParam(value ="keyword", required = false) 
     }
     //qna 리스트가기
 
+
     //qna 비밀번호 체크
-    // 수정버튼눌렀을때
-    @PostMapping("pw/check/action")
+    @PostMapping("/qna/pw/check/action/guest")
     @ResponseBody
     public String pwCheckAction(@ModelAttribute QnaSaveDto qnaSaveDto){
-        System.out.println("qnaSaveDto = " + qnaSaveDto);
+
         Long num = qnaSaveDto.getQnaId();
+        String url = "/qna/modifyForm/"+num;
         boolean pwCheckResult = service4.pwCheck(qnaSaveDto);
         if(!pwCheckResult){
-            return "<script>alert('비밀번호가 틀렸습니다.'); history.back();</script>";
+
+            return "<script>alert('비밀번호 확인실패'); history.back();</script>";
         }
-        return "<script>alert('비밀번호가 일치하였습니다.'); location.href='/qna/modifyForm/"+ num +"';</script>";
+
+        return "<script>alert('비밀번호 확인완료');window.open('/qna/modifyForm/" + num + "');location.href='/qna'</script>";
+
     }
-    //qna 비밀번호 체크
-    // 삭제버튼 눌렀을때
-    @PostMapping("pw/check/action2")
+    @PostMapping("qna/pw/check/action2/guest")
     @ResponseBody
     public String pwCheckAction2(@ModelAttribute QnaSaveDto qnaSaveDto){
-        System.out.println("qnaSaveDto = " + qnaSaveDto);
+
         Long num = qnaSaveDto.getQnaId();
         boolean pwCheckResult = service4.pwCheck(qnaSaveDto);
         if(!pwCheckResult){
-            return "<script>alert('비밀번호가 틀렸습니다.'); history.back();</script>";
+            return "<script>alert('비밀번호 확인실패'); history.back();</script>";
         }
-        return "<script>alert('비밀번호가 일치하였습니다.'); location.href='/user/qna/delete/"+ num +"';</script>";
+
+        return "<script>alert('비밀번호 확인완료.'); location.href='/qna/delete/"+ num +"';</script>";
+
     }
 
     //수정페이지
+
     @GetMapping("qna/modifyForm/{num}")
     public String modifyForm(@PathVariable("num")Long num,
                              Model model){
         QnaResponseDto qnaResponseDto = service4.findById(num);
+
+        List <QnaCommentResponseDto> commentList = service4.findAllByCommentQnaId(num);
+
+        model.addAttribute("commentList", commentList);
         model.addAttribute("dto",qnaResponseDto);
+
         return "/user/popup/qna-modify";
     }
 
     //수정 액션받기
-    @PostMapping("qna/modifyForm")
+    @PostMapping("qna/modify")
     @ResponseBody
     public String qnaModify(@ModelAttribute QnaSaveDto dto){
         if( dto.getQnaSecret() == null ){
@@ -319,7 +366,8 @@ public String qnaSearchAction(@RequestParam(value ="keyword", required = false) 
         if(!modifyResult){
             return "<script>alert('수정 실패했습니다.'); history.back();</script>";
         }
-        return "<script>alert('수정 성공하였습니다.'); location.href='/qna';</script>";
+        return "<script>alert('수정 되었습니다');opener.parent.location.reload();window.close();</script>";
     }
+
 }
 //qnaList

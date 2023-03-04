@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -82,6 +83,14 @@
 .sort li:hover {
   background-color: rgb(228, 228, 228);
 }
+.sort button{
+  border:none;
+  width:100%;
+  background-color:white;
+}
+.sort button:hover{
+    background-color: rgb(228, 228, 228);
+}
 
 .pwCheckInput{
     margin-top: -10px;
@@ -134,24 +143,26 @@
     border-radius: 100px;
     border: 1px solid black;
 }
+    h6{
+    text-align: center;
+    color: black;
+
+    }
     </style>
 </head>
 <body>
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <div class="wrap" >
+    <!--    <div th:text="${session.name}"></div>-->
     <div class="betweenbtn">
         <div
                 th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"
         ></div>
-        <!--        <script>-->
-        <!--          $(".betweenbtn").load("/public-object/betweenbtn.html");-->
-        <!--        </script>-->
+
     </div>
     <div class="header">
         <div th:replace="/fragments/header.html :: fragment-header"></div>
-        <!--        <script>-->
-        <!--          $(".header").load("/public-object/header.html");-->
-        <!--        </script>-->
+
     </div>
     <!-- QnA -->
     <div class="container-QnA">
@@ -162,7 +173,7 @@
         <div id="searchForm" >
             <div class="qa-search-wrap">
                 <form action="/qna" method="get">
-<!--                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <div class="qa-search">
                         <input
                                 type="text"
@@ -180,138 +191,356 @@
                 </form>
             </div>
             <div class="btnBwrite js-btnMoveWritePage" >
-                <a href="/qna/writeForm">
-                    <!--               javascript:openPopupQnAWrite()-->
-                    <img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/bg_ico_write.png"
-                            alt=""
-                    /><strong> 문의작성</strong></a
-                >
-
-            </div>
-
-            <div id="inquiryTab" class="tab-cont"  th:each="qna,status:${list}">
-                <th:block th:if="${qna.qnaSecret}=='비공개'">
-                    <div class="qa-list-wrap js-qnasArea">
-                        <a href="" class="js-qnasArea qna-board-list">
-                           <!-- 답변이 있을 때-->
-                            <th:block th:if="${qnaCommentCount[status.index]} == 0">
-                            <div class="qa-list-icon" >
-                                답변
-                                <br />
-                                대기
-                            </div>
-                            </th:block>
-                            <!--  답변이 없을 때-->
-                            <th:block th:unless="${qnaCommentCount[status.index]} == 0">
-                            <div class="qa-list-icon">
-                                답변
-                                <br />
-                                완료
-                            </div>
-                            </th:block>
-                            <div class="tit-wrap js-qna">
-                                <div>
-                                <span class="tit js-qnaContents">
-                                비밀글입니다.
-                      <img
-                              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_qa_lock.png"
-                              alt=""
-                              onclick="alert('작성자만 확인할 수 있습니다.')"
-                      />
-                    </span>
-                                    <div class="qna-info">
-                                        <div class="dil js-qnaType bar" th:text="${qna.qnaCategory}">상품</div>
-                                        <div class="name js-qnaWriter bar" th:text="${namelist[status.index]}">dl******...</div>
-                                        <div class="date js-qnaDate" th:text="${qna.qnaDate}">2022.04.11</div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </a>
-                        <a th:href="|javascript:sortSelect(${status.count})|" class="threedot"
-                        ><img
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png"
-                                alt=""
-                        /></a>
-                        <ul class="sort" th:id="|sort${status.count}|">
-                            <li th:id="|onCheckDiv${status.count}|">
-                                <a th:href="|javascript:onCheckDiv(${status.count})|">수정</a></li>
-                            <li><a th:href="@{/user/qna/delete/{id}(id=${qna.qnaId})}">삭제</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="CheckDiv" th:id="|CheckDiv${status.count}|">
-                        <form action="/pw/check/action" method="post" class="pwCheckForm">
-                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                            <input type="hidden" th:value="${qna.qnaId}" name="qnaId"/>
-                            <input type="password" placeholder="비밀번호를 입력하세요." class="pwCheckInput" name="qnaPassword">
-                            <button type="submit" class="checkBtn">확인</button>
-                        </form>
-                    </div>
+                <th:block sec:authorize="isAuthenticated()">
+                    <a th:href="|javascript:openPopUpQnaWrite()|">
+                        <!--                        "/qna/writeForm"-->
+                        <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/bg_ico_write.png"
+                             alt=""
+                        /><strong> 문의작성</strong></a
+                    >
                 </th:block>
+                <th:block sec:authorize="isAnonymous()">
+                    <a th:href="|javascript:openPopUpQnaWriteGuest()|">
+                        <!--                        "/qna/writeFormGuest"-->
+                        <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/bg_ico_write.png"
+                             alt=""
+                        /><strong> 문의작성</strong></a
+                    >
+                </th:block>
+            </div>
+            <h6>답변완료는 수정에서 확인 가능합니다.</h6>
+            <div id="inquiryTab" class="tab-cont" th:each="qna,status:${list}">
 
+                <!--  로그인일떄       -->
+                <th:block th:if="${qna.qnaName}==null">
+                    <!--비공개글일떄-->
+                    <th:block th:if="${qna.qnaSecret}=='비공개'">
+                        <div class="qa-list-wrap js-qnasArea">
 
-                <th:block th:unless="${qna.qnaSecret}=='비공개'">
-                    <div class="qa-list-wrap js-qnasArea">
-                        <a href="" class="js-qnasArea qna-board-list">
-                            <th:block th:if="${qnaCommentCount[status.index]} == 0">
-                            <div class="qa-list-icon">
-                                답변
-                                <br />
-                                대기
-                            </div>
-                            </th:block>
-                            <th:block th:unless="${qnaCommentCount[status.index]} == 0">
-                                <div class="qa-list-icon">
-                                    답변
-                                    <br />
-                                    완료
+                            <a href="" class="js-qnasArea qna-board-list">
+                                <!-- 답변이 있을 때-->
+                                <th:block th:if="${qnaCommentCount[status.index]} == 0">
+                                    <div class="qa-list-icon" >
+                                        답변
+                                        <br />
+                                        대기
+                                    </div>
+                                </th:block>
+                                <!--  답변이 없을 때-->
+                                <th:block th:unless="${qnaCommentCount[status.index]} == 0">
+                                    <div class="qa-list-icon">
+                                        답변
+                                        <br />
+                                        완료
+                                    </div>
+                                </th:block>
+                                <div class="tit-wrap js-qna">
+                                    <div>
+                                        <th:block th:if="${session.name} == ${qna.memberId}">
+                                <span class="tit js-qnaContents" th:text="${qna.qnaContent}">
+                                비밀글입니다.
+
+                    </span>
+                                        </th:block>
+                                        <th:block th:unless="${session.name} ==${qna.memberId}">
+                                        <span class="tit js-qnaContents" >
+                                비밀글입니다.
+                                <img
+                                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_qa_lock.png"
+                                        alt=""
+                                        onclick="alert('작성자만 확인할 수 있습니다.')"
+                                />
+                    </span>
+                                        </th:block>
+
+                                        <div class="qna-info">
+                                            <div class="dil js-qnaType bar" th:text="${qna.qnaCategory}">상품</div>
+                                            <div class="name js-qnaWriter bar" th:text="${namelist[status.index]}">dl******...</div>
+                                            <div class="date js-qnaDate" th:text="${qna.qnaDate}">2022.04.11</div>
+                                        </div>
+                                    </div>
+
                                 </div>
+                            </a>
+                            <th:block th:if="${session.name} == ${qna.memberId}">
+                                <a th:href="|javascript:sortSelect(${status.count})|" class="threedot"
+                                ><img
+                                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png"
+                                        alt=""
+                                /></a>
+                                <ul class="sort" th:id="|sort${status.count}|">
+                                    <li th:id="|onCheckDiv${status.count}|">
+                                        <a th:href="|javascript:openPopUpQnaModify(${qna.qnaId})|">수정</a>
+                                        <!--                                    "@{/qna/modifyForm/{id}(id=${qna.qnaId})}"-->
+                                    </li>
+                                    <li>
+                                        <form action="#" th:action="@{/qna/delete/{id}(id=${qna.qnaId})}" method="get" id="deleteBtn">
+                                            <button type="button" th:onclick="|javascript:checkDelete()|">삭제</button>
+                                        </form>
+                                    </li>
+                                    <!--                                <li>-->
+                                    <!--                                <a th:href="@{/qna/delete/{id}(id=${qna.qnaId})}">삭제</a>-->
+                                    <!--                            </li>-->
+                                    <!--                            "@{/qna/delete/{id}(id=${qna.qnaId})}"-->
+                                </ul>
                             </th:block>
-                            <div class="tit-wrap js-qna">
-                                <div>
+                            <th:block th:unless="${session.name} == ${qna.memberId}">
+                            </th:block>
+                        </div>
+
+                        <th:block sec:authorize="isAnonymous()">
+                            <div class="CheckDiv" th:id="|CheckDiv${status.count}|">
+                                <form action="/qna/pw/check/action" method="post" class="pwCheckForm">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                    <input type="hidden" th:value="${qna.qnaId}" name="qnaId"/>
+                                    <input type="password" placeholder="비밀번호를 입력하세요." class="pwCheckInput" name="qnaPassword">
+                                    <button type="submit" class="checkBtn">확인</button>
+                                </form>
+                            </div>
+                            <!--                    추가-->
+                            <div class="CheckDiv2" th:id="|CheckDiv2${status.count}|">
+                                <form action="/qna/pw/check/action2" method="post" class="pwCheckForm">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                    <input type="hidden" th:value="${qna.qnaId}" name="qnaId"/>
+                                    <input type="password" placeholder="비밀번호를 입력하세요." class="pwCheckInput" name="qnaPassword">
+                                    <button type="submit" class="checkBtn">확인</button>
+                                </form>
+                            </div>
+                        </th:block>
+                        <!--                    추가-->
+                    </th:block>
+
+                    <!--로그인일때-->
+                    <!-- 공개글 -->
+                    <th:block th:unless="${qna.qnaSecret}=='비공개'">
+                        <div class="qa-list-wrap js-qnasArea">
+                            <a href="" class="js-qnasArea qna-board-list">
+                                <th:block th:if="${qnaCommentCount[status.index]} == 0">
+                                    <div class="qa-list-icon">
+                                        답변
+                                        <br />
+                                        대기
+                                    </div>
+                                </th:block>
+                                <th:block th:unless="${qnaCommentCount[status.index]} == 0">
+                                    <div class="qa-list-icon">
+                                        답변
+                                        <br />
+                                        완료
+                                    </div>
+                                </th:block>
+                                <div class="tit-wrap js-qna">
+                                    <div>
                 <span class="tit js-qnaContents" th:text="${qna.qnaContent}">
                 문의합니다.
     </span>
-                                    <div class="qna-info">
-                                        <div class="dil js-qnaType bar" th:text="${qna.qnaCategory}">상품</div>
-                                        <div class="name js-qnaWriter bar"  th:text="${namelist[status.index]}">dl******...</div>
-                                        <div class="date js-qnaDate" th:text="${qna.qnaDate}">2022.04.11</div>
+                                        <div class="qna-info">
+                                            <div class="dil js-qnaType bar" th:text="${qna.qnaCategory}">상품</div>
+                                            <div class="name js-qnaWriter bar"  th:text="${namelist[status.index]}">dl******...</div>
+                                            <div class="date js-qnaDate" th:text="${qna.qnaDate}">2022.04.11</div>
+                                        </div>
                                     </div>
-                                </div>
 
+                                </div>
+                            </a>
+                            <th:block th:if="${session.name} == ${qna.memberId}">
+                                <a th:href="|javascript:sortSelect(${status.count})|" class="threedot">
+                                    <img
+                                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png"
+                                            alt=""/>
+                                </a>
+                                <ul class="sort" th:id="|sort${status.count}|">
+                                    <li>
+                                        <a th:href="|javascript:openPopUpQnaModify(${qna.qnaId})|">수정</a>
+                                    <li>
+                                        <form action="#" th:action="@{/qna/delete/{id}(id=${qna.qnaId})}" method="get" id="deleteBtn">
+                                            <button type="button" th:onclick="|javascript:checkDelete()|">삭제</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </th:block>
+                            <th:block th:unless="${session.name} == ${qna.memberId}">
+                            </th:block>
+                        </div>
+
+                        <th:block sec:authorize="isAnonymous()">
+                            <div class="CheckDiv" th:id="|CheckDiv${status.count}|">
+                                <form action="/qna/pw/check/action/guest" method="post" class="pwCheckForm">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                    <input type="hidden" th:value="${qna.qnaId}" name="qnaId"/>
+                                    <input type="password" placeholder="비밀번호를 입력하세요." class="pwCheckInput" name="qnaPassword">
+                                    <button type="submit" class="checkBtn">확인</button>
+                                </form>
                             </div>
-                        </a>
-                        <a th:href="|javascript:sortSelect(${status.count})|" class="threedot">
-                            <img
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png"
-                                alt=""/>
-                        </a>
-                        <ul class="sort" th:id="|sort${status.count}|">
-                            <li>
-                                <a th:href="|javascript:onCheckDiv(${status.count})|">수정</a></li>
-                            <li><a th:href="|javascript:onCheckDiv2(${status.count})|">삭제</a></li>
-                        </ul>
-                    </div>
-                    <div class="CheckDiv" th:id="|CheckDiv${status.count}|">
-                        <form action="/pw/check/action" method="post" class="pwCheckForm">
-                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                            <input type="hidden" th:value="${qna.qnaId}" name="qnaId"/>
-                            <input type="password" placeholder="비밀번호를 입력하세요." class="pwCheckInput" name="qnaPassword">
-                            <button class="checkBtn">확인</button>
-                        </form>
-                    </div>
-                    <div class="CheckDiv2" th:id="|CheckDiv2${status.count}|">
-                        <form action="/pw/check/action2" method="post" class="pwCheckForm">
-                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                            <input type="hidden" th:value="${qna.qnaId}" name="qnaId"/>
-                            <input type="password" placeholder="비밀번호를 입력하세요." class="pwCheckInput" name="qnaPassword">
-                            <button class="checkBtn">확인</button>
-                        </form>
-                    </div>
+                            <div class="CheckDiv2" th:id="|CheckDiv2${status.count}|">
+                                <form action="/qna/pw/check/action2/guest" method="post" class="pwCheckForm">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                    <input type="hidden" th:value="${qna.qnaId}" name="qnaId"/>
+                                    <input type="password" placeholder="비밀번호를 입력하세요." class="pwCheckInput" name="qnaPassword">
+                                    <button type="submit"class="checkBtn">확인</button>
+                                </form>
+                            </div>
+                        </th:block>
+                    </th:block>
+                    </form>
                 </th:block>
+
+                <!-- 비로그인일때-->
+                <th:block th:unless="${qna.qnaName}==null">
+                    <!--비공개글-->
+                    <th:block th:if="${qna.qnaSecret}=='비공개'">
+                        <div class="qa-list-wrap js-qnasArea">
+                            <a href="" class="js-qnasArea qna-board-list">
+                                <!-- 답변이 있을 때-->
+                                <th:block th:if="${qnaCommentCount[status.index]} == 0">
+                                    <div class="qa-list-icon" >
+                                        답변
+                                        <br />
+                                        대기
+                                    </div>
+                                </th:block>
+                                <!--  답변이 없을 때-->
+                                <th:block th:unless="${qnaCommentCount[status.index]} == 0">
+                                    <div class="qa-list-icon">
+                                        답변
+                                        <br />
+                                        완료
+                                    </div>
+                                </th:block>
+                                <div class="tit-wrap js-qna">
+                                    <div>
+
+                                        <span class="tit js-qnaContents" >
+                                비밀글입니다.
+                                  <img
+                                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_qa_lock.png"
+                                          alt=""
+                                          onclick="alert('작성자만 확인할 수 있습니다.')"
+                                  />
+                    </span>
+
+
+                                        <div class="qna-info">
+                                            <div class="dil js-qnaType bar" th:text="${qna.qnaCategory}">상품</div>
+                                            <div class="name js-qnaWriter bar" th:text="${namelist[status.index]}">dl******...</div>
+                                            <div class="date js-qnaDate" th:text="${qna.qnaDate}">2022.04.11</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </a>
+                            <th:block th:if="${session.name} == ${qna.memberId}">
+                                <a th:href="|javascript:sortSelect(${status.count})|" class="threedot"
+                                ><img
+                                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png"
+                                        alt=""
+                                /></a>
+                                <ul class="sort" th:id="|sort${status.count}|">
+                                    <li th:id="|onCheckDiv${status.count}|">
+                                        <a th:href="|javascript:onCheckDiv(${status.count})|" >수정</a>
+                                    <li><a th:href="|javascript:onCheckDiv2(${status.count})|">삭제</a></li>
+                                </ul>
+                            </th:block>
+                            <th:block th:unless="${session.name} == ${qna.memberId}">
+                            </th:block>
+                        </div>
+
+                        <th:block sec:authorize="isAnonymous()">
+                            <div class="CheckDiv" th:id="|CheckDiv${status.count}|">
+                                <form action="/qna/pw/check/action/guest" method="post" class="pwCheckForm" >
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                    <input type="hidden" th:value="${qna.qnaId}" name="qnaId"/>
+                                    <input type="password" placeholder="비밀번호를 입력하세요." class="pwCheckInput" name="qnaPassword">
+                                    <button type="submit" class="checkBtn">확인</button>
+                                </form>
+                            </div>
+                            <!--                    추가-->
+                            <div class="CheckDiv2" th:id="|CheckDiv2${status.count}|" >
+                                <form action="/qna/pw/check/action2/guest" method="post" class="pwCheckForm">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                    <input type="hidden" th:value="${qna.qnaId}" name="qnaId"/>
+                                    <input type="password" placeholder="비밀번호를 입력하세요." class="pwCheckInput" name="qnaPassword">
+                                    <button type="submit" class="checkBtn">확인</button>
+                                </form>
+                            </div>
+                        </th:block>
+                        <!--                    추가-->
+                    </th:block>
+
+                    <!-- 공개글 -->
+                    <th:block th:unless="${qna.qnaSecret}=='비공개'">
+                        <div class="qa-list-wrap js-qnasArea">
+                            <a href="" class="js-qnasArea qna-board-list">
+                                <th:block th:if="${qnaCommentCount[status.index]} == 0">
+                                    <div class="qa-list-icon">
+                                        답변
+                                        <br />
+                                        대기
+                                    </div>
+                                </th:block>
+                                <th:block th:unless="${qnaCommentCount[status.index]} == 0">
+                                    <div class="qa-list-icon">
+                                        답변
+                                        <br />
+                                        완료
+                                    </div>
+                                </th:block>
+                                <div class="tit-wrap js-qna">
+                                    <div>
+                <span class="tit js-qnaContents" th:text="${qna.qnaContent}">
+                문의합니다.
+    </span>
+                                        <div class="qna-info">
+                                            <div class="dil js-qnaType bar" th:text="${qna.qnaCategory}">상품</div>
+                                            <div class="name js-qnaWriter bar"  th:text="${namelist[status.index]}">dl******...</div>
+                                            <div class="date js-qnaDate" th:text="${qna.qnaDate}">2022.04.11</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </a>
+                            <th:block th:if="${session.name} == ${qna.memberId}">
+                                <a th:href="|javascript:sortSelect(${status.count})|" class="threedot">
+                                    <img
+                                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png"
+                                            alt=""/>
+                                </a>
+                                <ul class="sort" th:id="|sort${status.count}|">
+                                    <li>
+                                        <a th:href="|javascript:onCheckDiv(${status.count})|" >수정</a></li>
+                                    <li><a th:href="|javascript:onCheckDiv2(${status.count})|">삭제</a></li>
+                                </ul>
+                            </th:block>
+                            <th:block th:unless="${session.name} == ${qna.memberId}">
+                            </th:block>
+                        </div>
+
+                        <th:block sec:authorize="isAnonymous()">
+                            <div class="CheckDiv" th:id="|CheckDiv${status.count}|">
+                                <form action="qna/pw/check/action/guest" method="post" class="pwCheckForm">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                    <input type="hidden" th:value="${qna.qnaId}" name="qnaId"/>
+                                    <!--                                    <input type="hidden" th:value="${qna.memberId}" name="memberId"/>-->
+                                    <input type="password" placeholder="비밀번호를 입력하세요." class="pwCheckInput" name="qnaPassword">
+                                    <button class="checkBtn">확인</button>
+                                </form>
+                            </div>
+                            <div class="CheckDiv2" th:id="|CheckDiv2${status.count}|">
+                                <form action="qna/pw/check/action2/guest" method="post" class="pwCheckForm">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                    <input type="hidden" th:value="${qna.qnaId}" name="qnaId"/>
+                                    <!--                                    <input type="hidden" th:value="${qna.memberId}" name="memberId"/>-->
+                                    <input type="password" placeholder="비밀번호를 입력하세요." class="pwCheckInput" name="qnaPassword">
+                                    <button class="checkBtn">확인</button>
+                                </form>
+                            </div>
+                        </th:block>
+                    </th:block>
+                    </form>
+                </th:block>
+
             </div>
+
             <th:block th:if="${list.isEmpty()}">
                 <div class="back" id="back">
                     <p> 검색된 결과가 없습니다. </p>
@@ -321,10 +550,11 @@
                                 alt="">
                         <strong>초기화</strong></a
                     ></div>
-                <th:block>
+            </th:block>
+
         </div>
     </div>
-    </form>
+
 </div>
 <!-- 푸터 -->
 <div class="footer">
@@ -347,7 +577,7 @@
 <script src="/js/popup.js"></script>
 <script>
 function sortSelect( count ) {
-  //
+
   if (document.querySelector("#sort"+count).style.display === "block") {
     document.querySelector("#sort"+count).style.display = "none";
   } else {
@@ -356,7 +586,7 @@ function sortSelect( count ) {
 }
 
 function onCheckDiv( number ) {
-  //
+
   if (document.querySelector("#CheckDiv"+number).style.display === "none") {
     document.querySelector("#CheckDiv"+number).style.display = "block";
   } else {
@@ -366,14 +596,34 @@ function onCheckDiv( number ) {
 
 
 function onCheckDiv2( number ) {
-  //
+
   if (document.querySelector("#CheckDiv2"+number).style.display === "none") {
     document.querySelector("#CheckDiv2"+number).style.display = "block";
   } else {
     document.querySelector("#CheckDiv2"+number).style.display = "none";
   }
 }
+      function checkDelete() {
+          let form =  document.querySelector('#deleteBtn');
+          if (confirm("해당 Q&A를 삭제하겠습니까? 삭제 후 복구가 불가능합니다.")) {
+            form.submit();
+          } else {
+            return false;
+          }
+      }
 
+      function openPopUpQnaWrite() {
+  popup = window.open("/qna/writeForm");
+}
+
+
+      function openPopUpQnaWriteGuest() {
+  popup = window.open("/qna/writeFormGuest");
+}
+
+     function openPopUpQnaModify(qnaId) {
+  popup = window.open("/qna/modifyForm/"+qnaId);
+}
 
 </script>
 </body>
