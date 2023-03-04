@@ -29,11 +29,15 @@
       <div class="header">
         <div th:replace="/fragments/header.html :: fragment-header"></div>
       </div>
-  <div th:if="${param.error}">
-    Invalid username and password.
+  <div th:if="${param.error}" >
+    <script>
+      alert('아이디/비밀번호를 확인해주세요.');
+    </script>
   </div>
   <div th:if="${param.logout}">
-    You have been logged out.
+    <script>
+      alert('로그아웃했습니다.');
+    </script>
   </div>
       <!-- 로그인 -->
       <div class="containerlogin">
@@ -155,8 +159,6 @@
       }
       document.querySelector("#show2").addEventListener("click", show2);
       document.querySelector("#close2").addEventListener("click", close2);
-    </script>
-    <script>
 
     $('.modal').on('hidden.bs.modal', function (e) {
         console.log('modal close');
@@ -176,7 +178,7 @@
             },
             success: function (res) {
                 if (res['check']) {
-                    swal("발송 완료!", "입력하신 이메일로 임시비밀번호가 발송되었습니다.", "success").then((OK) = > {
+                    swal("발송 완료!", "입력하신 이메일로 임시비밀번호가 발송되었습니다.", "success").then((OK) => {
                         if(OK) {
                             $.ajax({
                                 type: "POST",
@@ -188,8 +190,6 @@
                             })
                             window.location = "/login";
                         }
-
-
                     }
                 )
                     $('#checkMsg').html('<p style="color:darkblue"></p>');
@@ -199,6 +199,6 @@
             }
         })
     })
-</script>
+    </script>
   </body>
 </html>

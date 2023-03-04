@@ -1,5 +1,9 @@
 package com.study.springboot.service;
 
+import com.study.springboot.comparator.ItemPriceComparator;
+import com.study.springboot.comparator.ItemReviewCountComparator;
+import com.study.springboot.comparator.ItemReviewStarComparator;
+import com.study.springboot.comparator.SalesRateComparator;
 import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.order.OrderSearchDto;
@@ -9,6 +13,7 @@ import com.study.springboot.entity.ProductEntity;
 import com.study.springboot.repository.CartRepository;
 import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ProductRepository;
+import com.study.springboot.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,13 +30,14 @@ public class Service1 {
     final OrderRepository orderRepository;
     final CartRepository cartRepository;
     final CartService cartService;
+    final ReviewRepository reviewRepository;
 
     @Transactional(readOnly = true)
     public List<ProductResponseDto> findByItem(int num) {
         List<ProductEntity> entityList;
-        if (num == 6) {
+        if (num == 6) { //BEST 6
             entityList = productRepository.findLimit6();
-        } else {
+        } else { // 9
             entityList = productRepository.findLimit9();
         }
 
@@ -49,6 +55,54 @@ public class Service1 {
         return list;
     }
 
+    //판매량
+    @Transactional(readOnly = true)
+    public List<ProductResponseDto> SortItemSale(List<ProductResponseDto> dtoList) {
+        for (ProductResponseDto dto : dtoList) {
+            dto.setSalesCount(cartRepository.findByItemSortSale(dto.getItemNo()));
+        }
+        dtoList.sort(new SalesRateComparator());
+        System.out.println("서비스쪽 판매량순");
+        for (ProductResponseDto dto : dtoList) {
+            String itemName = dto.getItemName();
+            int salesCount = dto.getSalesCount();
+            System.out.println(itemName + ", " + salesCount);
+        }
+        return dtoList;
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProductResponseDto> SortItemPrice(List<ProductResponseDto> dtoList) {
+        dtoList.sort(new ItemPriceComparator());
+        System.out.println("서비스쪽 낮은가격순");
+        for (ProductResponseDto dto : dtoList) {
+            String itemName = dto.getItemName();
+            Long itemDiscountPrice = dto.getItemDiscountPrice();
+            System.out.println(itemName + ", " + itemDiscountPrice);
+        }
+        return dtoList;
+    }
+    @Transactional(readOnly = true)
+    public List<ProductResponseDto> SortItemReview(List<ProductResponseDto> dtoList) {
+        for (ProductResponseDto dto : dtoList) {
+            dto.setReviewCount(reviewRepository.findByItemReview(dto.getItemNo()));
+        }
+        dtoList.sort(new ItemReviewCountComparator());
+        return dtoList;
+    }
+    @Transactional(readOnly = true)
+    public List<ProductResponseDto> SortItemStar(List<ProductResponseDto> dtoList) {
+        for (ProductResponseDto dto : dtoList) {
+            Integer reviewStarAVG = reviewRepository.findByItemReviewStarAVG(dto.getItemNo());
+            if (reviewStarAVG == null) {
+                dto.setReviewStar(0);
+            } else {
+                dto.setReviewStar(reviewStarAVG);
+            }
+        }
+        dtoList.sort(new ItemReviewStarComparator());
+        return dtoList;
+    }
 
     @Transactional(readOnly = true)
     public List<ProductResponseDto> findByKeyword(String keyword) {

@@ -4,7 +4,6 @@
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
   <th:block th:fragment="fragment-header">
-
     <div class="side-icon-left">
       <div id="mySidenav" class="sidenav">
         <div>
@@ -73,14 +72,14 @@
         <div class="overlay-inner">
           <h3>어떤 상품을 찾고 계신가요?</h3>
           <div class="overlay-content">
-            <form action="/search" name="keywordForm">
+            <form action="/search" name="keywordForm" onsubmit="return checkTxt(event)">
               <input
                 type="text"
                 placeholder="검색어를 입력해주세요"
                 name="keyword"
                 id="keyword"
               />
-              <button type="button" onclick="checkTxt()">
+              <button >
                 <i class="fa fa-search"></i>
               </button>
             </form>
@@ -94,8 +93,18 @@
         src="https://img.makeshop.co.kr/1/1371/201908/583f98cc6e004ec7b3ba880bf0eaf1c9.png"
         alt=""
     /></a>
+    <!--관리자페이지 링크 -->
+    <span sec:authorize="isAuthenticated()" id="adminLink">
+         <span sec:authorize="hasRole('ADMIN')">
+          <a href="/admin/member/list?page=0" class="btn-login" style="height: 100%;" >
+            <img
+                    src="https://psk-s3-bucket.s3.ap-northeast-2.amazonaws.com/%EA%B4%80%EB%A6%AC%EC%9E%90%EB%A7%81%ED%81%AC+%EC%95%84%EC%9D%B4%EC%BD%98.png"
+                    alt=""
+            />
+          </a>
+          </span>
+      </span>
     <div class="side-icon-right">
-
       <a class="btn-basket" href="/order">
         <strong class="basket-num" type="Number">0</strong>
         <img
@@ -105,6 +114,8 @@
       </a>
 
       <!--로그인 버튼 수정 부분 -->
+
+
       <span sec:authorize="isAnonymous()">
         <a href="/user/login" class="btn-login">
           <img
@@ -113,6 +124,7 @@
           />
         </a>
       </span>
+
       <span sec:authorize="isAuthenticated()">
         <span sec:authorize="hasRole('USER')">
           <a href="/myorder/lists" class="btn-login">
@@ -122,15 +134,12 @@
             />
           </a>
         </span>
-        <span sec:authorize="hasRole('ADMIN')">
-          <a href="/admin/member/list?page=0" class="btn-login">
+          <a href="/myorder/lists" class="btn-login">
             <img
               src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logon_000000.png"
               alt=""
             />
           </a>
-          <a href="/myorder/lists"><button>myPage</button></a>
-        </span>
       </span>
       <!--로그인 버튼 수정 부분 -->
     </div>
@@ -166,21 +175,19 @@
         date.setTime(date.getTime() + 24 * 60 * 60 * 1000); //date를 현재시간 + 3일 후로 설정한다.
 
         let encodedCookieName = "";
-          let splitedCookieName = cookieName.split('.');
+        let splitedCookieName = cookieName.split(".");
 
-          let encodedColor = encodeURIComponent(splitedCookieName[2]);
-          for (let idx in splitedCookieName){
-            if (idx == 0){
-              encodedCookieName += splitedCookieName[idx];
-            }
-            else if (idx == 2){
-              encodedCookieName += "." + encodedColor;
-            }
-            else{
-              encodedCookieName += "." + splitedCookieName[idx];
-            }
+        let encodedColor = encodeURIComponent(splitedCookieName[2]);
+        for (let idx in splitedCookieName) {
+          if (idx == 0) {
+            encodedCookieName += splitedCookieName[idx];
+          } else if (idx == 2) {
+            encodedCookieName += "." + encodedColor;
+          } else {
+            encodedCookieName += "." + splitedCookieName[idx];
           }
-          console.log(encodedCookieName)
+        }
+        console.log(encodedCookieName);
 
         document.cookie =
           encodedCookieName + //쿠키이름 (key)
@@ -210,52 +217,57 @@
         } else {
           cookieValue = getCookie("item_idx." + cookieName); //  getCookie("item_idx:" + item_idx) => value이다 "2"
           setCookie("item_idx." + cookieName, Number(cookieValue) + 1); //만약 같은 idx가 있으면 수량만 +1해서 기존 쿠키에 덮어씌운다.
-          if (confirm('장바구니에 담긴 수량이 있어 수량이 추가되었습니다.\n \n 지금 확인하시겠습니까?')== true){
-          location.href = "/order";
-        //장바구니링크 추가 예정
-          }else{
-
+          if (
+            confirm(
+              "장바구니에 담긴 수량이 있어 수량이 추가되었습니다.\n \n 지금 확인하시겠습니까?"
+            ) == true
+          ) {
+            location.href = "/order";
+            //장바구니링크 추가 예정
+          } else {
           }
         }
       }
 
-            var getCookie = function (cookieName) {
+      var getCookie = function (cookieName) {
+        let encodedCookieName = "";
+        let splitedCookieName = cookieName.split(".");
 
-          let encodedCookieName = "";
-          let splitedCookieName = cookieName.split('.');
-
-          let encodedColor = encodeURIComponent(splitedCookieName[2]);
-          for (let idx in splitedCookieName){
-            if (idx == 0){
-              encodedCookieName += splitedCookieName[idx];
-            }
-            else if (idx == 2){
-              encodedCookieName += "." + encodedColor;
-            }
-            else{
-              encodedCookieName += "." + splitedCookieName[idx];
-            }
+        let encodedColor = encodeURIComponent(splitedCookieName[2]);
+        for (let idx in splitedCookieName) {
+          if (idx == 0) {
+            encodedCookieName += splitedCookieName[idx];
+          } else if (idx == 2) {
+            encodedCookieName += "." + encodedColor;
+          } else {
+            encodedCookieName += "." + splitedCookieName[idx];
           }
-          console.log(encodedCookieName)
+        }
+        console.log(encodedCookieName);
 
         //매개변수로 쿠키이름을 넣어주면 value로 반환
-        var value = document.cookie.match("(^|;) ?" + encodedCookieName + "=([^;]*)(;|$)");
+        var value = document.cookie.match(
+          "(^|;) ?" + encodedCookieName + "=([^;]*)(;|$)"
+        );
         return value ? value[2] : null; //3항 연산자 : 값이 있으면 가져오고 없으면 null로 반환
       };
       document.querySelector(".basket-num").innerHTML = cartNum;
 
       function alertAndItemLink(value) {
         let itemNo = $(value).attr("value");
-                if (confirm('해당상품은 옵션을 설정해야 장바구니에 담을 수 있습니다. \n \n 상세페이지로 이동하시겠습니까?')== true){
+        if (
+          confirm(
+            "해당상품은 옵션을 설정해야 장바구니에 담을 수 있습니다. \n \n 상세페이지로 이동하시겠습니까?"
+          ) == true
+        ) {
           location.href = "/product/" + itemNo;
-          }else{
-
-          }
+        } else {
+        }
       }
 
       function logout() {
         alert("로그아웃 되었습니다.");
-        location.href="/user/logoutAction";
+        location.href = "/user/logoutAction";
       }
     </script>
   </th:block>

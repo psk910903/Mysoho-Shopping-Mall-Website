@@ -38,6 +38,7 @@
 .admin-navBar div {
   display: flex;
 }
+
 .admin-navBar a {
   margin: 0 15px;
   text-decoration: none;

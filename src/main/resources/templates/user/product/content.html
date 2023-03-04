@@ -152,26 +152,39 @@
                   alt=""
               /></a>
             </div>
-            <!-- 할인상품일때 -->
-            <th:block th:if="${dto.itemDiscountRate} != 0">
+            <!-- 품절 상품일 때 -->
+            <th:block th:if="${dto.itemSoldOut} == '품절'">
               <div
-                class="price"
-                id="price"
-                data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA')}+'원'"
+                      class="price"
+                      id="price"
               >
-                44,500원
+                품절
               </div>
             </th:block>
-            <!-- 할인상품이 아닐때 -->
-            <th:block th:unless="${dto.itemDiscountRate} != 0">
-              <div
-                class="price"
-                id="price"
-                data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA')}+'원'"
-              >
-                44,500원
-              </div>
+            <th:block th:unless="${dto.itemSoldOut} == '품절'">
+              <!-- 할인상품일때 -->
+              <th:block th:if="${dto.itemDiscountRate} != 0">
+                <div
+                  class="price"
+                  id="price"
+                  data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA')}+'원'"
+                >
+                  44,500원
+                </div>
+              </th:block>
+              <!-- 할인상품이 아닐때 -->
+              <th:block th:unless="${dto.itemDiscountRate} != 0" >
+                <div
+                  class="price"
+                  id="price"
+                  data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA')}+'원'"
+                >
+                  44,500원
+                </div>
+              </th:block>
+
             </th:block>
+
           </div>
 
           <script>
@@ -1364,12 +1377,21 @@
                       >
                     </div>
                   </div>
+                  <th:block th:if="${dto.itemSoldOut} != '품절'">
                   <a
                     href="order-complete.html"
                     class="js-btnOrder js-mo-tpl btn-h42-gray mt-25"
                     >결제하기</a
                   >
-
+                  </th:block>
+                  <th:block th:unless="${dto.itemSoldOut} != '품절'">
+                    <a
+                            href="order-complete.html"
+                            class="js-btnOrder js-mo-tpl btn-h42-gray mt-25"
+                    >
+                      품절</a
+                    >
+                  </th:block>
                   <div class="warning-labels-font">
                     <img
                       src="https://image.makeshop.co.kr/mysoho/assets/admin/images/common/m-notice-icon.png"
