@@ -11,26 +11,34 @@ import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
+import com.study.springboot.dto.security.MemberJoinDto;
+import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.object.FileResponse;
+import com.study.springboot.repository.MemberRepository;
 import com.study.springboot.repository.NoticeRepository;
 import com.study.springboot.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -444,6 +452,8 @@ public class Controller2 {
 
         Cookie[] cookies = request.getCookies();
         String encodedItemOptionColor = itemOptionColor;
+        int cartNum = 0;
+
         try {
             encodedItemOptionColor = URLEncoder.encode(itemOptionColor, "UTF-8");
         }catch (Exception e) {
@@ -455,6 +465,9 @@ public class Controller2 {
             for(Cookie c : cookies){
                 String name = c.getName();
                 String value = c.getValue();
+                if (name.startsWith("item_idx.")){
+                    cartNum++;
+                }
                 if (name.equals("item_idx."+ itemNo + "." + encodedItemOptionColor + "." + itemOptionSize)) {
                     Cookie cookie = new Cookie(name, value);
                     cookie.setPath("/");
@@ -462,6 +475,11 @@ public class Controller2 {
                     response.addCookie(cookie);
                 }
             }
+        }
+
+        // 장바구니 비었을 떄
+        if (cartNum == 1){
+            return "<script>alert('장바구니가 비었습니다.\\n관심있는 상품을 담아보세요.');location.href='/';</script>";
         }
 
         return "<script>location.href='/order';</script>";
@@ -516,18 +534,55 @@ public class Controller2 {
 
     }
 
+    final private PasswordEncoder passwordEncoder;
+    final private MemberRepository memberRepository;
 
     @PostMapping("/order/payAction")
     @ResponseBody
     public String orderPayAction(OrderContentSaveRequestDto orderContentSaveRequestDto, HttpServletRequest request,
-                                @AuthenticationPrincipal User user, HttpServletResponse response,
-                                @RequestParam String[] colorList, @RequestParam String[] sizeList,
-                                @RequestParam String[] amountList, @RequestParam String[] itemCodeList,
-                                 Model model) {
+                                 @AuthenticationPrincipal User user, HttpServletResponse response,
+                                 @RequestParam String[] colorList, @RequestParam String[] sizeList,
+                                 @RequestParam String[] amountList, @RequestParam String[] itemCodeList,
+                                 @Valid MemberJoinDto memberJoinDto, BindingResult bindingResult) {
+
+        ////////////////////////////////////// member DB에 넣기 (회원가입) /////////////////////////////////
+        String memberId = null;
+
+        if (memberJoinDto.getUsername() != "") {
+
+            LocalDate today = LocalDate.now();
+            memberJoinDto.setMemberJoinDatetime(today);
+
+            if (bindingResult.hasErrors()) {
+                String detail = bindingResult.getFieldError().getDefaultMessage();
+                String bindResultCode = bindingResult.getFieldError().getCode();
+                System.out.println(detail + ":" + bindResultCode);
+                return "<script>alert('" + detail + "'); history.back();</script>";
+            }
+
+            String encodedPassword = passwordEncoder.encode(memberJoinDto.getPassword());
+            memberJoinDto.setPassword(encodedPassword);
+            try {
+                MemberEntity enity = memberJoinDto.toSaveEntity();
+                memberRepository.save(enity);
+            } catch (DataIntegrityViolationException e) {
+                e.printStackTrace();
+                bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+                return "<script>alert('이미 등록된 사용자입니다.');history.back();</script>";
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+                return "<script>alert('회원가입 실패했습니다.');history.back();</script>";
+            }
+
+            memberId = memberJoinDto.getUsername();
+        }
+
+        if (user != null) {
+            memberId = user.getUsername();
+        }
 
         ////////////////////////////////////// cart DB에 넣기 ////////////////////////////////////////////
         String[] cartCodeList = {null, null, null, null, null};
-        String memberId = null;
         Long orderCode = null;
 
         for (int i=0; i<itemCodeList.length; i++) {
@@ -554,11 +609,6 @@ public class Controller2 {
             String orderCode1 = format.format(new Date());
             String orderCode2 = String.format("%04d", (long) (Math.random() * 10000));
             orderCode = Long.parseLong(orderCode1 + orderCode2);
-
-            // memberId
-            if (user != null) {
-                memberId = user.getUsername();
-            }
 
             // cartDiscountPrice, cartItemPrice
             Long cartDiscountPrice = productResponseDto.getItemPrice() * productResponseDto.getItemDiscountRate() / 100;

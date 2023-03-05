@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <th:block th:fragment="container-shopping-basket-orderer">
     <div class="order-hd lnk-tab">
         <strong>주문자 정보</strong>
@@ -19,13 +19,16 @@
                 <div class="title js-useDeliveryOff">
                     <div><strong>주문자정보</strong></div>
                     <div class="cbx-tit">
-                        <input type="checkbox" onclick="onclickCbx()" />
-                        회원가입
+                        <th:block sec:authorize="isAnonymous()">
+                            <input type="checkbox" onclick="onclickCbx()" />
+                            회원가입
+                        </th:block>
                     </div>
                 </div>
                 <ul>
                     <li class="mt-none">
                         <input type="text" name="orderName" placeholder="이름" maxlength="20" id="order-first-input"/>
+                        <input type="hidden" name="memberName" id="memberName">
                     </li>
                     <li class="array-2x">
                         <select id="orderPhone1">
@@ -38,90 +41,12 @@
                         </select>
                         <input type="tel" placeholder="- 없이 숫자만 입력" id="order-sec-input"/>
                         <input type="hidden" name="orderPhone" id="orderPhone"/>
+                        <input type="hidden" name="memberPhone" id="memberPhone"/>
                     </li>
                 </ul>
             </div>
             <!-- 회원가입 -->
-            <div id="userJoinFormDiv" class="receiver-wrap users-join-line">
-                <div class="title bold">회원가입 정보</div>
-                <div class="users-cont nopd">
-                    <div>
-                        <input class="input-st01 users-login-input input-id" type="text" name="user_id" placeholder="아이디(5자~20자 이내)" value="" onBlur="checkTxt('id', this.value)" onchange="checkUserinfo('id', this.value)"/>
-                        <div class="red check-txt check-txt-id">
-                            아이디를 입력해주세요
-                        </div>
-                        <div class="red check-txt check-txt-id2">
-                            아이디는 영문 또는 영문, 숫자를 포함하여 5자~20자 내로 입력
-                            가능합니다. (-,_를 제외한 특수 문자 입력 불가)
-                        </div>
-                        <div class="blue check-txt check-txt-id3">
-                            사용가능한 아이디입니다.
-                        </div>
-                    </div>
-                    <div>
-                        <input
-                                class="input-st01 users-login-input mt-10"
-                                type="email"
-                                name="user_email"
-                                placeholder="이메일(비밀번호 찾기 시 이메일로 발송됩니다"
-                                value=""
-                                onBlur="checkTxt('email', this.value)"
-                                onchange="checkUserinfo('email', this.value)"
-                        />
-                        <div class="red check-txt check-txt-email">
-                            이메일 주소를 입력하세요.
-                        </div>
-                        <div class="red check-txt check-txt-email2">
-                            이메일 형식을 확인 해주세요.
-                        </div>
-                        <div class="blue check-txt check-txt-email3">
-                            가입 가능한 이메일입니다.
-                        </div>
-                    </div>
-                    <div class="passwordTxt">
-                        - 비밀번호를 잃어버린 경우 해당 이메일로 비밀번호 관련 정보가
-                        제공 됩니다. 바르게 입력해주세요.
-                    </div>
-                </div>
-                <div>
-                    <input
-                            id="check-txt-pw"
-                            class="input-st01 users-login-input mt-10"
-                            type="password"
-                            name="user_password"
-                            placeholder="비밀번호 (영문,숫자,특수문자 조합 8자리 이상)"
-                            value=""
-                            onchange="checkUserinfo('pw', this.value)"
-                    />
-                    <div class="red check-txt check-txt-pw">
-                        올바른 비밀번호 형식이 아닙니다.
-                    </div>
-                    <div class="red check-txt check-txt-pw2">
-                        올바른 비밀번호 형식이 아닙니다.
-                    </div>
-                    <div class="blue check-txt check-txt-pw3">
-                        사용가능한 비밀번호 입니다.
-                    </div>
-                </div>
-                <div>
-                    <input
-                            id="check-txt-pwcheck"
-                            class="input-st01 users-login-input mt-10"
-                            type="password"
-                            name="user_password"
-                            placeholder="비밀번호 재입력"
-                            value=""
-                            onBlur="checkPW(this.value)"
-                            onchange="checkTxt('pw', this.value)"
-                    />
-                    <div class="blue check-txt check-txt-pwcheck-same">
-                        비밀번호가 일치합니다.
-                    </div>
-                    <div class="red check-txt check-txt-pwcheck-not">
-                        비밀번호가 일치하지 않습니다.
-                    </div>
-                </div>
-            </div>
+            <div th:replace="/user/order-object/container-shopping-basket-join.html :: container-shopping-basket-join"></div>
             <!-- 수령자정보 -->
             <div class="receiver-wrap same same2">
                 <div class="title js-useDeliveryOff">
@@ -155,7 +80,8 @@
                 </div>
                 <ul>
                     <li class="box open-layer-addr mt-none">
-                        <input id="sample6_postcode" type="text" name="orderRecipientAddrNumber"placeholder="우편번호" readonly onclick="sample6_execDaumPostcode()"/>
+                        <input id="sample6_postcode" type="text" name="orderRecipientAddrNumber" placeholder="우편번호" readonly onclick="sample6_execDaumPostcode()"/>
+                        <input type="hidden" name="memberAddrNumber" id="memberAddrNumber">
                         <!-- 돋보기 이미지 -->
                         <a>
                             <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h24_search.png" alt="" onclick="sample6_execDaumPostcode()"/>
@@ -167,9 +93,11 @@
                     <li class="delivery-address2">
                         <input id="sample6_extraAddress" type="text" placeholder="참고항목" maxlength="100" readonly/>
                         <input type="hidden" id="orderRecipientAddr1" name="orderRecipientAddr1"/>
+                        <input type="hidden" id="memberAddr1" name="memberAddr1"/>
                     </li>
                     <li class="delivery-address2">
                         <input id="sample6_detailAddress" name="orderRecipientAddr2" type="text" placeholder="나머지주소" maxlength="100"/>
+                        <input type="hidden" id="memberAddr2" name="memberAddr2"/>
                     </li>
                     <li class="relative-li">
                         <select name="message">

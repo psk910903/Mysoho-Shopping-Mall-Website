@@ -34,7 +34,7 @@
           <!-- 결제방법 -->
           <div th:replace="/user/order-object/container-shopping-basket-payment.html :: container-shopping-basket-payment"></div>
           <!-- 약관/결제 전체 동의 -->
-          <div th:replace="/user/order-object/container-shopping-basket-concent.html :: container-shopping-basket-concent"></div>
+          <div th:replace="/user/order-object/container-shopping-basket-consent.html :: container-shopping-basket-consent"></div>
           <!-- 결제 요약 -->
           <div th:replace="/user/order-object/container-shopping-basket-summary.html :: container-shopping-basket-summary"></div>
         </form>
@@ -172,7 +172,7 @@
           document.getElementById("sample6_postcode").value = [[${member}]].memberAddrNumber; // 우편번호
           document.getElementById("sample6_address").value = [[${member}]].memberAddr1; // 기본주소
 
- //         let memberAddr2 = [[${member}]].memberAddr2.split(")");
+ //         let memberAddr = [[${member}]].memberAddr1.split(",(");
  //         if (memberAddr2.length == 1){
   //          document.getElementById("sample6_extraAddress").value = memberAddr2 + ")"; // 참고항목
   //        }else if(memberAddr2.length == 2){
@@ -201,7 +201,10 @@
           addCartInput();
           form.submit();
         }
-        else {
+        else if(alertString == "장바구니가 비었습니다.\n관심있는 상품을 담아보세요."){
+          alert(alertString);
+          location.href = "/";
+        }else{
           alert(alertString);
         }
 
@@ -216,6 +219,11 @@
         let checkPhone = /^[0-9]{10,11}$/; //이메일 유효성 검사
 
         // cart 숫자
+        if (checkList.length == 0){
+          return "장바구니가 비었습니다.\n관심있는 상품을 담아보세요."
+        }else if (checkList.length > 5){
+          return "5개 이하의 카트를 선택해 구매해주세요."
+        }
 
         // 주문자 정보 이름
         let orderName = document.getElementById("order-first-input").value;
@@ -244,21 +252,44 @@
         }
 
         // 수령자 주소 우편번호
-
-
-        // 수령자 주소 기본 주소
+        let orderRecipientAddrNumber = document.getElementById("sample6_postcode").value;
+        if (orderRecipientAddrNumber == ""){
+         return "수령자 주소를 정확히 입력해주세요."
+        }
 
         // 수령자 주소 나머지 주소
+        let orderRecipientAddr2 = document.getElementById("sample6_detailAddress").value;
+        if (orderRecipientAddr2 == ""){
+         return "수령자 주소를 정확히 입력해주세요."
+        }
+
+        // 약관 동의
+        let consents = document.getElementsByName("terms_agree");
+
+        for (let idx = 0; idx < consents.length; idx++){
+          if (!consents[idx].checked && idx!=2){
+            return "약관/결제 동의를 해주세요."
+          }
+        }
+
 
 
         return "success";
       }
 
       function combineInput(){
+        // memberName
+        let orderName = document.getElementById("order-first-input").value;
+        document.getElementById("memberName").value = orderName;
+
         // orderPhone
         let orderPhone1 = document.getElementById("orderPhone1").value;
         let orderPhone2 = document.getElementById("order-sec-input").value;
         document.getElementById("orderPhone").value = orderPhone1 + orderPhone2;
+
+        // memberPhone
+        let orderPhone = document.getElementById("orderPhone").value;
+        document.getElementById("memberPhone").value = orderPhone;
 
         // orderRecipientPhone
         let orderRecipientPhone1 = document.getElementById("orderRecipientPhone1").value;
@@ -270,6 +301,17 @@
         let orderRecipientAddr12 = document.getElementById("sample6_extraAddress").value;
         document.getElementById("orderRecipientAddr1").value = orderRecipientAddr11 + "," + orderRecipientAddr12;
 
+        // memberAddrNumber
+        let orderRecipientAddrNumber = document.getElementById("sample6_postcode").value;
+        document.getElementById("memberAddrNumber").value = orderRecipientAddrNumber;
+
+        // memberAddr1
+        let orderRecipientAddr1 = document.getElementById("orderRecipientAddr1").value;
+        document.getElementById("memberAddr1").value = orderRecipientAddr1;
+
+        // memberAddr2
+        let orderRecipientAddr2 = document.getElementById("sample6_detailAddress").value;
+        document.getElementById("memberAddr2").value = orderRecipientAddr2;
       }
 
       function addCartInput(){

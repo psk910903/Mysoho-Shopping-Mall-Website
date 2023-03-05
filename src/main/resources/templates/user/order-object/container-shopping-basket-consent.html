@@ -1,17 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<th:block th:fragment="container-shopping-basket-concent">
+<th:block th:fragment="container-shopping-basket-consent">
 
     <div class="order-from-new">
         <div class="order-hd">
-            <input
-                    id="agreeAllBtn"
-                    name="ckeck1"
-                    type="checkbox"
-                    autocomplete="off"
-                    onclick="onclickAgree()"
-            />
-            <label ></label>
+            <input id="agreeAllBtn" name="ckeck1" type="checkbox" autocomplete="off" onclick="onclickAgree()"/>
+            <label></label>
             <div>
                 <strong> 약관/결제 전체 동의</strong>
             </div>
@@ -20,44 +14,28 @@
             <ul>
                 <li>
                     <div>
-                        <input
-                                type="checkbox"
-                                name="terms_agree"
-                                autocomplete="off"
-                        />
+                        <input type="checkbox" name="terms_agree" autocomplete="off"/>
                         <div>이용약관 동의(필수)</div>
                     </div>
                     <a href="javascript:openPopup3()">보기</a>
                 </li>
                 <li>
                     <div>
-                        <input
-                                type="checkbox"
-                                name="terms_agree"
-                                autocomplete="off"
-                        />
+                        <input type="checkbox" name="terms_agree" autocomplete="off"/>
                         <div>개인정보 수집 이용 동의 (필수)</div>
                     </div>
                     <a href="javascript:openPopup4()">보기</a>
                 </li>
                 <li>
                     <div>
-                        <input
-                                type="checkbox"
-                                name="terms_agree"
-                                autocomplete="off"
-                        />
+                        <input type="checkbox" name="terms_agree" autocomplete="off"/>
                         <div>개인정보 수집 이용 동의 (선택)</div>
                     </div>
                     <a href="javascript:openPopup4()">보기</a>
                 </li>
                 <li>
                     <div>
-                        <input
-                                type="checkbox"
-                                name="terms_agree"
-                                autocomplete="off"
-                        />
+                        <input type="checkbox" name="terms_agree" autocomplete="off"/>
                         <div>위 구매조건 확인 및 결제진행 동의</div>
                     </div>
                 </li>
