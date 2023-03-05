@@ -524,6 +524,7 @@ public class Controller2 {
             encodedChangedColor = URLEncoder.encode(changedColor, "UTF-8");
             cookie = new Cookie("item_idx."+ itemNo + "." + encodedChangedColor + "." + changedSize, changedAmount);
             cookie.setPath("/");
+            cookie.setMaxAge(60*60*24*3);
             response.addCookie(cookie);;
 
         }catch (Exception e){

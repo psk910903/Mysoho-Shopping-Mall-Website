@@ -20,7 +20,7 @@
                     <div><strong>주문자정보</strong></div>
                     <div class="cbx-tit">
                         <th:block sec:authorize="isAnonymous()">
-                            <input type="checkbox" onclick="onclickCbx()" />
+                            <input type="checkbox" onclick="adjustJoinForm()" id="joinCheckBox" />
                             회원가입
                         </th:block>
                     </div>
@@ -100,16 +100,17 @@
                         <input type="hidden" id="memberAddr2" name="memberAddr2"/>
                     </li>
                     <li class="relative-li">
-                        <select name="message">
+                        <select name="message" onchange="showDirectInput();" id="msgToCourier">
                             <option value="0" selected>배송 전 연락 바랍니다.</option>
                             <option value="1">부재시 휴대폰으로 연락 바랍니다.</option>
                             <option value="2">부재시 경비실에 맡겨주세요.</option>
                             <option value="3">집 앞에 놓아주세요.</option>
                             <option value="4">택배함에 넣어주세요.</option>
-                            <option value="direct">직접 입력</option>
+                            <option value="direct">직접입력</option>
                         </select>
                         <!-- 셀렉트 여는 이모티콘 -->
                         <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt="" class="imgOpen"/>
+                        <input type="text" id="directInput" placeholder="직접입력" style="display:none;">
                     </li>
                 </ul>
             </div>

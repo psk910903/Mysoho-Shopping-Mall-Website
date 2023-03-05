@@ -170,16 +170,16 @@
           document.getElementById("orderRecipientPhone1").value = [[${member}]].memberPhone.substr(0,3); // 주문자 정보 전화번호 (앞 3자리)
           document.getElementById("order-sec-input").value = [[${member}]].memberPhone.substr(3); // 주문자 정보 전화번호 (뒷자리)
           document.getElementById("sample6_postcode").value = [[${member}]].memberAddrNumber; // 우편번호
-          document.getElementById("sample6_address").value = [[${member}]].memberAddr1; // 기본주소
 
- //         let memberAddr = [[${member}]].memberAddr1.split(",(");
- //         if (memberAddr2.length == 1){
-  //          document.getElementById("sample6_extraAddress").value = memberAddr2 + ")"; // 참고항목
-  //        }else if(memberAddr2.length == 2){
-  ///          document.getElementById("sample6_extraAddress").value = memberAddr2[0] + ")"; // 참고항목
-   //         document.getElementById("sample6_detailAddress").value = memberAddr2[1]; // 나머지주소
-   //       }
-          document.getElementById("memberMileage").value = 0; // 마일리지
+
+          let memberAddr1 = [[${member}]].memberAddr1.split(",(");
+          if (memberAddr1.length == 1){
+            document.getElementById("sample6_address").value = memberAddr1[0]; // 기본주소
+          }else if(memberAddr1.length == 2){
+            document.getElementById("sample6_address").value = memberAddr1[0]; // 기본주소
+            document.getElementById("sample6_extraAddress").value = "(" + memberAddr1[1]; // 참고항목
+          }
+          document.getElementById("sample6_detailAddress").value = [[${member}]].memberAddr2; // 나머지주소
         }
 
       }
@@ -235,7 +235,7 @@
         let orderPhoneBack = document.getElementById("order-sec-input").value;
         let orderPhone = document.getElementById("orderPhone").value;
         if (orderPhoneBack == "" || !checkPhone.test(orderPhone)){
-         return "주문자 휴대폰 번호를 정확히 입력해주세요."
+          return "주문자 휴대폰 번호를 정확히 입력해주세요."
         }
 
         // 수령자 정보 이름
@@ -248,20 +248,29 @@
         let orderRecipientPhoneBack = document.getElementById("order-sec-input-copy").value;
         let orderRecipientPhone = document.getElementById("orderRecipientPhone").value;
         if (orderRecipientPhoneBack == "" || !checkPhone.test(orderRecipientPhone)){
-         return "수령자 휴대폰 번호를 정확히 입력해주세요."
+          return "수령자 휴대폰 번호를 정확히 입력해주세요."
         }
 
         // 수령자 주소 우편번호
         let orderRecipientAddrNumber = document.getElementById("sample6_postcode").value;
         if (orderRecipientAddrNumber == ""){
-         return "수령자 주소를 정확히 입력해주세요."
+          return "수령자 주소를 정확히 입력해주세요."
         }
 
         // 수령자 주소 나머지 주소
         let orderRecipientAddr2 = document.getElementById("sample6_detailAddress").value;
         if (orderRecipientAddr2 == ""){
-         return "수령자 주소를 정확히 입력해주세요."
+          return "수령자 주소를 정확히 입력해주세요."
         }
+
+        // 무통장입금 계좌전호 선택
+        let withoutBankbook = document.getElementById("pay2");
+        let account = document.getElementById("paySelect");
+        let selectedAccount = account.options[account.selectedIndex].value;
+        if (withoutBankbook.checked && selectedAccount == ""){
+          return "계좌번호를 선택해주세요."
+        }
+
 
         // 약관 동의
         let consents = document.getElementsByName("terms_agree");
@@ -272,6 +281,32 @@
           }
         }
 
+        // 회원가입 할 경우
+        if (document.getElementById("joinCheckBox").checked){
+          // 아이디
+          let username = document.getElementById("username").value;
+          if (username == "" || !checkId.test(username)){
+           return "아이디를 정확히 입력해주세요."
+          }
+
+          // 이메일
+          let memberEmail = document.getElementById("memberEmail").value;
+          if (memberEmail == "" || !checkEmail.test(memberEmail)){
+           return "이메일를 정확히 입력해주세요."
+          }
+
+          // 비밀번호
+          let password = document.getElementById("check-txt-pw").value;
+          if (password == "" || !checkPW.test(password)){
+           return "비밀번호를 정확히 입력해주세요."
+          }
+
+          // 비밀번호 재입력
+          let pwcheck = document.getElementById("check-txt-pwcheck").value;
+          if (pwcheck != password){
+           return "비밀번호 재입력칸을 확인해주세요."
+          }
+        }
 
 
         return "success";
@@ -299,7 +334,11 @@
         // orderRecipientAddr1
         let orderRecipientAddr11 = document.getElementById("sample6_address").value;
         let orderRecipientAddr12 = document.getElementById("sample6_extraAddress").value;
-        document.getElementById("orderRecipientAddr1").value = orderRecipientAddr11 + "," + orderRecipientAddr12;
+        if (orderRecipientAddr12 == ""){
+          document.getElementById("orderRecipientAddr1").value = orderRecipientAddr11;
+        }else{
+          document.getElementById("orderRecipientAddr1").value = orderRecipientAddr11 + "," + orderRecipientAddr12;
+        }
 
         // memberAddrNumber
         let orderRecipientAddrNumber = document.getElementById("sample6_postcode").value;

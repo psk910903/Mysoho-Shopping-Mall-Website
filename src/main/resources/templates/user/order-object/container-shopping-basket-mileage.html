@@ -22,7 +22,8 @@
         <div class="title">
           <div>
             보유적립금
-            <span class="js-userMileageText">0원</span>
+            <span class="js-userMileageText" sec:authorize="isAnonymous()">0원</span>
+            <span class="js-userMileageText" sec:authorize="isAuthenticated()" th:text="|${member.memberMileage}원|">0원</span>
           </div>
           <div class="cbx-tit">
             <th:block sec:authorize="isAuthenticated()">
@@ -33,7 +34,8 @@
         </div>
         <ul>
           <li>
-            <input id="memberMileage" type="tel" placeholder="로그인 후, 사용 가능합니다." readonly="readonly" class="readonly-input"/>
+            <input sec:authorize="isAnonymous()" type="tel" placeholder="로그인 후, 사용 가능합니다." readonly="readonly" class="readonly-input"/>
+            <input sec:authorize="isAuthenticated()" type="tel" value="0" class="readonly-input" style="background:white;"/>
           </li>
         </ul>
       </div>

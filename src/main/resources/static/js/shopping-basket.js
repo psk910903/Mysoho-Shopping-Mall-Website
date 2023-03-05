@@ -165,7 +165,7 @@ function sample6_execDaumPostcode() {
         }
         // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
         if (extraAddr !== "") {
-          extraAddr = " (" + extraAddr + ")";
+          extraAddr = "(" + extraAddr + ")";
         }
         // 조합된 참고항목을 해당 필드에 넣는다.
         document.getElementById("sample6_extraAddress").value = extraAddr;
@@ -350,6 +350,24 @@ function finalOption(type, option ,index) {
   document.querySelector("#" + type + "-wrap" + index).style.display = "none";
   document.querySelector("#final-"+ type + index).innerText = option;
   document.querySelector("#final-"+ type + "-input"+ index).value = option;
+}
+
+function adjustJoinForm() {
+  if (document.querySelector("#joinCheckBox").checked == true) {
+    document.querySelector("#userJoinFormDiv").style.display = "block";
+  } else {
+    document.querySelector("#userJoinFormDiv").style.display = "none";
+  }
+}
+
+function showDirectInput(){
+  let msgToCourier = document.getElementById("msgToCourier");
+  let selected = msgToCourier.options[msgToCourier.selectedIndex].value;
+  if (selected == "direct"){
+    document.getElementById("directInput").style.display = "block";
+  }else{
+    document.getElementById("directInput").style.display = "none";
+  }
 }
 
 
