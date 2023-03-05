@@ -17,4 +17,6 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity,Long> {
     @Query(value = "SELECT * FROM review WHERE review_datetime BETWEEN :start AND :end order BY review_datetime desc", nativeQuery = true)
     Page<ReviewEntity> findByReviewNoContaining(@Param(value="start")String start, @Param(value="end")String end, Pageable sort);
 
+
+
 }

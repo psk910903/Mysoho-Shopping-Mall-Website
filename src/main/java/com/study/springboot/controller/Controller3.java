@@ -5,19 +5,17 @@ import com.study.springboot.dto.security.MemberJoinDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.review.ReviewSaveResponseDto;
-import com.study.springboot.entity.CartEntity;
-import com.study.springboot.entity.MemberEntity;
-import com.study.springboot.entity.OrderEntity;
-import com.study.springboot.repository.CartRepository;
-import com.study.springboot.repository.MemberRepository;
-import com.study.springboot.repository.OrderRepository;
-import com.study.springboot.repository.ReviewRepository;
+import com.study.springboot.entity.*;
+import com.study.springboot.repository.*;
 import com.study.springboot.service.ProductService;
 import com.study.springboot.service.ReviewService;
 import com.study.springboot.service.Service3;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -46,6 +44,7 @@ public class Controller3 {
     private final MemberRepository memberRepository;
     final private PasswordEncoder passwordEncoder;
     final private Service3 service3;
+    private final ProductRepository productRepository;
     final private OrderRepository orderRepository;
     final private CartRepository cartRepository;
 
@@ -82,13 +81,13 @@ public class Controller3 {
                 list = reviewService.findByKeyword(findBy, keyword, page);
             }
         }
-        //출력페이지 5개로 고정
+
         totalPage = list.getTotalPages();
         pageList = reviewService.getPageList(totalPage, page);
 
         List<String> itemList = new ArrayList<>();
         for (ReviewResponseDto dto : list) {
-            String itemNo = dto.getItemNo();//리뷰의 itemNo으로 product에서 정보를(dto)를 찾아옴
+            String itemNo = dto.getItemNo();
             ProductResponseDto itemDto = productService.findById(Long.parseLong(itemNo));
             itemList.add(itemDto.getItemName());//item이름을 itemList에 넣어줌
         }
@@ -317,17 +316,56 @@ public class Controller3 {
     //나의 상품 문의 내역 -> controller2에 있음
     //나의 Q&A->controller2에 있음
 
-    //나의 후기 내역 - 없어서 페이지만 연결
+    //나의 후기 내역
     @RequestMapping("/review/myList")
-    public String myReview(@AuthenticationPrincipal User user) {
+    public String myReview(@AuthenticationPrincipal User user,
+                           @RequestParam(value = "dateStart", required = false) String dateStart,
+                           @RequestParam(value = "dateEnd", required = false) String dateEnd,
+                           @RequestParam(value = "page", defaultValue = "0") int page,
+                           Model model) {
         String memberId = user.getUsername();
-        List<Long> list = orderRepository.findByMemberIdAndOrderState(memberId,"배송완료");
-        for (Long l : list){
-            System.out.println(l);
-            List<CartEntity> list1 = cartRepository.findByOrderCode(l);
+        Page<ReviewResponseDto> list = null;
+        //int totalPage;
+        //List<Integer> pageList;
+
+        if( (dateStart ==null) && (dateEnd == null) ){
+            //멤버 id로 찾은 결과를 10개씩 가져옴
+             list = reviewService.findByMemberId(memberId,page);
         }
+
+
+
+
+        int totalPage = list.getTotalPages();
+        List<Integer> pageList = reviewService.getPageList(totalPage,page);
+
+//        List<ProductEntity> itemList = new ArrayList<>();
+//        for (ReviewResponseDto dto : list) {
+//            String itemNo = dto.getItemNo();//리뷰의 itemNo으로 product에서 정보를(dto)를 찾아옴
+//            ProductEntity itemEntity = productRepository.findById(Long.parseLong(itemNo)).orElseThrow();
+//            itemList.add(itemEntity);//item이름을 itemList에 넣어줌
+//        }
+        List<String> itemList = new ArrayList<>();
+        for (ReviewResponseDto dto : list) {
+            String itemNo = dto.getItemNo();
+            ProductResponseDto itemDto = productService.findById(Long.parseLong(itemNo));
+            itemList.add(itemDto.getItemName());//item이름을 itemList에 넣어줌
+        }
+
+
+        model.addAttribute("list",list);
+        model.addAttribute("itemList", itemList);
+        model.addAttribute("pageList", pageList);
+        model.addAttribute("dateStart", dateStart);
+        model.addAttribute("dateEnd", dateEnd);
+
         return "user/user/review-mylist";
     }
+    @RequestMapping("/review/writeForm")
+    public String myReviewWrite(){
+        return "user/user/review-write";
+    }
+
 
 
 

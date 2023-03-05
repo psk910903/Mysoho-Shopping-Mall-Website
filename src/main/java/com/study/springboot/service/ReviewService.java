@@ -197,4 +197,12 @@ public class ReviewService {
         return true;
     }
 
+    public Page<ReviewResponseDto> findByMemberId(final String memberId,final int page){
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("reviewNo"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        Page<ReviewEntity> list =  reviewRepository.findByMemberIdContaining(memberId, pageable);
+        return list.map(ReviewResponseDto::new);
+    }
+
 }//class

@@ -32,7 +32,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     @Query(value = "SELECT * FROM `order` WHERE order_name LIKE CONCAT('%',:sender,'%') AND order_phone LIKE CONCAT('%',:phone,'%') and member_id is NULL order BY order_datetime desc", nativeQuery = true)
     List<OrderEntity> findByOrderNonMember(@Param(value="sender")String sender, @Param(value="phone")String phone  );
     //리뷰
-    @Query(value = "SELECT order_code FROM `order` WHERE member_id = :memberId and order_state = :orderState" ,nativeQuery = true)
-    List<Long> findByMemberIdAndOrderState(String memberId, String orderState);
+//    @Query(value = "SELECT order_code FROM `order` WHERE member_id = :memberId and order_state = :orderState" ,nativeQuery = true)
+//    List<Long> findByMemberIdAndOrderState(String memberId, String orderState);
 
 }

@@ -181,6 +181,20 @@
       .font-gray{
         color: gray;
       }
+      .threedot {
+  width: 40px;
+  height: 40px;
+  text-align: center;
+}
+.threedot img {
+  width: 3px;
+}
+.threedot active{
+
+}
+#box{
+  display:none;
+}
     </style>
 </head>
 <body>
@@ -195,72 +209,87 @@
   <!-- 나의 상품문의 -->
   <div class="container-qna-user">
     <div class="users-title-line-hd-wrap">
-      <a href="/" class="users-title-line-hd">
-        <div>나의 구매내역</div>
+      <a href="/review/myList" class="users-title-line-hd" id="this-page">
+        <div>내가 작성한 리뷰</div>
       </a>
-      <a href="/새로만들페이지" class="users-title-line-hd" id="this-page">
-        <div>나의 상품문의</div>
+      <a href="/review/writeForm" class="users-title-line-hd" >
+        <div>작성가능한 리뷰</div>
       </a>
     </div>
+    <table th:each="review :${ list }"  border="1">
+      <tr>
+        <td>상품사진</td>
+        <td>상품사진</td>
+        <td>
+          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png" alt=""/>
+          <div class="box"><a>수정</a>
+          <a>삭제</a></div>
 
-    <!--        문의가 없을 때 ---------------------------------------------------------------------------------->
-<!--    <div class="txt-detail non result" th:if="${#lists.size(qnaList)} == 0" >-->
-<!--      <div>등록된 Q&A가 없습니다.</div>-->
-<!--      <div onclick="openQnAwrite()" class="txt-detail-btn">-->
-<!--        <img-->
-<!--                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_write_btn.png"-->
-<!--                alt=""-->
-<!--        />문의 작성-->
-<!--      </div>-->
-<!--    </div>-->
+        </td>
+      </tr>
 
-    <!-- 문의가 있을 때 시작 ---------------------------------------------------------------------------------->
-<!--    <div class="btnBwrite js-btnMoveWritePage" th:unless="${#lists.size(qnaList)} == 0"> &lt;!&ndash; 문의 작성 시작&ndash;&gt;-->
-<!--      <a href="javascript:openPopupQnAWrite()">-->
-<!--        <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/bg_ico_write.png" alt=""/>-->
-<!--        <strong> 문의작성</strong>-->
-<!--      </a>-->
-<!--    </div> &lt;!&ndash; 문의 작성 끝&ndash;&gt;-->
+      <tr >
+        <td colspan="3">
+          <span th:if="${review.reviewStar}==5">★★★★★</span>
+          <span th:if="${review.reviewStar}==4">★★★★</span>
+          <span th:if="${review.reviewStar}==3">★★★</span>
+          <span th:if="${review.reviewStar}==2">★★</span>
+          <span th:if="${review.reviewStar}==1">★</span>
+          <span th:text="${review.reviewStar}"></span>
+        </td>
+      </tr>
+      <tr >
+        <td colspan="3" th:text="${review.reviewContent}"></td>
+      </tr>
+      <tr >
+        <td colspan="3"><img  th:src="${review.reviewImgUrl}"></td>
+      </tr>
 
-<!--    <div class="qna-list" th:unless="${#lists.size(qnaList)} == 0" th:each="qna, status:${qnaList}">-->
-<!--      <div class="qna-writing"> &lt;!&ndash; writing 시작 &ndash;&gt;-->
-<!--        <th:block th:if="${replyCountList[status.index]} == 0">-->
-<!--          <div class="writing-state">답변<br />대기</div>-->
-<!--        </th:block>-->
-<!--        <th:block th:unless="${replyCountList[status.index]} == 0">-->
-<!--          <div class="writing-state brackground-green">답변<br />완료</div>-->
-<!--        </th:block>-->
-<!--        <div class="writing-explain">-->
-<!--          <div class="writing-content">-->
-<!--            <span th:text="${qna.qnaContent}" th:class="${#strings.equals(qna.qnaSecret, '비공개') ? 'font-gray' : ''}">문의 내용</span>-->
-<!--            <img th:if="${#strings.equals(qna.qnaSecret, '비공개')}" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_qa_lock.png"/>-->
-<!--          </div>-->
-<!--          <div class="writing-info">-->
-<!--            <div class="writing-type" th:text="${qna.qnaCategory}">상품문의</div>-->
-<!--            <div class="writing-detail bar" th:text="${memberHiddenName}">닉네임</div>-->
-<!--            <div class="writing-detail" th:text="${#temporals.format(qna.qnaDate, 'yyyy-MM-dd')}">날짜</div>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="writing-icon">-->
-<!--          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png" th:onclick="|javascript:popupAction('${status.index}')|"/>-->
-<!--          <div class="writing-action" th:id="|writing-action${status.index}|" >-->
-<!--            <form method="POST" action="/qna/test1" target="modifyPopup">-->
-<!--              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
-<!--              <input type="hidden" name="qnaId" th:value="${qna.qnaId}">-->
-<!--              <button>수정</button>-->
-<!--            </form>-->
-<!--            <form th:id="|deleteForm${status.index}|" method="POST" action="/qna/user/deleteAction">-->
-<!--              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
-<!--              <input type="hidden" name="qnaId" th:value="${qna.qnaId}">-->
-<!--              <button type="button" th:onclick="|javascript:checkDelete('${status.index}')|">삭제</button>-->
-<!--            </form>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div> &lt;!&ndash; writing 끝 &ndash;&gt;-->
+    </table>
 
-<!--      <div class="list-gap"></div>-->
-<!--    </div>-->
-    <!-- 문의가 있을 때 끝 ---------------------------------------------------------------------------------->
+
+    <div class="container"> <!-- 페이지 시작 -->
+      <div th:if="${!list.isEmpty()}">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" th:classappend="${!list.hasPrevious} ? 'disabled'"> <!-- 이전 버튼 시작 -->
+            <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+              <a class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${list.number-1}|">
+                <span>이전</span>
+              </a>
+            </th:block>
+            <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+              <a class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${list.number-1}&dateStart=${dateStart}&dateEnd=${dateEnd}&findBy=${findBy}&keyword=${keyword}|">
+                <span>이전</span>
+              </a>
+            </th:block>
+          </li> <!-- 이전 버튼 끝 -->
+          <li th:each="page: ${pageList}"
+              th:classappend="${page == list.number} ? 'active'"
+              class="page-item"> <!-- 숫자 페이지 버튼 시작 -->
+            <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+              <a th:text="${page+1}" class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${page}|"></a>
+            </th:block>
+            <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+              <a th:text="${page+1}" class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${page}&dateStart=${dateStart}&dateEnd=${dateEnd}&findBy=${findBy}&keyword=${keyword}|"></a>
+            </th:block>
+          </li> <!-- 숫자 페이지 버튼 끝 -->
+          <li class="page-item" th:classappend="${!list.hasNext} ? 'disabled'"> <!-- 다음 버튼 시작 -->
+            <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+              <a class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${list.number+1}|">
+                <span>다음</span>
+              </a>
+            </th:block>
+            <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+              <a class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${list.number+1}&dateStart=${dateStart}&dateEnd=${dateEnd}&findBy=${findBy}&keyword=${keyword}|">
+                <span>다음</span>
+              </a>
+            </th:block>
+          </li> <!-- 다음 버튼 끝 -->
+        </ul>
+      </div>
+    </div> <!-- 페이지 끝 -->
+  </div>
+
 
   </div>
   <!-- 푸터 -->

@@ -1,12 +1,19 @@
 package com.study.springboot.service;
 
 
+import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.security.MemberJoinDto;
 import com.study.springboot.entity.MemberEntity;
+import com.study.springboot.entity.ReviewEntity;
 import com.study.springboot.repository.MemberRepository;
 
+import com.study.springboot.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -18,11 +25,14 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class Service3 {
     final private MemberRepository memberRepository;
+    final private ReviewRepository reviewRepository;
     final private JavaMailSender javaMailSender;
     final private PasswordEncoder passwordEncoder;
 
@@ -118,5 +128,8 @@ public class Service3 {
         }
         return password;
     }
+
+    //리뷰
+
 
 }//class
