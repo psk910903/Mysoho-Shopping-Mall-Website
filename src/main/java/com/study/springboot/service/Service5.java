@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,9 +37,11 @@ public class Service5 {
     }
 
     public List<InquiryResponseDto> findAll() {
-        List<InquiryEntity> list = inquiryRepository.findAll();
-        return list.stream().map(InquiryResponseDto::new).collect(Collectors.toList());
+        Sort sort = Sort.by(Sort.Direction.DESC, "inquiryNo");
+        List<InquiryEntity> list = inquiryRepository.findAll(sort);
+                return list.stream().map(InquiryResponseDto::new).collect(Collectors.toList());
     }
+
 }
 
 

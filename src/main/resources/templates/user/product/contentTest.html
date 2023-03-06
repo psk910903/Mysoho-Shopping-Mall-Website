@@ -551,15 +551,20 @@
                   <div class="tit-wrap js-qna">
                     <div >
                       <!--                          0303-->
+                      <th:block th:if="${dto2.inquirySecret}=='비공개'">
+                        <div class="tit js-qnaContents" >비밀글입니다.</div>
+                        </th:block>
+                      <th:block th:unless="${dto2.inquirySecret}=='비공개'">
                       <div class="tit js-qnaContents" th:text="${dto2.inquiryContent}">문의합니다.</div>
+                        <th:block>
                       <div class="qna-info">
                         <div class="dil js-qnaType bar">상품</div>
-<!--                        <th:block th:if="${dto2.inquiryNickname == null}">-->
+                        <th:block th:if="${dto2.inquiryNickname == null}">
                           <div class="name js-qnaWriter bar" th:text="${namelist[status.index]}">dl******...</div>
-<!--                        </th:block>-->
-<!--                        <th:block th:unless="${dto2.inquiryNickname == null}">-->
-<!--                          <div class="name js-qnaWriter bar" th:text="${dto2.inquiryNickname}">dl******...</div>-->
-<!--                        </th:block>-->
+                        </th:block>
+                        <th:block th:unless="${dto2.inquiryNickname == null}">
+                          <div class="name js-qnaWriter bar" th:text="${dto2.inquiryNickname}">dl******...</div>
+                        </th:block>
                         <div class="date js-qnaDate" th:text="${dto2.inquiryDatetime}">2022.04.11</div>
                       </div>
                       </th:block>
