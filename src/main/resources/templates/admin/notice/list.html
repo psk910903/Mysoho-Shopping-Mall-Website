@@ -34,13 +34,11 @@
             </div>
         <div class="content" style="width:100%"> <!-- content 시작 -->
             <div class="contentWrap">
-
-            <div class="container m-0" style="width:100%"> <!-- 검색 시작 -->
-                <form action="/admin/notice/list" method="GET" class="row align-items-center" >
+                <form action="/admin/notice/list" method="GET" >
                     <input type="hidden" name="page" value="0"> <!-- 페이지를 0으로 설정 -->
                     <table class="table table-bordered">
                         <tr>
-                            <th style="text-align: center;" class="table-light w250" table-light>공지유형</th>
+                            <th style="text-align: center;" class="table-light align-middle w250">공지유형</th>
                             <td>
                                 <a href="/admin/notice/list?page=0" class="btn btn-outline-secondary">전체보기</a>  <!-- 전체보기 -->
                                 <a href="/admin/notice/list?findBy=type&keyword=공지사항&page=0" class="btn btn-outline-secondary">공지사항</a> <!-- 공지사항 보기 -->
@@ -48,7 +46,7 @@
                             </td>
                         </tr>
                         <input type="hidden" name="page" value="0">
-                        <th style="text-align: center;" class="table-light w250 table-light">검색조건</th>
+                        <th style="text-align: center;" class="table-light align-middle w250">검색조건</th>
                         <td >
                             <div class="input-group ">
                                 <select name="findBy" style="padding-left: 10px">
@@ -62,7 +60,6 @@
                         </tr>
                     </table>
                 </form>
-            </div> <!-- 검색 끝 -->
             </div>
 
 

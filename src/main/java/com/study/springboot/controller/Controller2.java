@@ -143,6 +143,10 @@ public class Controller2 {
     @ResponseBody
     public String noticeModifyAction(NoticeUpdateRequestDto dto) {
 
+        if(dto.getNoticeTitle().length() > 250){
+            return "<script>alert('제목은 250자 이내로 써주세요.'); history.back();</script>";
+        }
+
         Boolean success = noticeService.update(dto);
         if(success) {
             return "<script>alert('게시글 수정 완료'); location.href='/admin/notice/content/" + dto.getNoticeNo() + "';</script>";
@@ -155,6 +159,10 @@ public class Controller2 {
     @PostMapping("/admin/notice/writeAction")
     @ResponseBody
     public String noticeWriteAction(NoticeSaveRequestDto dto) {
+
+        if(dto.getNoticeTitle().length() > 250){
+            return "<script>alert('제목은 250자 이내로 써주세요.'); history.back();</script>";
+        }
 
         Boolean success = noticeService.save(dto);
         if(success) {
