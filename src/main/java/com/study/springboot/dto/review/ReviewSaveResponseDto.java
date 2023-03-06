@@ -18,6 +18,7 @@ public class ReviewSaveResponseDto {
     private String reviewContent;
     private String reviewImgUrl;
     private String reviewExpo;
+    private LocalDateTime reviewDatetime;
 
     public ReviewEntity toUpdateEntity(){
         return ReviewEntity.builder()
@@ -39,6 +40,7 @@ public class ReviewSaveResponseDto {
                 .reviewContent(reviewContent)
                 .reviewExpo(reviewExpo)
                 .reviewImgUrl(reviewImgUrl)
+                .reviewDatetime(reviewDatetime)
                 .build();
     }
 

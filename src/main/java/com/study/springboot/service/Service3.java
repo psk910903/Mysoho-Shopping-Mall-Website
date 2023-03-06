@@ -4,9 +4,11 @@ package com.study.springboot.service;
 import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.security.MemberJoinDto;
 import com.study.springboot.entity.MemberEntity;
+import com.study.springboot.entity.OrderEntity;
 import com.study.springboot.entity.ReviewEntity;
 import com.study.springboot.repository.MemberRepository;
 
+import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -35,6 +37,8 @@ public class Service3 {
     final private ReviewRepository reviewRepository;
     final private JavaMailSender javaMailSender;
     final private PasswordEncoder passwordEncoder;
+
+    final private OrderRepository orderRepository;
 
     @Transactional(readOnly = true)
     public MemberEntity findByUserId(final String memberId){
@@ -130,6 +134,10 @@ public class Service3 {
     }
 
     //리뷰
+    public void getList(final String memberId,final String orderState){
+        List<OrderEntity> orderList = orderRepository.findByMemberIdAndOrderState(memberId,"배송완료");
+
+    }
 
 
 }//class

@@ -22,8 +22,8 @@ public interface CartRepository extends JpaRepository<CartEntity, Long> {
     @Query(value = "SELECT * FROM cart WHERE member_id = :id", nativeQuery = true)
     List<CartEntity> findByCartMemberId(String id);
 
-//    @Query(value = "SELECT * FROM cart WHERE order_code = :order_code", nativeQuery = true)
-//    List<CartEntity> findByOrderCode ( Long orderCode );
+    @Query(value = "SELECT cart_no FROM cart WHERE order_code = :order_code", nativeQuery = true)
+    List<Long> findByOrderCode ( Long order_code );
 
 
 

@@ -43,143 +43,9 @@
         color: #000;
         font-weight: bold;
       }
-      .txt-detail {
-        max-height: 864px;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 70px 0;
-        font-size: 14px;
-        flex-direction: column;
-      }
-      .txt-detail-btn {
-        width: 120px;
-        border: 1px solid #d9d9d9;
-        margin-top: 15px;
-        border-radius: 50px;
-        box-sizing: border-box;
-        font-weight: bold;
-        padding: 13px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .txt-detail img {
-        width: 13px;
-        margin-right: 3px;
-      }
-      .result {
-        height: 400px;
-      }
-      .btnBwrite {
-        margin: 25px auto;
-        display: flex;
-        justify-content: center;
-      }
-      .btnBwrite a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 195px;
-        height: 47px;
-        border-radius: 100px;
-        border: 1px solid black;
-      }
-      .btnBwrite img {
-        width: 17px;
-        height: 17px;
-        margin-right: 3px;
-      }
-      .qna-writing{
-        min-height: 87px;
-        padding: 15px 18px;
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        border-bottom: 1px solid rgb(240,240,240);
-      }
-      .writing-explain{
-        font-size: 14px;
-        display: flex;
-        flex-flow: column;
-        gap: 5px;
-        justify-content: center;
-        width: 90%;
-      }
-      .writing-state{
-        width: 46px;
-        height:46px;
-        margin: 2px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #999999;
-        background: #edeff2;
-        font-weight: bold;
-        font-size: 11px;
-        border-radius: 100%;
-        border: none;
-      }
-      .writing-info{
-        display: flex;
-        font-size: 12px;
-        color: rgb(170,170,170);
-      }
-      .writing-type{
-        padding-right: 5px;
-      }
-      .writing-detail{
-        padding: 0 5px;
-      }
-      .writing-content {
-        word-break: break-all;
-        position:relative;
-      }
-      .writing-content img{
-        margin-left: 5px;
-        height: 15px;
-        position:absolute;
-        bottom: 3px;
-      }
-      .writing-icon{
-        position: relative;
-        cursor: pointer;
-      }
-      .writing-icon img{
-        height: 13px;
-      }
-      .writing-action{
-        position: absolute;
-        top: 30px;
-        right:0px;
-        width: 57px;
-        border-radius: 4px;
-        border: 1px solid rgb(240,240,240);
-        background-color: white;
-        visibility: hidden;
-        z-index: 1;
-      }
-      .writing-action a{
-        display: block;
-        text-align: center;
-        padding: 10px;
-      }
-      .bar{
-        border-right: 1px solid rgb(170,170,170);
-        border-left: 1px solid rgb(170,170,170);
-      }
-      .list-gap{
-        height: 10px;
-        background-color: rgb(240,240,240);
-        border-top: 1px solid rgb(200,200,200);
-      }
-      .brackground-green{
-        background: #58DB51;
-        color: #fff;
-      }
-      .font-gray{
-        color: gray;
+      #itemImg img{
+        height : 70px;
+        width : 70px;
       }
       .threedot {
   width: 40px;
@@ -212,14 +78,25 @@
       <a href="/review/myList" class="users-title-line-hd" id="this-page">
         <div>내가 작성한 리뷰</div>
       </a>
-      <a href="/review/writeForm" class="users-title-line-hd" >
-        <div>작성가능한 리뷰</div>
+      <a href="/review/toWrite" class="users-title-line-hd" >
+        <div>결재내역</div>
       </a>
     </div>
-    <table th:each="review :${ list }"  border="1">
+    <tr>
+      <a href="/myorder/lists?dateStart=today&dateEnd=&&page=0" class="btn btn-outline-secondary">오늘</a>
+      <a href="/myorder/lists?dateStart=6months&dateEnd=&&page=0" class="btn btn-outline-secondary">6개월</a>
+      <a href="/myorder/lists?dateStart=1year&dateEnd=&&page=0" class="btn btn-outline-secondary">1년</a>
+      <input type="date" name="dateStart" value="" class="btn btn-outline-secondary"/> ~
+      <input type="date" name="dateEnd" value="" class="btn btn-outline-secondary"/>
+    </tr>
+    <table th:each="review,status :${ list }",  border="1">
+
+
       <tr>
-        <td>상품사진</td>
-        <td>상품사진</td>
+        <div  class="itemImg">
+        <td th:utext="${ itemUrl[status.index] }" >상품사진</td>
+<!--          <img th:src="${ itemUrl[status.index] }"></div>-->
+        <td th:text="${ itemName[status.index] }" >상품이름</td>
         <td>
           <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png" alt=""/>
           <div class="box"><a>수정</a>
