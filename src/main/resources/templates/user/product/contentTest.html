@@ -551,12 +551,14 @@
                   <div class="tit-wrap js-qna">
                     <div >
                       <!--                          0303-->
+                      <div>
                       <th:block th:if="${dto2.inquirySecret}=='비공개'">
                         <div class="tit js-qnaContents" >비밀글입니다.</div>
                         </th:block>
                       <th:block th:unless="${dto2.inquirySecret}=='비공개'">
                       <div class="tit js-qnaContents" th:text="${dto2.inquiryContent}">문의합니다.</div>
                         <th:block>
+                      </div>
                       <div class="qna-info">
                         <div class="dil js-qnaType bar">상품</div>
                         <th:block th:if="${dto2.inquiryNickname == null}">
