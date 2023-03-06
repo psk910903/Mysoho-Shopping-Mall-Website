@@ -33,7 +33,6 @@ public class MemberEntity {
     private Long memberMileage;
     @Column(name = "member_coupon")
     private Long memberCoupon;//
-
     @Column(name = "member_addr_number")
     private String memberAddrNumber;
     @Column(name = "member_addr1")
@@ -50,7 +49,6 @@ public class MemberEntity {
     private LocalDate memberExitDatetime;
     @Column(name = "member_exited")
     private String memberExited;
-
 
     @Builder
     public MemberEntity(Long memberNo, String username,
@@ -93,5 +91,9 @@ public class MemberEntity {
     }
     public void updatePassword(String password){
         this.password = password;
+    }
+
+    public void exited(String memberExited){
+        this.memberExited = memberExited;
     }
 }

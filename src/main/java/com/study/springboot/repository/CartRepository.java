@@ -22,4 +22,7 @@ public interface CartRepository extends JpaRepository<CartEntity, Long> {
     @Query(value = "SELECT * FROM cart WHERE member_id = :id", nativeQuery = true)
     List<CartEntity> findByCartMemberId(String id);
 
+    @Query(value = "SELECT COUNT(*) FROM cart WHERE item_code = :item_code", nativeQuery = true)
+    int findByItemSortSale(Long item_code);
+
 }

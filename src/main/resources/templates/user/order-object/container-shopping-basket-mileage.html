@@ -22,17 +22,20 @@
         <div class="title">
           <div>
             보유적립금
-            <span class="js-userMileageText" th:text="|${memberMileage}원|"></span>
+            <span class="js-userMileageText" sec:authorize="isAnonymous()">0원</span>
+            <span class="js-userMileageText" sec:authorize="isAuthenticated()" th:text="|${member.memberMileage}원|">0원</span>
           </div>
           <div class="cbx-tit">
-            <input type="checkbox" />
-            모두 사용
+            <th:block sec:authorize="isAuthenticated()">
+              <input type="checkbox"/>
+              모두 사용
+            </th:block>
           </div>
         </div>
         <ul>
           <li>
-            <input sec:authorize="isAnonymous()" type="tel" name="memberMileage" placeholder="로그인 후, 사용 가능합니다." readonly="readonly" class="readonly-input"/>
-            <input sec:authorize="isAuthenticated()" type="tel" name="memberMileage" class="readonly-input" />
+            <input sec:authorize="isAnonymous()" type="tel" placeholder="로그인 후, 사용 가능합니다." readonly="readonly" class="readonly-input"/>
+            <input sec:authorize="isAuthenticated()" type="tel" value="0" class="readonly-input" style="background:white;"/>
           </li>
         </ul>
       </div>

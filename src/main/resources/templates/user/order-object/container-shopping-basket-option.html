@@ -23,32 +23,38 @@
                             <div class="bold" th:text="${cart.itemName}">상품명</div>
                         </div>
                         <!-- 옵션 선택 -->
-                        <div class="cont-top">
-                            <a th:href="|javascript:optionTap('option','${cart.cartCode}')|" class="tap">
-                                <div class="bold">옵션선택</div>
-                                <img th:id="|btn-up-option${cart.cartCode}|" class="btn-up btn-up-option" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png" alt="" />
-                                <img th:id="|btn-down-option${cart.cartCode}|" class="btn-down btn-down-option" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt=""/>
-                            </a>
-                            <div th:id="|option-wrap${cart.cartCode}|" class="option-wrap">
-                                <!-- 색상 -->
-                                <a th:href="|javascript:optionTap('color','${cart.cartCode}')|" class="size-tap tap">
-                                    <div class="bold">색상</div>
-                                    <img th:id="|btn-up-color${cart.cartCode}|" class="btn-up btn-up-color" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png" alt="" />
-                                    <img th:id="|btn-down-color${cart.cartCode}|" class="btn-down btn-down-color" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt=""/>
+                        <div class="cont-top" th:with="colorList = ${#strings.setSplit(itemList[status.index].itemOptionColor, ',')}, sizeList = ${#strings.setSplit(itemList[status.index].itemOptionSize, ',')}">
+                            <th:block th:if="${#lists.size(colorList) > 1} or ${#lists.size(sizeList) > 1}">
+                                <a th:href="|javascript:optionTap('option','${cart.cartCode}')|" class="tap">
+                                    <div class="bold">옵션선택</div>
+                                    <img th:id="|btn-up-option${cart.cartCode}|" class="btn-up btn-up-option" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png" alt="" />
+                                    <img th:id="|btn-down-option${cart.cartCode}|" class="btn-down btn-down-option" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt=""/>
                                 </a>
-                                <div th:id="|color-wrap${cart.cartCode}|" class="color-wrap" th:with="colorList = ${#strings.setSplit(itemList[status.index].itemOptionColor, ',')}">
-                                    <a th:each="color: ${colorList}" th:href="|javascript:finalOption('color','${color}','${cart.cartCode}')|" class="tap" th:text="${color}"></a>
+                                <div th:id="|option-wrap${cart.cartCode}|" class="option-wrap">
+                                    <!-- 색상 -->
+                                    <th:block th:if="${#lists.size(colorList) > 1}">
+                                        <a th:href="|javascript:optionTap('color','${cart.cartCode}')|" class="size-tap tap">
+                                            <div class="bold">색상</div>
+                                            <img th:id="|btn-up-color${cart.cartCode}|" class="btn-up btn-up-color" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png" alt="" />
+                                            <img th:id="|btn-down-color${cart.cartCode}|" class="btn-down btn-down-color" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt=""/>
+                                        </a>
+                                        <div th:id="|color-wrap${cart.cartCode}|" class="color-wrap">
+                                            <a th:each="color: ${colorList}" th:href="|javascript:finalOption('color','${color}','${cart.cartCode}')|" class="tap" th:text="${color}"></a>
+                                        </div>
+                                    </th:block>
+                                    <!-- 사이즈 -->
+                                    <th:block th:if="${#lists.size(sizeList) > 1}">
+                                        <a th:href="|javascript:optionTap('size','${cart.cartCode}')|" class="size-tap tap">
+                                            <div class="bold">사이즈</div>
+                                            <img th:id="|btn-up-size${cart.cartCode}|" class="btn-up btn-up-size" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png" alt="" />
+                                            <img th:id="|btn-down-size${cart.cartCode}|" class="btn-down btn-down-size" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt=""/>
+                                        </a>
+                                        <div th:id="|size-wrap${cart.cartCode}|" class="size-wrap">
+                                            <a th:each="size: ${sizeList}" th:href="|javascript:finalOption('size','${size}','${cart.cartCode}')|" class="tap" th:text="${size}"></a>
+                                        </div>
+                                    </th:block>
                                 </div>
-                                <!-- 사이즈 -->
-                                <a th:href="|javascript:optionTap('size','${cart.cartCode}')|" class="size-tap tap">
-                                    <div class="bold">사이즈</div>
-                                    <img th:id="|btn-up-size${cart.cartCode}|" class="btn-up btn-up-size" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png" alt="" />
-                                    <img th:id="|btn-down-size${cart.cartCode}|" class="btn-down btn-down-size" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt=""/>
-                                </a>
-                                <div th:id="|size-wrap${cart.cartCode}|" class="size-wrap" th:with="sizeList = ${#strings.setSplit(itemList[status.index].itemOptionSize, ',')}">
-                                    <a th:each="size: ${sizeList}" th:href="|javascript:finalOption('size','${size}','${cart.cartCode}')|" class="tap" th:text="${size}"></a>
-                                </div>
-                            </div>
+                            </th:block>
 
                         </div>
 
@@ -88,8 +94,8 @@
             </div>
         </div>
         <div class="gray fs-15">
-            <span th:text="${cart.itemOptionSize}">사이즈</span>,
             <span th:text="${cart.itemOptionColor}">색상</span>,
+            <span th:text="${cart.itemOptionSize}">사이즈</span>,
             <span id="product-count" th:text="${cart.cartItemAmount}">1</span>개
         </div>
         <div class="fs-14 gray2">

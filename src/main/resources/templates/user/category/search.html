@@ -120,6 +120,7 @@
 </head>
 
 <body>
+<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <div class="wrap">
   <div class="betweenbtn">
@@ -135,8 +136,8 @@
                   id="search_form"
                   method="get"
                   action="/search"
-                  onkeydown="return enterkey(event);"
                   name="keywordFrom"
+                  onsubmit="return checkTxt(event)"
           >
             <a href="javascript:history.back();
                     if(document.referrer == 'http://localhost:8080/'){location.href = document.referrer;}" class="btnHback"></a>
@@ -150,7 +151,7 @@
                     placeholder="검색어를 입력해 주세요"
             />
             <span class="inputDel" id="inputDel"></span>
-            <button type="button" id="mainSearch" class="btnHsch" onclick="checkTxt()">
+            <button id="mainSearch" class="btnHsch" >
               검색
             </button>
           </form>
@@ -206,13 +207,13 @@
                 <li class="type3" th:each="dto:${ list }">
                   <div class="between">
                     <div class="prd-img">
-                      <a href="" class="focusTag"
+                      <a th:href="|/product/${dto.itemNo}|" class="focusTag"
                       ><img th:src="${ dto.itemImageUrl }" alt="" />
                       </a>
                     </div>
                     <div class="tbl-cell">
                       <p class="txt">
-                        <a href="" th:text="${ dto.itemName }"
+                        <a th:href="|/product/${dto.itemNo}|" th:text="${ dto.itemName }"
                         >퍼프 블라우스 화이트</a
                         >
                       </p>
@@ -287,18 +288,18 @@
         document.querySelector("#keyword").value = "";
       });
 
-      function checkTxt() {
-        // 입력값이 공백일 때
-        let val = document.querySelector("#keyword").value;
-        if (val === "") {
-          alert("검색어를 입력해주세요.");
+      function checkTxt(e) {
 
-        } else{
-        let key = document.keywordForm;
-        key.value = val;
-        key.submit();
+        let val = document.querySelector("#keyword").value;
+
+          // 입력값이 공백일 때
+          if (val === "") {
+          alert("검색어를 입력해주세요.");
+          return false;
+          }
+          return true;
         }
-      }
+
     </script>
 </body>
 </html>

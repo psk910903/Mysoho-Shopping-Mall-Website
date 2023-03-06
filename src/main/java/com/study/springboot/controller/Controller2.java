@@ -8,28 +8,37 @@ import com.study.springboot.dto.notice.NoticeResponseDto;
 import com.study.springboot.dto.notice.NoticeSaveRequestDto;
 import com.study.springboot.dto.notice.NoticeUpdateRequestDto;
 import com.study.springboot.dto.order.OrderContentSaveRequestDto;
+import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
+import com.study.springboot.dto.security.MemberJoinDto;
+import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.object.FileResponse;
+import com.study.springboot.repository.MemberRepository;
 import com.study.springboot.repository.NoticeRepository;
 import com.study.springboot.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -223,12 +232,9 @@ public class Controller2 {
     private final ProductService productService;
 
     @GetMapping("/inquiry/myProductInquiries")
-    public String inquiryMyProductInquiries(Model model) {
+    public String inquiryMyProductInquiries(Model model, @AuthenticationPrincipal User user) {
 
-//        HttpSession session = request.getSession(false);
-//        Long memberNo = (String)session.getAttribute("memberNo");
-
-        String memberId = "hong";
+        String memberId = user.getUsername();
 
         List<InquiryResponseDto> inquiryList = service2.findByMemberId(memberId);
         List<ProductResponseDto> itemList = new ArrayList<>();
@@ -406,18 +412,15 @@ public class Controller2 {
         }
 
         // memberMileage
-        Long memberMileage = 0L;
+        MemberResponseDto memberResponseDto = null;
         if (user != null) {
             String memberId = user.getUsername();
-            MemberResponseDto memberResponseDto = service2.findByMemberIdMember(memberId);
-            if (memberResponseDto != null) {
-                memberMileage = memberResponseDto.getMemberMileage();
-            }
+            memberResponseDto = service2.findByMemberIdMember(memberId);
         }
 
         model.addAttribute("itemList", itemList);
         model.addAttribute("cartList", cartList);
-        model.addAttribute("memberMileage", memberMileage);
+        model.addAttribute("member", memberResponseDto);
 
         return "/user/order/shopping-basket";
 
@@ -449,16 +452,22 @@ public class Controller2 {
 
         Cookie[] cookies = request.getCookies();
         String encodedItemOptionColor = itemOptionColor;
+        int cartNum = 0;
+
         try {
             encodedItemOptionColor = URLEncoder.encode(itemOptionColor, "UTF-8");
         }catch (Exception e) {
             e.printStackTrace();
+            return "<script>alert('삭제 중 오류가 발생했습니다.\\n다시 입력해주세요.'); location.href='/order';</script>";
         }
 
         if(cookies!=null){
             for(Cookie c : cookies){
                 String name = c.getName();
                 String value = c.getValue();
+                if (name.startsWith("item_idx.")){
+                    cartNum++;
+                }
                 if (name.equals("item_idx."+ itemNo + "." + encodedItemOptionColor + "." + itemOptionSize)) {
                     Cookie cookie = new Cookie(name, value);
                     cookie.setPath("/");
@@ -468,10 +477,16 @@ public class Controller2 {
             }
         }
 
+        // 장바구니 비었을 떄
+        if (cartNum == 1){
+            return "<script>alert('장바구니가 비었습니다.\\n관심있는 상품을 담아보세요.');location.href='/';</script>";
+        }
+
         return "<script>location.href='/order';</script>";
     }
 
     @PostMapping("/order/modifyAction")
+    @ResponseBody
     public String orderModifyAction(@RequestParam String changedSize, @RequestParam String changedColor, @RequestParam String changedAmount,
                                     @RequestParam String originalColor, @RequestParam String originalSize, HttpServletResponse response,
                                     @RequestParam String itemNo, HttpServletRequest request) {
@@ -484,6 +499,7 @@ public class Controller2 {
             encodedOriginalColor = URLEncoder.encode(originalColor, "UTF-8");
         }catch (Exception e) {
             e.printStackTrace();
+            return "<script>alert('수정 중에 오류가 발생했습니다.\\n다시 수정해주세요.');location.href='/order';</script>";
         }
 
         if(cookies!=null){
@@ -508,24 +524,68 @@ public class Controller2 {
             encodedChangedColor = URLEncoder.encode(changedColor, "UTF-8");
             cookie = new Cookie("item_idx."+ itemNo + "." + encodedChangedColor + "." + changedSize, changedAmount);
             cookie.setPath("/");
+            cookie.setMaxAge(60*60*24*3);
             response.addCookie(cookie);;
 
         }catch (Exception e){
             e.printStackTrace();
+            return "<script>alert('수정 중에 오류가 발생했습니다.\\n다시 수정해주세요.');location.href='/order';</script>";
         }
-        return "redirect:/order";
+        return "<script>location.href='/order';</script>";
 
     }
 
+    final private PasswordEncoder passwordEncoder;
+    final private MemberRepository memberRepository;
 
-    @PostMapping("/order/test2")
+    @PostMapping("/order/payAction")
     @ResponseBody
-    public String orderTest2(OrderContentSaveRequestDto orderContentSaveRequestDto, HttpServletRequest request,
-                             @AuthenticationPrincipal User user, HttpServletResponse response,
-                             @RequestParam String[] colorList, @RequestParam String[] sizeList,
-                             @RequestParam String[] amountList, @RequestParam String[] itemCodeList) {
+    public String orderPayAction(OrderContentSaveRequestDto orderContentSaveRequestDto, HttpServletRequest request,
+                                 @AuthenticationPrincipal User user, HttpServletResponse response,
+                                 @RequestParam String[] colorList, @RequestParam String[] sizeList,
+                                 @RequestParam String[] amountList, @RequestParam String[] itemCodeList,
+                                 @Valid MemberJoinDto memberJoinDto, BindingResult bindingResult) {
+
+        ////////////////////////////////////// member DB에 넣기 (회원가입) /////////////////////////////////
+        String memberId = null;
+
+        if (memberJoinDto.getUsername() != "") {
+
+            LocalDate today = LocalDate.now();
+            memberJoinDto.setMemberJoinDatetime(today);
+
+            if (bindingResult.hasErrors()) {
+                String detail = bindingResult.getFieldError().getDefaultMessage();
+                String bindResultCode = bindingResult.getFieldError().getCode();
+                System.out.println(detail + ":" + bindResultCode);
+                return "<script>alert('" + detail + "'); history.back();</script>";
+            }
+
+            String encodedPassword = passwordEncoder.encode(memberJoinDto.getPassword());
+            memberJoinDto.setPassword(encodedPassword);
+            try {
+                MemberEntity enity = memberJoinDto.toSaveEntity();
+                memberRepository.save(enity);
+            } catch (DataIntegrityViolationException e) {
+                e.printStackTrace();
+                bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+                return "<script>alert('이미 등록된 사용자입니다.');history.back();</script>";
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+                return "<script>alert('회원가입 실패했습니다.');history.back();</script>";
+            }
+
+            memberId = memberJoinDto.getUsername();
+        }
+
+        if (user != null) {
+            memberId = user.getUsername();
+        }
 
         ////////////////////////////////////// cart DB에 넣기 ////////////////////////////////////////////
+        String[] cartCodeList = {null, null, null, null, null};
+        Long orderCode = null;
+
         for (int i=0; i<itemCodeList.length; i++) {
 
             // cartItemAmount
@@ -543,18 +603,13 @@ public class Controller2 {
 
             // cartCode
             String cartCode = UUID.randomUUID().toString();
+            cartCodeList[i] = cartCode;
 
             // orderNo
             SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-            String orderNo1 = format.format(new Date());
-            String orderNo2 = String.format("%04d", (long) (Math.random() * 10000));
-            Long orderNo = Long.parseLong(orderNo1 + orderNo2);
-
-            // memberId
-            String memberId = null;
-            if (user != null) {
-                memberId = user.getUsername();
-            }
+            String orderCode1 = format.format(new Date());
+            String orderCode2 = String.format("%04d", (long) (Math.random() * 10000));
+            orderCode = Long.parseLong(orderCode1 + orderCode2);
 
             // cartDiscountPrice, cartItemPrice
             Long cartDiscountPrice = productResponseDto.getItemPrice() * productResponseDto.getItemDiscountRate() / 100;
@@ -563,7 +618,7 @@ public class Controller2 {
 
             CartSaveRequestDto cartSaveRequestDto = CartSaveRequestDto.builder()
                     .cartCode(cartCode)
-                    .orderNo(orderNo)
+                    .orderCode(orderCode)
                     .memberId(memberId)
                     .itemCode(itemCode)
                     .itemName(productResponseDto.getItemName())
@@ -588,16 +643,48 @@ public class Controller2 {
                     response.addCookie(cookie);
                 }catch (Exception e){
                     e.printStackTrace();
-                    // /////////////////////////넣기
+                    return "<script>alert('결제 중 오류가 발생했습니다.\\n다시 결제해주세요.');location.href='/order';</script>";
                 }
             } else {
-                ///////////////////////////////// 넣기
+                return "<script>alert('결제 중 오류가 발생했습니다.\\n다시 결제해주세요.');location.href='/order';</script>";
             }
 
         }
 
-        return orderContentSaveRequestDto.toString() + "\n" + sizeList[0] + "\n"
-                + colorList[0] +"\n" + itemCodeList[0] + "\n" + amountList[0];
+
+        ////////////////////////////////////// order DB에 넣기 ////////////////////////////////////////////
+
+        // orderDTO 세팅하기
+        orderContentSaveRequestDto.setOrderCode(orderCode);
+        orderContentSaveRequestDto.setCartCode1(cartCodeList[0]);
+        orderContentSaveRequestDto.setCartCode2(cartCodeList[1]);
+        orderContentSaveRequestDto.setCartCode3(cartCodeList[2]);
+        orderContentSaveRequestDto.setCartCode4(cartCodeList[3]);
+        orderContentSaveRequestDto.setCartCode5(cartCodeList[4]);
+        orderContentSaveRequestDto.setOrderDatetime(LocalDateTime.now());
+        orderContentSaveRequestDto.setMemberId(memberId);
+        if (orderContentSaveRequestDto.getOrderPayType().contains("휴대폰결제") ||
+                orderContentSaveRequestDto.getOrderPayType().contains("삼성페이")) {
+            orderContentSaveRequestDto.setOrderState("배송대기");
+        }else{
+            orderContentSaveRequestDto.setOrderState("미입금/주문완료");
+        }
+
+        boolean success = service2.saveOrder(orderContentSaveRequestDto);
+        if (!success) {
+            return "<script>alert('결제 중 오류가 발생했습니다.\\n다시 결제해주세요.');location.href='/order';</script>";
+        }
+
+        return "<script>location.href='/order/complete?orderCode=" + orderCode +"';</script>";
+    }
+
+    @GetMapping("/order/complete")
+    public String orderComplete(@RequestParam Long orderCode, Model model){
+
+        OrderResponseDto dto = service2.findByOrderCode(orderCode);
+        model.addAttribute("order", dto);
+
+        return "/user/order/order-complete";
     }
 
     // '/order' 끝 -----------------------------------------------------------------------------------------------

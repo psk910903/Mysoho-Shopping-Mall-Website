@@ -1,5 +1,9 @@
 package com.study.springboot.controller;
 
+import com.study.springboot.comparator.ItemPriceComparator;
+import com.study.springboot.comparator.ItemReviewCountComparator;
+import com.study.springboot.comparator.ItemReviewStarComparator;
+import com.study.springboot.comparator.SalesRateComparator;
 import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
@@ -9,6 +13,7 @@ import com.study.springboot.dto.product.ProductResponseDto;
 
 import com.study.springboot.dto.product.ProductSaveRequestDto;
 import com.study.springboot.entity.MemberEntity;
+import com.study.springboot.repository.CartRepository;
 import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ProductRepository;
 import com.study.springboot.service.*;
@@ -44,6 +49,7 @@ public class Controller1 {
   final AwsS3Service awsS3Service;
   final Service1 service1;
   final Service3 service3;
+  final CartRepository cartRepository;
 
   @GetMapping("/admin/product")
   public String productHome(){
@@ -296,11 +302,70 @@ public class Controller1 {
     List<ProductResponseDto> bestItem = service1.findByItem(6);
     List<ProductResponseDto> list = service1.findByItem(9);
 
+    List<ProductResponseDto> sale = service1.SortItemSale(list);
+    List<ProductResponseDto> price = service1.SortItemPrice(list);
+    List<ProductResponseDto> review = service1.SortItemReview(list);
+    List<ProductResponseDto> star = service1.SortItemStar(list);
+
+    //test
+    for (ProductResponseDto dto : sale) {
+      dto.setSalesCount(cartRepository.findByItemSortSale(dto.getItemNo()));
+    }
+    sale.sort(new SalesRateComparator());
+    System.out.println("test 판매량순");
+    for (ProductResponseDto dto : sale) {
+      String itemName = dto.getItemName();
+      int salesCount = dto.getSalesCount();
+      System.out.println(itemName + ", " + salesCount);
+    }
+    //
+    //test
+    price.sort(new ItemPriceComparator());
+    System.out.println("test 낮은가격순");
+    for (ProductResponseDto dto : sale) {
+      String itemName = dto.getItemName();
+      Long itemDiscountPrice = dto.getItemDiscountPrice();
+      System.out.println(itemName + ", " + itemDiscountPrice);
+    }
+    //
+    System.out.println("판매량순");
+    for (ProductResponseDto dto : sale) {
+      String itemName = dto.getItemName();
+      int salesCount = dto.getSalesCount();
+      System.out.println(itemName + ", " + salesCount);
+    }
+    System.out.println();
+    System.out.println("낮은가격순");
+    for (ProductResponseDto dto : price) {
+      String itemName = dto.getItemName();
+      Long itemDiscountPrice = dto.getItemDiscountPrice();
+      System.out.println(itemName + ", " + itemDiscountPrice);
+    }
+    System.out.println();
+    System.out.println("리뷰많은순");
+    for (ProductResponseDto dto : review) {
+      String itemName = dto.getItemName();
+      int reviewCount = dto.getReviewCount();
+      System.out.println(itemName + ", " + reviewCount);
+    }
+    System.out.println();
+    System.out.println("평점순");
+    for (ProductResponseDto dto : star) {
+      String itemName = dto.getItemName();
+      int reviewStar = dto.getReviewStar();
+      System.out.println(itemName + ", " + reviewStar);
+    }
+    System.out.println();
     model.addAttribute("bestItem", bestItem);
     model.addAttribute("list", list);
+    model.addAttribute("SortSales", sale);
+    model.addAttribute("SortPrice", price);
+    model.addAttribute("SortReview", review);
+    model.addAttribute("SortStar", star);
+
 
     return "/user/category/home";
-  };
+  }
 
   //상품검색
   @GetMapping("/search")
@@ -388,7 +453,7 @@ public class Controller1 {
 
       for (int j = 0; j < cartList.size(); j++) {
 
-        if (Objects.equals(cartList.get(j).getOrderNo(), orderDto.getOrderNo())) {
+        if (Objects.equals(cartList.get(j).getOrderCode(), orderDto.getOrderNo())) {
           originalPrice += cartList.get(j).getCartItemOriginalPrice();
           discountPrice += cartList.get(j).getCartDiscountPrice();
           itemPrice += cartList.get(j).getCartItemPrice();
@@ -466,7 +531,7 @@ public class Controller1 {
 
         for (int j = 0; j < cartList.size(); j++) {
 
-          if (Objects.equals(cartList.get(j).getOrderNo(), orderDto.getOrderNo())) {
+          if (Objects.equals(cartList.get(j).getOrderCode(), orderDto.getOrderNo())) {
             originalPrice += cartList.get(j).getCartItemOriginalPrice();
             discountPrice += cartList.get(j).getCartDiscountPrice();
             itemPrice += cartList.get(j).getCartItemPrice();
