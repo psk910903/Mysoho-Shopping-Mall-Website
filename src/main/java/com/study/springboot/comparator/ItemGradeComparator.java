@@ -4,12 +4,12 @@ import com.study.springboot.dto.product.ProductResponseDto;
 
 import java.util.Comparator;
 
-public class ItemPriceComparator implements Comparator<ProductResponseDto> {
+public class ItemGradeComparator implements Comparator<ProductResponseDto> {
     @Override
     public int compare(ProductResponseDto dto1,ProductResponseDto dto2) {
-        if (dto1.getItemDiscountPrice() < dto2.getItemDiscountPrice()) {
+        if (dto1.getReviewStar() > dto2.getReviewStar()) {
             return -1;
-        } else if (dto1.getItemDiscountPrice() > dto2.getItemDiscountPrice()) {
+        } else if (dto1.getReviewStar() < dto2.getReviewStar()) {
             return 1;
         }
         return 0;

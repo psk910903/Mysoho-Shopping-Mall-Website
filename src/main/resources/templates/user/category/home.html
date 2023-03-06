@@ -171,18 +171,18 @@
         </div>
         <div class="display-tap">
           <div class="fl-l">
-            <a class="select" href="javascript:sortSelect()"
+            <a class="select" id="select" href="javascript:sortSelect()"
               >최신순
               <img
                 src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
                 alt=""
             /></a>
             <ul id="sort">
-              <li><a href="">최신순</a></li>
-              <li><a href="">판매순</a></li>
-              <li><a href="">낮은가격순</a></li>
-              <li><a href="">리뷰많은순</a></li>
-              <li><a href="">평점높은순</a></li>
+              <li><a href="javascript:sortSelected('최신순')">최신순</a></li>
+              <li><a href="javascript:sortSelected('판매순')">판매순</a></li>
+              <li><a href="javascript:sortSelected('낮은가격순')">낮은가격순</a></li>
+              <li><a href="javascript:sortSelected('리뷰많은순')">리뷰많은순</a></li>
+              <li><a href="javascript:sortSelected('평점높은순')">평점높은순</a></li>
             </ul>
           </div>
           <!-- 리스트변경 아이콘 -->
@@ -213,7 +213,7 @@
           <div id="list-type2" class="list-type">
             <ul class="type1">
               <!-- 최신순 첫번째 타입 -->
-              <div class="listType0">
+              <div class="listType0" id="recentListType0" style="display: block;">
                 <li class="type3" th:each="dto:${ list }">
                   <div class="between">
                     <div class="prd-img">
@@ -307,7 +307,7 @@
               </div>
             </ul>
             <!-- 최신순 두번째 타입 -->
-            <ul class="threeAlign threeAlign2 listType1">
+            <ul class="threeAlign threeAlign2 listType1 " id="recentListType1">
               <li th:each="dto:${ list }">
                 <th:block th:if="${dto.itemSoldOut} == '품절'">
                   <div class="img sold-out-wrap">
@@ -346,7 +346,7 @@
               </li>
             </ul>
             <!-- 최신순 세번째 타입 -->
-            <ul class="twoAlign listType2">
+            <ul class="twoAlign listType2" id="recentListType2">
               <li th:each="dto:${ list }">
                 <a href="javascript:basketNumCount()" class="cart">
                   <!--                  카트이미지-->
@@ -400,7 +400,7 @@
             </ul>
             <!-- 최신순 네번째 타입 -->
 
-            <div class="type4 listType3">
+            <div class="type4 listType3" id="recentListType3">
               <ul>
                 <li th:each="dto:${ list }">
                   <!-- 상품 리스트 시작 -->
@@ -583,29 +583,11 @@
                 </li>
               </ul>
             </div>
-          </div>
-          <!-- 구분선 -->
-          <div class="mainNotice-top"></div>
-          <div class="mainNotice">
-            <div class="icoTit">
-              <img
-                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_notice.png"
-                alt=""
-              />
-            </div>
-            <div class="notice">
-              <a href="/category/notice.html">공지사항</a>
-            </div>
-            <div class="notice-info">등록된 공지사항이 없습니다.</div>
-          </div>
-        </div>
 
-        <div class="boxDiv">
-          <div id="list-type2" class="list-type">
             <ul class="type1">
               <!-- 판매순 첫번째 타입 -->
-              <div class="listType0">
-                <li class="type3" th:each="dto:${ SortSales }">
+              <div class="listType0" id="sellCountListType0">
+                <li class="type3" th:each="dto:${ sellCount }">
                   <div class="between">
                     <div class="prd-img">
                       <a th:href="|/product/${dto.itemNo}|" class="focusTag"
@@ -698,8 +680,8 @@
               </div>
             </ul>
             <!-- 판매순 두번째 타입 -->
-            <ul class="threeAlign threeAlign2 listType1">
-              <li th:each="dto:${ SortSales }">
+            <ul class="threeAlign threeAlign2 listType1 " id="sellCountListType1">
+              <li th:each="dto:${ sellCount }">
                 <th:block th:if="${dto.itemSoldOut} == '품절'">
                   <div class="img sold-out-wrap">
                     <div class="sold-out-bg sold-out-bg-type2"></div>
@@ -737,8 +719,8 @@
               </li>
             </ul>
             <!-- 판매순 세번째 타입 -->
-            <ul class="twoAlign listType2">
-              <li th:each="dto:${ SortSales }">
+            <ul class="twoAlign listType2" id="sellCountListType2">
+              <li th:each="dto:${ sellCount }">
                 <a href="javascript:basketNumCount()" class="cart">
                   <!--                  카트이미지-->
                   <img
@@ -791,9 +773,9 @@
             </ul>
             <!-- 판매순 네번째 타입 -->
 
-            <div class="type4 listType3">
+            <div class="type4 listType3" id="sellCountListType3">
               <ul>
-                <li th:each="dto:${ SortSales }">
+                <li th:each="dto:${ sellCount }">
                   <!-- 상품 리스트 시작 -->
                   <div class="swiper-wrapper">
                     <th:block th:if="${dto.itemSoldOut} == '품절'">
@@ -974,29 +956,11 @@
                 </li>
               </ul>
             </div>
-          </div>
-          <!-- 구분선 -->
-          <div class="mainNotice-top"></div>
-          <div class="mainNotice">
-            <div class="icoTit">
-              <img
-                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_notice.png"
-                      alt=""
-              />
-            </div>
-            <div class="notice">
-              <a href="/category/notice.html">공지사항</a>
-            </div>
-            <div class="notice-info">등록된 공지사항이 없습니다.</div>
-          </div>
-        </div>
 
-        <div class="boxDiv">
-          <div id="list-type2" class="list-type">
             <ul class="type1">
               <!-- 낮은가격순 첫번째 타입 -->
-              <div class="listType0">
-                <li class="type3" th:each="dto:${ SortPrice }">
+              <div class="listType0" id="LowPriceListType0">
+                <li class="type3" th:each="dto:${ lowPrice }">
                   <div class="between">
                     <div class="prd-img">
                       <a th:href="|/product/${dto.itemNo}|" class="focusTag"
@@ -1089,8 +1053,8 @@
               </div>
             </ul>
             <!-- 낮은가격순 두번째 타입 -->
-            <ul class="threeAlign threeAlign2 listType1">
-              <li th:each="dto:${ SortPrice }">
+            <ul class="threeAlign threeAlign2 listType1" id="LowPriceListType1">
+              <li th:each="dto:${ lowPrice }">
                 <th:block th:if="${dto.itemSoldOut} == '품절'">
                   <div class="img sold-out-wrap">
                     <div class="sold-out-bg sold-out-bg-type2"></div>
@@ -1128,8 +1092,8 @@
               </li>
             </ul>
             <!-- 낮은가격순 세번째 타입 -->
-            <ul class="twoAlign listType2">
-              <li th:each="dto:${ SortPrice }">
+            <ul class="twoAlign listType2" id="LowPriceListType2">
+              <li th:each="dto:${ lowPrice }">
                 <a href="javascript:basketNumCount()" class="cart">
                   <!--                  카트이미지-->
                   <img
@@ -1182,9 +1146,9 @@
             </ul>
             <!-- 낮은가격순 네번째 타입 -->
 
-            <div class="type4 listType3">
+            <div class="type4 listType3" id="LowPriceListType3">
               <ul>
-                <li th:each="dto:${ SortPrice }">
+                <li th:each="dto:${ lowPrice }">
                   <!-- 상품 리스트 시작 -->
                   <div class="swiper-wrapper">
                     <th:block th:if="${dto.itemSoldOut} == '품절'">
@@ -1365,29 +1329,11 @@
                 </li>
               </ul>
             </div>
-          </div>
-          <!-- 구분선 -->
-          <div class="mainNotice-top"></div>
-          <div class="mainNotice">
-            <div class="icoTit">
-              <img
-                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_notice.png"
-                      alt=""
-              />
-            </div>
-            <div class="notice">
-              <a href="/category/notice.html">공지사항</a>
-            </div>
-            <div class="notice-info">등록된 공지사항이 없습니다.</div>
-          </div>
-        </div>
 
-        <div class="boxDiv">
-          <div id="list-type2" class="list-type">
             <ul class="type1">
               <!-- 리뷰많은순 첫번째 타입 -->
-              <div class="listType0">
-                <li class="type3" th:each="dto:${ SortReview }">
+              <div class="listType0" id="HighReviewListType0">
+                <li class="type3" th:each="dto:${ HighReview }">
                   <div class="between">
                     <div class="prd-img">
                       <a th:href="|/product/${dto.itemNo}|" class="focusTag"
@@ -1480,8 +1426,8 @@
               </div>
             </ul>
             <!-- 리뷰많은순 두번째 타입 -->
-            <ul class="threeAlign threeAlign2 listType1">
-              <li th:each="dto:${ SortReview }">
+            <ul class="threeAlign threeAlign2 listType1" id="HighReviewListType1">
+              <li th:each="dto:${ HighReview }">
                 <th:block th:if="${dto.itemSoldOut} == '품절'">
                   <div class="img sold-out-wrap">
                     <div class="sold-out-bg sold-out-bg-type2"></div>
@@ -1519,8 +1465,8 @@
               </li>
             </ul>
             <!-- 리뷰많은순 세번째 타입 -->
-            <ul class="twoAlign listType2">
-              <li th:each="dto:${ SortReview }">
+            <ul class="twoAlign listType2" id="HighReviewListType2">
+              <li th:each="dto:${ HighReview }">
                 <a href="javascript:basketNumCount()" class="cart">
                   <!--                  카트이미지-->
                   <img
@@ -1573,9 +1519,9 @@
             </ul>
             <!-- 리뷰많은순 네번째 타입 -->
 
-            <div class="type4 listType3">
+            <div class="type4 listType3" id="HighReviewListType3">
               <ul>
-                <li th:each="dto:${ SortReview }">
+                <li th:each="dto:${ HighReview }">
                   <!-- 상품 리스트 시작 -->
                   <div class="swiper-wrapper">
                     <th:block th:if="${dto.itemSoldOut} == '품절'">
@@ -1756,29 +1702,11 @@
                 </li>
               </ul>
             </div>
-          </div>
-          <!-- 구분선 -->
-          <div class="mainNotice-top"></div>
-          <div class="mainNotice">
-            <div class="icoTit">
-              <img
-                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_notice.png"
-                      alt=""
-              />
-            </div>
-            <div class="notice">
-              <a href="/category/notice.html">공지사항</a>
-            </div>
-            <div class="notice-info">등록된 공지사항이 없습니다.</div>
-          </div>
-        </div>
 
-        <div class="boxDiv">
-          <div id="list-type2" class="list-type">
             <ul class="type1">
               <!-- 평점높은순 첫번째 타입 -->
-              <div class="listType0">
-                <li class="type3" th:each="dto:${ SortStar }">
+              <div class="listType0" id="HighGradeListType0">
+                <li class="type3" th:each="dto:${ HighGrade }">
                   <div class="between">
                     <div class="prd-img">
                       <a th:href="|/product/${dto.itemNo}|" class="focusTag"
@@ -1871,8 +1799,8 @@
               </div>
             </ul>
             <!-- 평점높은순 두번째 타입 -->
-            <ul class="threeAlign threeAlign2 listType1">
-              <li th:each="dto:${ SortStar }">
+            <ul class="threeAlign threeAlign2 listType1" id="HighGradeListType1">
+              <li th:each="dto:${ HighGrade }">
                 <th:block th:if="${dto.itemSoldOut} == '품절'">
                   <div class="img sold-out-wrap">
                     <div class="sold-out-bg sold-out-bg-type2"></div>
@@ -1910,8 +1838,8 @@
               </li>
             </ul>
             <!-- 평점높은순 세번째 타입 -->
-            <ul class="twoAlign listType2">
-              <li th:each="dto:${ SortStar }">
+            <ul class="twoAlign listType2" id="HighGradeListType2">
+              <li th:each="dto:${ HighGrade }">
                 <a href="javascript:basketNumCount()" class="cart">
                   <!--                  카트이미지-->
                   <img
@@ -1964,9 +1892,9 @@
             </ul>
             <!-- 평점높은순 네번째 타입 -->
 
-            <div class="type4 listType3">
+            <div class="type4 listType3" id="HighGradeListType3">
               <ul>
-                <li th:each="dto:${ SortStar }">
+                <li th:each="dto:${ HighGrade }">
                   <!-- 상품 리스트 시작 -->
                   <div class="swiper-wrapper">
                     <th:block th:if="${dto.itemSoldOut} == '품절'">
@@ -2187,6 +2115,220 @@
     <script src="/js/home-sort-btn.js"></script>
     <script src="/js/home-displayTypeChange.js"></script>
     <script src="/js/popup.js"></script>
+    <script>
+      function sortSelected(name) {
+      document.querySelector("#select").innerHTML = name +" <img src=\"https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png\" alt=\"\">"
+      document.querySelector("#sort").style.display = "none";
+
+      if( document.querySelector(".ico-list-1").style.display != "none" && name == '최신순' ){
+
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#recentListType0").style.display = "block";
+
+        } else if( name == '최신순' && document.querySelector(".ico-list-2").style.display != "none" ) {
+
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#recentListType1").style.display = "flex";
+
+        } else if( name == '최신순' && document.querySelector(".ico-list-3").style.display != "none" ) {
+
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#recentListType2").style.display = "flex";
+
+        } else if( name == '최신순' && document.querySelector(".ico-list-4").style.display != "none" ) {
+
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#recentListType3").style.display = "block";
+
+        } else if( name == '판매순' && document.querySelector(".ico-list-1").style.display != "none" ){
+
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#sellCountListType0").style.display = "block";
+
+        } else if( name == '판매순' && document.querySelector(".ico-list-2").style.display != "none" ) {
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#sellCountListType1").style.display = "flex";
+
+        } else if( name == '판매순' && document.querySelector(".ico-list-3").style.display != "none" ) {
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#sellCountListType2").style.display = "flex";
+
+        } else if( name == '판매순' && document.querySelector(".ico-list-4").style.display != "none" ) {
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#sellCountListType3").style.display = "block";
+
+        } else if( name == '낮은가격순' && document.querySelector(".ico-list-1").style.display != "none" ){
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#LowPriceListType0").style.display = "block";
+
+        } else if( name == '낮은가격순' && document.querySelector(".ico-list-2").style.display != "none" ) {
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#LowPriceListType1").style.display = "flex";
+
+        } else if( name == '낮은가격순' && document.querySelector(".ico-list-3").style.display != "none" ) {
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#LowPriceListType2").style.display = "flex";
+
+        } else if( name == '낮은가격순' && document.querySelector(".ico-list-4").style.display != "none" ) {
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#LowPriceListType3").style.display = "block";
+
+        } else if( name == '리뷰많은순' && document.querySelector(".ico-list-1").style.display != "none" ){
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#HighReviewListType0").style.display = "block";
+
+        } else if( name == '리뷰많은순' && document.querySelector(".ico-list-2").style.display != "none" ) {
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#HighReviewListType1").style.display = "flex";
+
+        } else if( name == '리뷰많은순' && document.querySelector(".ico-list-3").style.display != "none" ) {
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#HighReviewListType2").style.display = "flex";
+
+        } else if( name == '리뷰많은순' && document.querySelector(".ico-list-4").style.display != "none" ) {
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#HighReviewListType3").style.display = "block";
+
+        } else if( name == '평점높은순' && document.querySelector(".ico-list-1").style.display != "none" ){
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#HighGradeListType0").style.display = "block";
+
+        } else if( name == '평점높은순' && document.querySelector(".ico-list-2").style.display != "none" ) {
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#HighGradeListType1").style.display = "flex";
+
+        } else if( name == '평점높은순' && document.querySelector(".ico-list-3").style.display != "none" ) {
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#HighGradeListType2").style.display = "flex";
+
+        } else if( name == '평점높은순' && document.querySelector(".ico-list-4").style.display != "none" ) {
+        for (let i =0; i<4; i++){
+          document.querySelector("#recentListType"+i).style.display = "none";
+          document.querySelector("#sellCountListType"+i).style.display = "none";
+          document.querySelector("#LowPriceListType"+i).style.display = "none";
+          document.querySelector("#HighReviewListType"+i).style.display = "none";
+          document.querySelector("#HighGradeListType"+i).style.display = "none";
+        }
+        document.querySelector("#HighGradeListType3").style.display = "block";
+
+        }
+      }
+
+    </script>
   </body>
 
 </html>

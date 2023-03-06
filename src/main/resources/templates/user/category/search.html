@@ -172,18 +172,18 @@
         <th:block th:if="${count} != 0">
         <div class="display-tap">
           <div class="fl-l">
-            <a class="select" href="javascript:sortSelect()"
+            <a class="select" id="select" href="javascript:sortSelect()"
             >최신순
               <img
                       src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
                       alt=""
               /></a>
             <ul id="sort">
-              <li><a href="">최신순</a></li>
-              <li><a href="">판매순</a></li>
-              <li><a href="">낮은가격순</a></li>
-              <li><a href="">리뷰많은순</a></li>
-              <li><a href="">평점높은순</a></li>
+              <li><a href="javascript:sortSelectedSearch('최신순')">최신순</a></li>
+              <li><a href="javascript:sortSelectedSearch('판매순')">판매순</a></li>
+              <li><a href="javascript:sortSelectedSearch('낮은가격순')">낮은가격순</a></li>
+              <li><a href="javascript:sortSelectedSearch('리뷰많은순')">리뷰많은순</a></li>
+              <li><a href="javascript:sortSelectedSearch('평점높은순')">평점높은순</a></li>
             </ul>
           </div>
         </div>
@@ -202,7 +202,7 @@
         <div class="boxDiv">
           <div id="list-type2" class="list-type">
             <ul class="type1">
-              <!-- 첫번째 타입 -->
+              <!-- 최신순 첫번째 타입 -->
               <div class="listType0">
                 <li class="type3" th:each="dto:${ list }">
                   <div class="between">
@@ -257,6 +257,218 @@
               </div>
             </ul>
           </div>
+          <!-- 판매순 첫번째 타입 -->
+          <div class="listType1">
+            <li class="type3" th:each="dto:${ sellCount }">
+              <div class="between">
+                <div class="prd-img">
+                  <a th:href="|/product/${dto.itemNo}|" class="focusTag"
+                  ><img th:src="${ dto.itemImageUrl }" alt="" />
+                  </a>
+                </div>
+                <div class="tbl-cell">
+                  <p class="txt">
+                    <a th:href="|/product/${dto.itemNo}|" th:text="${ dto.itemName }"
+                    >퍼프 블라우스 화이트</a
+                    >
+                  </p>
+                  <p class="price-info">
+                    <th:block th:if="${dto.itemDiscountRate} != 0">
+                              <span
+                                      class="sale-rate"
+                                      th:text="${ (dto.itemDiscountRate)+'%' }"
+                              >9%</span
+                              >
+                      <span
+                              class="price"
+                              data-th-text="${#numbers.formatInteger(((dto.itemPrice)*((100-(dto.itemDiscountRate))*0.01)), 3, 'COMMA') + '원'}"
+                      >49,000원</span
+                      >
+                      <span
+                              class="gray-through"
+                              data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                      >49,000원</span
+                      >
+                    </th:block>
+                    <th:block th:unless="${dto.itemDiscountRate} != 0">
+                              <span
+                                      class="price"
+                                      data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                              >49,000원</span
+                              >
+                    </th:block>
+                  </p>
+                </div>
+              </div>
+              <a
+                      href="javascript:basketNumCount()"
+                      class="btn-cart-type1"
+              ><img
+                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                      alt=""
+              />
+              </a>
+            </li>
+          </div>
+          <!-- 낮은가격순 첫번째 타입 -->
+          <div class="listType2">
+            <li class="type3" th:each="dto:${ lowPrice }">
+              <div class="between">
+                <div class="prd-img">
+                  <a th:href="|/product/${dto.itemNo}|" class="focusTag"
+                  ><img th:src="${ dto.itemImageUrl }" alt="" />
+                  </a>
+                </div>
+                <div class="tbl-cell">
+                  <p class="txt">
+                    <a th:href="|/product/${dto.itemNo}|" th:text="${ dto.itemName }"
+                    >퍼프 블라우스 화이트</a
+                    >
+                  </p>
+                  <p class="price-info">
+                    <th:block th:if="${dto.itemDiscountRate} != 0">
+                              <span
+                                      class="sale-rate"
+                                      th:text="${ (dto.itemDiscountRate)+'%' }"
+                              >9%</span
+                              >
+                      <span
+                              class="price"
+                              data-th-text="${#numbers.formatInteger(((dto.itemPrice)*((100-(dto.itemDiscountRate))*0.01)), 3, 'COMMA') + '원'}"
+                      >49,000원</span
+                      >
+                      <span
+                              class="gray-through"
+                              data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                      >49,000원</span
+                      >
+                    </th:block>
+                    <th:block th:unless="${dto.itemDiscountRate} != 0">
+                              <span
+                                      class="price"
+                                      data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                              >49,000원</span
+                              >
+                    </th:block>
+                  </p>
+                </div>
+              </div>
+              <a
+                      href="javascript:basketNumCount()"
+                      class="btn-cart-type1"
+              ><img
+                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                      alt=""
+              />
+              </a>
+            </li>
+          </div>
+          <!-- 리뷰많은순 첫번째 타입 -->
+          <div class="listType3">
+            <li class="type3" th:each="dto:${ HighReview }">
+              <div class="between">
+                <div class="prd-img">
+                  <a th:href="|/product/${dto.itemNo}|" class="focusTag"
+                  ><img th:src="${ dto.itemImageUrl }" alt="" />
+                  </a>
+                </div>
+                <div class="tbl-cell">
+                  <p class="txt">
+                    <a th:href="|/product/${dto.itemNo}|" th:text="${ dto.itemName }"
+                    >퍼프 블라우스 화이트</a
+                    >
+                  </p>
+                  <p class="price-info">
+                    <th:block th:if="${dto.itemDiscountRate} != 0">
+                              <span
+                                      class="sale-rate"
+                                      th:text="${ (dto.itemDiscountRate)+'%' }"
+                              >9%</span
+                              >
+                      <span
+                              class="price"
+                              data-th-text="${#numbers.formatInteger(((dto.itemPrice)*((100-(dto.itemDiscountRate))*0.01)), 3, 'COMMA') + '원'}"
+                      >49,000원</span
+                      >
+                      <span
+                              class="gray-through"
+                              data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                      >49,000원</span
+                      >
+                    </th:block>
+                    <th:block th:unless="${dto.itemDiscountRate} != 0">
+                              <span
+                                      class="price"
+                                      data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                              >49,000원</span
+                              >
+                    </th:block>
+                  </p>
+                </div>
+              </div>
+              <a
+                      href="javascript:basketNumCount()"
+                      class="btn-cart-type1"
+              ><img
+                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                      alt=""
+              />
+              </a>
+            </li>
+          </div>
+          <!-- 평점높은순 첫번째 타입 -->
+          <div class="listType4">
+            <li class="type3" th:each="dto:${ HighGrade }">
+              <div class="between">
+                <div class="prd-img">
+                  <a th:href="|/product/${dto.itemNo}|" class="focusTag"
+                  ><img th:src="${ dto.itemImageUrl }" alt="" />
+                  </a>
+                </div>
+                <div class="tbl-cell">
+                  <p class="txt">
+                    <a th:href="|/product/${dto.itemNo}|" th:text="${ dto.itemName }"
+                    >퍼프 블라우스 화이트</a
+                    >
+                  </p>
+                  <p class="price-info">
+                    <th:block th:if="${dto.itemDiscountRate} != 0">
+                              <span
+                                      class="sale-rate"
+                                      th:text="${ (dto.itemDiscountRate)+'%' }"
+                              >9%</span
+                              >
+                      <span
+                              class="price"
+                              data-th-text="${#numbers.formatInteger(((dto.itemPrice)*((100-(dto.itemDiscountRate))*0.01)), 3, 'COMMA') + '원'}"
+                      >49,000원</span
+                      >
+                      <span
+                              class="gray-through"
+                              data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                      >49,000원</span
+                      >
+                    </th:block>
+                    <th:block th:unless="${dto.itemDiscountRate} != 0">
+                              <span
+                                      class="price"
+                                      data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                              >49,000원</span
+                              >
+                    </th:block>
+                  </p>
+                </div>
+              </div>
+              <a
+                      href="javascript:basketNumCount()"
+                      class="btn-cart-type1"
+              ><img
+                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                      alt=""
+              />
+              </a>
+            </li>
+          </div>
         </div>
       </div>
     </div>
@@ -299,6 +511,44 @@
           }
           return true;
         }
+
+      function sortSelectedSearch(name) {
+      document.querySelector("#select").innerHTML = name +" <img src=\"https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png\" alt=\"\">"
+      document.querySelector("#sort").style.display = "none";
+
+      if( name == '최신순' ){
+
+        for (let i =0; i<5; i++){
+          document.querySelector(".listType"+i).style.display = "none";
+        }
+        document.querySelector(".listType0").style.display = "block";
+
+        } else if( name == '판매순' ) {
+
+        for (let i =0; i<5; i++){
+          document.querySelector(".listType"+i).style.display = "none";
+        }
+        document.querySelector(".listType1").style.display = "block";
+        } else if( name == '낮은가격순' ) {
+
+        for (let i =0; i<5; i++){
+          document.querySelector(".listType"+i).style.display = "none";
+        }
+        document.querySelector(".listType2").style.display = "block";
+        } else if( name == '리뷰많은순' ) {
+
+        for (let i =0; i<5; i++){
+          document.querySelector(".listType"+i).style.display = "none";
+        }
+        document.querySelector(".listType3").style.display = "block";
+        } else if( name == '평점높은순' ) {
+
+        for (let i =0; i<5; i++){
+          document.querySelector(".listType"+i).style.display = "none";
+        }
+        document.querySelector(".listType4").style.display = "block";
+        }
+      }
 
     </script>
 </body>
