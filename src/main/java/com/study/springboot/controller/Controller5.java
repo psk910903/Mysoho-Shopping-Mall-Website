@@ -179,6 +179,8 @@ public class Controller5 {
             return "<script>alert('등록에 실패하였습니다');history.back();</script>";
         }
         return "<script>alert('등록되었습니다');opener.parent.location.reload();window.close();</script>";
+
+
     }
 
     // 상품 문의작성 폼(회원/비회원 나누기)------------------------------↓
@@ -197,7 +199,8 @@ public class Controller5 {
         return "/user/popup/inquiry-write";
     }
 
-    //상품상세----------------------------------------------------------------------------- 0303 리스트 출력 테스트
+    //상품상세-----------------------------------------------------------------------------↓ 0303 리스트 출력 테스트
+    // 댓글 출력 및 아이디 마스킹 contentTest.html과 연동
     @GetMapping("/product/test/{itemNo}")
     public String productContent(Model model,@PathVariable(value = "itemNo") Long itemNo) {
         ProductResponseDto dto = productService.findById(itemNo);
@@ -244,6 +247,7 @@ public class Controller5 {
         model.addAttribute("listSize",listSize);
             return "/user/product/contentTest";
     }
+    //상품상세-----------------------------------------------------------------------------↑ 0303 리스트 출력 테스트
 
 
 }
