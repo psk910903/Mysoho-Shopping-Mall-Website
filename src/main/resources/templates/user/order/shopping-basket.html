@@ -282,7 +282,7 @@
         }
 
         // 회원가입 할 경우
-        if (document.getElementById("joinCheckBox").checked){
+        if ([[${member}]] == null && document.getElementById("joinCheckBox").checked){
           // 아이디
           let username = document.getElementById("username").value;
           if (username == "" || !checkId.test(username)){
@@ -469,21 +469,6 @@
       document
         .querySelector(".show-share-list")
         .addEventListener("click", showShareList);
-      document
-        .querySelector("#closeBtn-share")
-        .addEventListener("click", closeOrderList);
-
-      let optionStr = document.querySelector("#option-price").innerHTML;
-      // 가격 형변환 후 쉼표추가 함수
-      let optionStr2 = optionStr.replace("원", "");
-      let optionPrice = Number(optionStr2.replace(",", ""));
-      let optionTemp = optionPrice;
-      //기존 가격으로 토탈 초기화
-      let optionTotalPrice = optionTemp;
-
-      //원가 수정 예정
-      let optionTotalPriceFirstCost =
-        Math.round((optionTemp * 1.09) / 1000) * 1000;
 
       //상품 갯수
       let optionN = document.querySelector(".MSH-sto-stock").value;

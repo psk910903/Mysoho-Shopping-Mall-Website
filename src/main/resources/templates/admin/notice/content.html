@@ -6,19 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="/css/admin.css">
     <title>마이소호 관리자페이지</title>
-    <style>
-        .notice-content2{
-          word-break: break-all;
-          word-wrap: break-word;
-        }
-        .notice-content2 *{
-            display: flex;
-            flex-flow: wrap;
-            max-width: 100%;
-            word-wrap: break-word;
-        }
-    </style>
 </head>
+<style>
+    .content-display * {
+        white-space: normal;
+    }
+    .content-display figure {
+        text-align: center;
+    }
+</style>
 <body>
 <div id="wrap">
     <div th:replace="/fragments/nav.html :: fragment-adminNav"></div>
@@ -53,7 +49,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" id="content_area" style="height: 500px;">
-                        <div th:utext="${notice.noticeContent}" class="notice-content2"></div>
+                        <div th:utext="${notice.noticeContent}" class="content-display"></div>
                     </td>
                 </tr>
             </table> <!-- 번호, 제목,카테고리, 작성일 테이블 끝 -->

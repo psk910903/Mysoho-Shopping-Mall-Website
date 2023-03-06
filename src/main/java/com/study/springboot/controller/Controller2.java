@@ -413,7 +413,7 @@ public class Controller2 {
             }
         }
 
-        // memberMileage
+        // member
         MemberResponseDto memberResponseDto = null;
         if (user != null) {
             String memberId = user.getUsername();
@@ -587,6 +587,7 @@ public class Controller2 {
         ////////////////////////////////////// cart DB에 넣기 ////////////////////////////////////////////
         String[] cartCodeList = {null, null, null, null, null};
         Long orderCode = null;
+
         // orderCode
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
         String orderCode1 = format.format(new Date());
@@ -664,6 +665,8 @@ public class Controller2 {
         orderContentSaveRequestDto.setCartCode5(cartCodeList[4]);
         orderContentSaveRequestDto.setOrderDatetime(LocalDateTime.now());
         orderContentSaveRequestDto.setMemberId(memberId);
+        orderContentSaveRequestDto.setMemberMileage(0L);
+        orderContentSaveRequestDto.setMemberCoupon("0");
         if (orderContentSaveRequestDto.getOrderPayType().contains("휴대폰결제") ||
                 orderContentSaveRequestDto.getOrderPayType().contains("삼성페이")) {
             orderContentSaveRequestDto.setOrderState("배송대기");

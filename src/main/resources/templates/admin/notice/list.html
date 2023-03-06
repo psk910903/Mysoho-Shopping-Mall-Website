@@ -35,10 +35,10 @@
         <div class="content" style="width:100%"> <!-- content 시작 -->
             <div class="contentWrap">
 
-            <div class="container m-0"> <!-- 검색 시작 -->
+            <div class="container m-0" style="width:100%"> <!-- 검색 시작 -->
                 <form action="/admin/notice/list" method="GET" class="row align-items-center" >
                     <input type="hidden" name="page" value="0"> <!-- 페이지를 0으로 설정 -->
-                    <table class="table table-bordered" >
+                    <table class="table table-bordered">
                         <tr>
                             <th style="text-align: center;" class="table-light w250" table-light>공지유형</th>
                             <td>
@@ -86,7 +86,7 @@
 
                 <tr th:each="notice, status:${list}">
                     <td class="align-middle" th:text="${notice.noticeNo}">번호</td>
-                    <td class="align-middle" >
+                    <td class="align-middle">
                         <div class="txt_ellipsis" th:text="${notice.noticeTitle}">제목</div>
                     </td>
                     <td class="align-middle" th:text="${#temporals.format(notice.noticeDatetime, 'yyyy-MM-dd HH:mm')}">작성일</td>
