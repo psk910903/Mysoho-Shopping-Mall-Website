@@ -1,9 +1,9 @@
 package com.study.springboot.service;
 
-import com.study.springboot.comparator.ItemPriceComparator;
-import com.study.springboot.comparator.ItemReviewCountComparator;
-import com.study.springboot.comparator.ItemReviewStarComparator;
-import com.study.springboot.comparator.SalesRateComparator;
+import com.study.springboot.comparator.LowPriceComparator;
+import com.study.springboot.comparator.HighReviewComparator;
+import com.study.springboot.comparator.ItemGradeComparator;
+import com.study.springboot.comparator.SellCountComparator;
 import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.order.OrderSearchDto;
@@ -19,7 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,67 +55,34 @@ public class Service1 {
         return list;
     }
 
-    //판매량
+    //정렬
     @Transactional(readOnly = true)
-    public List<ProductResponseDto> SortItemSale(List<ProductResponseDto> dtoList) {
+    public List<ProductResponseDto> SortItem(List<ProductResponseDto> dtoList, String type) {
+        List<ProductResponseDto> list = new ArrayList<>();
         for (ProductResponseDto dto : dtoList) {
-            dto.setSalesCount(cartRepository.findByItemSortSale(dto.getItemNo()));
+            list.add(dto.clone());
         }
-        Collections.sort(dtoList, new SalesRateComparator());
-        System.out.println("서비스쪽 판매량순");
-        for (ProductResponseDto dto : dtoList) {
-            String itemName = dto.getItemName();
-            int salesCount = dto.getSalesCount();
-            System.out.println(itemName + ", " + salesCount);
-        }
-        return dtoList;
-    }
 
-    @Transactional(readOnly = true)
-    public List<ProductResponseDto> SortItemPrice(List<ProductResponseDto> dtoList) {
-        dtoList.sort(new ItemPriceComparator());
-        System.out.println("서비스쪽 낮은가격순");
-        for (ProductResponseDto dto : dtoList) {
-            String itemName = dto.getItemName();
-            Long itemDiscountPrice = dto.getItemDiscountPrice();
-            System.out.println(itemName + ", " + itemDiscountPrice);
-        }
-        return dtoList;
-    }
-
-    @Transactional(readOnly = true)
-    public List<ProductResponseDto> SortItemReview(List<ProductResponseDto> dtoList) {
-
-        for (ProductResponseDto dto : dtoList) {
-            dto.setReviewCount(reviewRepository.findByItemReview(dto.getItemNo()));
-        }
-        dtoList.sort(new ItemReviewCountComparator());
-        System.out.println("서비스쪽 리뷰");
-        for (ProductResponseDto dto : dtoList) {
-            String itemName = dto.getItemName();
-            int reviewCount = dto.getReviewCount();
-            System.out.println(itemName + ", " + reviewCount);
-        }
-        return dtoList;
-    }
-    @Transactional(readOnly = true)
-    public List<ProductResponseDto> SortItemStar(List<ProductResponseDto> dtoList) {
-        for (ProductResponseDto dto : dtoList) {
-            Integer reviewStarAVG = reviewRepository.findByItemReviewStarAVG(dto.getItemNo());
-            if (reviewStarAVG == null) {
-                dto.setReviewStar(0);
-            } else {
-                dto.setReviewStar(reviewStarAVG);
+        if (type.equals("판매량")) {
+            for (ProductResponseDto dto : list) {
+                dto.setSalesCount(cartRepository.findByItemSortSale(dto.getItemNo()));
             }
+            list.sort(new SellCountComparator());
+        } else if (type.equals("낮은가격")) {
+            list.sort(new LowPriceComparator());
+        } else if (type.equals("리뷰")) {
+            for (ProductResponseDto dto : list) {
+                dto.setReviewCount(reviewRepository.findByItemReview(dto.getItemNo()));
+            }
+            list.sort(new HighReviewComparator());
+        } else if (type.equals("평점")) {
+            for (ProductResponseDto dto : list) {
+                Integer reviewStarAVG = reviewRepository.findByItemReviewStarAVG(dto.getItemNo());
+                if (reviewStarAVG == null) { dto.setReviewStar(0);} else { dto.setReviewStar(reviewStarAVG); }
+            }
+            list.sort(new ItemGradeComparator());
         }
-        dtoList.sort(new ItemReviewStarComparator());
-        System.out.println("서비스쪽 평점");
-        for (ProductResponseDto dto : dtoList) {
-            String itemName = dto.getItemName();
-            int reviewStar = dto.getReviewStar();
-            System.out.println(itemName + ", " + reviewStar);
-        }
-        return dtoList;
+        return list;
     }
 
     @Transactional(readOnly = true)

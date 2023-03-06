@@ -44,7 +44,6 @@ p {
   position: relative;
 }
 .fl-l img {
-  position: absolute;
   top: 7px;
   left: 45px;
   width: 15px;
@@ -332,10 +331,15 @@ p {
 .listType1,
   .listType2,
   .listType3,
+  .listType4,
   /* .ico-list-1, */
   .ico-list-2,
   .ico-list-3,
-  .ico-list-4 {
+  .ico-list-4,
+  #sellCountListType0,
+  #LowPriceListType0,
+  #HighReviewListType0,
+  #HighGradeListType0 {
   display: none;
 }
 .listType0 {

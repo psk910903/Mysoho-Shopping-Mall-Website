@@ -1,9 +1,5 @@
 package com.study.springboot.controller;
 
-import com.study.springboot.comparator.ItemPriceComparator;
-import com.study.springboot.comparator.ItemReviewCountComparator;
-import com.study.springboot.comparator.ItemReviewStarComparator;
-import com.study.springboot.comparator.SalesRateComparator;
 import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
@@ -300,50 +296,16 @@ public class Controller1 {
     List<ProductResponseDto> bestItem = service1.findByItem(6);
     List<ProductResponseDto> list = service1.findByItem(9);
 
-    List<ProductResponseDto> sale = service1.SortItemSale(list);
-    List<ProductResponseDto> price = service1.SortItemPrice(list);
-    List<ProductResponseDto> review = service1.SortItemReview(list);
-    List<ProductResponseDto> star = service1.SortItemStar(list);
-
-
-    Collections.sort(sale, new SalesRateComparator());
-    Collections.sort(price, new ItemPriceComparator());
-    Collections.sort(review, new ItemReviewCountComparator());
-    Collections.sort(star, new ItemReviewStarComparator());
-    System.out.println("판매량순");
-    for (ProductResponseDto dto : sale) {
-      String itemName = dto.getItemName();
-      int salesCount = dto.getSalesCount();
-      System.out.println(itemName + ", " + salesCount);
-    }
-    System.out.println();
-    System.out.println("낮은가격순");
-    for (ProductResponseDto dto : price) {
-      String itemName = dto.getItemName();
-      Long itemDiscountPrice = dto.getItemDiscountPrice();
-      System.out.println(itemName + ", " + itemDiscountPrice);
-    }
-    System.out.println();
-    System.out.println("리뷰많은순");
-    for (ProductResponseDto dto : review) {
-      String itemName = dto.getItemName();
-      int reviewCount = dto.getReviewCount();
-      System.out.println(itemName + ", " + reviewCount);
-    }
-    System.out.println();
-    System.out.println("평점순");
-    for (ProductResponseDto dto : star) {
-      String itemName = dto.getItemName();
-      int reviewStar = dto.getReviewStar();
-      System.out.println(itemName + ", " + reviewStar);
-    }
-    System.out.println();
+    List<ProductResponseDto> sellCount = service1.SortItem(list, "판매량");
+    List<ProductResponseDto> lowPrice = service1.SortItem(list, "낮은가격");
+    List<ProductResponseDto> HighReview = service1.SortItem(list, "리뷰");
+    List<ProductResponseDto> HighGrade = service1.SortItem(list, "평점");
+    model.addAttribute("sellCount", sellCount);
+    model.addAttribute("lowPrice", lowPrice);
+    model.addAttribute("HighReview", HighReview);
+    model.addAttribute("HighGrade", HighGrade);
     model.addAttribute("bestItem", bestItem);
     model.addAttribute("list", list);
-    model.addAttribute("SortSales", sale);
-    model.addAttribute("SortPrice", price);
-    model.addAttribute("SortReview", review);
-    model.addAttribute("SortStar", star);
 
 
     return "/user/category/home";
@@ -353,7 +315,19 @@ public class Controller1 {
   @GetMapping("/search")
   public String search(Model model,
                           @RequestParam(value = "keyword", required = false) String keyword) {
-      List<ProductResponseDto> list = service1.findByKeyword(keyword);
+    List<ProductResponseDto> list = service1.findByKeyword(keyword);
+
+      List<ProductResponseDto> sellCount = service1.SortItem(list, "판매량");
+      List<ProductResponseDto> lowPrice = service1.SortItem(list, "낮은가격");
+      List<ProductResponseDto> HighReview = service1.SortItem(list, "리뷰");
+      List<ProductResponseDto> HighGrade = service1.SortItem(list, "평점");
+      model.addAttribute("sellCount", sellCount);
+      model.addAttribute("lowPrice", lowPrice);
+      model.addAttribute("HighReview", HighReview);
+      model.addAttribute("HighGrade", HighGrade);
+
+
+
       int count = list.size();
       model.addAttribute("list", list);
       model.addAttribute("keyword", keyword);
