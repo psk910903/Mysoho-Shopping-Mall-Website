@@ -18,4 +18,6 @@ public interface QnaCommentRepository extends JpaRepository<QnaCommentEntity,Lon
     // 0224 희진 수정 -----------------------------------------------------------------------------
     @Query(value = "SELECT COUNT(*) FROM `qnacomment` WHERE comment_qna_id = :qnaId", nativeQuery = true)
     Long countByQnaId(@Param(value="qnaId")Long qnaId);
+    //0306 이준하 추가
+    List<QnaCommentEntity> findAllByCommentQnaId(Long num);
 }

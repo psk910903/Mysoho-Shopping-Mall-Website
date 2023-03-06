@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class Service4 {
+    private final MemberRepository memberRepository;
 
     private final QnaRepository qnaRepository;
     private final QnaCommentRepository qnaCommentRepository;
@@ -67,14 +68,14 @@ public class Service4 {
         if(byId.isPresent()){// 글번호가 있다.
             QnaEntity qnaEntity = byId.get();
             if(qnaEntity.getQnaPassword().equals(qnaSaveDto.getQnaPassword())){//패스워드 일치
-            return true;
+                return true;
             }else{// 패스워드 불일치
-            return false;
+                return false;
             }
         }else{// 글번호가 없다.
-        return false;
+            return false;
         }
-        // DB에서 조회한 비밀번호와 사용작 입력한 비밀번호가 일치하는지 판단
+        // DB에서 조회한 비밀번호와 사용자가 입력한 비밀번호가 일치하는지 판단
     }
 
     @Transactional
@@ -86,5 +87,10 @@ public class Service4 {
     public Long countByQnaId(Long qnaId) {
         Long count = qnaCommentRepository.countByQnaId(qnaId);
         return count;
+    }
+
+    public List<QnaCommentResponseDto> findAllByCommentQnaId(Long num) {
+        List <QnaCommentEntity> qnaCommentEntities = qnaCommentRepository.findAllByCommentQnaId(num);
+        return qnaCommentEntities.stream().map(QnaCommentResponseDto::new).collect(Collectors.toList());
     }
 }

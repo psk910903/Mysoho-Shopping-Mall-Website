@@ -4,16 +4,17 @@
 DROP TABLE if EXISTS qna;
 DROP TABLE if EXISTS qnacomment;
 
+--0306 이준하 테이블 수정 (NOT NULL 부분)
 CREATE TABLE `qna`
 (
 	qna_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	member_id VARCHAR(255) NOT NULL,
+	member_id VARCHAR(255) , --NOT NULL
 	qna_category VARCHAR(255) NOT NULL,
-	qna_name VARCHAR(50) NOT NULL,
+	qna_name VARCHAR(50) ,--NOT NULL
 	qna_title VARCHAR(255) NOT NULL,
 	qna_password VARCHAR(255) NOT NULL,
 	qna_content TEXT NOT NULL,
-    qna_secret  VARCHAR(255) NOT NULL,
+	qna_secret  VARCHAR(255) NOT NULL,
 	qna_hit INT DEFAULT 0 NOT NULL,
 	qna_local_date_time  DATETIME DEFAULT NOW()
 );
@@ -33,11 +34,10 @@ CREATE TABLE qnacomment
 );
 ALTER TABLE qnaComment CONVERT TO CHARSET UTF8;
 
-INSERT INTO qnaComment VALUES (1,'홍길동','내일배송됩니다','1',DEFAULT);
+INSERT INTO qnaComment VALUES (NULL,'홍길동','내일배송됩니다','6',DEFAULT);
 
 SELECT * FROM qnacomment;
 SELECT * FROM qna;
-
 
 
 -- 회원테이블 경빈 --------------------------------------------------------------
