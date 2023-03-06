@@ -150,11 +150,11 @@
           <!--          전체 tap-->
           <div class="list-type0">
             <div th:each="dto, status :${ orderList }" class="order_list">
-              <th:block th:if="${dto.orderNo != null}">
+              <th:block th:if="${dto.orderCode != null}">
                 <div class="list-wrap">
                   <div class="list-hd">
                     <div>
-                      <div class="od-num" th:text="${ (dto.orderNo) }">
+                      <div class="od-num" th:text="${ (dto.orderCode) }">
                         2023010608355933
                       </div>
                       <div
@@ -176,7 +176,7 @@
                         <div class="popup">
                           <div class="lhd">
                             <div>주문번호</div>
-                            <div th:text="${ (dto.orderNo) }" class="ord-num">
+                            <div th:text="${ (dto.orderCode) }" class="ord-num">
                               2023010608355933
                             </div>
                             <button
@@ -214,7 +214,7 @@
                                   |
                                   >주소1</span
                                 >
-                                <span th:text="${ (dto.orderRecipientAddr1) }"
+                                <span th:text="${ (dto.orderRecipientAddr2) }"
                                   >주소2</span
                                 >
                               </div>
@@ -337,7 +337,7 @@
                   <div
                     class="list"
                     th:each="cart:${ cartList }"
-                    th:if="${cart.orderCode == dto.orderNo}"
+                    th:if="${cart.orderCode == dto.orderCode}"
                   >
                     <a th:href="|/product/${cart.itemCode}|">
                       <img th:src="${ cart.itemImageUrl }" alt="" />
@@ -377,11 +377,11 @@
               th:if="${dto.orderState} == '결제대기'"
               class="order_list"
             >
-              <th:block th:if="${dto.orderNo != null}">
+              <th:block th:if="${dto.orderCode != null}">
                 <div class="list-wrap">
                   <div class="list-hd">
                     <div>
-                      <div class="od-num" th:text="${ (dto.orderNo) }">
+                      <div class="od-num" th:text="${ (dto.orderCode) }">
                         2023010608355933
                       </div>
                       <div
@@ -403,7 +403,7 @@
                         <div class="popup">
                           <div class="lhd">
                             <div>주문번호</div>
-                            <div th:text="${ (dto.orderNo) }" class="ord-num">
+                            <div th:text="${ (dto.orderCode) }" class="ord-num">
                               2023010608355933
                             </div>
                             <button
@@ -441,7 +441,7 @@
                                   |
                                   >주소1</span
                                 >
-                                <span th:text="${ (dto.orderRecipientAddr1) }"
+                                <span th:text="${ (dto.orderRecipientAddr2) }"
                                   >주소2</span
                                 >
                               </div>
@@ -463,7 +463,6 @@
                                 <div class="lcont-info">휴대폰결제</div>
                               </th:block>
                             </div>
-                            <!--                        0226 여기까지 함-->
                             <div class="lcont-con">
                               <div class="lcont-tit">결제금액</div>
                               <div class="between">
@@ -564,7 +563,7 @@
                   <div
                     class="list"
                     th:each="cart:${ cartList }"
-                    th:if="${cart.orderCode == dto.orderNo}"
+                    th:if="${cart.orderCode == dto.orderCode}"
                   >
                     <a th:href="|/product/${cart.itemCode}|">
                       <img th:src="${ cart.itemImageUrl }" alt="" />
@@ -604,11 +603,11 @@
               th:if="${dto.orderState} == '배송대기'"
               class="order_list"
             >
-              <th:block th:if="${dto.orderNo != null}">
+              <th:block th:if="${dto.orderCode != null}">
                 <div class="list-wrap">
                   <div class="list-hd">
                     <div>
-                      <div class="od-num" th:text="${ (dto.orderNo) }">
+                      <div class="od-num" th:text="${ (dto.orderCode) }">
                         2023010608355933
                       </div>
                       <div
@@ -630,7 +629,7 @@
                         <div class="popup">
                           <div class="lhd">
                             <div>주문번호</div>
-                            <div th:text="${ (dto.orderNo) }" class="ord-num">
+                            <div th:text="${ (dto.orderCode) }" class="ord-num">
                               2023010608355933
                             </div>
                             <button
@@ -668,7 +667,7 @@
                                   |
                                   >주소1</span
                                 >
-                                <span th:text="${ (dto.orderRecipientAddr1) }"
+                                <span th:text="${ (dto.orderRecipientAddr2) }"
                                   >주소2</span
                                 >
                               </div>
@@ -791,7 +790,7 @@
                   <div
                     class="list"
                     th:each="cart:${ cartList }"
-                    th:if="${cart.orderCode == dto.orderNo}"
+                    th:if="${cart.orderCode == dto.orderCode}"
                   >
                     <a th:href="|/product/${cart.itemCode}|">
                       <img th:src="${ cart.itemImageUrl }" alt="" />
@@ -830,11 +829,11 @@
               th:if="${dto.orderState} == '배송중'"
               class="order_list"
             >
-              <th:block th:if="${dto.orderNo != null}">
+              <th:block th:if="${dto.orderCode != null}">
                 <div class="list-wrap">
                   <div class="list-hd">
                     <div>
-                      <div class="od-num" th:text="${ (dto.orderNo) }">
+                      <div class="od-num" th:text="${ (dto.orderCode) }">
                         2023010608355933
                       </div>
                       <div
@@ -856,7 +855,7 @@
                         <div class="popup">
                           <div class="lhd">
                             <div>주문번호</div>
-                            <div th:text="${ (dto.orderNo) }" class="ord-num">
+                            <div th:text="${ (dto.orderCode) }" class="ord-num">
                               2023010608355933
                             </div>
                             <button
@@ -894,7 +893,7 @@
                                   |
                                   >주소1</span
                                 >
-                                <span th:text="${ (dto.orderRecipientAddr1) }"
+                                <span th:text="${ (dto.orderRecipientAddr2) }"
                                   >주소2</span
                                 >
                               </div>
@@ -1017,7 +1016,7 @@
                   <div
                     class="list"
                     th:each="cart:${ cartList }"
-                    th:if="${cart.orderCode == dto.orderNo}"
+                    th:if="${cart.orderCode == dto.orderCode}"
                   >
                     <a th:href="|/product/${cart.itemCode}|">
                       <img th:src="${ cart.itemImageUrl }" alt="" />
@@ -1057,11 +1056,11 @@
               th:if="${dto.orderState} == '배송완료'"
               class="order_list"
             >
-              <th:block th:if="${dto.orderNo != null}">
+              <th:block th:if="${dto.orderCode != null}">
                 <div class="list-wrap">
                   <div class="list-hd">
                     <div>
-                      <div class="od-num" th:text="${ (dto.orderNo) }">
+                      <div class="od-num" th:text="${ (dto.orderCode) }">
                         2023010608355933
                       </div>
                       <div
@@ -1083,7 +1082,7 @@
                         <div class="popup">
                           <div class="lhd">
                             <div>주문번호</div>
-                            <div th:text="${ (dto.orderNo) }" class="ord-num">
+                            <div th:text="${ (dto.orderCode) }" class="ord-num">
                               2023010608355933
                             </div>
                             <button
@@ -1121,7 +1120,7 @@
                                   |
                                   >주소1</span
                                 >
-                                <span th:text="${ (dto.orderRecipientAddr1) }"
+                                <span th:text="${ (dto.orderRecipientAddr2) }"
                                   >주소2</span
                                 >
                               </div>
@@ -1244,7 +1243,7 @@
                   <div
                     class="list"
                     th:each="cart:${ cartList }"
-                    th:if="${cart.orderCode == dto.orderNo}"
+                    th:if="${cart.orderCode == dto.orderCode}"
                   >
                     <a th:href="|/product/${cart.itemCode}|">
                       <img th:src="${ cart.itemImageUrl }" alt="" />
@@ -1284,11 +1283,11 @@
               th:if="${dto.orderState} == '취소/반품/교환'"
               class="order_list"
             >
-              <th:block th:if="${dto.orderNo != null}">
+              <th:block th:if="${dto.orderCode != null}">
                 <div class="list-wrap">
                   <div class="list-hd">
                     <div>
-                      <div class="od-num" th:text="${ (dto.orderNo) }">
+                      <div class="od-num" th:text="${ (dto.orderCode) }">
                         2023010608355933
                       </div>
                       <div
@@ -1310,7 +1309,7 @@
                         <div class="popup">
                           <div class="lhd">
                             <div>주문번호</div>
-                            <div th:text="${ (dto.orderNo) }" class="ord-num">
+                            <div th:text="${ (dto.orderCode) }" class="ord-num">
                               2023010608355933
                             </div>
                             <button
@@ -1348,7 +1347,7 @@
                                   |
                                   >주소1</span
                                 >
-                                <span th:text="${ (dto.orderRecipientAddr1) }"
+                                <span th:text="${ (dto.orderRecipientAddr2) }"
                                   >주소2</span
                                 >
                               </div>
@@ -1471,7 +1470,7 @@
                   <div
                     class="list"
                     th:each="cart:${ cartList }"
-                    th:if="${cart.orderCode == dto.orderNo}"
+                    th:if="${cart.orderCode == dto.orderCode}"
                   >
                     <a th:href="|/product/${cart.itemCode}|">
                       <img th:src="${ cart.itemImageUrl }" alt="" />
