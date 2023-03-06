@@ -75,12 +75,12 @@
             <form method="POST" action="/inquiry/test1" target="modifyPopup">
               <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
               <input type="hidden" name="inquiryNo" th:value="${inquiry.inquiryNo}">
-              <button>수정</button>
+              <button class="form-btn">수정</button>
             </form>
             <form th:id="|deleteForm${status.index}|" method="POST" action="/inquiry/myProductInquiries/deleteAction">
               <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
               <input type="hidden" name="inquiryNo" th:value="${inquiry.inquiryNo}">
-              <button type="button" th:onclick="|javascript:checkDelete('${status.index}')|">삭제</button>
+              <button class="form-btn" type="button" th:onclick="|javascript:checkDelete('${status.index}')|">삭제</button>
             </form>
           </div>
         </div>

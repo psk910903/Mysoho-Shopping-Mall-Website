@@ -1,7 +1,8 @@
-      .container-myProductInquiries {
+      .container-qna-user {
         padding-bottom: 100px;
         min-height: 550px;
       }
+
       .users-title-line-hd-wrap {
         display: flex;
       }
@@ -29,9 +30,48 @@
         justify-content: center;
         padding: 70px 0;
         font-size: 14px;
+        flex-direction: column;
       }
-      .inquiry-item,
-      .inquiry-writing{
+      .txt-detail-btn {
+        width: 120px;
+        border: 1px solid #d9d9d9;
+        margin-top: 15px;
+        border-radius: 50px;
+        box-sizing: border-box;
+        font-weight: bold;
+        padding: 13px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+      }
+      .txt-detail img {
+        width: 13px;
+        margin-right: 3px;
+      }
+      .result {
+        height: 400px;
+      }
+      .btnBwrite {
+        margin: 25px auto;
+        display: flex;
+        justify-content: center;
+      }
+      .btnBwrite a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 195px;
+        height: 47px;
+        border-radius: 100px;
+        border: 1px solid black;
+      }
+      .btnBwrite img {
+        width: 17px;
+        height: 17px;
+        margin-right: 3px;
+      }
+      .qna-writing{
         min-height: 87px;
         padding: 15px 18px;
         display: flex;
@@ -39,16 +79,6 @@
         align-items: center;
         border-bottom: 1px solid rgb(240,240,240);
       }
-      .item-image{
-        width: 50px;
-        height:50px;
-      }
-      .item-image img{
-        width: 50px;
-        height: 50px;
-        object-fit: cover;
-      }
-      .item-explain,
       .writing-explain{
         font-size: 14px;
         display: flex;

@@ -184,6 +184,9 @@ public class Controller2 {
     public ResponseEntity<FileResponse> noticeImgUpload(
             @RequestPart(value = "upload", required = false) MultipartFile fileload) throws Exception {
 
+        System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
+        System.out.println(fileload);
+
         return new ResponseEntity<>(FileResponse.builder().
                 uploaded(true).
                 url(awsS3Service.upload(fileload)).
@@ -201,8 +204,10 @@ public class Controller2 {
         Page<NoticeResponseDto> list;
         if (keyword == null) { // 검색 기능을 쓰지 않을 때
             list = noticeService.findAll(page);
+            model.addAttribute("findAction", false);
         } else{ // 검색 기능을 쓸 때
             list = noticeService.findByKeyword("title", keyword, page);
+            model.addAttribute("findAction", true);
         }
 
         int totalPage = list.getTotalPages(); // 전체 페이지 개수
@@ -211,7 +216,7 @@ public class Controller2 {
         model.addAttribute("list", list);
         model.addAttribute("keyword", keyword);
         model.addAttribute("pageList", pageList);
-        model.addAttribute("listCount", service2.count());
+        model.addAttribute("listCount", list.getNumberOfElements());
 
         return "user/category/notice";
     }

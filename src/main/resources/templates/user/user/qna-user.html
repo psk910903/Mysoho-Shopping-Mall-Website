@@ -18,176 +18,7 @@
     <link rel="stylesheet" href="/css/header.css" />
     <link rel="stylesheet" href="/css/footer.css" />
     <link rel="stylesheet" href="/css/login.css" />
-    <style>
-      .container-qna-user {
-        padding-bottom: 100px;
-        min-height: 550px;
-      }
-
-      .users-title-line-hd-wrap {
-        display: flex;
-      }
-      .users-title-line-hd {
-        background-color: white;
-        width: 50%;
-      }
-      .users-title-line-hd {
-        font-size: 14px;
-        color: #999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      #this-page {
-        border-bottom: 2px solid #000;
-        color: #000;
-        font-weight: bold;
-      }
-      .txt-detail {
-        max-height: 864px;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 70px 0;
-        font-size: 14px;
-        flex-direction: column;
-      }
-      .txt-detail-btn {
-        width: 120px;
-        border: 1px solid #d9d9d9;
-        margin-top: 15px;
-        border-radius: 50px;
-        box-sizing: border-box;
-        font-weight: bold;
-        padding: 13px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .txt-detail img {
-        width: 13px;
-        margin-right: 3px;
-      }
-      .result {
-        height: 400px;
-      }
-      .btnBwrite {
-        margin: 25px auto;
-        display: flex;
-        justify-content: center;
-      }
-      .btnBwrite a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 195px;
-        height: 47px;
-        border-radius: 100px;
-        border: 1px solid black;
-      }
-      .btnBwrite img {
-        width: 17px;
-        height: 17px;
-        margin-right: 3px;
-      }
-      .qna-writing{
-        min-height: 87px;
-        padding: 15px 18px;
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        border-bottom: 1px solid rgb(240,240,240);
-      }
-      .writing-explain{
-        font-size: 14px;
-        display: flex;
-        flex-flow: column;
-        gap: 5px;
-        justify-content: center;
-        width: 90%;
-      }
-      .writing-state{
-        width: 46px;
-        height:46px;
-        margin: 2px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #999999;
-        background: #edeff2;
-        font-weight: bold;
-        font-size: 11px;
-        border-radius: 100%;
-        border: none;
-      }
-      .writing-info{
-        display: flex;
-        font-size: 12px;
-        color: rgb(170,170,170);
-      }
-      .writing-type{
-        padding-right: 5px;
-      }
-      .writing-detail{
-        padding: 0 5px;
-      }
-      .writing-content {
-        word-break: break-all;
-        position:relative;
-      }
-      .writing-content img{
-        margin-left: 5px;
-        height: 15px;
-        position:absolute;
-        bottom: 3px;
-      }
-      .writing-icon{
-        position: relative;
-        cursor: pointer;
-      }
-      .writing-icon img{
-        height: 13px;
-      }
-      .writing-action{
-        position: absolute;
-        top: 30px;
-        right:0px;
-        width: 57px;
-        border-radius: 4px;
-        border: 1px solid rgb(240,240,240);
-        background-color: white;
-        visibility: hidden;
-        z-index: 1;
-      }
-      .writing-action a{
-        display: block;
-        text-align: center;
-        padding: 10px;
-      }
-      .bar{
-        border-right: 1px solid rgb(170,170,170);
-        border-left: 1px solid rgb(170,170,170);
-      }
-      .list-gap{
-        height: 10px;
-        background-color: rgb(240,240,240);
-        border-top: 1px solid rgb(200,200,200);
-      }
-      .brackground-green{
-        background: #58DB51;
-        color: #fff;
-      }
-      .font-gray{
-        color: gray;
-      }
-      .form-btn{
-        width:100%;
-        border: 0;
-        background-color:transparent;
-        padding: 5px;
-      }
-    </style>
+    <link rel="stylesheet" href="/css/qna-user.css" />
   </head>
   <body>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
@@ -212,7 +43,7 @@
 <!--        문의가 없을 때 ---------------------------------------------------------------------------------->
         <div class="txt-detail non result" th:if="${#lists.size(qnaList)} == 0" >
           <div>등록된 Q&A가 없습니다.</div>
-          <div onclick="openQnAwrite()" class="txt-detail-btn">
+          <div onclick="openPopupQnAWrite()" class="txt-detail-btn">
             <img
               src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_write_btn.png"
               alt=""
@@ -224,10 +55,10 @@
         <div class="btnBwrite js-btnMoveWritePage" th:unless="${#lists.size(qnaList)} == 0"> <!-- 문의 작성 시작-->
           <a href="javascript:openPopupQnAWrite()">
             <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/bg_ico_write.png" alt=""/>
-            <strong> 문의작성</strong>
+            <strong>문의작성</strong>
           </a>
         </div>
-        <hr> <!-- 문의 작성 끝-->
+        <hr th:unless="${#lists.size(qnaList)} == 0"> <!-- 문의 작성 끝-->
 
         <div class="qna-list" th:unless="${#lists.size(qnaList)} == 0" th:each="qna, status:${qnaList}">
           <div class="qna-writing"> <!-- writing 시작 -->
