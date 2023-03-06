@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,7 +62,7 @@ public class Service1 {
         for (ProductResponseDto dto : dtoList) {
             dto.setSalesCount(cartRepository.findByItemSortSale(dto.getItemNo()));
         }
-        dtoList.sort(new SalesRateComparator());
+        Collections.sort(dtoList, new SalesRateComparator());
         System.out.println("서비스쪽 판매량순");
         for (ProductResponseDto dto : dtoList) {
             String itemName = dto.getItemName();
@@ -82,12 +83,20 @@ public class Service1 {
         }
         return dtoList;
     }
+
     @Transactional(readOnly = true)
     public List<ProductResponseDto> SortItemReview(List<ProductResponseDto> dtoList) {
+
         for (ProductResponseDto dto : dtoList) {
             dto.setReviewCount(reviewRepository.findByItemReview(dto.getItemNo()));
         }
         dtoList.sort(new ItemReviewCountComparator());
+        System.out.println("서비스쪽 리뷰");
+        for (ProductResponseDto dto : dtoList) {
+            String itemName = dto.getItemName();
+            int reviewCount = dto.getReviewCount();
+            System.out.println(itemName + ", " + reviewCount);
+        }
         return dtoList;
     }
     @Transactional(readOnly = true)
@@ -101,6 +110,12 @@ public class Service1 {
             }
         }
         dtoList.sort(new ItemReviewStarComparator());
+        System.out.println("서비스쪽 평점");
+        for (ProductResponseDto dto : dtoList) {
+            String itemName = dto.getItemName();
+            int reviewStar = dto.getReviewStar();
+            System.out.println(itemName + ", " + reviewStar);
+        }
         return dtoList;
     }
 

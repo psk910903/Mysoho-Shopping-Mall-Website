@@ -32,9 +32,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.text.ParseException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 @Controller
@@ -307,27 +305,11 @@ public class Controller1 {
     List<ProductResponseDto> review = service1.SortItemReview(list);
     List<ProductResponseDto> star = service1.SortItemStar(list);
 
-    //test
-    for (ProductResponseDto dto : sale) {
-      dto.setSalesCount(cartRepository.findByItemSortSale(dto.getItemNo()));
-    }
-    sale.sort(new SalesRateComparator());
-    System.out.println("test 판매량순");
-    for (ProductResponseDto dto : sale) {
-      String itemName = dto.getItemName();
-      int salesCount = dto.getSalesCount();
-      System.out.println(itemName + ", " + salesCount);
-    }
-    //
-    //test
-    price.sort(new ItemPriceComparator());
-    System.out.println("test 낮은가격순");
-    for (ProductResponseDto dto : sale) {
-      String itemName = dto.getItemName();
-      Long itemDiscountPrice = dto.getItemDiscountPrice();
-      System.out.println(itemName + ", " + itemDiscountPrice);
-    }
-    //
+
+    Collections.sort(sale, new SalesRateComparator());
+    Collections.sort(price, new ItemPriceComparator());
+    Collections.sort(review, new ItemReviewCountComparator());
+    Collections.sort(star, new ItemReviewStarComparator());
     System.out.println("판매량순");
     for (ProductResponseDto dto : sale) {
       String itemName = dto.getItemName();
