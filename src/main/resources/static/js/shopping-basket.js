@@ -216,26 +216,43 @@ function sizeTap(type) {
   }
 }
 // 사이즈 선택시
-// 사이즈 선택시
-      function finalSize(size) {
-        document.querySelector(".size-wrap").style.display = "none";
-        document.querySelector(".hidden-option-tap").style.display = "block";
-        document.querySelector(".option-choice").style.display = "none";
-        document.querySelector(".option-btn-bg").style.display = "none";
-        document.querySelector(".final-size").innerHTML = size;
-        let strPrice = document.querySelector("#option-price").innerHTML;
+function finalSize(size) {
+  document.querySelector(".size-wrap").style.display = "none";
+  document.querySelector(".hidden-option-tap").style.display = "block";
+  document.querySelector(".option-choice").style.display = "none";
+  document.querySelector(".option-btn-bg").style.display = "none";
+  document.querySelector(".final-size").innerHTML = size;
 
-        let strPrice2 = strPrice.replace("원", "");
-        let price = Number(strPrice2.replace(",", ""));
-        let b = ",";
-        var position = -3;
-        // 매개변수로 받은 사이즈를 final-size 클래스의 값으로 넣어야함
-        // 이 탭 디스플레이 블록으로
-        let a = String(price);
-        var output = [a.slice(0, position), b, a.slice(position)].join("");
-        document.querySelector(".option-total-price").innerHTML = output;
+  let strPrice = document.querySelector("#option-price").innerHTML;
 
-      }
+  let strPrice2 = strPrice.replace("원", "");
+  let price = Number(strPrice2.replace(",", ""));
+  let b = ",";
+  var position = -3;
+  // 매개변수로 받은 사이즈를 final-size 클래스의 값으로 넣어야함
+  // 이 탭 디스플레이 블록으로
+  let a = String(price);
+  var output = [a.slice(0, position), b, a.slice(position)].join("");
+  document.querySelector(".option-total-price").innerHTML = output;
+}
+
+function finalColor(color) {
+  document.querySelector(".size-wrap").style.display = "none";
+  document.querySelector(".hidden-option-tap").style.display = "block";
+  document.querySelector(".option-choice").style.display = "none";
+  document.querySelector(".option-btn-bg").style.display = "none";
+  document.querySelector(".final-color").innerHTML = color;
+  let strPrice = document.querySelector("#option-price").innerHTML;
+  let strPrice2 = strPrice.slice(0, -1);
+  let price = Number(strPrice2.replace(",", ""));
+  let b = ",";
+  var position = -3;
+  // 매개변수로 받은 사이즈를 final-size 클래스의 값으로 넣어야함
+  // 이 탭 디스플레이 블록으로
+  let a = String(price);
+  var output = [a.slice(0, position), b, a.slice(position)].join("");
+  document.querySelector(".option-total-price").innerHTML = output;
+}
 
 function sum() {
   optionTotalPrice += optionPrice;
@@ -291,7 +308,7 @@ function openPopupShareBtn(name) {
 function alertbtn() {
   alert("링크가 복사되었습니다. \n원하는 위치에 붙여넣기하세요. ");
 }
-
+//상세페이지에서 수량 수정(색상&사이즈 옵션 각 1개뿐일 때)
 function productSum() {
   totalPrice += price;
   // 가격 형변환 후 쉼표추가 함수
@@ -299,34 +316,142 @@ function productSum() {
   var output = [a.slice(0, position), b, a.slice(position)].join("");
   document.querySelector("#price").innerHTML = output + "원";
   document.querySelector("#finalPrice").innerHTML = output + "원";
+
   //갯수
   amount++;
   document.querySelector(".MSH-sto-stock").value = amount;
+
+  //할인상품일 경우
+  if (itemDiscountRate != 0) {
+    totalPrice2 += price2;
+    let discount = totalPrice2 - totalPrice;
+    let a2 = String(totalPrice2);
+    let a3 = String(discount);
+    var output2 = [a2.slice(0, position), b, a2.slice(position)].join("");
+    var output3 = [a3.slice(0, position), b, a3.slice(position)].join("");
+    document.querySelector("#finalTotalPrice").innerHTML = output2 + "원";
+    document.querySelector("#discountPrice").innerHTML = "- " + output3 + "원";
+    document.querySelector("#discountPrice2").innerHTML = output3 + "원";
+  } else {
+    document.querySelector("#finalTotalPrice").innerHTML = output + "원";
+  }
 }
 function productSub() {
   if (amount > 1) {
     totalPrice -= price;
+
     // 가격 형변환 후 쉼표추가 함수
     let a = String(totalPrice);
+
     var output = [a.slice(0, position), b, a.slice(position)].join("");
+
     document.querySelector("#price").innerHTML = output + "원";
     document.querySelector("#finalPrice").innerHTML = output + "원";
+
     //갯수
     amount--;
     document.querySelector(".MSH-sto-stock").value = amount;
+
+    if (itemDiscountRate != 0) {
+      totalPrice2 -= price2;
+      let discount = totalPrice2 - totalPrice;
+      let a2 = String(totalPrice2);
+      let a3 = String(discount);
+      var output2 = [a2.slice(0, position), b, a2.slice(position)].join("");
+      var output3 = [a3.slice(0, position), b, a3.slice(position)].join("");
+      document.querySelector("#finalTotalPrice").innerHTML = output2 + "원";
+      document.querySelector("#discountPrice").innerHTML =
+        "- " + output3 + "원";
+      document.querySelector("#discountPrice2").innerHTML = output3 + "원";
+    } else {
+      document.querySelector("#finalTotalPrice").innerHTML = output + "원";
+    }
   } else {
     document.querySelector(".MSH-sto-stock").value = amount;
-    document.querySelector("#price").innerHTML = str;
-    document.querySelector("#finalPrice").innerHTML = str;
+    var output = [str.slice(0, position), b, str.slice(position)].join("");
+    document.querySelector("#price").innerHTML = output + "원";
+    document.querySelector("#finalPrice").innerHTML = output + "원";
+    document.querySelector("#finalTotalPrice").innerHTML = output + "원";
   }
 }
+
+function optionSum() {
+  optionTotalPrice += optionPrice;
+  // 가격 형변환 후 쉼표추가 함수
+  let a = String(optionTotalPrice);
+  var output = [a.slice(0, position), b, a.slice(position)].join("");
+  document.querySelector("#option-price").innerHTML = output + "원";
+  document.querySelector("#finalPrice").innerHTML = output + "원";
+  document.querySelector(".option-total-price").innerHTML = output;
+  finalPrice = output;
+  //갯수
+  optionAmount++;
+  document.querySelector(".MSH-sto-stock").value = optionAmount;
+
+  if (itemDiscountRate != 0) {
+    totalPrice2 += price2;
+    let discount = totalPrice2 - optionTotalPrice;
+    let a2 = String(totalPrice2);
+    let a3 = String(discount);
+    var output2 = [a2.slice(0, position), b, a2.slice(position)].join("");
+    var output3 = [a3.slice(0, position), b, a3.slice(position)].join("");
+    document.querySelector("#finalTotalPrice").innerHTML = output2 + "원";
+    document.querySelector("#discountPrice").innerHTML = "- " + output3 + "원";
+    document.querySelector("#discountPrice2").innerHTML = output3 + "원";
+  } else {
+    document.querySelector("#finalTotalPrice").innerHTML = output + "원";
+  }
+}
+function optionSub() {
+  if (optionAmount > 1) {
+    optionTotalPrice -= optionPrice;
+    // 가격 형변환 후 쉼표추가 함수
+    let a = String(optionTotalPrice);
+    var output = [a.slice(0, position), b, a.slice(position)].join("");
+    document.querySelector("#option-price").innerHTML = output + "원";
+    document.querySelector("#finalPrice").innerHTML = output + "원";
+    document.querySelector(".option-total-price").innerHTML = output;
+    finalPrice = output;
+    //갯수
+    optionAmount--;
+    document.querySelector(".MSH-sto-stock").value = optionAmount;
+
+    if (itemDiscountRate != 0) {
+      totalPrice2 -= price2;
+      let discount = totalPrice2 - totalPrice;
+      let a2 = String(totalPrice2);
+      let a3 = String(discount);
+      var output2 = [a2.slice(0, position), b, a2.slice(position)].join("");
+      var output3 = [a3.slice(0, position), b, a3.slice(position)].join("");
+      document.querySelector("#finalTotalPrice").innerHTML = output2 + "원";
+      document.querySelector("#discountPrice").innerHTML =
+        "- " + output3 + "원";
+      document.querySelector("#discountPrice2").innerHTML = output3 + "원";
+    } else {
+      document.querySelector("#finalTotalPrice").innerHTML = output + "원";
+    }
+  } else {
+    document.querySelector(".MSH-sto-stock").value = optionAmount;
+    var output = [
+      optionStr.slice(0, position),
+      b,
+      optionStr.slice(position),
+    ].join("");
+    document.querySelector("#price").innerHTML = output + "원";
+    document.querySelector("#finalPrice").innerHTML = output + "원";
+    document.querySelector("#option-price").innerHTML = optionStr + "원";
+    document.querySelector("#finalTotalPrice").innerHTML = output + "원";
+  }
+}
+
 function basketNumCount() {
   basketNum++;
   document.querySelector(".basket-num").innerHTML = basketNum;
 }
 
 function popupOptionList(cartNo) {
-    document.querySelector("#bg-option" + cartNo).className = "bg-option showoptionList";
+  document.querySelector("#bg-option" + cartNo).className =
+    "bg-option showoptionList";
 }
 
 function closeOptionList(cartNo) {
@@ -335,21 +460,25 @@ function closeOptionList(cartNo) {
 
 // 옵션탭 열고 닫기
 function optionTap(type, index) {
-  if (document.querySelector("#" + type + "-wrap" + index).style.display !== "none") {
+  if (
+    document.querySelector("#" + type + "-wrap" + index).style.display !==
+    "none"
+  ) {
     document.querySelector("#" + type + "-wrap" + index).style.display = "none";
     document.querySelector("#btn-up-" + type + index).style.display = "none";
     document.querySelector("#btn-down-" + type + index).style.display = "block";
   } else {
-    document.querySelector("#" + type + "-wrap" + index).style.display = "block";
+    document.querySelector("#" + type + "-wrap" + index).style.display =
+      "block";
     document.querySelector("#btn-up-" + type + index).style.display = "block";
     document.querySelector("#btn-down-" + type + index).style.display = "none";
   }
 }
 // 옵션 선택시
-function finalOption(type, option ,index) {
+function finalOption(type, option, index) {
   document.querySelector("#" + type + "-wrap" + index).style.display = "none";
-  document.querySelector("#final-"+ type + index).innerText = option;
-  document.querySelector("#final-"+ type + "-input"+ index).value = option;
+  document.querySelector("#final-" + type + index).innerText = option;
+  document.querySelector("#final-" + type + "-input" + index).value = option;
 }
 
 function adjustJoinForm() {
@@ -360,16 +489,12 @@ function adjustJoinForm() {
   }
 }
 
-function showDirectInput(){
+function showDirectInput() {
   let msgToCourier = document.getElementById("msgToCourier");
   let selected = msgToCourier.options[msgToCourier.selectedIndex].value;
-  if (selected == "direct"){
+  if (selected == "direct") {
     document.getElementById("directInput").style.display = "block";
-  }else{
+  } else {
     document.getElementById("directInput").style.display = "none";
   }
 }
-
-
-
-

@@ -34,7 +34,7 @@ public class OrderContentSaveRequestDto {
     private String orderPayType; // 휴대폰결제 or 무통장입금 선택
     private String orderState; // 주문상태
     private LocalDateTime orderDatetime;
-    
+
     public OrderEntity toEntity(){
         return OrderEntity.builder()
                 .orderNo(orderNo)

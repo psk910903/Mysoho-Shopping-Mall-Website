@@ -14,3 +14,14 @@ function openSearch() {
 function closeSearch() {
   document.getElementById("myOverlay").style.display = "none";
 }
+
+function checkTxt(e) {
+  let val = document.querySelector("#keyword").value;
+
+  // 입력값이 공백일 때
+  if (val === "") {
+    alert("검색어를 입력해주세요.");
+    return false;
+  }
+  return true;
+}

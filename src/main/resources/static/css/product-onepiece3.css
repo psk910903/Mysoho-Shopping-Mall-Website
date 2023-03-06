@@ -766,3 +766,14 @@ input[type="checkbox"]:checked::after {
 .flexbox span {
   display: none;
 }
+
+.prd-option-result {
+    padding: 5px 0;
+    margin: 0 20px 0 5px;
+    font-size: 15px;
+    color: #297bcf;
+}
+
+#hidden{
+  display: none;
+}

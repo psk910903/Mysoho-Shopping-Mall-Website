@@ -18,10 +18,13 @@ import com.study.springboot.service.ProductService;
 import com.study.springboot.service.Service5;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -186,6 +189,7 @@ public class Controller5 {
         //체크박스를 체크안했을 때, 반환되는 null값을 공개로 전환 ↓
         System.out.println(inquirySaveResponseDto.getInquirySecret());
         if( inquirySaveResponseDto.getInquirySecret() == null ){
+
             inquirySaveResponseDto.setInquirySecret("공개");
         }
 
@@ -202,14 +206,18 @@ public class Controller5 {
     }
 
     // 상품 문의작성 폼(회원/비회원 나누기)------------------------------↓
-    @GetMapping("/inquiry/productInquiryWriteForm/test/{itemNo}")
-    public  String inquiryProductInquiryWriteFormTest(@PathVariable("itemNo") Long itemNo, Model model) {
-//        String inquiryMemberId = "hong";
-        String inquiryMemberId = null;
+    @GetMapping("/inquiry/productInquiryWriteForm/{itemNo}")
+    public String inquiryProductInquiryWriteForm(@PathVariable("itemNo") String itemNo, Model model,
+                                                 @AuthenticationPrincipal User user) {
+        if(user!=null) {
+            String memberId = user.getUsername();
+            model.addAttribute("inquiryMemberId", memberId);
+        }else {
+            model.addAttribute("inquiryMemberId", null);
+        }
 
         model.addAttribute("itemNo", itemNo);
-        model.addAttribute("inquiryMemberId",inquiryMemberId);
 
-        return "/user/popup/Inquiry-write";
+        return "/user/popup/inquiry-write";
     }
 }

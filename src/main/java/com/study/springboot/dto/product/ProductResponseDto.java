@@ -20,6 +20,9 @@ public class ProductResponseDto {
     private String itemExposure;
     private String itemSoldOut;
     private String itemUpdateDatetime;
+    private int salesCount;
+    private int ReviewCount;
+    private int ReviewStar;
 
 
     public ProductResponseDto(ProductEntity entity) {

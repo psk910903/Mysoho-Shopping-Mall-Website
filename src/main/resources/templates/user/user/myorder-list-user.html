@@ -49,7 +49,7 @@
         <div><span class="user-name"  th:text="${session.username} "></span>님</div>
         <div>
           <a href="/user/myInfoPswd" class="info-header-myinfo">내 정보</a>
-          <a href="/user/logoutAction" class="info-header-logout">로그아웃</a>
+          <a href="javascript:logout();" class="info-header-logout">로그아웃</a>
         </div>
 <!--       은진변경부분 -->
       </div>
@@ -368,7 +368,7 @@
               <div
                       class="list"
                       th:each="cart:${ cartList }"
-                      th:if="${cart.orderNo == dto.orderNo}"
+                      th:if="${cart.orderCode == dto.orderNo}"
               >
                 <a th:href="|/product/${cart.itemCode}|">
                   <img th:src="${ cart.itemImageUrl }" alt="" />
@@ -595,7 +595,7 @@
               <div
                       class="list"
                       th:each="cart:${ cartList }"
-                      th:if="${cart.orderNo == dto.orderNo}"
+                      th:if="${cart.orderCode == dto.orderNo}"
               >
                 <a th:href="|/product/${cart.itemCode}|">
                   <img th:src="${ cart.itemImageUrl }" alt="" />
@@ -822,7 +822,7 @@
               <div
                       class="list"
                       th:each="cart:${ cartList }"
-                      th:if="${cart.orderNo == dto.orderNo}"
+                      th:if="${cart.orderCode == dto.orderNo}"
               >
                 <a th:href="|/product/${cart.itemCode}|">
                   <img th:src="${ cart.itemImageUrl }" alt="" />
@@ -1048,7 +1048,7 @@
               <div
                       class="list"
                       th:each="cart:${ cartList }"
-                      th:if="${cart.orderNo == dto.orderNo}"
+                      th:if="${cart.orderCode == dto.orderNo}"
               >
                 <a th:href="|/product/${cart.itemCode}|">
                   <img th:src="${ cart.itemImageUrl }" alt="" />
@@ -1275,7 +1275,7 @@
               <div
                       class="list"
                       th:each="cart:${ cartList }"
-                      th:if="${cart.orderNo == dto.orderNo}"
+                      th:if="${cart.orderCode == dto.orderNo}"
               >
                 <a th:href="|/product/${cart.itemCode}|">
                   <img th:src="${ cart.itemImageUrl }" alt="" />
@@ -1502,7 +1502,7 @@
               <div
                       class="list"
                       th:each="cart:${ cartList }"
-                      th:if="${cart.orderNo == dto.orderNo}"
+                      th:if="${cart.orderCode == dto.orderNo}"
               >
                 <a th:href="|/product/${cart.itemCode}|">
                   <img th:src="${ cart.itemImageUrl }" alt="" />

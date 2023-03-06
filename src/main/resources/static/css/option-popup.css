@@ -101,7 +101,8 @@
   width: 100%;
 }
 
-.layerOptionNot button {
+.layerOptionNot button,
+.layerOptionNot a{
   width: 49%;
 
   font-size: 15px;
@@ -208,6 +209,14 @@ a {
   justify-content: space-between;
 }
 .final-size {
+  color: #297bcf;
+  padding: 16px;
+}
+.final-color {
+  color: #297bcf;
+  padding: 16px;
+}
+.final-option {
   color: #297bcf;
   padding: 16px;
 }

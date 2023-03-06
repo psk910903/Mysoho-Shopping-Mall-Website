@@ -40,24 +40,11 @@ function finalSize(size) {
   var position = -3;
   // 매개변수로 받은 사이즈를 final-size 클래스의 값으로 넣어야함
   // 이 탭 디스플레이 블록으로
-  if ((size === "S" || size === "M") && price % 44100 === 0) {
-    let a = String(price);
-    var output = [a.slice(0, position), b, a.slice(position)].join("");
-    document.querySelector(".option-total-price").innerHTML = output;
-    // 금액을 최종값에 넣어야함
-  } else if (price % 44100 === 0) {
-    // 금액을 최종값에 넣어야함
-    let a = String(price + 1000);
-    var output = [a.slice(0, position), b, a.slice(position)].join("");
-    document.querySelector(".option-total-price").innerHTML = output;
-    document.querySelector("#option-price").innerHTML = output + "원";
-  } else if ((size === "S" || size === "M") && price % 45100 === 0) {
-    let a = String(price - 1000);
-    var output = [a.slice(0, position), b, a.slice(position)].join("");
-    document.querySelector(".option-total-price").innerHTML = output;
-    document.querySelector("#option-price").innerHTML = output + "원";
-  }
+  let a = String(price);
+      var output = [a.slice(0, position), b, a.slice(position)].join("");
+      document.querySelector(".option-total-price").innerHTML = output;
 }
+
 
 let optionStr = document.querySelector("#option-price").innerHTML;
 console.log(optionStr);

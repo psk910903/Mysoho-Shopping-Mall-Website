@@ -7,6 +7,7 @@ import com.study.springboot.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -31,14 +32,13 @@ public class Service3 {
     }
 
     @Transactional
-    public boolean delete(final String username) throws Exception {
+    public boolean exited(final String username) throws Exception {
         Optional<MemberEntity> optional = memberRepository.findByUserId(username);
         if( !optional.isPresent() ) {
             throw new Exception("member id is not present!");
         }
-        MemberEntity entity = optional.get();
         try {
-            memberRepository.delete( entity );
+            optional.get().exited("탈퇴");
         }catch (IllegalArgumentException e){
             e.printStackTrace();
             return false;
@@ -81,8 +81,7 @@ public class Service3 {
                 //entity에 비크립트화된 암호 저장
                 MemberEntity entity = optional.get();
                 entity.updatePassword(encodedPassword);
-                memberRepository.save(entity);
-                return "0";
+                return "0";//성공
             }
         }
     }
@@ -104,7 +103,6 @@ public class Service3 {
         }
     }
 
-
     //임의로 패스워드 만들기
     public String getTempPassword() {
         char[] charSet = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
@@ -118,6 +116,5 @@ public class Service3 {
         }
         return password;
     }
-
 
 }//class
