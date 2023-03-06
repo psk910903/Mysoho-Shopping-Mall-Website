@@ -179,13 +179,10 @@ public class Controller2 {
     }
 
     // 글 작성 시 이미지 업로드 할 때 awsS3에 이미지를 넣고 이미지 url 반환 (ckeditor로 이동)
-    @PostMapping("/admin/notice/imgUpload")
+    @PostMapping("/find/admin/notice/imgUpload")
     @ResponseBody
     public ResponseEntity<FileResponse> noticeImgUpload(
             @RequestPart(value = "upload", required = false) MultipartFile fileload) throws Exception {
-
-        System.out.println("wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
-        System.out.println(fileload);
 
         return new ResponseEntity<>(FileResponse.builder().
                 uploaded(true).

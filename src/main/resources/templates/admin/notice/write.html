@@ -73,7 +73,7 @@
   </div>
 </div>
 </body>
-
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <!-- ckeditor5 시작 -->
 <script src="/js/ckeditor.js"></script>
 <script>
@@ -84,7 +84,7 @@
       .create(document.querySelector('#editor'),{
           language: 'ko',
           ckfinder: {
-              uploadUrl: '/admin/notice/imgUpload'
+              uploadUrl: '/find/admin/notice/imgUpload'
           }
       })
       .then( newEditor => {
@@ -104,5 +104,4 @@
         document.querySelector('#noticeContent').value = editorData;
     }
 </script>
-<!-- ckeditor5 끝 -->
 </html>

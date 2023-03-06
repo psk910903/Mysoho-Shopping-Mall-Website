@@ -6,6 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="/css/admin.css">
     <title>마이소호 관리자페이지</title>
+    <style>
+        .notice-content2{
+          word-break: break-all;
+          word-wrap: break-word;
+        }
+        .notice-content2 *{
+            display: flex;
+            flex-flow: wrap;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+    </style>
 </head>
 <body>
 <div id="wrap">
@@ -22,14 +34,14 @@
         </div>
         <div class="content" style="width:100%"> <!-- content 시작 -->
             <div class="contentWrap">
-            <table class="table table-horizontal table-bordered"> <!-- 번호, 제목,카테고리, 작성일 테이블 시작 -->
+            <table class="table table-horizontal table-bordered" style="width:100%; table-layout:fixed; overflow-wrap: break-word;"> <!-- 번호, 제목,카테고리, 작성일 테이블 시작 -->
                 <tr>
                     <th class="table-light align-middle w250" style="text-align: center">번호</th>
                     <td th:text="${notice.noticeNo}"></td>
                 </tr>
                 <tr>
                     <th class="table-light align-middle w250" style="text-align: center">제목</th>
-                    <td th:text="${notice.noticeTitle}"></td>
+                    <td th:text="${notice.noticeTitle}" style="overflow: auto"></td>
                 </tr>
                 <tr>
                     <th class="table-light align-middle w250" style="text-align: center">카테고리</th>
@@ -41,7 +53,7 @@
                 </tr>
                 <tr>
                     <td colspan="2" id="content_area" style="height: 500px;">
-                        <div th:utext="${notice.noticeContent}"></div>
+                        <div th:utext="${notice.noticeContent}" class="notice-content2"></div>
                     </td>
                 </tr>
             </table> <!-- 번호, 제목,카테고리, 작성일 테이블 끝 -->
