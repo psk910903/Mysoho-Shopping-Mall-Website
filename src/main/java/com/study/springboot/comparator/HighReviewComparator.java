@@ -4,7 +4,7 @@ import com.study.springboot.dto.product.ProductResponseDto;
 
 import java.util.Comparator;
 
-public class ItemReviewCountComparator implements Comparator<ProductResponseDto> {
+public class HighReviewComparator implements Comparator<ProductResponseDto> {
     @Override
     public int compare(ProductResponseDto dto1,ProductResponseDto dto2) {
         if (dto1.getReviewCount() > dto2.getReviewCount()) {

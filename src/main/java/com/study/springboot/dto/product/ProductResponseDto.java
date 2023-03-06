@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductResponseDto {
+public class ProductResponseDto implements Cloneable  {
     private Long itemNo;
     private String itemCategory;
     private String itemImageUrl;
@@ -37,5 +37,15 @@ public class ProductResponseDto {
         this.itemInfo = entity.getItemInfo();
         this.itemExposure = entity.getItemExposure();
         this.itemSoldOut = entity.getItemSoldOut();
+    }
+
+    @Override
+    public ProductResponseDto clone() {
+        try {
+            // TODO: 이 복제본이 원본의 내부를 변경할 수 없도록 여기에 가변 상태를 복사합니다
+            return (ProductResponseDto) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
