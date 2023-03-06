@@ -587,6 +587,11 @@ public class Controller2 {
         ////////////////////////////////////// cart DB에 넣기 ////////////////////////////////////////////
         String[] cartCodeList = {null, null, null, null, null};
         Long orderCode = null;
+        // orderCode
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        String orderCode1 = format.format(new Date());
+        String orderCode2 = String.format("%04d", (long) (Math.random() * 10000));
+        orderCode = Long.parseLong(orderCode1 + orderCode2);
 
         for (int i=0; i<itemCodeList.length; i++) {
 
@@ -606,12 +611,6 @@ public class Controller2 {
             // cartCode
             String cartCode = UUID.randomUUID().toString();
             cartCodeList[i] = cartCode;
-
-            // orderNo
-            SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-            String orderCode1 = format.format(new Date());
-            String orderCode2 = String.format("%04d", (long) (Math.random() * 10000));
-            orderCode = Long.parseLong(orderCode1 + orderCode2);
 
             // cartDiscountPrice, cartItemPrice
             Long cartDiscountPrice = productResponseDto.getItemPrice() * productResponseDto.getItemDiscountRate() / 100;
