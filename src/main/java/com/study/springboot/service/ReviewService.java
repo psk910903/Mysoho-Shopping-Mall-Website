@@ -1,6 +1,7 @@
 package com.study.springboot.service;
 
 
+import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.review.ReviewSaveResponseDto;
@@ -216,12 +217,11 @@ public class ReviewService {
         return true;
     }
 
-    public Page<ReviewResponseDto> findByMemberId(final String memberId,final int page){
-        List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("reviewNo"));
-        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-        Page<ReviewEntity> list =  reviewRepository.findByMemberIdContaining(memberId, pageable);
-        return list.map(ReviewResponseDto::new);
+    public List<ReviewResponseDto> findByMemberId(final String memberId){
+
+        List<ReviewEntity> list =  reviewRepository.findByMemberIdContaining(memberId);
+
+        return list.stream().map(ReviewResponseDto::new).toList();
     }
 
 }//class
