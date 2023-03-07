@@ -10,10 +10,7 @@ import com.study.springboot.dto.order.OrderSearchDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.entity.OrderEntity;
 import com.study.springboot.entity.ProductEntity;
-import com.study.springboot.repository.CartRepository;
-import com.study.springboot.repository.OrderRepository;
-import com.study.springboot.repository.ProductRepository;
-import com.study.springboot.repository.ReviewRepository;
+import com.study.springboot.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +28,8 @@ public class Service1 {
     final CartRepository cartRepository;
     final CartService cartService;
     final ReviewRepository reviewRepository;
+
+    final NoticeRepository noticeRepository;
 
     @Transactional(readOnly = true)
     public List<ProductResponseDto> findByItem(int num) {
@@ -241,5 +240,11 @@ public class Service1 {
         }
         return totalCount;
     }
+
+    @Transactional(readOnly = true)
+    public String findLatestNotice(){
+        String noticeTitle = noticeRepository.findLatestNotice();
+        return noticeTitle;
+    };
 
 }

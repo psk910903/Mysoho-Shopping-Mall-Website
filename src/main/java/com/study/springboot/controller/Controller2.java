@@ -446,6 +446,7 @@ public class Controller2 {
                 String name = c.getName();
 
                 if (name.startsWith("item_idx.")) {
+                    c.setPath("/");
                     c.setMaxAge(0);
                     response.addCookie(c);
                 }
@@ -700,6 +701,30 @@ public class Controller2 {
     }
 
     // '/order' 끝 -----------------------------------------------------------------------------------------------
+    // 이용약관 끝 -----------------------------------------------------------------------------------------------
+    @GetMapping("/terms/terms/service")
+    public String termsTermsService() {
+
+        return "/user/popup/pop-page1";
+    }
+
+    @GetMapping("/terms/terms/privacy")
+    public String termsTermsPrivacy() {
+
+        return "/user/popup/pop-page2";
+    }
+
+    @GetMapping("/terms/terms/service/order")
+    public String termsTermsServiceOrder() {
+
+        return "/user/popup/pop-page3";
+    }
+
+    @GetMapping("/terms/terms/policy/order")
+    public String termsTermsPolicyOrder() {
+
+        return "/user/popup/pop-page4";
+    }
 
     @PostMapping("/inquiry/test1")
     @ResponseBody

@@ -21,4 +21,8 @@ public interface NoticeRepository extends JpaRepository<NoticeEntity, Long> {
     // notice_type이 keyword인 페이지 반환
     Page<NoticeEntity> findByNoticeType(String keyword, Pageable sort);
 
+    ////////////////////////////////////////////////////////////////////////////////////////////// 희진 추가
+    @Query(value = "SELECT notice_title FROM notice ORDER BY notice_datetime DESC LIMIT 1;", nativeQuery = true)
+    String findLatestNotice();
+
 }

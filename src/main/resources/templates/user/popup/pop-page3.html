@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>이용약관</title>
+    <title>마이소호 샘플샵</title>
     <link rel="stylesheet" href="/css/pop-page-type2.css" />
   </head>
   <body>
@@ -12,8 +12,8 @@
 
     <div class="popTopWrap">
       <div class="popTitWrap">
-        <a href="pop-page3.html">이용약관</a>
-        <a href="pop-page4.html">개인정보 수집·이용</a>
+        <a href="/terms/terms/service/order">이용약관</a>
+        <a href="/terms/terms/policy/order">개인정보 수집·이용</a>
       </div>
       <!-- 엑스이미지 -->
       <a class="close-btn" href="javascript:closePopup()"
@@ -25,9 +25,7 @@
 
     <div class="inner">
       <div class="tbl-terms terms-of-use" style="text-align: left">
-        <script>
-          $(".terms-of-use").load("/popup-object/terms-of-use.html");
-        </script>
+        <div th:replace="/user/popup-object/terms-of-use.html :: terms-of-use"></div>
       </div>
     </div>
 

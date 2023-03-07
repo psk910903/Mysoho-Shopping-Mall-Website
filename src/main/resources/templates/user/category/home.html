@@ -2088,7 +2088,8 @@
             <div class="notice">
               <a href="/category/notice.html">공지사항</a>
             </div>
-            <div class="notice-info">등록된 공지사항이 없습니다.</div>
+            <div class="notice-info" th:if="${latestNotice} != null" th:text="${latestNotice}">등록된 공지사항이 없습니다.</div>
+            <div class="notice-info" th:unless="${latestNotice} != null">등록된 공지사항이 없습니다.</div>
           </div>
         </div>
 

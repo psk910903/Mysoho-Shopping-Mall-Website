@@ -306,6 +306,7 @@ public class Controller1 {
     model.addAttribute("HighGrade", HighGrade);
     model.addAttribute("bestItem", bestItem);
     model.addAttribute("list", list);
+    model.addAttribute("latestNotice", service1.findLatestNotice());
 
 
     return "/user/category/home";

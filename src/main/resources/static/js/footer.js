@@ -1,15 +1,15 @@
 // 이용약관, 개인정보처리방침 팝업
 function openPopup1() {
-  popup = window.open("/popup/pop-page1.html");
+  let popup = window.open("/terms/terms/service");
 }
 function openPopup2() {
-  popup = window.open("/popup/pop-page2.html");
+  let popup = window.open("/terms/terms/privacy");
 }
 function openPopup3() {
-  popup = window.open("/popup/pop-page3.html");
+  popup = window.open("/terms/terms/service/order");
 }
 function openPopup4() {
-  popup = window.open("/popup/pop-page4.html");
+  popup = window.open("/terms/terms/policy/order");
 }
 
 // mysoho링크 팝업

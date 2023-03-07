@@ -72,9 +72,9 @@
         <div class="writing-icon">
           <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png" th:onclick="|javascript:popupAction('${status.index}')|"/>
           <div class="writing-action" th:id="|writing-action${status.index}|">
-            <form method="POST" action="/inquiry/test1" target="modifyPopup">
-              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-              <input type="hidden" name="inquiryNo" th:value="${inquiry.inquiryNo}">
+            <form method="GET" th:action="|/inquiry/productInquiryWriteForm/${inquiry.inquiryNo}|" target="modifyPopup">
+<!--              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
+<!--              <input type="hidden" name="inquiryNo" th:value="${inquiry.inquiryNo}">-->
               <button class="form-btn">수정</button>
             </form>
             <form th:id="|deleteForm${status.index}|" method="POST" action="/inquiry/myProductInquiries/deleteAction">
