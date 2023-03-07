@@ -296,6 +296,10 @@ public class Controller4 {
         if( saveDto.getQnaSecret() == null ){
             saveDto.setQnaSecret("공개");
         }
+        if( saveDto.getMemberId() != null ){
+            MemberEntity entity = service3.findByUserId(saveDto.getMemberId());
+            saveDto.setQnaName(entity.getMemberName());
+        }
 
         QnaEntity qnaEntity= saveDto.toEntity();
         boolean qnaSave = service4.qnaSave(qnaEntity);
@@ -374,6 +378,10 @@ public class Controller4 {
 
         if( dto.getQnaSecret() == null ){
             dto.setQnaSecret("공개");
+        }
+        if( dto.getMemberId() != null ){
+            MemberEntity entity = service3.findByUserId(dto.getMemberId());
+            dto.setQnaName(entity.getMemberName());
         }
         QnaEntity qnaEntity = dto.toModifyEntity();
         boolean modifyResult = service4.qnaSave(qnaEntity);
