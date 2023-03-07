@@ -29,6 +29,7 @@ public class ReviewEntity {
     @Column(name = "review_image_url")
     private String reviewImgUrl;
     @Column(name = "review_datetime")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime reviewDatetime = LocalDateTime.now();
     @Column(name = "review_exposure" )
     private String reviewExpo;

@@ -22,4 +22,6 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity,Long> {
 
     @Query(value = "SELECT AVG(review_star) FROM review WHERE item_no = :item_no", nativeQuery = true)
     Integer findByItemReviewStarAVG(Long item_no);
+
+
 }

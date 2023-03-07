@@ -1,12 +1,21 @@
 package com.study.springboot.service;
 
 
+import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.security.MemberJoinDto;
 import com.study.springboot.entity.MemberEntity;
+import com.study.springboot.entity.OrderEntity;
+import com.study.springboot.entity.ReviewEntity;
 import com.study.springboot.repository.MemberRepository;
 
+import com.study.springboot.repository.OrderRepository;
+import com.study.springboot.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -17,13 +26,19 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class Service3 {
     final private MemberRepository memberRepository;
+    final private ReviewRepository reviewRepository;
     final private JavaMailSender javaMailSender;
     final private PasswordEncoder passwordEncoder;
+
+    final private OrderRepository orderRepository;
 
     @Transactional(readOnly = true)
     public MemberEntity findByUserId(final String memberId){
@@ -38,12 +53,13 @@ public class Service3 {
             throw new Exception("member id is not present!");
         }
         try {
-            optional.get().exited("탈퇴");
+            memberRepository.delete(optional.get());
+            return true;
+
         }catch (IllegalArgumentException e){
             e.printStackTrace();
             return false;
         }
-        return true;
     }
     @Transactional
     public boolean update(final MemberJoinDto dto){
@@ -116,5 +132,12 @@ public class Service3 {
         }
         return password;
     }
+
+    //리뷰
+    public void getList(final String memberId,final String orderState){
+        List<OrderEntity> orderList = orderRepository.findByMemberIdAndOrderState(memberId,"배송완료");
+
+    }
+
 
 }//class

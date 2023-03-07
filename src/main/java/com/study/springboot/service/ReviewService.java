@@ -83,22 +83,34 @@ public class ReviewService {
         Date tempDateEnd = new Date();
         Calendar cal1 = Calendar.getInstance();
         Calendar cal2 = Calendar.getInstance();
+        //캘린더 객체에 오늘날짜 2개 세팅
         cal1.setTime(tempDateStart);
         cal2.setTime(tempDateEnd);
+        //date객체 생성
         DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
 
         //매개변수로 들어온 모드 확인 후 검색기간 수정
         if (mode.equals("today")) {
+            //끝나는 날을 오늘로 설정
             cal2.add(Calendar.DATE, +1);
         } else if (mode.equals("yesterday")) {
+            //시작:어제부터 끝:오늘까지 설정
             cal1.add(Calendar.DATE, -1);
             cal2.add(Calendar.DATE, +1);
         } else if (mode.equals("week")) {
+            //시작:1주일전 끝:오늘
             cal1.add(Calendar.DATE, -7);
             cal2.add(Calendar.DATE, +1);
         } else if (mode.equals("month")) {
+            //시작:한달전, 끝: 오늘
             cal1.add(Calendar.MONTH, -1);
+            cal2.add(Calendar.DATE, +1);
+        } else if(mode.equals("6months")){
+            cal1.add(Calendar.MONTH,-6);
+            cal2.add(Calendar.DATE, +1);
+        } else if(mode.equals("1year")){
+            cal1.add(Calendar.YEAR,-1);
             cal2.add(Calendar.DATE, +1);
         }
 
@@ -152,9 +164,16 @@ public class ReviewService {
         return pageList;
     }
 
-    public void save(ReviewSaveResponseDto dto){
+    public boolean save(ReviewSaveResponseDto dto){
+       try {
            ReviewEntity entity = dto.toSaveEntity();
            reviewRepository.save(entity);
+           return true;
+       }catch (Exception e){
+           e.printStackTrace();
+           return false;
+       }
+
     }
 
     @Transactional
@@ -195,6 +214,14 @@ public class ReviewService {
             return false;
         }
         return true;
+    }
+
+    public Page<ReviewResponseDto> findByMemberId(final String memberId,final int page){
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("reviewNo"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+        Page<ReviewEntity> list =  reviewRepository.findByMemberIdContaining(memberId, pageable);
+        return list.map(ReviewResponseDto::new);
     }
 
 }//class

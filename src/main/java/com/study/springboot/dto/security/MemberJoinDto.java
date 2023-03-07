@@ -18,7 +18,7 @@ public class MemberJoinDto {
     private Long memberNo;
     //@NotBlank(message = "user_id에 null, 빈문자열, 스페이스문자열만을 넣을 수 없습니다.")
     private String username;
-    //@NotBlank(message = "user_pw에 null, 빈문자열, 스페이스문자열만을 넣을 수 없습니다.")
+    @NotBlank(message = "user_pw에 null, 빈문자열, 스페이스문자열만을 넣을 수 없습니다.")
     private String password;
     @NotBlank
     private String memberName;
@@ -35,7 +35,7 @@ public class MemberJoinDto {
     private Long memberCoupon;
     @NotBlank
     private String memberAddrNumber;
-    @NotBlank
+    //@NotBlank
     private String memberAddr1;
     @NotBlank
     private String memberAddr2;
