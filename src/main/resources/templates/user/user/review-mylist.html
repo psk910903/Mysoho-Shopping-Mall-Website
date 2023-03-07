@@ -82,13 +82,6 @@
         <div>결재내역</div>
       </a>
     </div>
-    <tr>
-      <a href="/review/myList?dateStart=today&dateEnd=&&page=0" class="btn btn-outline-secondary">오늘</a>
-      <a href="/review/myList?dateStart=6months&dateEnd=&&page=0" class="btn btn-outline-secondary">6개월</a>
-      <a href="/review/myList?dateStart=1year&dateEnd=&&page=0" class="btn btn-outline-secondary">1년</a>
-      <input type="date" name="dateStart" value="" class="btn btn-outline-secondary"/>
-      <input type="date" name="dateEnd" value="" class="btn btn-outline-secondary"/>
-    </tr>
     <table th:each="review,status :${ list }",  border="1">
       <tr>
         <td><img th:src="${ itemUrl[status.index] }" />상품사진</td>
