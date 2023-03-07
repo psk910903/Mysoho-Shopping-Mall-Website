@@ -4,20 +4,19 @@ package com.study.springboot.controller;
 import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.member.MemberSaveRequestDto;
 import com.study.springboot.dto.product.ProductResponseDto;
-import com.study.springboot.entity.MemberEntity;
+import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.repository.MemberRepository;
+import com.study.springboot.repository.ReviewRepository;
 import com.study.springboot.service.MemberService;
+import com.study.springboot.service.ProductService;
 import com.study.springboot.service.Service6;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,6 +25,9 @@ public class Controller6 {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final Service6 service6;
+    private final ReviewRepository reviewRepository;
+
+    private final ProductService productService;
 
 
     @GetMapping("/admin/member")
@@ -39,7 +41,6 @@ public class Controller6 {
                        @RequestParam(value = "keyword", required = false) String keyword, // keyword: 어떤 keyword로 찾을 것인지 결정
                        @RequestParam(value = "page", defaultValue = "0") int page,        // page: 0에서부터 시작
                        Model model) {                                                    // ex) findBy=title, keyword="키워드입니다", page:2면
-        //     제목에서 "키워드입니다"가 포함된 글 중 3쪽을 보여줌
 
         Page<MemberResponseDto> list;
         int totalPage;
@@ -78,6 +79,8 @@ public class Controller6 {
 
         return "/admin/member/content";
     }
+
+
 
     @PostMapping("/admin/member/content/modify")  //수정
     @ResponseBody
@@ -140,5 +143,65 @@ public class Controller6 {
         return "user/popup/pop-page4";
     }
 
-//    마이페이지
+//==================================수정중==========================================
+
+//    @GetMapping("/product/review")
+//    public String list(@RequestParam(value = "findByType", required = false) String findByType,
+//                       @RequestParam(value = "page", defaultValue = "0") int page,
+//                       Model model) {
+//
+//        Page<ReviewResponseDto> list;
+//        if (findByType == null){
+//            list = service6.findAllReview(page);
+//        }
+//        return "user/user/productReview";
+//    }
+
+
+//    @GetMapping("/product/review/{id}")
+//    public String Review(@PathVariable("id")String id, Model model){
+//        List<ReviewResponseDto> dto = service6.findByReview(id);
+//        model.addAttribute("list", dto);
+//        return "/user/user/productReview";
+//    }
+
+
+
+    @GetMapping("/product/review/{id}") // 상품상세페이지로 수정해야함
+    public String Review (@PathVariable("id") String id, Model model){
+        List<ReviewResponseDto> dto = service6.findByReview(id);
+        model.addAttribute("list", dto);
+        return "/user/user/productReview";
+    }
+
+//    상품상세 리뷰페이지
+@GetMapping("/product/testKB/{itemNo}")
+public String productContent(Model model,@PathVariable(value = "itemNo") Long itemNo) {
+    ProductResponseDto dto = productService.findById(itemNo); // 1. 페이지및 페이지해당 데이터
+
+    List<ReviewResponseDto> reviewResponseDtos = service6.findByReview(String.valueOf(itemNo)); // 2.페이지및 페이지해당 데이터
+
+    int size = reviewResponseDtos.size();  // 3. 상품 리뷰개수
+
+    byte sum = 0;       // 4. 상품별점 평균
+    for(int i=0; i<size; i++){
+        byte reviewStar = reviewResponseDtos.get(i).getReviewStar();
+        sum += reviewStar;
+    }
+    double avg1 = sum / Double.valueOf(size);
+    double avg2 = Math.round(avg1*10);
+    double avg3 = avg2 / 10;
+
+    model.addAttribute("dto", dto); // ->1
+    model.addAttribute("list", reviewResponseDtos); // ->2
+    model.addAttribute("listCount", size);  // ->3
+    model.addAttribute("avgStar", avg3);    // ->4
+    return "/user/product/contentTestKyeongBin";
 }
+
+
+}
+//    long listCount = memberRepository.count();
+//        model.addAttribute("listCount", listCount);
+
+
