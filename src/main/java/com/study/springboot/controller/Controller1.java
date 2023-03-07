@@ -254,11 +254,7 @@ public class Controller1 {
     OrderResponseDto dto = orderService.findById(id);
     model.addAttribute("dto", dto);
     List<CartResponseDto> cartList = service1.getCartList(dto);
-    Long totalPrice = service1.getTotalPrice(cartList);
-    Long totalCount = service1.getTotalCount(cartList);
 
-    dto.setOrderTotalPrice(totalPrice);
-    dto.setOrderTotalCount(totalCount);
     model.addAttribute("cartList", cartList);
     model.addAttribute("dto", dto);
 
