@@ -1,6 +1,7 @@
 package com.study.springboot.controller;
 
 import com.study.springboot.dto.cart.CartResponseDto;
+import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.order.OrderSearchDto;
@@ -42,6 +43,7 @@ public class Controller1 {
   final OrderRepository orderRepository;
   final AwsS3Service awsS3Service;
   final Service1 service1;
+  final Service2 service2;
   final Service3 service3;
   final CartRepository cartRepository;
 
@@ -344,17 +346,27 @@ public class Controller1 {
 
   //상품상세-----------------------------------------------------------------------------
   @GetMapping("/product/{itemNo}")
-  public String productContent(Model model,@PathVariable(value = "itemNo") Long itemNo) {
+  public String productContent(Model model,@PathVariable(value = "itemNo") Long itemNo,  @AuthenticationPrincipal User user) {
     ProductResponseDto dto = productService.findById(itemNo);
     String[] colorList = dto.getItemOptionColor().split(",");
     String[] sizeList = dto.getItemOptionSize().split(",");
     int colorCount = colorList.length;
     int sizeCount = sizeList.length;
+    // member
+    MemberResponseDto memberResponseDto = null;
+    if (user != null) {
+      String memberId = user.getUsername();
+      memberResponseDto = service2.findByMemberIdMember(memberId);
+    }
+
+    model.addAttribute("member", memberResponseDto);
+
     model.addAttribute("colorCount", colorCount);
     model.addAttribute("sizeCount", sizeCount);
     model.addAttribute("colorList", colorList);
     model.addAttribute("sizeList", sizeList);
     model.addAttribute("dto", dto);
+    model.addAttribute("cartList", null);
     return "/user/product/content";
   }
 
@@ -382,33 +394,28 @@ public class Controller1 {
     int stateType4 = 0; //배송완료
     int stateType5 = 0; //취소/반품
 
-    for (int i = 0; i < orderList.size(); i++) {
-      OrderResponseDto orderDto = orderList.get(i);
+    for (OrderResponseDto orderDto : orderList) {
       String orderState = orderDto.getOrderState();
-      if (orderState.equals("결제대기")) {
-        stateType1++;
-      } else if (orderState.equals("배송대기")) {
-        stateType2++;
-      }else if (orderState.equals("배송중")) {
-        stateType3++;
-      } else if (orderState.equals("배송완료")) {
-        stateType4++;
-      } else { //취소/반품
-        stateType5++;
+      switch (orderState) {
+        case "결제대기" -> stateType1++;
+        case "배송대기" -> stateType2++;
+        case "배송중" -> stateType3++;
+        case "배송완료" -> stateType4++;
+        default ->  stateType5++;//취소/반품
       }
       //비회원 주문번호에서 카트정보 가져오기
       cartList = service1.getCartListNonMember(orderDto);
       cartListModel.add(cartList);
-      Long originalPrice =0L;
-      Long discountPrice =0L;
-      Long itemPrice =0L;
+      long originalPrice = 0L;
+      long discountPrice = 0L;
+      long itemPrice = 0L;
 
-      for (int j = 0; j < cartList.size(); j++) {
+      for (CartResponseDto cartDto : cartList) {
 
-        if (Objects.equals(cartList.get(j).getOrderCode(), orderDto.getOrderCode())) {
-          originalPrice += cartList.get(j).getCartItemOriginalPrice() * cartList.get(j).getCartItemAmount();
-          discountPrice += cartList.get(j).getCartDiscountPrice() * cartList.get(j).getCartItemAmount();
-          itemPrice += cartList.get(j).getCartItemPrice() * cartList.get(j).getCartItemAmount();
+        if (Objects.equals(cartDto.getOrderCode(), orderDto.getOrderCode())) {
+          originalPrice += cartDto.getCartItemOriginalPrice() * cartDto.getCartItemAmount();
+          discountPrice += cartDto.getCartDiscountPrice() * cartDto.getCartItemAmount();
+          itemPrice += cartDto.getCartItemPrice() * cartDto.getCartItemAmount();
         }
 
       }
@@ -450,7 +457,7 @@ public class Controller1 {
 
       //0228 선교 작업
       List<OrderResponseDto> orderList = cartService.findByOrderList(username);
-      List<CartResponseDto> cartList = new ArrayList<>();
+      List<CartResponseDto> cartList;
       List<List<CartResponseDto>> cartListModel = new ArrayList<>();
 
       int stateType1 = 0;
@@ -459,35 +466,31 @@ public class Controller1 {
       int stateType4 = 0;
       int stateType5 = 0;
 
-      for (int i = 0; i < orderList.size(); i++) {
-        OrderResponseDto orderDto = orderList.get(i);
+      for (OrderResponseDto orderDto : orderList) {
         String orderState = orderDto.getOrderState();
-        if (orderState.equals("결제대기")) {
-          stateType1++;
-        } else if (orderState.equals("배송대기")) {
-          stateType2++;
-        }else if (orderState.equals("배송중")) {
-          stateType3++;
-        } else if (orderState.equals("배송완료")) {
-          stateType4++;
-        } else { //취소/반품
-          stateType5++;
+        switch (orderState) {
+          case "결제대기" -> stateType1++;
+          case "배송대기" -> stateType2++;
+          case "배송중" -> stateType3++;
+          case "배송완료" -> stateType4++;
+          default ->  //취소/반품
+                  stateType5++;
         }
-        //회원 주문번호에서 카트정보 가져오기
+        //비회원 주문번호에서 카트정보 가져오기
         cartList = service1.getCartListMember(orderDto);
-
         cartListModel.add(cartList);
-        Long originalPrice =0L;
-        Long discountPrice =0L;
-        Long itemPrice =0L;
+        long originalPrice = 0L;
+        long discountPrice = 0L;
+        long itemPrice = 0L;
 
-        for (int j = 0; j < cartList.size(); j++) {
+        for (CartResponseDto cartDto : cartList) {
 
-          if (Objects.equals(cartList.get(j).getOrderCode(), orderDto.getOrderNo())) {
-            originalPrice += cartList.get(j).getCartItemOriginalPrice();
-            discountPrice += cartList.get(j).getCartDiscountPrice();
-            itemPrice += cartList.get(j).getCartItemPrice();
+          if (Objects.equals(cartDto.getOrderCode(), orderDto.getOrderCode())) {
+            originalPrice += cartDto.getCartItemOriginalPrice() * cartDto.getCartItemAmount();
+            discountPrice += cartDto.getCartDiscountPrice() * cartDto.getCartItemAmount();
+            itemPrice += cartDto.getCartItemPrice() * cartDto.getCartItemAmount();
           }
+
         }
         orderDto.setOrderItemOriginalPrice(originalPrice); //(할인 전)상품가격
         orderDto.setOrderDiscountPrice(discountPrice);//할인율이 적용된 차감될 금액

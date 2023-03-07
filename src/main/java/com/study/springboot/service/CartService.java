@@ -43,19 +43,20 @@ public class CartService {
         List<CartEntity> cartEntityList = cartRepository.findByCartMemberId(id);
         //entity -> dto로 변환
         List<CartResponseDto> cartDtoList = cartEntityList.stream().map(CartResponseDto::new).toList();
-        //카트 테이블에서 주문번호만 추출해서 담을 orderNoList 생성
-        List<Long> orderNoList = new ArrayList<>();
+        //카트 테이블에서 주문번호만 추출해서 담을 orderCodeList 생성
+        List<Long> orderCodeList = new ArrayList<>();
         //반복해서 주문번호만 추출 후 리스트에 담기
-        for (int i = 0; i < cartDtoList.size(); i++) {
-            orderNoList.add(cartDtoList.get(i).getOrderCode());
+        for (CartResponseDto cartDto : cartDtoList) {
+            orderCodeList.add(cartDto.getOrderCode());
         }
         //주문번호리스트에서 중복 값 제거
-        List<Long> newList = orderNoList.stream().distinct().toList();
+        List<Long> newList = orderCodeList.stream().distinct().toList();
         //주문번호들로 주문테이블에서 정보 가져와서 담을 리스트 생성
         List<OrderResponseDto> orderList = new ArrayList<>();
         //반복해서 주문테이블 객체 가져와서 dto로 변환 후 리스트에 담기
-        for (Long orderNo : newList) {
-            OrderEntity orderEntity = orderRepository.findById(orderNo).get();
+        for (Long orderCode : newList) {
+            System.out.println("orderCode = " + orderCode);
+            OrderEntity orderEntity = orderRepository.findByOrderCode(orderCode).get();
             OrderResponseDto dto = new OrderResponseDto(orderEntity);
             orderList.add(dto);
         }
