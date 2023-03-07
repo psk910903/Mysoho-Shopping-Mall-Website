@@ -223,23 +223,6 @@ public class Service1 {
     }
 
 
-    @Transactional(readOnly = true)
-    public Long getTotalPrice(List<CartResponseDto> cartList) {
-        Long totalPrice = 0L;
-        for (CartResponseDto dto : cartList) {
-            totalPrice += dto.getCartItemPrice();
-        }
-        return totalPrice;
-    }
-
-    @Transactional(readOnly = true)
-    public Long getTotalCount(List<CartResponseDto> cartList) {
-        Long totalCount = 0L;
-        for (CartResponseDto dto : cartList) {
-            totalCount += dto.getCartItemAmount();
-        }
-        return totalCount;
-    }
 
     @Transactional(readOnly = true)
     public String findLatestNotice(){

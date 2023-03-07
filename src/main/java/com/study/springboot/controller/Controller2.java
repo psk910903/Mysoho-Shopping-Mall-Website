@@ -597,7 +597,7 @@ public class Controller2 {
         String[] cartCodeList = {null, null, null, null, null};
         Long orderCode = null;
 
-        // orderCode
+        // orderNo
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
         String orderCode1 = format.format(new Date());
         String orderCode2 = String.format("%04d", (long) (Math.random() * 10000));
@@ -621,6 +621,8 @@ public class Controller2 {
             // cartCode
             String cartCode = UUID.randomUUID().toString();
             cartCodeList[i] = cartCode;
+
+
 
             // cartDiscountPrice, cartItemPrice
             Long cartDiscountPrice = productResponseDto.getItemPrice() * productResponseDto.getItemDiscountRate() / 100;
@@ -663,6 +665,7 @@ public class Controller2 {
         }
 
 
+
         ////////////////////////////////////// order DB에 넣기 ////////////////////////////////////////////
 
         // orderDTO 세팅하기
@@ -680,7 +683,7 @@ public class Controller2 {
                 orderContentSaveRequestDto.getOrderPayType().contains("삼성페이")) {
             orderContentSaveRequestDto.setOrderState("배송대기");
         }else{
-            orderContentSaveRequestDto.setOrderState("미입금/주문완료");
+            orderContentSaveRequestDto.setOrderState("결제대기");
         }
 
         boolean success = service2.saveOrder(orderContentSaveRequestDto);

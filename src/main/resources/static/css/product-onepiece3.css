@@ -281,9 +281,6 @@ select[name="message"] {
   display: flex;
   width: 100%;
 }
-.open-layer-addr input {
-  border: none;
-}
 .open-layer-addr div {
   border-left: 1px solid #dedede;
 }
@@ -291,7 +288,7 @@ select[name="message"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  height: 42px;
   border: 1px solid #dedede;
 }
 .open-layer-addr img {

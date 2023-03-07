@@ -33,6 +33,8 @@ function finalSize(size) {
   document.querySelector(".option-choice").style.display = "none";
   document.querySelector(".option-btn-bg").style.display = "none";
   document.querySelector(".final-size").innerHTML = size;
+  document.querySelector("#final-size-result").value = size;
+
   let strPrice = document.querySelector("#option-price").innerHTML;
   let strPrice2 = strPrice.slice(0, -1);
   let price = Number(strPrice2.replace(",", ""));

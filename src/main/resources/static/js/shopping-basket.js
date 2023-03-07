@@ -256,6 +256,8 @@ function finalColor(color) {
 
 function sum() {
   optionTotalPrice += optionPrice;
+  document.querySelector("#finalTotalPriceInput").value = optionTotalPrice;
+
   // 가격 형변환 후 쉼표추가 함수
   let a = String(optionTotalPrice);
   var output = [a.slice(0, position), b, a.slice(position)].join("");
@@ -266,10 +268,12 @@ function sum() {
   //갯수
   optionAmount++;
   document.querySelector(".MSH-sto-stock").value = optionAmount;
+  document.querySelector("#orderTotalCount").value = optionAmount;
 }
 function sub() {
   if (optionAmount > 1) {
     optionTotalPrice -= optionPrice;
+    document.querySelector("#finalTotalPriceInput").value = optionTotalPrice;
     // 가격 형변환 후 쉼표추가 함수
     let a = String(optionTotalPrice);
     var output = [a.slice(0, position), b, a.slice(position)].join("");
@@ -280,7 +284,9 @@ function sub() {
     //갯수
     optionAmount--;
     document.querySelector(".MSH-sto-stock").value = optionAmount;
+    document.querySelector("#orderTotalCount").value = optionAmount;
   } else {
+    document.querySelector("#finalTotalPriceInput").value = optionTotalPrice;
     document.querySelector(".MSH-sto-stock").value = optionAmount;
     document.querySelector("#option-price").innerHTML = optionStr;
     document.querySelector("#finalPrice").innerHTML = optionStr;
@@ -316,10 +322,12 @@ function productSum() {
   var output = [a.slice(0, position), b, a.slice(position)].join("");
   document.querySelector("#price").innerHTML = output + "원";
   document.querySelector("#finalPrice").innerHTML = output + "원";
+  document.querySelector("#finalTotalPriceInput").value = totalPrice;
 
   //갯수
   amount++;
   document.querySelector(".MSH-sto-stock").value = amount;
+  document.querySelector("#orderTotalCount").value = amount;
 
   //할인상품일 경우
   if (itemDiscountRate != 0) {
@@ -332,7 +340,8 @@ function productSum() {
     document.querySelector("#finalTotalPrice").innerHTML = output2 + "원";
     document.querySelector("#discountPrice").innerHTML = "- " + output3 + "원";
     document.querySelector("#discountPrice2").innerHTML = output3 + "원";
-  } else {
+
+  } else { //할인상품이 아닐경우
     document.querySelector("#finalTotalPrice").innerHTML = output + "원";
   }
 }
@@ -347,10 +356,12 @@ function productSub() {
 
     document.querySelector("#price").innerHTML = output + "원";
     document.querySelector("#finalPrice").innerHTML = output + "원";
+    document.querySelector("#finalTotalPriceInput").value = totalPrice;
 
     //갯수
     amount--;
     document.querySelector(".MSH-sto-stock").value = amount;
+    document.querySelector("#orderTotalCount").value = amount;
 
     if (itemDiscountRate != 0) {
       totalPrice2 -= price2;
@@ -383,10 +394,12 @@ function optionSum() {
   document.querySelector("#option-price").innerHTML = output + "원";
   document.querySelector("#finalPrice").innerHTML = output + "원";
   document.querySelector(".option-total-price").innerHTML = output;
+  document.querySelector("#finalTotalPriceInput").value = optionTotalPrice;
   finalPrice = output;
   //갯수
   optionAmount++;
   document.querySelector(".MSH-sto-stock").value = optionAmount;
+  document.querySelector("#orderTotalCount").value = optionAmount;
 
   if (itemDiscountRate != 0) {
     totalPrice2 += price2;
@@ -411,10 +424,12 @@ function optionSub() {
     document.querySelector("#option-price").innerHTML = output + "원";
     document.querySelector("#finalPrice").innerHTML = output + "원";
     document.querySelector(".option-total-price").innerHTML = output;
+    document.querySelector("#finalTotalPriceInput").value = optionTotalPrice;
     finalPrice = output;
     //갯수
     optionAmount--;
     document.querySelector(".MSH-sto-stock").value = optionAmount;
+    document.querySelector("#orderTotalCount").value = optionAmount;
 
     if (itemDiscountRate != 0) {
       totalPrice2 -= price2;

@@ -1275,14 +1275,6 @@
     </script>
 <!-- 장바구니 버튼, 공유 버튼 -->
 <script>
-      ////장바구니 버튼 클릭시 숫자 증가
-      //let basketNum = document.querySelector(".basket-num").innerHTML;
-      //console.log(basketNum);
-      //function basketNumCount() {
-      //  basketNum++;
-      //  document.querySelector(".basket-num").innerHTML = basketNum;
-      //}
-
 
       function buyBtn() {
         document.querySelector(".bg-option").className = "bg-option";
@@ -1322,22 +1314,17 @@
   }
 
 
-    // 장바구니 구현중
+    // 장바구니
     function basketNumProduct() {
         let itemNo = document.querySelector("#itemNo").innerHTML;
         let finalColorResult = document.querySelector(".final-color").innerHTML;
         let finalSizeResult = document.querySelector(".final-size").innerHTML;
         let productCount = document.querySelector(".MSH-sto-stock").value;
-        console.out(finalColorResult);
-        console.out(finalSizeResult);
-        console.out(productCount);
 
         basketNum++;
         let cookieName = itemNo
         cookieName += '.'+finalColorResult;
         cookieName += '.'+finalSizeResult;
-
-        console.out(cookieName);
 
         let cookieValue = productCount; //아이템 수량으로 쿠키벨류 초기화
         document.querySelector(".basket-num").innerHTML = basketNum; //오른 숫자 반영
@@ -1374,7 +1361,6 @@
               encodedCookieName += "." + splitedCookieName[idx];
             }
           }
-          console.log(encodedCookieName)
 
         //매개변수로 쿠키이름을 넣어주면 value로 반환
         var value = document.cookie.match("(^|;) ?" + encodedCookieName + "=([^;]*)(;|$)");
