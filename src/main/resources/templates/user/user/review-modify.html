@@ -113,8 +113,9 @@
 		<textarea class="col-auto form-control" type="text" id="reviewContents" name="reviewContent"
                   placeholder="어떤점이 좋으셨나요?" th:text="${review.reviewContent}" th:value="${review.reviewContent}"></textarea>
         <input type="text" name="reviewImgUrl"  th:utext="${review.reviewImgUrl}"  th:value="${review.reviewImgUrl}"/>
-<!--        <textarea  name="" id="editor" ></textarea>-->
-<!--        <input type="hidden" name="reviewImgUrl" id="editorData" th:value="${review.reviewImgUrl}"/>-->
+        <button>사진 삭제</button>
+        <textarea  name="" id="editor" ></textarea>
+        <input type="hidden" name="reviewImgUrl" id="editorData" />
         <button type="submit" id="submit" onclick="addNoticeContent();">수정하기</button>
 
     </form>
@@ -137,7 +138,7 @@
       });
 
      window.onload = function(){
-      const editorData = document.querySelector('#noticeContent').value
+      const editorData = document.querySelector('#editorData').value
 	  editor.setData(editorData);
     }
 
