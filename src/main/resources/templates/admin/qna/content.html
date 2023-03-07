@@ -27,10 +27,6 @@
         <h3 class="sub-title"> 문의</h3>
       <table class="table table-bordered" >
         <tr>
-          <th style="text-align: center;" class="w250 table-light align-middle">제목</th>
-          <td th:text="${qna.qnaTitle}">기타문의입니다.</td>
-        </tr>
-        <tr>
           <th style="text-align: center;" class="w250 table-light align-middle">작성자</th>
           <td th:text="${qna.qnaName}">김진사</td>
         </tr>
@@ -86,6 +82,7 @@
         <div style="text-align: center">
           <button type="submit" class="btn btn-outline-secondary">수정</button>
           <a th:href="@{/admin/qna/comment/delete/{id}(id=${comment.commentId})}" class="btn btn-danger">삭제</a>
+          <a href="/admin/qna/list" class="btn btn-outline-secondary">목록</a>
         </div>
         </form>
       </div>

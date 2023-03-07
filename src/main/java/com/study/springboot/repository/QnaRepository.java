@@ -15,11 +15,11 @@ import java.util.List;
 @Repository
 public interface QnaRepository extends JpaRepository<QnaEntity,Long> {
 
-    @Modifying
-    @Query(value = "update QnaEntity q set q.qnaHit=q.qnaHit+1 where q.qnaId=:id")
-    void modifyHits(@Param("id") Long id);
+//    @Modifying
+//    @Query(value = "update QnaEntity q set q.qnaHit=q.qnaHit+1 where q.qnaId=:id")
+//    void modifyHits(@Param("id") Long id);
 
-    Page<QnaEntity> findByQnaTitleContaining(String keyword, Pageable sort);
+    Page<QnaEntity> findByQnaContentContaining(String keyword, Pageable sort);
 
     Page<QnaEntity> findByQnaNameContaining(String keyword, Pageable sort);
 

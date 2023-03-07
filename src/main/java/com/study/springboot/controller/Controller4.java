@@ -79,6 +79,8 @@ public class Controller4 {
         pageList = qnaService.getPageList(totalPage, page);
         model.addAttribute("keywordType", keywordType);
         model.addAttribute("keyword", keyword);
+        model.addAttribute("dateStart", dateStart);
+        model.addAttribute("dateEnd", dateEnd);
         model.addAttribute("qnalist", list);
         model.addAttribute("pageList", pageList);
 
@@ -91,8 +93,6 @@ public class Controller4 {
     @GetMapping("admin/qna/content/{id}")
     public String content(@PathVariable("id") long id,
                           Model model) {
-
-        qnaService.modifyHits(id);
 
         List<QnaCommentResponseDto> comment = qnaCommentService.findbyIdx(id);
 

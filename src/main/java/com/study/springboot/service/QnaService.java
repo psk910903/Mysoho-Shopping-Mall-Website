@@ -75,10 +75,10 @@ public class QnaService {
         return true;
     }
 
-    @Transactional
-    public void modifyHits(long id) {
-        qnaRepository.modifyHits(id);
-    }
+//    @Transactional
+//    public void modifyHits(long id) {
+//        qnaRepository.modifyHits(id);
+//    }
 
     public List<Integer> getPageList(final int totalPage, final int page) {
 
@@ -113,7 +113,7 @@ public class QnaService {
 
 
         if (keywordType.equals("title")) {
-            list = qnaRepository.findByQnaTitleContaining(keyword, pageable);
+            list = qnaRepository.findByQnaContentContaining(keyword, pageable);
         } else if (keywordType.equals("writer")) {
             list = qnaRepository.findByQnaNameContaining(keyword, pageable);
         } else {
