@@ -83,25 +83,22 @@
       </a>
     </div>
     <tr>
-      <a href="/myorder/lists?dateStart=today&dateEnd=&&page=0" class="btn btn-outline-secondary">오늘</a>
-      <a href="/myorder/lists?dateStart=6months&dateEnd=&&page=0" class="btn btn-outline-secondary">6개월</a>
-      <a href="/myorder/lists?dateStart=1year&dateEnd=&&page=0" class="btn btn-outline-secondary">1년</a>
-      <input type="date" name="dateStart" value="" class="btn btn-outline-secondary"/> ~
+      <a href="/review/myList?dateStart=today&dateEnd=&&page=0" class="btn btn-outline-secondary">오늘</a>
+      <a href="/review/myList?dateStart=6months&dateEnd=&&page=0" class="btn btn-outline-secondary">6개월</a>
+      <a href="/review/myList?dateStart=1year&dateEnd=&&page=0" class="btn btn-outline-secondary">1년</a>
+      <input type="date" name="dateStart" value="" class="btn btn-outline-secondary"/>
       <input type="date" name="dateEnd" value="" class="btn btn-outline-secondary"/>
     </tr>
     <table th:each="review,status :${ list }",  border="1">
-
-
       <tr>
-        <div  class="itemImg">
-        <td th:utext="${ itemUrl[status.index] }" >상품사진</td>
-<!--          <img th:src="${ itemUrl[status.index] }"></div>-->
+        <td><img th:src="${ itemUrl[status.index] }" />상품사진</td>
         <td th:text="${ itemName[status.index] }" >상품이름</td>
         <td>
           <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png" alt=""/>
-          <div class="box"><a>수정</a>
-          <a>삭제</a></div>
-
+          <div class="box">
+          <a th:href="@{modify(reviewNo=${review.reviewNo}, itemName=${itemName[status.index]}, itemUrl=${itemUrl[status.index]} )}">수정</a>
+<!--            a th:href="@{writeForm(itemCode=${ cart.itemCode }, itemName=${cart.itemName}, itemUrl=${ itemUrl[status.index] })}"-->
+          <a th:href="@{delete(reviewNo=${review.reviewNo})}">삭제</a></div>
         </td>
       </tr>
 
@@ -119,7 +116,7 @@
         <td colspan="3" th:text="${review.reviewContent}"></td>
       </tr>
       <tr >
-        <td colspan="3"><img  th:src="${review.reviewImgUrl}"></td>
+        <td colspan="3"><img  th:utext="${review.reviewImgUrl}"></td>
       </tr>
 
     </table>

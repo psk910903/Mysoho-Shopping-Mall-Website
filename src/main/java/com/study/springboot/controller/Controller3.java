@@ -190,7 +190,7 @@ public class Controller3 {
         }
     }
 
-    //탈퇴 회원으로 변경
+    //탈퇴 하기
     @RequestMapping("/user/exited")
     @ResponseBody
     public String exited(@AuthenticationPrincipal User user,
@@ -424,6 +424,8 @@ public class Controller3 {
                                 Model model
                                 ){
         String memberId = user.getUsername();
+        System.out.println("itemName"+itemName);
+        System.out.println("itemUrl"+itemUrl);
         model.addAttribute("memberId",memberId);
         model.addAttribute("itemCode",itemCode);
         model.addAttribute("itemName",itemName);
@@ -433,7 +435,7 @@ public class Controller3 {
 
         return "user/user/review-writeForm";
     }
-    //리뷰 작성하기
+    //리뷰 작성하기(글쓰기)
     @RequestMapping("/review/writeAction")
     @ResponseBody
     public String writeAction(ReviewSaveResponseDto dto){
@@ -446,6 +448,7 @@ public class Controller3 {
             return "<script> alert('리뷰 작성에 성공했습니다.'); location.href='/review/myList';</script>";
         }
     }
+    //이미지 업로드용
     @PostMapping("/find/imgUpload")
     @ResponseBody
     public ResponseEntity<FileResponse> imgUpload(
@@ -455,6 +458,46 @@ public class Controller3 {
                 uploaded(true).
                 url(awsS3Service.upload(fileload)).
                 build(), HttpStatus.OK);
+    }
+
+    //리뷰 삭제
+    @RequestMapping("/review/delete")
+    @ResponseBody
+    public String reviewDelete(@RequestParam("reviewNo") Long reviewNo){
+        try {
+            ReviewEntity entity = reviewRepository.findById(reviewNo).orElseThrow();
+            reviewRepository.delete(entity);
+            return "<script>alert('삭제성공'); location.href='/review/myList'</script>";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "<script>alert('삭제실패'); history.back(); </script>";
+        }
+    }
+    //리뷰 수정 폼
+    @RequestMapping("/review/modify")
+    public String reviewModify(@RequestParam("reviewNo") Long reviewNo,
+                               @RequestParam("itemName") String itemName,
+                               @RequestParam("itemUrl") String itemUrl,
+                               Model model){
+        ReviewEntity entityList = reviewRepository.findById(reviewNo).orElseThrow();
+        model.addAttribute("review",entityList);
+        model.addAttribute("itemName",itemName);
+        model.addAttribute("itemUrl",itemUrl);
+        return "user/user/review-modify";
+    }
+
+    //리뷰 수정하기
+    @RequestMapping("/review/modifyAction")
+    @ResponseBody
+    public String reviewModifyAction(ReviewSaveResponseDto dto){
+        try {
+            ReviewEntity entity = dto.toUpdateEntity();
+            reviewRepository.save(entity);
+            return "<script>alert('수정 성공했습니다.'); location.href='/review/myList'</script>";
+        }catch (Exception e){
+            e.printStackTrace();
+            return "<script>alert('수정 실패했습니다.'); history.back(); </script>";
+        }
     }
 
 

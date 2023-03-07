@@ -29,6 +29,7 @@ public class ReviewSaveResponseDto {
                 .reviewContent(reviewContent)
                 .reviewExpo(reviewExpo)
                 .reviewImgUrl(reviewImgUrl)
+                .reviewDatetime(reviewDatetime)
                 .build();
     }
 
