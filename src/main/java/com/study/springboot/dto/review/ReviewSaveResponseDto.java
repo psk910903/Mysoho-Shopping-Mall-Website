@@ -18,6 +18,7 @@ public class ReviewSaveResponseDto {
     private String reviewContent;
     private String reviewImgUrl;
     private String reviewExpo;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime reviewDatetime;
 
     public ReviewEntity toUpdateEntity(){

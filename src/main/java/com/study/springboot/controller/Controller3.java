@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -439,8 +441,8 @@ public class Controller3 {
     @RequestMapping("/review/writeAction")
     @ResponseBody
     public String writeAction(ReviewSaveResponseDto dto){
-        LocalDate today = LocalDate.now();
-        dto.setReviewDatetime(today.atStartOfDay());
+        LocalDateTime today = LocalDateTime.now();
+        dto.setReviewDatetime(today);
         boolean result = reviewService.save(dto);
         if(!result){
             return "<script> alert('리뷰 작성에 실패했습니다.'); history.back();</script>";
@@ -489,7 +491,10 @@ public class Controller3 {
     //리뷰 수정하기
     @RequestMapping("/review/modifyAction")
     @ResponseBody
-    public String reviewModifyAction(ReviewSaveResponseDto dto){
+    public String reviewModifyAction( @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")ReviewSaveResponseDto dto){
+        System.out.println(222222222);
+        System.out.println( dto.getReviewDatetime());
+
         try {
             ReviewEntity entity = dto.toUpdateEntity();
             reviewRepository.save(entity);

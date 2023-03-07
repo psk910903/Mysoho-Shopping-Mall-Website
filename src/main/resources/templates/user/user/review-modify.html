@@ -87,7 +87,7 @@
         <input type="hidden" name="reviewNo"  th:value="${review.reviewNo}">
         <input type="hidden" name="memberId"  th:value="${review.memberId}">
         <input type="hidden" name="itemNo" th:value="${review.itemNo}">
-        <input type="hidden" name="reviewDatetime"  th:value="${#temporals.format(review.reviewDatetime, 'yyyy-MM-dd HH:mm')}">
+        <input type="hidden" name="reviewDatetime" th:value="${#temporals.format(review.reviewDatetime, 'yyyy-MM-dd HH:mm:ss')}">
         <input type="hidden" name="reviewExpo" th:value="${review.reviewExpo}">
         <table>
             <tr>
@@ -112,7 +112,7 @@
         </fieldset>
 		<textarea class="col-auto form-control" type="text" id="reviewContents" name="reviewContent"
                   placeholder="어떤점이 좋으셨나요?" th:text="${review.reviewContent}" th:value="${review.reviewContent}"></textarea>
-        <input type="file" name="reviewImgUrl"  th:utext="${review.reviewImgUrl}"  th:value="${review.reviewImgUrl}"/>
+        <input type="text" name="reviewImgUrl"  th:utext="${review.reviewImgUrl}"  th:value="${review.reviewImgUrl}"/>
 <!--        <textarea  name="" id="editor" ></textarea>-->
 <!--        <input type="hidden" name="reviewImgUrl" id="editorData" th:value="${review.reviewImgUrl}"/>-->
         <button type="submit" id="submit" onclick="addNoticeContent();">수정하기</button>
