@@ -254,11 +254,7 @@ public class Controller1 {
     OrderResponseDto dto = orderService.findById(id);
     model.addAttribute("dto", dto);
     List<CartResponseDto> cartList = service1.getCartList(dto);
-    Long totalPrice = service1.getTotalPrice(cartList);
-    Long totalCount = service1.getTotalCount(cartList);
 
-    dto.setOrderTotalPrice(totalPrice);
-    dto.setOrderTotalCount(totalCount);
     model.addAttribute("cartList", cartList);
     model.addAttribute("dto", dto);
 
@@ -409,7 +405,7 @@ public class Controller1 {
 
       for (int j = 0; j < cartList.size(); j++) {
 
-        if (Objects.equals(cartList.get(j).getOrderCode(), orderDto.getOrderNo())) {
+        if (Objects.equals(cartList.get(j).getOrderCode(), orderDto.getOrderCode())) {
           originalPrice += cartList.get(j).getCartItemOriginalPrice();
           discountPrice += cartList.get(j).getCartDiscountPrice();
           itemPrice += cartList.get(j).getCartItemPrice();

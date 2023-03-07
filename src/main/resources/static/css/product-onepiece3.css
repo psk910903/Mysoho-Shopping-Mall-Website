@@ -291,6 +291,7 @@ select[name="message"] {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 42px;
   width: 100%;
   border: 1px solid #dedede;
 }

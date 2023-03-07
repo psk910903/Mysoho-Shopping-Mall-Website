@@ -99,12 +99,12 @@
             <td class="align-middle"><input type="checkbox"></td>
             <td class="align-middle" th:text="${#temporals.format(dto.orderDatetime, 'yyyy-MM-dd HH:mm')}">주문일</td>
             <td class="align-middle">
-              <a th:href="|/admin/order/content?orderNo=${dto.orderNo}|" th:text="${ dto.orderNo }"11
+              <a th:href="|/admin/order/content?orderNo=${dto.orderNo}|" th:text="${ dto.orderCode }"11
                  style="text-decoration: none;color: black;">주문번호</a>
             </td>
             <td class="align-middle" th:text="${ dto.orderName }">주문자명</td>
             <td class="align-middle" th:text="${ dto.orderPayType }">주문방법</td>
-            <td class="align-middle" th:text="${ dto.orderTotalPrice }">결제금액</td>
+            <td class="align-middle" data-th-text="${#numbers.formatInteger(dto.orderTotalPrice, 3, 'COMMA') + '원'}">결제금액</td>
             <td class="align-middle">
               <select name="orderState" class="form-select">
                 <option selected="selected" th:text="${ dto.orderState }" th:value="${ dto.orderState }" value="">주문상태</option>

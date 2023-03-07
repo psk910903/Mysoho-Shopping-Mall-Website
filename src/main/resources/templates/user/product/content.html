@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="/css/option-popup.css" />
     <link rel="stylesheet" href="/css/share-btn.css" />
     <link rel="stylesheet" href="/css/product-onepiece3.css" />
+    <link rel="stylesheet" href="/css/shopping-basket.css" />
     <style>
       .final-color,
       .final-size {
@@ -752,523 +753,17 @@
 
               <!-- 구분선 빈박스 -->
               <div class="bg-blank"></div>
-              <div class="order-hd lnk-tab">
-                <strong>주문자 정보</strong>
-                <div class="flexbox">
-                  <span class="blue fs-14 span1">정보를 입력하세요.</span>
-                  <a href="javascript:orderInfo(1)" class="order-hd-open-1"
-                    ><img
-                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
-                      alt=""
-                    />
-                  </a>
-                  <a href="javascript:orderInfo(1)" class="order-hd-close-1"
-                    ><img
-                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png"
-                      alt=""
-                  /></a>
-                </div>
-              </div>
-              <div class="order-frm basket order1">
-                <div class="receiver-wrap same">
-                  <div class="title js-useDeliveryOff">
-                    <div><strong>주문자정보</strong></div>
-                    <div class="cbx-tit">
-                      <input type="checkbox" onclick="onclickCbx()" />
-                      회원가입
-                    </div>
-                  </div>
-                  <ul>
-                    <li class="mt-none">
-                      <input
-                        type="text"
-                        name="sender"
-                        placeholder="이름"
-                        value
-                        maxlength="20"
-                        id="order-first-input"
-                      />
-                    </li>
-                    <li class="array-2x">
-                      <select name="phone1">
-                        <option value="010" selected>010</option>
-                        <option value="011">011</option>
-                        <option value="016">016</option>
-                        <option value="017">107</option>
-                        <option value="018">018</option>
-                        <option value="019">019</option>
-                      </select>
-                      <input
-                        type="tel"
-                        name="phone2"
-                        value
-                        placeholder="- 없이 숫자만 입력"
-                        id="order-sec-input"
-                      />
-                    </li>
-                  </ul>
-                </div>
-                <!-- 회원가입 -->
-                <div id="userJoinFormDiv" class="receiver-wrap users-join-line">
-                  <div class="title bold">회원가입 정보</div>
-                  <div class="users-cont nopd">
-                    <div>
-                      <input
-                        class="input-st01 users-login-input input-id"
-                        type="text"
-                        name="user_id"
-                        placeholder="아이디(5자~20자 이내)"
-                        value=""
-                        onBlur="checkTxt('id', this.value)"
-                        onchange="checkUserinfo('id', this.value)"
-                      />
-                      <div class="red check-txt check-txt-id">
-                        아이디를 입력해주세요
-                      </div>
-                      <div class="red check-txt check-txt-id2">
-                        아이디는 영문 또는 영문, 숫자를 포함하여 5자~20자 내로
-                        입력 가능합니다. (-,_를 제외한 특수 문자 입력 불가)
-                      </div>
-                      <div class="blue check-txt check-txt-id3">
-                        사용가능한 아이디입니다.
-                      </div>
-                    </div>
-                    <div>
-                      <input
-                        class="input-st01 users-login-input mt-10"
-                        type="email"
-                        name="user_email"
-                        placeholder="이메일(비밀번호 찾기 시 이메일로 발송됩니다)"
-                        value=""
-                        onBlur="checkTxt('email', this.value)"
-                        onchange="checkUserinfo('email', this.value)"
-                      />
-                      <div class="red check-txt check-txt-email">
-                        이메일 주소를 입력하세요.
-                      </div>
-                      <div class="red check-txt check-txt-email2">
-                        이메일 형식을 확인 해주세요.
-                      </div>
-                      <div class="blue check-txt check-txt-email3">
-                        가입 가능한 이메일입니다.
-                      </div>
-                    </div>
-                    <div class="passwordTxt">
-                      - 비밀번호를 잃어버린 경우 해당 이메일로 비밀번호 관련
-                      정보가 제공 됩니다. 바르게 입력해주세요.
-                    </div>
-                  </div>
-                  <div>
-                    <input
-                      id="check-txt-pw"
-                      class="input-st01 users-login-input mt-10"
-                      type="password"
-                      name="user_password"
-                      placeholder="비밀번호 (영문,숫자,특수문자 조합 8자리 이상)"
-                      value=""
-                      onchange="checkUserinfo('pw', this.value)"
-                    />
-                    <div class="red check-txt check-txt-pw">
-                      올바른 비밀번호 형식이 아닙니다.
-                    </div>
-                    <div class="red check-txt check-txt-pw2">
-                      올바른 비밀번호 형식이 아닙니다.
-                    </div>
-                    <div class="blue check-txt check-txt-pw3">
-                      사용가능한 비밀번호 입니다.
-                    </div>
-                  </div>
-                  <div>
-                    <input
-                      id="check-txt-pwcheck"
-                      class="input-st01 users-login-input mt-10"
-                      type="password"
-                      name="user_password"
-                      placeholder="비밀번호 재입력"
-                      value=""
-                      onBlur="checkPW(this.value)"
-                      onchange="checkTxt('pw', this.value)"
-                    />
-                    <div class="blue check-txt check-txt-pwcheck-same">
-                      비밀번호가 일치합니다.
-                    </div>
-                    <div class="red check-txt check-txt-pwcheck-not">
-                      비밀번호가 일치하지 않습니다.
-                    </div>
-                  </div>
-                </div>
-                <!-- 수령자정보 -->
-                <div class="receiver-wrap same same2">
-                  <div class="title js-useDeliveryOff">
-                    <strong>수령자정보</strong>
-                    <div class="cbx-tit">
-                      <input
-                        type="checkbox"
-                        onclick="onclickCbxCopy()"
-                        id="cdxCopy"
-                      />
-                      주문자 정보와 같습니다.
-                    </div>
-                  </div>
-                  <ul>
-                    <li class="mt-none">
-                      <input
-                        type="text"
-                        name="sender"
-                        placeholder="이름"
-                        value
-                        maxlength="20"
-                        id="order-first-input-copy"
-                      />
-                    </li>
-                    <li class="array-2x">
-                      <select name="phone1">
-                        <option value="010" selected>010</option>
-                        <option value="011">011</option>
-                        <option value="016">016</option>
-                        <option value="017">107</option>
-                        <option value="018">018</option>
-                        <option value="019">019</option>
-                      </select>
-                      <input
-                        type="tel"
-                        name="phone2"
-                        value
-                        placeholder="- 없이 숫자만 입력"
-                        id="order-sec-input-copy"
-                      />
-                    </li>
-                  </ul>
-                </div>
-                <div class="receiver-wrap same js-useDeliveryOff same2">
-                  <div class="title red">
-                    <strong class="red2"> 수령자 주소</strong>
-                  </div>
-                  <ul>
-                    <li class="box open-layer-addr mt-none">
-                      <a href="javascript:sample6_execDaumPostcode()">
-                        <input
-                          id="sample6_postcode"
-                          type="text"
-                          name="delivery_address"
-                          placeholder="우편번호"
-                          value
-                          readonly />
-                        <!-- 돋보기 이미지 -->
-                        <div>
-                          <img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h24_search.png"
-                            alt=""
-                          /></div
-                      ></a>
-                    </li>
-                    <li class="delivery-address1">
-                      <input
-                        id="sample6_address"
-                        type="text"
-                        name="delivery_address1"
-                        placeholder="기본주소"
-                        value
-                        maxlength="100"
-                      />
-                    </li>
-                    <li class="delivery-address2">
-                      <input
-                        id="sample6_extraAddress"
-                        type="text"
-                        name="delivery_address2"
-                        placeholder="참고항목"
-                        value
-                        maxlength="100"
-                      />
-                    </li>
-                    <li class="delivery-address2">
-                      <input
-                        id="sample6_detailAddress"
-                        type="text"
-                        name="delivery_address2"
-                        placeholder="나머지주소"
-                        value
-                        maxlength="100"
-                      />
-                    </li>
-                    <li class="relative-li">
-                      <select name="message">
-                        <option value="0" selected>
-                          배송 전 연락 바랍니다.
-                        </option>
-                        <option value="1">
-                          부재시 휴대폰으로 연락 바랍니다.
-                        </option>
-                        <option value="2">부재시 경비실에 맡겨주세요.</option>
-                        <option value="3">집 앞에 놓아주세요.</option>
-                        <option value="4">택배함에 넣어주세요.</option>
-                        <option value="direct">직접 입력</option>
-                      </select>
-                      <!-- 셀렉트 여는 이모티콘 -->
-                      <img
-                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
-                        alt=""
-                        class="imgOpen"
-                      />
-                    </li>
-                  </ul>
-                </div>
-                <!-- 구분선 빈박스-->
-                <div class="bg-blank none"></div>
-              </div>
-
+              <form name="orderForm" action="/order/payAction" method="POST">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+              <!-- 주문자 정보 -->
+              <div th:replace="/user/order-object/container-shopping-basket-orderer.html :: container-shopping-basket-orderer"></div>
               <!-- 적립금 -->
-              <div class="order-hd lnk-tab">
-                <strong>적립금 사용</strong>
-                <!-- 버튼 이미지 -->
-                <div class="flexbox">
-                  <span class="blue fs-14 span2"
-                    >로그인 후, 사용 가능합니다.</span
-                  >
-                  <a href="javascript:orderInfo(2)" class="order-hd-open-2"
-                    ><img
-                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
-                      alt=""
-                  /></a>
-                  <a href="javascript:orderInfo(2)" class="order-hd-close-2"
-                    ><img
-                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png"
-                      alt=""
-                  /></a>
-                </div>
-              </div>
-              <div class="order2">
-                <div class="order-mileage">
-                  <div class="order-use-mileage">
-                    <div class="title">
-                      <div>
-                        보유적립금
-                        <span class="js-userMileageText">0원</span>
-                      </div>
-                      <div class="cbx-tit">
-                        <input type="checkbox" />
-                        모두 사용
-                      </div>
-                    </div>
-                    <ul>
-                      <li>
-                        <input
-                          type="tel"
-                          name="use_mileage"
-                          placeholder="로그인 후, 사용 가능합니다."
-                          readonly="readonly"
-                          class="readonly-input"
-                        />
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-                <!-- 구분선 빈박스-->
-                <div class="bg-blank none"></div>
-              </div>
-
+              <div th:replace="/user/order-object/container-shopping-basket-mileage.html :: container-shopping-basket-mileage"></div>
               <!-- 결제방법 -->
-              <div class="order-hd lnk-tab js-order-paymethod-area">
-                <strong>결제방법</strong>
-                <!-- 버튼 이미지 -->
-                <div class="flexbox">
-                  <span class="blue fs-14 span3 pay-checked" id="pay1display"
-                    >휴대폰결제</span
-                  >
-                  <span class="blue fs-14 span3" id="pay2display"
-                    >무통장입금</span
-                  >
-
-                  <a href="javascript:orderInfo(3)" class="order-hd-open-3"
-                    ><img
-                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
-                      alt=""
-                  /></a>
-                  <a href="javascript:orderInfo(3)" class="order-hd-close-3"
-                    ><img
-                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png"
-                      alt=""
-                  /></a>
-                </div>
-              </div>
-              <div class="order-pay order3">
-                <div class="order-pay-div">
-                  <div>
-                    <label
-                      class="js-activate"
-                      style="color: rgb(136, 136, 136)"
-                    ></label>
-
-                    <input
-                      type="radio"
-                      name="pay_method"
-                      value="SSP"
-                      autocomplete="off"
-                      disabled
-                    />
-                  </div>
-                  <div>
-                    <div class="order-pay-div-tit gray">
-                      삼성페이
-                      <a href="javascript:openPopupMobile()">지원 단말 확인></a>
-                    </div>
-                    <div class="order-pay-div-text">
-                      삼성페이 결제는 안드로이드 기종에서만 가능합니다.
-                    </div>
-                  </div>
-                </div>
-                <div class="order-pay-div">
-                  <div>
-                    <label
-                      class="js-activate"
-                      style="color: rgb(0, 0, 0)"
-                    ></label>
-
-                    <input
-                      type="radio"
-                      name="pay_method"
-                      value="PMP"
-                      autocomplete="off"
-                      id="pay1"
-                      checked
-                      onclick="selecpay()"
-                    />
-                  </div>
-                  <div>
-                    <div class="order-pay-div-tit" id="pay1color">
-                      휴대폰결제
-                    </div>
-                    <div class="txt-desc mt-10 mb-10 js-txt-desc" id="pay1text">
-                      <div class="order-pay-div-text">
-                        핸드폰 요금청구서에 '소액결제'로 표시됩니다.
-                      </div>
-                      <div class="order-pay-div-text">
-                        결제건의 취소는 해당 달에만 가능합니다.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="order-pay-div">
-                  <div>
-                    <label
-                      class="js-activate"
-                      style="color: rgb(136, 136, 136)"
-                    ></label>
-
-                    <input
-                      type="radio"
-                      name="pay_method"
-                      value="MBA"
-                      autocomplete="off"
-                      id="pay2"
-                      onclick="selecpay()"
-                    />
-                  </div>
-                  <div class="payWrap">
-                    <div class="order-pay-div-tit gray" id="pay2color">
-                      무통장입금
-                      <span class="order-pay-div-text red">
-                        (반드시 주문자 성함으로 입금)
-                      </span>
-                    </div>
-                    <div class="txt-desc mt-10 mb-10 js-txt-desc" id="pay2text">
-                      <div class="order-pay-div-text relative-li">
-                        <select name="message" id="paySelect">
-                          <option value="">입금 계좌번호 선택</option>
-                          <option
-                            value="기업은행"
-                            data-acnt-name="소호나라"
-                            data-acnt-num="0106-859-3030119"
-                          >
-                            기업은행 0106-859-3030119 (예금주 :소호나라)
-                          </option>
-                        </select>
-
-                        <img
-                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
-                          alt=""
-                          class="imgOpen"
-                        />
-                      </div>
-                      <div class="order-pay-div-text mt-10">
-                        빠른 처리를 위해 주문자를 입금자로 사용하세요.
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- 구분선 빈박스-->
-              <div class="bg-blank none"></div>
+              <div th:replace="/user/order-object/container-shopping-basket-payment.html :: container-shopping-basket-payment"></div>
               <!-- 약관/결제 전체 동의 -->
-              <div class="order-from-new">
-                <div class="order-hd">
-                  <input
-                    id="agreeAllBtn"
-                    name="ckeck1"
-                    type="checkbox"
-                    autocomplete="off"
-                    onclick="onclickAgree()"
-                  />
-                  <label for="check1"></label>
-                  <div>
-                    <strong> 약관/결제 전체 동의</strong>
-                  </div>
-                </div>
-                <div class="agree-box">
-                  <ul>
-                    <li>
-                      <div>
-                        <input
-                          type="checkbox"
-                          name="terms_agree"
-                          autocomplete="off"
-                        />
-                        <div>이용약관 동의(필수)</div>
-                      </div>
-                      <a href="javascript:openPopup('/popup/pop-page3.html')"
-                        >보기</a
-                      >
-                    </li>
-                    <li>
-                      <div>
-                        <input
-                          type="checkbox"
-                          name="terms_agree"
-                          autocomplete="off"
-                        />
-                        <div>개인정보 수집 이용 동의 (필수)</div>
-                      </div>
-                      <a href="javascript:openPopup('/popup/pop-page4.html')"
-                        >보기</a
-                      >
-                    </li>
-                    <li>
-                      <div>
-                        <input
-                          type="checkbox"
-                          name="terms_agree"
-                          autocomplete="off"
-                        />
-                        <div>개인정보 수집 이용 동의 (선택)</div>
-                      </div>
-                      <a href="javascript:openPopup('/popup/pop-page4.html')"
-                        >보기</a
-                      >
-                    </li>
-                    <li>
-                      <div>
-                        <input
-                          type="checkbox"
-                          name="terms_agree"
-                          autocomplete="off"
-                        />
-                        <div>위 구매조건 확인 및 결제진행 동의</div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+              <div th:replace="/user/order-object/container-shopping-basket-consent.html :: container-shopping-basket-consent"></div>
+              <!-- 결제요악 -->
               <div class="order-terms">
                 <div class="inner">
                   <div class="price-box">
@@ -1372,15 +867,17 @@
                       </div>
                     </div>
                     <div class="left blue">
-                      <strong
-                        >(예상 적립금 <span>0</span>원, 비회원적립 불가)</strong
-                      >
+                      <strong>(예상 적립금 <span>0</span>원, 비회원적립 불가)</strong>
+                      <input type="hidden" name="orderTotalPrice" id="totalPriceInput"/>
                     </div>
                   </div>
+                  <input type="hidden" name="orderTotalCount" id="orderTotalCount" />
                   <th:block th:if="${dto.itemSoldOut} != '품절'">
                   <a
+                    type="button"
                     href="order-complete.html"
                     class="js-btnOrder js-mo-tpl btn-h42-gray mt-25"
+                    onclick="processBeforeSubmit()"
                     >결제하기</a
                   >
                   </th:block>
@@ -1403,6 +900,7 @@
                   </div>
                 </div>
               </div>
+              </form>
             </div>
           </div>
         </div>
@@ -1465,14 +963,6 @@
         document.querySelector(".option-btn-bg").style.display = "block";
       }
 
-      ////장바구니 버튼 클릭시 숫자 증가
-      //let basketNum = document.querySelector(".basket-num").innerHTML;
-      //console.log(basketNum);
-      //function basketNumCount() {
-      //  basketNum++;
-      //  document.querySelector(".basket-num").innerHTML = basketNum;
-      //}
-
       function buyBtn() {
         document.querySelector(".bg-option").className = "bg-option";
         document.querySelector(".order-frm").style.display = "block";
@@ -1533,8 +1023,6 @@
         cookieName += "." + finalColorResult;
         cookieName += "." + finalSizeResult;
 
-        console.log(cookieName);
-
         let cookieValue = Number(productCount); //아이템 수량으로 쿠키벨류 초기화
         document.querySelector(".basket-num").innerHTML = basketNum; //오른 숫자 반영
 
@@ -1573,7 +1061,6 @@
             encodedCookieName += "." + splitedCookieName[idx];
           }
         }
-        console.log(encodedCookieName);
 
         //매개변수로 쿠키이름을 넣어주면 value로 반환
         var value = document.cookie.match(
