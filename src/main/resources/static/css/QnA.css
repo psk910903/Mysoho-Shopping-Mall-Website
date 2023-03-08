@@ -137,3 +137,135 @@
   border-left: 1px solid #d6d6d6;
   border-right: 1px solid #d6d6d6;
 }
+#QnA-searchBtn {
+    border: none;
+    background-color: #ffffff;
+}
+.qa-list-wrap {
+    display: flex;
+    border-top: 1px solid #d6d6d6;
+    padding: 20px 0;
+    position: relative;
+}
+.qna-board-list {
+    display: flex;
+}
+.qa-list-icon {
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid;
+    color: #999999;
+    background: #edeff2;
+    font-weight: bold;
+    font-size: 11px;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    border: none;
+}
+.qna-info {
+    display: flex;
+}
+
+.threedot {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+}
+.threedot img {
+    width: 3px;
+}
+
+.sort {
+    text-align: center;
+    right: 20px;
+    top: 50px;
+    display: none;
+    width: 50px;
+    padding: 0 5px;
+    position: absolute;
+    z-index: 100;
+    background: #ffffff;
+    box-shadow: 0px 1px 1.68px 1.82px rgb(0 0 0 / 15%);
+    border-radius: 5px;
+    font-size: 14px;
+}
+.sort li {
+    padding: 5px;
+    border-bottom: 1px solid #edeff2;
+}
+.sort li:hover {
+    background-color: rgb(228, 228, 228);
+}
+.sort button{
+    border:none;
+    width:100%;
+    background-color:white;
+}
+.sort button:hover{
+    background-color: rgb(228, 228, 228);
+}
+.pwCheckInput{
+    margin-top: -10px;
+    width: 79.26%;
+    padding: 0 12px;
+    height: 34px;
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    float: left;
+    font-size: 12px;
+}
+.CheckDiv{
+    display:none;
+    height: 50px;
+    padding: 15px;
+    background: #f8f8f8;
+    border-top: 1px solid #f0f0f0;
+}
+.CheckDiv2 {
+    display:none;
+    height: 50px;
+    padding: 15px;
+    background: #f8f8f8;
+    border-top: 1px solid #f0f0f0;
+}
+.checkBtn{
+    margin-top: -10px;
+    display: block;
+    width: 18.9%;
+    float: right;
+    line-height: 30px;
+    text-align: center;
+    background: #000;
+    font-size: 12px;
+    color: #fff;
+}
+.back {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.back a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 195px;
+    height: 47px;
+    border-radius: 100px;
+    border: 1px solid black;
+}
+h6{
+    text-align: center;
+    color: gray;
+    font-size: 13px;
+}
+.brackground-green{
+    background: #58DB51;
+    color: #fff;
+}
+.add-maxwidth{
+    max-width: min(560px, 80vw);
+}
