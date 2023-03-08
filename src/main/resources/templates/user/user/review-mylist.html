@@ -109,8 +109,8 @@ position: relative;
     <th:block th:each="review,status :${ list }">
     <div class="order_list">
           <div class="list">
-            <a >
-              <img th:src="${ itemUrl[status.index] }" alt="" />
+            <a th:href="|/product/${review.itemNo}|">
+              <img   th:src="${ itemUrl[status.index] }" alt="" />
             </a>
             <div class="info">
               <th:block th:if="${review.reviewImgUrl == null} or ${review.reviewImgUrl == ''}">
