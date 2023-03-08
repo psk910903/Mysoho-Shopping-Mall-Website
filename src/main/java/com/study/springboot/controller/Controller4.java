@@ -192,14 +192,19 @@ public class Controller4 {
     @GetMapping("qna")
     public String qnaSearchAction(@RequestParam(value ="keyword", required = false) String keyword,
                                   HttpServletRequest request,
-                                  Model model){
+                                  Model model, @AuthenticationPrincipal User user){
 
         //세션 가져오기
-        HttpSession session = request.getSession();
-        String name = (String)session.getAttribute("username");
-        System.out.println(name);
+//        HttpSession session = request.getSession();
+//        String name = (String)session.getAttribute("username");
+//        System.out.println(name);
         //세션 설정하기
-        session.setAttribute("name", name);
+//        session.setAttribute("name", name);
+        String memberId = null;
+        if (user != null){
+            memberId = user.getUsername();
+        }
+        model.addAttribute("memberId", memberId);
 
         List<QnaResponseDto> list;
 
@@ -337,8 +342,11 @@ public class Controller4 {
 
             return "<script>alert('비밀번호 확인실패'); history.back();</script>";
         }
-
-        return "<script>alert('비밀번호 확인완료');window.open('/qna/modifyForm/" + num + "');location.href='/qna'</script>";
+        return "<script>" +
+                "alert('비밀번호 확인완료\\n창이 뜨지 않을 경우 팝업 차단 해제를 해주세요.');" +
+                "window.open('/qna/modifyForm/" + num + "');" +
+                "location.href='/qna'" +
+                "</script>";
 
     }
     @PostMapping("qna/pw/check/action2/guest")

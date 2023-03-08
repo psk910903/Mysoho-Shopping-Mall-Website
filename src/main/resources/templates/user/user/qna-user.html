@@ -70,13 +70,13 @@
             </th:block>
             <div class="writing-explain">
               <div class="writing-content">
-                <span th:text="${qna.qnaContent}" th:class="${#strings.equals(qna.qnaSecret, '비공개') ? 'font-gray' : ''}">문의 내용</span>
+                <span th:text="${qna.qnaContent}" th:class="${#strings.equals(qna.qnaSecret, '비공개') ? 'font-gray txt_ellipsis' : 'txt_ellipsis'}">문의 내용</span>
                 <img th:if="${#strings.equals(qna.qnaSecret, '비공개')}" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_qa_lock.png"/>
               </div>
               <div class="writing-info">
                 <div class="writing-type" th:text="${qna.qnaCategory}">상품문의</div>
                 <div class="writing-detail bar" th:text="${memberHiddenName}">닉네임</div>
-                <div class="writing-detail" th:text="${#temporals.format(qna.qnaDate, 'yyyy-MM-dd')}">날짜</div>
+                <div class="writing-detail" th:text="${#temporals.format(qna.qnaDate, 'yyyy.MM.dd')}">날짜</div>
               </div>
             </div>
             <div class="writing-icon">
