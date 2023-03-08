@@ -27,4 +27,7 @@ public interface InquiryRepository extends JpaRepository<InquiryEntity,Long> {
     // 2.23 희진 추가 -----------------------------------------------------------------
     List<InquiryEntity> findByMemberId(String memberId);
 
+    //03.08 이준하 추가
+    @Query(value = "SELECT COUNT(*) FROM `inquiry` WHERE inquiry_no = :inquiryNo", nativeQuery = true)
+    Long countByInquiryNo(@Param(value="inquiryNo")Long inquiryNo);
 }

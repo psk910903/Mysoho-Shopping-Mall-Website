@@ -33,13 +33,17 @@ public class InquiryEntity {
     private LocalDateTime inquiryDatetime = LocalDateTime.now();
 
     @Builder
-    public InquiryEntity(String memberId,
+    public InquiryEntity(Long inquiryNo,
+                         String memberId,
                          String inquiryNickname,
                          String inquiryPassword,
                          Long itemNo,
                          String inquiryContent,
                          String inquiryHit,
-                         String inquirySecret) {
+                         String inquirySecret,
+                         LocalDateTime inquiryDatetime
+    ) {
+        this.inquiryNo = inquiryNo;
         this.memberId = memberId;
         this.inquiryNickname = inquiryNickname;
         this.inquiryPassword = inquiryPassword;
@@ -47,6 +51,7 @@ public class InquiryEntity {
         this.inquiryContent = inquiryContent;
         this.inquiryHit = inquiryHit;
         this.inquirySecret = inquirySecret;
+        this.inquiryDatetime = inquiryDatetime;
 
     }
     public void update(String memberId,
