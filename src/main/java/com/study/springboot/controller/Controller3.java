@@ -401,22 +401,17 @@ public class Controller3 {
         return "user/user/review-toWrite";
     }
     //리뷰 작성하기 폼
-    @RequestMapping("/review/writeForm")
+    @RequestMapping("/myorder/writeForm")
     public String myReviewWrite(@RequestParam("itemCode") String itemCode,
                                 @RequestParam("itemName") String itemName,
-                                @RequestParam("itemUrl") String itemUrl,
                                 @AuthenticationPrincipal User user,
                                 Model model
                                 ){
         String memberId = user.getUsername();
         System.out.println("itemName"+itemName);
-        System.out.println("itemUrl"+itemUrl);
         model.addAttribute("memberId",memberId);
         model.addAttribute("itemCode",itemCode);
         model.addAttribute("itemName",itemName);
-        model.addAttribute("itemUrl",itemUrl);
-
-
 
         return "user/user/review-writeForm";
     }

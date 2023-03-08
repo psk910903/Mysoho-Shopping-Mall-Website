@@ -26,6 +26,22 @@
       .list-type5 {
         display: none;
       }
+      .absoluteBtn{
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      width: 75px;
+      height: 38px;
+      font-size: 12px;
+      line-height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #202020;
+      }
+      .list{
+      position: relative;
+      }
     </style>
 </head>
 <body>
@@ -393,6 +409,16 @@
                     / 1개
                   </div>
                 </div>
+<!--                임시-->
+                <th:bolck th:if="${dto.orderState} == '배송완료'">
+                <a
+                        style="width: 75px;"
+                        class="absoluteBtn"
+                        th:href="@{writeForm(itemCode=${ cart.itemCode }, itemName=${cart.itemName})}"
+                >
+                  후기작성
+                </a>
+                </th:bolck>
                 <!-- 구분선 -->
               </div>
             </th:block>
@@ -1274,7 +1300,7 @@
             <th:block th:each="cartList:${ cartListModel }">
               <div
                       class="list"
-                      th:each="cart:${ cartList }"
+                      th:each="cart,status:${ cartList }"
                       th:if="${cart.orderCode == dto.orderCode}"
               >
                 <a th:href="|/product/${cart.itemCode}|">
@@ -1300,9 +1326,16 @@
                     / 1개
                   </div>
                 </div>
-                <!-- 구분선 -->
+                <a
+                        style="width: 75px;"
+                        class="absoluteBtn"
+                        th:href="@{writeForm(itemCode=${ cart.itemCode }, itemName=${cart.itemName}, itemUrl=${ cart.itemImageUrl[status.index] })}"
+                >
+                  후기작성
+                </a>
               </div>
             </th:block>
+            <!-- 구분선 -->
             <div class="bg-blank"></div>
           </th:block>
         </div>
