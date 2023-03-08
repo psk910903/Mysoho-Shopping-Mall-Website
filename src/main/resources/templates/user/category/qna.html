@@ -33,8 +33,7 @@
         <!-- 검색하기 -->
         <div class="schBox" th:unless="${keyword} == null and ${listCount} == 0">
             <form name="searchForm" method="GET" action="/qna" >
-                <a href="javascript:history.back();
-                    if(document.referrer == 'http://localhost:8080/'){location.href = document.referrer;}" class="btnHback"></a>
+                <a href="javascript:history.back();" class="btnHback"></a>
                 <input type="text" name="keyword" id="titleKeyword" th:value="${keyword}" placeholder="검색어를 입력해 주세요"/>
                 <span class="inputDel" id="inputDel" onclick="deleteKeyword()"></span>
                 <button type="button" class="btnHsch" onclick="checkKeyword()">검색</button>
