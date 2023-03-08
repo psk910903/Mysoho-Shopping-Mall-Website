@@ -203,25 +203,18 @@ public class Controller2 {
 
     @RequestMapping(value = "/notice", method =  {RequestMethod.GET, RequestMethod.POST})
     public String notice( @RequestParam(value = "keyword", required = false) String keyword,
-                          @RequestParam(value = "page", defaultValue = "0") int page,
                           Model model) {
 
-        Page<NoticeResponseDto> list;
+        List<NoticeResponseDto> list;
         if (keyword == null) { // 검색 기능을 쓰지 않을 때
-            list = noticeService.findAll(page);
-            model.addAttribute("findAction", false);
+            list = noticeService.findAll();
         } else{ // 검색 기능을 쓸 때
-            list = noticeService.findByKeyword("title", keyword, page);
-            model.addAttribute("findAction", true);
+            list = noticeService.findByKeywordTitle(keyword);
         }
-
-        int totalPage = list.getTotalPages(); // 전체 페이지 개수
-        List<Integer> pageList = noticeService.getPageList(totalPage, page); // 해당 page에서 아래쪽 페이지바에 보이는 숫자 list
 
         model.addAttribute("list", list);
         model.addAttribute("keyword", keyword);
-        model.addAttribute("pageList", pageList);
-        model.addAttribute("listCount", list.getNumberOfElements());
+        model.addAttribute("listCount", list.size());
 
         return "user/category/notice";
     }

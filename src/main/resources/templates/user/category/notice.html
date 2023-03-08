@@ -34,18 +34,17 @@
     <script src="/js/header.js"></script>
     <script src="/js/footer.js"></script>
     <script>
-      function movePage(page) {
-        console.log(page);
-
-        let f = document.pageForm;
-        let obj;
-        obj = document.createElement("input");
-        obj.setAttribute("type", "hidden");
-        obj.setAttribute("name", "page");
-        obj.setAttribute("value", page);
-
-        f.appendChild(obj);
-        f.submit();
+      function deleteKeyword(){
+        document.querySelector("#titleKeyword").value = "";
+      }
+      function checkKeyword(){
+        let searchForm = document.searchForm;
+        let keyword =  document.querySelector("#titleKeyword")
+        if (keyword.value == "" || keyword.value == null){
+          alert("검색어를 입력해 주세요");
+        }else{
+          searchForm.submit();
+        }
       }
     </script>
   </body>

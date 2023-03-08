@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface NoticeRepository extends JpaRepository<NoticeEntity, Long> {
 
@@ -22,6 +24,8 @@ public interface NoticeRepository extends JpaRepository<NoticeEntity, Long> {
     Page<NoticeEntity> findByNoticeType(String keyword, Pageable sort);
 
     ////////////////////////////////////////////////////////////////////////////////////////////// 희진 추가
+    List<NoticeEntity> findByNoticeTitleContaining(String keyword);
+
     @Query(value = "SELECT notice_title FROM notice ORDER BY notice_datetime DESC LIMIT 1;", nativeQuery = true)
     String findLatestNotice();
 
