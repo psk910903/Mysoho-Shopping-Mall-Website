@@ -336,24 +336,10 @@ public class Controller3 {
     //나의 후기 모아보기
     @RequestMapping("/review/myList")
     public String myReview(@AuthenticationPrincipal User user,
-                           @RequestParam(value = "dateStart", required = false) String dateStart,
-                           @RequestParam(value = "dateEnd", required = false) String dateEnd,
-                           @RequestParam(value = "page", defaultValue = "0") int page,
-                           Model model) throws ParseException {
+                           Model model) {
         String memberId = user.getUsername();
-        Page<ReviewResponseDto> list = null;
 
-        if( (dateStart ==null) && (dateEnd == null) ){
-             list = reviewService.findByMemberId(memberId,page);
-        }else {
-            if((!dateStart.equals("")) && (dateEnd.equals(""))){
-                list = reviewService.findByDate(dateStart, page);
-            }else {
-                list = reviewService.findByDate(dateStart, dateEnd, page);
-            }
-        }
-        int totalPage = list.getTotalPages();
-        List<Integer> pageList = reviewService.getPageList(totalPage,page);
+        List<ReviewResponseDto> list = reviewService.findByMemberId(memberId);
 
         List<String> itemName = new ArrayList<>();
         for (ReviewResponseDto dto : list) {
@@ -371,9 +357,6 @@ public class Controller3 {
         model.addAttribute("list",list);
         model.addAttribute("itemName", itemName);
         model.addAttribute("itemUrl", itemUrl);
-        model.addAttribute("pageList", pageList);
-        model.addAttribute("dateStart", dateStart);
-        model.addAttribute("dateEnd", dateEnd);
 
         return "user/user/review-mylist";
     }
@@ -418,22 +401,17 @@ public class Controller3 {
         return "user/user/review-toWrite";
     }
     //리뷰 작성하기 폼
-    @RequestMapping("/review/writeForm")
+    @RequestMapping("/myorder/writeForm")
     public String myReviewWrite(@RequestParam("itemCode") String itemCode,
                                 @RequestParam("itemName") String itemName,
-                                @RequestParam("itemUrl") String itemUrl,
                                 @AuthenticationPrincipal User user,
                                 Model model
                                 ){
         String memberId = user.getUsername();
         System.out.println("itemName"+itemName);
-        System.out.println("itemUrl"+itemUrl);
         model.addAttribute("memberId",memberId);
         model.addAttribute("itemCode",itemCode);
         model.addAttribute("itemName",itemName);
-        model.addAttribute("itemUrl",itemUrl);
-
-
 
         return "user/user/review-writeForm";
     }

@@ -18,48 +18,47 @@
   <link rel="stylesheet" href="/css/header.css" />
   <link rel="stylesheet" href="/css/footer.css" />
   <link rel="stylesheet" href="/css/login.css" />
+  <link rel="stylesheet" href="/css/myorder-list-user.css" />
   <style>
       .container-qna-user {
         padding-bottom: 100px;
         min-height: 550px;
       }
 
-      .users-title-line-hd-wrap {
-        display: flex;
-      }
-      .users-title-line-hd {
-        background-color: white;
-        width: 50%;
-      }
-      .users-title-line-hd {
-        font-size: 14px;
-        color: #999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      #this-page {
-        border-bottom: 2px solid #000;
-        color: #000;
-        font-weight: bold;
-      }
-      #itemImg img{
-        height : 70px;
-        width : 70px;
-      }
       .threedot {
   width: 40px;
   height: 40px;
   text-align: center;
+  position: absolute;
+  right: 0;
+    top: 20px;
 }
 .threedot img {
   width: 3px;
 }
-.threedot active{
-
-}
 #box{
   display:none;
+}
+.hiddenBtn {
+    text-align: center;
+    right: 20px;
+    top: 50px;
+    display: none;
+    width: 50px;
+    padding: 0 5px;
+    position: absolute;
+    z-index: 100;
+    background: #ffffff;
+    box-shadow: 0px 1px 1.68px 1.82px rgb(0 0 0 / 15%);
+    border-radius: 5px;
+    font-size: 14px;
+}
+.hiddenBtn li {
+    padding: 5px;
+    border-bottom: 1px solid #edeff2;
+}
+.list{
+position: relative;
 }
     </style>
 </head>
@@ -75,93 +74,62 @@
   <!-- 나의 상품문의 -->
   <div class="container-qna-user">
     <div class="users-title-line-hd-wrap">
-      <a href="/review/myList" class="users-title-line-hd" id="this-page">
+      <div  class="users-title-line-hd" >
         <div>내가 작성한 리뷰</div>
-      </a>
-      <a href="/review/toWrite" class="users-title-line-hd" >
-        <div>결재내역</div>
-      </a>
-    </div>
-    <tr>
-      <a href="/review/myList?dateStart=today&dateEnd=&&page=0" class="btn btn-outline-secondary">오늘</a>
-      <a href="/review/myList?dateStart=6months&dateEnd=&&page=0" class="btn btn-outline-secondary">6개월</a>
-      <a href="/review/myList?dateStart=1year&dateEnd=&&page=0" class="btn btn-outline-secondary">1년</a>
-      <input type="date" name="dateStart" value="" class="btn btn-outline-secondary"/>
-      <input type="date" name="dateEnd" value="" class="btn btn-outline-secondary"/>
-    </tr>
-    <table th:each="review,status :${ list }",  border="1">
-      <tr>
-        <td><img th:src="${ itemUrl[status.index] }" />상품사진</td>
-        <td th:text="${ itemName[status.index] }" >상품이름</td>
-        <td>
-          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png" alt=""/>
-          <div class="box">
-          <a th:href="@{modify(reviewNo=${review.reviewNo}, itemName=${itemName[status.index]}, itemUrl=${itemUrl[status.index]} )}">수정</a>
-<!--            a th:href="@{writeForm(itemCode=${ cart.itemCode }, itemName=${cart.itemName}, itemUrl=${ itemUrl[status.index] })}"-->
-          <a th:href="@{delete(reviewNo=${review.reviewNo})}">삭제</a></div>
-        </td>
-      </tr>
-
-      <tr >
-        <td colspan="3">
-          <span th:if="${review.reviewStar}==5">★★★★★</span>
-          <span th:if="${review.reviewStar}==4">★★★★</span>
-          <span th:if="${review.reviewStar}==3">★★★</span>
-          <span th:if="${review.reviewStar}==2">★★</span>
-          <span th:if="${review.reviewStar}==1">★</span>
-          <span th:text="${review.reviewStar}"></span>
-        </td>
-      </tr>
-      <tr >
-        <td colspan="3" th:text="${review.reviewContent}"></td>
-      </tr>
-      <tr >
-        <td colspan="3"><img  th:utext="${review.reviewImgUrl}"></td>
-      </tr>
-
-    </table>
-
-
-    <div class="container"> <!-- 페이지 시작 -->
-      <div th:if="${!list.isEmpty()}">
-        <ul class="pagination justify-content-center">
-          <li class="page-item" th:classappend="${!list.hasPrevious} ? 'disabled'"> <!-- 이전 버튼 시작 -->
-            <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
-              <a class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${list.number-1}|">
-                <span>이전</span>
-              </a>
-            </th:block>
-            <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
-              <a class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${list.number-1}&dateStart=${dateStart}&dateEnd=${dateEnd}&findBy=${findBy}&keyword=${keyword}|">
-                <span>이전</span>
-              </a>
-            </th:block>
-          </li> <!-- 이전 버튼 끝 -->
-          <li th:each="page: ${pageList}"
-              th:classappend="${page == list.number} ? 'active'"
-              class="page-item"> <!-- 숫자 페이지 버튼 시작 -->
-            <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
-              <a th:text="${page+1}" class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${page}|"></a>
-            </th:block>
-            <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
-              <a th:text="${page+1}" class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${page}&dateStart=${dateStart}&dateEnd=${dateEnd}&findBy=${findBy}&keyword=${keyword}|"></a>
-            </th:block>
-          </li> <!-- 숫자 페이지 버튼 끝 -->
-          <li class="page-item" th:classappend="${!list.hasNext} ? 'disabled'"> <!-- 다음 버튼 시작 -->
-            <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
-              <a class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${list.number+1}|">
-                <span>다음</span>
-              </a>
-            </th:block>
-            <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
-              <a class="page-link" style="color: #555;" th:href="|/admin/review/list?page=${list.number+1}&dateStart=${dateStart}&dateEnd=${dateEnd}&findBy=${findBy}&keyword=${keyword}|">
-                <span>다음</span>
-              </a>
-            </th:block>
-          </li> <!-- 다음 버튼 끝 -->
-        </ul>
       </div>
-    </div> <!-- 페이지 끝 -->
+    </div>
+<!--    -->
+
+    <th:block th:each="review,status :${ list }">
+    <div class="order_list">
+          <div class="list">
+            <a th:href="|/product/${review.itemNo}|">
+              <img   th:src="${ itemUrl[status.index] }" alt="" />
+            </a>
+            <div class="info">
+              <th:block th:if="${review.reviewImgUrl == null} or ${review.reviewImgUrl == ''}">
+                <div class="label type1" >
+                  일반후기
+                </div>
+              </th:block>
+              <th:block th:unless="${review.reviewImgUrl == null} or ${review.reviewImgUrl == ''}">
+                <div class="label type1" >
+                  사진후기
+                </div>
+              </th:block>
+              <div class="name" th:text="${ itemName[status.index] }">
+                퍼프 블라우스 퍼플
+              </div>
+              <div class="price" th:text="${review.reviewContent}" >
+                리뷰내용
+              </div>
+              <div>
+              <span class="option" th:if="${review.reviewStar}==5">★★★★★</span>
+              <span class="option" th:if="${review.reviewStar}==4">★★★★</span>
+              <span class="option" th:if="${review.reviewStar}==3">★★★</span>
+              <span class="option" th:if="${review.reviewStar}==2">★★</span>
+              <span class="option" th:if="${review.reviewStar}==1">★</span>
+
+                <span class="od-date" th:text="| / ${#temporals.format(review.reviewDatetime, 'yyyy-MM-dd HH:mm')}|">
+                2023-01-06 08:35:59
+              </span>
+              </div>
+            </div>
+
+
+            <a th:href="|javascript:threedot(${status.index})|" class="threedot" style="width: 40px;"><img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png" alt=""></a>
+            <ul th:id="|hiddenBtn${status.index}|" class="hiddenBtn">
+              <li><a th:href="@{modify(reviewNo=${review.reviewNo}, itemName=${itemName[status.index]}, itemUrl=${itemUrl[status.index]} )}">수정</a></li>
+              <li><a th:href="@{delete(reviewNo=${review.reviewNo})}">삭제</a></li>
+            </ul>
+          </div>
+    </div>
+
+      </th:block>
+    <!-- 구분선 -->
+    <div class="bg-blank"></div>
+    </div>
+
   </div>
 
 
@@ -205,6 +173,14 @@
             return;
           }
       }
+
+      function threedot(n) {
+  if (document.querySelector("#hiddenBtn"+n).style.display === "block") {
+    document.querySelector("#hiddenBtn"+n).style.display = "none";
+  } else {
+    document.querySelector("#hiddenBtn"+n).style.display = "block";
+  }
+}
     </script>
 </body>
 </html>

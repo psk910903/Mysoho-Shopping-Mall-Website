@@ -1069,6 +1069,8 @@
                         2023-01-06 08:35:59
                       </div>
                     </div>
+
+
                     <button
                       class="btn-h30-black open-layer btn-order-layer"
                       th:id="${status.index+10000}"
@@ -1076,6 +1078,7 @@
                     >
                       주문정보
                     </button>
+
                     <div th:id="|bg${status.index+10000}|" class="bg">
                       <div class="window">
                         <div class="popup">
@@ -1241,7 +1244,7 @@
                 <th:block th:each="cartList:${ cartListModel }">
                   <div
                     class="list"
-                    th:each="cart:${ cartList }"
+                    th:each="cart,status:${ cartList }"
                     th:if="${cart.orderCode == dto.orderCode}"
                   >
                     <a th:href="|/product/${cart.itemCode}|">
@@ -1267,9 +1270,11 @@
                         / 1개
                       </div>
                     </div>
-                    <!-- 구분선 -->
+
                   </div>
+
                 </th:block>
+                <!-- 구분선 -->
                 <div class="bg-blank"></div>
               </th:block>
             </div>
@@ -1522,9 +1527,6 @@
     <script src="/js/header.js"></script>
     <script src="/js/footer.js"></script>
     <script>
-      function test(test) {
-        alert(test);
-      }
       function changeRed(n) {
         growArr = document.querySelectorAll(".grow ");
         for (let i = 0; i < 6; i++) {

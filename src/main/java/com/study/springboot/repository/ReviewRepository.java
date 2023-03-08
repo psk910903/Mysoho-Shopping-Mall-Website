@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ReviewRepository extends JpaRepository<ReviewEntity,Long> {
     Page<ReviewEntity> findByMemberIdContaining(String keyword, Pageable sort);
@@ -23,5 +25,5 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity,Long> {
     @Query(value = "SELECT AVG(review_star) FROM review WHERE item_no = :item_no", nativeQuery = true)
     Integer findByItemReviewStarAVG(Long item_no);
 
-
+    List<ReviewEntity> findByMemberIdContaining(String MemberId);
 }
