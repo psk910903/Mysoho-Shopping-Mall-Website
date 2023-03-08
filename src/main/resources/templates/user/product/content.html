@@ -27,77 +27,6 @@
       .final-size {
         padding: 0;
       }
-
-      .tr > td {
-  border : 2px solid black;
-  padding : 2px;
-  }
-  .item {
-    padding : 5px;
-    margin : 20px;
-    width : 600px;
-    display:flex;
-    border : 1px solid black;
-    justify-content : flex-start;
-  }
-  .review-td1 {
-    width : 160px;
-  }
-  .reviewCount{
-      display : flex;
-      flex-direction: row;
-    }
-
-
-      .imgUser {
-      width: 193px;
-      height: 193px;
-      padding: 10px;
-      }
-      .ulDiv {
-        width: 600px;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-      }
-      .ulDiv > li{
-        width: 32%;
-        height: 190px;
-      }
-    .star {
-        position: relative;
-        font-size: 32px;
-        color: #ddd;
-      }
-
-      .star input {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        left: 0;
-        opacity: 0;
-      }
-
-      .star span {
-        width: 0;
-        position: absolute;
-        left: 0;
-        color: red;
-        overflow: hidden;
-        pointer-events: none;
-      }
-      .img1 {
-        width: 100%;
-      }
-      .threeAlign {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-      .threeAlign li {
-        width: 32%;
-        padding: 10px 6px;
-      }
     </style>
   </head>
   <body>
@@ -659,9 +588,8 @@
             </li>
             <li class="js-showReviewArea pagetit">
               <a href="javascript: changePage(1)" class="pagetit1"
-              >후기(<span class="js-reviewCnt" th:text="${ listCount }">0</span>)</a
+                >후기(<span class="js-reviewCnt">0</span>)</a
               >
-              <!--              후기 갯수 나오게 -->
             </li>
             <li class="js-showInquiryArea pagetit">
               <a href="javascript: changePage(2)" class="pagetit2"
@@ -726,80 +654,33 @@
                       <div class="stars js-reviewGradeAvgStar">
                         <!-- 별점 -->
                         <div>
-                          <span class="star">
-      ★★★★★
-      <span>★★★★★</span>
-      <input
-              type="range"
-              oninput="drawStar(this)"
-              value="1"
-              step="0.1"
-              min="0"
-              max="10"
-      />
-                            <!-- step을 0.1로 주면 0.1칸씩 구현 가능 -->
-
-    </span>
-                          <!--                          <img-->
-                          <!--                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"-->
-                          <!--                            alt=""-->
-                          <!--                          />-->
-                          <!--                          <img-->
-                          <!--                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"-->
-                          <!--                            alt=""-->
-                          <!--                          />-->
-                          <!--                          <img-->
-                          <!--                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"-->
-                          <!--                            alt=""-->
-                          <!--                          />-->
-                          <!--                          <img-->
-                          <!--                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"-->
-                          <!--                            alt=""-->
-                          <!--                          />-->
-                          <!--                          <img-->
-                          <!--                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"-->
-                          <!--                            alt=""-->
-                          <!--                          />-->
+                          <img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"
+                            alt=""
+                          />
+                          <img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"
+                            alt=""
+                          />
+                          <img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"
+                            alt=""
+                          />
+                          <img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"
+                            alt=""
+                          />
+                          <img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"
+                            alt=""
+                          />
                         </div>
-                        <script>
-      // JAVASCRIPT CODE
-      const drawStar
-       = (target) => {
-        document.querySelector(`.star span`).style.width = `${
-          target.value * 10
-        }%`;
-      };
-
-
-
-<!--      checkbox-->
-
-  $(document).ready(function() {
-  const checkbox = $('#reviewList');
-  const reviewImg = $('#reviewImg');
-  const wrapReview = $('#wrapReview');
-
-  reviewImg.hide();
-  wrapReview.show();
-
-  checkbox.change(function() {
-    if($(this).is(':checked')) {
-      reviewImg.show();
-      wrapReview.hide();
-    } else {
-      reviewImg.hide();
-      wrapReview.show();
-    }
-  });
-});
-      </script>
                       </div>
                       <!-- 점수 -->
-                      <div class="point js-reviewGradeAvg" th:text="${avgStar}" >0.0</div>
+                      <div class="point js-reviewGradeAvg">0.0</div>
                     </div>
-                    <div class="reviewCount">
-                      <strong th:text="${ listCount }">전체 리뷰 수</strong>
-                      <strong >개의 리뷰가 있습니다</strong>
+                    <div class="txt">
+                      실제 구매 고객 0명이 작성한 리뷰입니다.
                     </div>
                   </div>
                   <!-- 구분선 빈박스 -->
@@ -807,108 +688,12 @@
                   <!-- 사진 후기 모아보기 -->
                   <div class="review_list_detail photo_review">
                     <div class="photo_check">
-                      <input id="reviewList" type="checkbox" />
-                      <span>사진 후기 모아보기(</span>
-                      <span th:text="${listImgCount}" >0</span>
-                      <span>)</span>
+                      <input type="checkbox" />
+                      <div>사진 후기 모아보기(0)</div>
                     </div>
                     <div class="review-wrap gallary-list js-reviews">
                       <div class="txt-detail non js-reviewsEmpty">
-                        <!--       전체 리뷰  -->
-                        <div id="reviewImg">
-                          <div class="main">
-                            <div class="reviewBox">
-                              <form action="/product/{itemNo}" method="post">
-                                <table class="item" th:each="dto:${ listImg }">
-                                  <tbody  >
-                                  <tr>
-                                    <!-- <input type="hidden"> 아이템넘버줘서 찾는다. -->
-                                    <!-- 노출여부, 상품명, 리뷰번호 -->
-                                    <input type="hidden" th:value="${dto.reviewNo}" >
-                                    <input type="hidden" th:value="${dto.itemNo}">
-                                    <input type="hidden" th:value="${dto.reviewExpo}">
-                                    <td class="review-td1">
-                                      <th:block th:switch="${ dto.reviewStar }" value="">
-                                        <span th:case="1">★</span>
-                                        <span th:case="2">★★</span>
-                                        <span th:case="3">★★★</span>
-                                        <span th:case="4">★★★★</span>
-                                        <span th:case="5">★★★★★</span>
-                                      </th:block>
-                                    </td>
-                                    <td th:text="${#temporals.format(dto.reviewDatetime, 'yyyy-MM-dd HH:mm')}">
-
-                                      등록일
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td class="review-td1" th:text="${ dto.memberId }">
-                                      작성자
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td class="review-td1" >
-                                      <img style="width:150px" th:src="${ dto.reviewImgUrl }" >
-                                    </td>
-                                    <td th:text="${ dto.reviewContent }">
-                                      내용
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                  </tr>
-                                  </tbody>
-                                </table>
-                              </form>
-                            </div>
-                          </div>
-                        </div>          <!--      사진리뷰 끝 -->
-                        <div id="wrapReview"> <!--      전체리뷰 -->
-                          <div class="main">
-                            <div class="reviewBox">
-                              <form action="/product/{itemNo}" method="post">
-                                <table class="item" th:each="dto:${ list }">
-                                  <tbody  >
-                                  <tr>
-                                    <!-- <input type="hidden"> 아이템넘버줘서 찾는다. -->
-                                    <!-- 노출여부, 상품명, 리뷰번호 -->
-                                    <input type="hidden" th:value="${dto.reviewNo}" >
-                                    <input type="hidden" th:value="${dto.itemNo}">
-                                    <input type="hidden" th:value="${dto.reviewExpo}">
-                                    <td class="review-td1">
-                                      <th:block th:switch="${ dto.reviewStar }" value="">
-                                        <span th:case="1">★</span>
-                                        <span th:case="2">★★</span>
-                                        <span th:case="3">★★★</span>
-                                        <span th:case="4">★★★★</span>
-                                        <span th:case="5">★★★★★</span>
-                                      </th:block>
-                                    </td>
-                                    <td th:text="${#temporals.format(dto.reviewDatetime, 'yyyy-MM-dd HH:mm')}">
-
-                                      등록일
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td class="review-td1" th:text="${ dto.memberId }">
-                                      작성자
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td class="review-td1" >
-                                      <img style="width:150px" th:src="${ dto.reviewImgUrl }" >
-                                    </td>
-                                    <td th:text="${ dto.reviewContent }">
-                                      내용
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                  </tr>
-                                  </tbody>
-                                </table>
-                              </form>
-                            </div>
-                          </div>
-                        </div>    <!--      전체리뷰 끝 -->
+                        <div class="no-text">상품 후기가 없습니다.</div>
                       </div>
                     </div>
                   </div>
