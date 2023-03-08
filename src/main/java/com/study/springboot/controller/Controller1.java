@@ -49,6 +49,8 @@ public class Controller1 {
   final CartRepository cartRepository;
   final ReviewService reviewService;
 
+  private final Service6 service6;    // 경빈 Service6
+
   @GetMapping("/admin/product")
   public String productHome(){
     return "redirect:/admin/product/list?page=0";
@@ -361,6 +363,32 @@ public class Controller1 {
       String memberId = user.getUsername();
       memberResponseDto = service2.findByMemberIdMember(memberId);
     }
+
+    //<경빈
+    List<ReviewResponseDto> reviewResponseDtos = service6.findByReview(String.valueOf(itemNo)); // 2. 리뷰데이터
+
+    int size = reviewResponseDtos.size();  // 3. 상품 리뷰 갯수
+
+    byte sum = 0;       // 4. 상품별점 평균
+    for(int i=0; i<size; i++){
+      byte reviewStar = reviewResponseDtos.get(i).getReviewStar();
+      sum += reviewStar;
+    }
+    double avg1 = sum / Double.valueOf(size);
+    double avg2 = Math.round(avg1*10);
+    double avg3 = avg2 / 10;
+
+    List<ReviewResponseDto> reviewResponseDtos2 = service6.findByImgReview(String.valueOf(itemNo)); //5. 사진리뷰 데이터
+    int size2 = reviewResponseDtos2.size(); //6. 사진리뷰 갯수
+
+    model.addAttribute("dto", dto); // ->1
+    model.addAttribute("list", reviewResponseDtos); // ->2
+    model.addAttribute("listCount", size);  // ->3
+    model.addAttribute("avgStar", avg3);    // ->4
+    model.addAttribute("listImg",reviewResponseDtos2);  // ->5
+    model.addAttribute("listImgCount", size2);  // ->6
+    //경빈>
+
 
     model.addAttribute("member", memberResponseDto);
 
