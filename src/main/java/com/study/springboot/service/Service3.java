@@ -79,44 +79,151 @@ public class Service3 {
         return optional.get().getUsername();
     }
 
-    @Transactional
-    public String changPassword(final String getEmail){
-        //새 암호 만들기
-        String tempPassword = getTempPassword();
-        //회원 찾기
-        Optional<MemberEntity> optional = memberRepository.findByMemberEmail(getEmail);
-        if(optional == null){
-            return "1";//회원없음
-        }else {
-            boolean result = sendEmail(getEmail,tempPassword);
-            if(!result){
-                return "2";//멜 보내기 실패
-            }else {
-                //비크립트화
-                String encodedPassword = passwordEncoder.encode(tempPassword);
-                //entity에 비크립트화된 암호 저장
-                MemberEntity entity = optional.get();
-                entity.updatePassword(encodedPassword);
-                return "0";//성공
-            }
+//    @Transactional
+//    public String changPassword(final String getEmail){
+//        //새 암호 만들기
+//        String tempPassword = getTempPassword();
+//        //회원 찾기
+//        Optional<MemberEntity> optional = memberRepository.findByMemberEmail(getEmail);
+//        if(optional == null){
+//            return "1";//회원없음
+//        }else {
+//            boolean result = sendEmail(getEmail,tempPassword);
+//            if(!result){
+//                return "2";//멜 보내기 실패
+//            }else {
+//                //비크립트화
+//                String encodedPassword = passwordEncoder.encode(tempPassword);
+//                //entity에 비크립트화된 암호 저장
+//                MemberEntity entity = optional.get();
+//                entity.updatePassword(encodedPassword);
+//                return "0";//성공
+//            }
+//        }
+//    }
+//
+//    //멜 보내기
+//    public boolean sendEmail(final String getEmail,final String tempPassword){
+//        try {
+//            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+//            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,true,"UTF-8");
+//            mimeMessageHelper.setTo(getEmail);
+//            mimeMessageHelper.setFrom("mysoho2023@naver.com");
+//            mimeMessageHelper.setSubject("mysoho 비밀번호 안내");
+//            mimeMessageHelper.setText("고객님의 새 비밀번호는"+tempPassword+" 입니다. 로그인 후 비밀번호를 변경하세요");
+//            javaMailSender.send(mimeMessage);
+//            return true;
+//        }catch (MessagingException e){
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
+    //비밀번호 변경url이 있는 멜 보내기
+
+    public boolean sendEmail(final String getEmail){
+
+        try {
+
+            String content =
+
+                    "   <table border=\"1px\" align=\"center\">\n" +
+
+                            "    <tr>\n" +
+
+                            "      <td><h3 style=\"color:skyblue\">마이소호 샘플샵 비밀번호 변경</h3></td>\n" +
+
+                            "    </tr>\n" +
+
+                            "    <tr>\n" +
+
+                            "      <td>\n" +
+
+                            "        <div>안녕하세요. 마이소호 샘플샵입니다 비밀번호 변경하기를 눌러주세요<div>\n" +
+
+                            "        <div><a href=\"http://localhost:8080/find/password2?getEmail="+getEmail+"\">\n" +
+
+                            "        <button type=\"submit\">비밀번호 변경하기</button></a></div>\n" +
+
+                            "      </td>\n" +
+
+                            "    </tr>\n" +
+
+                            "    <tr>\n" +
+
+                            "      <td>\n" +
+
+                            "        <div>서울 금천구 가산디지털 1로 168(가산동, 우림라이온스밸리)A동 14층</div>\n" +
+
+                            "        <div>사업자번호 206812113102-6903-9118 | mysoho2023@naver.com</div>\n" +
+
+                            "      </td>\n" +
+
+                            "    </tr>\n" +
+
+                            "   </table>";
+
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,true,"UTF-8");
+
+            mimeMessageHelper.setTo(getEmail);
+
+            mimeMessageHelper.setFrom("mysoho2023@naver.com");
+
+            mimeMessageHelper.setSubject("마이소호 샘플샵 비밀번호 변경 안내 이메일입니다");
+
+            mimeMessageHelper.setText(content,true);
+
+            javaMailSender.send(mimeMessage);
+
+            return true;
+
+        }catch (MessagingException e){
+
+            e.printStackTrace();
+
+            return false;
+
         }
+
     }
 
-    //멜 보내기
-    public boolean sendEmail(final String getEmail,final String tempPassword){
-        try {
-            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage,true,"UTF-8");
-            mimeMessageHelper.setTo(getEmail);
-            mimeMessageHelper.setFrom("mysoho2023@naver.com");
-            mimeMessageHelper.setSubject("mysoho 비밀번호 안내");
-            mimeMessageHelper.setText("고객님의 새 비밀번호는"+tempPassword+" 입니다. 로그인 후 비밀번호를 변경하세요");
-            javaMailSender.send(mimeMessage);
-            return true;
-        }catch (MessagingException e){
-            e.printStackTrace();
-            return false;
+//비밀번호 변경하기
+
+    public boolean changePassword(final String getEmail,final String password){
+
+        Optional<MemberEntity> optional = memberRepository.findByMemberEmail(getEmail);
+
+        if(!optional.isPresent()){
+
+            System.out.println("memberid is not present");
+
         }
+
+        try {
+
+            String encodedPassword = passwordEncoder.encode(password);
+
+            System.out.println("encodedPassword:"+encodedPassword);
+
+            MemberEntity entity = optional.get();
+
+            System.out.println(entity.getUsername());
+
+            entity.updatePassword(encodedPassword);
+
+            System.out.println(entity.getPassword());
+
+            return true;
+
+        }catch (Exception e){
+
+            e.printStackTrace();
+
+            return false;
+
+        }
+
     }
 
     //임의로 패스워드 만들기

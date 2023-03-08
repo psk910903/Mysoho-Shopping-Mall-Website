@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>마이소호 샘플샵</title>
+
+    <link rel="stylesheet" href="/css/header.css" />
+
+    <link rel="stylesheet" href="/css/footer.css" />
+
+    <link rel="stylesheet" href="/css/login.css" />
+
+</head>
+
+<body>
+
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+
+<div class="betweenbtn">
+
+    <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
+
+</div>
+
+<div class="header">
+
+    <div th:replace="/fragments/header.html :: fragment-header"></div>
+
+</div>
+
+<div class="containerlogin">
+
+    <div class="users-title-line-hd">
+
+        <h2>비밀번호 변경</h2>
+
+    </div>
+
+    <form  method="post" action="/find/passwordAction">
+
+        <input type="hidden" name="getEmail" th:value="${getEmail}">
+
+        <input class="input-st01 users-login-input" type="password" name="password" value="" placeholder="새비밀번호 입력"/>
+
+        <input class="input-st01 users-login-input mt-10" type="password" name="pwcheck" value="" placeholder="비밀번호 재입력"/>
+
+        <button type="submit" id="login" class="btn-h42-gray mt-10">변경하기</button>
+
+    </form>
+
+
+
+    <div class="footer">
+
+        <div th:replace="/fragments/footer.html :: fragment-footer"></div>
+
+    </div>
+
+</div>
+
+<script src="/js/header.js"></script>
+
+<script src="/js/footer.js"></script>
+
+</body>
+
+</html>
