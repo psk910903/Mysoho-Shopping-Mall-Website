@@ -93,6 +93,19 @@ INSERT INTO review
 VALUES (NULL, 'lee', '20006', '4', '배송이 빨라요', 'https://img.makeshop.co.kr/1/1371/201902/29116c10bf21223a5382cfac76b874ed.png', DEFAULT,DEFAULT);
 INSERT INTO review
 VALUES (NULL, 'right', '20007', '4.5', '옷이 예뻐요', 'https://img.makeshop.co.kr/1/1371/201902/2aaac2b5fedefa92510d799e9a151db1.png', DEFAULT,DEFAULT);
+
+INSERT INTO review
+VALUES (NULL, 'hong', '20005', '5', '가성비 좋아요2', 'https://img.makeshop.co.kr/1/1371/201902/5ea10187021f32483958eb8c91e943bb.jpg', DEFAULT,DEFAULT );
+INSERT INTO review
+VALUES (NULL, 'right', '20005', '4', '코딩개어려워요', 'https://img.makeshop.co.kr/1/1371/201902/2aaac2b5fedefa92510d799e9a151db1.png', DEFAULT,DEFAULT);
+INSERT INTO review
+VALUES (NULL, 'right', '20005', '3', '사진이 없어요', null, DEFAULT,DEFAULT);
+INSERT INTO review
+VALUES (NULL, 'right', '20005', '3', '사진이 없어요2', null, DEFAULT,DEFAULT);
+INSERT INTO review
+VALUES (NULL, 'right', '20005', '3', '사진이 없어요3', null, DEFAULT,DEFAULT);
+
+
 SELECT * FROM review;
 
 
