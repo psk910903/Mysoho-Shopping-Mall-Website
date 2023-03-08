@@ -410,14 +410,15 @@
                   </div>
                 </div>
 <!--                임시-->
-                <th:bolck th:if="${dto.orderState} == '배송완료'">
-                <a
-                        style="width: 75px;"
-                        class="absoluteBtn"
-                        th:href="@{writeForm(itemCode=${ cart.itemCode }, itemName=${cart.itemName})}"
-                >
-                  후기작성
-                </a>
+                <th:bolck th:if="${dto.orderState} == '배송완료'" >
+
+                  <a
+                          style="width: 75px;"
+                          class="absoluteBtn"
+                          th:href="@{writeForm(itemCode=${ cart.itemCode })}"
+                  >
+                    후기작성
+                  </a>
                 </th:bolck>
                 <!-- 구분선 -->
               </div>
@@ -1329,7 +1330,7 @@
                 <a
                         style="width: 75px;"
                         class="absoluteBtn"
-                        th:href="@{writeForm(itemCode=${ cart.itemCode }, itemName=${cart.itemName}, itemUrl=${ cart.itemImageUrl[status.index] })}"
+                        th:href="@{writeForm(itemCode=${ cart.itemCode })}"
                 >
                   후기작성
                 </a>

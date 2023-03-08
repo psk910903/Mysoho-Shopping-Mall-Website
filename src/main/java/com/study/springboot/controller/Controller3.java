@@ -39,7 +39,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
+import java.util.Optional;
 
 
 @RequiredArgsConstructor
@@ -378,66 +378,50 @@ public class Controller3 {
 
         return "user/user/review-mylist";
     }
-    //결재내역 리스트
-    @RequestMapping("/review/toWrite")
-    public String toWrite(@AuthenticationPrincipal User user,
-                          Model model){
-        String memberId = user.getUsername();
-        //멤버id로 배송완료된 주문코드를 가져옴.
-        List<OrderEntity> orderList = orderRepository.findByMemberIdAndOrderState(memberId,"배송완료");
-        List<String> cartNo = new ArrayList<>();
-        for(int i = 0 ; i<orderList.size(); i++){
-            String cartCode = orderList.get(i).getCartCode1();
-            if( orderList.get(i).getCartCode1() != null ){
-                cartNo.add(orderList.get(i).getCartCode1());
-            }
-            if( orderList.get(i).getCartCode2() != null ){
-                cartNo.add(orderList.get(i).getCartCode2());
-            }
-            if( orderList.get(i).getCartCode3() != null ){
-                cartNo.add(orderList.get(i).getCartCode3());
-            }
-            if( orderList.get(i).getCartCode4() != null ){
-                cartNo.add(orderList.get(i).getCartCode4());
-            }
-            if( orderList.get(i).getCartCode5() != null ){
-                cartNo.add(orderList.get(i).getCartCode5());
-            }
-        }
-        List<CartEntity> list = new ArrayList<>() ;
-        List<String> itemUrl = new ArrayList<>();
-        for(String cartCode: cartNo){
-            //카트 코드로 장바구니정보 가져오기
-            CartEntity entity = cartRepository.findByCartMember(cartCode);
-            //item_code로 url가져오기
-            itemUrl.add(productRepository.findByItemNo(entity.getItemCode()));
-            list.add(entity);
-        }
 
-        model.addAttribute("list",list);
-        model.addAttribute("itemUrl",itemUrl);
-        return "user/user/review-toWrite";
-    }
     //리뷰 작성하기 폼
     @RequestMapping("/myorder/writeForm")
-    public String myReviewWrite(@RequestParam("itemCode") String itemCode,
-                                @RequestParam("itemName") String itemName,
+    public String myReviewWrite(@RequestParam("itemCode") Long itemCode,
                                 @AuthenticationPrincipal User user,
                                 Model model
                                 ){
         String memberId = user.getUsername();
-        System.out.println("itemName"+itemName);
+
         model.addAttribute("memberId",memberId);
         model.addAttribute("itemCode",itemCode);
-        model.addAttribute("itemName",itemName);
+        model.addAttribute("itemName",productRepository.findById(itemCode).get().getItemName());
+        model.addAttribute("itemImageUrl",productRepository.findById(itemCode).get().getItemImageUrl());
 
+        return "user/user/review-writeForm";
+    }
+    //리뷰 수정 폼
+    @RequestMapping("/review/modify")
+    public String reviewModify(@RequestParam("reviewNo") Long reviewNo,
+                               Model model){
+        ReviewEntity entity = reviewRepository.findById(reviewNo).orElseThrow();
+        model.addAttribute("reviewNo",reviewNo);
+        model.addAttribute("review",entity);
+        model.addAttribute("itemName",productRepository.findById(Long.parseLong(entity.getItemNo())).get().getItemName());
+        model.addAttribute("itemImageUrl",productRepository.findById(Long.parseLong(entity.getItemNo())).get().getItemImageUrl());
         return "user/user/review-writeForm";
     }
     //리뷰 작성하기(글쓰기)
     @RequestMapping("/review/writeAction")
     @ResponseBody
-    public String writeAction(ReviewSaveResponseDto dto){
+    public String writeAction(@RequestParam MultipartFile uploadfile, ReviewSaveResponseDto dto){
         LocalDateTime today = LocalDateTime.now();
+        String url;
+        if (uploadfile.getOriginalFilename().equals("")) { //업로드한 이미지가 없을 때
+            url = "";
+        } else {
+            url = awsS3Service.upload(uploadfile);
+            new ResponseEntity<>(FileResponse.builder().
+                    uploaded(true).
+                    url(url).
+                    build(), HttpStatus.OK);
+        }
+
+        dto.setReviewImgUrl(url);
         dto.setReviewDatetime(today);
         boolean result = reviewService.save(dto);
         if(!result){
@@ -445,17 +429,6 @@ public class Controller3 {
         }else {
             return "<script> alert('리뷰 작성에 성공했습니다.'); location.href='/review/myList';</script>";
         }
-    }
-    //이미지 업로드용
-    @PostMapping("/find/imgUpload")
-    @ResponseBody
-    public ResponseEntity<FileResponse> imgUpload(
-            @RequestPart(value = "upload", required = false) MultipartFile fileload) throws Exception {
-
-        return new ResponseEntity<>(FileResponse.builder().
-                uploaded(true).
-                url(awsS3Service.upload(fileload)).
-                build(), HttpStatus.OK);
     }
 
     //리뷰 삭제
@@ -471,28 +444,36 @@ public class Controller3 {
             return "<script>alert('삭제실패'); history.back(); </script>";
         }
     }
-    //리뷰 수정 폼
-    @RequestMapping("/review/modify")
-    public String reviewModify(@RequestParam("reviewNo") Long reviewNo,
-                               @RequestParam("itemName") String itemName,
-                               @RequestParam("itemUrl") String itemUrl,
-                               Model model){
-        ReviewEntity entityList = reviewRepository.findById(reviewNo).orElseThrow();
-        model.addAttribute("review",entityList);
-        model.addAttribute("itemName",itemName);
-        model.addAttribute("itemUrl",itemUrl);
-        return "user/user/review-modify";
-    }
+
 
     //리뷰 수정하기
     @RequestMapping("/review/modifyAction")
     @ResponseBody
-    public String reviewModifyAction( @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")ReviewSaveResponseDto dto){
-        System.out.println(222222222);
+    public String reviewModifyAction(@RequestParam MultipartFile uploadfile,
+                                     @RequestParam("imgDelete") String imgDelete,
+                                     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")ReviewSaveResponseDto dto
+
+    ){
         System.out.println( dto.getReviewDatetime());
+
+        String url;
+        if (uploadfile.getOriginalFilename().equals("")) { //업로드한 이미지가 없을 때
+            url = reviewService.findByUrl(dto.getReviewNo());
+            if (imgDelete.equals("imgDelete")) { //기존 이미지 삭제했을 때
+                url = "";
+            }
+        } else {
+            url = awsS3Service.upload(uploadfile);
+            new ResponseEntity<>(FileResponse.builder().
+                    uploaded(true).
+                    url(url).
+                    build(), HttpStatus.OK);
+        }
+        dto.setReviewImgUrl(url);
 
         try {
             ReviewEntity entity = dto.toUpdateEntity();
+
             reviewRepository.save(entity);
             return "<script>alert('수정 성공했습니다.'); location.href='/review/myList'</script>";
         }catch (Exception e){

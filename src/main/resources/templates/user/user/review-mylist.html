@@ -119,7 +119,7 @@ position: relative;
 
             <a th:href="|javascript:threedot(${status.index})|" class="threedot" style="width: 40px;"><img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png" alt=""></a>
             <ul th:id="|hiddenBtn${status.index}|" class="hiddenBtn">
-              <li><a th:href="@{modify(reviewNo=${review.reviewNo}, itemName=${itemName[status.index]}, itemUrl=${itemUrl[status.index]} )}">수정</a></li>
+              <li><a th:href="@{modify(reviewNo=${review.reviewNo})}">수정</a></li>
               <li><a th:href="@{delete(reviewNo=${review.reviewNo})}">삭제</a></li>
             </ul>
           </div>
