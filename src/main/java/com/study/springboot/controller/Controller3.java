@@ -224,77 +224,38 @@ public class Controller3 {
             return "<script>alert('회원님의 아이디는 "+id+" 입니다.'); location.href='/user/login';</script>";
         }
     }
-//    //로그인 전 패스워드 재설정 멜 보내기
-//    @RequestMapping("/find/password")
-//    @ResponseBody
-//    public String findPw(@RequestParam("getEmail") String getEmail)  {
-//        String result = service3.changPassword(getEmail);
-//        if(result.equals("0")){
-//            return "<script> alert('멜에서 새로운 비밀번호를 확인하세요.'); history.back(); </script>";
-//        }else if(result.equals("1")){
-//            return "<script> alert('메일 주소를 확인해 주세요.'); history.back(); </script>";
-//        }else {
-//            return "<script> alert('멜보내기 실패했습니다.'); history.back(); </script>";
-//        }
-//    }
-    //비밀번호 변경url이 있는 멜 보내기
 
+    //로그인 전 비밀번호 변경url이 있는 멜 보내기
     @RequestMapping("/find/password")
-
     @ResponseBody
-
     public String findPw(@RequestParam("getEmail") String getEmail)  {
-
         boolean result = service3.sendEmail(getEmail);
-
         if(result){
-
             return "<script> alert('멜을 확인하세요.'); history.back(); </script>";
-
         } else {
-
             return "<script> alert('멜보내기 실패했습니다.'); history.back(); </script>";
-
         }
-
     }
 
-//비밀번호 변경 폼
-
+    //비밀번호 변경 폼
     @RequestMapping("/find/password2")
-
     public String emailPassword(@RequestParam("getEmail") String getEmail,Model model){
-
         System.out.println("form:"+getEmail);
-
         model.addAttribute("getEmail",getEmail);
-
         return "user/user/userPassTest";
-
     }
-
-//비밀번호 변경
-
+    //비밀번호 변경
     @RequestMapping("find/passwordAction")
     @ResponseBody
     public String changPassword(@RequestParam("getEmail")String getEmail,
-
                                 @RequestParam("password")String password){
-
-        System.out.println("action:"+getEmail);
-
-        System.out.println("action:"+password);
-
         boolean result = service3.changePassword(getEmail,password);
         if(result){
-            return "<script> alert('성공');location.href='/'</script>";
+            return "<script> alert('비밀번호 변경 성공');location.href='/user/login'</script>";
         }else {
-            return "<script> alert('실패'); history.back(); </script>";
+            return "<script> alert('비밀번호 변경실패'); history.back(); </script>";
         }
-
-
     }
-
 
     ////////////////////////////////////  마이 페이지 ///////////////////////////////////////////////
 
@@ -561,13 +522,5 @@ public class Controller3 {
             return "<script>alert('수정 실패했습니다.'); history.back(); </script>";
         }
     }
-
-
-
-
-
-
-
-
 
 }//class

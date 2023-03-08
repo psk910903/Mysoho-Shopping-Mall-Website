@@ -37,10 +37,10 @@
     <div class="users-cont">
       <form method="post" action="/user/joinAction">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-        <input type="hidden" name="memberRole" value="ROLE_ADMIN">
-        <input type="hidden" name="memberRate" value="일반">
-        <input type="hidden" name="memberMileage" value="3000">
-        <input type="hidden" name="memberCoupon" value="3000">
+        <input type="hidden" name="memberRole" value="ROLE_USER">
+        <input type="hidden" name="memberRate" value="일반회원">
+        <input type="hidden" name="memberMileage" value="0">
+        <input type="hidden" name="memberCoupon" value="0">
         <input type="hidden" name="memberExited" value="회원">
         <input
                 class="input-st01 users-login-input input-id"
