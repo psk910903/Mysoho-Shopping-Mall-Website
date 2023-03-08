@@ -20,10 +20,10 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity,Long> {
     Page<ReviewEntity> findByReviewNoContaining(@Param(value="start")String start, @Param(value="end")String end, Pageable sort);
 
     @Query(value = "SELECT COUNT(*) FROM review WHERE item_no = :item_no", nativeQuery = true)
-    int findByItemReview(Long item_no);
+    int findByItemReview(@Param(value="item_no")Long item_no);
 
     @Query(value = "SELECT AVG(review_star) FROM review WHERE item_no = :item_no", nativeQuery = true)
-    Integer findByItemReviewStarAVG(Long item_no);
+    Integer findByItemReviewStarAVG(@Param(value="item_no")Long item_no);
 
     List<ReviewEntity> findByMemberIdContaining(String MemberId);
 
