@@ -194,12 +194,7 @@ public class Controller4 {
                                   HttpServletRequest request,
                                   Model model, @AuthenticationPrincipal User user){
 
-        //세션 가져오기
-//        HttpSession session = request.getSession();
-//        String name = (String)session.getAttribute("username");
-//        System.out.println(name);
-        //세션 설정하기
-//        session.setAttribute("name", name);
+        // memberId 보내기
         String memberId = null;
         if (user != null){
             memberId = user.getUsername();
@@ -207,7 +202,6 @@ public class Controller4 {
         model.addAttribute("memberId", memberId);
 
         List<QnaResponseDto> list;
-
         if(keyword ==null){
             // 검색기능 없을 때
 
@@ -244,6 +238,8 @@ public class Controller4 {
                 qnaCommentCount.add(CommentCount);
             }
             //답변카운트 불러오기 끝
+            model.addAttribute("keyword",keyword);
+            model.addAttribute("listCount", list.size());
             model.addAttribute("qnaCommentCount",qnaCommentCount);
             model.addAttribute("list",list);
             model.addAttribute("namelist",nameList);
@@ -286,6 +282,8 @@ public class Controller4 {
                 qnaCommentCount.add(CommentCount);
             }
             //답변카운트 불러오기 끝
+            model.addAttribute("keyword",keyword);
+            model.addAttribute("listCount", list.size());
             model.addAttribute("namelist",nameList);
             model.addAttribute("list",list);
             model.addAttribute("qnaCommentCount",qnaCommentCount);

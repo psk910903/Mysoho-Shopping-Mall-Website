@@ -32,7 +32,7 @@
 
         <!-- 검색하기 -->
         <div class="schBox" th:unless="${keyword} == null and ${listCount} == 0">
-            <form name="searchForm" method="GET" action="/notice" >
+            <form name="searchForm" method="GET" action="/qna" >
                 <a href="javascript:history.back();
                     if(document.referrer == 'http://localhost:8080/'){location.href = document.referrer;}" class="btnHback"></a>
                 <input type="text" name="keyword" id="titleKeyword" th:value="${keyword}" placeholder="검색어를 입력해 주세요"/>
@@ -41,48 +41,48 @@
             </form>
         </div>
 
+        <!-- 검색 결과 -->
+        <div class="txtResult" th:if="${keyword} != null">
+            <strong th:text="${ (keyword)+' 검색결과 : '+(listCount)+' 건' }"></strong>
+        </div>
+
+        <!--  문의 작성 -->
+        <div class="btnBwrite js-btnMoveWritePage" th:if="${keyword} == null">
+            <th:block sec:authorize="isAuthenticated()">
+                <a th:href="|javascript:openPopUpQnaWrite()|">
+                    <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/bg_ico_write.png" alt=""/>
+                    <strong> 문의작성</strong>
+                </a>
+            </th:block>
+            <th:block sec:authorize="isAnonymous()">
+                <a th:href="|javascript:openPopUpQnaWriteGuest()|">
+                    <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/bg_ico_write.png" alt=""/>
+                    <strong> 문의작성</strong>
+                </a>
+            </th:block>
+        </div>
+        <h6 th:if="${keyword} == null">답변완료는 수정에서 확인 가능합니다.</h6>
+
+        <!-- 검색 결과가 없을 때 -->
+        <div class="listResult" th:if="${keyword} != null and ${listCount} == 0">
+            <ul>
+                <li class="noData">
+                    <strong th:text="${ (keyword)}"></strong>에 대한 검색결과가 없습니다.<br>철자나 띄어쓰기를 확인해보세요.
+                </li>
+            </ul>
+        </div>
+
+        <!-- 글이 없을 때 -->
+        <div class="listResult" th:if="${keyword} == null and ${listCount} == 0">
+            <ul>
+                <li class="noData">
+                    등록된 공지사항이 없습니다.
+                </li>
+            </ul>
+        </div>
 
         <div id="searchForm" >
-
-<!--            <div class="qa-search-wrap">-->
-<!--                <form action="/qna" method="get">-->
-<!--                    <div class="qa-search">-->
-<!--                        <input type="text" placeholder="검색어를 입력하세요" name="keyword"/>-->
-<!--                        &lt;!&ndash; 돋보기 이미지 &ndash;&gt;-->
-<!--                        <button type="submit" id="QnA-searchBtn">-->
-<!--                            <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_search_h34.png" alt=""/>-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                </form>-->
-<!--            </div>-->
-
-
-
-
-
-            <div class="btnBwrite js-btnMoveWritePage" >
-                <th:block sec:authorize="isAuthenticated()">
-                    <a th:href="|javascript:openPopUpQnaWrite()|">
-                        <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/bg_ico_write.png" alt=""/>
-                        <strong> 문의작성</strong>
-                    </a>
-                </th:block>
-                <th:block sec:authorize="isAnonymous()">
-                    <a th:href="|javascript:openPopUpQnaWriteGuest()|">
-                        <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/bg_ico_write.png" alt=""/>
-                        <strong> 문의작성</strong>
-                    </a>
-                </th:block>
-            </div>
-            <h6>답변완료는 수정에서 확인 가능합니다.</h6>
             <div id="inquiryTab" class="tab-cont" th:each="qna,status:${list}">
-
-
-
-
-
-
-
                 <!--  로그인일떄       -->
                 <th:block th:if="${qna.memberId}!=null">
                     <!--비공개글일떄-->
@@ -406,19 +406,6 @@
                 </th:block>
 
             </div>
-
-            <th:block th:if="${list.isEmpty()}">
-                <div class="back" id="back">
-                    <p> 검색된 결과가 없습니다. </p>
-                    <a href="/qna">
-                        <!--                        /user/category-->
-                        <img
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_reset_h26.png"
-                                alt="">
-                        <strong>초기화</strong></a
-                    ></div>
-            </th:block>
-
         </div>
     </div>
 
@@ -461,7 +448,6 @@ function onCheckDiv( number ) {
   }
 }
 
-
 function onCheckDiv2( number ) {
 
   if (document.querySelector("#CheckDiv2"+number).style.display === "none") {
@@ -470,28 +456,41 @@ function onCheckDiv2( number ) {
     document.querySelector("#CheckDiv2"+number).style.display = "none";
   }
 }
-      function checkDelete() {
-          let form =  document.querySelector('#deleteBtn');
-          if (confirm("해당 Q&A를 삭제하겠습니까? 삭제 후 복구가 불가능합니다.")) {
-            form.submit();
-          } else {
-            return false;
-          }
-      }
 
-      function openPopUpQnaWrite() {
+function checkDelete() {
+  let form =  document.querySelector('#deleteBtn');
+  if (confirm("해당 Q&A를 삭제하겠습니까? 삭제 후 복구가 불가능합니다.")) {
+    form.submit();
+  } else {
+    return false;
+  }
+}
+
+function openPopUpQnaWrite() {
   popup = window.open("/qna/writeForm");
 }
 
-
-      function openPopUpQnaWriteGuest() {
+function openPopUpQnaWriteGuest() {
   popup = window.open("/qna/writeFormGuest");
 }
 
-     function openPopUpQnaModify(qnaId) {
+function openPopUpQnaModify(qnaId) {
   popup = window.open("/qna/modifyForm/"+qnaId);
 }
 
+function deleteKeyword(){
+  document.querySelector("#titleKeyword").value = "";
+}
+
+function checkKeyword(){
+  let searchForm = document.searchForm;
+  let keyword =  document.querySelector("#titleKeyword")
+  if (keyword.value == "" || keyword.value == null){
+    alert("검색어를 입력해 주세요");
+  }else{
+    searchForm.submit();
+  }
+}
 </script>
 </body>
 </html>
