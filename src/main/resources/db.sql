@@ -11,16 +11,17 @@ CREATE TABLE `qna`
 	member_id VARCHAR(255) , -- NOT NULL
 	qna_category VARCHAR(255) NOT NULL,
 	qna_name VARCHAR(50) ,-- NOT NULL
-	qna_title VARCHAR(255) NOT NULL,
 	qna_password VARCHAR(255) NOT NULL,
 	qna_content TEXT NOT NULL,
 	qna_secret  VARCHAR(255) NOT NULL,
-	qna_hit INT DEFAULT 0 NOT NULL,
 	qna_local_date_time  DATETIME DEFAULT NOW()
 );
 
 
-INSERT INTO qna VALUES (1,'hong','환불문의' , '홍길동', '제목1', '1234' ,'내용1','비공개',DEFAULT, DEFAULT);
+INSERT INTO qna VALUES (null,'jeong','상품문의' , '정희진', '1234' ,'안녕하세요.','공개', DEFAULT);
+INSERT INTO qna VALUES (null,'jeong','상품문의' , '정희진', '1234' ,'안녕하세요.','비공개', DEFAULT);
+INSERT INTO qna VALUES (null,null,'상품문의' , '닉네임', '1234' ,'안녕하세요.','공개', DEFAULT);
+INSERT INTO qna VALUES (null,null,'상품문의' , '닉네임', '1234' ,'안녕하세요.','비공개', DEFAULT);
 
 ALTER TABLE qna CONVERT TO CHARSET UTF8;
 
@@ -34,7 +35,7 @@ CREATE TABLE qnacomment
 );
 ALTER TABLE qnaComment CONVERT TO CHARSET UTF8;
 
-INSERT INTO qnaComment VALUES (NULL,'홍길동','내일배송됩니다','6',DEFAULT);
+INSERT INTO qnaComment VALUES (NULL,'홍길동','내일배송됩니다','1',DEFAULT);
 
 SELECT * FROM qnacomment;
 SELECT * FROM qna;
