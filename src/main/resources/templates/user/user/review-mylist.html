@@ -62,7 +62,7 @@
 #box{
   display:none;
 }
-#hiddenBtn {
+.hiddenBtn {
     text-align: center;
     right: 20px;
     top: 50px;
@@ -76,7 +76,7 @@
     border-radius: 5px;
     font-size: 14px;
 }
-#hiddenBtn li {
+.hiddenBtn li {
     padding: 5px;
     border-bottom: 1px solid #edeff2;
 }
@@ -108,25 +108,19 @@ position: relative;
 
     <th:block th:each="review,status :${ list }">
     <div class="order_list">
-<!--      <th:block th:if="${review.itemName != null}">-->
-        <div class="list-wrap">
-          <div class="list-hd">
-
-          </div>
-        </div>
           <div class="list">
             <a >
               <img th:src="${ itemUrl[status.index] }" alt="" />
             </a>
             <div class="info">
-              <th:block th:if="${review.reviewContent != null}">
-                <div class="label type1" >
-                  사진후기
-                </div>
-              </th:block>
-              <th:block th:unless="${review.reviewContent != null}">
+              <th:block th:if="${review.reviewImgUrl == null} or ${review.reviewImgUrl == ''}">
                 <div class="label type1" >
                   일반후기
+                </div>
+              </th:block>
+              <th:block th:unless="${review.reviewImgUrl == null} or ${review.reviewImgUrl == ''}">
+                <div class="label type1" >
+                  사진후기
                 </div>
               </th:block>
               <div class="name" th:text="${ itemName[status.index] }">
@@ -149,16 +143,17 @@ position: relative;
             </div>
 
 
-            <a href="javascript:threedot()" class="threedot" style="width: 40px;"><img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png" alt=""></a>
-            <ul id="hiddenBtn">
+            <a th:href="|javascript:threedot(${status.index})|" class="threedot" style="width: 40px;"><img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png" alt=""></a>
+            <ul th:id="|hiddenBtn${status.index}|" class="hiddenBtn">
               <li><a th:href="@{modify(reviewNo=${review.reviewNo}, itemName=${itemName[status.index]}, itemUrl=${itemUrl[status.index]} )}">수정</a></li>
               <li><a th:href="@{delete(reviewNo=${review.reviewNo})}">삭제</a></li>
             </ul>
           </div>
     </div>
-      <!-- 구분선 -->
-        <div class="bg-blank"></div>
+
       </th:block>
+    <!-- 구분선 -->
+    <div class="bg-blank"></div>
     </div>
 
   </div>
@@ -205,11 +200,11 @@ position: relative;
           }
       }
 
-      function threedot() {
-  if (document.querySelector("#hiddenBtn").style.display === "block") {
-    document.querySelector("#hiddenBtn").style.display = "none";
+      function threedot(n) {
+  if (document.querySelector("#hiddenBtn"+n).style.display === "block") {
+    document.querySelector("#hiddenBtn"+n).style.display = "none";
   } else {
-    document.querySelector("#hiddenBtn").style.display = "block";
+    document.querySelector("#hiddenBtn"+n).style.display = "block";
   }
 }
     </script>
