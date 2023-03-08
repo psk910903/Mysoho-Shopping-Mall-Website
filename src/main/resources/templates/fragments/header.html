@@ -97,7 +97,21 @@
         src="https://img.makeshop.co.kr/1/1371/201908/583f98cc6e004ec7b3ba880bf0eaf1c9.png"
         alt=""
     /></a>
-    <!--장바구니 아이콘 -->
+    <!--관리자페이지 링크 -->
+    <span sec:authorize="isAuthenticated()" id="adminLink">
+      <span sec:authorize="hasRole('ADMIN')">
+        <a
+          href="/admin/member/list?page=0"
+          class="btn-login"
+          style="height: 100%"
+        >
+          <img
+            src="https://psk-s3-bucket.s3.ap-northeast-2.amazonaws.com/%EA%B4%80%EB%A6%AC%EC%9E%90%EB%A7%81%ED%81%AC+%EC%95%84%EC%9D%B4%EC%BD%98.png"
+            alt=""
+          />
+        </a>
+      </span>
+    </span>
     <div class="side-icon-right">
       <a class="btn-basket" href="/order">
         <strong class="basket-num" type="Number">0</strong>
@@ -109,7 +123,6 @@
 
       <!--로그인 버튼 수정 부분 -->
 
-      <!--게스트일때 로그인 버튼 -->
       <span sec:authorize="isAnonymous()">
         <a href="/user/login" class="btn-login">
           <img
@@ -118,27 +131,8 @@
           />
         </a>
       </span>
+
       <span sec:authorize="isAuthenticated()">
-        <!--        관리자일때 -->
-        <span sec:authorize="hasRole('ADMIN')">
-          <a
-            href="/admin/member/list?page=0"
-            class="btn-login"
-            style="height: 100%"
-          >
-            <img
-              src="https://psk-s3-bucket.s3.ap-northeast-2.amazonaws.com/%EA%B4%80%EB%A6%AC%EC%9E%90%EB%A7%81%ED%81%AC+%EC%95%84%EC%9D%B4%EC%BD%98.png"
-              alt=""
-            />
-          </a>
-          <a href="/myorder/lists" class="btn-login">
-            <img
-              src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logon_000000.png"
-              alt=""
-            />
-          </a>
-        </span>
-        <!--user일때 -->
         <span sec:authorize="hasRole('USER')">
           <a href="/myorder/lists" class="btn-login">
             <img
@@ -147,6 +141,12 @@
             />
           </a>
         </span>
+        <a href="/myorder/lists" class="btn-login">
+          <img
+            src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logon_000000.png"
+            alt=""
+          />
+        </a>
       </span>
       <!--로그인 버튼 수정 부분 -->
     </div>
