@@ -179,9 +179,9 @@ public class Controller6 {
 public String productContent(Model model,@PathVariable(value = "itemNo") Long itemNo) {
     ProductResponseDto dto = productService.findById(itemNo); // 1. 페이지및 페이지해당 데이터
 
-    List<ReviewResponseDto> reviewResponseDtos = service6.findByReview(String.valueOf(itemNo)); // 2.페이지및 페이지해당 데이터
+    List<ReviewResponseDto> reviewResponseDtos = service6.findByReview(String.valueOf(itemNo)); // 2. 리뷰데이터
 
-    int size = reviewResponseDtos.size();  // 3. 상품 리뷰개수
+    int size = reviewResponseDtos.size();  // 3. 상품 리뷰 갯수
 
     byte sum = 0;       // 4. 상품별점 평균
     for(int i=0; i<size; i++){
@@ -192,16 +192,18 @@ public String productContent(Model model,@PathVariable(value = "itemNo") Long it
     double avg2 = Math.round(avg1*10);
     double avg3 = avg2 / 10;
 
+    List<ReviewResponseDto> reviewResponseDtos2 = service6.findByImgReview(String.valueOf(itemNo)); //5. 사진리뷰 데이터
+    int size2 = reviewResponseDtos2.size(); //6. 사진리뷰 갯수
+
     model.addAttribute("dto", dto); // ->1
     model.addAttribute("list", reviewResponseDtos); // ->2
     model.addAttribute("listCount", size);  // ->3
     model.addAttribute("avgStar", avg3);    // ->4
+    model.addAttribute("listImg",reviewResponseDtos2);  // ->5
+    model.addAttribute("listImgCount", size2);  // ->6
     return "/user/product/contentTestKyeongBin";
 }
 
 
 }
-//    long listCount = memberRepository.count();
-//        model.addAttribute("listCount", listCount);
-
 

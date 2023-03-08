@@ -44,6 +44,13 @@ public class Service6 {
         return list;
     }
 
+    @Transactional
+    public List<ReviewResponseDto> findByImgReview(String id){
+        List<ReviewEntity> entityList = reviewRepository.findByImgReview(id);
+        List<ReviewResponseDto> list = entityList.stream().map(ReviewResponseDto::new).collect(Collectors.toList());
+        return list;
+    }
+
 
 //    @Transactional
 //    public List<ReviewResponseDto> findByReview(String id){
