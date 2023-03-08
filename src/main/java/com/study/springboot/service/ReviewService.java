@@ -3,8 +3,10 @@ package com.study.springboot.service;
 
 import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.order.OrderResponseDto;
+import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.review.ReviewSaveResponseDto;
+import com.study.springboot.entity.ProductEntity;
 import com.study.springboot.entity.ReviewEntity;
 import com.study.springboot.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -222,6 +224,12 @@ public class ReviewService {
         List<ReviewEntity> list =  reviewRepository.findByMemberIdContaining(memberId);
 
         return list.stream().map(ReviewResponseDto::new).toList();
+    }
+    @Transactional(readOnly = true)
+    public String findByUrl(Long id) {
+        ReviewEntity entity = reviewRepository.findById(id).get();
+        ReviewResponseDto dto = new ReviewResponseDto(entity);
+        return dto.getReviewImgUrl();
     }
 
 }//class

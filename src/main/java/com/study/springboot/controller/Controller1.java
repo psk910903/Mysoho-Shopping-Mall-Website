@@ -9,6 +9,7 @@ import com.study.springboot.dto.product.FileResponse;
 import com.study.springboot.dto.product.ProductResponseDto;
 
 import com.study.springboot.dto.product.ProductSaveRequestDto;
+import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.repository.CartRepository;
 import com.study.springboot.repository.OrderRepository;
@@ -46,6 +47,7 @@ public class Controller1 {
   final Service2 service2;
   final Service3 service3;
   final CartRepository cartRepository;
+  final ReviewService reviewService;
 
   @GetMapping("/admin/product")
   public String productHome(){
@@ -448,15 +450,11 @@ public class Controller1 {
       System.out.println("no user");
     } else {
       String username = user.getUsername();
-      System.out.println("myPage username:" + username);
       MemberEntity entity = service3.findByUserId(username);
       request.getSession().setAttribute("username", entity.getMemberName());
-      System.out.println("myPage memberMileage:" + entity.getMemberMileage());
       request.getSession().setAttribute("memberMileage", entity.getMemberMileage());
-      System.out.println("myPage memberCoupon:" + entity.getMemberCoupon());
       request.getSession().setAttribute("memberCoupon", entity.getMemberCoupon());
 
-      //0228 선교 작업
       List<OrderResponseDto> orderList = cartService.findByOrderList(username);
       List<CartResponseDto> cartList;
       List<List<CartResponseDto>> cartListModel = new ArrayList<>();
@@ -474,8 +472,7 @@ public class Controller1 {
           case "배송대기" -> stateType2++;
           case "배송중" -> stateType3++;
           case "배송완료" -> stateType4++;
-          default ->  //취소/반품
-                  stateType5++;
+          default ->  stateType5++;//취소/반품
         }
         //비회원 주문번호에서 카트정보 가져오기
         cartList = service1.getCartListMember(orderDto);
@@ -497,8 +494,13 @@ public class Controller1 {
         orderDto.setOrderDiscountPrice(discountPrice);//할인율이 적용된 차감될 금액
         orderDto.setOrderItemPrice(itemPrice); // (할인 적용된 결제당시)상품가격
       }
+      String memberId = user.getUsername();
+
+      List<ReviewResponseDto> ReviewList = reviewService.findByMemberId(memberId); //사용자가 작성한 리뷰
+
       int cartCount = cartListModel.size();
       int orderCount = orderList.size();
+      model.addAttribute("ReviewList", ReviewList);
       model.addAttribute("orderCount", orderCount);
       model.addAttribute("stateType1", stateType1);
       model.addAttribute("stateType2", stateType2);

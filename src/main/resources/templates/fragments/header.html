@@ -72,14 +72,18 @@
         <div class="overlay-inner">
           <h3>어떤 상품을 찾고 계신가요?</h3>
           <div class="overlay-content">
-            <form action="/search" name="keywordForm" onsubmit="return checkTxt(event)">
+            <form
+              action="/search"
+              name="keywordForm"
+              onsubmit="return checkTxt(event)"
+            >
               <input
                 type="text"
                 placeholder="검색어를 입력해주세요"
                 name="keyword"
                 id="keyword"
               />
-              <button >
+              <button>
                 <i class="fa fa-search"></i>
               </button>
             </form>
@@ -95,15 +99,19 @@
     /></a>
     <!--관리자페이지 링크 -->
     <span sec:authorize="isAuthenticated()" id="adminLink">
-         <span sec:authorize="hasRole('ADMIN')">
-          <a href="/admin/member/list?page=0" class="btn-login" style="height: 100%;" >
-            <img
-                    src="https://psk-s3-bucket.s3.ap-northeast-2.amazonaws.com/%EA%B4%80%EB%A6%AC%EC%9E%90%EB%A7%81%ED%81%AC+%EC%95%84%EC%9D%B4%EC%BD%98.png"
-                    alt=""
-            />
-          </a>
-          </span>
+      <span sec:authorize="hasRole('ADMIN')">
+        <a
+          href="/admin/member/list?page=0"
+          class="btn-login"
+          style="height: 100%"
+        >
+          <img
+            src="https://psk-s3-bucket.s3.ap-northeast-2.amazonaws.com/%EA%B4%80%EB%A6%AC%EC%9E%90%EB%A7%81%ED%81%AC+%EC%95%84%EC%9D%B4%EC%BD%98.png"
+            alt=""
+          />
+        </a>
       </span>
+    </span>
     <div class="side-icon-right">
       <a class="btn-basket" href="/order">
         <strong class="basket-num" type="Number">0</strong>
@@ -114,7 +122,6 @@
       </a>
 
       <!--로그인 버튼 수정 부분 -->
-
 
       <span sec:authorize="isAnonymous()">
         <a href="/user/login" class="btn-login">
@@ -134,12 +141,12 @@
             />
           </a>
         </span>
-          <a href="/myorder/lists" class="btn-login">
-            <img
-              src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logon_000000.png"
-              alt=""
-            />
-          </a>
+        <a href="/myorder/lists" class="btn-login">
+          <img
+            src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logon_000000.png"
+            alt=""
+          />
+        </a>
       </span>
       <!--로그인 버튼 수정 부분 -->
     </div>
@@ -161,7 +168,10 @@
 
       for (let i = 0; i < cookies.length; i++) {
         //보안토큰 제외
-        if (!cookies[i].includes("XSRF")) {
+        if (
+          !cookies[i].includes("XSRF") ||
+          !cookies[i].includes("ckCsrfToken")
+        ) {
           //includes 해당 문자열이 포함됬는지 확인 //XSRF : 보안토큰 앞글자
           cartNum += Number(cookies[i].substr(cookies[i].indexOf("=") + 1));
         }
