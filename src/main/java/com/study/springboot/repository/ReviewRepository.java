@@ -32,4 +32,8 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity,Long> {
 
     @Query(value = "SELECT * FROM review where item_no LIKE :id and review_image_url is not NULL order BY review_datetime DESC", nativeQuery = true)
     List<ReviewEntity> findByImgReview(@Param(value = "id")String id);
+    // 경빈 review_image_url 값을 사진이 있는 거만 뜨게하기위해 findByImgReview2 새로만듬
+
+    @Query(value = "SELECT * FROM review where item_no LIKE :id AND review_image_url LIKE 'https%'  order BY review_datetime DESC", nativeQuery = true)
+    List<ReviewEntity> findByImgReview2(@Param(value = "id")String id);
 }
