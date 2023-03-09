@@ -505,57 +505,72 @@
         </th:block>
 
         <div class="prd-btn-type2">
-          <!-- 장바구니담기버튼 -->
-          <th:block th:if="${ sizeCount == 1} and ${ colorCount == 1}">
+          <th:block th:if="${dto.itemSoldOut} == '품절'">
             <button
-              class="btn-h42-gray2 btn-cart js-add-cart-single"
-              onclick="basketNumProduct(1)"
+                    class="btn-h42-gray2 btn-cart js-add-cart-single"
+                    onclick="alert('품절상품입니다.')"
             >
               <img
-                src="https://sohonara.mysoho.com/assets/shop/img/common/bul_h33_basket.png"
-                alt=""
+                      src="https://sohonara.mysoho.com/assets/shop/img/common/bul_h33_basket.png"
+                      alt=""
               />장바구니 담기
             </button>
           </th:block>
-          <th:block th:unless="${ sizeCount == 1} and ${ colorCount == 1}">
-            <button
-              class="btn-h42-gray2 btn-cart js-add-cart-single"
-              onclick="basketNumProduct(2)"
-            >
-              <img
-                src="https://sohonara.mysoho.com/assets/shop/img/common/bul_h33_basket.png"
-                alt=""
-              />장바구니 담기
-            </button>
-            <script>
-              // 옵션선택 팝업
-              function showoptionList() {
-                document.querySelector(".bg-option").className =
-                  "bg-option showoptionList";
-              }
-              function closeOrderList() {
-                document.querySelector(".bg-option").className = "bg-option";
-              }
-              document
-                .querySelector(".show-option-list")
-                .addEventListener("click", showoptionList);
-              document
-                .querySelector("#closeBtn-option")
-                .addEventListener("click", closeOrderList);
 
-              let optionStr = document.querySelector("#option-price").innerHTML;
-              // 가격 형변환 후 쉼표추가 함수
-              let optionStr2 = optionStr.replace("원", "");
-              let optionPrice = Number(optionStr2.replace(",", ""));
-              let optionTemp = optionPrice;
-              //기존 가격으로 토탈 초기화
-              let optionTotalPrice = optionTemp;
+          <th:block th:unless="${dto.itemSoldOut} == '품절'">
 
-              //상품 갯수
-              let optionN = document.querySelector(".MSH-sto-stock").value;
-              let optionTemp2 = optionN;
-              let optionAmount = optionTemp2;
-            </script>
+            <!-- 장바구니담기버튼 -->
+            <th:block th:if="${ sizeCount == 1} and ${ colorCount == 1}">
+              <button
+                class="btn-h42-gray2 btn-cart js-add-cart-single"
+                onclick="basketNumProduct(1)"
+              >
+                <img
+                  src="https://sohonara.mysoho.com/assets/shop/img/common/bul_h33_basket.png"
+                  alt=""
+                />장바구니 담기
+              </button>
+            </th:block>
+            <th:block th:unless="${ sizeCount == 1} and ${ colorCount == 1}">
+              <button
+                class="btn-h42-gray2 btn-cart js-add-cart-single"
+                onclick="basketNumProduct(2)"
+              >
+                <img
+                  src="https://sohonara.mysoho.com/assets/shop/img/common/bul_h33_basket.png"
+                  alt=""
+                />장바구니 담기
+              </button>
+              <script>
+                // 옵션선택 팝업
+                function showoptionList() {
+                  document.querySelector(".bg-option").className =
+                    "bg-option showoptionList";
+                }
+                function closeOrderList() {
+                  document.querySelector(".bg-option").className = "bg-option";
+                }
+                document
+                  .querySelector(".show-option-list")
+                  .addEventListener("click", showoptionList);
+                document
+                  .querySelector("#closeBtn-option")
+                  .addEventListener("click", closeOrderList);
+
+                let optionStr = document.querySelector("#option-price").innerHTML;
+                // 가격 형변환 후 쉼표추가 함수
+                let optionStr2 = optionStr.replace("원", "");
+                let optionPrice = Number(optionStr2.replace(",", ""));
+                let optionTemp = optionPrice;
+                //기존 가격으로 토탈 초기화
+                let optionTotalPrice = optionTemp;
+
+                //상품 갯수
+                let optionN = document.querySelector(".MSH-sto-stock").value;
+                let optionTemp2 = optionN;
+                let optionAmount = optionTemp2;
+              </script>
+            </th:block>
           </th:block>
           <!-- 공유하기버튼 -->
           <button class="btn-share-white btn-share" onclick="showShareList()">
@@ -1158,11 +1173,11 @@
                         >결제하기</button>
                     </th:block>
                     <th:block th:unless="${dto.itemSoldOut} != '품절'">
-                      <a
-                        href="order-complete.html"
+                      <button
+                        type="button"
                         class="js-btnOrder js-mo-tpl btn-h42-gray mt-25"
                       >
-                        품절</a
+                        품절</button
                       >
                     </th:block>
                     <div class="warning-labels-font">
