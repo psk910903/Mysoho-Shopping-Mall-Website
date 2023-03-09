@@ -99,7 +99,7 @@
                             </tr>
                             <tr>
                                 <th class="table-light align-middle w250" style="text-align: center">가입일자</th>
-                                <td class="align-middle" th:text="${#temporals.format(member.memberJoinDatetime, 'yyyy-MM-dd HH:mm')}">
+                                <td class="align-middle" th:text="${#temporals.format(member.memberJoinDatetime, 'yyyy-MM-dd')}">
                                 </td>
                             </tr>
                             <tr>
@@ -118,7 +118,6 @@
                                                 onclick=sample6_execDaumPostcode()
                                                 aria-label="Sizing example input"
                                                 aria-describedby="inputGroup-sizing-default"
-                                                readonly
                                         />
                                     </div>
                                     <div class="input-group mb-3">
