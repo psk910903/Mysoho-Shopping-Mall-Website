@@ -184,7 +184,7 @@ if($('#allch').prop("checked")){
   }
 });
 </script>
-<script>
+<script th:inline="javascript">
 <!--선택 삭제 -->
      function deleteValue(){
       var reviewNo = "";
@@ -201,7 +201,8 @@ if($('#allch').prop("checked")){
             type : 'POST',
             traditional : true,
             data : {
-              reviewNo : reviewNo
+              reviewNo : reviewNo,
+              [[${_csrf.parameterName}]] : [[${_csrf.token}]]
             },
             success: function(jdata){
               if(jdata = 1){

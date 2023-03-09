@@ -186,7 +186,7 @@
 </div>
 
 <!-- wrap -->
-<script>
+<script th:inline="javascript">
      function deleteValue(){
 
       var itemNo = "";
@@ -202,7 +202,8 @@
             type : 'POST',
             traditional : true,
             data : {
-              itemNo : itemNo
+              itemNo : itemNo,
+              [[${_csrf.parameterName}]] : [[${_csrf.token}]]
             },
             success: function(jdata){
               if(jdata = 1){
