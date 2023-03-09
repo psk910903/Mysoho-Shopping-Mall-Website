@@ -173,7 +173,7 @@
           <img class="main-image" th:src="${ dto.itemImageUrl }" alt="" />
           <!-- 확대링크이미지 z-index예정 -->
           <a
-            href="javascript:openPopup('/product-zoom/product-onepiece3-zoom.html')"
+            th:href="|/enlarge/${dto.itemNo}|"
             ><img
               src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h67_enlarge.png"
               alt=""
@@ -226,17 +226,33 @@
         <th:block th:if="${ sizeCount == 1} and ${ colorCount == 1}">
           <div class="prd-option-non MSH-prd-option-non-19520">
             <div class="count">
-              <a href="javascript:productSub()" class="btn-minus"
+              <th:block th:if="${dto.itemSoldOut} == '품절'">
+                <span class="btn-minus"
                 ><img
-                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_minus.gif"
-                  alt=""
-              /></a>
-              <input type="text" value="1" class="MSH-sto-stock" id="MSH-sto-stock" />
-              <a href="javascript:productSum()" class="btn-plus"
+                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_minus.gif"
+                        alt=""
+                /></span>
+                <input type="text" value="1" class="MSH-sto-stock" id="MSH-sto-stock" />
+                <span class="btn-plus"
                 ><img
-                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_plus.gif"
-                  alt=""
-              /></a>
+                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_plus.gif"
+                        alt=""
+                /></span>
+              </th:block>
+              <th:block th:unless="${dto.itemSoldOut} == '품절'">
+                <a href="javascript:productSub()" class="btn-minus"
+                ><img
+                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_minus.gif"
+                        alt=""
+                /></a>
+                <input type="text" value="1" class="MSH-sto-stock" id="MSH-sto-stock" />
+                <a href="javascript:productSum()" class="btn-plus"
+                ><img
+                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_plus.gif"
+                        alt=""
+                /></a>
+              </th:block>
+
             </div>
             <!-- 품절 상품일 때 -->
             <th:block th:if="${dto.itemSoldOut} == '품절'">
@@ -436,17 +452,33 @@
                       </div>
                       <div class="prd-option-non MSH-prd-option-non-19520">
                         <div class="count">
-                          <a href="javascript:optionSub()" class="btn-minus"
+                          <th:block th:if="${dto.itemSoldOut} == '품절'">
+                            <span class="btn-minus"
                             ><img
-                              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_minus.gif"
-                              alt=""
-                          /></a>
-                          <input type="text" value="1" class="MSH-sto-stock" id="MSH-sto-stock"/>
-                          <a href="javascript:optionSum()" class="btn-plus"
+                                    src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_minus.gif"
+                                    alt=""
+                            /></span>
+                            <input type="text" value="1" class="MSH-sto-stock" id="MSH-sto-stock"/>
+                            <span class="btn-plus"
                             ><img
-                              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_plus.gif"
-                              alt=""
-                          /></a>
+                                    src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_plus.gif"
+                                    alt=""
+                            /></span>
+                          </th:block>
+                          <th:block th:unless="${dto.itemSoldOut} == '품절'">
+                            <a href="javascript:optionSub()" class="btn-minus"
+                            ><img
+                                    src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_minus.gif"
+                                    alt=""
+                            /></a>
+                            <input type="text" value="1" class="MSH-sto-stock" id="MSH-sto-stock"/>
+                            <a href="javascript:optionSum()" class="btn-plus"
+                            ><img
+                                    src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_plus.gif"
+                                    alt=""
+                            /></a>
+                          </th:block>
+
                         </div>
                         <th:block th:if="${dto.itemDiscountRate} != 0">
                           <div
@@ -484,7 +516,7 @@
                       >
                         장바구니
                       </button>
-                      <button class="btn2" type="button" onclick="buyBtn()">
+                      <button class="btn2" type="button" onclick="processBeforeSubmit()">
                         결제하기
                       </button>
                     </div>
@@ -701,11 +733,10 @@
 
           <div class="txt-detail">
             <div class="buyBtn-hidden">
-              <a
-                href="order-complete.html"
+              <button type="button" onclick="processBeforeSubmit()"
                 class="js-mo-tpl btn-h42-gray mt-25"
                 id="buyBtn"
-                >결제하기</a
+                >결제하기</button
               >
 
               <div class="page1">
@@ -737,10 +768,8 @@
                       alt=""
                       class="btn-bottom-close2"
                   /></a>
-                  <a
-                    href="javascript:poppageonepiece3()"
-                    class="btn-ViewOriginal"
-                    >원본보기
+                  <a th:href="|/enlarge/content/${dto.itemNo}|" class="btn-ViewOriginal" >
+                    원본보기
                     <img
                       src="https://sohonara.mysoho.com/assets/shop/img/btn/h15_plus.png"
                       alt=""

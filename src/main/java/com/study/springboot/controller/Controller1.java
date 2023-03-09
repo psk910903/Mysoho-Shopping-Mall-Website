@@ -543,6 +543,21 @@ public class Controller1 {
     }
     return "/user/user/myorder-list-user";
   }
+  // 상품 대표이지미 확대
+  @RequestMapping("/enlarge/{itemNo}")
+  public String enlarge(Model model,@PathVariable(value = "itemNo") Long itemNo){
+    String itemImageUrl = productService.findById(itemNo).getItemImageUrl();
+    model.addAttribute("itemImageUrl", itemImageUrl);
+    return "/user/enlarge/enlargeProductImg";
+  }
+
+  // 상품 상세설명 확대
+  @RequestMapping("/enlarge/content/{itemNo}")
+  public String enlargeContent(Model model,@PathVariable(value = "itemNo") Long itemNo){
+    String itemInfo = productService.findById(itemNo).getItemInfo();
+    model.addAttribute("itemInfo", itemInfo);
+    return "/user/enlarge/enlargeProductInfo";
+  }
 }
 
 
