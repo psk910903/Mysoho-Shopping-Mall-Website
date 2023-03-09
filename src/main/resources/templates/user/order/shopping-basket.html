@@ -39,14 +39,6 @@
           <div th:replace="/user/order-object/container-shopping-basket-summary.html :: container-shopping-basket-summary"></div>
         </form>
       </div>
-
-<!--임시 ----------------------------------------------------------------------------------------------------------->
-      <button onclick="setCookie('item_idx.20000.화이트.FREE','5')">임시</button>
-      <button onclick="setCookie('item_idx.20003.베이지.M','3')">임시</button>
-      <button onclick="setCookie('item_idx.20006.블랙.FREE','5')">임시</button>
-      <!--임시 --------------------------------------------------------------------------------------------------------->
-
-
       <!-- 푸터 -->
       <div class="footer">
         <div th:replace="/fragments/footer.html :: fragment-footer"></div>
@@ -390,46 +382,6 @@
       }
 
     </script>
-
-<!--    임시~~~~~~~0000000000000000000000000000000000000000000000000000000000000000000000000-->
-    <script>
-        function setCookie(cookieName, cookieValue) {
-          //쿠키 생성 함수 (매개변수로 "item_idx 1", 1)이 들어옴
-          var date = new Date(); //
-          date.setTime(date.getTime() + 24 * 60 * 60 * 1000); //date를 현재시간 + 3일 후로 설정한다.
-
-
-          ////////////////////////////////////////////////
-          let encodedCookieName = "";
-          let splitedCookieName = cookieName.split('.');
-
-          let encodedColor = encodeURIComponent(splitedCookieName[2]);
-          for (let idx in splitedCookieName){
-            if (idx == 0){
-              encodedCookieName += splitedCookieName[idx];
-            }
-            else if (idx == 2){
-              encodedCookieName += "." + encodedColor;
-            }
-            else{
-              encodedCookieName += "." + splitedCookieName[idx];
-            }
-          }
-          console.log(encodedCookieName);
-          ////////////////////////////////////////////////
-
-
-
-          document.cookie =
-            encodedCookieName + //쿠키이름 (key)
-            "=" +
-            cookieValue + // 쿠키(value)
-            ";expires=" +
-            date.toUTCString() + //쿠키 기한 // 설정한 데이트타임으로 기한을 준다.
-            ";path=/";
-        };
-    </script>
-    <!--    임시~~~~~~~0000000000000000000000000000000000000000000000000000000000000000000000000-->
     <script>
       function sumPrice(index, pricePerItem) {
         let regexp = /\B(?=(\d{3})+(?!\d))/g;
@@ -452,11 +404,6 @@
         priceObj.innerText = price.toString().replace(regexp, ',') + '원';
       }
     </script>
-
-
-
-
-
 
     <script>
       let agree = document.querySelectorAll(".agree-box input");

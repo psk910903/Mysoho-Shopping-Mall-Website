@@ -349,6 +349,7 @@ h6{
     border-bottom: none;
     background: url(//image.makeshop.co.kr/mysoho/assets/shop/img/common/bg_noData.png) no-repeat center 146px;
     background-size: 47px 44px;
+    border-top: 1px solid #d0d0d0;
 }
 input:-webkit-autofill {
    -webkit-box-shadow: 0 0 0 30px #fff inset ;
