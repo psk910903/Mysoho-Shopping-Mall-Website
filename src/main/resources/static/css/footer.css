@@ -133,6 +133,7 @@
 .myBtnfooter img {
   width: 46px;
 }
+
 .rightbtn {
   bottom: 20px;
   right: 30px;
@@ -142,11 +143,15 @@
   left: 30px;
 }
 .betweenbtn {
-  width: 640px;
   position: fixed;
-  display: flex;
-  justify-content: space-between;
   bottom: 60px;
   padding: 0 15px;
-  z-index: 1000;
+  z-index: 2;
+}
+  .betweenbtn2 {
+  position: relative;
+  right: 60px;
+  bottom: 60px;
+  padding: 0 15px;
+  z-index: 2;
 }
