@@ -7,6 +7,18 @@
     <link rel="stylesheet" type="text/css" href="/css/admin.css">
     <title>마이소호 관리자페이지</title>
   <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <style>
+    #hidden{
+      max-width:120px;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+      display:block;
+      height: 100%;
+      border: 0px;
+      margin: auto;
+    }
+  </style>
 </head>
 
 <div id="wrap" >
@@ -92,7 +104,7 @@
                       <td class="align-middle" th:text="${ itemList[status.index] }">상품명</td>
                       <td class="align-middle"><img class="productImg" th:src="${ review.reviewImgUrl }"/></td>
                       <td class="align-middle" th:text="${ review.memberId }">아이디</td>
-                      <td class="align-middle" th:text="${ review.reviewContent }">내용</td>
+                      <td class="align-middle" th:text="${ review.reviewContent }" id="hidden">내용</td>
                       <td class="align-middle" th:text="${ review.reviewStar }">별점</td>
                       <td class="align-middle" th:text="${#temporals.format(review.reviewDatetime, 'yyyy-MM-dd HH:mm')}">날짜</td>
                       <td class="align-middle">
@@ -184,7 +196,7 @@ if($('#allch').prop("checked")){
   }
 });
 </script>
-<script>
+<script th:inline="javascript">
 <!--선택 삭제 -->
      function deleteValue(){
       var reviewNo = "";
@@ -201,7 +213,8 @@ if($('#allch').prop("checked")){
             type : 'POST',
             traditional : true,
             data : {
-              reviewNo : reviewNo
+              reviewNo : reviewNo,
+              [[${_csrf.parameterName}]] : [[${_csrf.token}]]
             },
             success: function(jdata){
               if(jdata = 1){
@@ -214,6 +227,37 @@ if($('#allch').prop("checked")){
             }
         });
     }
+</script>
+<script>
+<!--선택 삭제 -->
+<!--     function deleteValue(){-->
+<!--      var reviewNo = "";-->
+<!--     $( "input[name='RowCheck']:checked" ).each (function (){-->
+<!--     reviewNo = reviewNo + $(this).val()+"," ;-->
+<!--     });-->
+<!--    if(reviewNo == ""){-->
+<!--     alert("삭제할 대상을 선택하세요.");-->
+<!--     return false;-->
+<!--     }-->
+<!--     console.log("통신시작");-->
+<!--     $.ajax({-->
+<!--            url : '/admin/review/delete',-->
+<!--            type : 'POST',-->
+<!--            traditional : true,-->
+<!--            data : {-->
+<!--              reviewNo : reviewNo-->
+<!--            },-->
+<!--            success: function(jdata){-->
+<!--              if(jdata = 1){-->
+<!--                alert("삭제 완료");-->
+<!--                location.replace("/admin/review/list")-->
+<!--              }-->
+<!--              else{-->
+<!--                alert("삭제 실패")-->
+<!--              }-->
+<!--            }-->
+<!--        });-->
+<!--    }-->
 </script>
 </body>
 
