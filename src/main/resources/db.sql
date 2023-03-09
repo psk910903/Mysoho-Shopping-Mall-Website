@@ -304,20 +304,18 @@ create table inquiry(
    item_no INT NOT NULL,
    inquiry_content VARCHAR(255) NOT NULL,
    inquiry_secret  VARCHAR(255) NOT NULL,
-   inquiry_hit INT DEFAULT 0,
    inquiry_date DATETIME DEFAULT NOW()
 );
 -- 회원일 때
-INSERT INTO inquiry VALUE(NULL,'hong',NULL, NULL, '20002','배송빨리빨리','비공개',DEFAULT,DEFAULT);
-INSERT INTO inquiry VALUE(NULL,'lee',NULL, NULL, '20003','정사이즈인가요','비공개',DEFAULT,DEFAULT);
-INSERT INTO inquiry VALUE(NULL,'right',NULL, NULL, '20004','스크린이랑 같나요','공개',DEFAULT,DEFAULT);
+INSERT INTO inquiry VALUE(NULL,'hong',NULL, NULL, '20002','배송빨리빨리','비공개',DEFAULT);
+INSERT INTO inquiry VALUE(NULL,'lee',NULL, NULL, '20003','정사이즈인가요','비공개',DEFAULT);
+INSERT INTO inquiry VALUE(NULL,'right',NULL, NULL, '20004','스크린이랑 같나요','공개',DEFAULT);
 
 -- 비회원일 때
-INSERT INTO inquiry VALUE(NULL,NULL,'hong', '1234', '20002','배송빨리빨리','비공개',DEFAULT,DEFAULT);
-INSERT INTO inquiry VALUE(NULL,NULL,'lee', '1234', '20003','정사이즈인가요','비공개',DEFAULT,DEFAULT);
-INSERT INTO inquiry VALUE(NULL,NULL,'right', '1234', '20004','스크린이랑 같나요','공개',DEFAULT,DEFAULT);
+INSERT INTO inquiry VALUE(NULL,NULL,'hong', '1234', '20002','배송빨리빨리','비공개',DEFAULT);
+INSERT INTO inquiry VALUE(NULL,NULL,'lee', '1234', '20003','정사이즈인가요','비공개',DEFAULT);
+INSERT INTO inquiry VALUE(NULL,NULL,'right', '1234', '20004','스크린이랑 같나요','공개',DEFAULT);
 SELECT * FROM inquiry;
-
 
 
 -- 상품문의 답변 ---------------------------------------------
