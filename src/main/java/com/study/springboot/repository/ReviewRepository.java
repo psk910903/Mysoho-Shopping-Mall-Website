@@ -20,10 +20,20 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity,Long> {
     Page<ReviewEntity> findByReviewNoContaining(@Param(value="start")String start, @Param(value="end")String end, Pageable sort);
 
     @Query(value = "SELECT COUNT(*) FROM review WHERE item_no = :item_no", nativeQuery = true)
-    int findByItemReview(Long item_no);
+    int findByItemReview(@Param(value="item_no")Long item_no);
 
     @Query(value = "SELECT AVG(review_star) FROM review WHERE item_no = :item_no", nativeQuery = true)
-    Integer findByItemReviewStarAVG(Long item_no);
+    Integer findByItemReviewStarAVG(@Param(value="item_no")Long item_no);
 
     List<ReviewEntity> findByMemberIdContaining(String MemberId);
+
+    @Query(value = "SELECT * FROM review where item_no LIKE :id order BY review_datetime DESC ", nativeQuery = true)
+    List<ReviewEntity> findByReview(@Param(value="id")String id);
+
+    @Query(value = "SELECT * FROM review where item_no LIKE :id and review_image_url is not NULL order BY review_datetime DESC", nativeQuery = true)
+    List<ReviewEntity> findByImgReview(@Param(value = "id")String id);
+    // 경빈 review_image_url 값을 사진이 있는 거만 뜨게하기위해 findByImgReview2 새로만듬
+
+    @Query(value = "SELECT * FROM review where item_no LIKE :id AND review_image_url LIKE 'https%'  order BY review_datetime DESC", nativeQuery = true)
+    List<ReviewEntity> findByImgReview2(@Param(value = "id")String id);
 }

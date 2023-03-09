@@ -24,9 +24,6 @@ public class QnaEntity {
     @Column(name="qna_name")
     private String qnaName;  // 작성자 이름
 
-    @Column(name="qna_title")
-    private String qnaTitle; // 작성 제목
-
     @Column(name="qna_password")
     private String qnaPassword; // 비밀번호
 
@@ -36,23 +33,19 @@ public class QnaEntity {
     @Column(name="qna_secret")
     private String qnaSecret;//
 
-    @Column(name="qna_hit")
-    private Long qnaHit=0l; // 조회수
-
     @Column(name="qna_local_date_time")
     private LocalDateTime qnaLocalDateTime = LocalDateTime.now(); //생성일 ,수정일
     @Builder
     public QnaEntity(Long qnaId,String memberId, String qnaCategory,
-                     String qnaName, String qnaTitle,
-                     String qnaPassword, String qnaContent,
+                     String qnaName,
+                     String qnaPassword,
+                     String qnaContent,
                      String qnaSecret, //String-> int 으로수정 0223 이준하
-                     Long qnaHit, LocalDateTime qnaLocalDateTime
-                     ) {
+                     LocalDateTime qnaLocalDateTime) {
         this.qnaId = qnaId;
         this.memberId =memberId;
         this.qnaCategory = qnaCategory;
         this.qnaName = qnaName;
-        this.qnaTitle = qnaTitle;
         this.qnaPassword = qnaPassword;
         this.qnaContent = qnaContent;
         this.qnaSecret =qnaSecret;

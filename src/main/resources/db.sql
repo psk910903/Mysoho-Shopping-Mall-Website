@@ -4,23 +4,24 @@
 DROP TABLE if EXISTS qna;
 DROP TABLE if EXISTS qnacomment;
 
---0306 이준하 테이블 수정 (NOT NULL 부분)
+-- 0306 이준하 테이블 수정 (NOT NULL 부분)
 CREATE TABLE `qna`
 (
 	qna_id BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-	member_id VARCHAR(255) , --NOT NULL
+	member_id VARCHAR(255) , -- NOT NULL
 	qna_category VARCHAR(255) NOT NULL,
-	qna_name VARCHAR(50) ,--NOT NULL
-	qna_title VARCHAR(255) NOT NULL,
+	qna_name VARCHAR(50) ,-- NOT NULL
 	qna_password VARCHAR(255) NOT NULL,
 	qna_content TEXT NOT NULL,
 	qna_secret  VARCHAR(255) NOT NULL,
-	qna_hit INT DEFAULT 0 NOT NULL,
 	qna_local_date_time  DATETIME DEFAULT NOW()
 );
 
 
-INSERT INTO qna VALUES (1,'hong','환불문의' , '홍길동', '제목1', '1234' ,'내용1','비공개',DEFAULT, DEFAULT);
+INSERT INTO qna VALUES (null,'jeong','상품문의' , '정희진', '1234' ,'안녕하세요.','공개', DEFAULT);
+INSERT INTO qna VALUES (null,'jeong','상품문의' , '정희진', '1234' ,'안녕하세요.','비공개', DEFAULT);
+INSERT INTO qna VALUES (null,null,'상품문의' , '닉네임', '1234' ,'안녕하세요.','공개', DEFAULT);
+INSERT INTO qna VALUES (null,null,'상품문의' , '닉네임', '1234' ,'안녕하세요.','비공개', DEFAULT);
 
 ALTER TABLE qna CONVERT TO CHARSET UTF8;
 
@@ -34,7 +35,7 @@ CREATE TABLE qnacomment
 );
 ALTER TABLE qnaComment CONVERT TO CHARSET UTF8;
 
-INSERT INTO qnaComment VALUES (NULL,'홍길동','내일배송됩니다','6',DEFAULT);
+INSERT INTO qnaComment VALUES (NULL,'홍길동','내일배송됩니다','1',DEFAULT);
 
 SELECT * FROM qnacomment;
 SELECT * FROM qna;
@@ -93,6 +94,19 @@ INSERT INTO review
 VALUES (NULL, 'lee', '20006', '4', '배송이 빨라요', 'https://img.makeshop.co.kr/1/1371/201902/29116c10bf21223a5382cfac76b874ed.png', DEFAULT,DEFAULT);
 INSERT INTO review
 VALUES (NULL, 'right', '20007', '4.5', '옷이 예뻐요', 'https://img.makeshop.co.kr/1/1371/201902/2aaac2b5fedefa92510d799e9a151db1.png', DEFAULT,DEFAULT);
+
+INSERT INTO review
+VALUES (NULL, 'hong', '20005', '5', '가성비 좋아요2', 'https://img.makeshop.co.kr/1/1371/201902/5ea10187021f32483958eb8c91e943bb.jpg', DEFAULT,DEFAULT );
+INSERT INTO review
+VALUES (NULL, 'right', '20005', '4', '코딩개어려워요', 'https://img.makeshop.co.kr/1/1371/201902/2aaac2b5fedefa92510d799e9a151db1.png', DEFAULT,DEFAULT);
+INSERT INTO review
+VALUES (NULL, 'right', '20005', '3', '사진이 없어요', null, DEFAULT,DEFAULT);
+INSERT INTO review
+VALUES (NULL, 'right', '20005', '3', '사진이 없어요2', null, DEFAULT,DEFAULT);
+INSERT INTO review
+VALUES (NULL, 'right', '20005', '3', '사진이 없어요3', null, DEFAULT,DEFAULT);
+
+
 SELECT * FROM review;
 
 

@@ -1,7 +1,7 @@
 .container-QnA {
   margin: 0;
   padding: 0;
-  min-height: 550px;
+  min-height: 1000px;
   border-bottom: 1px solid #d6d6d6;
 }
 .users-title-line-hd {
@@ -136,4 +136,225 @@
 .name {
   border-left: 1px solid #d6d6d6;
   border-right: 1px solid #d6d6d6;
+}
+#QnA-searchBtn {
+    border: none;
+    background-color: #ffffff;
+}
+.qa-list-wrap {
+    display: flex;
+    border-top: 1px solid #d6d6d6;
+    padding: 20px 0;
+    position: relative;
+}
+.qna-board-list {
+    display: flex;
+}
+.qa-list-icon {
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid;
+    color: #999999;
+    background: #edeff2;
+    font-weight: bold;
+    font-size: 11px;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    border: none;
+}
+.qna-info {
+    display: flex;
+}
+
+.threedot {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+}
+.threedot img {
+    width: 3px;
+}
+
+.sort {
+    text-align: center;
+    right: 20px;
+    top: 50px;
+    display: none;
+    width: 50px;
+    padding: 0 5px;
+    position: absolute;
+    z-index: 100;
+    background: #ffffff;
+    box-shadow: 0px 1px 1.68px 1.82px rgb(0 0 0 / 15%);
+    border-radius: 5px;
+    font-size: 14px;
+}
+.sort li {
+    padding: 5px;
+    border-bottom: 1px solid #edeff2;
+}
+.sort li:hover {
+    background-color: rgb(228, 228, 228);
+}
+.sort button{
+    border:none;
+    width:100%;
+    background-color:white;
+}
+.sort button:hover{
+    background-color: rgb(228, 228, 228);
+}
+.pwCheckInput{
+    margin-top: -10px;
+    width: 79.26%;
+    padding: 0 12px;
+    height: 34px;
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    float: left;
+    font-size: 12px;
+}
+.CheckDiv{
+    display:none;
+    height: 50px;
+    padding: 15px;
+    background: #f8f8f8;
+    border-top: 1px solid #f0f0f0;
+}
+.CheckDiv2 {
+    display:none;
+    height: 50px;
+    padding: 15px;
+    background: #f8f8f8;
+    border-top: 1px solid #f0f0f0;
+}
+.checkBtn{
+    margin-top: -10px;
+    display: block;
+    width: 18.9%;
+    float: right;
+    line-height: 30px;
+    text-align: center;
+    background: #000;
+    font-size: 12px;
+    color: #fff;
+}
+.back {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.back a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 195px;
+    height: 47px;
+    border-radius: 100px;
+    border: 1px solid black;
+}
+h6{
+    text-align: center;
+    color: gray;
+    font-size: 13px;
+    margin-bottom: 30px;
+}
+.brackground-green{
+    background: #58DB51;
+    color: #fff;
+}
+.add-maxwidth{
+    max-width: min(560px, 80vw);
+}
+.schBox {
+    height: 50px;
+    position: relative;
+    overflow: hidden;
+    padding-right: 84px;
+    padding-left: 45px;
+    border-bottom: 1px solid #d0d0d0;
+}
+.btnHback {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 45px;
+    height: 50px;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -9999px;
+    overflow: hidden;
+    z-index: 2;
+    background: url(//image.makeshop.co.kr/mysoho/assets/shop/img/common/bg_back_h30.png)
+      no-repeat center center;
+    background-size: 8px 15px;
+}
+.inputDel {
+    position: absolute;
+    right: 47px;
+    top: 17px;
+    width: 15px;
+    height: 15px;
+    z-index: 10;
+    background: url(//image.makeshop.co.kr/mysoho/assets/shop/img/common/bg_del_h29.png)
+      no-repeat center center;
+    background-size: 100%;
+    border: 0px;
+}
+.btnHsch {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 47px;
+    height: 50px;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -9999px;
+    overflow: hidden;
+    background: url(//image.makeshop.co.kr/mysoho/assets/shop/img/common/bg_sch_h34.png)
+      no-repeat center center;
+    background-size: 16px 17px;
+    border: none;
+}
+.schBox input {
+    width: 100%;
+    height: 50px;
+    padding: 0;
+    border: none;
+    font-size: 12px;
+}
+.txtResult {
+    font-size: 13px;
+    color: #000;
+    font-weight: bold;
+    line-height: 49px;
+    padding: 0 20px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+.listResult {
+    padding: 0 15px;
+}
+.noData {
+    text-align: center;
+    margin: 0 -15px 0 !important;
+    font-size: 12px;
+    line-height: 18px;
+    padding: 200px 0 170px;
+    border-bottom: none;
+    background: url(//image.makeshop.co.kr/mysoho/assets/shop/img/common/bg_noData.png) no-repeat center 146px;
+    background-size: 47px 44px;
+    border-top: 1px solid #d0d0d0;
+}
+input:-webkit-autofill {
+   -webkit-box-shadow: 0 0 0 30px #fff inset ;
+   -webkit-text-fill-color: #000;
+}
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
+   transition: background-color 5000s ease-in-out 0s;
 }

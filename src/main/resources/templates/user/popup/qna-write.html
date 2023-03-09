@@ -36,7 +36,7 @@
   <div class="container-write">
     <div class="users-title-line-hd">
       <h2>문의작성</h2>
-      <a href="javascript:closePopup()" class="qna-closebtn"
+      <a th:href="|javascript:closePopup('${reference}')|" class="qna-closebtn"
       ><img
               src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
               alt=""
@@ -49,19 +49,19 @@
       <th:block sec:authorize="isAuthenticated()">
         <form action="/qna/write" method="post" name="qnaInfo" onsubmit="return checkValueLogin();">
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-          <input type="hidden" name="qnaTitle" value=" ">
+          <input type="hidden" name="reference" th:value="${reference}">
           <input type="hidden" name="memberId" th:value="${userName}">
           <input type="hidden" name="qnaPassword" th:value="${userPassword}">
           <div class="qa-write-wrap">
             <div class="qa-write">
               <div class="select">
                 <select id="standard-select" name="qnaCategory">
-                  <option value="상품">상품문의</option>
-                  <option value="배송">배송문의</option>
-                  <option value="교환">교환문의</option>
-                  <option value="반품">반품문의</option>
-                  <option value="환불">환불문의</option>
-                  <option value="기타">기타문의</option>
+                  <option value="상품문의">상품문의</option>
+                  <option value="배송문의">배송문의</option>
+                  <option value="교환문의">교환문의</option>
+                  <option value="반품문의">반품문의</option>
+                  <option value="환불문의">환불문의</option>
+                  <option value="기타문의">기타문의</option>
                 </select>
                 <img
                         src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
@@ -136,17 +136,17 @@
       <th:block sec:authorize="isAnonymous()">
         <form action="/qna/write" method="post" name="qnaInfo" onsubmit="return checkValueGuest();">
           <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-          <input type="hidden" name="qnaTitle" value=" ">
+          <input type="hidden" name="reference" th:value="${reference}">
           <div class="qa-write-wrap">
             <div class="qa-write">
               <div class="select">
                 <select id="standard-select" name="qnaCategory">
-                  <option value="상품">상품문의</option>
-                  <option value="배송">배송문의</option>
-                  <option value="교환">교환문의</option>
-                  <option value="반품">반품문의</option>
-                  <option value="환불">환불문의</option>
-                  <option value="기타">기타문의</option>
+                  <option value="상품문의">상품문의</option>
+                  <option value="배송문의">배송문의</option>
+                  <option value="교환문의">교환문의</option>
+                  <option value="반품문의">반품문의</option>
+                  <option value="환불문의">환불문의</option>
+                  <option value="기타문의">기타문의</option>
                 </select>
                 <img
                         src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
@@ -253,10 +253,12 @@
 <script src="/js/footer.js"></script>
 
 <script>
-      function closePopup() {
-        window.close();
+      function closePopup(reference) {
+        console.log(reference);
+        location.href = reference;
+        // window.close();
       }
-    </script>
+</script>
 
 <script>
 

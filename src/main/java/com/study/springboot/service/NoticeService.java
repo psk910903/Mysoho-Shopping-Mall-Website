@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +34,13 @@ public class NoticeService {
         Page<NoticeEntity> list = noticeRepository.findAll(pageable);
 
         return list.map(NoticeResponseDto::new);
+    }
+
+    @Transactional(readOnly = true)
+    public List<NoticeResponseDto> findAll() {
+
+        List<NoticeEntity> list = noticeRepository.findAll();
+        return list.stream().map(NoticeResponseDto::new).collect(Collectors.toList());
     }
 
     // 키워드로 찾기
@@ -54,6 +62,14 @@ public class NoticeService {
         }
 
         return list.map(NoticeResponseDto::new);
+    }
+
+    @Transactional(readOnly = true)
+    public List<NoticeResponseDto> findByKeywordTitle(String keyword) {
+
+        List<NoticeEntity> list = noticeRepository.findByNoticeTitleContaining(keyword);
+
+        return list.stream().map(NoticeResponseDto::new).collect(Collectors.toList());
     }
 
     // PK로 찾기

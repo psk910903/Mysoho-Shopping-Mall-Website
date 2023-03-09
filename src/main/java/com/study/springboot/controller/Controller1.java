@@ -9,6 +9,7 @@ import com.study.springboot.dto.product.FileResponse;
 import com.study.springboot.dto.product.ProductResponseDto;
 
 import com.study.springboot.dto.product.ProductSaveRequestDto;
+import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.repository.CartRepository;
 import com.study.springboot.repository.OrderRepository;
@@ -46,6 +47,9 @@ public class Controller1 {
   final Service2 service2;
   final Service3 service3;
   final CartRepository cartRepository;
+  final ReviewService reviewService;
+
+  private final Service6 service6;    // 경빈 Service6
 
   @GetMapping("/admin/product")
   public String productHome(){
@@ -360,6 +364,32 @@ public class Controller1 {
       memberResponseDto = service2.findByMemberIdMember(memberId);
     }
 
+    //<경빈
+    List<ReviewResponseDto> reviewResponseDtos = service6.findByReview(String.valueOf(itemNo)); // 2. 리뷰데이터
+
+    int size = reviewResponseDtos.size();  // 3. 상품 리뷰 갯수
+
+    byte sum = 0;       // 4. 상품별점 평균
+    for(int i=0; i<size; i++){
+      byte reviewStar = reviewResponseDtos.get(i).getReviewStar();
+      sum += reviewStar;
+    }
+    double avg1 = sum / Double.valueOf(size);
+    double avg2 = Math.round(avg1*10);
+    double avg3 = avg2 / 10;
+
+    List<ReviewResponseDto> reviewResponseDtos2 = service6.findByImgReview(String.valueOf(itemNo)); //5. 사진리뷰 데이터
+    int size2 = reviewResponseDtos2.size(); //6. 사진리뷰 갯수
+
+    model.addAttribute("dto", dto); // ->1
+    model.addAttribute("list", reviewResponseDtos); // ->2
+    model.addAttribute("listCount", size);  // ->3
+    model.addAttribute("avgStar", avg3);    // ->4
+    model.addAttribute("listImg",reviewResponseDtos2);  // ->5
+    model.addAttribute("listImgCount", size2);  // ->6
+    //경빈>
+
+
     model.addAttribute("member", memberResponseDto);
 
     model.addAttribute("colorCount", colorCount);
@@ -448,15 +478,11 @@ public class Controller1 {
       System.out.println("no user");
     } else {
       String username = user.getUsername();
-      System.out.println("myPage username:" + username);
       MemberEntity entity = service3.findByUserId(username);
       request.getSession().setAttribute("username", entity.getMemberName());
-      System.out.println("myPage memberMileage:" + entity.getMemberMileage());
       request.getSession().setAttribute("memberMileage", entity.getMemberMileage());
-      System.out.println("myPage memberCoupon:" + entity.getMemberCoupon());
       request.getSession().setAttribute("memberCoupon", entity.getMemberCoupon());
 
-      //0228 선교 작업
       List<OrderResponseDto> orderList = cartService.findByOrderList(username);
       List<CartResponseDto> cartList;
       List<List<CartResponseDto>> cartListModel = new ArrayList<>();
@@ -474,8 +500,7 @@ public class Controller1 {
           case "배송대기" -> stateType2++;
           case "배송중" -> stateType3++;
           case "배송완료" -> stateType4++;
-          default ->  //취소/반품
-                  stateType5++;
+          default ->  stateType5++;//취소/반품
         }
         //비회원 주문번호에서 카트정보 가져오기
         cartList = service1.getCartListMember(orderDto);
@@ -497,8 +522,13 @@ public class Controller1 {
         orderDto.setOrderDiscountPrice(discountPrice);//할인율이 적용된 차감될 금액
         orderDto.setOrderItemPrice(itemPrice); // (할인 적용된 결제당시)상품가격
       }
+      String memberId = user.getUsername();
+
+      List<ReviewResponseDto> ReviewList = reviewService.findByMemberId(memberId); //사용자가 작성한 리뷰
+
       int cartCount = cartListModel.size();
       int orderCount = orderList.size();
+      model.addAttribute("ReviewList", ReviewList);
       model.addAttribute("orderCount", orderCount);
       model.addAttribute("stateType1", stateType1);
       model.addAttribute("stateType2", stateType2);
