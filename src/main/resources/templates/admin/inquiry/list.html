@@ -75,7 +75,6 @@
               <th class="table-light align-middle w200">상품명</th>
               <th class="table-light align-middle">내용</th>
               <th class="table-light align-middle">작성자</th>
-              <th class="table-light align-middle w110">조회수</th>
               <th class="table-light align-middle w200">작성일</th>
               <th class="table-light align-middle w150">관리</th>
             </tr>
@@ -90,7 +89,7 @@
           <th:block th:unless="${dto.memberId != null} or ${dto.memberId} == ''">
             <td class="align-middle" >비회원</td>
           </th:block>
-          <td class="align-middle" th:text="${ dto.inquiryHit }">조회수</td>
+
           <td class="align-middle" th:text="${#temporals.format(dto.inquiryDatetime, 'yyyy-MM-dd HH:mm')}">작성일</td>
           <td class="align-middle">
             <a th:href="@{content(inquiryNo=${dto.inquiryNo})}" class="btn btn-outline-secondary">상세정보</a>
