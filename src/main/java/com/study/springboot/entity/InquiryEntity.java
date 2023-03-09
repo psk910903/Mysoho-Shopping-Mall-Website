@@ -25,28 +25,30 @@ public class InquiryEntity {
     private Long itemNo;
     @Column(name = "inquiry_content", nullable = false)
     private String inquiryContent;
-    @Column(name = "inquiry_hit")
-    private String inquiryHit;
+
     @Column(name = "inquiry_secret", nullable = false)
     private String inquirySecret;
     @Column(name = "inquiry_date")
     private LocalDateTime inquiryDatetime = LocalDateTime.now();
 
     @Builder
-    public InquiryEntity(String memberId,
+    public InquiryEntity(Long inquiryNo,
+                         String memberId,
                          String inquiryNickname,
                          String inquiryPassword,
                          Long itemNo,
                          String inquiryContent,
-                         String inquiryHit,
-                         String inquirySecret) {
+                         String inquirySecret,
+                         LocalDateTime inquiryDatetime
+    ) {
+        this.inquiryNo = inquiryNo;
         this.memberId = memberId;
         this.inquiryNickname = inquiryNickname;
         this.inquiryPassword = inquiryPassword;
         this.itemNo = itemNo;
         this.inquiryContent = inquiryContent;
-        this.inquiryHit = inquiryHit;
         this.inquirySecret = inquirySecret;
+        this.inquiryDatetime = inquiryDatetime;
 
     }
     public void update(String memberId,
@@ -54,14 +56,12 @@ public class InquiryEntity {
                        String inquiryPassword,
                        Long itemNo,
                        String inquiryContent,
-                       String inquiryHit,
                        String inquirySecret) {
         this.memberId = memberId;
         this.inquiryNickname = inquiryNickname;
         this.inquiryPassword = inquiryPassword;
         this.itemNo = itemNo;
         this.inquiryContent = inquiryContent;
-        this.inquiryHit = inquiryHit;
         this.inquirySecret = inquirySecret;
         this.inquiryDatetime = LocalDateTime.now();
     }
