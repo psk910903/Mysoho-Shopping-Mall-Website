@@ -32,7 +32,7 @@
   <div class="container-write">
     <div class="users-title-line-hd">
       <h2>문의작성</h2>
-      <a href="javascript:closePopup()" class="qna-closebtn"
+      <a th:href="|${reference}|"  class="qna-closebtn"
       ><img
               src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
               alt=""
@@ -42,6 +42,7 @@
     <th:block sec:authorize="isAuthenticated()">
       <form  action="/inquiry/modify/action" method="post" onsubmit="return checkValueLogin();" name="inquiryInfo" id="searchForm">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <input type="hidden" th:value="${reference}" name="reference">
         <input type="hidden" th:value="${dto.memberId}" name="memberId">
         <input type="hidden" th:value="${dto.inquiryPassword}" name="inquiryPassword">
         <input type="hidden" th:value="${dto.itemNo}" name="itemNo">
@@ -126,6 +127,7 @@
     <th:block sec:authorize="isAnonymous()">
       <form action="/inquiry/modify/action" method="post" onsubmit="return checkValueGuest();" id="searchForm" name="inquiryInfo">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <input type="hidden" th:value="${reference}" name="reference">
         <input type="hidden" th:value="${dto.itemNo}" name="itemNo">
         <input type="hidden" th:value="${dto.inquiryNo}" name="inquiryNo">
         <div class="qa-write-wrap">
@@ -248,7 +250,7 @@
             }
         });
 
-             function closePopup() {
+      function closePopup() {
         window.close();
       }
 

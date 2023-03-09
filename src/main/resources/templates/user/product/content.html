@@ -1067,7 +1067,7 @@
                 <div id="inquiryTab" class="tab-cont">
                   <div class="qa-btn-wrap">
                     <div class="btnBwrite js-btnMoveWritePage">
-                      <a th:href="@{/inquiry/productInquiryWriteForm/{itemNo}(itemNo = ${dto.itemNo})}"
+                      <a th:href="|/inquiry/productInquiryWriteForm/${dto.itemNo}?reference=/product/${dto.itemNo}|"
                         ><img
                           src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/bg_ico_write.png"
                           alt=""
@@ -1135,7 +1135,7 @@
                                   alt=""
                           /></a>
                           <ul class="sort" th:id="|sort${status.count}|">
-                            <li><a th:href="@{/inquiry/modifyForm/{id}(id=${dto2.inquiryNo})}">수정</a></li></li>
+                            <li><a th:href="|/inquiry/modifyForm/${dto2.inquiryNo}?reference=/product/${dto.itemNo}|">수정</a></li></li>
                             <form action="#" th:action="@{/inquiry/delete/{id}(id=${dto2.inquiryNo})}" method="get" id="deleteBtn">
                               <button type="button" th:onclick="|javascript:checkDelete()|">삭제</button>
                             </form>
@@ -1208,6 +1208,7 @@
                         <div class="CheckDiv" th:id="|CheckDiv${status.count}|" style="display:none;">
                           <form action="/inquiry/pw/check/action" method="post">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <input type="hidden" th:value="|/product/${dto.itemNo}|" name="reference">
                             <input type="hidden" th:value="${dto2.inquiryNo}" name="inquiryNo">
                             <input type="password" placeholder="비밀번호를 입력하세요." class="pwCheckInput" name="inquiryPassword">
                             <button type="submit" class="checkBtn">확인</button>

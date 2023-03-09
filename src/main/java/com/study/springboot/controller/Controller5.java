@@ -169,7 +169,7 @@ public class Controller5 {
     // 상품 문의 공개, 비공개 및 등록 결과 출력-------------------------------a
     @PostMapping("/inquiry/productInquiryWriteForm/writeAction")
     @ResponseBody
-    public String productInquiryWriteFormWriteAction(InquiryResponseDto inquiryResponseDto) {
+    public String productInquiryWriteFormWriteAction(InquiryResponseDto inquiryResponseDto, @RequestParam String reference) {
 
         //체크박스를 체크안했을 때, 반환되는 null값을 공개로 전환 ↓
         System.out.println(inquiryResponseDto.getInquirySecret());
@@ -183,7 +183,7 @@ public class Controller5 {
         if(!result){
             return "<script>alert('등록에 실패하였습니다');history.back();</script>";
         }
-        return "<script>alert('등록되었습니다');location.href='/product/test/"+ itemNo +"';</script>";
+        return "<script>alert('등록되었습니다');location.href='"+ reference + "';</script>";
 
 
     }
@@ -191,7 +191,7 @@ public class Controller5 {
     // 상품 문의작성 폼(회원/비회원 나누기)------------------------------↓
     @GetMapping("/inquiry/productInquiryWriteForm/{itemNo}")
     public String inquiryProductInquiryWriteForm(@PathVariable("itemNo") String itemNo, Model model,
-                                                 @AuthenticationPrincipal User user) {
+                                                 @AuthenticationPrincipal User user, @RequestParam String reference) {
 
         ProductResponseDto dto = productService.findById(Long.valueOf(itemNo));
         model.addAttribute("dto",dto);
@@ -210,6 +210,7 @@ public class Controller5 {
         }
 
         model.addAttribute("itemNo", itemNo);
+        model.addAttribute("reference", reference);
 
         return "/user/popup/inquiry-write";
     }
@@ -304,11 +305,12 @@ public class Controller5 {
 
     //로그인시 수정버튼눌렀을때
     @GetMapping("/inquiry/modifyForm/{num}")
-    public String modifyForm(@PathVariable("num")Long num,
+    public String modifyForm(@PathVariable("num")Long num, @RequestParam String reference,
                              Model model){
 
         InquiryResponseDto inquiryResponseDto = service5.findById(num);
 
+        model.addAttribute("reference", reference);
         model.addAttribute("dto",inquiryResponseDto);
 
         return "/user/popup/Inquiry-modify";
@@ -316,7 +318,7 @@ public class Controller5 {
 
     @PostMapping("/inquiry/modify/action")
     @ResponseBody
-    public String modifyAction(@ModelAttribute InquiryResponseDto inquiryResponseDto){
+    public String modifyAction(@ModelAttribute InquiryResponseDto inquiryResponseDto, @RequestParam String reference){
 
         long itemNo = service5.findByItemNo(inquiryResponseDto.getInquiryNo());
 
@@ -330,18 +332,18 @@ public class Controller5 {
         if(!modifyResult){
             return "<script>alert('수정 실패했습니다.');history.back();</script>";
         }
-        return "<script>alert('수정되었습니다');location.href='/product/test/"+itemNo+"';</script>";
+        return "<script>alert('수정되었습니다');location.href='"+ reference +"';</script>";
     }
 
     @PostMapping("/inquiry/pw/check/action")
     @ResponseBody
-    public String pwCheckAction(@ModelAttribute InquiryResponseDto inquiryResponseDto){
+    public String pwCheckAction(@ModelAttribute InquiryResponseDto inquiryResponseDto, @RequestParam String reference){
 
         long inquiryNo = inquiryResponseDto.getInquiryNo();
         boolean pwCheckResult = service5.inquirypwCheck(inquiryResponseDto);
         if(!pwCheckResult){
             return "<script>alert('비밀번호 확인실패'); history.back();</script>";
         }
-        return "<script>alert('비밀번호 확인완료.'); location.href='/inquiry/modifyForm/"+inquiryNo+"';</script>";
+        return "<script>alert('비밀번호 확인완료.'); location.href='/inquiry/modifyForm/"+inquiryNo+"?reference=" + reference +"';</script>";
     }
 }
