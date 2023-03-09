@@ -66,7 +66,7 @@
               <div class="writing-state">답변<br />대기</div>
             </th:block>
             <th:block th:unless="${replyCountList[status.index]} == 0">
-              <div class="writing-state brackground-green">답변<br />완료</div>
+              <div class="writing-state background-green">답변<br />완료</div>
             </th:block>
             <div class="writing-explain">
               <div class="writing-content">
@@ -82,9 +82,9 @@
             <div class="writing-icon">
               <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png" th:onclick="|javascript:popupAction('${status.index}')|"/>
               <div class="writing-action" th:id="|writing-action${status.index}|" >
-                <form method="GET" th:action="|/qna/modifyForm/${qna.qnaId}|" target="modifyPopup">
+                <a th:href="|/qna/modifyForm/${qna.qnaId}?reference=/qna/user|">
                   <button class="form-btn">수정</button>
-                </form>
+                </a>
                 <form th:id="|deleteForm${status.index}|" method="POST" action="/qna/user/deleteAction">
                   <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                   <input type="hidden" name="qnaId" th:value="${qna.qnaId}">
@@ -118,7 +118,8 @@
     <script src="/js/footer.js"></script>
     <script>
       function openPopupQnAWrite() {
-        popup = window.open("/qna/writeForm");
+        location.href = "/qna/writeForm?reference=/qna/user";
+        // popup = window.open("/qna/writeForm");
       }
       function popupAction(index) {
         let popup = document.querySelector("#writing-action" + index);

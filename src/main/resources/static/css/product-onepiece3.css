@@ -609,7 +609,7 @@ input[type="checkbox"]:checked::after {
 .qna-board-list {
   width: 100%;
 }
-.qna-info div {
+.qna-info div, .reviewInfo div {
   padding: 0 8px;
 }
 .qna-info div:first-child {
@@ -720,7 +720,7 @@ input[type="checkbox"]:checked::after {
 #buyBtn {
   width: 100%;
   max-width: 640px;
-  z-index: 100;
+  z-index: 1;
   position: fixed;
   bottom: 0;
 }

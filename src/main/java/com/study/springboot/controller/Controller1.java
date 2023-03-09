@@ -1,6 +1,7 @@
 package com.study.springboot.controller;
 
 import com.study.springboot.dto.cart.CartResponseDto;
+import com.study.springboot.dto.inquiry.InquiryResponseDto;
 import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
@@ -48,6 +49,9 @@ public class Controller1 {
   final Service3 service3;
   final CartRepository cartRepository;
   final ReviewService reviewService;
+  final Service5 service5;
+
+  private final Service6 service6;    // 경빈 Service6
 
   @GetMapping("/admin/product")
   public String productHome(){
@@ -355,12 +359,82 @@ public class Controller1 {
     String[] sizeList = dto.getItemOptionSize().split(",");
     int colorCount = colorList.length;
     int sizeCount = sizeList.length;
+
     // member
+    String memberId=null;
     MemberResponseDto memberResponseDto = null;
     if (user != null) {
-      String memberId = user.getUsername();
+      memberId = user.getUsername();
       memberResponseDto = service2.findByMemberIdMember(memberId);
     }
+
+    // 이준하
+    model.addAttribute("LoginMemberId", memberId);
+
+    List<InquiryResponseDto> list2 = service5.findByItemNoList(itemNo);
+    int listSize = list2.size();
+    // 마스킹 처리
+    List<String> nameList = new ArrayList<>();
+    for(int i=0 ; i < list2.size();i++){
+
+      String qnaName = list2.get(i).getMemberId();
+      if(qnaName == null){
+        qnaName = list2.get(i).getInquiryNickname();
+      }
+      String qnaHiddenName;
+      if (qnaName.length() == 2){
+        qnaHiddenName = qnaName.replace(qnaName.charAt(1), '*');
+      }else if(qnaName.length() == 1){
+        qnaHiddenName = qnaName;
+      }
+      else{
+        qnaHiddenName = qnaName.substring(0,2);;
+        //
+        for (int j=0; j<qnaName.length()-2; j++){
+          qnaHiddenName += "*";
+        }
+      }
+      nameList.add(qnaHiddenName);
+    }
+    // 마스킹 처리 끝
+  // 답변카운트 불러오기
+    List<Long> inReplyCount = new ArrayList<>();
+    for(int i =0; i< list2.size(); i++){
+      Long CommentCount = service5.countByInquiryNo(list2.get(i).getInquiryNo());
+      inReplyCount.add(CommentCount);
+    }
+  //답변카운트 불러오기끝
+    model.addAttribute("namelist",nameList);
+    model.addAttribute("inquiry",list2);
+    model.addAttribute("listSize",listSize);
+    model.addAttribute("inReplyCount", inReplyCount);
+
+    // 이준하 끝
+    //<경빈
+    List<ReviewResponseDto> reviewResponseDtos = service6.findByReview(String.valueOf(itemNo)); // 2. 리뷰데이터
+
+    int size = reviewResponseDtos.size();  // 3. 상품 리뷰 갯수
+
+    byte sum = 0;       // 4. 상품별점 평균
+    for(int i=0; i<size; i++){
+      byte reviewStar = reviewResponseDtos.get(i).getReviewStar();
+      sum += reviewStar;
+    }
+    double avg1 = sum / Double.valueOf(size);
+    double avg2 = Math.round(avg1*10);
+    double avg3 = avg2 / 10;
+
+    List<ReviewResponseDto> reviewResponseDtos2 = service6.findByImgReview(String.valueOf(itemNo)); //5. 사진리뷰 데이터
+    int size2 = reviewResponseDtos2.size(); //6. 사진리뷰 갯수
+
+    model.addAttribute("dto", dto); // ->1
+    model.addAttribute("list", reviewResponseDtos); // ->2
+    model.addAttribute("listCount", size);  // ->3
+    model.addAttribute("avgStar", avg3);    // ->4
+    model.addAttribute("listImg",reviewResponseDtos2);  // ->5
+    model.addAttribute("listImgCount", size2);  // ->6
+    //경빈>
+
 
     model.addAttribute("member", memberResponseDto);
 
@@ -514,6 +588,21 @@ public class Controller1 {
 
     }
     return "/user/user/myorder-list-user";
+  }
+  // 상품 대표이지미 확대
+  @RequestMapping("/enlarge/{itemNo}")
+  public String enlarge(Model model,@PathVariable(value = "itemNo") Long itemNo){
+    String itemImageUrl = productService.findById(itemNo).getItemImageUrl();
+    model.addAttribute("itemImageUrl", itemImageUrl);
+    return "/user/enlarge/enlargeProductImg";
+  }
+
+  // 상품 상세설명 확대
+  @RequestMapping("/enlarge/content/{itemNo}")
+  public String enlargeContent(Model model,@PathVariable(value = "itemNo") Long itemNo){
+    String itemInfo = productService.findById(itemNo).getItemInfo();
+    model.addAttribute("itemInfo", itemInfo);
+    return "/user/enlarge/enlargeProductInfo";
   }
 }
 

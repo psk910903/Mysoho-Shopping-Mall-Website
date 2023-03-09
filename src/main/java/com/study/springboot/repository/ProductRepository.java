@@ -39,7 +39,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     //----------------------------------------------------------------------------------------------------------------------
 
-    @Query(value = "SELECT * FROM item where item_exposure='노출함' order BY item_update_datetime DESC LIMIT 6;", nativeQuery = true)
+    @Query(value = "SELECT * FROM item where item_exposure='노출함' AND NOT item_sold_out='품절' order BY item_update_datetime DESC LIMIT 6;", nativeQuery = true)
     List<ProductEntity> findLimit6();
 
     @Query(value = "SELECT * FROM item where item_exposure='노출함' order BY item_update_datetime DESC LIMIT 9;", nativeQuery = true)

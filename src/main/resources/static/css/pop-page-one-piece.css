@@ -36,13 +36,12 @@ a {
   justify-content: center;
   align-items: center;
   font-size: 13px;
-}
-.popTitWrap a:first-child {
-  border-bottom: 2px solid black;
+  color: #999999;
   font-weight: bold;
 }
-.popTitWrap a:last-child {
-  color: #999999;
+#popTit {
+  color: black;
+  border-bottom: 2px solid black;
   font-weight: bold;
 }
 .btn-minus,
@@ -80,4 +79,16 @@ a {
 }
 .mono-color img {
   max-width: 400px;
+}
+.cont {
+  display: none;
+  justify-content: end;
+  align-items: center;
+  min-height: 430px;
+  font-size: 15px;
+  flex-direction: column;
+}
+.cont img {
+  width: 40px;
+  margin-bottom: 20px;
 }

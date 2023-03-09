@@ -17,7 +17,7 @@ public class InquirySaveResponseDto {
     private String inquiryPassword;
     private Long itemNo;
     private String inquiryContent;
-    private String inquiryHit;
+//    private String inquiryHit;
     private String inquirySecret;
 
     @Builder//생성자
@@ -26,15 +26,14 @@ public class InquirySaveResponseDto {
                                   String inquiryPassword,
                                   Long itemNo,
                                   String inquiryContent,
-                                  String inquirySecret,
-                                  String inquiryHit) {
+                                  String inquirySecret
+    ) {
         this.memberId = memberId;
         this.inquiryNickname = inquiryNickname;
         this.inquiryPassword = inquiryPassword;
         this.itemNo = itemNo;
         this.inquiryContent = inquiryContent;
         this.inquirySecret = inquirySecret;
-        this.inquiryHit = inquiryHit;
     }
     //    //dto를 entity로 바꿔주는 메서드
     public InquiryEntity toEntity(){
@@ -45,7 +44,6 @@ public class InquirySaveResponseDto {
                 .itemNo(itemNo)
                 .inquiryContent(inquiryContent)
                 .inquirySecret(inquirySecret)
-                .inquiryHit(inquiryHit)
                 .build();
     }
 }

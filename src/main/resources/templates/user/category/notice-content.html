@@ -31,7 +31,7 @@
                         <p class="gray-txt  mt-10" th:text="${dto.noticeType}">
                             타입
                         </p>
-                        <p class="gray-txt mt-10" th:text="${#temporals.format(dto.noticeDatetime, 'yyyy-MM-dd')}">
+                        <p class="gray-txt mt-10" th:text="${#temporals.format(dto.noticeDatetime, 'yyyy.MM.dd')}">
                             날짜
                         </p>
                         <div class="notice-content2 p-2 mt-30" th:utext="${dto.noticeContent}">

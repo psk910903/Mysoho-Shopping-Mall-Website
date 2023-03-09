@@ -170,11 +170,13 @@ public class Controller4 {
     // 로그인 Q&A 페이지 가기
     @GetMapping("qna/writeForm")
     public String userQnaWrite( @AuthenticationPrincipal User user,
+                                @RequestParam String reference,
                                 Model model){
 
         String username = user.getUsername();
         MemberEntity entity = service3.findByUserId(username);
 
+        model.addAttribute("reference", reference);
         model.addAttribute("userName",entity.getUsername());
         model.addAttribute("userPassword",entity.getPassword());
 
@@ -184,7 +186,9 @@ public class Controller4 {
 
     // 비로그인 Q&A 페이지가기
     @GetMapping("qna/writeFormGuest")
-    public String userQnaWriteGuest(){
+    public String userQnaWriteGuest(@RequestParam String reference,
+                                    Model model){
+        model.addAttribute("reference", reference);
         return "/user/popup/qna-write";
     }
 
@@ -194,12 +198,7 @@ public class Controller4 {
                                   HttpServletRequest request,
                                   Model model, @AuthenticationPrincipal User user){
 
-        //세션 가져오기
-//        HttpSession session = request.getSession();
-//        String name = (String)session.getAttribute("username");
-//        System.out.println(name);
-        //세션 설정하기
-//        session.setAttribute("name", name);
+        // memberId 보내기
         String memberId = null;
         if (user != null){
             memberId = user.getUsername();
@@ -207,7 +206,6 @@ public class Controller4 {
         model.addAttribute("memberId", memberId);
 
         List<QnaResponseDto> list;
-
         if(keyword ==null){
             // 검색기능 없을 때
 
@@ -244,6 +242,8 @@ public class Controller4 {
                 qnaCommentCount.add(CommentCount);
             }
             //답변카운트 불러오기 끝
+            model.addAttribute("keyword",keyword);
+            model.addAttribute("listCount", list.size());
             model.addAttribute("qnaCommentCount",qnaCommentCount);
             model.addAttribute("list",list);
             model.addAttribute("namelist",nameList);
@@ -286,6 +286,8 @@ public class Controller4 {
                 qnaCommentCount.add(CommentCount);
             }
             //답변카운트 불러오기 끝
+            model.addAttribute("keyword",keyword);
+            model.addAttribute("listCount", list.size());
             model.addAttribute("namelist",nameList);
             model.addAttribute("list",list);
             model.addAttribute("qnaCommentCount",qnaCommentCount);
@@ -296,7 +298,7 @@ public class Controller4 {
 
     @PostMapping("qna/write")
     @ResponseBody
-    public String userQnaWriteAction(QnaSaveDto saveDto){
+    public String userQnaWriteAction(QnaSaveDto saveDto, @RequestParam String reference){
 
         if( saveDto.getQnaSecret() == null ){
             saveDto.setQnaSecret("공개");
@@ -311,7 +313,8 @@ public class Controller4 {
         if(!qnaSave){
             return "<script>alert('등록 실패 하였습니다'); history.back();</script>";
         }
-        return "<script>alert('등록되었습니다');opener.parent.location.reload();window.close();</script>";
+        // return "<script>alert('등록되었습니다');opener.parent.location.reload();window.close();</script>";
+        return "<script>alert('등록되었습니다'); location.href='" + reference + "';</script>";
     }
     //리스트로감
 
@@ -325,7 +328,7 @@ public class Controller4 {
         if(!delete){
             return "<script>alert('삭제 실패 하였습니다'); history.back();</script>";
         }
-        return "<script>alert('삭제 성공 하였습니다.'); location.href='/qna';</script>";
+        return "<script>alert('삭제 성공하였습니다.'); location.href='/qna';</script>";
     }
     //qna 리스트가기
 
@@ -342,10 +345,19 @@ public class Controller4 {
 
             return "<script>alert('비밀번호 확인실패'); history.back();</script>";
         }
+
+        /*
         return "<script>" +
                 "alert('비밀번호 확인완료\\n창이 뜨지 않을 경우 팝업 차단 해제를 해주세요.');" +
                 "window.open('/qna/modifyForm/" + num + "');" +
                 "location.href='/qna'" +
+                "</script>";
+
+         */
+
+        return "<script>" +
+                "alert('비밀번호 확인완료');" +
+                "location.href='/qna/modifyForm/" + num + "?reference=/qna'"+
                 "</script>";
 
     }
@@ -359,7 +371,7 @@ public class Controller4 {
             return "<script>alert('비밀번호 확인실패'); history.back();</script>";
         }
 
-        return "<script>alert('비밀번호 확인완료.'); location.href='/qna/delete/"+ num +"';</script>";
+        return "<script>location.href='/qna/delete/"+ num +"';</script>";
 
     }
 
@@ -367,12 +379,14 @@ public class Controller4 {
 
     @GetMapping("qna/modifyForm/{num}")
     public String modifyForm(@PathVariable("num")Long num,
+                             @RequestParam String reference,
                              Model model){
 
         QnaResponseDto qnaResponseDto = service4.findById(num);
 
         List <QnaCommentResponseDto> commentList = service4.findAllByCommentQnaId(num);
 
+        model.addAttribute("reference", reference);
         model.addAttribute("commentList", commentList);
         model.addAttribute("dto",qnaResponseDto);
 
@@ -382,7 +396,7 @@ public class Controller4 {
     //수정 액션받기
     @PostMapping("qna/modify")
     @ResponseBody
-    public String qnaModify(@ModelAttribute QnaSaveDto dto){
+    public String qnaModify(@ModelAttribute QnaSaveDto dto, @RequestParam String reference){
 
         if( dto.getQnaSecret() == null ){
             dto.setQnaSecret("공개");
@@ -396,7 +410,8 @@ public class Controller4 {
         if(!modifyResult){
             return "<script>alert('수정 실패했습니다.'); history.back();</script>";
         }
-        return "<script>alert('수정 되었습니다');opener.parent.location.reload();window.close();</script>";
+        // return "<script>alert('수정 되었습니다');opener.parent.location.reload();window.close();</script>";
+        return "<script>alert('수정 되었습니다'); location.href='" + reference + "';</script>";
     }
 
 }
