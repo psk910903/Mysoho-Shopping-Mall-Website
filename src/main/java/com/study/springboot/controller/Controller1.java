@@ -190,7 +190,7 @@ public class Controller1 {
 
   }
 
-  @PostMapping("/admin/imgUpload")
+  @PostMapping("find/admin/imgUpload")
   @ResponseBody
   public ResponseEntity<FileResponse> imgUpload(
           @RequestPart(value = "upload", required = false) MultipartFile fileload) throws Exception {

@@ -229,12 +229,18 @@ public class Controller3 {
     @RequestMapping("/find/password")
     @ResponseBody
     public String findPw(@RequestParam("getEmail") String getEmail)  {
-        boolean result = service3.sendEmail(getEmail);
-        if(result){
-            return "<script> alert('멜을 확인하세요.'); history.back(); </script>";
-        } else {
-            return "<script> alert('멜보내기 실패했습니다.'); history.back(); </script>";
+        Optional<MemberEntity> optional = memberRepository.findByMemberEmail(getEmail);
+        if (optional.isEmpty()){
+            return "<script> alert('회원 정보가 없습니다.'); history.back(); </script>";
+        }else {
+            boolean result = service3.sendEmail(getEmail);
+            if(result){
+                return "<script> alert('멜을 확인하세요.'); history.back(); </script>";
+            } else {
+                return "<script> alert('멜보내기 실패했습니다.'); history.back(); </script>";
+            }
         }
+
     }
 
     //비밀번호 변경 폼
