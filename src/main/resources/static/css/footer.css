@@ -120,7 +120,6 @@
   display: none;
 }
 .myBtnfooter {
-  z-index: 1000;
   border: none;
   outline: none;
   cursor: pointer;
@@ -135,23 +134,14 @@
 }
 
 .rightbtn {
-  bottom: 20px;
-  right: 30px;
-}
-.leftbtn {
-  bottom: 20px;
-  left: 30px;
-}
-.betweenbtn {
   position: fixed;
-  bottom: 60px;
-  padding: 0 15px;
+  bottom: 55px;
+  right: 14%;
   z-index: 2;
 }
-  .betweenbtn2 {
-  position: relative;
-  right: 60px;
-  bottom: 60px;
-  padding: 0 15px;
+.leftbtn {
+  position: fixed;
+  bottom: 55px;
+  left: 14%;
   z-index: 2;
 }
