@@ -348,12 +348,39 @@
             <!-- 최신순 세번째 타입 -->
             <ul class="twoAlign listType2" id="recentListType2">
               <li th:each="dto:${ list }">
-                <a href="javascript:basketNumCount()" class="cart">
-                  <!--                  카트이미지-->
-                  <img
-                    src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                    alt=""
-                /></a>
+                <th:block th:if="${dto.itemSoldOut} == '품절'">
+                  <a href="#"
+                     onclick="alert('품절상품입니다.')" class="cart">
+                    <!--                  카트이미지-->
+                    <img
+                            src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                    /></a>
+                </th:block>
+                <th:block th:unless="${dto.itemSoldOut} == '품절'">
+                  <th:block th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
+                    <a href="#"
+                       onclick="alertAndItemLink(this)"
+                       th:value="${dto.itemNo}"
+                       class="cart">
+                      <!--                  카트이미지-->
+                      <img
+                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                              alt=""
+                      /></a>
+                  </th:block>
+                  <th:block th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
+                    <a href="#"
+                       onclick="basketNumCount(this)"
+                       th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                       class="cart">
+                      <!--                  카트이미지-->
+                      <img
+                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                              alt=""
+                      /></a>
+                  </th:block>
+                </th:block>
                 <a th:href="|/product/${dto.itemNo}|">
                   <th:block th:if="${dto.itemSoldOut} == '품절'">
                     <div class="img sold-out-wrap">
@@ -414,21 +441,39 @@
                           OUT
                         </div>
                         <!-- 메인사진 -->
-                        <img
-                          src="https://img.makeshop.co.kr/1/1371/201902/81f5662d13dcab1ce7ee6fd978bbb5f5.png"
-                          alt=""
-                        />
+                        <img th:src="${ dto.itemImageUrl }" alt=""/>
                       </div>
                     </th:block>
                     <th:block th:unless="${dto.itemSoldOut} == '품절'">
                       <!-- 메인사진 -->
                       <img th:src="${ dto.itemImageUrl }" alt="" />
                       <!-- 확대링크이미지 z-index예정 -->
-                      <a href="javascript:basketNumCount()" class="cart"
+                      <th:block
+                              th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      >
+                        <a
+                                class="cart"
+                                onclick="alertAndItemLink(this)"
+                                th:value="${dto.itemNo}"
                         ><img
-                          src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                          alt=""
-                      /></a>
+                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                                alt=""
+                        />
+                        </a>
+                      </th:block>
+                      <th:block
+                              th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      >
+                        <a
+                                class="cart"
+                                onclick="basketNumCount(this)"
+                                th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                        ><img
+                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                                alt=""
+                        />
+                        </a>
+                      </th:block>
                     </th:block>
                   </div>
                   <!-- 상품명 -->
@@ -721,12 +766,39 @@
             <!-- 판매순 세번째 타입 -->
             <ul class="twoAlign listType2" id="sellCountListType2">
               <li th:each="dto:${ sellCount }">
-                <a href="javascript:basketNumCount()" class="cart">
-                  <!--                  카트이미지-->
-                  <img
-                          src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                          alt=""
-                  /></a>
+                <th:block th:if="${dto.itemSoldOut} == '품절'">
+                  <a href="#"
+                     onclick="alert('품절상품입니다.')" class="cart">
+                    <!--                  카트이미지-->
+                    <img
+                            src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                    /></a>
+                </th:block>
+                <th:block th:unless="${dto.itemSoldOut} == '품절'">
+                  <th:block th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
+                    <a href="#"
+                       onclick="alertAndItemLink(this)"
+                       th:value="${dto.itemNo}"
+                       class="cart">
+                      <!--                  카트이미지-->
+                      <img
+                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                              alt=""
+                      /></a>
+                  </th:block>
+                  <th:block th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
+                    <a href="#"
+                       onclick="basketNumCount(this)"
+                       th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                       class="cart">
+                      <!--                  카트이미지-->
+                      <img
+                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                              alt=""
+                      /></a>
+                  </th:block>
+                </th:block>
                 <a th:href="|/product/${dto.itemNo}|">
                   <th:block th:if="${dto.itemSoldOut} == '품절'">
                     <div class="img sold-out-wrap">
@@ -787,21 +859,39 @@
                           OUT
                         </div>
                         <!-- 메인사진 -->
-                        <img
-                                src="https://img.makeshop.co.kr/1/1371/201902/81f5662d13dcab1ce7ee6fd978bbb5f5.png"
-                                alt=""
-                        />
+                        <img th:src="${ dto.itemImageUrl }" alt="" />
                       </div>
                     </th:block>
                     <th:block th:unless="${dto.itemSoldOut} == '품절'">
                       <!-- 메인사진 -->
                       <img th:src="${ dto.itemImageUrl }" alt="" />
                       <!-- 확대링크이미지 z-index예정 -->
-                      <a href="javascript:basketNumCount()" class="cart"
-                      ><img
-                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      /></a>
+                      <th:block
+                              th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      >
+                        <a
+                                class="cart"
+                                onclick="alertAndItemLink(this)"
+                                th:value="${dto.itemNo}"
+                        ><img
+                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                                alt=""
+                        />
+                        </a>
+                      </th:block>
+                      <th:block
+                              th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      >
+                        <a
+                                class="cart"
+                                onclick="basketNumCount(this)"
+                                th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                        ><img
+                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                                alt=""
+                        />
+                        </a>
+                      </th:block>
                     </th:block>
                   </div>
                   <!-- 상품명 -->
@@ -1094,12 +1184,39 @@
             <!-- 낮은가격순 세번째 타입 -->
             <ul class="twoAlign listType2" id="LowPriceListType2">
               <li th:each="dto:${ lowPrice }">
-                <a href="javascript:basketNumCount()" class="cart">
-                  <!--                  카트이미지-->
-                  <img
-                          src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                          alt=""
-                  /></a>
+                <th:block th:if="${dto.itemSoldOut} == '품절'">
+                  <a href="#"
+                     onclick="alert('품절상품입니다.')" class="cart">
+                    <!--                  카트이미지-->
+                    <img
+                            src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                    /></a>
+                </th:block>
+                <th:block th:unless="${dto.itemSoldOut} == '품절'">
+                  <th:block th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
+                    <a href="#"
+                       onclick="alertAndItemLink(this)"
+                       th:value="${dto.itemNo}"
+                       class="cart">
+                      <!--                  카트이미지-->
+                      <img
+                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                              alt=""
+                      /></a>
+                  </th:block>
+                  <th:block th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
+                    <a href="#"
+                       onclick="basketNumCount(this)"
+                       th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                       class="cart">
+                      <!--                  카트이미지-->
+                      <img
+                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                              alt=""
+                      /></a>
+                  </th:block>
+                </th:block>
                 <a th:href="|/product/${dto.itemNo}|">
                   <th:block th:if="${dto.itemSoldOut} == '품절'">
                     <div class="img sold-out-wrap">
@@ -1160,21 +1277,39 @@
                           OUT
                         </div>
                         <!-- 메인사진 -->
-                        <img
-                                src="https://img.makeshop.co.kr/1/1371/201902/81f5662d13dcab1ce7ee6fd978bbb5f5.png"
-                                alt=""
-                        />
+                        <img th:src="${ dto.itemImageUrl }" alt="" />
                       </div>
                     </th:block>
                     <th:block th:unless="${dto.itemSoldOut} == '품절'">
                       <!-- 메인사진 -->
                       <img th:src="${ dto.itemImageUrl }" alt="" />
                       <!-- 확대링크이미지 z-index예정 -->
-                      <a href="javascript:basketNumCount()" class="cart"
-                      ><img
-                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      /></a>
+                      <th:block
+                              th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      >
+                        <a
+                                class="cart"
+                                onclick="alertAndItemLink(this)"
+                                th:value="${dto.itemNo}"
+                        ><img
+                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                                alt=""
+                        />
+                        </a>
+                      </th:block>
+                      <th:block
+                              th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      >
+                        <a
+                                class="cart"
+                                onclick="basketNumCount(this)"
+                                th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                        ><img
+                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                                alt=""
+                        />
+                        </a>
+                      </th:block>
                     </th:block>
                   </div>
                   <!-- 상품명 -->
@@ -1467,12 +1602,39 @@
             <!-- 리뷰많은순 세번째 타입 -->
             <ul class="twoAlign listType2" id="HighReviewListType2">
               <li th:each="dto:${ HighReview }">
-                <a href="javascript:basketNumCount()" class="cart">
-                  <!--                  카트이미지-->
-                  <img
-                          src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                          alt=""
-                  /></a>
+                <th:block th:if="${dto.itemSoldOut} == '품절'">
+                  <a href="#"
+                     onclick="alert('품절상품입니다.')" class="cart">
+                    <!--                  카트이미지-->
+                    <img
+                            src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                    /></a>
+                </th:block>
+                <th:block th:unless="${dto.itemSoldOut} == '품절'">
+                  <th:block th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
+                    <a href="#"
+                       onclick="alertAndItemLink(this)"
+                       th:value="${dto.itemNo}"
+                       class="cart">
+                      <!--                  카트이미지-->
+                      <img
+                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                              alt=""
+                      /></a>
+                  </th:block>
+                  <th:block th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
+                    <a href="#"
+                       onclick="basketNumCount(this)"
+                       th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                       class="cart">
+                      <!--                  카트이미지-->
+                      <img
+                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                              alt=""
+                      /></a>
+                  </th:block>
+                </th:block>
                 <a th:href="|/product/${dto.itemNo}|">
                   <th:block th:if="${dto.itemSoldOut} == '품절'">
                     <div class="img sold-out-wrap">
@@ -1533,21 +1695,39 @@
                           OUT
                         </div>
                         <!-- 메인사진 -->
-                        <img
-                                src="https://img.makeshop.co.kr/1/1371/201902/81f5662d13dcab1ce7ee6fd978bbb5f5.png"
-                                alt=""
-                        />
+                        <img th:src="${ dto.itemImageUrl }" alt="" />
                       </div>
                     </th:block>
                     <th:block th:unless="${dto.itemSoldOut} == '품절'">
                       <!-- 메인사진 -->
                       <img th:src="${ dto.itemImageUrl }" alt="" />
                       <!-- 확대링크이미지 z-index예정 -->
-                      <a href="javascript:basketNumCount()" class="cart"
-                      ><img
-                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      /></a>
+                      <th:block
+                              th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      >
+                        <a
+                                class="cart"
+                                onclick="alertAndItemLink(this)"
+                                th:value="${dto.itemNo}"
+                        ><img
+                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                                alt=""
+                        />
+                        </a>
+                      </th:block>
+                      <th:block
+                              th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      >
+                        <a
+                                class="cart"
+                                onclick="basketNumCount(this)"
+                                th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                        ><img
+                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                                alt=""
+                        />
+                        </a>
+                      </th:block>
                     </th:block>
                   </div>
                   <!-- 상품명 -->
@@ -1840,12 +2020,39 @@
             <!-- 평점높은순 세번째 타입 -->
             <ul class="twoAlign listType2" id="HighGradeListType2">
               <li th:each="dto:${ HighGrade }">
-                <a href="javascript:basketNumCount()" class="cart">
-                  <!--                  카트이미지-->
-                  <img
-                          src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                          alt=""
-                  /></a>
+                <th:block th:if="${dto.itemSoldOut} == '품절'">
+                  <a href="#"
+                     onclick="alert('품절상품입니다.')" class="cart">
+                    <!--                  카트이미지-->
+                    <img
+                            src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                    /></a>
+                </th:block>
+                <th:block th:unless="${dto.itemSoldOut} == '품절'">
+                  <th:block th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
+                    <a href="#"
+                       onclick="alertAndItemLink(this)"
+                       th:value="${dto.itemNo}"
+                       class="cart">
+                      <!--                  카트이미지-->
+                      <img
+                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                              alt=""
+                      /></a>
+                  </th:block>
+                  <th:block th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
+                    <a href="#"
+                       onclick="basketNumCount(this)"
+                       th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                       class="cart">
+                      <!--                  카트이미지-->
+                      <img
+                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                              alt=""
+                      /></a>
+                  </th:block>
+                </th:block>
                 <a th:href="|/product/${dto.itemNo}|">
                   <th:block th:if="${dto.itemSoldOut} == '품절'">
                     <div class="img sold-out-wrap">
@@ -1906,21 +2113,39 @@
                           OUT
                         </div>
                         <!-- 메인사진 -->
-                        <img
-                                src="https://img.makeshop.co.kr/1/1371/201902/81f5662d13dcab1ce7ee6fd978bbb5f5.png"
-                                alt=""
-                        />
+                        <img th:src="${ dto.itemImageUrl }" alt="" />
                       </div>
                     </th:block>
                     <th:block th:unless="${dto.itemSoldOut} == '품절'">
                       <!-- 메인사진 -->
                       <img th:src="${ dto.itemImageUrl }" alt="" />
                       <!-- 확대링크이미지 z-index예정 -->
-                      <a href="javascript:basketNumCount()" class="cart"
-                      ><img
-                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      /></a>
+                      <th:block
+                              th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      >
+                        <a
+                                class="cart"
+                                onclick="alertAndItemLink(this)"
+                                th:value="${dto.itemNo}"
+                        ><img
+                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                                alt=""
+                        />
+                        </a>
+                      </th:block>
+                      <th:block
+                              th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      >
+                        <a
+                                class="cart"
+                                onclick="basketNumCount(this)"
+                                th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                        ><img
+                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                                alt=""
+                        />
+                        </a>
+                      </th:block>
                     </th:block>
                   </div>
                   <!-- 상품명 -->

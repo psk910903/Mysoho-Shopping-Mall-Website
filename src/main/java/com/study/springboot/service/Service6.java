@@ -46,7 +46,7 @@ public class Service6 {
 
     @Transactional
     public List<ReviewResponseDto> findByImgReview(String id){
-        List<ReviewEntity> entityList = reviewRepository.findByImgReview(id);
+        List<ReviewEntity> entityList = reviewRepository.findByImgReview2(id);  //경빈 Repository수정으로 새로만듬
         List<ReviewResponseDto> list = entityList.stream().map(ReviewResponseDto::new).collect(Collectors.toList());
         return list;
     }

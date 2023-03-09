@@ -27,6 +27,91 @@
       .final-size {
         padding: 0;
       }
+
+  .item {
+    width : 100%;
+    border: 1px solid #dedede;
+    margin-bottom: 10px;
+  }
+  .reviewCount{
+
+      flex-direction: row;
+    }
+
+
+    .star {
+        position: relative;
+        font-size: 32px;
+        color: #ddd;
+      }
+
+      .star input {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        opacity: 0;
+      }
+
+      .star span {
+        width: 0;
+        position: absolute;
+        left: 0;
+        color: red;
+        overflow: hidden;
+        pointer-events: none;
+      }
+      .threeAlign {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .threeAlign li {
+        width: 32%;
+        padding: 10px 6px;
+      }
+      .grade img{
+      height: 13px;
+      margin: 0 2px;
+      }
+      .grade{
+      display: flex;
+      }
+
+      .gradeStar{
+      display:flex;
+      align-items: center;
+      }
+      .grade strong{
+      padding: 0 15px;
+      font-size: 14px;
+      }
+      .review-wrap{
+      padding: 0 15px;
+      width: 100%;
+      }
+      .reviewContentWrap{
+      padding: 15px;
+      border-bottom: 1px solid #dedede;
+      font-size: 14px;
+      }
+      .reviewContent{
+      min-height: 70px;
+      }
+      .gradeWrap{
+      padding: 10px 0;
+      border-bottom: 1px solid #dedede;
+      }
+      .reviewInfo{
+      padding: 15px;
+      display:flex;
+      flex-direction: row;
+      }
+      .reviewImg{
+      width: 30%;
+      margin-bottom: 15px;
+      }
+
     </style>
   </head>
   <body>
@@ -588,8 +673,9 @@
             </li>
             <li class="js-showReviewArea pagetit">
               <a href="javascript: changePage(1)" class="pagetit1"
-                >후기(<span class="js-reviewCnt">0</span>)</a
+              >후기(<span class="js-reviewCnt" th:text="${ listCount }">0</span>)</a
               >
+              <!--              후기 갯수 나오게 -->
             </li>
             <li class="js-showInquiryArea pagetit">
               <a href="javascript: changePage(2)" class="pagetit2"
@@ -654,33 +740,80 @@
                       <div class="stars js-reviewGradeAvgStar">
                         <!-- 별점 -->
                         <div>
-                          <img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"
-                            alt=""
-                          />
-                          <img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"
-                            alt=""
-                          />
-                          <img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"
-                            alt=""
-                          />
-                          <img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"
-                            alt=""
-                          />
-                          <img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"
-                            alt=""
-                          />
+                          <span class="star">
+      ★★★★★
+      <span>★★★★★</span>
+      <input
+              type="range"
+              oninput="drawStar(this)"
+              value="1"
+              step="0.1"
+              min="0"
+              max="10"
+      />
+                            <!-- step을 0.1로 주면 0.1칸씩 구현 가능 -->
+
+    </span>
+                          <!--                          <img-->
+                          <!--                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"-->
+                          <!--                            alt=""-->
+                          <!--                          />-->
+                          <!--                          <img-->
+                          <!--                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"-->
+                          <!--                            alt=""-->
+                          <!--                          />-->
+                          <!--                          <img-->
+                          <!--                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"-->
+                          <!--                            alt=""-->
+                          <!--                          />-->
+                          <!--                          <img-->
+                          <!--                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"-->
+                          <!--                            alt=""-->
+                          <!--                          />-->
+                          <!--                          <img-->
+                          <!--                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"-->
+                          <!--                            alt=""-->
+                          <!--                          />-->
                         </div>
+                        <script>
+      // JAVASCRIPT CODE
+      const drawStar
+       = (target) => {
+        document.querySelector(`.star span`).style.width = `${
+          target.value * 10
+        }%`;
+      };
+
+
+
+<!--      checkbox-->
+
+  $(document).ready(function() {
+  const checkbox = $('#reviewList');
+  const reviewImg = $('#reviewImg');
+  const wrapReview = $('#wrapReview');
+
+  reviewImg.hide();
+  wrapReview.show();
+
+  checkbox.change(function() {
+    if($(this).is(':checked')) {
+      reviewImg.show();
+      wrapReview.hide();
+    } else {
+      reviewImg.hide();
+      wrapReview.show();
+    }
+  });
+});
+      </script>
                       </div>
                       <!-- 점수 -->
-                      <div class="point js-reviewGradeAvg">0.0</div>
+                      <div class="point js-reviewGradeAvg" th:text="${avgStar}" >0.0</div>
                     </div>
-                    <div class="txt">
-                      실제 구매 고객 0명이 작성한 리뷰입니다.
+                    <div class="reviewCount">
+                      <strong th:text="${ listCount }">전체 리뷰 수</strong>
+                      <strong >개의 리뷰가 있습니다</strong>
                     </div>
                   </div>
                   <!-- 구분선 빈박스 -->
@@ -688,12 +821,128 @@
                   <!-- 사진 후기 모아보기 -->
                   <div class="review_list_detail photo_review">
                     <div class="photo_check">
-                      <input type="checkbox" />
-                      <div>사진 후기 모아보기(0)</div>
+                      <input id="reviewList" type="checkbox" />
+                      <span>사진 후기 모아보기(</span>
+                      <span th:text="${listImgCount}" >0</span>
+                      <span>)</span>
                     </div>
                     <div class="review-wrap gallary-list js-reviews">
                       <div class="txt-detail non js-reviewsEmpty">
-                        <div class="no-text">상품 후기가 없습니다.</div>
+                        <!--       사진 리뷰  -->
+                        <div id="reviewImg">
+                          <div class="main">
+                            <div class="reviewBox">
+                              <div class="item" th:each="dto:${ listImg }">
+                                <div class="gradeWrap">
+                                  <div class=" grade">
+                                    <strong>평점</strong>
+                                    <th:block th:switch="${ dto.reviewStar }" value="">
+                                      <span th:case="1" class="gradeStar"><img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png"></span>
+                                      <span th:case="2">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                        </span>
+                                      <span th:case="3" class="gradeStar">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                        </span>
+                                      <span th:case="4" class="gradeStar">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                        </span>
+                                      <span th:case="5" class="gradeStar">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                        </span>
+                                    </th:block>
+                                  </div>
+
+                                </div>
+                                <div class="reviewContentWrap">
+                                  <div th:if="${ dto.reviewImgUrl } != ''" >
+                                    <img class="reviewImg" th:src="${ dto.reviewImgUrl }" >
+                                  </div>
+                                  <div th:text="${ dto.reviewContent }" class="reviewContent">
+                                    내용
+                                  </div>
+                                </div>
+                                <div class=" reviewInfo" >
+                                  <div class="date" style="border-right: 1px solid #d6d6d6" th:text="|${ dto.memberId }">
+                                    작성자
+                                  </div>
+                                  <div class="date" th:text="${#temporals.format(dto.reviewDatetime, 'yyyy-MM-dd HH:mm')}">
+                                    등록일
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>          <!--      사진리뷰 끝 -->
+                        <div id="wrapReview"> <!--      전체리뷰 -->
+                          <div class="main">
+                            <div class="reviewBox">
+
+<!--                             작업중 -->
+                                <div class="item" th:each="dto:${ list }">
+
+                                  <div class="gradeWrap">
+                                    <div class=" grade">
+                                      <strong>평점</strong>
+                                      <th:block th:switch="${ dto.reviewStar }" value="">
+                                        <span th:case="1" class="gradeStar"><img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png"></span>
+                                        <span th:case="2">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                        </span>
+                                        <span th:case="3" class="gradeStar">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                        </span>
+                                        <span th:case="4" class="gradeStar">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                        </span>
+                                        <span th:case="5" class="gradeStar">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                        </span>
+                                      </th:block>
+                                    </div>
+
+                                  </div>
+                                  <div class="reviewContentWrap">
+                                    <div th:if="${ dto.reviewImgUrl } != ''" >
+                                      <img class="reviewImg" th:src="${ dto.reviewImgUrl }" >
+                                    </div>
+                                    <div th:text="${ dto.reviewContent }" class="reviewContent">
+                                      내용
+                                    </div>
+                                  </div>
+                                    <div class=" reviewInfo" >
+                                      <div class="date" style="border-right: 1px solid #d6d6d6" th:text="|${ dto.memberId }">
+                                        작성자
+                                      </div>
+                                      <div class="date" th:text="${#temporals.format(dto.reviewDatetime, 'yyyy-MM-dd HH:mm')}">
+                                        등록일
+                                      </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                          </div>
+                        </div>    <!--      전체리뷰 끝 -->
                       </div>
                     </div>
                   </div>
@@ -1009,16 +1258,7 @@
 
         document.getElementById("order-first-input").focus();
       }
-      function cartBtn() {
-        document.querySelector(".bg-option").className = "bg-option";
-        basketNum++;
-        document.querySelector(".basket-num").innerHTML = basketNum;
-      }
-      function addCartBtn() {
-        basketNum++;
-        document.querySelector(".basket-num").innerHTML = basketNum;
-      }
-
+     
       function closeOptionList() {
         let finalColorResult = document.querySelector(".final-color").innerHTML;
         let finalSizeResult = document.querySelector(".final-size").innerHTML;
@@ -1053,12 +1293,13 @@
         }
         let productCount = document.querySelector(".MSH-sto-stock").value;
 
-        basketNum++;
+        
         let cookieName = itemNo;
         cookieName += "." + finalColorResult;
         cookieName += "." + finalSizeResult;
 
         let cookieValue = Number(productCount); //아이템 수량으로 쿠키벨류 초기화
+        basketNum += Number(cookieValue);
         document.querySelector(".basket-num").innerHTML = basketNum; //오른 숫자 반영
 
         if (getCookie("item_idx." + cookieName) == null) {

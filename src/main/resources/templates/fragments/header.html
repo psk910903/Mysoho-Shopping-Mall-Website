@@ -113,7 +113,7 @@
       </span>
     </span>
     <div class="side-icon-right">
-      <a class="btn-basket" href="/order">
+      <a class="btn-basket" href="javascript:basketNumCheck();">
         <strong class="basket-num" type="Number">0</strong>
         <img
           src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_basket_000000.png"
@@ -209,7 +209,7 @@
 
       document.querySelector(".basket-num").innerHTML = cartNum; //더한숫자를 장바구니 숫자로 보여지게 해준다.
 
-      let basketNum = document.querySelector(".basket-num").innerHTML;
+      let basketNum = Number(document.querySelector(".basket-num").innerHTML);
 
       function basketNumCount(a) {
         //장바구니 아이콘 선택시 실행되는 함수 / 매개변수로 this가 들어온다.(itemNo)
@@ -277,6 +277,14 @@
       function logout() {
         alert("로그아웃 되었습니다.");
         location.href = "/user/logoutAction";
+      }
+
+      function basketNumCheck() {
+        if (basketNum === 0) {
+          alert("장바구니가 비었습니다.\n관심있는 상품을 담아 보세요.");
+        } else {
+          location.href = "/order";
+        }
       }
     </script>
   </th:block>
