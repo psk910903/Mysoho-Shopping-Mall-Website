@@ -75,7 +75,7 @@
         <div class="listResult" th:if="${keyword} == null and ${listCount} == 0">
             <ul>
                 <li class="noData">
-                    등록된 공지사항이 없습니다.
+                    등록된 QnA가 없습니다.
                 </li>
             </ul>
         </div>
@@ -466,15 +466,18 @@ function checkDelete() {
 }
 
 function openPopUpQnaWrite() {
-  popup = window.open("/qna/writeForm");
+  location.href = "/qna/writeForm?reference=/qna";
+  // popup = window.open("/qna/writeForm");
 }
 
 function openPopUpQnaWriteGuest() {
-  popup = window.open("/qna/writeFormGuest");
+  location.href = "/qna/writeFormGuest?reference=/qna";
+  // popup = window.open("/qna/writeFormGuest");
 }
 
 function openPopUpQnaModify(qnaId) {
-  popup = window.open("/qna/modifyForm/"+qnaId);
+  location.href = "/qna/modifyForm/"+qnaId+"?reference=/qna";
+  // popup = window.open("/qna/modifyForm/"+qnaId);
 }
 
 function deleteKeyword(){
