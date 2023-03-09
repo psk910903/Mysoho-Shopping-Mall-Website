@@ -177,12 +177,13 @@ public class Controller5 {
 
             inquiryResponseDto.setInquirySecret("공개");
         }
+        long itemNo = inquiryResponseDto.getItemNo();
 
         boolean result= service5.save(inquiryResponseDto);
         if(!result){
             return "<script>alert('등록에 실패하였습니다');history.back();</script>";
         }
-        return "<script>alert('등록되었습니다');opener.parent.location.reload();window.close();</script>";
+        return "<script>alert('등록되었습니다');location.href='/product/test/"+ itemNo +"';</script>";
 
 
     }
@@ -191,9 +192,19 @@ public class Controller5 {
     @GetMapping("/inquiry/productInquiryWriteForm/{itemNo}")
     public String inquiryProductInquiryWriteForm(@PathVariable("itemNo") String itemNo, Model model,
                                                  @AuthenticationPrincipal User user) {
+
+        ProductResponseDto dto = productService.findById(Long.valueOf(itemNo));
+        model.addAttribute("dto",dto);
+
         if(user!=null) { // 회원일 때
             String memberId = user.getUsername();
+
+            //DB에서 memberName 유저아이디로 멤버 이름조회하기
+            MemberResponseDto memberName = service5.findByMemberIdMember(memberId);
+            String memberPassword = memberName.getMemberPw();
+            model.addAttribute("memberName",memberName.getMemberName());
             model.addAttribute("inquiryMemberId", memberId);
+            model.addAttribute("inquiryMemberPassword", memberPassword);
         }else {// 비회원일때
             model.addAttribute("inquiryMemberId", null);
         }
@@ -207,7 +218,8 @@ public class Controller5 {
     // 댓글 출력 및 아이디 마스킹 contentTest.html과 연동
     @GetMapping("/product/test/{itemNo}")
     public String productContent(Model model, @PathVariable(value = "itemNo") Long itemNo,
-                                 HttpServletRequest request){
+//                                 HttpServletRequest request
+                                 @AuthenticationPrincipal User user ){
         ProductResponseDto dto = productService.findById(itemNo);
         String[] colorList = dto.getItemOptionColor().split(",");
         String[] sizeList = dto.getItemOptionSize().split(",");
@@ -217,20 +229,19 @@ public class Controller5 {
         List<InquiryResponseDto> list2 = service5.findAll();
         int listSize = list2.size();
 
-        //세션 가져오기
-        HttpSession session = request.getSession();
-        String name = (String)session.getAttribute("username");
-        System.out.println(name);
-        //세션 설정하기
-        session.setAttribute("name", name);
+        String memberId = null;
+        if(user != null){
+            memberId = user.getUsername();
+        }
+        model.addAttribute("LoginMemberId", memberId);
 
         //마스킹처리
         List<String> nameList = new ArrayList<>();
         for(int i=0 ; i < list2.size();i++){
 
-            String qnaName = list2.get(i).getInquiryNickname();
+            String qnaName = list2.get(i).getMemberId();
             if(qnaName == null){
-                qnaName = list2.get(i).getMemberId();
+                qnaName = list2.get(i).getInquiryNickname();
             }
             String qnaHiddenName;
             if (qnaName.length() == 2){
@@ -251,7 +262,7 @@ public class Controller5 {
 
         List<Long> inReplyCount = new ArrayList<>();
         for(int i =0; i< list2.size(); i++){
-            Long CommentCount = service5.countByInquriyNo(list2.get(i).getInquiryNo());
+            Long CommentCount = service5.countByInquiryNo(list2.get(i).getInquiryNo());
             inReplyCount.add(CommentCount);
         }
         model.addAttribute("colorCount", colorCount);
@@ -288,7 +299,7 @@ public class Controller5 {
         if(!pwCheckResult){
             return "<script>alert('비밀번호 확인실패'); history.back();</script>";
         }
-        return "<script>alert('비밀번호 확인완료.'); location.href='/inquiry/delete/"+inquiryNo+"';</script>";
+        return "<script>location.href='/inquiry/delete/"+inquiryNo+"';</script>";
     }
 
     //로그인시 수정버튼눌렀을때

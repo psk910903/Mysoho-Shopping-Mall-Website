@@ -25,8 +25,8 @@ public class InquiryEntity {
     private Long itemNo;
     @Column(name = "inquiry_content", nullable = false)
     private String inquiryContent;
-    @Column(name = "inquiry_hit")
-    private String inquiryHit;
+//    @Column(name = "inquiry_hit")
+//    private String inquiryHit;
     @Column(name = "inquiry_secret", nullable = false)
     private String inquirySecret;
     @Column(name = "inquiry_date")
@@ -49,7 +49,7 @@ public class InquiryEntity {
         this.inquiryPassword = inquiryPassword;
         this.itemNo = itemNo;
         this.inquiryContent = inquiryContent;
-        this.inquiryHit = inquiryHit;
+//        this.inquiryHit = inquiryHit;
         this.inquirySecret = inquirySecret;
         this.inquiryDatetime = inquiryDatetime;
 
@@ -66,7 +66,7 @@ public class InquiryEntity {
         this.inquiryPassword = inquiryPassword;
         this.itemNo = itemNo;
         this.inquiryContent = inquiryContent;
-        this.inquiryHit = inquiryHit;
+//        this.inquiryHit = inquiryHit;
         this.inquirySecret = inquirySecret;
         this.inquiryDatetime = LocalDateTime.now();
     }

@@ -2,10 +2,14 @@ package com.study.springboot.service;
 
 import com.study.springboot.dto.inquiry.InquiryResponseDto;
 import com.study.springboot.dto.inquiry.InquirySaveResponseDto;
+import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
 import com.study.springboot.entity.InquiryEntity;
+import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.entity.QnaEntity;
+import com.study.springboot.repository.InReplyRepository;
 import com.study.springboot.repository.InquiryRepository;
+import com.study.springboot.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -19,6 +23,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class Service5 {
     private final InquiryRepository inquiryRepository;
+    private final InReplyRepository inReplyRepository;
+    private final MemberRepository memberRepository;
 
     @Transactional
     public boolean save(final InquiryResponseDto dto) {
@@ -84,11 +90,20 @@ public class Service5 {
         return true;
     }
 
-    @Transactional
-    public Long countByInquriyNo(Long inquiryNo) {
-        Long count = inquiryRepository.countByInquiryNo(inquiryNo);
+    @Transactional(readOnly = true)
+    public Long countByInquiryNo(Long inquiryNo) {
+        Long count = inReplyRepository.countByInquiryNo(inquiryNo);
         return count;
     }
+
+    @Transactional(readOnly = true)
+    public MemberResponseDto findByMemberIdMember(String memberId){ // 이름 바꿔야함
+        Optional<MemberEntity> entity = memberRepository.findByMemberId(memberId);
+        if (!entity.isPresent()){
+            return null;
+        }
+        return new MemberResponseDto(entity.get());
+    };
 }
 
 
