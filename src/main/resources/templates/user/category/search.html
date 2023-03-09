@@ -124,9 +124,7 @@
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <div class="wrap">
   <div class="betweenbtn">
-    <div
-            th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"
-    ></div>
+    <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
   </div>
   <div class="header-wrap">
     <div class="container" style="min-height: 700px">
@@ -209,6 +207,13 @@
                     <div class="prd-img">
                       <a th:href="|/product/${dto.itemNo}|" class="focusTag"
                       ><img th:src="${ dto.itemImageUrl }" alt="" />
+                        <th:block th:if="${dto.itemSoldOut} == '품절'">
+                          <div class="sold-out-text sold-out-text-type1">
+                            SOLD <br />
+                            OUT
+                          </div>
+                          <div class="sold-out-bg sold-out-bg-type1"></div>
+                        </th:block>
                       </a>
                     </div>
                     <div class="tbl-cell">
@@ -245,13 +250,6 @@
                       </p>
                     </div>
                   </div>
-                  <a
-                          href="javascript:basketNumCount()"
-                          class="btn-cart-type1"
-                  ><img
-                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                          alt=""
-                  />
                   </a>
                 </li>
               </div>
@@ -264,6 +262,13 @@
                 <div class="prd-img">
                   <a th:href="|/product/${dto.itemNo}|" class="focusTag"
                   ><img th:src="${ dto.itemImageUrl }" alt="" />
+                    <th:block th:if="${dto.itemSoldOut} == '품절'">
+                      <div class="sold-out-text sold-out-text-type1">
+                        SOLD <br />
+                        OUT
+                      </div>
+                      <div class="sold-out-bg sold-out-bg-type1"></div>
+                    </th:block>
                   </a>
                 </div>
                 <div class="tbl-cell">
@@ -300,14 +305,6 @@
                   </p>
                 </div>
               </div>
-              <a
-                      href="javascript:basketNumCount()"
-                      class="btn-cart-type1"
-              ><img
-                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                      alt=""
-              />
-              </a>
             </li>
           </div>
           <!-- 낮은가격순 첫번째 타입 -->
@@ -317,6 +314,13 @@
                 <div class="prd-img">
                   <a th:href="|/product/${dto.itemNo}|" class="focusTag"
                   ><img th:src="${ dto.itemImageUrl }" alt="" />
+                    <th:block th:if="${dto.itemSoldOut} == '품절'">
+                      <div class="sold-out-text sold-out-text-type1">
+                        SOLD <br />
+                        OUT
+                      </div>
+                      <div class="sold-out-bg sold-out-bg-type1"></div>
+                    </th:block>
                   </a>
                 </div>
                 <div class="tbl-cell">
@@ -353,14 +357,6 @@
                   </p>
                 </div>
               </div>
-              <a
-                      href="javascript:basketNumCount()"
-                      class="btn-cart-type1"
-              ><img
-                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                      alt=""
-              />
-              </a>
             </li>
           </div>
           <!-- 리뷰많은순 첫번째 타입 -->
@@ -370,6 +366,13 @@
                 <div class="prd-img">
                   <a th:href="|/product/${dto.itemNo}|" class="focusTag"
                   ><img th:src="${ dto.itemImageUrl }" alt="" />
+                    <th:block th:if="${dto.itemSoldOut} == '품절'">
+                      <div class="sold-out-text sold-out-text-type1">
+                        SOLD <br />
+                        OUT
+                      </div>
+                      <div class="sold-out-bg sold-out-bg-type1"></div>
+                    </th:block>
                   </a>
                 </div>
                 <div class="tbl-cell">
@@ -406,14 +409,6 @@
                   </p>
                 </div>
               </div>
-              <a
-                      href="javascript:basketNumCount()"
-                      class="btn-cart-type1"
-              ><img
-                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                      alt=""
-              />
-              </a>
             </li>
           </div>
           <!-- 평점높은순 첫번째 타입 -->
@@ -423,6 +418,13 @@
                 <div class="prd-img">
                   <a th:href="|/product/${dto.itemNo}|" class="focusTag"
                   ><img th:src="${ dto.itemImageUrl }" alt="" />
+                    <th:block th:if="${dto.itemSoldOut} == '품절'">
+                      <div class="sold-out-text sold-out-text-type1">
+                        SOLD <br />
+                        OUT
+                      </div>
+                      <div class="sold-out-bg sold-out-bg-type1"></div>
+                    </th:block>
                   </a>
                 </div>
                 <div class="tbl-cell">
@@ -459,14 +461,6 @@
                   </p>
                 </div>
               </div>
-              <a
-                      href="javascript:basketNumCount()"
-                      class="btn-cart-type1"
-              ><img
-                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                      alt=""
-              />
-              </a>
             </li>
           </div>
         </div>
@@ -547,6 +541,116 @@
           document.querySelector(".listType"+i).style.display = "none";
         }
         document.querySelector(".listType4").style.display = "block";
+        }
+      }
+
+
+      const cookies = document.cookie.split("; "); //쿠키를 전부 불러와서 배열에 담는다.
+      let cartNum = 0; //올라가야할 숫자가 몇개인지
+
+      for (let i = 0; i < cookies.length; i++) {
+        //보안토큰 제외
+
+        if (cookies[i].includes("item_idx")) {
+          //includes 해당 문자열이 포함됬는지 확인 //XSRF : 보안토큰 앞글자
+          cartNum += Number(cookies[i].substr(cookies[i].indexOf("=") + 1));
+        }
+      }
+      document.querySelector(".basket-num").innerHTML = cartNum;
+
+      var setCookie = function (cookieName, cookieValue) {
+        //쿠키 생성 함수 (매개변수로 "item_idx 1", 1)이 들어옴
+        var date = new Date(); //
+        date.setTime(date.getTime() + 24 * 60 * 60 * 1000); //date를 현재시간 + 3일 후로 설정한다.
+
+        let encodedCookieName = "";
+        let splitedCookieName = cookieName.split(".");
+
+        let encodedColor = encodeURIComponent(splitedCookieName[2]);
+        for (let idx in splitedCookieName) {
+          if (idx == 0) {
+            encodedCookieName += splitedCookieName[idx];
+          } else if (idx == 2) {
+            encodedCookieName += "." + encodedColor;
+          } else {
+            encodedCookieName += "." + splitedCookieName[idx];
+          }
+        }
+        console.log(encodedCookieName);
+
+        document.cookie =
+          encodedCookieName + //쿠키이름 (key)
+          "=" +
+          cookieValue + // 쿠키(value)
+          ";expires=" +
+          date.toUTCString() + //쿠키 기한 // 설정한 데이트타임으로 기한을 준다.
+          ";path=/";
+      };
+
+      document.querySelector(".basket-num").innerHTML = cartNum; //더한숫자를 장바구니 숫자로 보여지게 해준다.
+
+      let basketNum = Number(document.querySelector(".basket-num").innerHTML);
+
+      function basketNumCount(a) {
+        //장바구니 아이콘 선택시 실행되는 함수 / 매개변수로 this가 들어온다.(itemNo)
+        basketNum++;
+        let cookieName = $(a).attr("value"); //attr("value") : value값을 가져온다. 만약 ""안에 class면 class이름을 가져온다.
+        cookieName = cookieName.replace(/,/g, ".");
+        let cookieValue = 0; //아이템 수량 초기화
+        document.querySelector(".basket-num").innerHTML = basketNum; //오른 숫자 반영
+
+        if (getCookie("item_idx." + cookieName) == null) {
+          //해당 상품이 쿠키로 만들어진적이 없으면 새로 생성하라는 뜻
+
+          setCookie("item_idx." + cookieName, cookieValue + 1);
+        } else {
+          cookieValue = getCookie("item_idx." + cookieName); //  getCookie("item_idx:" + item_idx) => value이다 "2"
+          setCookie("item_idx." + cookieName, Number(cookieValue) + 1); //만약 같은 idx가 있으면 수량만 +1해서 기존 쿠키에 덮어씌운다.
+          if (
+            confirm(
+              "장바구니에 담긴 수량이 있어 수량이 추가되었습니다.\n \n 지금 확인하시겠습니까?"
+            ) == true
+          ) {
+            location.href = "/order";
+            //장바구니링크 추가 예정
+          } else {
+          }
+        }
+      }
+
+      var getCookie = function (cookieName) {
+        let encodedCookieName = "";
+        let splitedCookieName = cookieName.split(".");
+
+        let encodedColor = encodeURIComponent(splitedCookieName[2]);
+        for (let idx in splitedCookieName) {
+          if (idx == 0) {
+            encodedCookieName += splitedCookieName[idx];
+          } else if (idx == 2) {
+            encodedCookieName += "." + encodedColor;
+          } else {
+            encodedCookieName += "." + splitedCookieName[idx];
+          }
+        }
+        console.log(encodedCookieName);
+
+        //매개변수로 쿠키이름을 넣어주면 value로 반환
+        var value = document.cookie.match(
+          "(^|;) ?" + encodedCookieName + "=([^;]*)(;|$)"
+        );
+        return value ? value[2] : null; //3항 연산자 : 값이 있으면 가져오고 없으면 null로 반환
+      };
+      document.querySelector(".basket-num").innerHTML = cartNum;
+
+      function alertAndItemLink(value) {
+        let itemNo = $(value).attr("value");
+        if (
+          confirm(
+            "해당상품은 옵션을 설정해야 장바구니에 담을 수 있습니다. \n \n 상세페이지로 이동하시겠습니까?"
+          ) == true
+        ) {
+          location.href = "/product/" + itemNo;
+        } else {
         }
       }
 
