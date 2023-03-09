@@ -1258,16 +1258,7 @@
 
         document.getElementById("order-first-input").focus();
       }
-      function cartBtn() {
-        document.querySelector(".bg-option").className = "bg-option";
-        basketNum++;
-        document.querySelector(".basket-num").innerHTML = basketNum;
-      }
-      function addCartBtn() {
-        basketNum++;
-        document.querySelector(".basket-num").innerHTML = basketNum;
-      }
-
+     
       function closeOptionList() {
         let finalColorResult = document.querySelector(".final-color").innerHTML;
         let finalSizeResult = document.querySelector(".final-size").innerHTML;
@@ -1302,12 +1293,13 @@
         }
         let productCount = document.querySelector(".MSH-sto-stock").value;
 
-        basketNum++;
+        
         let cookieName = itemNo;
         cookieName += "." + finalColorResult;
         cookieName += "." + finalSizeResult;
 
         let cookieValue = Number(productCount); //아이템 수량으로 쿠키벨류 초기화
+        basketNum += Number(cookieValue);
         document.querySelector(".basket-num").innerHTML = basketNum; //오른 숫자 반영
 
         if (getCookie("item_idx." + cookieName) == null) {
