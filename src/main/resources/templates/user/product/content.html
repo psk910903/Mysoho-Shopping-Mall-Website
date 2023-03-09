@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="/css/option-popup.css" />
     <link rel="stylesheet" href="/css/share-btn.css" />
     <link rel="stylesheet" href="/css/product-onepiece3.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"></script>
 <!--    <link rel="stylesheet" href="/css/shopping-basket.css" />-->
     <style>
       .final-color,
@@ -180,8 +182,50 @@
 .sort button:hover{
     background-color: rgb(228, 228, 228);
 }
+/* ==============================경빈 별점 테스트 수정=================================== */
+.star1{
+  filter: opacity(0.4) c drop-shadow(0 0 0 rgb(229, 255, 0));
+  width: 30px;
+}
+.rating1 .star-wrap1{
+  width: 27px;
+  height:50px;
+  display: inline-block;
+}
+.rating1 .star1{
+  width: 0;
+  overflow:hidden;
+}
+.rating1{
+  height:50px;
+  position: absolute;
+  z-index: 1;
+}
+.star-wrap1{
+
+  height:50px;
+
+}
+
+.star2{
+  filter: opacity(0.2) drop-shadow(0 0 0 rgb(245, 245, 245));
+
+}
+.rating2 .star-wrap2{
+  width: 27px;
+  height:50px;
+  display: inline-block;
+}
+.star-wrap2{
+  width: 27px;
+  height:50px;
+  display: inline-block;
+  position: relative;
+}
 
 
+.stars{
+}
     </style>
   </head>
   <body>
@@ -853,42 +897,48 @@
                     <div class="estimate-point">
                       <div class="stars js-reviewGradeAvgStar">
                         <!-- 별점 -->
-                        <div>
-                          <span class="star">
-      ★★★★★
-      <span>★★★★★</span>
-      <input
-              type="range"
-              oninput="drawStar(this)"
-              value="1"
-              step="0.1"
-              min="0"
-              max="10"
-      />
-                            <!-- step을 0.1로 주면 0.1칸씩 구현 가능 -->
-
-    </span>
-                          <!--                          <img-->
-                          <!--                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"-->
-                          <!--                            alt=""-->
-                          <!--                          />-->
-                          <!--                          <img-->
-                          <!--                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"-->
-                          <!--                            alt=""-->
-                          <!--                          />-->
-                          <!--                          <img-->
-                          <!--                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"-->
-                          <!--                            alt=""-->
-                          <!--                          />-->
-                          <!--                          <img-->
-                          <!--                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"-->
-                          <!--                            alt=""-->
-                          <!--                          />-->
-                          <!--                          <img-->
-                          <!--                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_off.png"-->
-                          <!--                            alt=""-->
-                          <!--                          />-->
+                        <!--테스트1-->
+                        <div class="reviewStarRating">
+                          <div class="rating1" th:value="${avgStar}" value="3.9">
+                            <div class="star-wrap1"><div class="star1"><i  ><img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png" alt="" height="27px" width="27px"></i></div></div>
+                            <div class="star-wrap1"><div class="star1"><i  ><img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png" alt="" height="27px" width="27px"></i></div></div>
+                            <div class="star-wrap1"><div class="star1"><i  ><img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png" alt="" height="27px" width="27px"></i></div></div>
+                            <div class="star-wrap1"><div class="star1"><i  ><img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png" alt="" height="27px" width="27px"></i></div></div>
+                            <div class="star-wrap1"><div class="star1"><i  ><img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png" alt="" height="27px" width="27px"></i></div></div>
+                          </div>
+                          <div class="rating2" >
+                            <div class="star-wrap2"><div class="star2"><i  ><img  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png" alt="" height="27px" width="27px"></i></div></div>
+                            <div class="star-wrap2"><div class="star2"><i  ><img  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png" alt="" height="27px" width="27px"></i></div></div>
+                            <div class="star-wrap2"><div class="star2"><i  ><img  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png" alt="" height="27px" width="27px"></i></div></div>
+                            <div class="star-wrap2"><div class="star2"><i  ><img  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png" alt="" height="27px" width="27px"></i></div></div>
+                            <div class="star-wrap2"><div class="star2"><i  ><img  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png" alt="" height="27px" width="27px"></i></div></div>
+                          </div>
                         </div>
+                        <!--  -->
+                        <!--  -->
+                        <!--  -->
+                        <script>
+                var rating1 = $('.rating1');
+
+                rating1.each(function(){
+                  var $this = $(this);
+                    var targetScore = $this.attr('value');
+                    var firstDigit = targetScore.split('.');
+                    console.log(firstDigit);
+                      if(firstDigit.length>1){
+                        for(var i=0; i<firstDigit[0]; i++){
+                          $this.find('.star1').eq(i).css({width:'100%'});
+                        }
+                        $this.find('.star1').eq(firstDigit[0]).css({width:firstDigit[1]+'0%'});
+                      }else{
+                        for(var i=0; i<targetScore; i++){
+                          $this.find('.star1').eq(i).css({width:'100%'});
+                        }
+                      }
+                });
+
+              </script>
+                        <!--  -->
                         <script>
       // JAVASCRIPT CODE
       const drawStar
