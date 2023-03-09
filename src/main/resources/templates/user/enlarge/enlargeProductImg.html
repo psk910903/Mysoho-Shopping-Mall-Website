@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
@@ -52,7 +52,7 @@
     <div class="wrap">
       <div style="text-align: center" class="header">
         <b>확대보기</b>
-        <a href="javascript:closePopup()" class="closebtn"
+        <a href="javascript:history.back()" class="closebtn"
           ><img
             src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h22_close_gray.png"
             alt=""
@@ -63,24 +63,8 @@
       <div class="row">
         <div class="column">
           <img
-            src="https://img.makeshop.co.kr/1/1371/201902/5ea10187021f32483958eb8c91e943bb.jpg"
+                  th:src="${ itemImageUrl }"
             alt="Nature"
-            style="width: 100%"
-            onclick="zoomImage(this);"
-          />
-        </div>
-        <div class="column">
-          <img
-            src="https://img.makeshop.co.kr/1/1371/201902/cff066de03048bb32a8393ddaf5d7590.jpg"
-            alt="Snow"
-            style="width: 100%"
-            onclick="zoomImage(this);"
-          />
-        </div>
-        <div class="column">
-          <img
-            src="https://img.makeshop.co.kr/1/1371/201902/89a4cfc63952dd46b75281cfa7197950.jpg"
-            alt="Mountains"
             style="width: 100%"
             onclick="zoomImage(this);"
           />
@@ -90,7 +74,7 @@
       <img
         id="expandedImg"
         style="width: 100%"
-        src="https://img.makeshop.co.kr/1/1371/201902/5ea10187021f32483958eb8c91e943bb.jpg"
+        th:src="${ itemImageUrl }"
         alt="Nature"
       />
     </div>

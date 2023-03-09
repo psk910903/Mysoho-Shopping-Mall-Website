@@ -1,6 +1,7 @@
 package com.study.springboot.repository;
 
 import com.study.springboot.entity.InquiryEntity;
+import com.study.springboot.entity.ProductEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,5 +27,8 @@ public interface InquiryRepository extends JpaRepository<InquiryEntity,Long> {
 
     // 2.23 희진 추가 -----------------------------------------------------------------
     List<InquiryEntity> findByMemberId(String memberId);
+    // 0309 이준하 추가
+    @Query(value = "SELECT * FROM inquiry where item_no = :itemNo order By inquiry_no DESC;", nativeQuery = true)
+    List<InquiryEntity> findByItemNo(@Param(value ="itemNo") Long itemNo);
 
 }

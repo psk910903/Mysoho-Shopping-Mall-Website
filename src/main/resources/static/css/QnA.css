@@ -263,11 +263,11 @@ h6{
     font-size: 13px;
     margin-bottom: 30px;
 }
-.brackground-green{
-    background: #58DB51;
+.background-green{
+    background: #333;
     color: #fff;
 }
-.add-maxwidth{
+.add-max-width{
     max-width: min(560px, 80vw);
 }
 .schBox {

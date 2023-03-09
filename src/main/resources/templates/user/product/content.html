@@ -112,6 +112,76 @@
       margin-bottom: 15px;
       }
 
+      .pwCheckInput{
+    margin-top: -10px;
+    width: 79.26%;
+    padding: 0 12px;
+    height: 34px;
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    float: left;
+    font-size: 12px;
+}
+
+.checkBtn{
+    margin-top: -10px;
+    display: block;
+    width: 18.9%;
+    float: right;
+    line-height: 30px;
+    text-align: center;
+    background: #000;
+    font-size: 12px;
+    color: #fff;
+}
+
+.CheckDiv{
+    display:none;
+    height: 50px;
+    padding: 15px;
+    background: #f8f8f8;
+    border-top: 1px solid #f0f0f0;
+}
+
+.CheckDiv2 {
+    display:none;
+    height: 50px;
+    padding: 15px;
+    background: #f8f8f8;
+    border-top: 1px solid #f0f0f0;
+}
+
+.sort {
+  text-align: center;
+  right: 20px;
+  top: 50px;
+  display: none;
+  width: 50px;
+  padding: 0 5px;
+  position: absolute;
+  z-index: 100;
+  background: #ffffff;
+  box-shadow: 0px 1px 1.68px 1.82px rgb(0 0 0 / 15%);
+  border-radius: 5px;
+  font-size: 14px;
+}
+.sort li {
+  padding: 5px;
+  border-bottom: 1px solid #edeff2;
+}
+.sort li:hover {
+  background-color: rgb(228, 228, 228);
+}
+.sort button{
+  border:none;
+  width:100%;
+  background-color:white;
+}
+.sort button:hover{
+    background-color: rgb(228, 228, 228);
+}
+
+
     </style>
   </head>
   <body>
@@ -173,7 +243,7 @@
           <img class="main-image" th:src="${ dto.itemImageUrl }" alt="" />
           <!-- 확대링크이미지 z-index예정 -->
           <a
-            href="javascript:openPopup('/product-zoom/product-onepiece3-zoom.html')"
+            th:href="|/enlarge/${dto.itemNo}|"
             ><img
               src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h67_enlarge.png"
               alt=""
@@ -226,17 +296,33 @@
         <th:block th:if="${ sizeCount == 1} and ${ colorCount == 1}">
           <div class="prd-option-non MSH-prd-option-non-19520">
             <div class="count">
-              <a href="javascript:productSub()" class="btn-minus"
+              <th:block th:if="${dto.itemSoldOut} == '품절'">
+                <span class="btn-minus"
                 ><img
-                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_minus.gif"
-                  alt=""
-              /></a>
-              <input type="text" value="1" class="MSH-sto-stock" id="MSH-sto-stock" />
-              <a href="javascript:productSum()" class="btn-plus"
+                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_minus.gif"
+                        alt=""
+                /></span>
+                <input type="text" value="1" class="MSH-sto-stock" id="MSH-sto-stock" />
+                <span class="btn-plus"
                 ><img
-                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_plus.gif"
-                  alt=""
-              /></a>
+                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_plus.gif"
+                        alt=""
+                /></span>
+              </th:block>
+              <th:block th:unless="${dto.itemSoldOut} == '품절'">
+                <a href="javascript:productSub()" class="btn-minus"
+                ><img
+                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_minus.gif"
+                        alt=""
+                /></a>
+                <input type="text" value="1" class="MSH-sto-stock" id="MSH-sto-stock" />
+                <a href="javascript:productSum()" class="btn-plus"
+                ><img
+                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_plus.gif"
+                        alt=""
+                /></a>
+              </th:block>
+
             </div>
             <!-- 품절 상품일 때 -->
             <th:block th:if="${dto.itemSoldOut} == '품절'">
@@ -436,17 +522,33 @@
                       </div>
                       <div class="prd-option-non MSH-prd-option-non-19520">
                         <div class="count">
-                          <a href="javascript:optionSub()" class="btn-minus"
+                          <th:block th:if="${dto.itemSoldOut} == '품절'">
+                            <span class="btn-minus"
                             ><img
-                              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_minus.gif"
-                              alt=""
-                          /></a>
-                          <input type="text" value="1" class="MSH-sto-stock" id="MSH-sto-stock"/>
-                          <a href="javascript:optionSum()" class="btn-plus"
+                                    src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_minus.gif"
+                                    alt=""
+                            /></span>
+                            <input type="text" value="1" class="MSH-sto-stock" id="MSH-sto-stock"/>
+                            <span class="btn-plus"
                             ><img
-                              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_plus.gif"
-                              alt=""
-                          /></a>
+                                    src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_plus.gif"
+                                    alt=""
+                            /></span>
+                          </th:block>
+                          <th:block th:unless="${dto.itemSoldOut} == '품절'">
+                            <a href="javascript:optionSub()" class="btn-minus"
+                            ><img
+                                    src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_minus.gif"
+                                    alt=""
+                            /></a>
+                            <input type="text" value="1" class="MSH-sto-stock" id="MSH-sto-stock"/>
+                            <a href="javascript:optionSum()" class="btn-plus"
+                            ><img
+                                    src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_plus.gif"
+                                    alt=""
+                            /></a>
+                          </th:block>
+
                         </div>
                         <th:block th:if="${dto.itemDiscountRate} != 0">
                           <div
@@ -484,7 +586,7 @@
                       >
                         장바구니
                       </button>
-                      <button class="btn2" type="button" onclick="buyBtn()">
+                      <button class="btn2" type="button" onclick="processBeforeSubmit()">
                         결제하기
                       </button>
                     </div>
@@ -505,57 +607,72 @@
         </th:block>
 
         <div class="prd-btn-type2">
-          <!-- 장바구니담기버튼 -->
-          <th:block th:if="${ sizeCount == 1} and ${ colorCount == 1}">
+          <th:block th:if="${dto.itemSoldOut} == '품절'">
             <button
-              class="btn-h42-gray2 btn-cart js-add-cart-single"
-              onclick="basketNumProduct(1)"
+                    class="btn-h42-gray2 btn-cart js-add-cart-single"
+                    onclick="alert('품절상품입니다.')"
             >
               <img
-                src="https://sohonara.mysoho.com/assets/shop/img/common/bul_h33_basket.png"
-                alt=""
+                      src="https://sohonara.mysoho.com/assets/shop/img/common/bul_h33_basket.png"
+                      alt=""
               />장바구니 담기
             </button>
           </th:block>
-          <th:block th:unless="${ sizeCount == 1} and ${ colorCount == 1}">
-            <button
-              class="btn-h42-gray2 btn-cart js-add-cart-single"
-              onclick="basketNumProduct(2)"
-            >
-              <img
-                src="https://sohonara.mysoho.com/assets/shop/img/common/bul_h33_basket.png"
-                alt=""
-              />장바구니 담기
-            </button>
-            <script>
-              // 옵션선택 팝업
-              function showoptionList() {
-                document.querySelector(".bg-option").className =
-                  "bg-option showoptionList";
-              }
-              function closeOrderList() {
-                document.querySelector(".bg-option").className = "bg-option";
-              }
-              document
-                .querySelector(".show-option-list")
-                .addEventListener("click", showoptionList);
-              document
-                .querySelector("#closeBtn-option")
-                .addEventListener("click", closeOrderList);
 
-              let optionStr = document.querySelector("#option-price").innerHTML;
-              // 가격 형변환 후 쉼표추가 함수
-              let optionStr2 = optionStr.replace("원", "");
-              let optionPrice = Number(optionStr2.replace(",", ""));
-              let optionTemp = optionPrice;
-              //기존 가격으로 토탈 초기화
-              let optionTotalPrice = optionTemp;
+          <th:block th:unless="${dto.itemSoldOut} == '품절'">
 
-              //상품 갯수
-              let optionN = document.querySelector(".MSH-sto-stock").value;
-              let optionTemp2 = optionN;
-              let optionAmount = optionTemp2;
-            </script>
+            <!-- 장바구니담기버튼 -->
+            <th:block th:if="${ sizeCount == 1} and ${ colorCount == 1}">
+              <button
+                class="btn-h42-gray2 btn-cart js-add-cart-single"
+                onclick="basketNumProduct(1)"
+              >
+                <img
+                  src="https://sohonara.mysoho.com/assets/shop/img/common/bul_h33_basket.png"
+                  alt=""
+                />장바구니 담기
+              </button>
+            </th:block>
+            <th:block th:unless="${ sizeCount == 1} and ${ colorCount == 1}">
+              <button
+                class="btn-h42-gray2 btn-cart js-add-cart-single"
+                onclick="basketNumProduct(2)"
+              >
+                <img
+                  src="https://sohonara.mysoho.com/assets/shop/img/common/bul_h33_basket.png"
+                  alt=""
+                />장바구니 담기
+              </button>
+              <script>
+                // 옵션선택 팝업
+                function showoptionList() {
+                  document.querySelector(".bg-option").className =
+                    "bg-option showoptionList";
+                }
+                function closeOrderList() {
+                  document.querySelector(".bg-option").className = "bg-option";
+                }
+                document
+                  .querySelector(".show-option-list")
+                  .addEventListener("click", showoptionList);
+                document
+                  .querySelector("#closeBtn-option")
+                  .addEventListener("click", closeOrderList);
+
+                let optionStr = document.querySelector("#option-price").innerHTML;
+                // 가격 형변환 후 쉼표추가 함수
+                let optionStr2 = optionStr.replace("원", "");
+                let optionPrice = Number(optionStr2.replace(",", ""));
+                let optionTemp = optionPrice;
+                //기존 가격으로 토탈 초기화
+                let optionTotalPrice = optionTemp;
+
+                //상품 갯수
+                let optionN = document.querySelector(".MSH-sto-stock").value;
+                let optionTemp2 = optionN;
+                let optionAmount = optionTemp2;
+              </script>
+            </th:block>
           </th:block>
           <!-- 공유하기버튼 -->
           <button class="btn-share-white btn-share" onclick="showShareList()">
@@ -679,18 +796,17 @@
             </li>
             <li class="js-showInquiryArea pagetit">
               <a href="javascript: changePage(2)" class="pagetit2"
-                >문의(<span class="js-inquiryCnt">1</span>)</a
+                >문의(<span class="js-inquiryCnt" th:text="${listSize}">1</span>)</a
               >
             </li>
           </ul>
 
           <div class="txt-detail">
             <div class="buyBtn-hidden">
-              <a
-                href="order-complete.html"
+              <button type="button" onclick="processBeforeSubmit()"
                 class="js-mo-tpl btn-h42-gray mt-25"
                 id="buyBtn"
-                >결제하기</a
+                >결제하기</button
               >
 
               <div class="page1">
@@ -722,10 +838,8 @@
                       alt=""
                       class="btn-bottom-close2"
                   /></a>
-                  <a
-                    href="javascript:poppageonepiece3()"
-                    class="btn-ViewOriginal"
-                    >원본보기
+                  <a th:href="|/enlarge/content/${dto.itemNo}|" class="btn-ViewOriginal" >
+                    원본보기
                     <img
                       src="https://sohonara.mysoho.com/assets/shop/img/btn/h15_plus.png"
                       alt=""
@@ -953,8 +1067,7 @@
                 <div id="inquiryTab" class="tab-cont">
                   <div class="qa-btn-wrap">
                     <div class="btnBwrite js-btnMoveWritePage">
-                      <a
-                        th:href="|javascript:openPopUpInquiryWrite(${dto.itemNo})|"
+                      <a th:href="@{/inquiry/productInquiryWriteForm/{itemNo}(itemNo = ${dto.itemNo})}"
                         ><img
                           src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/bg_ico_write.png"
                           alt=""
@@ -962,34 +1075,158 @@
                       >
                     </div>
                   </div>
-                  <div class="qa-list-wrap js-qnasArea">
-                    <a href="" class="js-qnasArea qna-board-list">
-                      <div class="qa-list-icon">
-                        답변
-                        <br />
-                        대기
-                      </div>
-                      <div class="tit-wrap js-qna">
-                        <div>
-                          <div class="tit js-qnaContents">문의합니다.</div>
-                          <div class="qna-info">
-                            <div class="dil js-qnaType bar">상품</div>
-                            <div class="name js-qnaWriter bar">dl******...</div>
-                            <div class="date js-qnaDate">2022.04.11</div>
+
+                <!-- 여기부터-->
+                  <th:block th:each="dto2, status : ${inquiry}">
+
+                    <!--로그인이면-->
+                    <th:block sec:authorize="isAuthenticated()">
+                      <div class="qa-list-wrap js-qnasArea" >
+                        <div class="js-qnasArea qna-board-list"><!-- a태그였음-->
+                          <!-- 답변이 없을 때 -->
+                          <th:block th:if="${inReplyCount[status.index] ==0}">
+                            <div class="qa-list-icon">
+                              답변
+                              <br />
+                              대기
+                            </div>
+                          </th:block>
+                          <th:block th:unless="${inReplyCount[status.index] ==0}">
+                            <div class="qa-list-icon">
+                              답변
+                              <br />
+                              완료
+                            </div>
+                          </th:block>
+                          <div class="tit-wrap js-qna">
+                            <div >
+                              <!--                          0303-->
+                              <th:block th:if="${dto2.inquirySecret}=='비공개'">
+                                <div class="tit js-qnaContents" >
+                                  <th:blcok th:if="${LoginMemberId} == ${dto2.memberId}">
+                                    <span th:text="${dto2.inquiryContent}"></span>
+                                  </th:blcok>
+                                  <th:blcok th:unless="${LoginMemberId} == ${dto2.memberId}">
+                                    <span> 비밀글입니다.</span>
+                                    <img
+                                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_qa_lock.png"
+                                            alt=""
+                                            onclick="alert('작성자만 확인할 수 있습니다.')"
+                                    />
+                                  </th:blcok>
+                                </div>
+                              </th:block>
+                              <th:block th:unless="${dto2.inquirySecret}=='비공개'">
+                                <div class="tit js-qnaContents" th:text="${dto2.inquiryContent}"></div>
+                              </th:block>
+                              <div class="qna-info">
+                                <div class="dil js-qnaType bar">상품</div>
+                                <div class="name js-qnaWriter bar" th:text="${namelist[status.index]}">dl******...</div>
+                                <div class="date js-qnaDate" th:text="${#temporals.format(dto2.inquiryDatetime, 'yyyy.MM.dd')}">2022.04.11</div>
+                              </div>
+                            </div>
                           </div>
-                        </div>
+                          <!--                      0303 지성 여기까지-->
+                        </div><!-- a태그였음-->
+                        <th:block th:if="${LoginMemberId} == ${dto2.memberId}">
+                          <a th:href="|javascript:sortSelect(${status.count})|" class="threedot"
+                          ><img
+                                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png"
+                                  alt=""
+                          /></a>
+                          <ul class="sort" th:id="|sort${status.count}|">
+                            <li><a th:href="@{/inquiry/modifyForm/{id}(id=${dto2.inquiryNo})}">수정</a></li></li>
+                            <form action="#" th:action="@{/inquiry/delete/{id}(id=${dto2.inquiryNo})}" method="get" id="deleteBtn">
+                              <button type="button" th:onclick="|javascript:checkDelete()|">삭제</button>
+                            </form>
+                          </ul>
+                        </th:block>
+                        <th:block th:unless="${LoginMemberId} == ${dto2.memberId}">
+                        </th:block>
+
                       </div>
-                    </a>
-                    <a href="javascript:sortSelect()" class="threedot"
-                      ><img
-                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png"
-                        alt=""
-                    /></a>
-                    <ul id="sort">
-                      <li><a href="">수정</a></li>
-                      <li><a href="">삭제</a></li>
-                    </ul>
-                  </div>
+                    </th:block>
+                    <!-- 2개양분할 -->
+                    <!--로그인이아니면-->
+                    <th:block sec:authorize="isAnonymous()">
+                      <div class="qa-list-wrap js-qnasArea" >
+                        <div class="js-qnasArea qna-board-list"><!-- a태그였음-->
+                          <th:block th:if="${inReplyCount[status.index]}==0">
+                            <div class="qa-list-icon">
+                              답변
+                              <br />
+                              대기
+                            </div>
+                          </th:block>
+                          <th:block th:unless="${inReplyCount[status.index]}==0">
+                            <div class="qa-list-icon">
+                              답변
+                              <br/>
+                              완료
+                            </div>
+                          </th:block>
+                          <div class="tit-wrap js-qna">
+                            <div >
+                              <th:block th:if="${dto2.inquirySecret}=='비공개'">
+                                <div class="tit js-qnaContents" >
+                                  <span>  비밀글입니다.</span>
+                                  <img
+                                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_qa_lock.png"
+                                          alt=""
+                                          onclick="alert('작성자만 확인할 수 있습니다.')"
+                                  />
+                                </div>
+                              </th:block>
+                              <th:block th:unless="${dto2.inquirySecret}=='비공개'">
+                                <div class="tit js-qnaContents" th:text="${dto2.inquiryContent}">문의합니다.</div>
+                              </th:block>
+                              <div class="qna-info">
+                                <div class="dil js-qnaType bar">상품</div>
+                                <div class="name js-qnaWriter bar" th:text="${namelist[status.index]}">dl******...</div>
+                                <div class="date js-qnaDate" th:text="${#temporals.format(dto2.inquiryDatetime, 'yyyy.MM.dd')}">2022.04.11</div>
+                              </div>
+                            </div>
+                          </div>
+                          <!--                      0303 지성 여기까지-->
+                        </div><!-- a태그였음-->
+                        <th:block th:if="${LoginMemberId} == ${dto2.memberId}">
+                          <a th:href="|javascript:sortSelect(${status.count})|" class="threedot"
+                          ><img
+                                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_review_md.png"
+                                  alt=""
+                          /></a>
+                          <ul class="sort" th:id="|sort${status.count}|">
+                            <li><a th:href="|javascript:onCheckDiv(${status.count})|">수정</a></li></li>
+                            <li><a th:href="|javascript:onCheckDiv2(${status.count})|">삭제</a></li>
+                          </ul>
+                        </th:block>
+                        <th:block th:unless="${LoginMemberId} == ${dto2.memberId}">
+                        </th:block>
+                      </div>
+
+                      <th:block sec:authorize="isAnonymous()">
+                        <div class="CheckDiv" th:id="|CheckDiv${status.count}|" style="display:none;">
+                          <form action="/inquiry/pw/check/action" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <input type="hidden" th:value="${dto2.inquiryNo}" name="inquiryNo">
+                            <input type="password" placeholder="비밀번호를 입력하세요." class="pwCheckInput" name="inquiryPassword">
+                            <button type="submit" class="checkBtn">확인</button>
+                          </form>
+                        </div>
+                        <div class="CheckDiv2" th:id="|CheckDiv2${status.count}|" style="display:none;">
+                          <form action="/inquiry/pw/check/action2" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <input type="hidden" th:value="${dto2.inquiryNo}" name="inquiryNo">
+                            <input type="password" placeholder="비밀번호를 입력하세요." class="pwCheckInput" name="inquiryPassword">
+                            <button type="submit" class="checkBtn">확인</button>
+                          </form>
+                        </div>
+                      </th:block>
+                    </th:block>
+                  </th:block>
+
+
+              <!-- 여기까지-->
                 </div>
               </div>
 
@@ -1158,11 +1395,11 @@
                         >결제하기</button>
                     </th:block>
                     <th:block th:unless="${dto.itemSoldOut} != '품절'">
-                      <a
-                        href="order-complete.html"
+                      <button
+                        type="button"
                         class="js-btnOrder js-mo-tpl btn-h42-gray mt-25"
                       >
-                        품절</a
+                        품절</button
                       >
                     </th:block>
                     <div class="warning-labels-font">
@@ -1376,6 +1613,18 @@
 
       /////////////////////////////////////////////////////////////////////////////////////////////////////
       /////////////////////////////////////// order submit 관련 함수 ///////////////////////////////////////
+      function focusAlert(id){
+          if(document.querySelector(".order-hd-open-1").style.display !== "none"){
+            document.querySelector(".span1").style.display = "none";
+            document.querySelector(".order-hd-open-1").style.display = "none";
+            document.querySelector(".order-hd-close-1").style.display = "block";
+            document.querySelector(".order1").style.display = "block";
+
+            setTimeout(function(){document.getElementById(id).focus();}, 100);
+          }else{
+            setTimeout(function(){document.getElementById(id).focus();}, 100);
+          }
+        }
 
       function processBeforeSubmit(){
         let form = document.orderForm;
@@ -1396,6 +1645,19 @@
           location.href = "/";
         }else{
           alert(alertString);
+          if(alertString == "주문자 이름을 2~5자의 한글로 입력해주세요."){
+            focusAlert("order-first-input");
+          }else if(alertString == "주문자 휴대폰 번호를 정확히 입력해주세요."){
+            focusAlert("order-sec-input");
+          }else if(alertString == "수령자 이름을 입력해주세요."){
+            focusAlert("order-first-input-copy");
+          }else if(alertString == "수령자 휴대폰 번호를 정확히 입력해주세요."){
+            focusAlert("order-sec-input-copy");
+          }else if(alertString == "수령자 주소를 정확히 입력해주세요."){
+            focusAlert("sample6_postcode");
+          }else if(alertString == "계좌번호를 선택해주세요."){
+            focusAlert("paySelect");
+          }
         }
 
       }
@@ -1548,5 +1810,51 @@
 
       }
     </script>
+
+    <script>
+
+  function sortSelect( count ) {
+
+  if (document.querySelector("#sort"+count).style.display === "block") {
+    document.querySelector("#sort"+count).style.display = "none";
+  } else {
+    document.querySelector("#sort"+count).style.display = "block";
+  }
+}
+
+function onCheckDiv( number ) {
+
+  if (document.querySelector("#CheckDiv"+number).style.display === "none") {
+    document.querySelector("#CheckDiv"+number).style.display = "block";
+  } else {
+    document.querySelector("#CheckDiv"+number).style.display = "none";
+  }
+}
+
+function onCheckDiv2( number ) {
+
+  if (document.querySelector("#CheckDiv2"+number).style.display === "none") {
+    document.querySelector("#CheckDiv2"+number).style.display = "block";
+  } else {
+    document.querySelector("#CheckDiv2"+number).style.display = "none";
+  }
+}
+
+<!--  function openPopUpInquiryModify(inquiryId) {-->
+<!--  popup = window.open("/qna/modifyForm/"+qnaId);-->
+<!--}-->
+ function checkDelete() {
+          let form =  document.querySelector('#deleteBtn');
+          if (confirm("해당 Q&A를 삭제하겠습니까? 삭제 후 복구가 불가능합니다.")) {
+            form.submit();
+          } else {
+            return false;
+          }
+      }
+
+<!--  function openPopUpInquiryModify(inquiryNo) {-->
+<!--  popup = window.open("/inquiry/modifyForm/"+inquiryNo);-->
+<!--}-->
+</script>
   </body>
 </html>
