@@ -377,7 +377,8 @@ public class Controller3 {
             ProductResponseDto itemDto = productService.findById(Long.parseLong(itemNo));
             itemUrl.add(itemDto.getItemImageUrl());//item사진을 itemList에 넣어줌
         }
-
+        int listSize = list.size();
+        model.addAttribute("listSize",listSize);
         model.addAttribute("list",list);
         model.addAttribute("itemName", itemName);
         model.addAttribute("itemUrl", itemUrl);

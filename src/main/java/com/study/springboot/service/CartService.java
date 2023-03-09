@@ -55,7 +55,6 @@ public class CartService {
         List<OrderResponseDto> orderList = new ArrayList<>();
         //반복해서 주문테이블 객체 가져와서 dto로 변환 후 리스트에 담기
         for (Long orderCode : newList) {
-            System.out.println("orderCode = " + orderCode);
             OrderEntity orderEntity = orderRepository.findByOrderCode(orderCode).get();
             OrderResponseDto dto = new OrderResponseDto(orderEntity);
             orderList.add(dto);

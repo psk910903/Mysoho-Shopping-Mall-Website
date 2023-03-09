@@ -527,7 +527,6 @@ input[type="checkbox"]:checked::after {
   border-bottom: 1px solid #d0d0d0;
 }
 .non {
-  display: flex;
   justify-content: center;
   padding: 35px 15px;
 }
