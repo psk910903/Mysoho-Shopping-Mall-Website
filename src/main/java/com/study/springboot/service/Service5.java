@@ -37,11 +37,11 @@ public class Service5 {
         return true;
     }
 
-    public List<InquiryResponseDto> findAll() {
-        Sort sort = Sort.by(Sort.Direction.DESC, "inquiryNo");
-        List<InquiryEntity> list = inquiryRepository.findAll(sort);
-        return list.stream().map(InquiryResponseDto::new).collect(Collectors.toList());
-    }
+//    public List<InquiryResponseDto> findAll() {
+//        Sort sort = Sort.by(Sort.Direction.DESC, "inquiryNo");
+//        List<InquiryEntity> list = inquiryRepository.findAll(sort);
+//        return list.stream().map(InquiryResponseDto::new).collect(Collectors.toList());
+//    }
 
     public boolean inquiryDelete(long id) {
         try {
@@ -104,6 +104,11 @@ public class Service5 {
         }
         return new MemberResponseDto(entity.get());
     };
+
+    public List<InquiryResponseDto> findByItemNoList(Long itemNo) {
+        List<InquiryEntity> list = inquiryRepository.findByItemNo(itemNo);
+        return list.stream().map(InquiryResponseDto::new).collect(Collectors.toList());
+    }
 }
 
 

@@ -23,7 +23,7 @@ public class InquiryResponseDto {
     private Long itemNo;
     private String inquiryContent;
     private String inquirySecret;
-//    private String inquiryHit;
+
     private LocalDateTime inquiryDatetime =LocalDateTime.now();
 
     public InquiryResponseDto(InquiryEntity entity){
@@ -34,7 +34,6 @@ public class InquiryResponseDto {
         this.itemNo = entity.getItemNo();
         this.inquiryContent = entity.getInquiryContent();
         this.inquirySecret = entity.getInquirySecret();
-//        this.inquiryHit = entity.getInquiryHit();
         this.inquiryDatetime = entity.getInquiryDatetime();
     }
 
@@ -45,7 +44,6 @@ public class InquiryResponseDto {
                 .inquiryPassword(inquiryPassword)
                 .itemNo(itemNo)
                 .inquiryContent(inquiryContent)
-//                .inquiryHit(inquiryHit)
                 .inquirySecret(inquirySecret)
                 .inquiryDatetime(inquiryDatetime)
                 .build();
@@ -59,7 +57,6 @@ public class InquiryResponseDto {
                 .inquiryPassword(inquiryPassword)
                 .itemNo(itemNo)
                 .inquiryContent(inquiryContent)
-//                .inquiryHit(inquiryHit)
                 .inquirySecret(inquirySecret)
                 .inquiryDatetime(inquiryDatetime)
                 .build();

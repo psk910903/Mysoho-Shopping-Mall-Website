@@ -226,7 +226,7 @@ public class Controller5 {
         int colorCount = colorList.length;
         int sizeCount = sizeList.length;
 
-        List<InquiryResponseDto> list2 = service5.findAll();
+        List<InquiryResponseDto> list2 = service5.findByItemNoList(itemNo);
         int listSize = list2.size();
 
         String memberId = null;

@@ -27,7 +27,6 @@ public class InquirySaveResponseDto {
                                   Long itemNo,
                                   String inquiryContent,
                                   String inquirySecret
-//                                  String inquiryHit
     ) {
         this.memberId = memberId;
         this.inquiryNickname = inquiryNickname;
@@ -35,7 +34,6 @@ public class InquirySaveResponseDto {
         this.itemNo = itemNo;
         this.inquiryContent = inquiryContent;
         this.inquirySecret = inquirySecret;
-//        this.inquiryHit = inquiryHit;
     }
     //    //dto를 entity로 바꿔주는 메서드
     public InquiryEntity toEntity(){
@@ -46,7 +44,6 @@ public class InquirySaveResponseDto {
                 .itemNo(itemNo)
                 .inquiryContent(inquiryContent)
                 .inquirySecret(inquirySecret)
-//                .inquiryHit(inquiryHit)
                 .build();
     }
 }
