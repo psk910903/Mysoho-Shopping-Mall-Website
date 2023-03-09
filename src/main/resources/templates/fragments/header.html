@@ -141,12 +141,14 @@
             />
           </a>
         </span>
+        <span sec:authorize="hasRole('ADMIN')">
         <a href="/myorder/lists" class="btn-login">
           <img
             src="https://sohonara.mysoho.com/assets/shop/img/btn/tpl_shop_logon_000000.png"
             alt=""
           />
         </a>
+        </span>
       </span>
       <!--로그인 버튼 수정 부분 -->
     </div>
