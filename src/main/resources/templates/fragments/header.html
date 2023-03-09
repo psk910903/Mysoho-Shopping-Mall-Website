@@ -170,10 +170,8 @@
 
       for (let i = 0; i < cookies.length; i++) {
         //보안토큰 제외
-        if (
-          !cookies[i].includes("XSRF") ||
-          !cookies[i].includes("ckCsrfToken")
-        ) {
+
+        if (cookies[i].includes("item_idx")) {
           //includes 해당 문자열이 포함됬는지 확인 //XSRF : 보안토큰 앞글자
           cartNum += Number(cookies[i].substr(cookies[i].indexOf("=") + 1));
         }

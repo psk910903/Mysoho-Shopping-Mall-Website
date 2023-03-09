@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
@@ -175,6 +176,7 @@ public class ProductService {
     @Transactional
     public boolean productRegistration(ProductSaveRequestDto dto){
         try {
+            dto.setItemUpdateDatetime(LocalDateTime.now());
             ProductEntity entity = dto.toSaveEntity();
             productRepository.save(entity);
         } catch (Exception e) {
