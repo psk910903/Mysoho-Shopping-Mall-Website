@@ -28,42 +28,17 @@
         padding: 0;
       }
 
-      .tr > td {
-  border : 2px solid black;
-  padding : 2px;
-  }
   .item {
-    padding : 5px;
-    margin : 20px;
-    width : 600px;
-    display:flex;
-    border : 1px solid black;
-    justify-content : flex-start;
-  }
-  .review-td1 {
-    width : 160px;
+    width : 100%;
+    border: 1px solid #dedede;
+    margin-bottom: 10px;
   }
   .reviewCount{
-      display : flex;
+
       flex-direction: row;
     }
 
 
-      .imgUser {
-      width: 193px;
-      height: 193px;
-      padding: 10px;
-      }
-      .ulDiv {
-        width: 600px;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-      }
-      .ulDiv > li{
-        width: 32%;
-        height: 190px;
-      }
     .star {
         position: relative;
         font-size: 32px;
@@ -86,9 +61,6 @@
         overflow: hidden;
         pointer-events: none;
       }
-      .img1 {
-        width: 100%;
-      }
       .threeAlign {
         display: flex;
         flex-wrap: wrap;
@@ -98,6 +70,48 @@
         width: 32%;
         padding: 10px 6px;
       }
+      .grade img{
+      height: 13px;
+      margin: 0 2px;
+      }
+      .grade{
+      display: flex;
+      }
+
+      .gradeStar{
+      display:flex;
+      align-items: center;
+      }
+      .grade strong{
+      padding: 0 15px;
+      font-size: 14px;
+      }
+      .review-wrap{
+      padding: 0 15px;
+      width: 100%;
+      }
+      .reviewContentWrap{
+      padding: 15px;
+      border-bottom: 1px solid #dedede;
+      font-size: 14px;
+      }
+      .reviewContent{
+      min-height: 70px;
+      }
+      .gradeWrap{
+      padding: 10px 0;
+      border-bottom: 1px solid #dedede;
+      }
+      .reviewInfo{
+      padding: 15px;
+      display:flex;
+      flex-direction: row;
+      }
+      .reviewImg{
+      width: 30%;
+      margin-bottom: 15px;
+      }
+
     </style>
   </head>
   <body>
@@ -814,98 +828,118 @@
                     </div>
                     <div class="review-wrap gallary-list js-reviews">
                       <div class="txt-detail non js-reviewsEmpty">
-                        <!--       전체 리뷰  -->
+                        <!--       사진 리뷰  -->
                         <div id="reviewImg">
                           <div class="main">
                             <div class="reviewBox">
-                              <form action="/product/{itemNo}" method="post">
-                                <table class="item" th:each="dto:${ listImg }">
-                                  <tbody  >
-                                  <tr>
-                                    <!-- <input type="hidden"> 아이템넘버줘서 찾는다. -->
-                                    <!-- 노출여부, 상품명, 리뷰번호 -->
-                                    <input type="hidden" th:value="${dto.reviewNo}" >
-                                    <input type="hidden" th:value="${dto.itemNo}">
-                                    <input type="hidden" th:value="${dto.reviewExpo}">
-                                    <td class="review-td1">
-                                      <th:block th:switch="${ dto.reviewStar }" value="">
-                                        <span th:case="1">★</span>
-                                        <span th:case="2">★★</span>
-                                        <span th:case="3">★★★</span>
-                                        <span th:case="4">★★★★</span>
-                                        <span th:case="5">★★★★★</span>
-                                      </th:block>
-                                    </td>
-                                    <td th:text="${#temporals.format(dto.reviewDatetime, 'yyyy-MM-dd HH:mm')}">
+                              <div class="item" th:each="dto:${ listImg }">
+                                <div class="gradeWrap">
+                                  <div class=" grade">
+                                    <strong>평점</strong>
+                                    <th:block th:switch="${ dto.reviewStar }" value="">
+                                      <span th:case="1" class="gradeStar"><img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png"></span>
+                                      <span th:case="2">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                        </span>
+                                      <span th:case="3" class="gradeStar">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                        </span>
+                                      <span th:case="4" class="gradeStar">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                        </span>
+                                      <span th:case="5" class="gradeStar">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                        </span>
+                                    </th:block>
+                                  </div>
 
-                                      등록일
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td class="review-td1" th:text="${ dto.memberId }">
-                                      작성자
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td class="review-td1" >
-                                      <img style="width:150px" th:src="${ dto.reviewImgUrl }" >
-                                    </td>
-                                    <td th:text="${ dto.reviewContent }">
-                                      내용
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                  </tr>
-                                  </tbody>
-                                </table>
-                              </form>
+                                </div>
+                                <div class="reviewContentWrap">
+                                  <div th:if="${ dto.reviewImgUrl } != ''" >
+                                    <img class="reviewImg" th:src="${ dto.reviewImgUrl }" >
+                                  </div>
+                                  <div th:text="${ dto.reviewContent }" class="reviewContent">
+                                    내용
+                                  </div>
+                                </div>
+                                <div class=" reviewInfo" >
+                                  <div class="date" style="border-right: 1px solid #d6d6d6" th:text="|${ dto.memberId }">
+                                    작성자
+                                  </div>
+                                  <div class="date" th:text="${#temporals.format(dto.reviewDatetime, 'yyyy-MM-dd HH:mm')}">
+                                    등록일
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>          <!--      사진리뷰 끝 -->
                         <div id="wrapReview"> <!--      전체리뷰 -->
                           <div class="main">
                             <div class="reviewBox">
-                              <form action="/product/{itemNo}" method="post">
-                                <table class="item" th:each="dto:${ list }">
-                                  <tbody  >
-                                  <tr>
-                                    <!-- <input type="hidden"> 아이템넘버줘서 찾는다. -->
-                                    <!-- 노출여부, 상품명, 리뷰번호 -->
-                                    <input type="hidden" th:value="${dto.reviewNo}" >
-                                    <input type="hidden" th:value="${dto.itemNo}">
-                                    <input type="hidden" th:value="${dto.reviewExpo}">
-                                    <td class="review-td1">
-                                      <th:block th:switch="${ dto.reviewStar }" value="">
-                                        <span th:case="1">★</span>
-                                        <span th:case="2">★★</span>
-                                        <span th:case="3">★★★</span>
-                                        <span th:case="4">★★★★</span>
-                                        <span th:case="5">★★★★★</span>
-                                      </th:block>
-                                    </td>
-                                    <td th:text="${#temporals.format(dto.reviewDatetime, 'yyyy-MM-dd HH:mm')}">
 
-                                      등록일
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td class="review-td1" th:text="${ dto.memberId }">
-                                      작성자
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td class="review-td1" >
-                                      <img style="width:150px" th:src="${ dto.reviewImgUrl }" >
-                                    </td>
-                                    <td th:text="${ dto.reviewContent }">
+<!--                             작업중 -->
+                                <div class="item" th:each="dto:${ list }">
+
+                                  <div class="gradeWrap">
+                                    <div class=" grade">
+                                      <strong>평점</strong>
+                                      <th:block th:switch="${ dto.reviewStar }" value="">
+                                        <span th:case="1" class="gradeStar"><img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png"></span>
+                                        <span th:case="2">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                        </span>
+                                        <span th:case="3" class="gradeStar">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                        </span>
+                                        <span th:case="4" class="gradeStar">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                        </span>
+                                        <span th:case="5" class="gradeStar">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                          <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/review_big_star_on.png">
+                                        </span>
+                                      </th:block>
+                                    </div>
+
+                                  </div>
+                                  <div class="reviewContentWrap">
+                                    <div th:if="${ dto.reviewImgUrl } != ''" >
+                                      <img class="reviewImg" th:src="${ dto.reviewImgUrl }" >
+                                    </div>
+                                    <div th:text="${ dto.reviewContent }" class="reviewContent">
                                       내용
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                  </tr>
-                                  </tbody>
-                                </table>
-                              </form>
+                                    </div>
+                                  </div>
+                                    <div class=" reviewInfo" >
+                                      <div class="date" style="border-right: 1px solid #d6d6d6" th:text="|${ dto.memberId }">
+                                        작성자
+                                      </div>
+                                      <div class="date" th:text="${#temporals.format(dto.reviewDatetime, 'yyyy-MM-dd HH:mm')}">
+                                        등록일
+                                      </div>
+                                    </div>
+                                </div>
+
                             </div>
                           </div>
                         </div>    <!--      전체리뷰 끝 -->
