@@ -199,12 +199,6 @@ if($('#allch').prop("checked")){
 });
 </script>
 <script th:inline="javascript">
-  let memberRate = document.getElementById('memberRate');  // memberRate
-  for (let i=0; i<memberRate.options.length; i++){
-    if(memberRate.options[i].value == [[${member.memberRate}]]){
-    	memberRate.options[i].selected = true;
-    }
-  }
 
 <!--선택 삭제 -->
      function deleteValue(){
