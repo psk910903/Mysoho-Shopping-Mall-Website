@@ -49,7 +49,7 @@ CREATE TABLE member (
    member_pw VARCHAR(255) NOT NULL, -- 비밀번호
    member_name CHAR(255) NOT NULL, -- 회원이름
    member_rate VARCHAR(255) NOT NULL,
-   member_email VARCHAR(255) NOT NULL, -- 이메일
+   member_email VARCHAR(255) NOT NULL UNION, -- 이메일
    member_phone CHAR(255) NOT NULL, -- 전화번호(중간에 -는 제거)
    member_mileage INT DEFAULT 0, -- 마일리지(적립금)
    member_coupon INT DEFAULT 0, --  쿠폰
