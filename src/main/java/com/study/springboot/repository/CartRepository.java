@@ -13,7 +13,6 @@ public interface CartRepository extends JpaRepository<CartEntity, Long> {
     @Query(value = "SELECT * FROM cart WHERE cart_code = :cart_code", nativeQuery = true)
     CartEntity findByCart(@Param(value="cart_code")String cart_code);
 
-
     @Query(value = "SELECT * FROM cart WHERE cart_code = :cart_code and member_id is NULL", nativeQuery = true)
     CartEntity findByCartNonMember(@Param(value="cart_code")String cart_code);
 
@@ -25,9 +24,5 @@ public interface CartRepository extends JpaRepository<CartEntity, Long> {
 
     @Query(value = "SELECT COUNT(*) FROM cart WHERE item_code = :item_code", nativeQuery = true)
     int findByItemSortSale(@Param(value="item_code")Long item_code);
-
-
-//    @Query(value = "SELECT * FROM cart WHERE member_id = :id order BY cart_date desc" , nativeQuery = true)
-//    List<CartEntity> findByCartMemberId(String id);
 
 }

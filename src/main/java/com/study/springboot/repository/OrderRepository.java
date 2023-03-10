@@ -39,7 +39,7 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
 
     //리뷰
     @Query(value = "SELECT * FROM `order` WHERE member_id = :memberId and order_state = :orderState" ,nativeQuery = true)
-    List<OrderEntity> findByMemberIdAndOrderState(String memberId, String orderState);
+    List<OrderEntity> findByMemberIdAndOrderState(@Param(value="memberId")String memberId, @Param(value="orderState")String orderState);
 
 
 }

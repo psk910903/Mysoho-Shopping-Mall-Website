@@ -327,8 +327,7 @@
         let consents = document.getElementsByName("terms_agree");
 
         for (let idx = 0; idx < consents.length; idx++){
-          if (!consents[idx].checked && idx!=2){
-            $("#agreeAllBtn").focus();
+          if (!consents[idx].checked && idx!=3){
             return "약관/결제 동의를 해주세요."
           }
         }
