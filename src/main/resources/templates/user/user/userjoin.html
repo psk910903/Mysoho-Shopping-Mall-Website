@@ -46,14 +46,15 @@
         <input type="hidden" name="memberCoupon" value="0">
         <input type="hidden" name="memberExited" value="회원">
         <input
-                class="input-st01 users-login-input input-id"
+                class="input-st01 users-login-input input-id "
                 type="text"
                 name="username"
                 placeholder="아이디(5자~20자 이내)"
                 value=""
-                onBlur="checkTxt('id', this.value)"
-                onchange="checkUserinfo('id', this.value)"
+
         />
+<!--        onBlur="checkTxt('id', this.value)"-->
+<!--        onchange="checkUserinfo('id', this.value)"-->
         <div class="red check-txt check-txt-id">아이디를 입력해주세요</div>
         <div class="red check-txt check-txt-id2">
           아이디는 영문 또는 영문, 숫자를 포함하여 5자~20자 내로 입력
@@ -65,13 +66,14 @@
 
         <input
                 id="check-txt-pw"
-                class="input-st01 users-login-input mt-10"
+                class="input-st01 users-login-input mt-10 "
                 type="password"
                 name="password"
                 placeholder="비밀번호 (영문,숫자,특수문자 조합 8자리 이상)"
                 value=""
-                onchange="checkUserinfo('pw', this.value)"
+
         />
+<!--                        onchange="checkUserinfo('pw', this.value)"-->
         <div class="red check-txt check-txt-pw">
           올바른 비밀번호 형식이 아닙니다.
         </div>
@@ -83,13 +85,12 @@
         </div>
         <input
                 id="check-txt-pwcheck"
-                class="input-st01 users-login-input mt-10"
+                class="input-st01 users-login-input mt-10 "
                 type="password"
                 name="pwcheck"
                 placeholder="비밀번호 재입력"
                 value=""
-                onBlur="checkPW(this.value)"
-                onchange="checkTxt('pw', this.value)"
+
         />
         <div class="blue check-txt check-txt-pwcheck-same">
           비밀번호가 일치합니다.
@@ -98,28 +99,30 @@
           비밀번호가 일치하지 않습니다.
         </div>
         <input
+                id="userName"
                 class="input-st01 users-login-input mt-10"
                 type="text"
                 name="memberName"
                 value=""
                 placeholder="이름을 입력해주세요"
-                onBlur="checkTxt('name', this.value)"
-                onchange="checkUserinfo('name', this.value)"
+
         />
+        <!--                onBlur="checkTxt('name', this.value)"-->
+        <!--                onchange="checkUserinfo('name', this.value)"-->
         <div class="red check-txt check-txt-name">이름을 입력해주세요</div>
         <div class="red check-txt check-txt-name2">
           2~5 길이의 한글로 입력해주세요.
         </div>
         <div class="blue check-txt check-txt-name3">가입 가능합니다.</div>
         <input
-                class="input-st01 users-login-input mt-10"
+                class="input-st01 users-login-input mt-10 check-email"
                 type="email"
                 name="memberEmail"
                 placeholder="이메일(비밀번호 찾기 시 이메일로 발송됩니다"
                 value=""
-                onBlur="checkTxt('email', this.value)"
-                onchange="checkUserinfo('email', this.value)"
         />
+        <!--                onBlur="checkTxt('email', this.value)"-->
+        <!--                onchange="checkUserinfo('email', this.value)"-->
         <div class="red check-txt check-txt-email">
           이메일 주소를 입력하세요.
         </div>
@@ -130,14 +133,14 @@
           가입 가능한 이메일입니다.
         </div>
         <input
-                class="input-st01 users-login-input mt-10"
+                class="input-st01 users-login-input mt-10 check-phone"
                 type="text"
                 name="memberPhone"
                 placeholder="휴대폰번호"
                 value=""
-                onBlur="checkTxt('phone', this.value)"
-                onchange="checkUserinfo('phone', this.value)"
         />
+        <!--                onBlur="checkTxt('phone', this.value)"-->
+        <!--                onchange="checkUserinfo('phone', this.value)"-->
         <div class="red check-txt check-txt-phone">
           전화번호를 입력 해주세요
         </div>
@@ -284,7 +287,9 @@
 ></script>
 <script src="/js/header.js"></script>
 <script src="/js/footer.js"></script>
+
 <script>
+var p = document.get
       let agree = document.querySelectorAll(".agree input");
       let agreeAllBtn = document.querySelector("#agreeAllBtn");
 
@@ -312,60 +317,109 @@
           document.querySelector(".check-txt-" + type).style.display = "none";
         }
       }
-      function checkPW(val) {
-        // 비밀번호 확인
-        if (val === document.querySelector("#check-txt-pw").value) {
-          document.querySelector(".check-txt-pwcheck-same").style.display =
-            "block";
-          document.querySelector(".check-txt-pwcheck-not").style.display =
-            "none";
-        } else {
-          document.querySelector(".check-txt-pwcheck-same").style.display =
-            "none";
-          document.querySelector(".check-txt-pwcheck-not").style.display =
-            "block";
-        }
-      }
-      function checkUserinfo(type, val) {
-        let mode = "";
 
-        var ckeckId = /^[a-zA-z0-9]{4,12}$/; //아이디 유효성 검사
-        var ckeckPW = /(?=.*[0-9])(?=.*[a-z])(?=.*\W)(?=\S+$).{8,20}/; //비밀번호 유효성 검사
-        var ckeckName = /^[가-힣]{2,5}$/; //이름 유효성 검사
-        var ckeckEmail = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/; //이메일 유효성 검사
-        var ckeckPhone = /^[0-9]{10,11}$/; //이메일 유효성 검사
-        if (type === "id") {
-          mode = ckeckId;
-        } else if (type === "pw") {
-          mode = ckeckPW;
-        } else if (type === "name") {
-          mode = ckeckName;
-        } else if (type === "email") {
-          mode = ckeckEmail;
-        } else if (type === "phone") {
-          mode = ckeckPhone;
-        }
-
-        if (!mode.test(val)) {
-          document.querySelector(".check-txt-" + type).style.display = "none";
-          document.querySelector(".check-txt-" + type + "2").style.display =
-            "block";
-          document.querySelector(".check-txt-" + type + "3").style.display =
-            "none";
-          document.querySelector(".input-" + type).focus();
-        } else {
-          document.querySelector(".check-txt-" + type).style.display = "none";
-          document.querySelector(".check-txt-" + type + "2").style.display =
-            "none";
-          document.querySelector(".check-txt-" + type + "3").style.display =
-            "block";
-        }
-      }
       function join() {
         alert("축하합니다 회원가입하셨습니다.");
         location.href = "userlogin.html";
       }
-    </script>
+</script>
+<script>
+<!--id유효성 검사 -->
+      var ckeckId = /^[a-zA-z0-9_-]{5,20}$/;
+      var id = document.querySelector(".input-id");
+      id.addEventListener('keyup',function(){
+      console.log(id.value);
+        if(ckeckId.test(id.value)){
+          document.querySelector(".check-txt-id2").style.display="none";
+          document.querySelector(".check-txt-id3").style.display="block";
+        }else{
+          document.querySelector(".check-txt-id2").style.display="block";
+          document.querySelector(".check-txt-id3").style.display="none";
+        }
+      });
+
+      <!--   pw유효성 검사 -->
+      var ckeckPW = /(?=.*[0-9])(?=.*[a-z])(?=.*\W)(?=\S+$).{8,20}/; //비밀번호 유효성 검사
+      var pw = document.querySelector("#check-txt-pw");
+      pw.addEventListener('keyup',function(){
+      console.log(pw.value);
+        if(ckeckPW.test(pw.value)){
+          document.querySelector(".check-txt-pw2").style.display="none";
+          document.querySelector(".check-txt-pw3").style.display="block";
+        }else{
+          document.querySelector(".check-txt-pw2").style.display="block";
+          document.querySelector(".check-txt-pw3").style.display="none";
+        }
+      });
+
+      <!--비밀번호 재확인-->
+      var pw = document.getElementById("check-txt-pw");
+      var pwcheck = document.getElementById("check-txt-pwcheck");
+      pwcheck.addEventListener('keyup',function(){
+        console.log(pw.value);
+        console.log(pwcheck.value);
+        if(pw.value === pwcheck.value){
+          document.querySelector(".check-txt-pwcheck-same").style.display =
+                "block";
+              document.querySelector(".check-txt-pwcheck-not").style.display =
+                "none";
+        } else {
+          document.querySelector(".check-txt-pwcheck-same").style.display =
+                "none";
+          document.querySelector(".check-txt-pwcheck-not").style.display =
+                "block";
+        }
+      });
+
+
+<!--이메일 유효성 검사-->
+      var ckeckEmail = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/; //이메일 유효성 검사
+      var email = document.querySelector(".check-email");
+      email.addEventListener('keyup',function(){
+        console.log(email.value);
+        if(ckeckEmail.test(email.value)){
+          document.querySelector(".check-txt-email2").style.display="none";
+          document.querySelector(".check-txt-email3").style.display="block";
+        }else{
+          document.querySelector(".check-txt-email2").style.display="block";
+          document.querySelector(".check-txt-email3").style.display="none"
+        }
+      });
+
+<!--폰번호 유효성 검사-->
+      var ckeckPhone = /^[0-9]{10,11}$/; //이메일 유효성 검사
+      var phone = document.querySelector(".check-phone");
+      phone.addEventListener('keyup',function(){
+        console.log(phone.value);
+        if(ckeckPhone.test(phone.value)){
+          document.querySelector(".check-txt-phone2").style.display="none";
+          document.querySelector(".check-txt-phone3").style.display="block";
+        }else{
+          document.querySelector(".check-txt-phone2").style.display="block";
+          document.querySelector(".check-txt-phone3").style.display="none";
+        }
+      });
+
+
+<!--이름 유효성 검사-->
+      var ckeckName = /^[가-힣]{2,5}$/; //이름 유효성 검사
+      var checkName = /^[가-힣]+$/
+      var userName = document.querySelector("#userName");
+      console.log(userName.value);
+      userName.addEventListener('keyup',function(){
+      console.log(userName.value);
+      console.log(ckeckName);
+        if(ckeckName.test(userName.value)){
+          console.log(ckeckName.test(userName.value));
+          document.querySelector(".check-txt-name2").style.display="none";
+          document.querySelector(".check-txt-name3").style.display="block";
+        }else{
+          document.querySelector(".check-txt-name2").style.display="block";
+          document.querySelector(".check-txt-name3").style.display="none";
+        }
+      });
+
+</script>
 <!-- 우편번호 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>

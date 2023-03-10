@@ -57,6 +57,7 @@ a {
   background-color: white;
   overflow-x: hidden;
   transition: 0.5s;
+  overflow-y: scroll;
 }
 .sidenav ul {
   padding: 0 20px;
