@@ -12,6 +12,7 @@ import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.product.ProductSaveRequestDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.entity.MemberEntity;
+import com.study.springboot.entity.ReviewEntity;
 import com.study.springboot.repository.CartRepository;
 import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ProductRepository;
@@ -602,6 +603,16 @@ public class Controller1 {
     String itemInfo = productService.findById(itemNo).getItemInfo();
     model.addAttribute("itemInfo", itemInfo);
     return "/user/enlarge/enlargeProductInfo";
+  }
+
+  // 관리자페이지 리뷰 상세 정보 admin/review/content?reviewNo=12
+  @RequestMapping("/admin/review/content/{reviewNo}")
+  public String adminReviewContent(Model model,@PathVariable(value = "reviewNo") Long reviewNo){
+    System.out.println("reviewNo = " + reviewNo);
+    ReviewEntity review = reviewService.findById(reviewNo);
+
+    model.addAttribute("review", review);
+    return "/admin/review/content";
   }
 }
 

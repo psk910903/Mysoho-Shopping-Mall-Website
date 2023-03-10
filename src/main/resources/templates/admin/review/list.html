@@ -87,7 +87,6 @@
                     <th class="table-light align-middle w200">상품명</th>
                     <th class="table-light align-middle w110">상품사진</th>
                     <th class="table-light align-middle w110">아이디</th>
-                    <th class="table-light align-middle">내용</th>
                     <th class="table-light align-middle w50">별점</th>
                     <th class="table-light align-middle w150">작성일</th>
                     <th class="table-light align-middle w150">노출여부</th>
@@ -124,6 +123,7 @@
                         <input type="hidden" name="reviewContent" th:value="${ review.reviewContent }"/>
                         <input type="hidden" name="reviewImgUrl" th:value="${ review.reviewImgUrl }"/>
                         <button type="submit" class="btn btn-outline-danger" > 노출상태 변경</button>
+                        <a th:href="|/admin/review/content/${review.reviewNo}|" class="btn btn-outline-secondary" > 상세정보</a>
                     </td>
                       </form>
                   </tr>

@@ -148,6 +148,9 @@ p {
   font-size: 13px;
   color: #666666;
   padding-left: 10px;
+  overflow : hidden;
+  text-overflow : ellipsis;
+  max-width: 400px;
 }
 
 .best-itemBox {
@@ -219,7 +222,8 @@ p {
   border-bottom: 1px solid #edeff2;
 }
 #sort li:hover {
-  background-color: rgb(228, 228, 228);
+    text-decoration: none;
+    color: inherit;
 }
 #mode {
   display: none;
