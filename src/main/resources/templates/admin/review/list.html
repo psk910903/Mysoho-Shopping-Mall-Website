@@ -104,7 +104,9 @@
                       <td class="align-middle" th:text="${ itemList[status.index] }">상품명</td>
                       <td class="align-middle"><img class="productImg" th:src="${ review.reviewImgUrl }"/></td>
                       <td class="align-middle" th:text="${ review.memberId }">아이디</td>
-                      <td class="align-middle" th:text="${ review.reviewContent }" id="hidden">내용</td>
+                      <td class="align-middle">
+                          <div th:text="${ review.reviewContent }" class="txt_ellipsis">글내용</div>
+                      </td>
                       <td class="align-middle" th:text="${ review.reviewStar }">별점</td>
                       <td class="align-middle" th:text="${#temporals.format(review.reviewDatetime, 'yyyy-MM-dd HH:mm')}">날짜</td>
                       <td class="align-middle">
@@ -197,6 +199,13 @@ if($('#allch').prop("checked")){
 });
 </script>
 <script th:inline="javascript">
+  let memberRate = document.getElementById('memberRate');  // memberRate
+  for (let i=0; i<memberRate.options.length; i++){
+    if(memberRate.options[i].value == [[${member.memberRate}]]){
+    	memberRate.options[i].selected = true;
+    }
+  }
+
 <!--선택 삭제 -->
      function deleteValue(){
       var reviewNo = "";

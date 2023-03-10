@@ -135,12 +135,12 @@ public class Controller4 {
 
     @GetMapping("admin/qna/comment/delete/{id}")
     @ResponseBody
-    public String commentDelete(@PathVariable("id") long id){
+    public String commentDelete(@PathVariable("id") long id, @RequestParam Long qnaId){
         boolean result = qnaCommentService.delete(id);
         if(!result){
             return "<script>alert('답변삭제 실패');history.back();</script>";
         }
-        return "<script>alert('답변삭제 완료');location.href='/admin/qna/list';</script>";
+        return "<script>alert('답변삭제 완료');location.href='/admin/qna/content/" + qnaId + "';</script>";
     }
 
     //수정

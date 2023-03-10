@@ -92,7 +92,7 @@
             <td class="align-middle" th:text="${ qna.qnaId }"></td>
             <td class="align-middle" th:text="${ qna.qnaCategory }"></td>
             <td class="align-middle">
-             <a th:text="${ qna.qnaContent }">글내용</a>
+             <div th:text="${ qna.qnaContent }" class="txt_ellipsis">글내용</div>
             </td>
             <td class="align-middle" th:text="${ qna.qnaName }">작성자</td>
             <td class="align-middle" th:text="${ #temporals.format(qna.qnaDate, 'yyyy-MM-dd HH:mm')}">작성일</td>

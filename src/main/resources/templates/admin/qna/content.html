@@ -42,7 +42,7 @@
         <tr>
           <th style="text-align: center;" class="w250 table-light align-middle">문의내용</th>
           <td>
-            <textarea th:text="${qna.qnaContent}" class="form-control" style="height: 100px">
+            <textarea th:text="${qna.qnaContent}" class="form-control" style="height: 100px" readonly>
               기타문의입니다 기타문의입니다 기타문의입니다 기타문의입니다
             </textarea>
           </td>
@@ -81,7 +81,7 @@
       </table>
         <div style="text-align: center">
           <button type="submit" class="btn btn-outline-secondary">수정</button>
-          <a th:href="@{/admin/qna/comment/delete/{id}(id=${comment.commentId})}" class="btn btn-danger">삭제</a>
+          <a th:href="|/admin/qna/comment/delete/${comment.commentId}?qnaId=${qna.qnaId}|" class="btn btn-danger">삭제</a>
           <a href="/admin/qna/list" class="btn btn-outline-secondary">목록</a>
         </div>
         </form>
