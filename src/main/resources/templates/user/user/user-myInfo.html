@@ -42,6 +42,9 @@
   <div class="betweenbtn">
     <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
   </div>
+  <div class="betweenbtn2">
+    <div th:replace="/fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>
+  </div>
   <div class="header">
     <div th:replace="/fragments/header.html :: fragment-header"></div>
 
@@ -134,7 +137,7 @@
         <div class="red check-txt check-txt-name2">
           2~5 길이의 한글로 입력해주세요.
         </div>
-        <div class="blue check-txt check-txt-name3">가입 가능합니다.</div>
+        <div class="blue check-txt check-txt-name3">사용가능합니다.</div>
         <input
                 class="input-st01 users-login-input mt-10"
                 type="email"
@@ -278,8 +281,8 @@
           </ul>
         </div>
       </form>
-      <div align="center">
-        <a href="/user/exited" >회원탈퇴하기</a>
+      <div align="center" class="getOut" style="margin-top: 10px;">
+        <button onclick="getout()">회원탈퇴하기</button>
       </div>
     </div>
   </div>
@@ -377,6 +380,13 @@
           document.querySelector(".check-txt-" + type + "3").style.display =
             "block";
         }
+      }
+
+      function getout(){
+      if(confirm("정말 탈퇴하시겠습니까?")) {
+      location.href="/user/exited";
+      }else{
+      }
       }
     </script>
 <!-- 우편번호 -->

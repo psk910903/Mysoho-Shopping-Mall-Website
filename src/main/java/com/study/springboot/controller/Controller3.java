@@ -177,7 +177,7 @@ public class Controller3 {
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-            return "<script>alert('사용중인 아이디나 멜 주소 입니다.');history.back();</script>";
+            return "<script>alert('사용중인 아이디나 이메일입니다.');history.back();</script>";
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return "<script>alert('회원가입 실패했습니다.');history.back();</script>";
@@ -197,9 +197,9 @@ public class Controller3 {
     @ResponseBody
     public String exited(@AuthenticationPrincipal User user,
                          HttpServletRequest request) throws Exception {
-        String username = user.getUsername();
+        String memberId = user.getUsername();
         System.out.println("탈퇴할 회원 id:" + user.getUsername());
-        boolean result = service3.exited(username);
+        boolean result = service3.exited(memberId);
         request.getSession().invalidate();//세션종료
         if (result) {
             return "<script>alert('회원탈퇴 성공했습니다.'); location.href='/';</script>";
@@ -377,7 +377,8 @@ public class Controller3 {
             ProductResponseDto itemDto = productService.findById(Long.parseLong(itemNo));
             itemUrl.add(itemDto.getItemImageUrl());//item사진을 itemList에 넣어줌
         }
-
+        int listSize = list.size();
+        model.addAttribute("listSize",listSize);
         model.addAttribute("list",list);
         model.addAttribute("itemName", itemName);
         model.addAttribute("itemUrl", itemUrl);

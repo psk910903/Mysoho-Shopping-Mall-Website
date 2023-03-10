@@ -25,6 +25,9 @@
   <div class="betweenbtn">
     <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
   </div>
+  <div class="betweenbtn2">
+    <div th:replace="/fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>
+  </div>
 
   <div class="header">
     <div th:replace="/fragments/header.html :: fragment-header"></div>
@@ -57,7 +60,7 @@
           가능합니다. (-,_를 제외한 특수 문자 입력 불가)
         </div>
         <div class="blue check-txt check-txt-id3">
-          사용가능한 아이디입니다.
+          사용가능한 형식의 아이디입니다.
         </div>
 
         <input
@@ -165,6 +168,7 @@
               <img
                       src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h24_search.png"
                       alt=""
+                      onclick="sample6_execDaumPostcode()"
               />
             </li>
             <li class="delivery-address1">

@@ -214,9 +214,11 @@ public class Controller4 {
             List<String> nameList = new ArrayList<>();
             for(int i=0 ; i < list.size();i++){
 
-                String qnaName = list.get(i).getQnaName();
+                String qnaName = list.get(i).getMemberId();
+
                 if(qnaName == null){
-                    qnaName = list.get(i).getMemberId();
+                    qnaName = list.get(i).getQnaName();
+
                 }
                 String qnaHiddenName;
                 if (qnaName.length() == 2){
@@ -242,6 +244,7 @@ public class Controller4 {
                 qnaCommentCount.add(CommentCount);
             }
             //답변카운트 불러오기 끝
+
             model.addAttribute("keyword",keyword);
             model.addAttribute("listCount", list.size());
             model.addAttribute("qnaCommentCount",qnaCommentCount);
@@ -258,10 +261,11 @@ public class Controller4 {
             List<String> nameList = new ArrayList<>();
             for(int i=0 ; i < list.size();i++){
 
-                String qnaName = list.get(i).getQnaName();
+                String qnaName = list.get(i).getMemberId();
                 if(qnaName == null){
-                    qnaName = list.get(i).getMemberId();
+                    qnaName = list.get(i).getQnaName();
                 }
+
                 String qnaHiddenName;
                 if (qnaName.length() == 2){
                     qnaHiddenName = qnaName.replace(qnaName.charAt(1), '*');
@@ -286,12 +290,14 @@ public class Controller4 {
                 qnaCommentCount.add(CommentCount);
             }
             //답변카운트 불러오기 끝
+
             model.addAttribute("keyword",keyword);
             model.addAttribute("listCount", list.size());
             model.addAttribute("namelist",nameList);
             model.addAttribute("list",list);
             model.addAttribute("qnaCommentCount",qnaCommentCount);
             return "/user/category/qna";
+
         }
     }
 

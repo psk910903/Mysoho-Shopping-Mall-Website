@@ -1,10 +1,12 @@
 package com.study.springboot.service;
 
+import com.study.springboot.dto.cart.CartResponseDto;
+import com.study.springboot.dto.inquiry.InquiryResponseDto;
+import com.study.springboot.dto.order.OrderResponseDto;
+import com.study.springboot.dto.qna.QnaResponseDto;
 import com.study.springboot.dto.security.MemberJoinDto;
-import com.study.springboot.entity.MemberEntity;
-import com.study.springboot.entity.OrderEntity;
-import com.study.springboot.repository.MemberRepository;
-import com.study.springboot.repository.OrderRepository;
+import com.study.springboot.entity.*;
+import com.study.springboot.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -14,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 @RequiredArgsConstructor
 @Service
@@ -21,8 +24,15 @@ public class Service3 {
     final private MemberRepository memberRepository;
     final private JavaMailSender javaMailSender;
     final private PasswordEncoder passwordEncoder;
-
-    final private OrderRepository orderRepository;
+    final ReviewRepository reviewRepository;
+    final CartRepository cartRepository;
+    final OrderRepository orderRepository;
+    final InquiryRepository inquiryRepository;
+    final QnaRepository qnaRepository;
+    final CartService cartService;
+    final Service1 service1;
+    final Service2 service2;
+    final QnaService qnaService;
 
     @Transactional(readOnly = true)
     public MemberEntity findByUserId(final String memberId){
@@ -30,14 +40,46 @@ public class Service3 {
         return optional.get();
     }
 
+    //선교 추가
     @Transactional
-    public boolean exited(final String username) throws Exception {
-        Optional<MemberEntity> optional = memberRepository.findByUserId(username);
-        if( !optional.isPresent() ) {
-            throw new Exception("member id is not present!");
+    public boolean exited(final String memberId) throws Exception {
+
+        //회원이 작성했던 상품문의 삭제
+        List<InquiryEntity> inquiryList = inquiryRepository.findByMemberId(memberId);
+        for (int i = 0; i < inquiryList.size(); i++) {
+            service2.delete(inquiryList.get(i).getInquiryNo());
         }
+
+        //회원이 작성했던 리뷰 삭제
+        List<ReviewEntity> reviewList =  reviewRepository.findByMemberIdContaining(memberId);
+        for (int i = 0; i < reviewList.size(); i++) {
+            ReviewEntity reviewEntity = reviewList.get(i);
+            reviewRepository.delete(reviewEntity);
+        }
+
+        //회원 카트정보 삭제
+        List<OrderResponseDto> orderDtoList = cartService.findByOrderList(memberId);
+        for (OrderResponseDto orderDto : orderDtoList) {
+
+            List<CartEntity> cartEntityList = service1.getCartEntityListMember(orderDto);
+            for (int i = 0; i < cartEntityList.size(); i++) {
+                cartRepository.delete(cartEntityList.get(i));
+            }
+        }
+        //회원주문건 삭제
+        List<OrderEntity> orderList = cartService.findByOrderListEntity(memberId);
+        for (int i = 0; i < orderList.size(); i++) {
+            orderRepository.delete(orderList.get(i));
+        }
+        //회원이 작성했던 qna 삭제
+        List<QnaEntity> qnaEntityList = qnaRepository.findByMemberId(memberId);
+        for (int i = 0; i < qnaEntityList.size(); i++) {
+            qnaService.delete(qnaEntityList.get(i).getQnaId());
+        }
+
+        MemberEntity memberEntity = memberRepository.findByUserId(memberId).get();
         try {
-            memberRepository.delete(optional.get());
+            memberRepository.delete(memberEntity);
             return true;
 
         }catch (IllegalArgumentException e){

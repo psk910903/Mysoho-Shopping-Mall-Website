@@ -38,6 +38,11 @@ public class CartService {
     }
 
     @Transactional(readOnly = true)
+    public CartEntity findByCartMemberEntity(String cartCode) {
+        return cartRepository.findByCartMember(cartCode);
+    }
+
+    @Transactional(readOnly = true)
     public List<OrderResponseDto> findByOrderList(String id) {
         //회원 아이디로 카트테이블에서 정보 가져오기
         List<CartEntity> cartEntityList = cartRepository.findByCartMemberId(id);
@@ -55,10 +60,35 @@ public class CartService {
         List<OrderResponseDto> orderList = new ArrayList<>();
         //반복해서 주문테이블 객체 가져와서 dto로 변환 후 리스트에 담기
         for (Long orderCode : newList) {
-            System.out.println("orderCode = " + orderCode);
             OrderEntity orderEntity = orderRepository.findByOrderCode(orderCode).get();
             OrderResponseDto dto = new OrderResponseDto(orderEntity);
             orderList.add(dto);
+        }
+        return orderList;
+
+
+    }
+    //entity로 반환하는 함수
+    @Transactional(readOnly = true)
+    public List<OrderEntity> findByOrderListEntity(String memberId) {
+        //회원 아이디로 카트테이블에서 정보 가져오기
+        List<CartEntity> cartEntityList = cartRepository.findByCartMemberId(memberId);
+        //entity -> dto로 변환
+        List<CartResponseDto> cartDtoList = cartEntityList.stream().map(CartResponseDto::new).toList();
+        //카트 테이블에서 주문번호만 추출해서 담을 orderCodeList 생성
+        List<Long> orderCodeList = new ArrayList<>();
+        //반복해서 주문번호만 추출 후 리스트에 담기
+        for (CartResponseDto cartDto : cartDtoList) {
+            orderCodeList.add(cartDto.getOrderCode());
+        }
+        //주문번호리스트에서 중복 값 제거
+        List<Long> newList = orderCodeList.stream().distinct().toList();
+        //주문번호들로 주문테이블에서 정보 가져와서 담을 리스트 생성
+        List<OrderEntity> orderList = new ArrayList<>();
+        //반복해서 주문테이블 객체 가져와서 dto로 변환 후 리스트에 담기
+        for (Long orderCode : newList) {
+            OrderEntity orderEntity = orderRepository.findByOrderCode(orderCode).get();
+            orderList.add(orderEntity);
         }
         return orderList;
     }

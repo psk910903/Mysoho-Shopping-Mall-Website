@@ -60,6 +60,12 @@
 .list{
 position: relative;
 }
+
+.non p {
+    text-align: center;
+    padding: 70px 0;
+    font-size: 15px;
+}
     </style>
 </head>
 <body>
@@ -67,6 +73,9 @@ position: relative;
 <div class="wrap">
   <div class="betweenbtn">
     <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
+  </div>
+  <div class="betweenbtn2">
+    <div th:replace="/fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>
   </div>
   <div class="header">
     <div th:replace="/fragments/header.html :: fragment-header"></div>
@@ -79,7 +88,12 @@ position: relative;
       </div>
     </div>
 <!--    -->
+    <th:block th:if="${ listSize } == 0">
+      <div class="txt-detail non"><p>작성한 상품후기가 없습니다.</p></div>
+    </th:block>
 
+
+    <th:block th:unless="${ listSize } == 0">
     <th:block th:each="review,status :${ list }">
     <div class="order_list">
           <div class="list">
@@ -126,8 +140,9 @@ position: relative;
     </div>
 
       </th:block>
-    <!-- 구분선 -->
-    <div class="bg-blank"></div>
+      <!-- 구분선 -->
+      <div class="bg-blank"></div>
+    </th:block>
     </div>
 
   </div>

@@ -47,8 +47,8 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     // 희진 02 24 수정 ----------------------------------------------------------------
 
     @Query(value = "SELECT member_name FROM `member` WHERE `member_id` = :memberId", nativeQuery = true)
-    String findMemberNameByMemberId(String memberId);
+    String findMemberNameByMemberId(@Param(value="memberId")String memberId);
 
     @Query(value = "SELECT * FROM `member` WHERE `member_id` = :memberId", nativeQuery = true)
-    Optional<MemberEntity> findByMemberId(String memberId);
+    Optional<MemberEntity> findByMemberId(@Param(value="memberId")String memberId);
 }

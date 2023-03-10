@@ -25,7 +25,8 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity,Long> {
     @Query(value = "SELECT AVG(review_star) FROM review WHERE item_no = :item_no", nativeQuery = true)
     Integer findByItemReviewStarAVG(@Param(value="item_no")Long item_no);
 
-    List<ReviewEntity> findByMemberIdContaining(String MemberId);
+    @Query(value = "SELECT * FROM review WHERE member_id = :memberId order BY review_no DESC;", nativeQuery = true)
+    List<ReviewEntity> findByMemberIdContaining(@Param(value="memberId")String memberId);
 
     @Query(value = "SELECT * FROM review where item_no LIKE :id order BY review_datetime DESC ", nativeQuery = true)
     List<ReviewEntity> findByReview(@Param(value="id")String id);

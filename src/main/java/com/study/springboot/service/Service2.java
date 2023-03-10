@@ -43,6 +43,7 @@ public class Service2 {
 
     }
 
+
     private final InReplyRepository inReplyRepository;
 
     @Transactional(readOnly = true)
