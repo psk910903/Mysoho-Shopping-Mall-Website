@@ -646,7 +646,8 @@ input[type="checkbox"]:checked::after {
   border-bottom: 1px solid #edeff2;
 }
 #sort li:hover {
-  background-color: rgb(228, 228, 228);
+  text-decoration: none;
+    color: inherit;
 }
 /* 상세 펼치기 */
 .overflow {

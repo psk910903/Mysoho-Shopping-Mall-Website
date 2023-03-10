@@ -35,7 +35,7 @@
   <div class="container-write">
     <div class="users-title-line-hd">
       <h2>문의작성</h2>
-      <a href="javascript:closePopup()" class="qna-closebtn"
+      <a th:href="|${reference}|"  class="qna-closebtn"
       ><img
               src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
               alt=""
@@ -45,6 +45,8 @@
     <th:block sec:authorize="isAuthenticated()">
       <form  action="/inquiry/modify/action" method="post" onsubmit="return checkValueLogin();" name="inquiryInfo" id="searchForm">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <input type="hidden" th:value="${reference}" name="reference">
+        <input type="hidden" th:value="${dto.inquiryNickname}" name="inquiryNickname">
         <input type="hidden" th:value="${dto.memberId}" name="memberId">
         <input type="hidden" th:value="${dto.inquiryPassword}" name="inquiryPassword">
         <input type="hidden" th:value="${dto.itemNo}" name="itemNo">
@@ -55,20 +57,18 @@
             <div class="select">
               <!--                02 23 상품문의 고정값으로 지정하기-->
               <div id="standard-select" value="상품문의">상품문의</div>
-              <img
-                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
-                      alt=""
-              />
             </div>
           </div>
           <div class="chekck-title">
             <div><strong>문의내용</strong></div>
+            <th:block th:if="${commentList.isEmpty()}">
             <div class="fl-r">
               <!--                  id="check1" /    첫번째 레이블 for="check1"-->
               <input type="checkbox" name="inquirySecret" value="비공개" id="check1"/>
               <label for="check1"></label>
               <div class="cbx-content">비밀글</div>
             </div>
+            </th:block>
           </div>
           <div class="input-box">
             <textarea
@@ -83,6 +83,7 @@
             <div>
             </div>
           </div>
+          <th:block th:if="${commentList.isEmpty()}">
           <div class="txt-box mt-15">
             <div class="security-txt-wrap">
               <div class="security-txt">
@@ -113,6 +114,16 @@
             </div>
           </div>
           <button class="input-box btn-h42-gray" type="submit"> 수정하기 </button>
+          </th:block>
+
+          <th:block th:unless="${commentList.isEmpty()}" th:each="comment : ${commentList}">
+            <div class="chekck-title">
+              <div><strong>답변내용</strong></div>
+            </div>
+            <div >
+              <textarea style="width: 100%" class="mt-10" id="answer" th:text="${comment.replyContent}" readonly>상품문의 박선교</textarea>
+            </div>
+          </th:block>
           <div class="txt-box mt-15">
             <p class="gray-txt2">
               쇼핑몰 이용과 관련되지 않은 광고, 욕설, 비방, 도배 등이 포함된
@@ -129,25 +140,24 @@
     <th:block sec:authorize="isAnonymous()">
       <form action="/inquiry/modify/action" method="post" onsubmit="return checkValueGuest();" id="searchForm" name="inquiryInfo">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <input type="hidden" th:value="${reference}" name="reference">
         <input type="hidden" th:value="${dto.itemNo}" name="itemNo">
         <input type="hidden" th:value="${dto.inquiryNo}" name="inquiryNo">
         <div class="qa-write-wrap">
           <div class="qa-write">
             <div class="select">
               <div id="standard-select" value="상품문의">상품문의</div>
-              <img
-                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png"
-                      alt=""
-              />
             </div>
           </div>
           <div class="chekck-title">
             <div><strong>문의내용</strong></div>
+            <th:block th:if="${commentList.isEmpty()}">
             <div class="fl-r">
               <input type="checkbox" name="inquirySecret" value="비공개" id="check1"/>
               <label for="check1"></label>
               <div class="cbx-content">비밀글</div>
             </div>
+            </th:block>
           </div>
           <div class="input-box">
             <div><input
@@ -166,6 +176,7 @@
                     class="mt-10"
                     th:text="${dto.inquiryContent}"
             ></textarea>
+            <th:block th:if="${commentList.isEmpty()}">
             <div>
               <input
                       type="password"
@@ -178,38 +189,52 @@
                 ※ 입력한 비밀번호는 게시글 확인 시 필요합니다.
               </p>
             </div>
+            </th:block>
           </div>
-          <div class="txt-box mt-15">
-            <div class="security-txt-wrap">
-              <div class="security-txt">
-                <img
-                        src="data:image/gif;base64,R0lGODdhyAAyAMIAAP///3/AmjogB4F5haW4qQAAAAAAAAAAACwAAAAAyAAyAAAD/gi6BL0wyknrfBLbzXX0XKiAEDicaKqurOoRpCiXjPjEs9TufN8TLGAwhyPmIr6kcuk7Oje4YkiqY1qftifmZsR6Px9qhRR7Wbgd2Hdd67Ip4jdWTZPL4vZLBp+fOgOAAX2DemCFhHYafBlrgYEEgnJ8ioaIiQ6WdiiYFY6QgJmhooRilBsqI2OcEo6Oh3VtqZWwl1Cjr4wiqFlnFJ6faLeqootuMidAIQEwrV8arYG4ubySDcXCVShSwazQ3oJmq7HfbOGxftPYtgC7ssbDEN+tn8qfrvCM1+pr7bP67+cAzPMGqRu0Xu6I/NOyTgGqOAvx0ZJmQZ7FaOiERWSX/qJcQ0tkJE642EzSrX6zvJgS1yHgvg2AINmDVhChRwodEXKjmI5OBAFAgwJtWUEolqELgC4CBDRmgKYkJyBVMDVdP6NEhVVds9Um1aldRQjQAPVeBG9lnwqI5A6lhLBzRG7oWuwBXCpY4XZAGpbcWwFfFQRS4Y2WXpYu+xxOnFBvyK98AcuFgBWXzHlG+5GQl/YmHBmLc4QuCnjo6DOAIxIGlfGnZMEkMVo6Lfa116QNTNt2ctgnko5b/YZYHCM269tJd9+Rmpq3ZKP6CEylkpOy8pGF/x6hEhWxdYCve88am/z6jMVuv8/AEGgtU/MCjS8r6V2sb+cAtvIBS7xI/tcBQgyQEBzmkYHWWmnNJ9ty6dxG20RBfVEVbSQMlZ447L03kEUUROhLdimtsVF9Jnmxmnz0NahiKRkIR80oVIxI0onHkZJJcTPVuF1GLzxWkVOx2TOBCxMVicmIHw3ioiUo5ggQRyf0YU0oSMrwCAcoHpSHjxcOUuVLH3IIZgi7fMngmIyFqCYi12jQ5WdoxqnSlmkW4laMA2pEpZyZEIncmXp6mWeSDK1HZnUvQmEmic4kSiifECD6xjaBFjonmPdlkwyklsLZGoyeilSECZI6MQmnqKr46SmlhrEQGhGV8dKil+Lz5p+pdqrOToTc6hmmucrpJ67BDlqsoZpsPHIsMbSeuo+vNxqp6q+NSssSCFV6AC2PyEFk6rKCzgCggMRyQmu4PE3rI6NS1jnglOdsUYu7+5wL6qcJAAA7"
-                        alt=""
-                />
+
+          <th:block th:if="${commentList.isEmpty()}">
+            <div class="txt-box mt-15">
+              <div class="security-txt-wrap">
+                <div class="security-txt">
+                  <img
+                          src="data:image/gif;base64,R0lGODdhyAAyAMIAAP///3/AmjogB4F5haW4qQAAAAAAAAAAACwAAAAAyAAyAAAD/gi6BL0wyknrfBLbzXX0XKiAEDicaKqurOoRpCiXjPjEs9TufN8TLGAwhyPmIr6kcuk7Oje4YkiqY1qftifmZsR6Px9qhRR7Wbgd2Hdd67Ip4jdWTZPL4vZLBp+fOgOAAX2DemCFhHYafBlrgYEEgnJ8ioaIiQ6WdiiYFY6QgJmhooRilBsqI2OcEo6Oh3VtqZWwl1Cjr4wiqFlnFJ6faLeqootuMidAIQEwrV8arYG4ubySDcXCVShSwazQ3oJmq7HfbOGxftPYtgC7ssbDEN+tn8qfrvCM1+pr7bP67+cAzPMGqRu0Xu6I/NOyTgGqOAvx0ZJmQZ7FaOiERWSX/qJcQ0tkJE642EzSrX6zvJgS1yHgvg2AINmDVhChRwodEXKjmI5OBAFAgwJtWUEolqELgC4CBDRmgKYkJyBVMDVdP6NEhVVds9Um1aldRQjQAPVeBG9lnwqI5A6lhLBzRG7oWuwBXCpY4XZAGpbcWwFfFQRS4Y2WXpYu+xxOnFBvyK98AcuFgBWXzHlG+5GQl/YmHBmLc4QuCnjo6DOAIxIGlfGnZMEkMVo6Lfa116QNTNt2ctgnko5b/YZYHCM269tJd9+Rmpq3ZKP6CEylkpOy8pGF/x6hEhWxdYCve88am/z6jMVuv8/AEGgtU/MCjS8r6V2sb+cAtvIBS7xI/tcBQgyQEBzmkYHWWmnNJ9ty6dxG20RBfVEVbSQMlZ447L03kEUUROhLdimtsVF9Jnmxmnz0NahiKRkIR80oVIxI0onHkZJJcTPVuF1GLzxWkVOx2TOBCxMVicmIHw3ioiUo5ggQRyf0YU0oSMrwCAcoHpSHjxcOUuVLH3IIZgi7fMngmIyFqCYi12jQ5WdoxqnSlmkW4laMA2pEpZyZEIncmXp6mWeSDK1HZnUvQmEmic4kSiifECD6xjaBFjonmPdlkwyklsLZGoyeilSECZI6MQmnqKr46SmlhrEQGhGV8dKil+Lz5p+pdqrOToTc6hmmucrpJ67BDlqsoZpsPHIsMbSeuo+vNxqp6q+NSssSCFV6AC2PyEFk6rKCzgCggMRyQmu4PE3rI6NS1jnglOdsUYu7+5wL6qcJAAA7"
+                          alt=""
+                  />
+                </div>
+                <div class="btns">
+                  <a href="" class="js-reCreateCaptchaImage">
+                    <div class="refresh">
+                      <img
+                              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_refresh.png"
+                              alt=""
+                      />
+                      새로고침
+                    </div>
+                  </a>
+                </div>
               </div>
-              <div class="btns">
-                <a href="" class="js-reCreateCaptchaImage">
-                  <div class="refresh">
-                    <img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_refresh.png"
-                            alt=""
-                    />
-                    새로고침
-                  </div>
-                </a>
+              <div class="input-box mt-10">
+                <div>
+                  <input
+                          type="text"
+                          name="captchaText"
+                          id="captchaText"
+                          placeholder="보안문자를 입력해주세요.">
+                </div>
               </div>
             </div>
-            <div class="input-box mt-10">
-              <div>
-                <input
-                      type="text"
-                      name="captchaText"
-                      id="captchaText"
-                      placeholder="보안문자를 입력해주세요.">
-              </div>
+            <button class="input-box btn-h42-gray" type="submit"> 수정하기 </button>
+
+          </th:block>
+
+          <th:block th:unless="${commentList.isEmpty()}" th:each="comment : ${commentList}">
+            <div class="chekck-title">
+              <div><strong>답변내용</strong></div>
             </div>
-          </div>
-          <button class="input-box btn-h42-gray" type="submit"> 수정하기 </button>
+            <div >
+              <textarea style="width: 100%" class="mt-10" id="answer" th:text="${comment.replyContent}" readonly>상품문의 박선교</textarea>
+            </div>
+          </th:block>
           <div class="txt-box mt-15">
             <p class="gray-txt2">
               쇼핑몰 이용과 관련되지 않은 광고, 욕설, 비방, 도배 등이 포함된
@@ -217,6 +242,7 @@
               이메일 등의 소중한 개인정보는 남기지 말아주세요.
             </p>
           </div>
+
         </div>
       </form>
     </th:block>
@@ -251,7 +277,7 @@
             }
         });
 
-             function closePopup() {
+      function closePopup() {
         window.close();
       }
 

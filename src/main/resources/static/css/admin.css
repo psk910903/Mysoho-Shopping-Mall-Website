@@ -136,4 +136,14 @@ select {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.txt_ellipsis {
+  max-width: 30vw;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  display:block;
+  height: 100%;
+  border: 0px;
+  margin: auto;
+}
 

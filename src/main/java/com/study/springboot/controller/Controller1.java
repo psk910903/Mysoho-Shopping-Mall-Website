@@ -12,6 +12,7 @@ import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.product.ProductSaveRequestDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.entity.MemberEntity;
+import com.study.springboot.entity.ReviewEntity;
 import com.study.springboot.repository.CartRepository;
 import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ProductRepository;
@@ -523,13 +524,13 @@ public class Controller1 {
     if (user == null) {
       System.out.println("no user");
     } else {
-      String username = user.getUsername();
-      MemberEntity entity = service3.findByUserId(username);
+      String memberId = user.getUsername();
+      MemberEntity entity = service3.findByUserId(memberId);
       request.getSession().setAttribute("username", entity.getMemberName());
       request.getSession().setAttribute("memberMileage", entity.getMemberMileage());
       request.getSession().setAttribute("memberCoupon", entity.getMemberCoupon());
 
-      List<OrderResponseDto> orderList = cartService.findByOrderList(username);
+      List<OrderResponseDto> orderList = cartService.findByOrderList(memberId);
       List<CartResponseDto> cartList;
       List<List<CartResponseDto>> cartListModel = new ArrayList<>();
 
@@ -568,7 +569,6 @@ public class Controller1 {
         orderDto.setOrderDiscountPrice(discountPrice);//할인율이 적용된 차감될 금액
         orderDto.setOrderItemPrice(itemPrice); // (할인 적용된 결제당시)상품가격
       }
-      String memberId = user.getUsername();
 
       List<ReviewResponseDto> ReviewList = reviewService.findByMemberId(memberId); //사용자가 작성한 리뷰
 
@@ -603,6 +603,16 @@ public class Controller1 {
     String itemInfo = productService.findById(itemNo).getItemInfo();
     model.addAttribute("itemInfo", itemInfo);
     return "/user/enlarge/enlargeProductInfo";
+  }
+
+  // 관리자페이지 리뷰 상세 정보 admin/review/content?reviewNo=12
+  @RequestMapping("/admin/review/content/{reviewNo}")
+  public String adminReviewContent(Model model,@PathVariable(value = "reviewNo") Long reviewNo){
+    System.out.println("reviewNo = " + reviewNo);
+    ReviewEntity review = reviewService.findById(reviewNo);
+
+    model.addAttribute("review", review);
+    return "/admin/review/content";
   }
 }
 

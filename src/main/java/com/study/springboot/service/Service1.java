@@ -8,6 +8,7 @@ import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.order.OrderSearchDto;
 import com.study.springboot.dto.product.ProductResponseDto;
+import com.study.springboot.entity.CartEntity;
 import com.study.springboot.entity.OrderEntity;
 import com.study.springboot.entity.ProductEntity;
 import com.study.springboot.repository.*;
@@ -222,12 +223,38 @@ public class Service1 {
         return cartList;
     }
 
+    @Transactional(readOnly = true)
+    public List<CartEntity> getCartEntityListMember(OrderResponseDto dto) {
+        List<CartEntity> cartList = new ArrayList<>();
+        if (dto.getCartCode1() != null) {
+            CartEntity entity = cartService.findByCartMemberEntity(dto.getCartCode1());
+            cartList.add(entity);
+        }
+        if (dto.getCartCode2() != null) {
+            CartEntity entity = cartService.findByCartMemberEntity(dto.getCartCode2());
+            cartList.add(entity);
+        }
+        if (dto.getCartCode3() != null) {
+            CartEntity entity = cartService.findByCartMemberEntity(dto.getCartCode3());
+            cartList.add(entity);
+        }
+        if (dto.getCartCode4() != null) {
+            CartEntity entity = cartService.findByCartMemberEntity(dto.getCartCode4());
+            cartList.add(entity);
+        }
+        if (dto.getCartCode5() != null) {
+            CartEntity entity = cartService.findByCartMemberEntity(dto.getCartCode5());
+            cartList.add(entity);
+        }
+
+        return cartList;
+    }
+
 
 
     @Transactional(readOnly = true)
     public String findLatestNotice(){
-        String noticeTitle = noticeRepository.findLatestNotice();
-        return noticeTitle;
+        return noticeRepository.findLatestNotice();
     };
 
 }
