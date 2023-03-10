@@ -256,7 +256,7 @@ public class Controller2 {
         }
 
         // memberHiddenName
-        String memberName = service2.findMemberNameByMemberId(memberId);
+        String memberName = memberId;
         String memberHiddenName;
 
         if (memberName.length() <= 2){
@@ -310,7 +310,7 @@ public class Controller2 {
         }
 
         // memberHiddenName
-        String memberName = service2.findMemberNameByMemberId(memberId); // "홍길동임"
+        String memberName = memberId; // "홍길동임"
         String memberHiddenName; // "홍길**"
 
         if (memberName.length() <= 2){
