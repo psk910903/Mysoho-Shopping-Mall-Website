@@ -197,9 +197,9 @@ public class Controller3 {
     @ResponseBody
     public String exited(@AuthenticationPrincipal User user,
                          HttpServletRequest request) throws Exception {
-        String username = user.getUsername();
+        String memberId = user.getUsername();
         System.out.println("탈퇴할 회원 id:" + user.getUsername());
-        boolean result = service3.exited(username);
+        boolean result = service3.exited(memberId);
         request.getSession().invalidate();//세션종료
         if (result) {
             return "<script>alert('회원탈퇴 성공했습니다.'); location.href='/';</script>";
