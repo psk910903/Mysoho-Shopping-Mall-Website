@@ -301,7 +301,7 @@
         </div>
         <!-- 상품명 -->
         <div class="MSH-prd-info-19520">
-          <div class="MSH-prd-name">
+          <div class="MSH-prd-name" id="MSH-prd-name">
             <strong th:text="${ dto.itemName }">상품명</strong>
             <!-- <div class="MSH-prd-name-sub">특별한 날에 best !</div>-->
           </div>
@@ -627,7 +627,7 @@
                     </div>
 
                     <div class="layerOptionNot">
-                      <div class="option-choice">옵션을 선택해 주세요</div>
+                      <div class="option-choice" style="display: block;">옵션을 선택해 주세요</div>
                       <div class="option-btn-bg"></div>
                       <button
                         class="btn1"
@@ -636,7 +636,7 @@
                       >
                         장바구니
                       </button>
-                      <button class="btn2" type="button" onclick="processBeforeSubmit()">
+                      <button class="btn2" type="button" onclick="closeOptionList()">
                         결제하기
                       </button>
                     </div>
@@ -648,10 +648,10 @@
 
           <div class="prd-btn-type1" id="hidden">
             <div class="prd-option-result">
-              <span class="final-color-result" >색상</span>,
-              <span class="final-size-result" >사이즈</span>,
+              <span class="final-color-result"></span>,
+              <span class="final-size-result"></span>,
 
-              <span id="product-count">1</span>개
+              <span id="product-count"></span>개
             </div>
           </div>
         </th:block>
@@ -1552,24 +1552,25 @@
 
         document.getElementById("order-first-input").focus();
       }
-     
-      function closeOptionList() {
-        let finalColorResult = document.querySelector(".final-color").innerHTML;
-        let finalSizeResult = document.querySelector(".final-size").innerHTML;
-        let productCount = document.querySelector(".MSH-sto-stock").value;
-        document.querySelector(".final-size-result").innerHTML =
-          finalSizeResult;
-        document.querySelector(".final-color-result").innerHTML =
-          finalColorResult;
-        document.querySelector("#final-size-result").value =
-          finalSizeResult;
-        document.querySelector("#final-color-result").value =
-          finalColorResult;
-        document.querySelector("#product-count").innerHTML = productCount;
-        document.querySelector("#hidden").style.display = "block";
 
-        if (document.querySelector(".option-choice").style.display == "block") {
+      function closeOptionList() {
+
+        if (document.querySelector(".option-choice").style.display === "block") {
           document.querySelector("#hidden").style.display = "none";
+        }else{
+          let finalColorResult = document.querySelector(".final-color").innerHTML;
+          let finalSizeResult = document.querySelector(".final-size").innerHTML;
+          let productCount = document.querySelector(".MSH-sto-stock").value;
+          document.querySelector(".final-size-result").innerHTML =
+            finalSizeResult;
+          document.querySelector(".final-color-result").innerHTML =
+            finalColorResult;
+          document.querySelector("#final-size-result").value =
+            finalSizeResult;
+          document.querySelector("#final-color-result").value =
+            finalColorResult;
+          document.querySelector("#product-count").innerHTML = productCount;
+          document.querySelector("#hidden").style.display = "block";
         }
       }
 
@@ -1706,6 +1707,8 @@
             focusAlert("sample6_postcode");
           }else if(alertString == "계좌번호를 선택해주세요."){
             focusAlert("paySelect");
+          }else if(alertString == "옵션을 선택해 주세요."){
+            focusAlert("MSH-prd-name");
           }
         }
 
@@ -1718,6 +1721,10 @@
         let checkName = /^[가-힣]{2,5}$/; //이름 유효성 검사
         let checkEmail = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/; //이메일 유효성 검사
         let checkPhone = /^[0-9]{10,11}$/; //이메일 유효성 검사
+
+        if(document.querySelector("#final-size-result").value === '' || document.querySelector("#final-color-result").value === '' || document.querySelector("#product-count").innerHTML === ''){
+          return "옵션을 선택해 주세요."
+        }
 
         // 주문자 정보 이름
         let orderName = document.getElementById("order-first-input").value;
