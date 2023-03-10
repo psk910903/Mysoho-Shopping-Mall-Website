@@ -1,296 +1,153 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>마이소호 샘플샵</title>
-  <link
-          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
-          crossorigin="anonymous"
-  />
-  <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-  />
-  <link rel="stylesheet" href="/css/header.css" />
-  <link rel="stylesheet" href="/css/footer.css" />
-  <link rel="stylesheet" href="/css/userjoin.css" />
-</head>
-<body>
-<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-<div class="wrap">
-  <div class="betweenbtn">
-    <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
-  </div>
-  <div class="betweenbtn2">
-    <div th:replace="/fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>
-  </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마이소호 샘플샵</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/userjoin.css" />
+  </head>
+  <body>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <div class="wrap">
+      <div class="betweenbtn">
+        <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
+      </div>
+      <div class="betweenbtn2">
+        <div th:replace="/fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>
+      </div>
 
-  <div class="header">
-    <div th:replace="/fragments/header.html :: fragment-header"></div>
-  </div>
-  <!-- 회원가입 -->
-  <div class="containerlogin">
-    <div class="users-title-line-hd">
-      <h2>회원가입</h2>
-    </div>
-    <div class="users-cont">
-      <form method="post" action="/user/joinAction">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-        <input type="hidden" name="memberRole" value="ROLE_USER">
-        <input type="hidden" name="memberRate" value="일반회원">
-        <input type="hidden" name="memberMileage" value="0">
-        <input type="hidden" name="memberCoupon" value="0">
-        <input type="hidden" name="memberExited" value="회원">
-        <input
-                class="input-st01 users-login-input input-id "
-                type="text"
-                name="username"
-                placeholder="아이디(5자~20자 이내)"
-                value=""
+      <div class="header">
+        <div th:replace="/fragments/header.html :: fragment-header"></div>
+      </div>
+      <!-- 회원가입 -->
+      <div class="containerlogin">
+        <div class="users-title-line-hd">
+          <h2>회원가입</h2>
+        </div>
+        <div class="users-cont">
+          <form method="post" action="/user/joinAction">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <input type="hidden" name="memberRole" value="ROLE_USER" />
+            <input type="hidden" name="memberRate" value="일반회원" />
+            <input type="hidden" name="memberMileage" value="0" />
+            <input type="hidden" name="memberCoupon" value="0" />
+            <input type="hidden" name="memberExited" value="회원" />
+            <input class="input-st01 users-login-input input-id" type="text" name="username" placeholder="아이디(5자~20자 이내)" value="" />
+            <!--        onBlur="checkTxt('id', this.value)"-->
+            <!--        onchange="checkUserinfo('id', this.value)"-->
+            <div class="red check-txt check-txt-id">아이디를 입력해주세요</div>
+            <div class="red check-txt check-txt-id2">아이디는 영문 또는 영문, 숫자를 포함하여 5자~20자 내로 입력 가능합니다. (-,_를 제외한 특수 문자 입력 불가)</div>
+            <div class="blue check-txt check-txt-id3">사용가능한 형식의 아이디입니다.</div>
 
-        />
-<!--        onBlur="checkTxt('id', this.value)"-->
-<!--        onchange="checkUserinfo('id', this.value)"-->
-        <div class="red check-txt check-txt-id">아이디를 입력해주세요</div>
-        <div class="red check-txt check-txt-id2">
-          아이디는 영문 또는 영문, 숫자를 포함하여 5자~20자 내로 입력
-          가능합니다. (-,_를 제외한 특수 문자 입력 불가)
-        </div>
-        <div class="blue check-txt check-txt-id3">
-          사용가능한 형식의 아이디입니다.
-        </div>
-
-        <input
-                id="check-txt-pw"
-                class="input-st01 users-login-input mt-10 "
-                type="password"
-                name="password"
-                placeholder="비밀번호 (영문,숫자,특수문자 조합 8자리 이상)"
-                value=""
-
-        />
-<!--                        onchange="checkUserinfo('pw', this.value)"-->
-        <div class="red check-txt check-txt-pw">
-          올바른 비밀번호 형식이 아닙니다.
-        </div>
-        <div class="red check-txt check-txt-pw2">
-          올바른 비밀번호 형식이 아닙니다.
-        </div>
-        <div class="blue check-txt check-txt-pw3">
-          사용가능한 비밀번호 입니다.
-        </div>
-        <input
-                id="check-txt-pwcheck"
-                class="input-st01 users-login-input mt-10 "
-                type="password"
-                name="pwcheck"
-                placeholder="비밀번호 재입력"
-                value=""
-
-        />
-        <div class="blue check-txt check-txt-pwcheck-same">
-          비밀번호가 일치합니다.
-        </div>
-        <div class="red check-txt check-txt-pwcheck-not">
-          비밀번호가 일치하지 않습니다.
-        </div>
-        <input
-                id="userName"
-                class="input-st01 users-login-input mt-10 check-name"
-                type="text"
-                name="memberName"
-                value=""
-                placeholder="이름을 입력해주세요"
-
-        />
-        <!--                onBlur="checkTxt('name', this.value)"-->
-        <!--                onchange="checkUserinfo('name', this.value)"-->
-        <div class="red check-txt check-txt-name">이름을 입력해주세요</div>
-        <div class="red check-txt check-txt-name2">
-          2~5 길이의 한글로 입력해주세요.
-        </div>
-        <div class="blue check-txt check-txt-name3">가입 가능합니다.</div>
-        <input
-                class="input-st01 users-login-input mt-10 check-email"
-                type="email"
-                name="memberEmail"
-                placeholder="이메일(비밀번호 찾기 시 이메일로 발송됩니다"
-                value=""
-        />
-        <!--                onBlur="checkTxt('email', this.value)"-->
-        <!--                onchange="checkUserinfo('email', this.value)"-->
-        <div class="red check-txt check-txt-email">
-          이메일 주소를 입력하세요.
-        </div>
-        <div class="red check-txt check-txt-email2">
-          이메일 형식을 확인 해주세요.
-        </div>
-        <div class="blue check-txt check-txt-email3">
-          가입 가능한 이메일입니다.
-        </div>
-        <input
-                class="input-st01 users-login-input mt-10 check-phone"
-                type="text"
-                name="memberPhone"
-                placeholder="휴대폰번호"
-                value=""
-        />
-        <!--                onBlur="checkTxt('phone', this.value)"-->
-        <!--                onchange="checkUserinfo('phone', this.value)"-->
-        <div class="red check-txt check-txt-phone">
-          전화번호를 입력 해주세요
-        </div>
-        <div class="red check-txt check-txt-phone2">
-          전화번호 형식을 확인 해주세요.
-        </div>
-        <div class="blue check-txt check-txt-phone3">
-          사용가능한 전화번호입니다.
-        </div>
-        <div class="receiver-wrap same js-useDeliveryOff same2">
-          <div class="mt-40">
-            <strong> 주소</strong>
-          </div>
-          <ul>
-            <li class="box open-layer-addr mt-none">
-              <input
-                      class="input-st01 mt-10"
-                      id="sample6_postcode"
-                      type="text"
-                      name="memberAddrNumber"
-                      placeholder="우편번호"
-                      value=""
-                      readonly
-                      onclick="sample6_execDaumPostcode()"
-              />
-              <!-- 돋보기 이미지 -->
-
-              <img
-                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h24_search.png"
-                      alt=""
-                      onclick="sample6_execDaumPostcode()"
-              />
-            </li>
-            <li class="delivery-address1">
-              <input
-                      class="input-st01 mt-10"
-                      id="sample6_address"
-                      type="text"
-                      name="memberAddr1"
-                      placeholder="기본주소"
-                      value=""
-                      maxlength="100"
-              />
-            </li>
-            <li class="delivery-address2">
-              <input
-                      class="input-st01 mt-10"
-                      id="sample6_extraAddress"
-                      type="hidden"
-                      name=""
-                      placeholder="참고항목"
-                      value=""
-                      maxlength="100"
-              />
-            </li>
-            <li class="delivery-address2">
-              <input
-                      class="input-st01 mt-10"
-                      id="sample6_detailAddress"
-                      type="text"
-                      name="memberAddr2"
-                      placeholder="나머지주소"
-                      value=""
-                      maxlength="100"
-              />
-            </li>
-          </ul>
-        </div>
-
-        <div>
-          <!-- 이용약관 -->
-          <ul class="users-cont-full">
-            <li>
-              <div>
-                <input
-                        name="ckeck1"
-                        type="checkbox"
-                        id="agreeAllBtn"
-                        onclick="onclickAgree()"
-                />
-                <!--                  <label for="check1"></label>-->
-                <div class="cbx-content"><b>전체 동의</b></div>
+            <input id="check-txt-pw" class="input-st01 users-login-input mt-10" type="password" name="password" placeholder="비밀번호 (영문,숫자,특수문자 조합 8자리 이상)" value="" />
+            <!--                        onchange="checkUserinfo('pw', this.value)"-->
+            <div class="red check-txt check-txt-pw">올바른 비밀번호 형식이 아닙니다.</div>
+            <div class="red check-txt check-txt-pw2">올바른 비밀번호 형식이 아닙니다.</div>
+            <div class="blue check-txt check-txt-pw3">사용가능한 비밀번호 입니다.</div>
+            <input id="check-txt-pwcheck" class="input-st01 users-login-input mt-10" type="password" name="pwcheck" placeholder="비밀번호 재입력" value="" />
+            <div class="blue check-txt check-txt-pwcheck-same">비밀번호가 일치합니다.</div>
+            <div class="red check-txt check-txt-pwcheck-not">비밀번호가 일치하지 않습니다.</div>
+            <input id="userName" class="input-st01 users-login-input mt-10" type="text" name="memberName" value="" placeholder="이름을 입력해주세요" />
+            <!--                onBlur="checkTxt('name', this.value)"-->
+            <!--                onchange="checkUserinfo('name', this.value)"-->
+            <div class="red check-txt check-txt-name">이름을 입력해주세요</div>
+            <div class="red check-txt check-txt-name2">2~5 길이의 한글로 입력해주세요.</div>
+            <div class="blue check-txt check-txt-name3">가입 가능합니다.</div>
+            <input class="input-st01 users-login-input mt-10 check-email" type="email" name="memberEmail" placeholder="이메일(비밀번호 찾기 시 이메일로 발송됩니다" value="" />
+            <!--                onBlur="checkTxt('email', this.value)"-->
+            <!--                onchange="checkUserinfo('email', this.value)"-->
+            <div class="red check-txt check-txt-email">이메일 주소를 입력하세요.</div>
+            <div class="red check-txt check-txt-email2">이메일 형식을 확인 해주세요.</div>
+            <div class="blue check-txt check-txt-email3">가입 가능한 이메일입니다.</div>
+            <input class="input-st01 users-login-input mt-10 check-phone" type="text" name="memberPhone" placeholder="휴대폰번호" value="" />
+            <!--                onBlur="checkTxt('phone', this.value)"-->
+            <!--                onchange="checkUserinfo('phone', this.value)"-->
+            <div class="red check-txt check-txt-phone">전화번호를 입력 해주세요</div>
+            <div class="red check-txt check-txt-phone2">전화번호 형식을 확인 해주세요.</div>
+            <div class="blue check-txt check-txt-phone3">사용가능한 전화번호입니다.</div>
+            <div class="receiver-wrap same js-useDeliveryOff same2">
+              <div class="mt-40">
+                <strong> 주소</strong>
               </div>
-            </li>
-            <div class="agree">
-              <li>
-                <div>
-                  <input name="ckeck1" type="checkbox" class="essential" required/>
-                  <!--                    <label for="check1"></label>-->
-                  <div class="cbx-content cbx-content-li">
-                    이용약관 동의 (필수)
-                  </div>
-                </div>
-                <a href="javascript:openPopup3()" class="btn-agree"> 보기 </a>
-              </li>
-              <li>
-                <div>
-                  <input name="ckeck1" type="checkbox" class="essential" required/>
-                  <!--                    <label for="check1"></label>-->
-                  <div class="cbx-content cbx-content-li" req>
-                    개인정보 수집ㆍ이용 동의 (필수)
-                  </div>
-                </div>
-                <a href="javascript:openPopup4()" class="btn-agree"> 보기 </a>
-              </li>
-              <li>
-                <div>
-                  <input name="ckeck1" type="checkbox" />
-                  <!--                    <label for="check1"></label>-->
-                  <div class="cbx-content cbx-content-li">
-                    개인정보 수집ㆍ이용 동의 (선택)
-                  </div>
-                </div>
-                <a href="javascript:openPopup4()" class="btn-agree"> 보기 </a>
-              </li>
+              <ul>
+                <li class="box open-layer-addr mt-none">
+                  <input class="input-st01 mt-10" id="sample6_postcode" type="text" name="memberAddrNumber" placeholder="우편번호" value="" readonly onclick="sample6_execDaumPostcode()" />
+                  <!-- 돋보기 이미지 -->
+
+                  <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h24_search.png" alt="" onclick="sample6_execDaumPostcode()" />
+                </li>
+                <li class="delivery-address1">
+                  <input class="input-st01 mt-10" id="sample6_address" type="text" name="memberAddr1" placeholder="기본주소" value="" maxlength="100" />
+                </li>
+                <li class="delivery-address2">
+                  <input class="input-st01 mt-10" id="sample6_extraAddress" type="hidden" name="" placeholder="참고항목" value="" maxlength="100" />
+                </li>
+                <li class="delivery-address2">
+                  <input class="input-st01 mt-10" id="sample6_detailAddress" type="text" name="memberAddr2" placeholder="나머지주소" value="" maxlength="100" />
+                </li>
+              </ul>
             </div>
-            <button
-                    class="mt-40"
-                    type="submit"
-                    id="join"
-                    onclick="join()"
-            >
-              가입하기
-            </button>
-          </ul>
+
+            <div>
+              <!-- 이용약관 -->
+              <ul class="users-cont-full">
+                <li>
+                  <div>
+                    <input name="ckeck1" type="checkbox" id="agreeAllBtn" onclick="onclickAgree()" />
+                    <!--                  <label for="check1"></label>-->
+                    <div class="cbx-content"><b>전체 동의</b></div>
+                  </div>
+                </li>
+                <div class="agree">
+                  <li>
+                    <div>
+                      <input name="ckeck1" type="checkbox" class="essential" required />
+                      <!--                    <label for="check1"></label>-->
+                      <div class="cbx-content cbx-content-li">이용약관 동의 (필수)</div>
+                    </div>
+                    <a href="javascript:openPopup3()" class="btn-agree"> 보기 </a>
+                  </li>
+                  <li>
+                    <div>
+                      <input name="ckeck1" type="checkbox" class="essential" required />
+                      <!--                    <label for="check1"></label>-->
+                      <div class="cbx-content cbx-content-li" req>개인정보 수집ㆍ이용 동의 (필수)</div>
+                    </div>
+                    <a href="javascript:openPopup4()" class="btn-agree"> 보기 </a>
+                  </li>
+                  <li>
+                    <div>
+                      <input name="ckeck1" type="checkbox" />
+                      <!--                    <label for="check1"></label>-->
+                      <div class="cbx-content cbx-content-li">개인정보 수집ㆍ이용 동의 (선택)</div>
+                    </div>
+                    <a href="javascript:openPopup4()" class="btn-agree"> 보기 </a>
+                  </li>
+                </div>
+                <button class="mt-40" type="submit" id="join" onclick="join()">가입하기</button>
+              </ul>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
+      <!-- 푸터 -->
+      <div class="footer">
+        <div th:replace="/fragments/footer.html :: fragment-footer"></div>
+      </div>
     </div>
-  </div>
-  <!-- 푸터 -->
-  <div class="footer">
-    <div th:replace="/fragments/footer.html :: fragment-footer"></div>
-  </div>
-</div>
 
-<script
-        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-        crossorigin="anonymous"
-></script>
-<script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
-        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
-        crossorigin="anonymous"
-></script>
-<script src="/js/header.js"></script>
-<script src="/js/footer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+    <script src="/js/header.js"></script>
+    <script src="/js/footer.js"></script>
 
-<script>
-var p = document.get
+    <script>
+      var p = document.get;
       let agree = document.querySelectorAll(".agree input");
       let agreeAllBtn = document.querySelector("#agreeAllBtn");
 
@@ -310,10 +167,8 @@ var p = document.get
         // 입력값이 공백일 때
         if (val === "") {
           document.querySelector(".check-txt-" + type).style.display = "block";
-          document.querySelector(".check-txt-" + type + "2").style.display =
-            "none";
-          document.querySelector(".check-txt-" + type + "3").style.display =
-            "none";
+          document.querySelector(".check-txt-" + type + "2").style.display = "none";
+          document.querySelector(".check-txt-" + type + "3").style.display = "none";
         } else {
           document.querySelector(".check-txt-" + type).style.display = "none";
         }
@@ -323,107 +178,94 @@ var p = document.get
         alert("축하합니다 회원가입하셨습니다.");
         location.href = "userlogin.html";
       }
-</script>
-<script>
-<!--id유효성 검사 -->
+    </script>
+    <script>
       var ckeckId = /^[a-zA-z0-9_-]{5,20}$/;
       var id = document.querySelector(".input-id");
-      id.addEventListener('keyup',function(){
-      console.log(id.value);
-        if(ckeckId.test(id.value)){
-          document.querySelector(".check-txt-id2").style.display="none";
-          document.querySelector(".check-txt-id3").style.display="block";
-        }else{
-          document.querySelector(".check-txt-id2").style.display="block";
-          document.querySelector(".check-txt-id3").style.display="none";
+      id.addEventListener("keyup", function () {
+        console.log(id.value);
+        if (ckeckId.test(id.value)) {
+          document.querySelector(".check-txt-id2").style.display = "none";
+          document.querySelector(".check-txt-id3").style.display = "block";
+        } else {
+          document.querySelector(".check-txt-id2").style.display = "block";
+          document.querySelector(".check-txt-id3").style.display = "none";
         }
       });
 
-      <!--   pw유효성 검사 -->
       var ckeckPW = /(?=.*[0-9])(?=.*[a-z])(?=.*\W)(?=\S+$).{8,20}/; //비밀번호 유효성 검사
       var pw = document.querySelector("#check-txt-pw");
-      pw.addEventListener('keyup',function(){
-      console.log(pw.value);
-        if(ckeckPW.test(pw.value)){
-          document.querySelector(".check-txt-pw2").style.display="none";
-          document.querySelector(".check-txt-pw3").style.display="block";
-        }else{
-          document.querySelector(".check-txt-pw2").style.display="block";
-          document.querySelector(".check-txt-pw3").style.display="none";
+      pw.addEventListener("keyup", function () {
+        console.log(pw.value);
+        if (ckeckPW.test(pw.value)) {
+          document.querySelector(".check-txt-pw2").style.display = "none";
+          document.querySelector(".check-txt-pw3").style.display = "block";
+        } else {
+          document.querySelector(".check-txt-pw2").style.display = "block";
+          document.querySelector(".check-txt-pw3").style.display = "none";
         }
       });
 
-      <!--비밀번호 재확인-->
       var pw = document.getElementById("check-txt-pw");
       var pwcheck = document.getElementById("check-txt-pwcheck");
-      pwcheck.addEventListener('keyup',function(){
+      pwcheck.addEventListener("keyup", function () {
         console.log(pw.value);
         console.log(pwcheck.value);
-        if(pw.value === pwcheck.value){
-          document.querySelector(".check-txt-pwcheck-same").style.display =
-                "block";
-              document.querySelector(".check-txt-pwcheck-not").style.display =
-                "none";
+        if (pw.value === pwcheck.value) {
+          document.querySelector(".check-txt-pwcheck-same").style.display = "block";
+          document.querySelector(".check-txt-pwcheck-not").style.display = "none";
         } else {
-          document.querySelector(".check-txt-pwcheck-same").style.display =
-                "none";
-          document.querySelector(".check-txt-pwcheck-not").style.display =
-                "block";
+          document.querySelector(".check-txt-pwcheck-same").style.display = "none";
+          document.querySelector(".check-txt-pwcheck-not").style.display = "block";
         }
       });
 
-
-<!--이메일 유효성 검사-->
       var ckeckEmail = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/; //이메일 유효성 검사
       var email = document.querySelector(".check-email");
-      email.addEventListener('keyup',function(){
+      email.addEventListener("keyup", function () {
         console.log(email.value);
-        if(ckeckEmail.test(email.value)){
-          document.querySelector(".check-txt-email2").style.display="none";
-          document.querySelector(".check-txt-email3").style.display="block";
-        }else{
-          document.querySelector(".check-txt-email2").style.display="block";
-          document.querySelector(".check-txt-email3").style.display="none"
+        if (ckeckEmail.test(email.value)) {
+          document.querySelector(".check-txt-email2").style.display = "none";
+          document.querySelector(".check-txt-email3").style.display = "block";
+        } else {
+          document.querySelector(".check-txt-email2").style.display = "block";
+          document.querySelector(".check-txt-email3").style.display = "none";
         }
       });
 
-<!--폰번호 유효성 검사-->
       var ckeckPhone = /^[0-9]{10,11}$/; //이메일 유효성 검사
       var phone = document.querySelector(".check-phone");
-      phone.addEventListener('keyup',function(){
+      phone.addEventListener("keyup", function () {
         console.log(phone.value);
-        if(ckeckPhone.test(phone.value)){
-          document.querySelector(".check-txt-phone2").style.display="none";
-          document.querySelector(".check-txt-phone3").style.display="block";
-        }else{
-          document.querySelector(".check-txt-phone2").style.display="block";
-          document.querySelector(".check-txt-phone3").style.display="none";
+        if (ckeckPhone.test(phone.value)) {
+          document.querySelector(".check-txt-phone2").style.display = "none";
+          document.querySelector(".check-txt-phone3").style.display = "block";
+        } else {
+          document.querySelector(".check-txt-phone2").style.display = "block";
+          document.querySelector(".check-txt-phone3").style.display = "none";
         }
       });
 
-
-<!--이름 유효성 검사-->
       var ckeckName = /^[가-힣]{2,5}$/; //이름 유효성 검사
-      var checkName = /^[가-힣]+$/
+      var checkName = /^[가-힣]+$/;
       var userName = document.querySelector("#userName");
       console.log(userName.value);
-      userName.addEventListener('keyup',function(){
-      console.log(userName.value);
-      console.log(ckeckName);
-        if(ckeckName.test(userName.value)){
+      userName.addEventListener("keyup", function () {
+        console.log(userName.value);
+        console.log(ckeckName);
+        if (ckeckName.test(userName.value)) {
           console.log(ckeckName.test(userName.value));
-          document.querySelector(".check-txt-name2").style.display="none";
-          document.querySelector(".check-txt-name3").style.display="block";
-        }else{
-          document.querySelector(".check-txt-name2").style.display="block";
-          document.querySelector(".check-txt-name3").style.display="none";
+          document.querySelector(".check-txt-name2").style.display = "none";
+          document.querySelector(".check-txt-name3").style.display = "block";
+        } else {
+          document.querySelector(".check-txt-name2").style.display = "block";
+          document.querySelector(".check-txt-name3").style.display = "none";
         }
       });
-
-</script>
-<!-- 우편번호 -->
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
+    </script>
+    <!-- 우편번호 -->
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
       function sample6_execDaumPostcode() {
         new daum.Postcode({
           oncomplete: function (data) {
@@ -452,10 +294,7 @@ var p = document.get
               }
               // 건물명이 있고, 공동주택일 경우 추가한다.
               if (data.buildingName !== "" && data.apartment === "Y") {
-                extraAddr +=
-                  extraAddr !== ""
-                    ? ", " + data.buildingName
-                    : data.buildingName;
+                extraAddr += extraAddr !== "" ? ", " + data.buildingName : data.buildingName;
               }
               // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
               if (extraAddr !== "") {
@@ -481,5 +320,5 @@ var p = document.get
         location.href = "home.html";
       }
     </script>
-</body>
+  </body>
 </html>
