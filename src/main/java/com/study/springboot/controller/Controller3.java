@@ -177,7 +177,7 @@ public class Controller3 {
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-            return "<script>alert('사용중인 아이디나 멜 주소 입니다.');history.back();</script>";
+            return "<script>alert('사용중인 아이디나 이메일입니다.');history.back();</script>";
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return "<script>alert('회원가입 실패했습니다.');history.back();</script>";
