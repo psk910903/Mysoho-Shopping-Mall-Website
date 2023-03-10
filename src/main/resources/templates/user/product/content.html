@@ -180,7 +180,10 @@
 .sort button:hover{
     background-color: rgb(228, 228, 228);
 }
-
+.background-green{
+    background: #333;
+    color: #fff;
+}
 
     </style>
   </head>
@@ -1092,7 +1095,7 @@
                             </div>
                           </th:block>
                           <th:block th:unless="${inReplyCount[status.index] ==0}">
-                            <div class="qa-list-icon">
+                            <div class="qa-list-icon background-green">
                               답변
                               <br />
                               완료
@@ -1120,7 +1123,7 @@
                                 <div class="tit js-qnaContents" th:text="${dto2.inquiryContent}"></div>
                               </th:block>
                               <div class="qna-info">
-                                <div class="dil js-qnaType bar">상품</div>
+                                <div class="dil js-qnaType bar">상품문의</div>
                                 <div class="name js-qnaWriter bar" th:text="${namelist[status.index]}">dl******...</div>
                                 <div class="date js-qnaDate" th:text="${#temporals.format(dto2.inquiryDatetime, 'yyyy.MM.dd')}">2022.04.11</div>
                               </div>
@@ -1159,7 +1162,7 @@
                             </div>
                           </th:block>
                           <th:block th:unless="${inReplyCount[status.index]}==0">
-                            <div class="qa-list-icon">
+                            <div class="qa-list-icon background-green">
                               답변
                               <br/>
                               완료
@@ -1181,7 +1184,7 @@
                                 <div class="tit js-qnaContents" th:text="${dto2.inquiryContent}">문의합니다.</div>
                               </th:block>
                               <div class="qna-info">
-                                <div class="dil js-qnaType bar">상품</div>
+                                <div class="dil js-qnaType bar">상품문의</div>
                                 <div class="name js-qnaWriter bar" th:text="${namelist[status.index]}">dl******...</div>
                                 <div class="date js-qnaDate" th:text="${#temporals.format(dto2.inquiryDatetime, 'yyyy.MM.dd')}">2022.04.11</div>
                               </div>

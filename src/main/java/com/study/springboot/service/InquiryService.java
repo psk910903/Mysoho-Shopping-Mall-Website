@@ -2,7 +2,11 @@ package com.study.springboot.service;
 
 import com.study.springboot.dto.inquiry.InquiryResponseDto;
 import com.study.springboot.dto.inquiry.InquirySaveResponseDto;
+import com.study.springboot.entity.InReplyEntity;
 import com.study.springboot.entity.InquiryEntity;
+import com.study.springboot.entity.QnaCommentEntity;
+import com.study.springboot.entity.QnaEntity;
+import com.study.springboot.repository.InReplyRepository;
 import com.study.springboot.repository.InquiryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,6 +26,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class InquiryService {
     private final InquiryRepository inquiryRepository;
+    private final InReplyRepository inReplyRepository;
+
     @Transactional(readOnly = true)
     public Page<InquiryResponseDto> getPage(int page){
         List<Sort.Order> sorts = new ArrayList<>();
@@ -146,5 +152,27 @@ public class InquiryService {
     public List<InquiryResponseDto> findAll() {
         List<InquiryEntity> list = inquiryRepository.findAll();
         return list.stream().map(InquiryResponseDto::new).collect(Collectors.toList());
+    }
+
+    // 03 10 희진 추가
+    public boolean delete(Long id) {
+
+        Optional<InquiryEntity> optional = inquiryRepository.findById(id);
+        if (!optional.isPresent()) {
+            return false;
+        }
+        InquiryEntity entity = optional.get();
+        List<InReplyEntity> replyList = inReplyRepository.findAllByReplyInquiryNo(id);
+
+        try {
+            inquiryRepository.delete(entity);
+            for (InReplyEntity temp : replyList) {
+                inReplyRepository.delete(temp);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }//class

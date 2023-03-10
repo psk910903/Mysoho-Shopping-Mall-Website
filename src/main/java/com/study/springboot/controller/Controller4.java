@@ -324,7 +324,7 @@ public class Controller4 {
     @ResponseBody
     public String userDelete (@PathVariable("id")long id){
 
-        boolean delete = service4.delete(id);
+        boolean delete = qnaService.delete(id);
         if(!delete){
             return "<script>alert('삭제 실패 하였습니다'); history.back();</script>";
         }

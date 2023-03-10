@@ -242,7 +242,7 @@ public class Controller5 {
 
             String qnaName = list2.get(i).getMemberId();
             if(qnaName == null){
-                qnaName = list2.get(i).getInquiryNickname();
+             qnaName = list2.get(i).getInquiryNickname();
             }
             String qnaHiddenName;
             if (qnaName.length() == 2){
@@ -283,11 +283,11 @@ public class Controller5 {
     @ResponseBody
     public String inquiryDelete(@PathVariable("id")long id){
         long itemNo = service5.findByItemNo(id);
-        boolean deleteResult = service5.inquiryDelete(id);
+        boolean deleteResult = inquiryService.delete(id);
         if(!deleteResult){
             return "<script>alert('삭제 실패');history.back();</script>";
         }
-        return "<script>alert('삭제 성공'); location.href='/product/test/"+itemNo+"';</script>";
+        return "<script>alert('삭제 성공'); location.href='/product/"+itemNo+"';</script>";
     }
 
     //비로그인 삭제 버튼 눌렀을 때
@@ -309,8 +309,10 @@ public class Controller5 {
                              Model model){
 
         InquiryResponseDto inquiryResponseDto = service5.findById(num);
+        List<InReplyEntity> commentList = inReplyRepository.findAllByReplyInquiryNo(num);
 
         model.addAttribute("reference", reference);
+        model.addAttribute("commentList", commentList);
         model.addAttribute("dto",inquiryResponseDto);
 
         return "/user/popup/Inquiry-modify";

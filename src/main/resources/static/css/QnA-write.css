@@ -178,3 +178,15 @@ input[type="checkbox"]:checked::after {
 .cbx-content {
   margin-left: 11px;
 }
+.qna-AnswerForm{
+    border-top: 1px solid #dcdcdc;
+    padding-top:10px;
+    display:flex;
+    align-items: center;
+}
+
+.answer{
+    margin-left:10px;
+    font-size: 14px;
+    color: #999999;
+}
