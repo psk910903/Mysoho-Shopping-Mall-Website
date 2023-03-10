@@ -278,8 +278,8 @@
           </ul>
         </div>
       </form>
-      <div align="center">
-        <a href="/user/exited" >회원탈퇴하기</a>
+      <div align="center" class="getOut" style="margin-top: 10px;">
+        <button onclick="getout()">회원탈퇴하기</button>
       </div>
     </div>
   </div>
@@ -377,6 +377,13 @@
           document.querySelector(".check-txt-" + type + "3").style.display =
             "block";
         }
+      }
+
+      function getout(){
+      if(confirm("정말 탈퇴하시겠습니까?")) {
+      location.href="/user/exited";
+      }else{
+      }
       }
     </script>
 <!-- 우편번호 -->
