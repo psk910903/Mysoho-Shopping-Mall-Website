@@ -137,7 +137,7 @@ select {
   text-overflow: ellipsis;
 }
 .txt_ellipsis {
-  max-width: 30vw;
+  max-width: 15vw;
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;

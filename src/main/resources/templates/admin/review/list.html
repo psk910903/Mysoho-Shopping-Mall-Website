@@ -87,6 +87,7 @@
                     <th class="table-light align-middle w200">상품명</th>
                     <th class="table-light align-middle w110">상품사진</th>
                     <th class="table-light align-middle w110">아이디</th>
+                      <th class="table-light align-middle w110">내용</th>
                     <th class="table-light align-middle w50">별점</th>
                     <th class="table-light align-middle w150">작성일</th>
                     <th class="table-light align-middle w150">노출여부</th>
@@ -109,8 +110,7 @@
                       <td class="align-middle" th:text="${ review.reviewStar }">별점</td>
                       <td class="align-middle" th:text="${#temporals.format(review.reviewDatetime, 'yyyy-MM-dd HH:mm')}">날짜</td>
                       <td class="align-middle">
-                          <select name="reviewExpo" class="form-select">
-                              <option selected="selected" th:text="${ review.reviewExpo }" th:value="${ review.reviewExpo }" value="">노출함</option>
+                          <select name="reviewExpo" class="form-select" th:id="|reviewExpo${status.index}|">
                               <option value="노출함">노출함</option>
                               <option value="노출안함">노출안함</option>
                           </select>
@@ -199,6 +199,17 @@ if($('#allch').prop("checked")){
 });
 </script>
 <script th:inline="javascript">
+  let reviewList = [[${list}]];
+  for (let i=0; i<reviewList.numberOfElements; i++){
+    let reviewExpoSelect = document.getElementById('reviewExpo' + i);
+    let reviewContent = reviewList.content[i];
+    for (let j=0; j<reviewExpoSelect.options.length; j++){
+        if(reviewExpoSelect.options[j].value == reviewContent.reviewExpo){
+    	    reviewExpoSelect.options[j].selected = true;
+        }
+    }
+  }
+
 
 <!--선택 삭제 -->
      function deleteValue(){
