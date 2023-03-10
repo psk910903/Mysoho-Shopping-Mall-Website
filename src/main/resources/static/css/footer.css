@@ -136,12 +136,12 @@
 .rightbtn {
   position: fixed;
   bottom: 55px;
-  right: 14%;
+  right: 27%;
   z-index: 2;
 }
 .leftbtn {
   position: fixed;
   bottom: 55px;
-  left: 14%;
+  left: 27%;
   z-index: 2;
 }
