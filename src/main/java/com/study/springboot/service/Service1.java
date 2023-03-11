@@ -5,9 +5,12 @@ import com.study.springboot.comparator.HighReviewComparator;
 import com.study.springboot.comparator.ItemGradeComparator;
 import com.study.springboot.comparator.SellCountComparator;
 import com.study.springboot.dto.cart.CartResponseDto;
+import com.study.springboot.dto.inquiry.InquiryResponseDto;
 import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.order.OrderSearchDto;
 import com.study.springboot.dto.product.ProductResponseDto;
+import com.study.springboot.dto.qna.QnaResponseDto;
+import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.entity.CartEntity;
 import com.study.springboot.entity.OrderEntity;
 import com.study.springboot.entity.ProductEntity;
@@ -24,13 +27,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class Service1 {
     final ProductRepository productRepository;
-    final ProductService productService;
     final OrderRepository orderRepository;
     final CartRepository cartRepository;
     final CartService cartService;
     final ReviewRepository reviewRepository;
-
-    final NoticeRepository noticeRepository;
+    final Service5 service5;
+    final Service4 service4;
 
     @Transactional(readOnly = true)
     public List<ProductResponseDto> findByItem(int num) {
@@ -250,11 +252,119 @@ public class Service1 {
         return cartList;
     }
 
+    //리뷰 아이디 마스킹
+    public List<String> maskingId(List<ReviewResponseDto> list) {
+        List<String> photoReviewIdList = new ArrayList<>();
+        for(int i=0 ; i < list.size();i++){
 
+            String reviewId = list.get(i).getMemberId();
 
-    @Transactional(readOnly = true)
-    public String findLatestNotice(){
-        return noticeRepository.findLatestNotice();
-    };
+            String reviewHiddenId;
+            if (reviewId.length() == 2){
+                reviewHiddenId = reviewId.replace(reviewId.charAt(1), '*');
+            }else if(reviewId.length() == 1){
+                reviewHiddenId = reviewId;
+            }
+            else{
+                reviewHiddenId = reviewId.substring(0,2);
+                //
+                for (int j=0; j<reviewId.length()-2; j++){
+                    reviewHiddenId += "*";
+                }
+            }
+            photoReviewIdList.add(reviewHiddenId);
+        }
+        return photoReviewIdList;
+    }
+
+    public List<String> qnaMaskingId(List<QnaResponseDto> list) {
+        List<String> nameList = new ArrayList<>();
+        for(int i=0 ; i < list.size();i++){
+
+            String qnaName = list.get(i).getMemberId();
+
+            if(qnaName == null){
+                qnaName = list.get(i).getQnaName();
+
+            }
+            String qnaHiddenName;
+            if (qnaName.length() == 2){
+                qnaHiddenName = qnaName.replace(qnaName.charAt(1), '*');
+            }else if(qnaName.length() == 1){
+                qnaHiddenName = qnaName;
+            }
+            else{
+                qnaHiddenName = qnaName.substring(0,2);
+                //
+                for (int j=0; j<qnaName.length()-2; j++){
+                    qnaHiddenName += "*";
+                }
+            }
+            nameList.add(qnaHiddenName);
+        }
+        return nameList;
+    }
+
+    //상품문의 아이디 마스킹
+    public List<String> inquiryMaskingId(List<InquiryResponseDto> list) {
+        List<String> nameList = new ArrayList<>();
+        for(int i=0 ; i < list.size();i++){
+
+            String qnaName = list.get(i).getMemberId();
+            if(qnaName == null){
+                qnaName = list.get(i).getInquiryNickname();
+            }
+            String qnaHiddenName;
+            if (qnaName.length() == 2){
+                qnaHiddenName = qnaName.replace(qnaName.charAt(1), '*');
+            }else if(qnaName.length() == 1){
+                qnaHiddenName = qnaName;
+            }
+            else{
+                qnaHiddenName = qnaName.substring(0,2);;
+                //
+                for (int j=0; j<qnaName.length()-2; j++){
+                    qnaHiddenName += "*";
+                }
+            }
+            nameList.add(qnaHiddenName);
+        }
+        return nameList;
+    }
+
+    public List<Long> inReplyCount(List<InquiryResponseDto> inquiry){
+        List<Long> inReplyCount = new ArrayList<>();
+
+        for(int i =0; i< inquiry.size(); i++){
+            Long CommentCount = service5.countByInquiryNo(inquiry.get(i).getInquiryNo());
+            inReplyCount.add(CommentCount);
+        }
+        return inReplyCount;
+    }
+
+    public List<Long> qnaCommentCount(List<QnaResponseDto> list){
+        List<Long> qnaCommentCount = new ArrayList<>();
+        for(int i =0; i< list.size(); i++){
+            Long CommentCount = service4.countByQnaId(list.get(i).getQnaId());
+            qnaCommentCount.add(CommentCount);
+        }
+        return qnaCommentCount;
+    }
+
+    //평점
+    public Double avgStar(List<ReviewResponseDto> reviewList) {
+        int size = reviewList.size();  // 3. 상품 리뷰 갯수
+
+        byte sum = 0;       // 4. 상품별점 평균
+        for(int i=0; i<size; i++){
+            byte reviewStar = reviewList.get(i).getReviewStar();
+            sum += reviewStar;
+        }
+        double avg1 = sum / Double.valueOf(size);
+        double avg2 = Math.round(avg1*10);
+        double avgStar = avg2 / 10;
+        return avgStar;
+    }
+
 
 }

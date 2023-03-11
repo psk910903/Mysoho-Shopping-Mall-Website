@@ -1002,7 +1002,7 @@
                         <div id="reviewImg">
                           <div class="main">
                             <div class="reviewBox">
-                              <div class="item" th:each="dto:${ listImg }">
+                              <div class="item" th:each="dto,status:${ listImg }">
                                 <div class="gradeWrap">
                                   <div class=" grade">
                                     <strong>평점</strong>
@@ -1043,8 +1043,8 @@
                                   </div>
                                 </div>
                                 <div class=" reviewInfo" >
-                                  <div class="date" style="border-right: 1px solid #d6d6d6" th:text="|${ dto.memberId }">
-                                    작성자
+                                  <div class="date" style="border-right: 1px solid #d6d6d6" th:text="${photoReviewIdList[status.index]}">
+                                    작성자박선교
                                   </div>
                                   <div class="date" th:text="${#temporals.format(dto.reviewDatetime, 'yyyy-MM-dd HH:mm')}">
                                     등록일
@@ -1059,7 +1059,7 @@
                             <div class="reviewBox">
 
 <!--                             작업중 -->
-                                <div class="item" th:each="dto:${ list }">
+                                <div class="item" th:each="dto, status:${ list }">
 
                                   <div class="gradeWrap">
                                     <div class=" grade">
@@ -1101,8 +1101,8 @@
                                     </div>
                                   </div>
                                     <div class=" reviewInfo" >
-                                      <div class="date" style="border-right: 1px solid #d6d6d6" th:text="|${ dto.memberId }">
-                                        작성자
+                                      <div class="date" style="border-right: 1px solid #d6d6d6" th:text="${reviewIdList[status.index]}">
+                                        작성자박선교
                                       </div>
                                       <div class="date" th:text="${#temporals.format(dto.reviewDatetime, 'yyyy-MM-dd HH:mm')}">
                                         등록일
@@ -1335,8 +1335,8 @@
                           <input type="hidden" name="itemCodeList" th:value="${ dto.itemNo }" />
 <!--                          -->
                           <th:block th:if="${ sizeCount == 1} and ${ colorCount == 1}">
-                            <input th:value="${ dto.itemOptionColor }" type="hidden" name="colorList" >
-                            <input th:value="${ dto.itemOptionSize }" type="hidden" name="sizeList" >
+                            <input th:value="${ dto.itemOptionColor }" type="hidden" name="colorList" id="final-color-result">
+                            <input th:value="${ dto.itemOptionSize }" type="hidden" name="sizeList" id="final-size-result">
                           </th:block>
                           <th:block th:unless="${ sizeCount == 1} and ${ colorCount == 1}">
                           <input type="hidden" name="colorList" id="final-color-result" >
@@ -1722,7 +1722,7 @@
         let checkEmail = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/; //이메일 유효성 검사
         let checkPhone = /^[0-9]{10,11}$/; //이메일 유효성 검사
 
-        if(document.querySelector("#final-size-result").value === '' || document.querySelector("#final-color-result").value === '' || document.querySelector("#product-count").innerHTML === ''){
+        if(document.querySelector("#final-size-result").value === '' || document.querySelector("#final-color-result").value === ''){
           return "옵션을 선택해 주세요."
         }
 

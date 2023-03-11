@@ -1,6 +1,5 @@
 package com.study.springboot.controller;
 
-import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.product.FileResponse;
 import com.study.springboot.dto.security.MemberJoinDto;
 import com.study.springboot.dto.product.ProductResponseDto;
@@ -15,9 +14,6 @@ import com.study.springboot.service.Service3;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 
@@ -37,7 +33,6 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,8 +47,6 @@ public class Controller3 {
     final private PasswordEncoder passwordEncoder;
     final private Service3 service3;
     private final ProductRepository productRepository;
-    final private OrderRepository orderRepository;
-    final private CartRepository cartRepository;
 
     final private AwsS3Service awsS3Service;
 
@@ -126,9 +119,7 @@ public class Controller3 {
     @RequestMapping("admin/review/status/modify")
     public String reviewStatusModify(ReviewSaveResponseDto dto) {
         Long reviewNo = dto.getReviewNo();
-        System.out.println("reviewNo = " + reviewNo);
         String reviewExpo = dto.getReviewExpo();
-        System.out.println("reviewExpo = " + reviewExpo);
         boolean result = reviewService.statusModify(dto.getReviewNo(), dto.getReviewExpo());
         if (!result) {
             return "<script>alert('노출상태 변경 실패');location.href='/admin/review/list/';</script>";
@@ -156,20 +147,14 @@ public class Controller3 {
     @ResponseBody
     public String joinAction(@Valid MemberJoinDto dto, BindingResult bindingResult) {
         LocalDate today = LocalDate.now();
-        System.out.println(today);
         dto.setMemberJoinDatetime(today);
 
         if (bindingResult.hasErrors()) {
             String detail = bindingResult.getFieldError().getDefaultMessage();
-            String bindResultCode = bindingResult.getFieldError().getCode();
-            System.out.println(detail + ":" + bindResultCode);
             return "<script>alert('" + detail + "'); history.back();</script>";
         }
-        System.out.println(dto.getUsername());
-        System.out.println(dto.getPassword());
 
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
-        System.out.println("encodedPassword:" + encodedPassword);
         dto.setPassword(encodedPassword);
         try {
             MemberEntity enity = dto.toSaveEntity();
@@ -185,10 +170,9 @@ public class Controller3 {
 
         HttpStatus status = HttpStatus.OK;
         if (status == HttpStatus.OK) {
-            System.out.println("회원가입 성공!");
-            return "<script>alert('회원가입 성공!'); location.href='/user/login';</script>";
+            return "<script>alert('회원가입을 축하합니다.'); location.href='/user/login';</script>";
         } else {
-            return "<script>alert('회원가입 실패'); history.back();</script>";
+            return "<script>alert('회원가입 실패했습니다.'); history.back();</script>";
         }
     }
 
@@ -198,7 +182,6 @@ public class Controller3 {
     public String exited(@AuthenticationPrincipal User user,
                          HttpServletRequest request) throws Exception {
         String memberId = user.getUsername();
-        System.out.println("탈퇴할 회원 id:" + user.getUsername());
         boolean result = service3.exited(memberId);
         request.getSession().invalidate();//세션종료
         if (result) {
@@ -214,9 +197,6 @@ public class Controller3 {
     public String findId(@RequestParam("memberName") String memberName,
                          @RequestParam("memberPhone")  String memberPhone
     ){
-        System.out.println(memberName);
-        System.out.println(memberPhone);
-
         String id = service3.findByMemberNameAndMemberPhone(memberName,memberPhone);
         if(id==null){
             return "<script>alert('가입된 회원 정보가 없습니다. 이름/휴대폰번호를 확인해주세요.'); history.back();</script>";
@@ -278,7 +258,7 @@ public class Controller3 {
     public String checkPswd(@AuthenticationPrincipal User user,
                             @RequestParam("getPassword") String getPassword) {
         MemberEntity entity = service3.findByUserId(user.getUsername());
-        String encodePassword = entity.getPassword();//
+        String encodePassword = entity.getPassword();
         if (passwordEncoder.matches(getPassword, encodePassword)) {
             return "<script> alert('비밀번호 확인완료'); location.href='/user/myInfo';</script>";
         } else {
@@ -327,9 +307,7 @@ public class Controller3 {
             System.out.println("no user");
         } else {
             String username = user.getUsername();
-            System.out.println("mileage username:" + username);
             MemberEntity entity = service3.findByUserId(username);
-            System.out.println("mileage :" + entity.getMemberMileage());
             model.addAttribute("memberMileage", entity.getMemberMileage());
         }
         return "/user/user/user-mileage";
@@ -343,9 +321,7 @@ public class Controller3 {
             System.out.println("no user");
         } else {
             String username = user.getUsername();
-            System.out.println("coupons username:" + username);
             MemberEntity entity = service3.findByUserId(username);
-            System.out.println("coupons :" + entity.getMemberCoupon());
             model.addAttribute("memberCoupon", entity.getMemberCoupon());
         }
         return "user/user/coupons-mylist";

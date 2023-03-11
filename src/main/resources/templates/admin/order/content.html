@@ -193,8 +193,7 @@
           <tr>
             <th style="text-align: center;" class="w250 table-light align-middle">주문상태</th>
             <td class="align-middle">
-              <select name="orderState" class="form-select">
-                <option value="" selected="selected" th:text="${ dto.orderState }" th:value="${ dto.orderState }">주문상태</option>
+              <select name="orderState" id="orderState" class="form-select">
                 <option value="결제대기">결제대기</option>
                 <option value="배송대기">배송대기</option>
                 <option value="배송중">배송중</option>
@@ -220,7 +219,19 @@
 <!-- wrap -->
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
+<script th:inline="javascript">
+
+  let orderState = document.getElementById('orderState');  // orderState
+  for (let i=0; i<orderState.options.length; i++){
+    if(orderState.options[i].value == [[${dto.orderState}]]){
+    	orderState.options[i].selected = true;
+    }
+  }
+
+</script>
 <script>
+
 function sample6_execDaumPostcode() {
 new daum.Postcode({
 oncomplete: function (data) {

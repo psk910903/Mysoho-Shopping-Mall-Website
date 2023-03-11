@@ -1,4 +1,5 @@
 
+use mydb;
 -- qna 테이블 준하 --------------------------------------------------------------
 
 DROP TABLE if EXISTS qna;
@@ -65,9 +66,9 @@ CREATE TABLE member (
 INSERT INTO member VALUES( NULL, 'hong', '1234', '홍길동', 'VIP', 'hong@gmail.com',
   '01022223333', DEFAULT,DEFAULT,'54321','파푸아뉴기니','앞바다',DEFAULT ,DEFAULT, DEFAULT ,DEFAULT );
 INSERT INTO member VALUES( NULL, 'lee', '1234', '이거','일반회원', 'this@gmail.com',
-  '01022223333', DEFAULT,DEFAULT,'3210','대포동','미사일', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
+  '01022223334', DEFAULT,DEFAULT,'3210','대포동','미사일', DEFAULT, DEFAULT, DEFAULT, DEFAULT);
 INSERT INTO member VALUES( NULL, 'right', '1234', '맞냐', '일반회원','IsThatRight@gmail.com',
-  '01022223333', DEFAULT,DEFAULT,'12345','금수산태양궁전','정문', DEFAULT, DEFAULT, DEFAULT , DEFAULT);
+  '01022223335', DEFAULT,DEFAULT,'12345','금수산태양궁전','정문', DEFAULT, DEFAULT, DEFAULT , DEFAULT);
 INSERT INTO member VALUES( NULL, 'ADMIN1', '1234', '관리자','VIP', 'ADMIN_EMAIL',
   'ADMIN_NUM', DEFAULT,DEFAULT,'ADMIN_POST','ADMIN_ADDR1','ADMIN_ADDR2', default, DEFAULT,'관리자', default);
 

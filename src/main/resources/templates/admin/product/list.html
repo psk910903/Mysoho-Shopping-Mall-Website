@@ -84,7 +84,7 @@
         </tr>
         </thead>
         <tbody id="tbody">
-        <tr th:each="dto:${ list }">
+        <tr th:each="dto,status:${ list }">
           <form action="/admin/product/list/modify/action" method="post" enctype="multipart/form-data">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
           <td class="align-middle"><input type="checkbox" name="RowCheck" th:value="${ dto.itemNo }"></td>
@@ -99,15 +99,15 @@
           <td class="align-middle" th:text="${ dto.itemOptionSize }">사이즈</td>
           <td class="align-middle" th:text="${ dto.itemPrice }+원">가격</td>
           <td class="align-middle">
-            <select name="itemExposure" class="form-select ellipsisTxt">
-              <option th:text="${ dto.itemExposure }" th:value="${ dto.itemExposure }" value="" selected="selected">노출함</option>
+            <select name="itemExposure" class="form-select ellipsisTxt" th:id="|itemExposure${status.index}|">
+<!--              <option th:text="${ dto.itemExposure }" th:value="${ dto.itemExposure }" value="" selected="selected">노출함</option>-->
               <option value="노출함">노출함</option>
               <option value="노출안함">노출안함</option>
             </select>
           </td>
           <td class="align-middle">
-            <select name="itemSoldOut" class="form-select ellipsisTxt">
-              <option th:text="${ dto.itemSoldOut }" th:value="${ dto.itemSoldOut }" value="" selected="selected">판매중</option>
+            <select name="itemSoldOut" class="form-select ellipsisTxt" th:id="|itemSoldOut${status.index}|">
+<!--              <option th:text="${ dto.itemSoldOut }" th:value="${ dto.itemSoldOut }" value="" selected="selected">판매중</option>-->
               <option value="판매중">판매중</option>
               <option value="품절">품절</option>
             </select>
@@ -187,6 +187,28 @@
 
 <!-- wrap -->
 <script th:inline="javascript">
+
+    let productList = [[${list}]];
+  for (let i=0; i<productList.numberOfElements; i++){
+    let itemSoldOutSelect = document.getElementById('itemSoldOut' + i);
+    let productContent = productList.content[i];
+    for (let j=0; j<itemSoldOutSelect.options.length; j++){
+        if(itemSoldOutSelect.options[j].value == productContent.itemSoldOut){
+    	    itemSoldOutSelect.options[j].selected = true;
+        }
+    }
+  }
+  for (let i=0; i<productList.numberOfElements; i++){
+    let itemExposureSelect = document.getElementById('itemExposure' + i);
+    let productContent = productList.content[i];
+    for (let j=0; j<itemExposureSelect.options.length; j++){
+        if(itemExposureSelect.options[j].value == productContent.itemExposure){
+    	    itemExposureSelect.options[j].selected = true;
+        }
+    }
+  }
+
+
      function deleteValue(){
 
       var itemNo = "";
@@ -217,6 +239,7 @@
         });
     }
     </script>
+
 
 
 </body>

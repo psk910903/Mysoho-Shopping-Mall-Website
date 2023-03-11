@@ -1,5 +1,4 @@
 package com.study.springboot.controller;
-import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.qna.QnaCommentResponseDto;
 import com.study.springboot.dto.qna.QnaCommentSaveDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
@@ -11,15 +10,12 @@ import com.study.springboot.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,13 +25,14 @@ import java.util.List;
 //   /admin/qna
 
 public class Controller4 {
-    final private PasswordEncoder passwordEncoder;
     private final Service4 service4;
     private final Service3 service3;
 
     private final QnaService qnaService;
     private final QnaCommentService qnaCommentService;
     private final QnaRepository qnaRepository;
+
+    final Service1 service1;
 
     @GetMapping("/admin/qna")
     public String qnaHome(){
@@ -210,40 +207,8 @@ public class Controller4 {
             // 검색기능 없을 때
 
             list = service4.findEvery();
-            //마스킹처리
-            List<String> nameList = new ArrayList<>();
-            for(int i=0 ; i < list.size();i++){
-
-                String qnaName = list.get(i).getMemberId();
-
-                if(qnaName == null){
-                    qnaName = list.get(i).getQnaName();
-
-                }
-                String qnaHiddenName;
-                if (qnaName.length() == 2){
-                    qnaHiddenName = qnaName.replace(qnaName.charAt(1), '*');
-                }else if(qnaName.length() == 1){
-                    qnaHiddenName = qnaName;
-                }
-                else{
-                    qnaHiddenName = qnaName.substring(0,2);;
-                    //
-                    for (int j=0; j<qnaName.length()-2; j++){
-                        qnaHiddenName += "*";
-                    }
-                }
-                nameList.add(qnaHiddenName);
-            }
-            // 마스킹 처리 끝
-
-            // 답변불러오기
-            List<Long> qnaCommentCount = new ArrayList<>();
-            for(int i =0; i< list.size(); i++){
-                Long CommentCount = service4.countByQnaId(list.get(i).getQnaId());
-                qnaCommentCount.add(CommentCount);
-            }
-            //답변카운트 불러오기 끝
+            List<String> nameList = service1.qnaMaskingId(list);//마스킹처리
+            List<Long> qnaCommentCount = service1.qnaCommentCount(list);// 답변불러오기
 
             model.addAttribute("keyword",keyword);
             model.addAttribute("listCount", list.size());
@@ -256,40 +221,8 @@ public class Controller4 {
         }else{ //검색기능 있을 때
 
             list = service4.keyword(keyword);
-
-            //마스킹처리
-            List<String> nameList = new ArrayList<>();
-            for(int i=0 ; i < list.size();i++){
-
-                String qnaName = list.get(i).getMemberId();
-                if(qnaName == null){
-                    qnaName = list.get(i).getQnaName();
-                }
-
-                String qnaHiddenName;
-                if (qnaName.length() == 2){
-                    qnaHiddenName = qnaName.replace(qnaName.charAt(1), '*');
-                }else if(qnaName.length() == 1){
-                    qnaHiddenName = qnaName;
-                }
-                else{
-                    qnaHiddenName = qnaName.substring(0,2);;
-                    //
-                    for (int j=0; j<qnaName.length()-2; j++){
-                        qnaHiddenName += "*";
-                    }
-                }
-                nameList.add(qnaHiddenName);
-            }
-            //마스킹처리끝
-
-            //답변카운트 불러오기
-            List<Long> qnaCommentCount = new ArrayList<>();
-            for(int i =0; i< list.size(); i++){
-                Long CommentCount = service4.countByQnaId(list.get(i).getQnaId());
-                qnaCommentCount.add(CommentCount);
-            }
-            //답변카운트 불러오기 끝
+            List<String> nameList = service1.qnaMaskingId(list);//마스킹처리
+            List<Long> qnaCommentCount = service1.qnaCommentCount(list);// 답변불러오기
 
             model.addAttribute("keyword",keyword);
             model.addAttribute("listCount", list.size());
@@ -319,7 +252,6 @@ public class Controller4 {
         if(!qnaSave){
             return "<script>alert('등록 실패 하였습니다'); history.back();</script>";
         }
-        // return "<script>alert('등록되었습니다');opener.parent.location.reload();window.close();</script>";
         return "<script>alert('등록되었습니다'); location.href='" + reference + "';</script>";
     }
     //리스트로감
@@ -352,15 +284,6 @@ public class Controller4 {
             return "<script>alert('비밀번호 확인실패'); history.back();</script>";
         }
 
-        /*
-        return "<script>" +
-                "alert('비밀번호 확인완료\\n창이 뜨지 않을 경우 팝업 차단 해제를 해주세요.');" +
-                "window.open('/qna/modifyForm/" + num + "');" +
-                "location.href='/qna'" +
-                "</script>";
-
-         */
-
         return "<script>" +
                 "alert('비밀번호 확인완료');" +
                 "location.href='/qna/modifyForm/" + num + "?reference=/qna'"+
@@ -376,9 +299,7 @@ public class Controller4 {
         if(!pwCheckResult){
             return "<script>alert('비밀번호 확인실패'); history.back();</script>";
         }
-
         return "<script>location.href='/qna/delete/"+ num +"';</script>";
-
     }
 
     //수정페이지
@@ -389,7 +310,6 @@ public class Controller4 {
                              Model model){
 
         QnaResponseDto qnaResponseDto = service4.findById(num);
-
         List <QnaCommentResponseDto> commentList = service4.findAllByCommentQnaId(num);
 
         model.addAttribute("reference", reference);
@@ -416,7 +336,6 @@ public class Controller4 {
         if(!modifyResult){
             return "<script>alert('수정 실패했습니다.'); history.back();</script>";
         }
-        // return "<script>alert('수정 되었습니다');opener.parent.location.reload();window.close();</script>";
         return "<script>alert('수정 되었습니다'); location.href='" + reference + "';</script>";
     }
 

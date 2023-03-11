@@ -57,17 +57,16 @@ public class Service3 {
             reviewRepository.delete(reviewEntity);
         }
 
-        //회원 카트정보 삭제
+        List<OrderEntity> orderList = cartService.findByOrderListEntity(memberId);
         List<OrderResponseDto> orderDtoList = cartService.findByOrderList(memberId);
+        //회원 카트정보 삭제
         for (OrderResponseDto orderDto : orderDtoList) {
-
             List<CartEntity> cartEntityList = service1.getCartEntityListMember(orderDto);
             for (int i = 0; i < cartEntityList.size(); i++) {
                 cartRepository.delete(cartEntityList.get(i));
             }
         }
         //회원주문건 삭제
-        List<OrderEntity> orderList = cartService.findByOrderListEntity(memberId);
         for (int i = 0; i < orderList.size(); i++) {
             orderRepository.delete(orderList.get(i));
         }

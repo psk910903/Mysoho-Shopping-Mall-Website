@@ -25,7 +25,6 @@ public class Controller6 {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final Service6 service6;
-    private final ReviewRepository reviewRepository;
 
     private final ProductService productService;
 

@@ -14,6 +14,7 @@ import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.entity.ReviewEntity;
 import com.study.springboot.repository.CartRepository;
+import com.study.springboot.repository.NoticeRepository;
 import com.study.springboot.repository.OrderRepository;
 import com.study.springboot.repository.ProductRepository;
 import com.study.springboot.service.*;
@@ -51,6 +52,7 @@ public class Controller1 {
   final CartRepository cartRepository;
   final ReviewService reviewService;
   final Service5 service5;
+  final NoticeRepository noticeRepository;
 
   private final Service6 service6;    // 경빈 Service6
 
@@ -311,7 +313,7 @@ public class Controller1 {
     model.addAttribute("HighGrade", HighGrade);
     model.addAttribute("bestItem", bestItem);
     model.addAttribute("list", list);
-    model.addAttribute("latestNotice", service1.findLatestNotice());
+    model.addAttribute("latestNotice", noticeRepository.findLatestNotice());
 
 
     return "/user/category/home";
@@ -331,8 +333,6 @@ public class Controller1 {
       model.addAttribute("lowPrice", lowPrice);
       model.addAttribute("HighReview", HighReview);
       model.addAttribute("HighGrade", HighGrade);
-
-
 
       int count = list.size();
       model.addAttribute("list", list);
@@ -370,75 +370,34 @@ public class Controller1 {
     }
 
     // 이준하
-    model.addAttribute("LoginMemberId", memberId);
-
-    List<InquiryResponseDto> list2 = service5.findByItemNoList(itemNo);
-    int listSize = list2.size();
-    // 마스킹 처리
-    List<String> nameList = new ArrayList<>();
-    for(int i=0 ; i < list2.size();i++){
-
-      String qnaName = list2.get(i).getMemberId();
-      if(qnaName == null){
-        qnaName = list2.get(i).getInquiryNickname();
-      }
-      String qnaHiddenName;
-      if (qnaName.length() == 2){
-        qnaHiddenName = qnaName.replace(qnaName.charAt(1), '*');
-      }else if(qnaName.length() == 1){
-        qnaHiddenName = qnaName;
-      }
-      else{
-        qnaHiddenName = qnaName.substring(0,2);;
-        //
-        for (int j=0; j<qnaName.length()-2; j++){
-          qnaHiddenName += "*";
-        }
-      }
-      nameList.add(qnaHiddenName);
-    }
-    // 마스킹 처리 끝
-  // 답변카운트 불러오기
-    List<Long> inReplyCount = new ArrayList<>();
-    for(int i =0; i< list2.size(); i++){
-      Long CommentCount = service5.countByInquiryNo(list2.get(i).getInquiryNo());
-      inReplyCount.add(CommentCount);
-    }
-  //답변카운트 불러오기끝
-    model.addAttribute("namelist",nameList);
-    model.addAttribute("inquiry",list2);
-    model.addAttribute("listSize",listSize);
-    model.addAttribute("inReplyCount", inReplyCount);
-
-    // 이준하 끝
+    List<InquiryResponseDto> inquiry = service5.findByItemNoList(itemNo);
+    int listSize = inquiry.size();
+    List<String> nameList = service1.inquiryMaskingId(inquiry); //마스킹
+    List<Long> inReplyCount = service1.inReplyCount(inquiry);// 답변카운트 불러오기
     //<경빈
-    List<ReviewResponseDto> reviewResponseDtos = service6.findByReview(String.valueOf(itemNo)); // 2. 리뷰데이터
+    List<ReviewResponseDto> reviewList = service6.findByReview(String.valueOf(itemNo));
+    int listCount = reviewList.size();
+    Double avgStar = service1.avgStar(reviewList);
+    List<ReviewResponseDto> photoReviewList = service6.findByImgReview(String.valueOf(itemNo));
+    int listImgCount = photoReviewList.size();
+    //선교 추가
+    List<String> reviewIdList = service1.maskingId(reviewList); //리뷰 아이디 마스킹처리
+    List<String> photoReviewIdList = service1.maskingId(photoReviewList); //포토리뷰 아이디 마스킹처리
 
-    int size = reviewResponseDtos.size();  // 3. 상품 리뷰 갯수
-
-    byte sum = 0;       // 4. 상품별점 평균
-    for(int i=0; i<size; i++){
-      byte reviewStar = reviewResponseDtos.get(i).getReviewStar();
-      sum += reviewStar;
-    }
-    double avg1 = sum / Double.valueOf(size);
-    double avg2 = Math.round(avg1*10);
-    double avg3 = avg2 / 10;
-
-    List<ReviewResponseDto> reviewResponseDtos2 = service6.findByImgReview(String.valueOf(itemNo)); //5. 사진리뷰 데이터
-    int size2 = reviewResponseDtos2.size(); //6. 사진리뷰 갯수
-
-    model.addAttribute("dto", dto); // ->1
-    model.addAttribute("list", reviewResponseDtos); // ->2
-    model.addAttribute("listCount", size);  // ->3
-    model.addAttribute("avgStar", avg3);    // ->4
-    model.addAttribute("listImg",reviewResponseDtos2);  // ->5
-    model.addAttribute("listImgCount", size2);  // ->6
-    //경빈>
-
-
+    model.addAttribute("dto", dto); // 경빈 시작
+    model.addAttribute("list", reviewList);
+    model.addAttribute("listCount", listCount);
+    model.addAttribute("avgStar", avgStar);
+    model.addAttribute("listImg",photoReviewList);
+    model.addAttribute("listImgCount", listImgCount); //경빈끝
+    model.addAttribute("namelist",nameList); //준하 시작
+    model.addAttribute("LoginMemberId", memberId);
+    model.addAttribute("inquiry",inquiry);
+    model.addAttribute("listSize",listSize);
+    model.addAttribute("inReplyCount", inReplyCount); //준하 끝
+    model.addAttribute("reviewIdList", reviewIdList);
+    model.addAttribute("photoReviewIdList", photoReviewIdList);
     model.addAttribute("member", memberResponseDto);
-
     model.addAttribute("colorCount", colorCount);
     model.addAttribute("sizeCount", sizeCount);
     model.addAttribute("colorList", colorList);
