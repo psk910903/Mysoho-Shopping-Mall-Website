@@ -560,8 +560,6 @@ public class Controller2 {
 
             if (bindingResult.hasErrors()) {
                 String detail = bindingResult.getFieldError().getDefaultMessage();
-                String bindResultCode = bindingResult.getFieldError().getCode();
-                System.out.println(detail + ":" + bindResultCode);
                 return "<script>alert('" + detail + "'); history.back();</script>";
             }
 
@@ -573,7 +571,7 @@ public class Controller2 {
             } catch (DataIntegrityViolationException e) {
                 e.printStackTrace();
                 bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-                return "<script>alert('이미 등록된 사용자입니다.');history.back();</script>";
+                return "<script>alert('사용중인 아이디나 이메일입니다.');history.back();</script>";
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
                 return "<script>alert('회원가입 실패했습니다.');history.back();</script>";
