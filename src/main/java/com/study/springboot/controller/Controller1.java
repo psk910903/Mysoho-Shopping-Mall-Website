@@ -418,7 +418,7 @@ public class Controller1 {
     return "/user/user/myorder";
   }
 //비회원
-  @RequestMapping("/find/myorder/list")
+  @RequestMapping("/order/myorder/list")
   public String myorder(OrderSearchDto dto, Model model) {
 
     List<OrderResponseDto> orderList = service1.findByOrderNonMember(dto);

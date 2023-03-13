@@ -117,7 +117,7 @@ public class Service3 {
                             "      <td>\n" +
                             "        <div>안녕하세요. 마이소호 샘플샵입니다 비밀번호 변경하기를 눌러주세요<div>\n" +
                             "        <div><a href=\"http://localhost:8080/find/password2?getEmail="+getEmail+"\">\n" +
-                            "        <button type=\"submit\">비밀번호 변경하기</button></a></div>\n" +
+                            "        <input type=\"submit\" role=\"button\" value=\"비밀번호 변경하기\" /></a></div>\n" +
                             "      </td>\n" +
                             "    </tr>\n" +
                             "    <tr>\n" +
