@@ -48,7 +48,7 @@
                             </tr>
                             <tr >
                                 <th class="table-light align-middle w250"style="text-align: center" >이름</th>
-                                <td><input class="form-control" type="text" name="memberName" id="memberName" th:value="${member.memberName}" readonly/></td>
+                                <td><input class="form-control" type="text" name="memberName" id="memberName" th:value="${member.memberName}"/></td>
 
                             </tr>
 
@@ -78,7 +78,6 @@
                                             placeholder="email@email.com"
                                             th:value="${member.memberEmail}"
                                             class="form-control"
-                                            readonly
                                     />
                                 </td>
                             </tr>
@@ -126,7 +125,7 @@
                                     </div>
                                     <div class="input-group">
                                         <span class="input-group-text w110">나머지주소</span>
-                                        <input class="form-control" th:value="${member.memberAddr2}" type="text" value="나머지주소" name="memberAddr2" id="memberAddr2" readonly/>
+                                        <input class="form-control" th:value="${member.memberAddr2}" type="text" value="나머지주소" name="memberAddr2" id="memberAddr2"/>
                                     </div>
                                     <input class="form-control" type="text" value="참고항목" id="extraAddress" style="display: none;" />
                                 </td>
