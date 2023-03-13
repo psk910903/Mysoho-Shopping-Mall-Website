@@ -443,7 +443,7 @@
                 <div class="popup">
                   <div class="popup-inner">
                     <div class="lhd-option">
-                      <button id="closeBtn-option" onclick="closeOptionList()">
+                      <button id="closeBtn-option" >
                         <img
                           src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h38_close_down.png"
                           alt=""
@@ -636,7 +636,7 @@
                       >
                         장바구니
                       </button>
-                      <button class="btn2" type="button" onclick="closeOptionList()">
+                      <button class="btn2" type="button" id="closeOptionList" onclick="closeOptionList()">
                         결제하기
                       </button>
                     </div>
@@ -707,6 +707,9 @@
                   .addEventListener("click", showoptionList);
                 document
                   .querySelector("#closeBtn-option")
+                  .addEventListener("click", closeOrderList);
+                 document
+                  .querySelector("#closeOptionList")
                   .addEventListener("click", closeOrderList);
 
                 let optionStr = document.querySelector("#option-price").innerHTML;
@@ -854,8 +857,8 @@
           <div class="txt-detail">
             <div class="buyBtn-hidden">
               <button type="button" onclick="processBeforeSubmit()"
-                class="js-mo-tpl btn-h42-gray mt-25"
-                id="buyBtn"
+                      class="js-mo-tpl btn-h42-gray mt-25"
+                      id="buyBtn"
                 >결제하기</button
               >
 
