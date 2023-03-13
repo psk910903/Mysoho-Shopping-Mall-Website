@@ -47,7 +47,7 @@
             <tr>
               <th style="text-align: center;" class="w250 table-light align-middle">문의내용</th>
               <td>
-            <textarea th:text="${ dto.inquiryContent }" class="form-control" style="height: 100px">
+            <textarea th:text="${ dto.inquiryContent }" class="form-control" style="height: 100px" readonly>
               문의내용
             </textarea>
               </td>
@@ -84,6 +84,7 @@
             <div style="text-align: center">
               <button type="submit" class="btn btn-outline-secondary">수정</button>
               <a th:href="@{deleteAction(replyNo=${ reply.replyNo },replyInquiryNo=${reply.replyInquiryNo})}" class="btn btn-danger">삭제</a>
+              <a href="/admin/inquiry/list" class="btn btn-outline-secondary">목록</a>
             </div>
           </form>
         </div>

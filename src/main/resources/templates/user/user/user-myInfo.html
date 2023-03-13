@@ -24,14 +24,9 @@
 <script>
   function checkValue() {
 
-		if(!document.userInfo.password.value) {
-			alert("새로운 비밀번호를 입력해주세요");
+		if(document.userInfo.password.value != document.userInfo.pwcheck.value) {
+			alert('새 비밀번호와 비밀번호 확인창이 일치하지 않습니다.');
 			document.getElementById('check-txt-pw').focus();
-			return false;
-		}
-		if(!document.userInfo.pwcheck.value) {
-			alert("새로운 비밀번호를 확인해주세요");
-			document.getElementById('check-txt-pwcheck').focus();
 			return false;
 		}
 
