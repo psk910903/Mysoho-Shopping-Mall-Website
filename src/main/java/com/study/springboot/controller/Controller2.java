@@ -264,9 +264,7 @@ public class Controller2 {
         }
         else{
             memberHiddenName = memberName.substring(0,2);
-            for (int i=0; i<memberName.length()-2; i++){
-                memberHiddenName += "*";
-            }
+            for (int i=0; i<memberName.length()-2; i++) memberHiddenName += "*";
         }
 
         model.addAttribute("itemList", itemList);
@@ -318,9 +316,7 @@ public class Controller2 {
         }
         else{
             memberHiddenName = memberName.substring(0,2);
-            for (int i=0; i<memberName.length()-2; i++){
-                memberHiddenName += "*";
-            }
+            for (int i=0; i<memberName.length()-2; i++) memberHiddenName += "*";
         }
 
         model.addAttribute("qnaList", qnaList);
