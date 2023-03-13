@@ -23,13 +23,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web
                 .ignoring()
-                .antMatchers("/css/**", "/js/**", "/img/**","/find/**");
+                .antMatchers("/find/**");
     }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests() // 요청에 대한 보안설정을 시작
-                .antMatchers("/","/order/**","/plan/**","/product/**","/qna/**","/notice/**","/inquiry/**","/myorder","/search","/terms/**","/enlarge/**").permitAll()
+                .antMatchers("/","/order/**","/plan/**","/product/**","/qna/**","/notice/**","/inquiry/**","/myorder","/search","/terms/**","/enlarge/**","/css/**", "/js/**", "/img/**").permitAll()
                 .antMatchers("/user/join").permitAll()
                 .antMatchers("/user/joinAction").permitAll()
                 .antMatchers("/myorder/**").hasAnyRole("USER","ADMIN")

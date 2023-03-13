@@ -27,6 +27,7 @@
       <div class="contentWrap">
       <table class="table table-bordered ">
         <form  action="/admin/inquiry/list" method="GET" class="row align-items-center" >
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
           <input type="hidden" name="page" value="0">
           <tr>
             <th style="text-align: center;" class="table-light w250 align-middle">기간</th>

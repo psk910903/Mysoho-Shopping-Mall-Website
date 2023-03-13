@@ -25,6 +25,7 @@
       <div class="contentWrap">
       <!-- 검색 시작 -->
       <form  action="/admin/order/list" method="GET" >
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <table class="table table-bordered" >
           <tr>
             <th style="text-align: center;" class="table-light align-middle w250">주문상태</th>
