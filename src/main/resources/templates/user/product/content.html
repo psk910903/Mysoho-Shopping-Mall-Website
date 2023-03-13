@@ -180,9 +180,6 @@
   width:100%;
   background-color:white;
 }
-.sort button:hover{
-    background-color: rgb(228, 228, 228);
-}
 .background-green{
     background: #333;
     color: #fff;
@@ -1201,10 +1198,12 @@
                                   alt=""
                           /></a>
                           <ul class="sort" th:id="|sort${status.count}|">
-                            <li><a th:href="|/inquiry/modifyForm/${dto2.inquiryNo}?reference=/product/${dto.itemNo}|">수정</a></li></li>
-                            <form action="#" th:action="@{/inquiry/delete/{id}(id=${dto2.inquiryNo})}" method="get" id="deleteBtn">
-                              <button type="button" th:onclick="|javascript:checkDelete()|">삭제</button>
-                            </form>
+                            <li><a th:href="|/inquiry/modifyForm/${dto2.inquiryNo}?reference=/product/${dto.itemNo}|">수정</a></li>
+                            <li>
+                              <form action="#" th:action="@{/inquiry/delete/{id}(id=${dto2.inquiryNo})}" method="get" id="deleteBtn">
+                                <button type="button" th:onclick="|javascript:checkDelete()|">삭제</button>
+                              </form>
+                            </li>
                           </ul>
                         </th:block>
                         <th:block th:unless="${LoginMemberId} == ${dto2.memberId}">
