@@ -14,16 +14,16 @@
 <body>
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
-<div class="betweenbtn">
-    <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
-</div>
-<div class="betweenbtn2">
-    <div th:replace="/fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>
-</div>
+<!--<div class="betweenbtn">-->
+<!--    <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>-->
+<!--</div>-->
+<!--<div class="betweenbtn2">-->
+<!--    <div th:replace="/fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>-->
+<!--</div>-->
 
 <div class="header">
 
-    <div th:replace="/fragments/header.html :: fragment-header"></div>
+<!--    <div th:replace="/fragments/header.html :: fragment-header"></div>-->
 
 </div>
 
@@ -36,103 +36,86 @@
     </div>
 
     <form  method="post" action="/find/passwordAction">
-
         <input type="hidden" name="getEmail" th:value="${getEmail}">
 
-        <input class="input-st01 users-login-input"
+        <input id="check-txt-pw"
+               class="input-st01 users-login-input mt-10"
                type="password"
-               name="password"
-               value=""
-               placeholder="새비밀번호 입력"
-               onchange="checkUserinfo('pw', this.value)"
-        />
+               name="pw"
+               placeholder="새비밀번호 (영문,숫자,특수문자 조합 8자리 이상)"
+               onchange="checkPW"
+               value="" />
 
         <input id="check-txt-pwcheck"
                class="input-st01 users-login-input mt-10"
                type="password"
                name="pwcheck"
-               value=""
-               placeholder="비밀번호 확인하기"
-               onBlur="checkPW(this.value)"
-               onchange="checkTxt('pw', this.value)"
-        />
-        <div class="blue check-txt check-txt-pwcheck-same">
-            비밀번호가 일치합니다.
-        </div>
-        <div class="red check-txt check-txt-pwcheck-not">
-            비밀번호가 일치하지 않습니다.
-        </div>
-
+               placeholder="비밀번호 재입력"
+               onchange="checkTxt"
+               value="" />
+        <div><th:block th:if="${checkPW==checkTxt}" class="blue check-txt check-txt-pwcheck-same">비밀번호가 일치합니다.</th:block></div>
+        <div><th:block th:unless="${checkPW==checkTxt}" class="red check-txt check-txt-pwcheck-not">비밀번호가 일치하지 않습니다.</th:block></div>
         <button type="submit" id="login" class="btn-h42-gray mt-10">변경하기</button>
-
     </form>
-
-
-
     <div class="footer">
-
-        <div th:replace="/fragments/footer.html :: fragment-footer"></div>
-
+<!--        <div th:replace="/fragments/footer.html :: fragment-footer"></div>-->
     </div>
-
 </div>
-
 <script src="/js/header.js"></script>
-
 <script src="/js/footer.js"></script>
 <script>
-    function checkPW(val) {
-        // 비밀번호 확인
-        if (val === document.querySelector("#check-txt-pw").value) {
-          document.querySelector(".check-txt-pwcheck-same").style.display =
-            "block";
-          document.querySelector(".check-txt-pwcheck-not").style.display =
-            "none";
-        } else {
-          document.querySelector(".check-txt-pwcheck-same").style.display =
-            "none";
-          document.querySelector(".check-txt-pwcheck-not").style.display =
-            "block";
-        }
-      }
-      function checkUserinfo(type, val) {
-        let mode = "";
-
-        var ckeckId = /^[a-zA-z0-9]{4,12}$/; //아이디 유효성 검사
-        var ckeckPW = /(?=.*[0-9])(?=.*[a-z])(?=.*\W)(?=\S+$).{8,20}/; //비밀번호 유효성 검사
-        var ckeckName = /^[가-힣]{2,5}$/; //이름 유효성 검사
-        var ckeckEmail = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/; //이메일 유효성 검사
-        var ckeckPhone = /^[0-9]{10,11}$/; //이메일 유효성 검사
-        if
-        (type === "id") {
-          mode = ckeckId;
-        } else
-        if (type === "pw") {
-          mode = ckeckPW;
-        }
-        else if (type === "name") {
-          mode = ckeckName;
-        } else if (type === "email") {
-          mode = ckeckEmail;
-        } else if (type === "phone") {
-          mode = ckeckPhone;
-        }
-
-        if (!mode.test(val)) {
-          document.querySelector(".check-txt-" + type).style.display = "none";
-          document.querySelector(".check-txt-" + type + "2").style.display =
-            "block";
-          document.querySelector(".check-txt-" + type + "3").style.display =
-            "none";
-          document.querySelector(".input-" + type).focus();
+// 회원가입 정보 미입력 시 멘트
+      function checkTxt(type, val) {
+        // 입력값이 공백일 때
+        if (pw === "") {
+          document.querySelector(".check-txt-" + type).style.display = "block";
+          document.querySelector(".check-txt-" + type + "2").style.display = "none";
+          document.querySelector(".check-txt-" + type + "3").style.display = "none";
         } else {
           document.querySelector(".check-txt-" + type).style.display = "none";
-          document.querySelector(".check-txt-" + type + "2").style.display =
-            "none";
-          document.querySelector(".check-txt-" + type + "3").style.display =
-            "block";
         }
-      }
+        }
+
+
+        // 회원가입 정보 미입력 시 멘트
+      function checkPW(type, val) {
+        // 입력값이 공백일 때
+        if (pw === "") {
+          document.querySelector(".check-txt-" + type).style.display = "block";
+          document.querySelector(".check-txt-" + type + "2").style.display = "none";
+          document.querySelector(".check-txt-" + type + "3").style.display = "none";
+        } else {
+          document.querySelector(".check-txt-" + type).style.display = "none";
+        }
+        }
+
+   var checkPW = /(?=.*[0-9])(?=.*[a-z])(?=.*\W)(?=\S+$).{8,20}/; //비밀번호 유효성 검사
+      var pw = document.querySelector("#check-txt-pw");
+      pw.addEventListener("keyup", function () {
+        console.log(pw.value);
+        if (checkPW.test(pw.value)) {
+          document.querySelector(".check-txt-pw2").style.display = "none";
+          document.querySelector(".check-txt-pw3").style.display = "block";
+        } else {
+          document.querySelector(".check-txt-pw2").style.display = "block";
+          document.querySelector(".check-txt-pw3").style.display = "none";
+        }
+      });
+
+      var pw = document.getElementById("check-txt-pw");
+      var pwcheck = document.getElementById("check-txt-pwcheck");
+      pwcheck.addEventListener("keyup", function () {
+        console.log(pw.value);
+        console.log(pwcheck.value);
+        if (pw.value === pwcheck.value) {
+          document.querySelector(".check-txt-pwcheck-same").style.display = "block";
+          document.querySelector(".check-txt-pwcheck-not").style.display = "none";
+        } else {
+          document.querySelector(".check-txt-pwcheck-same").style.display = "none";
+          document.querySelector(".check-txt-pwcheck-not").style.display = "block";
+        }
+      });
+
 </script>
 
 </body>
