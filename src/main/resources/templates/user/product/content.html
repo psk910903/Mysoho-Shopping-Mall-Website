@@ -231,6 +231,13 @@
 
 .stars{
 }
+.txt_ellipsis {
+  max-width: 15vw;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  display:block;
+}
     </style>
   </head>
   <body>
@@ -1163,7 +1170,7 @@
                               <th:block th:if="${dto2.inquirySecret}=='비공개'">
                                 <div class="tit js-qnaContents" >
                                   <th:blcok th:if="${LoginMemberId} == ${dto2.memberId}">
-                                    <span th:text="${dto2.inquiryContent}"></span>
+                                    <span class="txt_ellipsis" th:text="${dto2.inquiryContent}"></span>
                                   </th:blcok>
                                   <th:blcok th:unless="${LoginMemberId} == ${dto2.memberId}">
                                     <span> 비밀글입니다.</span>
@@ -1176,7 +1183,7 @@
                                 </div>
                               </th:block>
                               <th:block th:unless="${dto2.inquirySecret}=='비공개'">
-                                <div class="tit js-qnaContents" th:text="${dto2.inquiryContent}"></div>
+                                <div class="tit js-qnaContents txt_ellipsis" th:text="${dto2.inquiryContent}"></div>
                               </th:block>
                               <div class="qna-info">
                                 <div class="dil js-qnaType bar">상품문의</div>
@@ -1237,7 +1244,7 @@
                                 </div>
                               </th:block>
                               <th:block th:unless="${dto2.inquirySecret}=='비공개'">
-                                <div class="tit js-qnaContents" th:text="${dto2.inquiryContent}">문의합니다.</div>
+                                <div class="tit js-qnaContents txt_ellipsis" th:text="${dto2.inquiryContent}">문의합니다.</div>
                               </th:block>
                               <div class="qna-info">
                                 <div class="dil js-qnaType bar">상품문의</div>
