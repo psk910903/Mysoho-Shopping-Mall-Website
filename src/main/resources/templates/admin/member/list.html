@@ -35,7 +35,7 @@
     <div class="content" style="width:100%">
       <!--    회원 목록테이블 구성-->
       <form action="/admin/member/list" method="get" class="form">
-
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <div class="contentWrap">
           <input type="hidden" name="page" value="0">
           <div>

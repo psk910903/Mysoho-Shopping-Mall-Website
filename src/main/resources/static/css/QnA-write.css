@@ -98,8 +98,8 @@ textarea {
 .gray-txt {
   font-size: 11px;
   color: #666666;
-  margin-bottom: 0;
 }
+
 .gray-txt2 {
   font-size: 11px;
   color: #999999;
@@ -113,6 +113,7 @@ textarea {
   font-size: 16px;
   font-weight: bold;
   text-align: center;
+  margin-top: 20px;
 }
 .txt-box {
   padding: 15px 0;

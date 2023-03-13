@@ -40,6 +40,7 @@
 
       <table class="table table-bordered" >
       <form  action="/admin/review/list" method="GET" >
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <input type="hidden" name="page" value="0">
         <tr>
           <th style="text-align: center;" class="table-light align-middle w250">기간</th>
@@ -85,7 +86,7 @@
                     <th class="table-light align-middle w50"><input type="checkbox" id="allch"/></th>
                     <th class="table-light align-middle w110">상품번호</td>
                     <th class="table-light align-middle w200">상품명</th>
-                    <th class="table-light align-middle w110">상품사진</th>
+                    <th class="table-light align-middle w110">후기종류</th>
                     <th class="table-light align-middle w110">아이디</th>
                       <th class="table-light align-middle w110">내용</th>
                     <th class="table-light align-middle w50">별점</th>
@@ -102,7 +103,12 @@
 
                       <td class="align-middle" th:text="${ review.itemNo }"> 상품번호</td>
                       <td class="align-middle" th:text="${ itemList[status.index] }">상품명</td>
-                      <td class="align-middle"><img class="productImg" th:src="${ review.reviewImgUrl }"/></td>
+                          <th:block th:if="${review.reviewImgUrl == null} or ${review.reviewImgUrl == ''}">
+                              <td class="align-middle">일반후기</td>
+                          </th:block>
+                          <th:block th:unless="${review.reviewImgUrl == null} or ${review.reviewImgUrl == ''}">
+                              <td class="align-middle">사진후기</td>
+                          </th:block>
                       <td class="align-middle" th:text="${ review.memberId }">아이디</td>
                       <td class="align-middle">
                           <div th:text="${ review.reviewContent }" class="txt_ellipsis">글내용</div>
