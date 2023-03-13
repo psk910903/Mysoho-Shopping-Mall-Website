@@ -278,24 +278,21 @@ public class Controller3 {
     //개인 정보 수정
     @RequestMapping("user/myInfoModify")
     @ResponseBody
-    public String myInfoModify(@RequestParam("getPassword") String getPassword,
-                               @RequestParam("password") String newPassword,
-                               @AuthenticationPrincipal User user,
+    public String myInfoModify(@AuthenticationPrincipal User user,
                                MemberJoinDto dto) {
         MemberEntity entity = service3.findByUserId(user.getUsername());
-        String encodePassword = entity.getPassword();
-        if (passwordEncoder.matches(getPassword, encodePassword)) {//암호 같으면
-            String encodedPassword = passwordEncoder.encode(newPassword);
-            //dto에 수정된 정보를 받았음
-            dto.setPassword(encodedPassword);
-            boolean result = service3.update(dto);
-            if (result) {
-                return "<script> alert('회원정보 수정에 성공했습니다.'); location.href='/';</script>";
-            } else {
-                return "<script> alert('회원정보 수정에 실패했습니다.'); history.back(); </script>";
-            }
+        String entityPassword = entity.getPassword();
+        if(dto.getPassword() == ""){
+            dto.setPassword(entityPassword);
+        }else{
+            dto.setPassword(passwordEncoder.encode(dto.getPassword()));
+        }
+
+        boolean result = service3.update(dto);
+        if (result) {
+            return "<script> alert('회원정보 수정에 성공했습니다.'); location.href='/';</script>";
         } else {
-            return "<script> alert('비밀번호가 다릅니다'); history.back(); </script>";
+            return "<script> alert('회원정보 수정에 실패했습니다.'); history.back(); </script>";
         }
     }
 
