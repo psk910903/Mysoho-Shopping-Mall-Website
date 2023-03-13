@@ -46,7 +46,7 @@ public class Controller6 {
         Page<MemberResponseDto> list;
         int totalPage;
         List<Integer> pageList;
-
+// 검색어가 아무것도 입력이 안됐을때
         if ((findByType1 == null) && (findByType2 == null) && (keyword == null)
                 || (findByType1.equals("null")) && (findByType2.equals("null")) && (keyword.equals("null"))
                 || (findByType1.equals("all")) && (findByType2.equals("all")) && (keyword.equals(""))) {
