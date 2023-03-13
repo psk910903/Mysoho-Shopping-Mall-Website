@@ -23,6 +23,7 @@
         <div class="content" style="width:100%"> <!-- content 시작 -->
             <div class="contentWrap">
                 <form action="/admin/notice/list" method="GET" >
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                     <input type="hidden" name="page" value="0"> <!-- 페이지를 0으로 설정 -->
                     <table class="table table-bordered">
                         <tr>
