@@ -1906,5 +1906,55 @@ function onCheckDiv2( number ) {
 <!--  popup = window.open("/inquiry/modifyForm/"+inquiryNo);-->
 <!--}-->
 </script>
+    <script>
+      var ckeckId = /^[a-zA-z0-9_-]{5,20}$/;
+      var id = document.querySelector("#username");
+      id.addEventListener("keyup", function () {
+        if (ckeckId.test(id.value)) {
+          document.querySelector(".check-txt-id2").style.display = "none";
+          document.querySelector(".check-txt-id3").style.display = "block";
+        } else {
+          document.querySelector(".check-txt-id2").style.display = "block";
+          document.querySelector(".check-txt-id3").style.display = "none";
+        }
+      });
+
+      var ckeckPW = /(?=.*[0-9])(?=.*[a-z])(?=.*\W)(?=\S+$).{8,20}/; //비밀번호 유효성 검사
+      var pw = document.querySelector("#check-txt-pw");
+      pw.addEventListener("keyup", function () {
+        if (ckeckPW.test(pw.value)) {
+          document.querySelector(".check-txt-pw2").style.display = "none";
+          document.querySelector(".check-txt-pw3").style.display = "block";
+        } else {
+          document.querySelector(".check-txt-pw2").style.display = "block";
+          document.querySelector(".check-txt-pw3").style.display = "none";
+        }
+      });
+
+      var pw = document.getElementById("check-txt-pw");
+      var pwcheck = document.getElementById("check-txt-pwcheck");
+      pwcheck.addEventListener("keyup", function () {
+        if (pw.value === pwcheck.value) {
+          document.querySelector(".check-txt-pwcheck-same").style.display = "block";
+          document.querySelector(".check-txt-pwcheck-not").style.display = "none";
+        } else {
+          document.querySelector(".check-txt-pwcheck-same").style.display = "none";
+          document.querySelector(".check-txt-pwcheck-not").style.display = "block";
+        }
+      });
+
+      var ckeckEmail = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/; //이메일 유효성 검사
+      var email = document.querySelector("#memberEmail");
+      email.addEventListener("keyup", function () {
+        if (ckeckEmail.test(email.value)) {
+          document.querySelector(".check-txt-email2").style.display = "none";
+          document.querySelector(".check-txt-email3").style.display = "block";
+        } else {
+          document.querySelector(".check-txt-email2").style.display = "block";
+          document.querySelector(".check-txt-email3").style.display = "none";
+        }
+      });
+    </script>
+
   </body>
 </html>
