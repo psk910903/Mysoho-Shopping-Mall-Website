@@ -10,22 +10,30 @@
     <link rel="stylesheet" href="/css/header.css" />
     <link rel="stylesheet" href="/css/footer.css" />
     <link rel="stylesheet" href="/css/login.css" />
+    <style>
+        .containerlogin {
+    border-bottom: none;
+    margin-top: 250px;
+}
+
+
+    </style>
 </head>
 <body>
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 
-<div class="betweenbtn">
-    <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
-</div>
-<div class="betweenbtn2">
-    <div th:replace="/fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>
-</div>
+<!--<div class="betweenbtn">-->
+<!--    <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>-->
+<!--</div>-->
+<!--<div class="betweenbtn2">-->
+<!--    <div th:replace="/fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>-->
+<!--</div>-->
 
-<div class="header">
+<!--<div class="header">-->
 
-    <div th:replace="/fragments/header.html :: fragment-header"></div>
+<!--    <div th:replace="/fragments/header.html :: fragment-header"></div>-->
 
-</div>
+<!--</div>-->
 
 <div class="containerlogin">
 
@@ -39,13 +47,23 @@
 
         <input type="hidden" name="getEmail" th:value="${getEmail}">
 
-        <input class="input-st01 users-login-input"
+        <input id="check-txt-pw"
+               class="input-st01 users-login-input mt-10"
                type="password"
                name="password"
-               value=""
                placeholder="새비밀번호 입력"
+               value=""
                onchange="checkUserinfo('pw', this.value)"
         />
+        <div class="red check-txt check-txt-pw">
+            올바른 비밀번호 형식이 아닙니다.
+        </div>
+        <div class="red check-txt check-txt-pw2">
+            올바른 비밀번호 형식이 아닙니다.
+        </div>
+        <div class="blue check-txt check-txt-pw3">
+            사용가능한 비밀번호 입니다.
+        </div>
 
         <input id="check-txt-pwcheck"
                class="input-st01 users-login-input mt-10"
@@ -54,7 +72,7 @@
                value=""
                placeholder="비밀번호 확인하기"
                onBlur="checkPW(this.value)"
-               onchange="checkTxt('pw', this.value)"
+               onchange="checkUserinfo('pw', this.value)"
         />
         <div class="blue check-txt check-txt-pwcheck-same">
             비밀번호가 일치합니다.
@@ -69,17 +87,17 @@
 
 
 
-    <div class="footer">
+<!--    <div class="footer">-->
 
-        <div th:replace="/fragments/footer.html :: fragment-footer"></div>
+<!--        <div th:replace="/fragments/footer.html :: fragment-footer"></div>-->
 
-    </div>
+<!--    </div>-->
 
 </div>
 
-<script src="/js/header.js"></script>
+<!--<script src="/js/header.js"></script>-->
 
-<script src="/js/footer.js"></script>
+<!--<script src="/js/footer.js"></script>-->
 <script>
     function checkPW(val) {
         // 비밀번호 확인
@@ -95,28 +113,20 @@
             "block";
         }
       }
-      function checkUserinfo(type, val) {
+      function checkTxt(type, val) {
         let mode = "";
-
-        var ckeckId = /^[a-zA-z0-9]{4,12}$/; //아이디 유효성 검사
         var ckeckPW = /(?=.*[0-9])(?=.*[a-z])(?=.*\W)(?=\S+$).{8,20}/; //비밀번호 유효성 검사
-        var ckeckName = /^[가-힣]{2,5}$/; //이름 유효성 검사
-        var ckeckEmail = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+$/; //이메일 유효성 검사
-        var ckeckPhone = /^[0-9]{10,11}$/; //이메일 유효성 검사
-        if
-        (type === "id") {
-          mode = ckeckId;
-        } else
-        if (type === "pw") {
-          mode = ckeckPW;
-        }
-        else if (type === "name") {
-          mode = ckeckName;
-        } else if (type === "email") {
-          mode = ckeckEmail;
-        } else if (type === "phone") {
-          mode = ckeckPhone;
-        }
+
+// 입력값이 공백일 때
+          if (type === "") {
+          alert("비밀번호는 공백일 수 없습니다.");
+          return false;
+          }else if (type ==="pw") {
+           mode = checkPW;
+           return true;
+          }
+
+
 
         if (!mode.test(val)) {
           document.querySelector(".check-txt-" + type).style.display = "none";
