@@ -163,6 +163,7 @@ public class ProductService {
     @Transactional
     public boolean productModify(ProductSaveRequestDto dto){
         try {
+            dto.setItemUpdateDatetime(LocalDateTime.now());
             ProductEntity entity = dto.toUpdateEntity();
             productRepository.save(entity);
         } catch (Exception e) {
