@@ -63,7 +63,7 @@
         </th:block>
         <div class="writing-explain">
           <div class="writing-content">
-                <span th:text="${inquiry.inquiryContent}" th:class="${#strings.equals(inquiry.inquirySecret, '비공개') ? 'font-gray' : ''}">문의 내용</span>
+                <span th:text="${inquiry.inquiryContent}" th:class="${#strings.equals(inquiry.inquirySecret, '비공개') ? 'font-gray txt_ellipsis' : 'txt_ellipsis'}">문의 내용</span>
             <img th:if="${#strings.equals(inquiry.inquirySecret, '비공개')}" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_qa_lock.png"/>
           </div>
           <div class="writing-info">

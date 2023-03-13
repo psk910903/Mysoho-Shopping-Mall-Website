@@ -268,8 +268,12 @@ h6{
     background: #333;
     color: #fff;
 }
-.add-max-width{
-    max-width: min(560px, 80vw);
+.txt_ellipsis {
+  max-width: 15vw;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  display:block;
 }
 .schBox {
     height: 50px;

@@ -82,7 +82,9 @@
         <tr th:each="dto, status: ${list}" align="center">
           <td class="align-middle" th:text="${ dto.inquiryNo }">번호</td>
           <td class="align-middle" th:text="${ itemList[status.index]  }">상품명</td>
-          <td class="align-middle" th:text="${ dto.inquiryContent }">내용</td>
+          <td class="align-middle">
+            <div th:text="${ dto.inquiryContent }" class="txt_ellipsis">글내용</div>
+          </td>
           <th:block th:if="${dto.memberId != null} or ${dto.memberId} == ''">
           <td class="align-middle" th:text="${ dto.memberId }">작성자</td>
           </th:block>

@@ -95,7 +95,7 @@
             </div>
 
 
-            <th:block th:if="${commentList.isEmpty()}" th:each="comment : ${commentList}">
+            <th:block th:if="${commentList.isEmpty()}">
               <div class="txt-box mt-15">
                 <div class="security-txt-wrap">
                   <div class="security-txt">
@@ -126,7 +126,7 @@
                 </div>
               </div>
 
-              <button type="submit" class="input-box btn-h42-gray">등록하기</button>
+              <button type="submit" class="input-box btn-h42-gray">수정하기</button>
 
             </th:block>
             <th:block th:unless="${commentList.isEmpty()}" th:each="comment : ${commentList}">
