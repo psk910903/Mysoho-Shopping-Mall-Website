@@ -12,10 +12,12 @@ import com.study.springboot.service.ProductService;
 import com.study.springboot.service.Service6;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
@@ -44,7 +46,7 @@ public class Controller6 {
         Page<MemberResponseDto> list;
         int totalPage;
         List<Integer> pageList;
-
+// 검색어가 아무것도 입력이 안됐을때
         if ((findByType1 == null) && (findByType2 == null) && (keyword == null)
                 || (findByType1.equals("null")) && (findByType2.equals("null")) && (keyword.equals("null"))
                 || (findByType1.equals("all")) && (findByType2.equals("all")) && (keyword.equals(""))) {
@@ -142,29 +144,6 @@ public class Controller6 {
         return "user/popup/pop-page4";
     }
 
-//==================================수정중==========================================
-
-//    @GetMapping("/product/review")
-//    public String list(@RequestParam(value = "findByType", required = false) String findByType,
-//                       @RequestParam(value = "page", defaultValue = "0") int page,
-//                       Model model) {
-//
-//        Page<ReviewResponseDto> list;
-//        if (findByType == null){
-//            list = service6.findAllReview(page);
-//        }
-//        return "user/user/productReview";
-//    }
-
-
-//    @GetMapping("/product/review/{id}")
-//    public String Review(@PathVariable("id")String id, Model model){
-//        List<ReviewResponseDto> dto = service6.findByReview(id);
-//        model.addAttribute("list", dto);
-//        return "/user/user/productReview";
-//    }
-
-
 
     @GetMapping("/product/review/{id}") // 상품상세페이지로 수정해야함
     public String Review (@PathVariable("id") String id, Model model){
@@ -202,7 +181,6 @@ public String productContent(Model model,@PathVariable(value = "itemNo") Long it
     model.addAttribute("listImgCount", size2);  // ->6
     return "/user/product/contentTestKyeongBin";
 }
-
 
 }
 

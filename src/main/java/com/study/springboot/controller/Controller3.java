@@ -237,7 +237,7 @@ public class Controller3 {
         return "user/user/userPassTest";
     }
     //비밀번호 변경
-    @RequestMapping("find/passwordAction")
+    @RequestMapping("/find/passwordAction")
     @ResponseBody
     public String changPassword(@RequestParam("getEmail")String getEmail,
                                 @RequestParam("password")String password){

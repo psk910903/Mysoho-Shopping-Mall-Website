@@ -176,3 +176,8 @@ input::placeholder {
   right: 10px;
   top: 20px;
 }
+.withdrawal-button{
+  margin-top: 40px;
+  border:none;
+  background-color:transparent;
+}

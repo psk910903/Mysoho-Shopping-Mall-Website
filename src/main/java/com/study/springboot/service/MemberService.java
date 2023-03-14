@@ -93,11 +93,12 @@ public boolean modify(MemberSaveRequestDto dto){
         Page<MemberEntity> list;
         Pageable pageable = PageRequest.of(page, 10);
 
-        if (findByType1.equals("all") && findByType2.equals("all")) {
+
+        if (findByType1.equals("all") && findByType2.equals("all")) { //키워드만 입력됬을 때
             list = memberRepository.findByKeyword(keyword, pageable);
-        } else if (!findByType1.equals("all") && findByType2.equals("all")) {
+        } else if (!findByType1.equals("all") && findByType2.equals("all")) { //회원등급 & 키워드가 입력됬을 때
             list = memberRepository.findByType1(findByType1, keyword, pageable);
-        } else if(findByType1.equals("all") && !findByType2.equals("all")) {
+        } else if(findByType1.equals("all") && !findByType2.equals("all")) { //이름,아이디 & 키워드가 입력됬을 때
 
             if (findByType2.equals("아이디")) {
                 list = memberRepository.findByMemberId(keyword, pageable);
