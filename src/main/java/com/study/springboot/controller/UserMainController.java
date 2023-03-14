@@ -1,20 +1,23 @@
 package com.study.springboot.controller;
 
 import com.study.springboot.dto.product.ProductResponseDto;
-import com.study.springboot.repository.CartRepository;
-import com.study.springboot.repository.NoticeRepository;
-import com.study.springboot.repository.OrderRepository;
-import com.study.springboot.repository.ProductRepository;
+import com.study.springboot.dto.security.MemberJoinDto;
+import com.study.springboot.entity.MemberEntity;
+import com.study.springboot.repository.*;
 import com.study.springboot.service.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,11 +29,11 @@ public class UserMainController {
     final ProductRepository productRepository;
     final OrderRepository orderRepository;
     final AwsS3Service awsS3Service;
-    final Service3 service3;
     final CartRepository cartRepository;
     final ReviewService reviewService;
     final Service5 service5;
     final NoticeRepository noticeRepository;
+
 
     //홈페이지 -----------------------------------------------------------------------------
     @GetMapping("/")
@@ -111,4 +114,22 @@ public class UserMainController {
 
         return "/user/popup/pop-page4";
     }
+
+    //로그인 폼
+    @GetMapping("/login")
+    public String login() {
+        return "user/user/userlogin";
+    }
+
+    //가입 폼
+    @GetMapping("/join")
+    public String join() {
+        return "user/user/userjoin";
+    }
+
+
+
+
+
+
 }

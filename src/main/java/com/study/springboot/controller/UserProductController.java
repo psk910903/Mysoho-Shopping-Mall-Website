@@ -30,7 +30,6 @@ public class UserProductController {
     final ProductRepository productRepository;
     final OrderRepository orderRepository;
     final AwsS3Service awsS3Service;
-    final Service3 service3;
     final CartRepository cartRepository;
     final ReviewService reviewService;
     final Service5 service5;

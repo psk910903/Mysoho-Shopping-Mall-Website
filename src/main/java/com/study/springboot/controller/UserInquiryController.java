@@ -1,7 +1,12 @@
 package com.study.springboot.controller;
 
 import com.study.springboot.dto.inquiry.InquiryResponseDto;
+import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.product.ProductResponseDto;
+import com.study.springboot.entity.InReplyEntity;
+import com.study.springboot.entity.InquiryEntity;
+import com.study.springboot.repository.InReplyRepository;
+import com.study.springboot.repository.InquiryRepository;
 import com.study.springboot.repository.NoticeRepository;
 import com.study.springboot.service.*;
 import lombok.RequiredArgsConstructor;
@@ -9,10 +14,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +27,8 @@ public class UserInquiryController {
     private final NoticeRepository noticeRepository;
     private final ProductService productService;
     private final InquiryService inquiryService;
+    private final Service5 service5;
+    private final InReplyRepository inReplyRepository;
 
     //마이페이지 상품문의 리스트
     @GetMapping("/inquiry/myProductInquiries")
@@ -79,6 +83,103 @@ public class UserInquiryController {
         }else{
             return "<script>alert('삭제 실패했습니다.'); history.back();</script>";
         }
+    }
+
+    // 상품 문의작성 폼(회원/비회원 나누기)------------------------------↓
+    @GetMapping("/inquiry/productInquiryWriteForm/{itemNo}")
+    public String inquiryProductInquiryWriteForm(@PathVariable("itemNo") String itemNo, Model model,
+                                                 @AuthenticationPrincipal User user, @RequestParam String reference) {
+
+        ProductResponseDto dto = productService.findById(Long.valueOf(itemNo));
+        model.addAttribute("dto",dto);
+
+        if(user!=null) { // 회원일 때
+            String memberId = user.getUsername();
+
+            //DB에서 memberName 유저아이디로 멤버 이름조회하기
+            MemberResponseDto memberName = service5.findByMemberIdMember(memberId);
+            String memberPassword = memberName.getMemberPw();
+            model.addAttribute("memberName",memberName.getMemberName());
+            model.addAttribute("inquiryMemberId", memberId);
+            model.addAttribute("inquiryMemberPassword", memberPassword);
+        }else {// 비회원일때
+            model.addAttribute("inquiryMemberId", null);
+        }
+
+        model.addAttribute("itemNo", itemNo);
+        model.addAttribute("reference", reference);
+
+        return "/user/popup/inquiry-write";
+    }
+
+    @GetMapping("/inquiry/delete/{id}")
+    @ResponseBody
+    public String inquiryDelete(@PathVariable("id")long id){
+        long itemNo = service5.findByItemNo(id);
+        boolean deleteResult = inquiryService.delete(id);
+        if(!deleteResult){
+            return "<script>alert('삭제 실패');history.back();</script>";
+        }
+        return "<script>alert('삭제 성공'); location.href='/product/"+itemNo+"';</script>";
+    }
+
+    //비로그인 삭제 버튼 눌렀을 때
+    @PostMapping("/inquiry/pw/check/action2")
+    @ResponseBody
+    public String pwCheckAction2(@ModelAttribute InquiryResponseDto inquiryResponseDto){
+
+        long inquiryNo = inquiryResponseDto.getInquiryNo();
+        boolean pwCheckResult = service5.inquirypwCheck(inquiryResponseDto);
+        if(!pwCheckResult){
+            return "<script>alert('비밀번호 확인실패'); history.back();</script>";
+        }
+        return "<script>location.href='/inquiry/delete/"+inquiryNo+"';</script>";
+    }
+
+    //로그인시 수정버튼눌렀을때
+    @GetMapping("/inquiry/modifyForm/{num}")
+    public String modifyForm(@PathVariable("num")Long num, @RequestParam String reference,
+                             Model model){
+
+        InquiryResponseDto inquiryResponseDto = service5.findById(num);
+        List<InReplyEntity> commentList = inReplyRepository.findAllByReplyInquiryNo(num);
+
+        model.addAttribute("reference", reference);
+        model.addAttribute("commentList", commentList);
+        model.addAttribute("dto",inquiryResponseDto);
+
+        return "/user/popup/Inquiry-modify";
+    }
+
+    @PostMapping("/inquiry/modify/action")
+    @ResponseBody
+    public String modifyAction(@ModelAttribute InquiryResponseDto inquiryResponseDto, @RequestParam String reference){
+
+        long itemNo = service5.findByItemNo(inquiryResponseDto.getInquiryNo());
+
+        if(inquiryResponseDto.getInquirySecret() == null){
+            inquiryResponseDto.setInquirySecret("공개");
+        }
+
+        InquiryEntity inquiryEntity = inquiryResponseDto.toModifyEntity();
+        boolean modifyResult = service5.inquirySave(inquiryEntity);
+
+        if(!modifyResult){
+            return "<script>alert('수정 실패했습니다.');history.back();</script>";
+        }
+        return "<script>alert('수정되었습니다');location.href='"+ reference +"';</script>";
+    }
+
+    @PostMapping("/inquiry/pw/check/action")
+    @ResponseBody
+    public String pwCheckAction(@ModelAttribute InquiryResponseDto inquiryResponseDto, @RequestParam String reference){
+
+        long inquiryNo = inquiryResponseDto.getInquiryNo();
+        boolean pwCheckResult = service5.inquirypwCheck(inquiryResponseDto);
+        if(!pwCheckResult){
+            return "<script>alert('비밀번호 확인실패'); history.back();</script>";
+        }
+        return "<script>alert('비밀번호 확인완료.'); location.href='/inquiry/modifyForm/"+inquiryNo+"?reference=" + reference +"';</script>";
     }
 
 }
