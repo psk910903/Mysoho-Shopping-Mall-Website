@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 <th:block th:fragment="container-shopping-basket-summary">
     <div class="order-terms">
         <div class="inner">
@@ -65,7 +68,9 @@
                     </div>
                 </div>
                 <div class="left blue">
+                    <span sec:authorize="isAnonymous()">
                     <strong>(예상 적립금 <span>0</span>원, 비회원적립 불가)</strong>
+                    </span>
                 </div>
             </div>
             <input type="hidden" name="orderTotalCount" id="orderTotalCount" />
