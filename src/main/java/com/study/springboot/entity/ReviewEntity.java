@@ -22,6 +22,8 @@ public class ReviewEntity {
     private String memberId;
     @Column(name = "item_no")
     private String itemNo;
+    @Column(name = "order_code")
+    private String orderCode;
     @Column(name = "review_star")
     private Byte reviewStar;
     @Column(name = "review_content")
@@ -35,10 +37,11 @@ public class ReviewEntity {
     private String reviewExpo;
 
     @Builder
-    public ReviewEntity(Long reviewNo, String memberId, String itemNo, Byte reviewStar, String reviewContent, String reviewImgUrl, LocalDateTime reviewDatetime, String reviewExpo) {
+    public ReviewEntity(Long reviewNo, String memberId, String itemNo, String orderCode, Byte reviewStar, String reviewContent, String reviewImgUrl, LocalDateTime reviewDatetime, String reviewExpo) {
         this.reviewNo = reviewNo;
         this.memberId = memberId;
         this.itemNo = itemNo;
+        this.orderCode = orderCode;
         this.reviewStar = reviewStar;
         this.reviewContent = reviewContent;
         this.reviewImgUrl = reviewImgUrl;
