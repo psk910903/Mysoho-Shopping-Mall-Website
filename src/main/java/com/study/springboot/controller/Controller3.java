@@ -237,7 +237,7 @@ public class Controller3 {
                                 @RequestParam("password")String password){
         boolean result = service3.changePassword(getEmail,password);
         if(result){
-            return "<script> alert('비밀번호 변경 성공');location.href='/user/login'</script>";
+            return "<script> alert('비밀번호 변경 성공');location.href='/login'</script>";
         }else {
             return "<script> alert('비밀번호 변경실패'); history.back(); </script>";
         }
