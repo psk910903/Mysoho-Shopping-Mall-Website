@@ -78,6 +78,8 @@ public class UserReviewController {
         model.addAttribute("itemCode",itemCode);
         model.addAttribute("itemName",productRepository.findById(itemCode).get().getItemName());
         model.addAttribute("itemImageUrl",productRepository.findById(itemCode).get().getItemImageUrl());
+        model.addAttribute("orderCode",orderRepository.findById(Long.parseLong(entity.getOderCode())).get().getOrderCode());
+//         테스트 수정사항
 
         return "user/user/review-writeForm";
     }
@@ -91,6 +93,7 @@ public class UserReviewController {
         model.addAttribute("itemName",productRepository.findById(Long.parseLong(entity.getItemNo())).get().getItemName());
         model.addAttribute("itemImageUrl",productRepository.findById(Long.parseLong(entity.getItemNo())).get().getItemImageUrl());
         model.addAttribute("orderCode",orderRepository.findById(Long.parseLong(entity.getOderCode())).get().getOrderCode());
+//         테스트 수정
         return "user/user/review-writeForm";
     }
     //후기 작성하기(글쓰기)
