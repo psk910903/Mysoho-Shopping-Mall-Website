@@ -15,6 +15,7 @@ public class ReviewResponseDto {
     private Long reviewNo;
     private String memberId;
     private String itemNo;
+    private String orderCode;
     private Byte reviewStar;
     private String reviewContent;
     private String reviewImgUrl;
@@ -24,6 +25,7 @@ public class ReviewResponseDto {
     public ReviewResponseDto(ReviewEntity entity){
         this.reviewNo = entity.getReviewNo();
         this.itemNo = entity.getItemNo();
+        this.orderCode = entity.getOrderCode();
         this.reviewContent = entity.getReviewContent();
         this.reviewExpo = entity.getReviewExpo();
         this.reviewImgUrl = entity.getReviewImgUrl();
@@ -37,6 +39,7 @@ public class ReviewResponseDto {
         this.reviewNo = reviewNo;
         this.memberId = memberId;
         this.itemNo = itemNo;
+        this.orderCode = orderCode;
         this.reviewStar = reviewStar;
         this.reviewContent = reviewContent;
         this.reviewImgUrl = reviewImgUrl;
@@ -48,6 +51,7 @@ public class ReviewResponseDto {
         .reviewNo(reviewNo)
         .memberId(memberId)
         .itemNo(itemNo)
+        .orderCode(orderCode)
         .reviewStar(reviewStar)
         .reviewContent(reviewContent)
         .reviewImgUrl(reviewImgUrl)
