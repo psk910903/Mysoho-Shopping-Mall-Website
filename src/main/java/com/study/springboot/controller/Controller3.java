@@ -221,9 +221,9 @@ public class Controller3 {
         }else {
             boolean result = service3.sendEmail(getEmail);
             if(result){
-                return "<script> alert('멜을 확인하세요.'); history.back(); </script>";
+                return "<script> alert('해당 에메일로 비밀번호 변경 링크를 발송하였습니다.\n 이메일을 확인해주세요.'); history.back(); </script>";
             } else {
-                return "<script> alert('멜보내기 실패했습니다.'); history.back(); </script>";
+                return "<script> alert('해당 에메일로 비밀번호 변경 링크를 발송에 실패했습니다'); history.back(); </script>";
             }
         }
 
@@ -334,7 +334,7 @@ public class Controller3 {
     //나의 상품 문의 내역 -> controller2에 있음
     //나의 Q&A->controller2에 있음
 
-    ////////////////////////////  리뷰 작성하기   ///////////////////////////////////////////
+    ////////////////////////////  후기 작성하기   ///////////////////////////////////////////
 
     //나의 후기 모아보기
     @RequestMapping("/review/myList")
@@ -365,7 +365,7 @@ public class Controller3 {
         return "user/user/review-mylist";
     }
 
-    //리뷰 작성하기 폼
+    //후기 작성하기 폼
     @RequestMapping("/myorder/writeForm")
     public String myReviewWrite(@RequestParam("itemCode") Long itemCode,
                                 @AuthenticationPrincipal User user,
@@ -380,7 +380,7 @@ public class Controller3 {
 
         return "user/user/review-writeForm";
     }
-    //리뷰 수정 폼
+    //후기 수정 폼
     @RequestMapping("/review/modify")
     public String reviewModify(@RequestParam("reviewNo") Long reviewNo,
                                Model model){
@@ -391,7 +391,7 @@ public class Controller3 {
         model.addAttribute("itemImageUrl",productRepository.findById(Long.parseLong(entity.getItemNo())).get().getItemImageUrl());
         return "user/user/review-writeForm";
     }
-    //리뷰 작성하기(글쓰기)
+    //후기 작성하기(글쓰기)
     @RequestMapping("/review/writeAction")
     @ResponseBody
     public String writeAction(@RequestParam MultipartFile uploadfile, ReviewSaveResponseDto dto){
@@ -411,28 +411,28 @@ public class Controller3 {
         dto.setReviewDatetime(today);
         boolean result = reviewService.save(dto);
         if(!result){
-            return "<script> alert('리뷰 작성에 실패했습니다.'); history.back();</script>";
+            return "<script> alert('후기 작성에 실패했습니다.'); history.back();</script>";
         }else {
-            return "<script> alert('리뷰 작성에 성공했습니다.'); location.href='/review/myList';</script>";
+            return "<script> alert('후기 작성에 성공했습니다.'); location.href='/review/myList';</script>";
         }
     }
 
-    //리뷰 삭제
+    //후기 삭제
     @RequestMapping("/review/delete")
     @ResponseBody
     public String reviewDelete(@RequestParam("reviewNo") Long reviewNo){
         try {
             ReviewEntity entity = reviewRepository.findById(reviewNo).orElseThrow();
             reviewRepository.delete(entity);
-            return "<script>alert('삭제성공'); location.href='/review/myList'</script>";
+            return "<script>alert('후기가 삭제됬습니다.'); location.href='/review/myList'</script>";
         }catch (Exception e){
             e.printStackTrace();
-            return "<script>alert('삭제실패'); history.back(); </script>";
+            return "<script>alert('후기 삭제실패'); history.back(); </script>";
         }
     }
 
 
-    //리뷰 수정하기
+    //후기 수정하기
     @RequestMapping("/review/modifyAction")
     @ResponseBody
     public String reviewModifyAction(@RequestParam MultipartFile uploadfile,
