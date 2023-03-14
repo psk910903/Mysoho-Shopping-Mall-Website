@@ -175,6 +175,7 @@ input[type=file]::file-selector-button{
       <input type="hidden" name="memberId" th:value="${memberId}">
       <input type="hidden" name="itemNo" th:value="${itemCode}">
       <input type="hidden" name="reviewExpo" value="노출함">
+	  <input type="hidden" name="orderCode" th:value="${orderCode}" value="오더코드">
     <div class="reviewStar">
     <fieldset>
       <span class="text-bold">별점을 선택해주세요</span>
@@ -211,6 +212,8 @@ input[type=file]::file-selector-button{
         <input type="hidden" name="reviewDatetime" th:value="${#temporals.format(review.reviewDatetime, 'yyyy-MM-dd HH:mm:ss')}">
         <input type="hidden" name="reviewExpo" th:value="${review.reviewExpo}">
         <input type="hidden" name="imgDelete" id="imgDelete">
+	      <input type="hidden" name="orderCode" th:value="${orderCode}" value="오더코드">
+<!-- 	  테스트 수정     -->
 
         <th:block th:if="${review.reviewImgUrl} != null and ${review.reviewImgUrl} != ''">
         <div id="imgBox" style="display: block;">
