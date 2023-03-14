@@ -231,10 +231,11 @@ public class Controller3 {
         return "user/user/userPassTest";
     }
     //비밀번호 변경
-    @RequestMapping("find/passwordAction")
+    @RequestMapping("/find/passwordAction")
     @ResponseBody
     public String changPassword(@RequestParam("getEmail")String getEmail,
                                 @RequestParam("password")String password){
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         boolean result = service3.changePassword(getEmail,password);
         if(result){
             return "<script> alert('비밀번호 변경 성공');location.href='/user/login'</script>";
