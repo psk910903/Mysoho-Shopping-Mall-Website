@@ -161,7 +161,6 @@ public class Controller3 {
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-            System.out.println("error:"+e.getRootCause().toString());
             if(e.getRootCause().toString().contains("member_id")){
                 return "<script>alert('이미 등록된 아이디입니다. 다른 아이디를 사용해 주세요.');history.back();</script>";
             }else if(e.getRootCause().toString().contains("member_email")){
@@ -232,7 +231,6 @@ public class Controller3 {
     //비밀번호 변경 폼
     @RequestMapping("/find/password2")
     public String emailPassword(@RequestParam("getEmail") String getEmail,Model model){
-        System.out.println("form:"+getEmail);
         model.addAttribute("getEmail",getEmail);
         return "user/user/userPassTest";
     }
@@ -440,8 +438,6 @@ public class Controller3 {
                                      @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")ReviewSaveResponseDto dto
 
     ){
-        System.out.println( dto.getReviewDatetime());
-
         String url;
         if (uploadfile.getOriginalFilename().equals("")) { //업로드한 이미지가 없을 때
             url = reviewService.findByUrl(dto.getReviewNo());

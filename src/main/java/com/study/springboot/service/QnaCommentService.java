@@ -1,11 +1,13 @@
 package com.study.springboot.service;
 
 import com.study.springboot.dto.qna.QnaCommentResponseDto;
+import com.study.springboot.dto.qna.QnaResponseDto;
 import com.study.springboot.entity.QnaCommentEntity;
 import com.study.springboot.repository.QnaCommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,6 +16,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class QnaCommentService {
     private final QnaCommentRepository qnaCommentRepository;
+    private final Service4 service4;
 
     public List<QnaCommentResponseDto> findbyIdx(Long idx) {
         List<QnaCommentEntity> commentEntity = qnaCommentRepository.findByCommentQnaId_nativeQuery(idx);
@@ -53,5 +56,14 @@ public class QnaCommentService {
             return false;
         }
         return true;
+    }
+
+    public List<Long> qnaCommentCount(List<QnaResponseDto> list){
+        List<Long> qnaCommentCount = new ArrayList<>();
+        for(int i =0; i< list.size(); i++){
+            Long CommentCount = service4.countByQnaId(list.get(i).getQnaId());
+            qnaCommentCount.add(CommentCount);
+        }
+        return qnaCommentCount;
     }
 }

@@ -1,9 +1,6 @@
 package com.study.springboot.service;
 
-import com.study.springboot.dto.cart.CartResponseDto;
-import com.study.springboot.dto.inquiry.InquiryResponseDto;
 import com.study.springboot.dto.order.OrderResponseDto;
-import com.study.springboot.dto.qna.QnaResponseDto;
 import com.study.springboot.dto.security.MemberJoinDto;
 import com.study.springboot.entity.*;
 import com.study.springboot.repository.*;
@@ -16,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 @RequiredArgsConstructor
 @Service
@@ -30,9 +26,9 @@ public class Service3 {
     final InquiryRepository inquiryRepository;
     final QnaRepository qnaRepository;
     final CartService cartService;
-    final Service1 service1;
-    final Service2 service2;
     final QnaService qnaService;
+    final OrderService orderService;
+    final InquiryService inquiryService;
 
     @Transactional(readOnly = true)
     public MemberEntity findByUserId(final String memberId){
@@ -47,7 +43,7 @@ public class Service3 {
         //회원이 작성했던 상품문의 삭제
         List<InquiryEntity> inquiryList = inquiryRepository.findByMemberId(memberId);
         for (int i = 0; i < inquiryList.size(); i++) {
-            service2.delete(inquiryList.get(i).getInquiryNo());
+            inquiryService.inquiryDelete(inquiryList.get(i).getInquiryNo());
         }
 
         //회원이 작성했던 리뷰 삭제
@@ -61,7 +57,7 @@ public class Service3 {
         List<OrderResponseDto> orderDtoList = cartService.findByOrderList(memberId);
         //회원 카트정보 삭제
         for (OrderResponseDto orderDto : orderDtoList) {
-            List<CartEntity> cartEntityList = service1.getCartEntityListMember(orderDto);
+            List<CartEntity> cartEntityList = cartService.getCartEntityListMember(orderDto);
             for (int i = 0; i < cartEntityList.size(); i++) {
                 cartRepository.delete(cartEntityList.get(i));
             }
@@ -91,7 +87,7 @@ public class Service3 {
         try {
             MemberEntity enity = dto.toUpdateEntity();
             memberRepository.save( enity );
-            System.out.println(enity.getMemberName());
+
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -155,7 +151,6 @@ public class Service3 {
         }
         try {
             String encodedPassword = passwordEncoder.encode(password);
-            System.out.println("encodedPassword:"+encodedPassword);
             MemberEntity entity = optional.get();
             entity.updatePassword(encodedPassword);
             memberRepository.save( entity );

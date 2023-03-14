@@ -40,8 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/user/login") //
                 .loginProcessingUrl("/user/loginAction") //로그인 액션 URI를 지정한다.
                 .successHandler( (request,response,authentication) -> {
-                    System.out.println("로그인 성공했습니다.");
-                    //0306 이준하 추가
                     request.getSession().setAttribute("username", request.getParameter("username"));
                     response.sendRedirect("/");
                 })

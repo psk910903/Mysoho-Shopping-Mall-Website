@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -131,6 +132,15 @@ public boolean modify(MemberSaveRequestDto dto){
 
         }
     }
+
+    @Transactional(readOnly = true)
+    public MemberResponseDto findByMemberId(String memberId){ // 이름 바꿔야함
+        Optional<MemberEntity> entity = memberRepository.findByMemberId(memberId);
+        if (!entity.isPresent()){
+            return null;
+        }
+        return new MemberResponseDto(entity.get());
+    };
 
 
 }

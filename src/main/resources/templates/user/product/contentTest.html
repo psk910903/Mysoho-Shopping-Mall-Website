@@ -1516,16 +1516,11 @@
         let finalColorResult = document.querySelector(".final-color").innerHTML;
         let finalSizeResult = document.querySelector(".final-size").innerHTML;
         let productCount = document.querySelector(".MSH-sto-stock").value;
-        console.out(finalColorResult);
-        console.out(finalSizeResult);
-        console.out(productCount);
 
         basketNum++;
         let cookieName = itemNo
         cookieName += '.'+finalColorResult;
         cookieName += '.'+finalSizeResult;
-
-        console.out(cookieName);
 
         let cookieValue = productCount; //아이템 수량으로 쿠키벨류 초기화
         document.querySelector(".basket-num").innerHTML = basketNum; //오른 숫자 반영
