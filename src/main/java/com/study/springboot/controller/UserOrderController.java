@@ -2,26 +2,18 @@ package com.study.springboot.controller;
 
 import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.cart.CartSaveRequestDto;
-import com.study.springboot.dto.inquiry.InquiryResponseDto;
 import com.study.springboot.dto.member.MemberResponseDto;
-import com.study.springboot.dto.notice.NoticeResponseDto;
-import com.study.springboot.dto.notice.NoticeSaveRequestDto;
-import com.study.springboot.dto.notice.NoticeUpdateRequestDto;
 import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
+import com.study.springboot.dto.order.OrderSearchDto;
 import com.study.springboot.dto.product.ProductResponseDto;
-import com.study.springboot.dto.qna.QnaResponseDto;
+import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.security.MemberJoinDto;
 import com.study.springboot.entity.MemberEntity;
-import com.study.springboot.object.FileResponse;
-import com.study.springboot.repository.MemberRepository;
-import com.study.springboot.repository.NoticeRepository;
+import com.study.springboot.repository.*;
 import com.study.springboot.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,7 +21,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -40,311 +31,165 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-@RequiredArgsConstructor
 @Controller
-public class Controller2 {
-
-    // '/admin/notice' 시작 -----------------------------------------------------------------------------------------------
-
-    private final NoticeService noticeService;
-    private final AwsS3Service awsS3Service;
-    private final NoticeRepository noticeRepository;
-
-    private final Service2 service2;
-
-
-    // URL: localhost8080:/admin/notice
-    @GetMapping("/admin/notice")
-    public String noticeHome(){
-        return "redirect:/admin/notice/list?page=0"; // localhost8080:/admin/notice/list로 redirect
-    }
-
-    // URL: localhost8080:/admin/notice/list
-    // 공지글 리스트 페이지
-    @GetMapping("/admin/notice/list")
-    public String noticeList(@RequestParam(value = "findBy", required = false) String findBy,   // findBy : type(종류), title(제목), content(내용)에 따라 글 분류
-                       @RequestParam(value = "keyword", required = false) String keyword, // keyword: 어떤 keyword로 찾을 것인지 결정
-                       @RequestParam(value = "page", defaultValue = "0") int page,        // page: 0에서부터 시작
-                        Model model) {                                                    // ex) findBy=title, keyword="키워드입니다", page:2면
-                                                                                          //     제목에서 "키워드입니다"가 포함된 글 중 3쪽을 보여줌
-        Page<NoticeResponseDto> list;
-        if (findBy == null) { // 검색 기능을 쓰지 않을 때
-            list = noticeService.findAll(page);
-        } else{ // 검색 기능을 쓸 때
-            list = noticeService.findByKeyword(findBy, keyword, page);
-        }
-
-        int totalPage = list.getTotalPages(); // 전체 페이지 개수
-        List<Integer> pageList = noticeService.getPageList(totalPage, page); // 해당 page에서 아래쪽 페이지바에 보이는 숫자 list
-
-        model.addAttribute("list", list);
-        model.addAttribute("findBy", findBy);
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("pageList", pageList);
-
-        long listCount = noticeRepository.count();
-        model.addAttribute("listCount", listCount);
-
-        return "admin/notice/list"; //listForm.html로 응답
-
-    }
-
-    // URL: localhost8080:/admin/notice/content/{정수}
-    // 상세 페이지
-    @GetMapping("/admin/notice/content/{noticeNo}")
-    public String noticeContent(@PathVariable("noticeNo") Long noticeNo, Model model) {
-
-        NoticeResponseDto dto = noticeService.findById(noticeNo);
-        if (dto == null){
-            return "redirect:/admin/notice/list";
-        }
-
-        model.addAttribute("notice", dto);
-
-        return "admin/notice/content"; //content.html로 응답
-    }
-
-    // URL: localhost8080:/admin/notice/write
-    // 새 글 작성 페이지
-    @GetMapping("/admin/notice/write")
-    public String noticeWrite(Model model) {
-
-        NoticeResponseDto dto = NoticeResponseDto.builder()
-                .noticeType("공지사항")
-                .noticeTitle("")
-                .noticeContent("")
-                .build();
-
-        model.addAttribute("notice",dto);
-
-        return "admin/notice/write";//write.html로 응답
-    }
-
-    // URL: localhost8080:/admin/notice/modify/{정수}
-    // 기존 글 수정 페이지
-    @GetMapping("/admin/notice/modify")
-    public String noticeModify(@RequestParam("noticeNo") Long noticeNo, Model model) {
-
-        NoticeResponseDto dto = noticeService.findById(noticeNo);
-        if (dto == null){
-            return "redirect:/admin/notice/list";
-        }
-
-        model.addAttribute("notice",dto);
-
-        return "admin/notice/write"; //write.html로 응답
-    }
-
-    // 수정된 기존 글 데이터 데이터베이스에 넣기
-    @PostMapping("/admin/notice/modifyAction")
-    @ResponseBody
-    public String noticeModifyAction(NoticeUpdateRequestDto dto) {
-
-        if(dto.getNoticeTitle().length() > 250){
-            return "<script>alert('제목은 250자 이내로 써주세요.'); history.back();</script>";
-        }
-
-        Boolean success = noticeService.update(dto);
-        if(success) {
-            return "<script>alert('게시글 수정 완료'); location.href='/admin/notice/content/" + dto.getNoticeNo() + "';</script>";
-        }else{
-            return "<script>alert('게시글 수정 실패'); history.back();</script>";
-        }
-    }
-
-    // 작성된 새로운 글 데이터 데이터베이스에 넣기
-    @PostMapping("/admin/notice/writeAction")
-    @ResponseBody
-    public String noticeWriteAction(NoticeSaveRequestDto dto) {
-
-        if(dto.getNoticeTitle().length() > 250){
-            return "<script>alert('제목은 250자 이내로 써주세요.'); history.back();</script>";
-        }
-
-        Boolean success = noticeService.save(dto);
-        if(success) {
-            return "<script>alert('게시글 등록 완료'); location.href='/admin/notice/list';</script>";
-        }else{
-            return "<script>alert('게시글 등록 실패'); history.back();</script>";
-        }
-    }
-
-    // 기존 글 데이터베이스에서 삭제하기
-    @GetMapping("/admin/notice/deleteAction")
-    @ResponseBody
-    public String noticeDeleteAction(@RequestParam("noticeNo") Long noticeNo) {
-
-        Boolean success = noticeService.delete(noticeNo);
-        if(success) {
-            return "<script>alert('게시글 삭제 완료'); location.href='/admin/notice/list';</script>";
-        }else{
-            return "<script>alert('게시글 삭제 실패'); history.back();</script>";
-        }
-
-    }
-
-    // 글 작성 시 이미지 업로드 할 때 awsS3에 이미지를 넣고 이미지 url 반환 (ckeditor로 이동)
-    @PostMapping("/find/admin/notice/imgUpload")
-    @ResponseBody
-    public ResponseEntity<FileResponse> noticeImgUpload(
-            @RequestPart(value = "upload", required = false) MultipartFile fileload) throws Exception {
-
-        return new ResponseEntity<>(FileResponse.builder().
-                uploaded(true).
-                url(awsS3Service.upload(fileload)).
-                build(), HttpStatus.OK);
-    }
-
-    // '/admin/notice' 끝 -----------------------------------------------------------------------------------------------
-    // '/notice' 시작 -----------------------------------------------------------------------------------------------
-
-    @RequestMapping(value = "/notice", method =  {RequestMethod.GET, RequestMethod.POST})
-    public String notice( @RequestParam(value = "keyword", required = false) String keyword,
-                          Model model) {
-
-        List<NoticeResponseDto> list;
-        if (keyword == null) { // 검색 기능을 쓰지 않을 때
-            list = noticeService.findAll();
-        } else{ // 검색 기능을 쓸 때
-            list = noticeService.findByKeywordTitle(keyword);
-        }
-
-        model.addAttribute("list", list);
-        model.addAttribute("keyword", keyword);
-        model.addAttribute("listCount", list.size());
-
-        return "user/category/notice";
-    }
-
-    // 나중에 함수이름 noticeContent로 바꾸기
-    @GetMapping("/notice/{noticeNo}")
-    public String notice( @PathVariable("noticeNo") Long noticeNo,
-                          Model model) {
-
-        NoticeResponseDto dto = noticeService.findById(noticeNo);
-        model.addAttribute("dto", dto);
-
-        return "user/category/notice-content";
-    }
-    // '/notice' 끝 -----------------------------------------------------------------------------------------------
-    // '/inquiry/myProductInquiries' 시작 -----------------------------------------------------------------------------------------------
-
+@RequiredArgsConstructor
+@RequestMapping("/")
+public class UserOrderController {
     private final ProductService productService;
+    private final OrderService orderService;
+    private final CartService cartService;
+    private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
+    private final AwsS3Service awsS3Service;
+    private final Service3 service3;
+    private final CartRepository cartRepository;
+    private final ReviewService reviewService;
+    private final Service5 service5;
+    private final NoticeRepository noticeRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
-    @GetMapping("/inquiry/myProductInquiries")
-    public String inquiryMyProductInquiries(Model model, @AuthenticationPrincipal User user) {
+    // 주문조회-----------------------------------------------------------------------------
+    @GetMapping("/myorder")
+    public String myorderList() {
+        return "/user/user/myorder";
+    }
+    //비회원
+    @RequestMapping("/order/myorder/list")
+    public String myorder(OrderSearchDto dto, Model model) {
 
-        String memberId = user.getUsername();
+        List<OrderResponseDto> orderList = orderService.findByOrderNonMember(dto);
+        List<CartResponseDto> cartList;
+        List<List<CartResponseDto>> cartListModel = new ArrayList<>();
 
-        List<InquiryResponseDto> inquiryList = service2.findByMemberId(memberId);
-        List<ProductResponseDto> itemList = new ArrayList<>();
-        List<Long> replyCountList = new ArrayList<>();
+        int stateType1 = 0; //결제대기
+        int stateType2 = 0; //배송대기
+        int stateType3 = 0; //배송중
+        int stateType4 = 0; //배송완료
+        int stateType5 = 0; //취소/반품
 
-        for(InquiryResponseDto inquiryDto : inquiryList) {
-            // itemList
-            Long itemNo = inquiryDto.getItemNo();
-            ProductResponseDto productDto = productService.findById(itemNo);
-            itemList.add(productDto);
+        for (OrderResponseDto orderDto : orderList) {
+            String orderState = orderDto.getOrderState();
+            switch (orderState) {
+                case "결제대기" -> stateType1++;
+                case "배송대기" -> stateType2++;
+                case "배송중" -> stateType3++;
+                case "배송완료" -> stateType4++;
+                default ->  stateType5++;//취소/반품
+            }
+            //비회원 주문번호에서 카트정보 가져오기
+            cartList = cartService.getCartListNonMember(orderDto);
+            cartListModel.add(cartList);
+            long originalPrice = 0L;
+            long discountPrice = 0L;
+            long itemPrice = 0L;
 
-            // replyCountList
-            Long replyCount = service2.countByInquiryNo(inquiryDto.getInquiryNo());
-            replyCountList.add(replyCount);
+            for (CartResponseDto cartDto : cartList) {
 
+                if (Objects.equals(cartDto.getOrderCode(), orderDto.getOrderCode())) {
+                    originalPrice += cartDto.getCartItemOriginalPrice() * cartDto.getCartItemAmount();
+                    discountPrice += cartDto.getCartDiscountPrice() * cartDto.getCartItemAmount();
+                    itemPrice += cartDto.getCartItemPrice() * cartDto.getCartItemAmount();
+                }
+
+            }
+            orderDto.setOrderItemOriginalPrice(originalPrice); //(할인 전)상품가격
+            orderDto.setOrderDiscountPrice(discountPrice);//할인율이 적용된 차감될 금액
+            orderDto.setOrderItemPrice(itemPrice); // (할인 적용된 결제당시)상품가격
         }
+        int cartCount = cartListModel.size();
+        int orderCount = orderList.size();
+        model.addAttribute("orderCount", orderCount);
+        model.addAttribute("stateType1", stateType1);
+        model.addAttribute("stateType2", stateType2);
+        model.addAttribute("stateType3", stateType3);
+        model.addAttribute("stateType4", stateType4);
+        model.addAttribute("stateType5", stateType5);
 
-        // memberHiddenName
-        String memberName = memberId;
-        String memberHiddenName;
+        model.addAttribute("cartCount", cartCount);
+        model.addAttribute("orderList", orderList);
+        model.addAttribute("cartListModel", cartListModel);
 
-        if (memberName.length() <= 2){
-            memberHiddenName = memberName;
-        }
-        else{
-            memberHiddenName = memberName.substring(0,2);
-            for (int i=0; i<memberName.length()-2; i++) memberHiddenName += "*";
-        }
-
-        model.addAttribute("itemList", itemList);
-        model.addAttribute("inquiryList", inquiryList);
-        model.addAttribute("replyCountList", replyCountList);
-        model.addAttribute("memberHiddenName", memberHiddenName);
-
-        return "user/user/myProductInquiries";
+        return "/user/user/myorder-list";
     }
 
-    @PostMapping("/inquiry/myProductInquiries/deleteAction")
-    @ResponseBody
-    public String inquiryMyProductInquiriesDeleteAction(@RequestParam Long inquiryNo) {
+    //마이페이지 홈 회원
+    @RequestMapping("/myorder/lists")
+    public String myInfo(@AuthenticationPrincipal User user,
+                         HttpServletRequest request, Model model) {
+        if (user == null) {
+            System.out.println("no user");
+        } else {
+            String memberId = user.getUsername();
+            MemberEntity entity = service3.findByUserId(memberId);
+            request.getSession().setAttribute("username", entity.getMemberName());
+            request.getSession().setAttribute("memberMileage", entity.getMemberMileage());
+            request.getSession().setAttribute("memberCoupon", entity.getMemberCoupon());
 
-        Boolean success = service2.delete(inquiryNo);
-        if(success) {
-            return "<script>alert('삭제되었습니다.'); location.href='/inquiry/myProductInquiries';</script>";
-        }else{
-            return "<script>alert('삭제 실패했습니다.'); history.back();</script>";
+            List<OrderResponseDto> orderList = cartService.findByOrderList(memberId);
+            List<CartResponseDto> cartList;
+            List<List<CartResponseDto>> cartListModel = new ArrayList<>();
+
+            int stateType1 = 0;
+            int stateType2 = 0;
+            int stateType3 = 0;
+            int stateType4 = 0;
+            int stateType5 = 0;
+
+            for (OrderResponseDto orderDto : orderList) {
+                String orderState = orderDto.getOrderState();
+                switch (orderState) {
+                    case "결제대기" -> stateType1++;
+                    case "배송대기" -> stateType2++;
+                    case "배송중" -> stateType3++;
+                    case "배송완료" -> stateType4++;
+                    default ->  stateType5++;//취소/반품
+                }
+                //비회원 주문번호에서 카트정보 가져오기
+                cartList = cartService.getCartListMember(orderDto);
+                cartListModel.add(cartList);
+                long originalPrice = 0L;
+                long discountPrice = 0L;
+                long itemPrice = 0L;
+
+                for (CartResponseDto cartDto : cartList) {
+
+                    if (Objects.equals(cartDto.getOrderCode(), orderDto.getOrderCode())) {
+                        originalPrice += cartDto.getCartItemOriginalPrice() * cartDto.getCartItemAmount();
+                        discountPrice += cartDto.getCartDiscountPrice() * cartDto.getCartItemAmount();
+                        itemPrice += cartDto.getCartItemPrice() * cartDto.getCartItemAmount();
+                    }
+
+                }
+                orderDto.setOrderItemOriginalPrice(originalPrice); //(할인 전)상품가격
+                orderDto.setOrderDiscountPrice(discountPrice);//할인율이 적용된 차감될 금액
+                orderDto.setOrderItemPrice(itemPrice); // (할인 적용된 결제당시)상품가격
+            }
+
+            List<ReviewResponseDto> ReviewList = reviewService.findByMemberId(memberId); //사용자가 작성한 리뷰
+
+            int cartCount = cartListModel.size();
+            int orderCount = orderList.size();
+            model.addAttribute("ReviewList", ReviewList);
+            model.addAttribute("orderCount", orderCount);
+            model.addAttribute("stateType1", stateType1);
+            model.addAttribute("stateType2", stateType2);
+            model.addAttribute("stateType3", stateType3);
+            model.addAttribute("stateType4", stateType4);
+            model.addAttribute("stateType5", stateType5);
+
+            model.addAttribute("cartCount", cartCount);
+            model.addAttribute("orderList", orderList);
+            model.addAttribute("cartListModel", cartListModel);
+
         }
-
-
+        return "/user/user/myorder-list-user";
     }
 
-    // '/inquiry/myProductInquiries' 끝 -----------------------------------------------------------------------------------------------
-    // '/qna/user' 시작 -----------------------------------------------------------------------------------------------
-
-    final QnaService qnaService;
-
-    @GetMapping("/qna/user")
-    public String qnaUser(Model model,
-                          @AuthenticationPrincipal User user) {
-        String memberId = user.getUsername();
-        List<QnaResponseDto> qnaList = service2.findByMemberIdQna(memberId);
-        List<Long> replyCountList = new ArrayList<>();
-
-        for(QnaResponseDto qnaDto : qnaList) {
-            // replyCountList
-            Long replyCount = service2.countByQnaId(qnaDto.getQnaId());
-            replyCountList.add(replyCount);
-        }
-
-        // memberHiddenName
-        String memberName = memberId; // "홍길동임"
-        String memberHiddenName; // "홍길**"
-
-        if (memberName.length() <= 2){
-            memberHiddenName = memberName;
-        }
-        else{
-            memberHiddenName = memberName.substring(0,2);
-            for (int i=0; i<memberName.length()-2; i++) memberHiddenName += "*";
-        }
-
-        model.addAttribute("qnaList", qnaList);
-        model.addAttribute("replyCountList", replyCountList);
-        model.addAttribute("memberHiddenName", memberHiddenName);
-
-        return "user/user/qna-user";
-    }
-
-    @PostMapping("/qna/user/deleteAction")
-    @ResponseBody
-    public String qnaUserDeleteAction(@RequestParam Long qnaId) {
-
-        Boolean success = qnaService.delete(qnaId);
-        if(success) {
-            return "<script>alert('삭제되었습니다.'); location.href='/qna/user';</script>";
-        }else{
-            return "<script>alert('삭제 실패했습니다.'); history.back();</script>";
-        }
-
-
-    }
-
-    // '/qna/user' 끝 -----------------------------------------------------------------------------------------------
-    // '/order' 시작 -----------------------------------------------------------------------------------------------
-
-    final private MemberService memberService;
-
+    //장바구니 페이지
     @GetMapping("/order")
     public String order(Model model, HttpServletRequest request, @AuthenticationPrincipal User user) {
 
@@ -414,7 +259,7 @@ public class Controller2 {
         MemberResponseDto memberResponseDto = null;
         if (user != null) {
             String memberId = user.getUsername();
-            memberResponseDto = service2.findByMemberIdMember(memberId);
+            memberResponseDto = memberService.findByMemberId(memberId);
         }
 
         model.addAttribute("itemList", itemList);
@@ -425,6 +270,7 @@ public class Controller2 {
 
     }
 
+    //장바구니 상품 삭제
     @PostMapping("/order/deleteAllAction")
     @ResponseBody
     public String orderDeleteAllAction(HttpServletRequest request, HttpServletResponse response) {
@@ -445,6 +291,7 @@ public class Controller2 {
         return "<script>alert('장바구니가 비었습니다.\\n관심있는 상품을 담아보세요.');location.href='/';</script>";
     }
 
+    //장바구니 상품 삭제
     @PostMapping("/order/deleteAction")
     @ResponseBody
     public String orderDeleteAction(@RequestParam String itemOptionColor, @RequestParam String itemOptionSize,
@@ -485,6 +332,7 @@ public class Controller2 {
         return "<script>location.href='/order';</script>";
     }
 
+    //장바구니 수정
     @PostMapping("/order/modifyAction")
     @ResponseBody
     public String orderModifyAction(@RequestParam String changedSize, @RequestParam String changedColor, @RequestParam String changedAmount,
@@ -535,9 +383,7 @@ public class Controller2 {
 
     }
 
-    final private PasswordEncoder passwordEncoder;
-    final private MemberRepository memberRepository;
-
+    //결제
     @PostMapping("/order/payAction")
     @ResponseBody
     public String orderPayAction(OrderContentSaveRequestDto orderContentSaveRequestDto, HttpServletRequest request,
@@ -632,7 +478,7 @@ public class Controller2 {
                     .build();
 
             // DB에 넣기
-            boolean success = service2.save(cartSaveRequestDto);
+            boolean success = cartService.saveCart(cartSaveRequestDto);
             if (success) {
                 try {
                     // 기존에 있던 쿠키 삭제하기
@@ -673,7 +519,7 @@ public class Controller2 {
             orderContentSaveRequestDto.setOrderState("결제대기");
         }
 
-        boolean success = service2.saveOrder(orderContentSaveRequestDto);
+        boolean success = orderService.saveOrderDto(orderContentSaveRequestDto);
         if (!success) {
             return "<script>alert('결제 중 오류가 발생했습니다.\\n다시 결제해주세요.');location.href='/order';</script>";
         }
@@ -681,51 +527,13 @@ public class Controller2 {
         return "<script>location.href='/order/complete?orderCode=" + orderCode +"';</script>";
     }
 
+    //주문완료페이지
     @GetMapping("/order/complete")
     public String orderComplete(@RequestParam Long orderCode, Model model){
 
-        OrderResponseDto dto = service2.findByOrderCode(orderCode);
+        OrderResponseDto dto = orderService.findByOrderCode(orderCode);
         model.addAttribute("order", dto);
 
         return "/user/order/order-complete";
     }
-
-    // '/order' 끝 -----------------------------------------------------------------------------------------------
-    // 이용약관 끝 -----------------------------------------------------------------------------------------------
-    @GetMapping("/terms/terms/service")
-    public String termsTermsService() {
-
-        return "/user/popup/pop-page1";
-    }
-
-    @GetMapping("/terms/terms/privacy")
-    public String termsTermsPrivacy() {
-
-        return "/user/popup/pop-page2";
-    }
-
-    @GetMapping("/terms/terms/service/order")
-    public String termsTermsServiceOrder() {
-
-        return "/user/popup/pop-page3";
-    }
-
-    @GetMapping("/terms/terms/policy/order")
-    public String termsTermsPolicyOrder() {
-
-        return "/user/popup/pop-page4";
-    }
-
-    @PostMapping("/inquiry/test1")
-    @ResponseBody
-    public String test1(@RequestParam Long inquiryNo) {
-        return ""+inquiryNo;
-    }
-
-    @PostMapping("/qna/test1")
-    @ResponseBody
-    public String test2(@RequestParam Long qnaId) {
-        return ""+qnaId;
-    }
-
 }

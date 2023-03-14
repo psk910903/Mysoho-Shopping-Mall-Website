@@ -130,7 +130,7 @@ public class ReviewService {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("reviewNo"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));//검색조건에 맞는 페이지 최신순으로 검색
-        System.out.println(findBy);
+
         if(findBy.contains("memberId")){
             list =  reviewRepository.findByMemberIdContaining(keyword, pageable);
         }
@@ -230,6 +230,58 @@ public class ReviewService {
         ReviewEntity entity = reviewRepository.findById(id).get();
         ReviewResponseDto dto = new ReviewResponseDto(entity);
         return dto.getReviewImgUrl();
+    }
+
+    //리뷰 아이디 마스킹
+    public List<String> maskingId(List<ReviewResponseDto> list) {
+        List<String> photoReviewIdList = new ArrayList<>();
+        for(int i=0 ; i < list.size();i++){
+
+            String reviewId = list.get(i).getMemberId();
+
+            String reviewHiddenId;
+            if (reviewId.length() == 2){
+                reviewHiddenId = reviewId.replace(reviewId.charAt(1), '*');
+            }else if(reviewId.length() == 1){
+                reviewHiddenId = reviewId;
+            }
+            else{
+                reviewHiddenId = reviewId.substring(0,2);
+                //
+                for (int j=0; j<reviewId.length()-2; j++){
+                    reviewHiddenId += "*";
+                }
+            }
+            photoReviewIdList.add(reviewHiddenId);
+        }
+        return photoReviewIdList;
+    }
+
+    //평점
+    public Double avgStar(List<ReviewResponseDto> reviewList) {
+        int size = reviewList.size();  // 3. 상품 리뷰 갯수
+
+        byte sum = 0;       // 4. 상품별점 평균
+        for(int i=0; i<size; i++){
+            byte reviewStar = reviewList.get(i).getReviewStar();
+            sum += reviewStar;
+        }
+        double avg1 = sum / Double.valueOf(size);
+        double avg2 = Math.round(avg1*10);
+        double avgStar = avg2 / 10;
+        return avgStar;
+    }
+
+    @Transactional
+    public List<ReviewResponseDto> findByReview(String id ){
+        List<ReviewEntity> entityList =  reviewRepository.findByReview(id);
+        return entityList.stream().map(ReviewResponseDto::new).collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<ReviewResponseDto> findByImgReview(String id){
+        List<ReviewEntity> entityList = reviewRepository.findByImgReview(id);  //경빈 Repository수정으로 새로만듬
+        return entityList.stream().map(ReviewResponseDto::new).collect(Collectors.toList());
     }
 
 }//class

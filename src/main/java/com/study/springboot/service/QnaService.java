@@ -198,4 +198,46 @@ public class QnaService {
         }
         return true;
     }
+
+    //qna 아이디 마스킹
+    public List<String> qnaMaskingId(List<QnaResponseDto> list) {
+        List<String> nameList = new ArrayList<>();
+        for(int i=0 ; i < list.size();i++){
+
+            String qnaName = list.get(i).getMemberId();
+
+            if(qnaName == null){
+                qnaName = list.get(i).getQnaName();
+
+            }
+            String qnaHiddenName;
+            if (qnaName.length() == 2){
+                qnaHiddenName = qnaName.replace(qnaName.charAt(1), '*');
+            }else if(qnaName.length() == 1){
+                qnaHiddenName = qnaName;
+            }
+            else{
+                qnaHiddenName = qnaName.substring(0,2);
+                //
+                for (int j=0; j<qnaName.length()-2; j++){
+                    qnaHiddenName += "*";
+                }
+            }
+            nameList.add(qnaHiddenName);
+        }
+        return nameList;
+    }
+    // 나의 문의 내역 (qna 문의) ----------------------------------------
+    @Transactional(readOnly = true)
+    public List<QnaResponseDto> findByMemberIdQna(String memberId) { // 이름 중복됨 나중에 service 옮길때 함수 명 변경해야함
+        List<QnaEntity> list = qnaRepository.findByMemberId(memberId);
+        return list.stream().map(QnaResponseDto::new).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Long countByQnaId(Long qnaId) { // 이름 중복됨 나중에 service 옮길때 함수 명 변경해야함
+        Long count = qnaCommentRepository.countByQnaId(qnaId);
+        return count;
+    }
+
 }

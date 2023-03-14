@@ -30,7 +30,7 @@ public class SecurityService implements UserDetailsService {
         }
         MemberEntity memberEntity = _optMemberEntity.get();
         String memberRole = memberEntity.getMemberRole();
-        System.out.println(memberRole);
+
         List<GrantedAuthority> authorities = new ArrayList<>();
         if ( memberRole.contains("ADMIN")) {
             authorities.add(new SimpleGrantedAuthority(UserRole.ADMIN.getValue()));

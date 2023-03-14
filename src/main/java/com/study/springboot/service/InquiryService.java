@@ -107,7 +107,7 @@ public class InquiryService {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("inquiryNo"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));//검색조건에 맞는 페이지 최신순으로 검색
-        System.out.println(findBy);
+
         if(findBy.contains("memberId")){
             list =  inquiryRepository.findByMemberIdContaining(keyword, pageable);
         }
@@ -170,6 +170,69 @@ public class InquiryService {
                 inReplyRepository.delete(temp);
             }
         } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    //상품문의 아이디 마스킹
+    public List<String> inquiryMaskingId(List<InquiryResponseDto> list) {
+        List<String> nameList = new ArrayList<>();
+        for(int i=0 ; i < list.size();i++){
+
+            String qnaName = list.get(i).getMemberId();
+            if(qnaName == null){
+                qnaName = list.get(i).getInquiryNickname();
+            }
+            String qnaHiddenName;
+            if (qnaName.length() == 2){
+                qnaHiddenName = qnaName.replace(qnaName.charAt(1), '*');
+            }else if(qnaName.length() == 1){
+                qnaHiddenName = qnaName;
+            }
+            else{
+                qnaHiddenName = qnaName.substring(0,2);;
+                //
+                for (int j=0; j<qnaName.length()-2; j++){
+                    qnaHiddenName += "*";
+                }
+            }
+            nameList.add(qnaHiddenName);
+        }
+        return nameList;
+    }
+
+    // 나의 문의 내역 (상품문의) ----------------------------------------
+    @Transactional(readOnly = true)
+    public List<InquiryResponseDto> findByMemberId(String memberId) {
+
+        List<InquiryEntity> list = inquiryRepository.findByMemberId(memberId);
+        return list.stream().map(InquiryResponseDto::new).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Long countByInquiryNo(Long inquiryNo) {
+        Long count = inReplyRepository.countByInquiryNo(inquiryNo);
+        return count;
+    }
+
+    @Transactional
+    public boolean inquiryDelete(Long inquiryNo) {
+
+        Optional<InquiryEntity> entity = inquiryRepository.findById(inquiryNo);
+        List<InReplyEntity> replyList = inReplyRepository.findAllByReplyInquiryNo(inquiryNo);
+
+        if (!entity.isPresent()){
+            return false;
+        }
+        try{
+            inquiryRepository.delete(entity.get());
+            for (InReplyEntity replyEntity : replyList) {
+                inReplyRepository.delete(replyEntity);
+            }
+        }
+        catch(Exception e){
             e.printStackTrace();
             return false;
         }

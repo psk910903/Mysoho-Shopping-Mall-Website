@@ -143,10 +143,7 @@ public class Controller5 {
                          @RequestParam("replyInquiryNo") Long replyInquiryNo){
         String replyContent = dto.getReplyContent();
         Long replyInquiryNo1 = dto.getReplyInquiryNo();
-        System.out.println("replyInquiryNo1 = " + replyInquiryNo1);
-        System.out.println("replyContent = " + replyContent);
-        System.out.println("replyNo = " + replyNo);
-        System.out.println("replyInquiryNo = " + replyInquiryNo);
+
         boolean result = inReplyService.modify( dto,replyNo );
         if(result) {
             return "<script>alert('답변수정 완료'); location.href='/admin/inquiry/content?inquiryNo=" + replyInquiryNo + "'; </script>";
@@ -172,7 +169,7 @@ public class Controller5 {
     public String productInquiryWriteFormWriteAction(InquiryResponseDto inquiryResponseDto, @RequestParam String reference) {
 
         //체크박스를 체크안했을 때, 반환되는 null값을 공개로 전환 ↓
-        System.out.println(inquiryResponseDto.getInquirySecret());
+
         if( inquiryResponseDto.getInquirySecret() == null ){
 
             inquiryResponseDto.setInquirySecret("공개");

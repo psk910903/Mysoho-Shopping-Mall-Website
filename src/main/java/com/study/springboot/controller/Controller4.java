@@ -27,12 +27,9 @@ import java.util.List;
 public class Controller4 {
     private final Service4 service4;
     private final Service3 service3;
-
     private final QnaService qnaService;
     private final QnaCommentService qnaCommentService;
     private final QnaRepository qnaRepository;
-
-    final Service1 service1;
 
     @GetMapping("/admin/qna")
     public String qnaHome(){
@@ -207,8 +204,8 @@ public class Controller4 {
             // 검색기능 없을 때
 
             list = service4.findEvery();
-            List<String> nameList = service1.qnaMaskingId(list);//마스킹처리
-            List<Long> qnaCommentCount = service1.qnaCommentCount(list);// 답변불러오기
+            List<String> nameList = qnaService.qnaMaskingId(list);//마스킹처리
+            List<Long> qnaCommentCount = qnaCommentService.qnaCommentCount(list);// 답변불러오기
 
             model.addAttribute("keyword",keyword);
             model.addAttribute("listCount", list.size());
@@ -221,8 +218,8 @@ public class Controller4 {
         }else{ //검색기능 있을 때
 
             list = service4.keyword(keyword);
-            List<String> nameList = service1.qnaMaskingId(list);//마스킹처리
-            List<Long> qnaCommentCount = service1.qnaCommentCount(list);// 답변불러오기
+            List<String> nameList = qnaService.qnaMaskingId(list);//마스킹처리
+            List<Long> qnaCommentCount = qnaCommentService.qnaCommentCount(list);// 답변불러오기
 
             model.addAttribute("keyword",keyword);
             model.addAttribute("listCount", list.size());

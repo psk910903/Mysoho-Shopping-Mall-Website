@@ -1,9 +1,12 @@
 package com.study.springboot.service;
 
+import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
+import com.study.springboot.dto.order.OrderSearchDto;
 import com.study.springboot.entity.*;
 import com.study.springboot.repository.OrderRepository;
+import com.study.springboot.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,16 +18,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
 public class OrderService {
     final OrderRepository orderRepository;
+    final CartService cartService;
+    final ProductRepository productRepository;
 
     //리스트 페이징
     @Transactional(readOnly = true)
@@ -186,5 +189,40 @@ public class OrderService {
 
         return findByDate(dateStartStr, dateEndStr, page);
     }
+
+    @Transactional(readOnly = true)
+    public List<OrderResponseDto> findByOrderNonMember(OrderSearchDto dto) {
+        String sender = dto.getSender();
+        String phone = dto.getPhone1() + dto.getPhone2();
+
+        List<OrderEntity> orderEntity = orderRepository.findByOrderNonMember(sender, phone);
+
+        return orderEntity.stream().map(OrderResponseDto::new).collect(Collectors.toList());
+    }
+
+    //주문정보 db에 저장
+    @Transactional
+    public Boolean saveOrderDto(final OrderContentSaveRequestDto dto) { // 이름 나중에 바꾸기
+
+        try{
+            OrderEntity entity = dto.toEntity();
+            orderRepository.save(entity);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    @Transactional(readOnly = true)
+    public OrderResponseDto findByOrderCode(Long orderCode){
+        Optional<OrderEntity> entity = orderRepository.findByOrderCode(orderCode);
+        if (!entity.isPresent()){
+            return null;
+        }
+        return new OrderResponseDto(entity.get());
+    };
+
 
 }

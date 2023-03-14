@@ -2,12 +2,14 @@ package com.study.springboot.service;
 
 import com.study.springboot.dto.inquiry.InReplyResponseDto;
 import com.study.springboot.dto.inquiry.InReplySaveResponseDto;
+import com.study.springboot.dto.inquiry.InquiryResponseDto;
 import com.study.springboot.entity.InReplyEntity;
 import com.study.springboot.repository.InReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class InReplyService {
     private final InReplyRepository inReplyRepository;
+    private final Service5 service5;
 
 //    @Transactional(readOnly = true)
 //    public List<InReplyResponseDto> findAllByReplyInquiryNo(Long replyInquiryNo){
@@ -57,5 +60,16 @@ public class InReplyService {
             return false;
         }
     }
+
+    public List<Long> inReplyCount(List<InquiryResponseDto> inquiry){
+        List<Long> inReplyCount = new ArrayList<>();
+
+        for(int i =0; i< inquiry.size(); i++){
+            Long CommentCount = service5.countByInquiryNo(inquiry.get(i).getInquiryNo());
+            inReplyCount.add(CommentCount);
+        }
+        return inReplyCount;
+    }
+
 
 }//class
