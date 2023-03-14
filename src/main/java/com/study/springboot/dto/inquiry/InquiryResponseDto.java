@@ -3,13 +3,9 @@ package com.study.springboot.dto.inquiry;
 import com.study.springboot.entity.InquiryEntity;
 import java.time.LocalDateTime;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.Column;
-import javax.persistence.criteria.CriteriaBuilder;
 
 @Getter
 @Setter

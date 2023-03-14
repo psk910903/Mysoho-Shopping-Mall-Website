@@ -5,22 +5,22 @@ import com.study.springboot.dto.cart.CartSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.entity.CartEntity;
 import com.study.springboot.entity.OrderEntity;
-import com.study.springboot.repository.CartRepository;
-import com.study.springboot.repository.OrderRepository;
-import com.study.springboot.repository.ProductRepository;
+import com.study.springboot.entity.repository.CartRepository;
+import com.study.springboot.entity.repository.OrderRepository;
+import com.study.springboot.entity.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
-    final CartRepository cartRepository;
-    final OrderRepository orderRepository;
+
+    private final CartRepository cartRepository;
+    private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
 
     @Transactional(readOnly = true)

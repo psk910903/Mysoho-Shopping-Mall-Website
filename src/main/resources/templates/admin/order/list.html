@@ -185,11 +185,7 @@
   for (let i=0; i<orderList.numberOfElements; i++){
     let orderStateSelect = document.getElementById('orderState' + i);
     let orderContent = orderList.content[i];
-    console.log(orderStateSelect)
-    console.log(orderContent)
     for (let j=0; j<orderStateSelect.options.length; j++){
-        console.log('orderStateSelect.options[j].value :' +  orderStateSelect.options[j].value)
-        console.log('orderContent.orderState :' +  orderContent.orderState)
         if(orderStateSelect.options[j].value == orderContent.orderState){
     	    orderStateSelect.options[j].selected = true;
         }

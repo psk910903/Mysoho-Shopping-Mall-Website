@@ -30,7 +30,7 @@
             <div class="cart-info">
                 <div class="bsk-info">
                     <!-- 상품이미지 -->
-                    <a href="product-top1.html" class="product-a">
+                    <a th:href="|/product/${itemList[status.index].itemNo}|" class="product-a">
                         <img th:src="${itemList[status.index].itemImageUrl}" alt="" class="product-img"/>
                     </a>
                     <!-- 네임에 릴레이티브주고 엑스, 공유로고 엡솔예정 -->

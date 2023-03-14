@@ -4,7 +4,7 @@ import com.study.springboot.dto.notice.NoticeResponseDto;
 import com.study.springboot.dto.notice.NoticeSaveRequestDto;
 import com.study.springboot.dto.notice.NoticeUpdateRequestDto;
 import com.study.springboot.entity.NoticeEntity;
-import com.study.springboot.repository.NoticeRepository;
+import com.study.springboot.entity.repository.NoticeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

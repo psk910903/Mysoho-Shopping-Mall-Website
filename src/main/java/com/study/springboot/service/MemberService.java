@@ -5,7 +5,7 @@ import com.study.springboot.dto.member.MemberSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.security.MemberJoinDto;
 import com.study.springboot.entity.*;
-import com.study.springboot.repository.*;
+import com.study.springboot.entity.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,15 +30,15 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final JavaMailSender javaMailSender;
     private final PasswordEncoder passwordEncoder;
-    final ReviewRepository reviewRepository;
-    final CartRepository cartRepository;
-    final OrderRepository orderRepository;
-    final InquiryRepository inquiryRepository;
-    final QnaRepository qnaRepository;
-    final CartService cartService;
-    final QnaService qnaService;
-    final OrderService orderService;
-    final InquiryService inquiryService;
+    private final ReviewRepository reviewRepository;
+    private final CartRepository cartRepository;
+    private final OrderRepository orderRepository;
+    private final InquiryRepository inquiryRepository;
+    private final QnaRepository qnaRepository;
+    private final CartService cartService;
+    private final QnaService qnaService;
+    private final OrderService orderService;
+    private final InquiryService inquiryService;
 
 public MemberResponseDto findById(long id) {
     MemberEntity entity = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));

@@ -24,14 +24,22 @@
   </head>
 
   <body>
-  <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+    <input
+      type="hidden"
+      th:name="${_csrf.parameterName}"
+      th:value="${_csrf.token}"
+    />
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <div class="wrap">
       <div class="betweenbtn">
-        <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
+        <div
+          th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"
+        ></div>
       </div>
       <div class="betweenbtn2">
-        <div th:replace="/fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>
+        <div
+          th:replace="/fragments/betweenbtn2.html :: fragment-betweenbtn2"
+        ></div>
       </div>
       <div class="header-wrap">
         <div class="header">
@@ -181,9 +189,15 @@
             <ul id="sort">
               <li><a href="javascript:sortSelected('최신순')">최신순</a></li>
               <li><a href="javascript:sortSelected('판매순')">판매순</a></li>
-              <li><a href="javascript:sortSelected('낮은가격순')">낮은가격순</a></li>
-              <li><a href="javascript:sortSelected('리뷰많은순')">리뷰많은순</a></li>
-              <li><a href="javascript:sortSelected('평점높은순')">평점높은순</a></li>
+              <li>
+                <a href="javascript:sortSelected('낮은가격순')">낮은가격순</a>
+              </li>
+              <li>
+                <a href="javascript:sortSelected('리뷰많은순')">리뷰많은순</a>
+              </li>
+              <li>
+                <a href="javascript:sortSelected('평점높은순')">평점높은순</a>
+              </li>
             </ul>
           </div>
           <!-- 리스트변경 아이콘 -->
@@ -214,7 +228,11 @@
           <div id="list-type2" class="list-type">
             <ul class="type1">
               <!-- 최신순 첫번째 타입 -->
-              <div class="listType0" id="recentListType0" style="display: block;">
+              <div
+                class="listType0"
+                id="recentListType0"
+                style="display: block"
+              >
                 <li class="type3" th:each="dto:${ list }">
                   <div class="between">
                     <div class="prd-img">
@@ -267,48 +285,46 @@
                   </div>
                   <!--                  품절-->
                   <th:block th:if="${dto.itemSoldOut} == '품절'">
-                    <a
-                            class="btn-cart-type1"
-                            onclick="alert('품절상품입니다.')"
-                    ><img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                            alt=""
-                    />
+                    <a class="btn-cart-type1" onclick="alert('품절상품입니다.')"
+                      ><img
+                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                        alt=""
+                      />
                     </a>
                   </th:block>
                   <th:block th:unless="${dto.itemSoldOut} == '품절'">
-                  <th:block
-                          th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
-                  >
-                    <a
-                            class="btn-cart-type1"
-                            onclick="alertAndItemLink(this)"
-                            th:value="${dto.itemNo}"
-                    ><img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                            alt=""
-                    />
-                    </a>
-                  </th:block>
-                  <th:block
-                          th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
-                  >
-                    <a
-                            class="btn-cart-type1"
-                            onclick="basketNumCount(this)"
-                            th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
-                    ><img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                            alt=""
-                    />
-                    </a>
-                  </th:block>
+                    <th:block
+                      th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                    >
+                      <a
+                        class="btn-cart-type1"
+                        onclick="alertAndItemLink(this)"
+                        th:value="${dto.itemNo}"
+                        ><img
+                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                          alt=""
+                        />
+                      </a>
+                    </th:block>
+                    <th:block
+                      th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                    >
+                      <a
+                        class="btn-cart-type1"
+                        onclick="basketNumCount(this)"
+                        th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                        ><img
+                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                          alt=""
+                        />
+                      </a>
+                    </th:block>
                   </th:block>
                 </li>
               </div>
             </ul>
             <!-- 최신순 두번째 타입 -->
-            <ul class="threeAlign threeAlign2 listType1 " id="recentListType1">
+            <ul class="threeAlign threeAlign2 listType1" id="recentListType1">
               <li th:each="dto:${ list }">
                 <th:block th:if="${dto.itemSoldOut} == '품절'">
                   <div class="img sold-out-wrap">
@@ -350,36 +366,43 @@
             <ul class="twoAlign listType2" id="recentListType2">
               <li th:each="dto:${ list }">
                 <th:block th:if="${dto.itemSoldOut} == '품절'">
-                  <a href="#"
-                     onclick="alert('품절상품입니다.')" class="cart">
+                  <a href="#" onclick="alert('품절상품입니다.')" class="cart">
                     <!--                  카트이미지-->
                     <img
-                            src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                            alt=""
-                    /></a>
+                      src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                      alt=""
+                  /></a>
                 </th:block>
                 <th:block th:unless="${dto.itemSoldOut} == '품절'">
-                  <th:block th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
-                    <a href="#"
-                       onclick="alertAndItemLink(this)"
-                       th:value="${dto.itemNo}"
-                       class="cart">
+                  <th:block
+                    th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                  >
+                    <a
+                      href="#"
+                      onclick="alertAndItemLink(this)"
+                      th:value="${dto.itemNo}"
+                      class="cart"
+                    >
                       <!--                  카트이미지-->
                       <img
-                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      /></a>
+                        src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                        alt=""
+                    /></a>
                   </th:block>
-                  <th:block th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
-                    <a href="#"
-                       onclick="basketNumCount(this)"
-                       th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
-                       class="cart">
+                  <th:block
+                    th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                  >
+                    <a
+                      href="#"
+                      onclick="basketNumCount(this)"
+                      th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                      class="cart"
+                    >
                       <!--                  카트이미지-->
                       <img
-                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      /></a>
+                        src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                        alt=""
+                    /></a>
                   </th:block>
                 </th:block>
                 <a th:href="|/product/${dto.itemNo}|">
@@ -442,7 +465,7 @@
                           OUT
                         </div>
                         <!-- 메인사진 -->
-                        <img th:src="${ dto.itemImageUrl }" alt=""/>
+                        <img th:src="${ dto.itemImageUrl }" alt="" />
                       </div>
                     </th:block>
                     <th:block th:unless="${dto.itemSoldOut} == '품절'">
@@ -450,29 +473,29 @@
                       <img th:src="${ dto.itemImageUrl }" alt="" />
                       <!-- 확대링크이미지 z-index예정 -->
                       <th:block
-                              th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                        th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                       >
                         <a
-                                class="cart"
-                                onclick="alertAndItemLink(this)"
-                                th:value="${dto.itemNo}"
-                        ><img
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                                alt=""
-                        />
+                          class="cart"
+                          onclick="alertAndItemLink(this)"
+                          th:value="${dto.itemNo}"
+                          ><img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                          />
                         </a>
                       </th:block>
                       <th:block
-                              th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                        th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                       >
                         <a
-                                class="cart"
-                                onclick="basketNumCount(this)"
-                                th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
-                        ><img
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                                alt=""
-                        />
+                          class="cart"
+                          onclick="basketNumCount(this)"
+                          th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                          ><img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                          />
                         </a>
                       </th:block>
                     </th:block>
@@ -637,7 +660,7 @@
                   <div class="between">
                     <div class="prd-img">
                       <a th:href="|/product/${dto.itemNo}|" class="focusTag"
-                      ><img th:src="${ dto.itemImageUrl }" alt="" />
+                        ><img th:src="${ dto.itemImageUrl }" alt="" />
                         <th:block th:if="${dto.itemSoldOut} == '품절'">
                           <div class="sold-out-text sold-out-text-type1">
                             SOLD <br />
@@ -650,34 +673,34 @@
                     <div class="tbl-cell">
                       <p class="txt">
                         <a
-                                th:href="|/product/${dto.itemNo}|"
-                                th:text="${ dto.itemName }"
-                        >퍼프 블라우스 화이트</a
+                          th:href="|/product/${dto.itemNo}|"
+                          th:text="${ dto.itemName }"
+                          >퍼프 블라우스 화이트</a
                         >
                       </p>
                       <p class="price-info">
                         <th:block th:if="${dto.itemDiscountRate} != 0">
                           <span
-                                  class="sale-rate"
-                                  th:text="${ (dto.itemDiscountRate)+'%' }"
-                          >9%</span
+                            class="sale-rate"
+                            th:text="${ (dto.itemDiscountRate)+'%' }"
+                            >9%</span
                           >
                           <span
-                                  class="price"
-                                  data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
-                          >49,000원</span
+                            class="price"
+                            data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
+                            >49,000원</span
                           >
                           <span
-                                  class="gray-through"
-                                  data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
-                          >49,000원</span
+                            class="gray-through"
+                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                            >49,000원</span
                           >
                         </th:block>
                         <th:block th:unless="${dto.itemDiscountRate} != 0">
                           <span
-                                  class="price"
-                                  data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
-                          >49,000원</span
+                            class="price"
+                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                            >49,000원</span
                           >
                         </th:block>
                       </p>
@@ -685,40 +708,38 @@
                   </div>
                   <!--                  품절-->
                   <th:block th:if="${dto.itemSoldOut} == '품절'">
-                    <a
-                            class="btn-cart-type1"
-                            onclick="alert('품절상품입니다.')"
-                    ><img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                            alt=""
-                    />
+                    <a class="btn-cart-type1" onclick="alert('품절상품입니다.')"
+                      ><img
+                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                        alt=""
+                      />
                     </a>
                   </th:block>
                   <th:block th:unless="${dto.itemSoldOut} == '품절'">
                     <th:block
-                            th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                     >
                       <a
-                              class="btn-cart-type1"
-                              onclick="alertAndItemLink(this)"
-                              th:value="${dto.itemNo}"
-                      ><img
-                              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      />
+                        class="btn-cart-type1"
+                        onclick="alertAndItemLink(this)"
+                        th:value="${dto.itemNo}"
+                        ><img
+                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                          alt=""
+                        />
                       </a>
                     </th:block>
                     <th:block
-                            th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                     >
                       <a
-                              class="btn-cart-type1"
-                              onclick="basketNumCount(this)"
-                              th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
-                      ><img
-                              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      />
+                        class="btn-cart-type1"
+                        onclick="basketNumCount(this)"
+                        th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                        ><img
+                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                          alt=""
+                        />
                       </a>
                     </th:block>
                   </th:block>
@@ -726,7 +747,10 @@
               </div>
             </ul>
             <!-- 판매순 두번째 타입 -->
-            <ul class="threeAlign threeAlign2 listType1 " id="sellCountListType1">
+            <ul
+              class="threeAlign threeAlign2 listType1"
+              id="sellCountListType1"
+            >
               <li th:each="dto:${ sellCount }">
                 <th:block th:if="${dto.itemSoldOut} == '품절'">
                   <div class="img sold-out-wrap">
@@ -749,14 +773,14 @@
                       <img th:src="${ dto.itemImageUrl }" alt="" class="img1" />
                       <th:block th:if="${dto.itemDiscountRate} != 0">
                         <img
-                                src="https://sohonara.mysoho.com/assets/shop/img/common/ico_sale.png"
-                                alt=""
-                                class="redico"
+                          src="https://sohonara.mysoho.com/assets/shop/img/common/ico_sale.png"
+                          alt=""
+                          class="redico"
                         />
                         <span
-                                class="redico-dis"
-                                th:text="${ (dto.itemDiscountRate)+'%' }"
-                        >9%</span
+                          class="redico-dis"
+                          th:text="${ (dto.itemDiscountRate)+'%' }"
+                          >9%</span
                         >
                       </th:block>
                     </a>
@@ -768,36 +792,43 @@
             <ul class="twoAlign listType2" id="sellCountListType2">
               <li th:each="dto:${ sellCount }">
                 <th:block th:if="${dto.itemSoldOut} == '품절'">
-                  <a href="#"
-                     onclick="alert('품절상품입니다.')" class="cart">
+                  <a href="#" onclick="alert('품절상품입니다.')" class="cart">
                     <!--                  카트이미지-->
                     <img
-                            src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                            alt=""
-                    /></a>
+                      src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                      alt=""
+                  /></a>
                 </th:block>
                 <th:block th:unless="${dto.itemSoldOut} == '품절'">
-                  <th:block th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
-                    <a href="#"
-                       onclick="alertAndItemLink(this)"
-                       th:value="${dto.itemNo}"
-                       class="cart">
+                  <th:block
+                    th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                  >
+                    <a
+                      href="#"
+                      onclick="alertAndItemLink(this)"
+                      th:value="${dto.itemNo}"
+                      class="cart"
+                    >
                       <!--                  카트이미지-->
                       <img
-                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      /></a>
+                        src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                        alt=""
+                    /></a>
                   </th:block>
-                  <th:block th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
-                    <a href="#"
-                       onclick="basketNumCount(this)"
-                       th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
-                       class="cart">
+                  <th:block
+                    th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                  >
+                    <a
+                      href="#"
+                      onclick="basketNumCount(this)"
+                      th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                      class="cart"
+                    >
                       <!--                  카트이미지-->
                       <img
-                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      /></a>
+                        src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                        alt=""
+                    /></a>
                   </th:block>
                 </th:block>
                 <a th:href="|/product/${dto.itemNo}|">
@@ -824,21 +855,21 @@
                 <p class="price-info">
                   <th:block th:if="${dto.itemDiscountRate} != 0">
                     <span
-                            class="sale-rate"
-                            th:text="${ (dto.itemDiscountRate)+'%' }"
-                    >9%</span
+                      class="sale-rate"
+                      th:text="${ (dto.itemDiscountRate)+'%' }"
+                      >9%</span
                     >
                     <span
-                            class="price"
-                            data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
-                    >49,000원</span
+                      class="price"
+                      data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
+                      >49,000원</span
                     >
                   </th:block>
                   <th:block th:unless="${dto.itemDiscountRate} != 0">
                     <span
-                            class="price"
-                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
-                    >49,000원</span
+                      class="price"
+                      data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                      >49,000원</span
                     >
                   </th:block>
                 </p>
@@ -868,29 +899,29 @@
                       <img th:src="${ dto.itemImageUrl }" alt="" />
                       <!-- 확대링크이미지 z-index예정 -->
                       <th:block
-                              th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                        th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                       >
                         <a
-                                class="cart"
-                                onclick="alertAndItemLink(this)"
-                                th:value="${dto.itemNo}"
-                        ><img
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                                alt=""
-                        />
+                          class="cart"
+                          onclick="alertAndItemLink(this)"
+                          th:value="${dto.itemNo}"
+                          ><img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                          />
                         </a>
                       </th:block>
                       <th:block
-                              th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                        th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                       >
                         <a
-                                class="cart"
-                                onclick="basketNumCount(this)"
-                                th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
-                        ><img
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                                alt=""
-                        />
+                          class="cart"
+                          onclick="basketNumCount(this)"
+                          th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                          ><img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                          />
                         </a>
                       </th:block>
                     </th:block>
@@ -906,14 +937,14 @@
                       <div class="price txt-black">
                         <th:block th:if="${dto.itemDiscountRate} != 0">
                           <div
-                                  class="sale-rate fs-21"
-                                  th:text="${ (dto.itemDiscountRate)+'%' }"
+                            class="sale-rate fs-21"
+                            th:text="${ (dto.itemDiscountRate)+'%' }"
                           >
                             9%
                           </div>
                           <div
-                                  class="fs-21 black"
-                                  data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA')}"
+                            class="fs-21 black"
+                            data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA')}"
                           >
                             <b> 44,500</b>
                           </div>
@@ -921,21 +952,21 @@
                         </th:block>
                         <th:block th:unless="${dto.itemDiscountRate} != 0">
                           <span
-                                  class="fs-21 black"
-                                  data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA')}"
-                          >49,000원</span
+                            class="fs-21 black"
+                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA')}"
+                            >49,000원</span
                           >
                           <div class="fs-15 black"><b>원</b></div>
                         </th:block>
                       </div>
                       <button
-                              class="show-share-list-home"
-                              onclick="showShareListHome()"
+                        class="show-share-list-home"
+                        onclick="showShareListHome()"
                       >
                         <img
-                                class="between4-img"
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/bul_share.png"
-                                alt=""
+                          class="between4-img"
+                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/bul_share.png"
+                          alt=""
                         />
                       </button>
                       <!-- 공유하기 버튼 팝업 -->
@@ -944,11 +975,11 @@
                           <div class="popup-share">
                             <div class="lhd-share">
                               <a
-                                      href="javascript:closeOrderList()"
-                                      class="closebtn"
-                              ><img
-                                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
-                                      alt=""
+                                href="javascript:closeOrderList()"
+                                class="closebtn"
+                                ><img
+                                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
+                                  alt=""
                               /></a>
                             </div>
                             <div class="share-tit">
@@ -957,81 +988,81 @@
                             </div>
                             <div class="share-con">
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn(name)"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_sms.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn(name)"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_sms.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://www.facebook.com/login.php?skip_api_login=1&api_key=966242223397117&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fsharer%2Fsharer.php%3Fu%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D&cancel_url=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Fclose_window%2F%3Fapp_id%3D966242223397117%26connect%3D0%23_%3D_&display=popup&locale=ko_KR')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_facebook.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://www.facebook.com/login.php?skip_api_login=1&api_key=966242223397117&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fsharer%2Fsharer.php%3Fu%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D&cancel_url=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Fclose_window%2F%3Fapp_id%3D966242223397117%26connect%3D0%23_%3D_&display=popup&locale=ko_KR')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_facebook.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fstory.kakao.com%2Fshare%3Furl%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaostory.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fstory.kakao.com%2Fshare%3Furl%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaostory.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://nid.naver.com/nidlogin.login?mode=form&template=plogin&url=http%3A%2F%2Fblog.naver.com%2FLinkShare.naver%3Furl%3Dnull')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_blog.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://nid.naver.com/nidlogin.login?mode=form&template=plogin&url=http%3A%2F%2Fblog.naver.com%2FLinkShare.naver%3Furl%3Dnull')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_blog.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fsharer.kakao.com%2Fpicker%2Flink%3Fapp_key%3D1628990893d01e42e811ef2f1fdae357%26short_key%3Ddb2f53c5-a414-409f-82b4-9f83ed61a80a')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaotalk.gif"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fsharer.kakao.com%2Fpicker%2Flink%3Fapp_key%3D1628990893d01e42e811ef2f1fdae357%26short_key%3Ddb2f53c5-a414-409f-82b4-9f83ed61a80a')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaotalk.gif"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://access.line.me/oauth2/v2.1/login?returnUri=%2Foauth2%2Fv2.1%2Fauthorize%2Fconsent%3Fresponse_type%3Dcode%26client_id%3D1446101138%26state%3D17554c14c87549e5e97a17c817c3fb%26redirect_uri%3Dhttps%253A%252F%252Fsocial-plugins.line.me%252Flineit%252FloginCallback%253FreturnUrl%253Dhttps%25253A%25252F%25252Fsocial-plugins.line.me%25252Flineit%25252Fshare%25253Furl%25253Dhttps%25253A%25252F%25252Fsohonara.mysoho.com%25252F%252526text%25253Dhttp%2525253A%2525252F%2525252Fqqc.kr%2525252FXKR2Y0D%252526from%25253Dline_scheme%26scope%3Dopenid%2Bprofile%2Bfriends%2Bgroups%2Btimeline.post%2Bmessage.write&loginChannelId=1446101138&loginState=wBkM1D2i6jLDRjh6zfFIm3&fromDomain=access-auto.line.me&line_auto_login_error=universal_link_error#/')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_line.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://access.line.me/oauth2/v2.1/login?returnUri=%2Foauth2%2Fv2.1%2Fauthorize%2Fconsent%3Fresponse_type%3Dcode%26client_id%3D1446101138%26state%3D17554c14c87549e5e97a17c817c3fb%26redirect_uri%3Dhttps%253A%252F%252Fsocial-plugins.line.me%252Flineit%252FloginCallback%253FreturnUrl%253Dhttps%25253A%25252F%25252Fsocial-plugins.line.me%25252Flineit%25252Fshare%25253Furl%25253Dhttps%25253A%25252F%25252Fsohonara.mysoho.com%25252F%252526text%25253Dhttp%2525253A%2525252F%2525252Fqqc.kr%2525252FXKR2Y0D%252526from%25253Dline_scheme%26scope%3Dopenid%2Bprofile%2Bfriends%2Bgroups%2Btimeline.post%2Bmessage.write&loginChannelId=1446101138&loginState=wBkM1D2i6jLDRjh6zfFIm3&fromDomain=access-auto.line.me&line_auto_login_error=universal_link_error#/')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_line.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://auth.band.us/login_page?display=popup&next_url=https%3A%2F%2Fband.us%2Fplugin%2Fshare%3Froute%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D%26body%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_band.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://auth.band.us/login_page?display=popup&next_url=https%3A%2F%2Fband.us%2Fplugin%2Fshare%3Froute%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D%26body%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_band.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://twitter.com/intent/tweet?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D&text=퍼프블라우스%20화이트')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_twitter_blue.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://twitter.com/intent/tweet?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D&text=퍼프블라우스%20화이트')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_twitter_blue.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://accounts.google.com/ServiceLogin/signinchooser?passive=1209600&osid=1&continue=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&followup=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&ifkv=AeAAQh5CLvwfHxrmxVosQDHyr3jYWKi9iRFjmo_M9cg7vkQYEbsMzjH1HjT1D14TqO933bOG0zaR&flowName=GlifWebSignIn&flowEntry=ServiceLogin')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_google.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://accounts.google.com/ServiceLogin/signinchooser?passive=1209600&osid=1&continue=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&followup=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&ifkv=AeAAQh5CLvwfHxrmxVosQDHyr3jYWKi9iRFjmo_M9cg7vkQYEbsMzjH1HjT1D14TqO933bOG0zaR&flowName=GlifWebSignIn&flowEntry=ServiceLogin')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_google.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://telegram.me/share?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_telegram.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://telegram.me/share?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_telegram.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:alertbtn()"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_urlcopy.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:alertbtn()"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_urlcopy.png"
+                                  alt=""
                               /></a>
                             </div>
                             <div class="lcont"></div>
@@ -1040,7 +1071,7 @@
                       </div>
                     </div>
                     <a th:href="|/product/${dto.itemNo}|" class="buy bold"
-                    >구매하기</a
+                      >구매하기</a
                     >
                   </div>
                   <!-- 상품 리스트 끝 -->
@@ -1055,7 +1086,7 @@
                   <div class="between">
                     <div class="prd-img">
                       <a th:href="|/product/${dto.itemNo}|" class="focusTag"
-                      ><img th:src="${ dto.itemImageUrl }" alt="" />
+                        ><img th:src="${ dto.itemImageUrl }" alt="" />
                         <th:block th:if="${dto.itemSoldOut} == '품절'">
                           <div class="sold-out-text sold-out-text-type1">
                             SOLD <br />
@@ -1068,34 +1099,34 @@
                     <div class="tbl-cell">
                       <p class="txt">
                         <a
-                                th:href="|/product/${dto.itemNo}|"
-                                th:text="${ dto.itemName }"
-                        >퍼프 블라우스 화이트</a
+                          th:href="|/product/${dto.itemNo}|"
+                          th:text="${ dto.itemName }"
+                          >퍼프 블라우스 화이트</a
                         >
                       </p>
                       <p class="price-info">
                         <th:block th:if="${dto.itemDiscountRate} != 0">
                           <span
-                                  class="sale-rate"
-                                  th:text="${ (dto.itemDiscountRate)+'%' }"
-                          >9%</span
+                            class="sale-rate"
+                            th:text="${ (dto.itemDiscountRate)+'%' }"
+                            >9%</span
                           >
                           <span
-                                  class="price"
-                                  data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
-                          >49,000원</span
+                            class="price"
+                            data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
+                            >49,000원</span
                           >
                           <span
-                                  class="gray-through"
-                                  data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
-                          >49,000원</span
+                            class="gray-through"
+                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                            >49,000원</span
                           >
                         </th:block>
                         <th:block th:unless="${dto.itemDiscountRate} != 0">
                           <span
-                                  class="price"
-                                  data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
-                          >49,000원</span
+                            class="price"
+                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                            >49,000원</span
                           >
                         </th:block>
                       </p>
@@ -1103,40 +1134,38 @@
                   </div>
                   <!--                  품절-->
                   <th:block th:if="${dto.itemSoldOut} == '품절'">
-                    <a
-                            class="btn-cart-type1"
-                            onclick="alert('품절상품입니다.')"
-                    ><img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                            alt=""
-                    />
+                    <a class="btn-cart-type1" onclick="alert('품절상품입니다.')"
+                      ><img
+                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                        alt=""
+                      />
                     </a>
                   </th:block>
                   <th:block th:unless="${dto.itemSoldOut} == '품절'">
                     <th:block
-                            th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                     >
                       <a
-                              class="btn-cart-type1"
-                              onclick="alertAndItemLink(this)"
-                              th:value="${dto.itemNo}"
-                      ><img
-                              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      />
+                        class="btn-cart-type1"
+                        onclick="alertAndItemLink(this)"
+                        th:value="${dto.itemNo}"
+                        ><img
+                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                          alt=""
+                        />
                       </a>
                     </th:block>
                     <th:block
-                            th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                     >
                       <a
-                              class="btn-cart-type1"
-                              onclick="basketNumCount(this)"
-                              th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
-                      ><img
-                              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      />
+                        class="btn-cart-type1"
+                        onclick="basketNumCount(this)"
+                        th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                        ><img
+                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                          alt=""
+                        />
                       </a>
                     </th:block>
                   </th:block>
@@ -1167,14 +1196,14 @@
                       <img th:src="${ dto.itemImageUrl }" alt="" class="img1" />
                       <th:block th:if="${dto.itemDiscountRate} != 0">
                         <img
-                                src="https://sohonara.mysoho.com/assets/shop/img/common/ico_sale.png"
-                                alt=""
-                                class="redico"
+                          src="https://sohonara.mysoho.com/assets/shop/img/common/ico_sale.png"
+                          alt=""
+                          class="redico"
                         />
                         <span
-                                class="redico-dis"
-                                th:text="${ (dto.itemDiscountRate)+'%' }"
-                        >9%</span
+                          class="redico-dis"
+                          th:text="${ (dto.itemDiscountRate)+'%' }"
+                          >9%</span
                         >
                       </th:block>
                     </a>
@@ -1186,36 +1215,43 @@
             <ul class="twoAlign listType2" id="LowPriceListType2">
               <li th:each="dto:${ lowPrice }">
                 <th:block th:if="${dto.itemSoldOut} == '품절'">
-                  <a href="#"
-                     onclick="alert('품절상품입니다.')" class="cart">
+                  <a href="#" onclick="alert('품절상품입니다.')" class="cart">
                     <!--                  카트이미지-->
                     <img
-                            src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                            alt=""
-                    /></a>
+                      src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                      alt=""
+                  /></a>
                 </th:block>
                 <th:block th:unless="${dto.itemSoldOut} == '품절'">
-                  <th:block th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
-                    <a href="#"
-                       onclick="alertAndItemLink(this)"
-                       th:value="${dto.itemNo}"
-                       class="cart">
+                  <th:block
+                    th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                  >
+                    <a
+                      href="#"
+                      onclick="alertAndItemLink(this)"
+                      th:value="${dto.itemNo}"
+                      class="cart"
+                    >
                       <!--                  카트이미지-->
                       <img
-                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      /></a>
+                        src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                        alt=""
+                    /></a>
                   </th:block>
-                  <th:block th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
-                    <a href="#"
-                       onclick="basketNumCount(this)"
-                       th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
-                       class="cart">
+                  <th:block
+                    th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                  >
+                    <a
+                      href="#"
+                      onclick="basketNumCount(this)"
+                      th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                      class="cart"
+                    >
                       <!--                  카트이미지-->
                       <img
-                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      /></a>
+                        src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                        alt=""
+                    /></a>
                   </th:block>
                 </th:block>
                 <a th:href="|/product/${dto.itemNo}|">
@@ -1242,21 +1278,21 @@
                 <p class="price-info">
                   <th:block th:if="${dto.itemDiscountRate} != 0">
                     <span
-                            class="sale-rate"
-                            th:text="${ (dto.itemDiscountRate)+'%' }"
-                    >9%</span
+                      class="sale-rate"
+                      th:text="${ (dto.itemDiscountRate)+'%' }"
+                      >9%</span
                     >
                     <span
-                            class="price"
-                            data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
-                    >49,000원</span
+                      class="price"
+                      data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
+                      >49,000원</span
                     >
                   </th:block>
                   <th:block th:unless="${dto.itemDiscountRate} != 0">
                     <span
-                            class="price"
-                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
-                    >49,000원</span
+                      class="price"
+                      data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                      >49,000원</span
                     >
                   </th:block>
                 </p>
@@ -1286,29 +1322,29 @@
                       <img th:src="${ dto.itemImageUrl }" alt="" />
                       <!-- 확대링크이미지 z-index예정 -->
                       <th:block
-                              th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                        th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                       >
                         <a
-                                class="cart"
-                                onclick="alertAndItemLink(this)"
-                                th:value="${dto.itemNo}"
-                        ><img
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                                alt=""
-                        />
+                          class="cart"
+                          onclick="alertAndItemLink(this)"
+                          th:value="${dto.itemNo}"
+                          ><img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                          />
                         </a>
                       </th:block>
                       <th:block
-                              th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                        th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                       >
                         <a
-                                class="cart"
-                                onclick="basketNumCount(this)"
-                                th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
-                        ><img
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                                alt=""
-                        />
+                          class="cart"
+                          onclick="basketNumCount(this)"
+                          th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                          ><img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                          />
                         </a>
                       </th:block>
                     </th:block>
@@ -1324,14 +1360,14 @@
                       <div class="price txt-black">
                         <th:block th:if="${dto.itemDiscountRate} != 0">
                           <div
-                                  class="sale-rate fs-21"
-                                  th:text="${ (dto.itemDiscountRate)+'%' }"
+                            class="sale-rate fs-21"
+                            th:text="${ (dto.itemDiscountRate)+'%' }"
                           >
                             9%
                           </div>
                           <div
-                                  class="fs-21 black"
-                                  data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA')}"
+                            class="fs-21 black"
+                            data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA')}"
                           >
                             <b> 44,500</b>
                           </div>
@@ -1339,21 +1375,21 @@
                         </th:block>
                         <th:block th:unless="${dto.itemDiscountRate} != 0">
                           <span
-                                  class="fs-21 black"
-                                  data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA')}"
-                          >49,000원</span
+                            class="fs-21 black"
+                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA')}"
+                            >49,000원</span
                           >
                           <div class="fs-15 black"><b>원</b></div>
                         </th:block>
                       </div>
                       <button
-                              class="show-share-list-home"
-                              onclick="showShareListHome()"
+                        class="show-share-list-home"
+                        onclick="showShareListHome()"
                       >
                         <img
-                                class="between4-img"
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/bul_share.png"
-                                alt=""
+                          class="between4-img"
+                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/bul_share.png"
+                          alt=""
                         />
                       </button>
                       <!-- 공유하기 버튼 팝업 -->
@@ -1362,11 +1398,11 @@
                           <div class="popup-share">
                             <div class="lhd-share">
                               <a
-                                      href="javascript:closeOrderList()"
-                                      class="closebtn"
-                              ><img
-                                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
-                                      alt=""
+                                href="javascript:closeOrderList()"
+                                class="closebtn"
+                                ><img
+                                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
+                                  alt=""
                               /></a>
                             </div>
                             <div class="share-tit">
@@ -1375,81 +1411,81 @@
                             </div>
                             <div class="share-con">
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn(name)"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_sms.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn(name)"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_sms.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://www.facebook.com/login.php?skip_api_login=1&api_key=966242223397117&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fsharer%2Fsharer.php%3Fu%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D&cancel_url=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Fclose_window%2F%3Fapp_id%3D966242223397117%26connect%3D0%23_%3D_&display=popup&locale=ko_KR')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_facebook.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://www.facebook.com/login.php?skip_api_login=1&api_key=966242223397117&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fsharer%2Fsharer.php%3Fu%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D&cancel_url=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Fclose_window%2F%3Fapp_id%3D966242223397117%26connect%3D0%23_%3D_&display=popup&locale=ko_KR')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_facebook.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fstory.kakao.com%2Fshare%3Furl%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaostory.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fstory.kakao.com%2Fshare%3Furl%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaostory.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://nid.naver.com/nidlogin.login?mode=form&template=plogin&url=http%3A%2F%2Fblog.naver.com%2FLinkShare.naver%3Furl%3Dnull')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_blog.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://nid.naver.com/nidlogin.login?mode=form&template=plogin&url=http%3A%2F%2Fblog.naver.com%2FLinkShare.naver%3Furl%3Dnull')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_blog.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fsharer.kakao.com%2Fpicker%2Flink%3Fapp_key%3D1628990893d01e42e811ef2f1fdae357%26short_key%3Ddb2f53c5-a414-409f-82b4-9f83ed61a80a')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaotalk.gif"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fsharer.kakao.com%2Fpicker%2Flink%3Fapp_key%3D1628990893d01e42e811ef2f1fdae357%26short_key%3Ddb2f53c5-a414-409f-82b4-9f83ed61a80a')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaotalk.gif"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://access.line.me/oauth2/v2.1/login?returnUri=%2Foauth2%2Fv2.1%2Fauthorize%2Fconsent%3Fresponse_type%3Dcode%26client_id%3D1446101138%26state%3D17554c14c87549e5e97a17c817c3fb%26redirect_uri%3Dhttps%253A%252F%252Fsocial-plugins.line.me%252Flineit%252FloginCallback%253FreturnUrl%253Dhttps%25253A%25252F%25252Fsocial-plugins.line.me%25252Flineit%25252Fshare%25253Furl%25253Dhttps%25253A%25252F%25252Fsohonara.mysoho.com%25252F%252526text%25253Dhttp%2525253A%2525252F%2525252Fqqc.kr%2525252FXKR2Y0D%252526from%25253Dline_scheme%26scope%3Dopenid%2Bprofile%2Bfriends%2Bgroups%2Btimeline.post%2Bmessage.write&loginChannelId=1446101138&loginState=wBkM1D2i6jLDRjh6zfFIm3&fromDomain=access-auto.line.me&line_auto_login_error=universal_link_error#/')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_line.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://access.line.me/oauth2/v2.1/login?returnUri=%2Foauth2%2Fv2.1%2Fauthorize%2Fconsent%3Fresponse_type%3Dcode%26client_id%3D1446101138%26state%3D17554c14c87549e5e97a17c817c3fb%26redirect_uri%3Dhttps%253A%252F%252Fsocial-plugins.line.me%252Flineit%252FloginCallback%253FreturnUrl%253Dhttps%25253A%25252F%25252Fsocial-plugins.line.me%25252Flineit%25252Fshare%25253Furl%25253Dhttps%25253A%25252F%25252Fsohonara.mysoho.com%25252F%252526text%25253Dhttp%2525253A%2525252F%2525252Fqqc.kr%2525252FXKR2Y0D%252526from%25253Dline_scheme%26scope%3Dopenid%2Bprofile%2Bfriends%2Bgroups%2Btimeline.post%2Bmessage.write&loginChannelId=1446101138&loginState=wBkM1D2i6jLDRjh6zfFIm3&fromDomain=access-auto.line.me&line_auto_login_error=universal_link_error#/')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_line.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://auth.band.us/login_page?display=popup&next_url=https%3A%2F%2Fband.us%2Fplugin%2Fshare%3Froute%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D%26body%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_band.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://auth.band.us/login_page?display=popup&next_url=https%3A%2F%2Fband.us%2Fplugin%2Fshare%3Froute%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D%26body%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_band.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://twitter.com/intent/tweet?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D&text=퍼프블라우스%20화이트')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_twitter_blue.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://twitter.com/intent/tweet?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D&text=퍼프블라우스%20화이트')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_twitter_blue.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://accounts.google.com/ServiceLogin/signinchooser?passive=1209600&osid=1&continue=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&followup=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&ifkv=AeAAQh5CLvwfHxrmxVosQDHyr3jYWKi9iRFjmo_M9cg7vkQYEbsMzjH1HjT1D14TqO933bOG0zaR&flowName=GlifWebSignIn&flowEntry=ServiceLogin')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_google.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://accounts.google.com/ServiceLogin/signinchooser?passive=1209600&osid=1&continue=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&followup=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&ifkv=AeAAQh5CLvwfHxrmxVosQDHyr3jYWKi9iRFjmo_M9cg7vkQYEbsMzjH1HjT1D14TqO933bOG0zaR&flowName=GlifWebSignIn&flowEntry=ServiceLogin')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_google.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://telegram.me/share?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_telegram.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://telegram.me/share?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_telegram.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:alertbtn()"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_urlcopy.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:alertbtn()"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_urlcopy.png"
+                                  alt=""
                               /></a>
                             </div>
                             <div class="lcont"></div>
@@ -1458,7 +1494,7 @@
                       </div>
                     </div>
                     <a th:href="|/product/${dto.itemNo}|" class="buy bold"
-                    >구매하기</a
+                      >구매하기</a
                     >
                   </div>
                   <!-- 상품 리스트 끝 -->
@@ -1473,7 +1509,7 @@
                   <div class="between">
                     <div class="prd-img">
                       <a th:href="|/product/${dto.itemNo}|" class="focusTag"
-                      ><img th:src="${ dto.itemImageUrl }" alt="" />
+                        ><img th:src="${ dto.itemImageUrl }" alt="" />
                         <th:block th:if="${dto.itemSoldOut} == '품절'">
                           <div class="sold-out-text sold-out-text-type1">
                             SOLD <br />
@@ -1486,34 +1522,34 @@
                     <div class="tbl-cell">
                       <p class="txt">
                         <a
-                                th:href="|/product/${dto.itemNo}|"
-                                th:text="${ dto.itemName }"
-                        >퍼프 블라우스 화이트</a
+                          th:href="|/product/${dto.itemNo}|"
+                          th:text="${ dto.itemName }"
+                          >퍼프 블라우스 화이트</a
                         >
                       </p>
                       <p class="price-info">
                         <th:block th:if="${dto.itemDiscountRate} != 0">
                           <span
-                                  class="sale-rate"
-                                  th:text="${ (dto.itemDiscountRate)+'%' }"
-                          >9%</span
+                            class="sale-rate"
+                            th:text="${ (dto.itemDiscountRate)+'%' }"
+                            >9%</span
                           >
                           <span
-                                  class="price"
-                                  data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
-                          >49,000원</span
+                            class="price"
+                            data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
+                            >49,000원</span
                           >
                           <span
-                                  class="gray-through"
-                                  data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
-                          >49,000원</span
+                            class="gray-through"
+                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                            >49,000원</span
                           >
                         </th:block>
                         <th:block th:unless="${dto.itemDiscountRate} != 0">
                           <span
-                                  class="price"
-                                  data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
-                          >49,000원</span
+                            class="price"
+                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                            >49,000원</span
                           >
                         </th:block>
                       </p>
@@ -1521,40 +1557,38 @@
                   </div>
                   <!--                  품절-->
                   <th:block th:if="${dto.itemSoldOut} == '품절'">
-                    <a
-                            class="btn-cart-type1"
-                            onclick="alert('품절상품입니다.')"
-                    ><img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                            alt=""
-                    />
+                    <a class="btn-cart-type1" onclick="alert('품절상품입니다.')"
+                      ><img
+                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                        alt=""
+                      />
                     </a>
                   </th:block>
                   <th:block th:unless="${dto.itemSoldOut} == '품절'">
                     <th:block
-                            th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                     >
                       <a
-                              class="btn-cart-type1"
-                              onclick="alertAndItemLink(this)"
-                              th:value="${dto.itemNo}"
-                      ><img
-                              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      />
+                        class="btn-cart-type1"
+                        onclick="alertAndItemLink(this)"
+                        th:value="${dto.itemNo}"
+                        ><img
+                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                          alt=""
+                        />
                       </a>
                     </th:block>
                     <th:block
-                            th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                     >
                       <a
-                              class="btn-cart-type1"
-                              onclick="basketNumCount(this)"
-                              th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
-                      ><img
-                              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      />
+                        class="btn-cart-type1"
+                        onclick="basketNumCount(this)"
+                        th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                        ><img
+                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                          alt=""
+                        />
                       </a>
                     </th:block>
                   </th:block>
@@ -1562,7 +1596,10 @@
               </div>
             </ul>
             <!-- 리뷰많은순 두번째 타입 -->
-            <ul class="threeAlign threeAlign2 listType1" id="HighReviewListType1">
+            <ul
+              class="threeAlign threeAlign2 listType1"
+              id="HighReviewListType1"
+            >
               <li th:each="dto:${ HighReview }">
                 <th:block th:if="${dto.itemSoldOut} == '품절'">
                   <div class="img sold-out-wrap">
@@ -1585,14 +1622,14 @@
                       <img th:src="${ dto.itemImageUrl }" alt="" class="img1" />
                       <th:block th:if="${dto.itemDiscountRate} != 0">
                         <img
-                                src="https://sohonara.mysoho.com/assets/shop/img/common/ico_sale.png"
-                                alt=""
-                                class="redico"
+                          src="https://sohonara.mysoho.com/assets/shop/img/common/ico_sale.png"
+                          alt=""
+                          class="redico"
                         />
                         <span
-                                class="redico-dis"
-                                th:text="${ (dto.itemDiscountRate)+'%' }"
-                        >9%</span
+                          class="redico-dis"
+                          th:text="${ (dto.itemDiscountRate)+'%' }"
+                          >9%</span
                         >
                       </th:block>
                     </a>
@@ -1604,36 +1641,43 @@
             <ul class="twoAlign listType2" id="HighReviewListType2">
               <li th:each="dto:${ HighReview }">
                 <th:block th:if="${dto.itemSoldOut} == '품절'">
-                  <a href="#"
-                     onclick="alert('품절상품입니다.')" class="cart">
+                  <a href="#" onclick="alert('품절상품입니다.')" class="cart">
                     <!--                  카트이미지-->
                     <img
-                            src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                            alt=""
-                    /></a>
+                      src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                      alt=""
+                  /></a>
                 </th:block>
                 <th:block th:unless="${dto.itemSoldOut} == '품절'">
-                  <th:block th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
-                    <a href="#"
-                       onclick="alertAndItemLink(this)"
-                       th:value="${dto.itemNo}"
-                       class="cart">
+                  <th:block
+                    th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                  >
+                    <a
+                      href="#"
+                      onclick="alertAndItemLink(this)"
+                      th:value="${dto.itemNo}"
+                      class="cart"
+                    >
                       <!--                  카트이미지-->
                       <img
-                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      /></a>
+                        src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                        alt=""
+                    /></a>
                   </th:block>
-                  <th:block th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
-                    <a href="#"
-                       onclick="basketNumCount(this)"
-                       th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
-                       class="cart">
+                  <th:block
+                    th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                  >
+                    <a
+                      href="#"
+                      onclick="basketNumCount(this)"
+                      th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                      class="cart"
+                    >
                       <!--                  카트이미지-->
                       <img
-                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      /></a>
+                        src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                        alt=""
+                    /></a>
                   </th:block>
                 </th:block>
                 <a th:href="|/product/${dto.itemNo}|">
@@ -1660,21 +1704,21 @@
                 <p class="price-info">
                   <th:block th:if="${dto.itemDiscountRate} != 0">
                     <span
-                            class="sale-rate"
-                            th:text="${ (dto.itemDiscountRate)+'%' }"
-                    >9%</span
+                      class="sale-rate"
+                      th:text="${ (dto.itemDiscountRate)+'%' }"
+                      >9%</span
                     >
                     <span
-                            class="price"
-                            data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
-                    >49,000원</span
+                      class="price"
+                      data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
+                      >49,000원</span
                     >
                   </th:block>
                   <th:block th:unless="${dto.itemDiscountRate} != 0">
                     <span
-                            class="price"
-                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
-                    >49,000원</span
+                      class="price"
+                      data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                      >49,000원</span
                     >
                   </th:block>
                 </p>
@@ -1704,29 +1748,29 @@
                       <img th:src="${ dto.itemImageUrl }" alt="" />
                       <!-- 확대링크이미지 z-index예정 -->
                       <th:block
-                              th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                        th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                       >
                         <a
-                                class="cart"
-                                onclick="alertAndItemLink(this)"
-                                th:value="${dto.itemNo}"
-                        ><img
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                                alt=""
-                        />
+                          class="cart"
+                          onclick="alertAndItemLink(this)"
+                          th:value="${dto.itemNo}"
+                          ><img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                          />
                         </a>
                       </th:block>
                       <th:block
-                              th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                        th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                       >
                         <a
-                                class="cart"
-                                onclick="basketNumCount(this)"
-                                th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
-                        ><img
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                                alt=""
-                        />
+                          class="cart"
+                          onclick="basketNumCount(this)"
+                          th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                          ><img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                          />
                         </a>
                       </th:block>
                     </th:block>
@@ -1742,14 +1786,14 @@
                       <div class="price txt-black">
                         <th:block th:if="${dto.itemDiscountRate} != 0">
                           <div
-                                  class="sale-rate fs-21"
-                                  th:text="${ (dto.itemDiscountRate)+'%' }"
+                            class="sale-rate fs-21"
+                            th:text="${ (dto.itemDiscountRate)+'%' }"
                           >
                             9%
                           </div>
                           <div
-                                  class="fs-21 black"
-                                  data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA')}"
+                            class="fs-21 black"
+                            data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA')}"
                           >
                             <b> 44,500</b>
                           </div>
@@ -1757,21 +1801,21 @@
                         </th:block>
                         <th:block th:unless="${dto.itemDiscountRate} != 0">
                           <span
-                                  class="fs-21 black"
-                                  data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA')}"
-                          >49,000원</span
+                            class="fs-21 black"
+                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA')}"
+                            >49,000원</span
                           >
                           <div class="fs-15 black"><b>원</b></div>
                         </th:block>
                       </div>
                       <button
-                              class="show-share-list-home"
-                              onclick="showShareListHome()"
+                        class="show-share-list-home"
+                        onclick="showShareListHome()"
                       >
                         <img
-                                class="between4-img"
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/bul_share.png"
-                                alt=""
+                          class="between4-img"
+                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/bul_share.png"
+                          alt=""
                         />
                       </button>
                       <!-- 공유하기 버튼 팝업 -->
@@ -1780,11 +1824,11 @@
                           <div class="popup-share">
                             <div class="lhd-share">
                               <a
-                                      href="javascript:closeOrderList()"
-                                      class="closebtn"
-                              ><img
-                                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
-                                      alt=""
+                                href="javascript:closeOrderList()"
+                                class="closebtn"
+                                ><img
+                                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
+                                  alt=""
                               /></a>
                             </div>
                             <div class="share-tit">
@@ -1793,81 +1837,81 @@
                             </div>
                             <div class="share-con">
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn(name)"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_sms.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn(name)"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_sms.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://www.facebook.com/login.php?skip_api_login=1&api_key=966242223397117&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fsharer%2Fsharer.php%3Fu%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D&cancel_url=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Fclose_window%2F%3Fapp_id%3D966242223397117%26connect%3D0%23_%3D_&display=popup&locale=ko_KR')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_facebook.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://www.facebook.com/login.php?skip_api_login=1&api_key=966242223397117&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fsharer%2Fsharer.php%3Fu%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D&cancel_url=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Fclose_window%2F%3Fapp_id%3D966242223397117%26connect%3D0%23_%3D_&display=popup&locale=ko_KR')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_facebook.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fstory.kakao.com%2Fshare%3Furl%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaostory.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fstory.kakao.com%2Fshare%3Furl%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaostory.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://nid.naver.com/nidlogin.login?mode=form&template=plogin&url=http%3A%2F%2Fblog.naver.com%2FLinkShare.naver%3Furl%3Dnull')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_blog.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://nid.naver.com/nidlogin.login?mode=form&template=plogin&url=http%3A%2F%2Fblog.naver.com%2FLinkShare.naver%3Furl%3Dnull')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_blog.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fsharer.kakao.com%2Fpicker%2Flink%3Fapp_key%3D1628990893d01e42e811ef2f1fdae357%26short_key%3Ddb2f53c5-a414-409f-82b4-9f83ed61a80a')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaotalk.gif"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fsharer.kakao.com%2Fpicker%2Flink%3Fapp_key%3D1628990893d01e42e811ef2f1fdae357%26short_key%3Ddb2f53c5-a414-409f-82b4-9f83ed61a80a')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaotalk.gif"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://access.line.me/oauth2/v2.1/login?returnUri=%2Foauth2%2Fv2.1%2Fauthorize%2Fconsent%3Fresponse_type%3Dcode%26client_id%3D1446101138%26state%3D17554c14c87549e5e97a17c817c3fb%26redirect_uri%3Dhttps%253A%252F%252Fsocial-plugins.line.me%252Flineit%252FloginCallback%253FreturnUrl%253Dhttps%25253A%25252F%25252Fsocial-plugins.line.me%25252Flineit%25252Fshare%25253Furl%25253Dhttps%25253A%25252F%25252Fsohonara.mysoho.com%25252F%252526text%25253Dhttp%2525253A%2525252F%2525252Fqqc.kr%2525252FXKR2Y0D%252526from%25253Dline_scheme%26scope%3Dopenid%2Bprofile%2Bfriends%2Bgroups%2Btimeline.post%2Bmessage.write&loginChannelId=1446101138&loginState=wBkM1D2i6jLDRjh6zfFIm3&fromDomain=access-auto.line.me&line_auto_login_error=universal_link_error#/')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_line.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://access.line.me/oauth2/v2.1/login?returnUri=%2Foauth2%2Fv2.1%2Fauthorize%2Fconsent%3Fresponse_type%3Dcode%26client_id%3D1446101138%26state%3D17554c14c87549e5e97a17c817c3fb%26redirect_uri%3Dhttps%253A%252F%252Fsocial-plugins.line.me%252Flineit%252FloginCallback%253FreturnUrl%253Dhttps%25253A%25252F%25252Fsocial-plugins.line.me%25252Flineit%25252Fshare%25253Furl%25253Dhttps%25253A%25252F%25252Fsohonara.mysoho.com%25252F%252526text%25253Dhttp%2525253A%2525252F%2525252Fqqc.kr%2525252FXKR2Y0D%252526from%25253Dline_scheme%26scope%3Dopenid%2Bprofile%2Bfriends%2Bgroups%2Btimeline.post%2Bmessage.write&loginChannelId=1446101138&loginState=wBkM1D2i6jLDRjh6zfFIm3&fromDomain=access-auto.line.me&line_auto_login_error=universal_link_error#/')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_line.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://auth.band.us/login_page?display=popup&next_url=https%3A%2F%2Fband.us%2Fplugin%2Fshare%3Froute%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D%26body%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_band.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://auth.band.us/login_page?display=popup&next_url=https%3A%2F%2Fband.us%2Fplugin%2Fshare%3Froute%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D%26body%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_band.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://twitter.com/intent/tweet?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D&text=퍼프블라우스%20화이트')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_twitter_blue.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://twitter.com/intent/tweet?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D&text=퍼프블라우스%20화이트')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_twitter_blue.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://accounts.google.com/ServiceLogin/signinchooser?passive=1209600&osid=1&continue=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&followup=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&ifkv=AeAAQh5CLvwfHxrmxVosQDHyr3jYWKi9iRFjmo_M9cg7vkQYEbsMzjH1HjT1D14TqO933bOG0zaR&flowName=GlifWebSignIn&flowEntry=ServiceLogin')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_google.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://accounts.google.com/ServiceLogin/signinchooser?passive=1209600&osid=1&continue=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&followup=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&ifkv=AeAAQh5CLvwfHxrmxVosQDHyr3jYWKi9iRFjmo_M9cg7vkQYEbsMzjH1HjT1D14TqO933bOG0zaR&flowName=GlifWebSignIn&flowEntry=ServiceLogin')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_google.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://telegram.me/share?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_telegram.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://telegram.me/share?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_telegram.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:alertbtn()"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_urlcopy.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:alertbtn()"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_urlcopy.png"
+                                  alt=""
                               /></a>
                             </div>
                             <div class="lcont"></div>
@@ -1876,7 +1920,7 @@
                       </div>
                     </div>
                     <a th:href="|/product/${dto.itemNo}|" class="buy bold"
-                    >구매하기</a
+                      >구매하기</a
                     >
                   </div>
                   <!-- 상품 리스트 끝 -->
@@ -1891,7 +1935,7 @@
                   <div class="between">
                     <div class="prd-img">
                       <a th:href="|/product/${dto.itemNo}|" class="focusTag"
-                      ><img th:src="${ dto.itemImageUrl }" alt="" />
+                        ><img th:src="${ dto.itemImageUrl }" alt="" />
                         <th:block th:if="${dto.itemSoldOut} == '품절'">
                           <div class="sold-out-text sold-out-text-type1">
                             SOLD <br />
@@ -1904,34 +1948,34 @@
                     <div class="tbl-cell">
                       <p class="txt">
                         <a
-                                th:href="|/product/${dto.itemNo}|"
-                                th:text="${ dto.itemName }"
-                        >퍼프 블라우스 화이트</a
+                          th:href="|/product/${dto.itemNo}|"
+                          th:text="${ dto.itemName }"
+                          >퍼프 블라우스 화이트</a
                         >
                       </p>
                       <p class="price-info">
                         <th:block th:if="${dto.itemDiscountRate} != 0">
                           <span
-                                  class="sale-rate"
-                                  th:text="${ (dto.itemDiscountRate)+'%' }"
-                          >9%</span
+                            class="sale-rate"
+                            th:text="${ (dto.itemDiscountRate)+'%' }"
+                            >9%</span
                           >
                           <span
-                                  class="price"
-                                  data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
-                          >49,000원</span
+                            class="price"
+                            data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
+                            >49,000원</span
                           >
                           <span
-                                  class="gray-through"
-                                  data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
-                          >49,000원</span
+                            class="gray-through"
+                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                            >49,000원</span
                           >
                         </th:block>
                         <th:block th:unless="${dto.itemDiscountRate} != 0">
                           <span
-                                  class="price"
-                                  data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
-                          >49,000원</span
+                            class="price"
+                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                            >49,000원</span
                           >
                         </th:block>
                       </p>
@@ -1939,40 +1983,38 @@
                   </div>
                   <!--                  품절-->
                   <th:block th:if="${dto.itemSoldOut} == '품절'">
-                    <a
-                            class="btn-cart-type1"
-                            onclick="alert('품절상품입니다.')"
-                    ><img
-                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                            alt=""
-                    />
+                    <a class="btn-cart-type1" onclick="alert('품절상품입니다.')"
+                      ><img
+                        src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                        alt=""
+                      />
                     </a>
                   </th:block>
                   <th:block th:unless="${dto.itemSoldOut} == '품절'">
                     <th:block
-                            th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                     >
                       <a
-                              class="btn-cart-type1"
-                              onclick="alertAndItemLink(this)"
-                              th:value="${dto.itemNo}"
-                      ><img
-                              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      />
+                        class="btn-cart-type1"
+                        onclick="alertAndItemLink(this)"
+                        th:value="${dto.itemNo}"
+                        ><img
+                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                          alt=""
+                        />
                       </a>
                     </th:block>
                     <th:block
-                            th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                      th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                     >
                       <a
-                              class="btn-cart-type1"
-                              onclick="basketNumCount(this)"
-                              th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
-                      ><img
-                              src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      />
+                        class="btn-cart-type1"
+                        onclick="basketNumCount(this)"
+                        th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                        ><img
+                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                          alt=""
+                        />
                       </a>
                     </th:block>
                   </th:block>
@@ -1980,7 +2022,10 @@
               </div>
             </ul>
             <!-- 평점높은순 두번째 타입 -->
-            <ul class="threeAlign threeAlign2 listType1" id="HighGradeListType1">
+            <ul
+              class="threeAlign threeAlign2 listType1"
+              id="HighGradeListType1"
+            >
               <li th:each="dto:${ HighGrade }">
                 <th:block th:if="${dto.itemSoldOut} == '품절'">
                   <div class="img sold-out-wrap">
@@ -2003,14 +2048,14 @@
                       <img th:src="${ dto.itemImageUrl }" alt="" class="img1" />
                       <th:block th:if="${dto.itemDiscountRate} != 0">
                         <img
-                                src="https://sohonara.mysoho.com/assets/shop/img/common/ico_sale.png"
-                                alt=""
-                                class="redico"
+                          src="https://sohonara.mysoho.com/assets/shop/img/common/ico_sale.png"
+                          alt=""
+                          class="redico"
                         />
                         <span
-                                class="redico-dis"
-                                th:text="${ (dto.itemDiscountRate)+'%' }"
-                        >9%</span
+                          class="redico-dis"
+                          th:text="${ (dto.itemDiscountRate)+'%' }"
+                          >9%</span
                         >
                       </th:block>
                     </a>
@@ -2022,36 +2067,43 @@
             <ul class="twoAlign listType2" id="HighGradeListType2">
               <li th:each="dto:${ HighGrade }">
                 <th:block th:if="${dto.itemSoldOut} == '품절'">
-                  <a href="#"
-                     onclick="alert('품절상품입니다.')" class="cart">
+                  <a href="#" onclick="alert('품절상품입니다.')" class="cart">
                     <!--                  카트이미지-->
                     <img
-                            src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                            alt=""
-                    /></a>
+                      src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                      alt=""
+                  /></a>
                 </th:block>
                 <th:block th:unless="${dto.itemSoldOut} == '품절'">
-                  <th:block th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
-                    <a href="#"
-                       onclick="alertAndItemLink(this)"
-                       th:value="${dto.itemNo}"
-                       class="cart">
+                  <th:block
+                    th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                  >
+                    <a
+                      href="#"
+                      onclick="alertAndItemLink(this)"
+                      th:value="${dto.itemNo}"
+                      class="cart"
+                    >
                       <!--                  카트이미지-->
                       <img
-                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      /></a>
+                        src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                        alt=""
+                    /></a>
                   </th:block>
-                  <th:block th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
-                    <a href="#"
-                       onclick="basketNumCount(this)"
-                       th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
-                       class="cart">
+                  <th:block
+                    th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                  >
+                    <a
+                      href="#"
+                      onclick="basketNumCount(this)"
+                      th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                      class="cart"
+                    >
                       <!--                  카트이미지-->
                       <img
-                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
-                              alt=""
-                      /></a>
+                        src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                        alt=""
+                    /></a>
                   </th:block>
                 </th:block>
                 <a th:href="|/product/${dto.itemNo}|">
@@ -2078,21 +2130,21 @@
                 <p class="price-info">
                   <th:block th:if="${dto.itemDiscountRate} != 0">
                     <span
-                            class="sale-rate"
-                            th:text="${ (dto.itemDiscountRate)+'%' }"
-                    >9%</span
+                      class="sale-rate"
+                      th:text="${ (dto.itemDiscountRate)+'%' }"
+                      >9%</span
                     >
                     <span
-                            class="price"
-                            data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
-                    >49,000원</span
+                      class="price"
+                      data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}"
+                      >49,000원</span
                     >
                   </th:block>
                   <th:block th:unless="${dto.itemDiscountRate} != 0">
                     <span
-                            class="price"
-                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
-                    >49,000원</span
+                      class="price"
+                      data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}"
+                      >49,000원</span
                     >
                   </th:block>
                 </p>
@@ -2122,29 +2174,29 @@
                       <img th:src="${ dto.itemImageUrl }" alt="" />
                       <!-- 확대링크이미지 z-index예정 -->
                       <th:block
-                              th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                        th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                       >
                         <a
-                                class="cart"
-                                onclick="alertAndItemLink(this)"
-                                th:value="${dto.itemNo}"
-                        ><img
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                                alt=""
-                        />
+                          class="cart"
+                          onclick="alertAndItemLink(this)"
+                          th:value="${dto.itemNo}"
+                          ><img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                          />
                         </a>
                       </th:block>
                       <th:block
-                              th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                        th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
                       >
                         <a
-                                class="cart"
-                                onclick="basketNumCount(this)"
-                                th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
-                        ><img
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
-                                alt=""
-                        />
+                          class="cart"
+                          onclick="basketNumCount(this)"
+                          th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                          ><img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                          />
                         </a>
                       </th:block>
                     </th:block>
@@ -2160,14 +2212,14 @@
                       <div class="price txt-black">
                         <th:block th:if="${dto.itemDiscountRate} != 0">
                           <div
-                                  class="sale-rate fs-21"
-                                  th:text="${ (dto.itemDiscountRate)+'%' }"
+                            class="sale-rate fs-21"
+                            th:text="${ (dto.itemDiscountRate)+'%' }"
                           >
                             9%
                           </div>
                           <div
-                                  class="fs-21 black"
-                                  data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA')}"
+                            class="fs-21 black"
+                            data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA')}"
                           >
                             <b> 44,500</b>
                           </div>
@@ -2175,21 +2227,21 @@
                         </th:block>
                         <th:block th:unless="${dto.itemDiscountRate} != 0">
                           <span
-                                  class="fs-21 black"
-                                  data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA')}"
-                          >49,000원</span
+                            class="fs-21 black"
+                            data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA')}"
+                            >49,000원</span
                           >
                           <div class="fs-15 black"><b>원</b></div>
                         </th:block>
                       </div>
                       <button
-                              class="show-share-list-home"
-                              onclick="showShareListHome()"
+                        class="show-share-list-home"
+                        onclick="showShareListHome()"
                       >
                         <img
-                                class="between4-img"
-                                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/bul_share.png"
-                                alt=""
+                          class="between4-img"
+                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/bul_share.png"
+                          alt=""
                         />
                       </button>
                       <!-- 공유하기 버튼 팝업 -->
@@ -2198,11 +2250,11 @@
                           <div class="popup-share">
                             <div class="lhd-share">
                               <a
-                                      href="javascript:closeOrderList()"
-                                      class="closebtn"
-                              ><img
-                                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
-                                      alt=""
+                                href="javascript:closeOrderList()"
+                                class="closebtn"
+                                ><img
+                                  src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h30_close.png"
+                                  alt=""
                               /></a>
                             </div>
                             <div class="share-tit">
@@ -2211,81 +2263,81 @@
                             </div>
                             <div class="share-con">
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn(name)"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_sms.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn(name)"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_sms.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://www.facebook.com/login.php?skip_api_login=1&api_key=966242223397117&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fsharer%2Fsharer.php%3Fu%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D&cancel_url=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Fclose_window%2F%3Fapp_id%3D966242223397117%26connect%3D0%23_%3D_&display=popup&locale=ko_KR')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_facebook.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://www.facebook.com/login.php?skip_api_login=1&api_key=966242223397117&signed_next=1&next=https%3A%2F%2Fwww.facebook.com%2Fsharer%2Fsharer.php%3Fu%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D&cancel_url=https%3A%2F%2Fwww.facebook.com%2Fdialog%2Fclose_window%2F%3Fapp_id%3D966242223397117%26connect%3D0%23_%3D_&display=popup&locale=ko_KR')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_facebook.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fstory.kakao.com%2Fshare%3Furl%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaostory.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fstory.kakao.com%2Fshare%3Furl%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaostory.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://nid.naver.com/nidlogin.login?mode=form&template=plogin&url=http%3A%2F%2Fblog.naver.com%2FLinkShare.naver%3Furl%3Dnull')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_blog.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://nid.naver.com/nidlogin.login?mode=form&template=plogin&url=http%3A%2F%2Fblog.naver.com%2FLinkShare.naver%3Furl%3Dnull')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_blog.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fsharer.kakao.com%2Fpicker%2Flink%3Fapp_key%3D1628990893d01e42e811ef2f1fdae357%26short_key%3Ddb2f53c5-a414-409f-82b4-9f83ed61a80a')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaotalk.gif"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://accounts.kakao.com/login/?continue=https%3A%2F%2Fsharer.kakao.com%2Fpicker%2Flink%3Fapp_key%3D1628990893d01e42e811ef2f1fdae357%26short_key%3Ddb2f53c5-a414-409f-82b4-9f83ed61a80a')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_kakaotalk.gif"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://access.line.me/oauth2/v2.1/login?returnUri=%2Foauth2%2Fv2.1%2Fauthorize%2Fconsent%3Fresponse_type%3Dcode%26client_id%3D1446101138%26state%3D17554c14c87549e5e97a17c817c3fb%26redirect_uri%3Dhttps%253A%252F%252Fsocial-plugins.line.me%252Flineit%252FloginCallback%253FreturnUrl%253Dhttps%25253A%25252F%25252Fsocial-plugins.line.me%25252Flineit%25252Fshare%25253Furl%25253Dhttps%25253A%25252F%25252Fsohonara.mysoho.com%25252F%252526text%25253Dhttp%2525253A%2525252F%2525252Fqqc.kr%2525252FXKR2Y0D%252526from%25253Dline_scheme%26scope%3Dopenid%2Bprofile%2Bfriends%2Bgroups%2Btimeline.post%2Bmessage.write&loginChannelId=1446101138&loginState=wBkM1D2i6jLDRjh6zfFIm3&fromDomain=access-auto.line.me&line_auto_login_error=universal_link_error#/')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_line.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://access.line.me/oauth2/v2.1/login?returnUri=%2Foauth2%2Fv2.1%2Fauthorize%2Fconsent%3Fresponse_type%3Dcode%26client_id%3D1446101138%26state%3D17554c14c87549e5e97a17c817c3fb%26redirect_uri%3Dhttps%253A%252F%252Fsocial-plugins.line.me%252Flineit%252FloginCallback%253FreturnUrl%253Dhttps%25253A%25252F%25252Fsocial-plugins.line.me%25252Flineit%25252Fshare%25253Furl%25253Dhttps%25253A%25252F%25252Fsohonara.mysoho.com%25252F%252526text%25253Dhttp%2525253A%2525252F%2525252Fqqc.kr%2525252FXKR2Y0D%252526from%25253Dline_scheme%26scope%3Dopenid%2Bprofile%2Bfriends%2Bgroups%2Btimeline.post%2Bmessage.write&loginChannelId=1446101138&loginState=wBkM1D2i6jLDRjh6zfFIm3&fromDomain=access-auto.line.me&line_auto_login_error=universal_link_error#/')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_line.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://auth.band.us/login_page?display=popup&next_url=https%3A%2F%2Fband.us%2Fplugin%2Fshare%3Froute%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D%26body%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_band.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://auth.band.us/login_page?display=popup&next_url=https%3A%2F%2Fband.us%2Fplugin%2Fshare%3Froute%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D%26body%3Dhttp%253A%252F%252Fqqc.kr%252FXKR2Y0D')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_band.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://twitter.com/intent/tweet?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D&text=퍼프블라우스%20화이트')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_twitter_blue.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://twitter.com/intent/tweet?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D&text=퍼프블라우스%20화이트')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_twitter_blue.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://accounts.google.com/ServiceLogin/signinchooser?passive=1209600&osid=1&continue=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&followup=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&ifkv=AeAAQh5CLvwfHxrmxVosQDHyr3jYWKi9iRFjmo_M9cg7vkQYEbsMzjH1HjT1D14TqO933bOG0zaR&flowName=GlifWebSignIn&flowEntry=ServiceLogin')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_google.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://accounts.google.com/ServiceLogin/signinchooser?passive=1209600&osid=1&continue=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&followup=https%3A%2F%2Fplus.google.com%2Fshare%3Furl%3Dhttp%3A%2F%2Fqqc.kr%2FXKR2Y0D&ifkv=AeAAQh5CLvwfHxrmxVosQDHyr3jYWKi9iRFjmo_M9cg7vkQYEbsMzjH1HjT1D14TqO933bOG0zaR&flowName=GlifWebSignIn&flowEntry=ServiceLogin')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_google.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:openPopupShareBtn('https://telegram.me/share?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D')"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_telegram.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:openPopupShareBtn('https://telegram.me/share?url=http%3A%2F%2Fqqc.kr%2FXKR2Y0D')"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_mysns_telegram.png"
+                                  alt=""
                               /></a>
                               <a
-                                      class="share-con-ico"
-                                      href="javascript:alertbtn()"
-                              ><img
-                                      src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_urlcopy.png"
-                                      alt=""
+                                class="share-con-ico"
+                                href="javascript:alertbtn()"
+                                ><img
+                                  src="http://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_sns_urlcopy.png"
+                                  alt=""
                               /></a>
                             </div>
                             <div class="lcont"></div>
@@ -2294,7 +2346,7 @@
                       </div>
                     </div>
                     <a th:href="|/product/${dto.itemNo}|" class="buy bold"
-                    >구매하기</a
+                      >구매하기</a
                     >
                   </div>
                   <!-- 상품 리스트 끝 -->
@@ -2307,15 +2359,23 @@
           <div class="mainNotice">
             <div class="icoTit">
               <img
-                      src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_notice.png"
-                      alt=""
+                src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_notice.png"
+                alt=""
               />
             </div>
             <div class="notice">
               <a href="/notice">공지사항</a>
             </div>
-            <div class="notice-info" th:if="${latestNotice} != null" th:text="${latestNotice}">등록된 공지사항이 없습니다.</div>
-            <div class="notice-info" th:unless="${latestNotice} != null">등록된 공지사항이 없습니다.</div>
+            <div
+              class="notice-info"
+              th:if="${latestNotice} != null"
+              th:text="${latestNotice}"
+            >
+              등록된 공지사항이 없습니다.
+            </div>
+            <div class="notice-info" th:unless="${latestNotice} != null">
+              등록된 공지사항이 없습니다.
+            </div>
           </div>
         </div>
 
@@ -2344,218 +2404,355 @@
     <script src="/js/popup.js"></script>
     <script>
       function sortSelected(name) {
-      document.querySelector("#select").innerHTML = name +" <img src=\"https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png\" alt=\"\">"
-      document.querySelector("#sort").style.display = "none";
+        document.querySelector("#select").innerHTML =
+          name +
+          ' <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt="">';
+        document.querySelector("#sort").style.display = "none";
 
-      if( document.querySelector(".ico-list-1").style.display != "none" && name == '최신순' ){
-
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#recentListType0").style.display = "block";
-
-        } else if( name == '최신순' && document.querySelector(".ico-list-2").style.display != "none" ) {
-
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#recentListType1").style.display = "flex";
-
-        } else if( name == '최신순' && document.querySelector(".ico-list-3").style.display != "none" ) {
-
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#recentListType2").style.display = "flex";
-
-        } else if( name == '최신순' && document.querySelector(".ico-list-4").style.display != "none" ) {
-
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#recentListType3").style.display = "block";
-
-        } else if( name == '판매순' && document.querySelector(".ico-list-1").style.display != "none" ){
-
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#sellCountListType0").style.display = "block";
-
-        } else if( name == '판매순' && document.querySelector(".ico-list-2").style.display != "none" ) {
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#sellCountListType1").style.display = "flex";
-
-        } else if( name == '판매순' && document.querySelector(".ico-list-3").style.display != "none" ) {
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#sellCountListType2").style.display = "flex";
-
-        } else if( name == '판매순' && document.querySelector(".ico-list-4").style.display != "none" ) {
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#sellCountListType3").style.display = "block";
-
-        } else if( name == '낮은가격순' && document.querySelector(".ico-list-1").style.display != "none" ){
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#LowPriceListType0").style.display = "block";
-
-        } else if( name == '낮은가격순' && document.querySelector(".ico-list-2").style.display != "none" ) {
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#LowPriceListType1").style.display = "flex";
-
-        } else if( name == '낮은가격순' && document.querySelector(".ico-list-3").style.display != "none" ) {
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#LowPriceListType2").style.display = "flex";
-
-        } else if( name == '낮은가격순' && document.querySelector(".ico-list-4").style.display != "none" ) {
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#LowPriceListType3").style.display = "block";
-
-        } else if( name == '리뷰많은순' && document.querySelector(".ico-list-1").style.display != "none" ){
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#HighReviewListType0").style.display = "block";
-
-        } else if( name == '리뷰많은순' && document.querySelector(".ico-list-2").style.display != "none" ) {
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#HighReviewListType1").style.display = "flex";
-
-        } else if( name == '리뷰많은순' && document.querySelector(".ico-list-3").style.display != "none" ) {
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#HighReviewListType2").style.display = "flex";
-
-        } else if( name == '리뷰많은순' && document.querySelector(".ico-list-4").style.display != "none" ) {
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#HighReviewListType3").style.display = "block";
-
-        } else if( name == '평점높은순' && document.querySelector(".ico-list-1").style.display != "none" ){
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#HighGradeListType0").style.display = "block";
-
-        } else if( name == '평점높은순' && document.querySelector(".ico-list-2").style.display != "none" ) {
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#HighGradeListType1").style.display = "flex";
-
-        } else if( name == '평점높은순' && document.querySelector(".ico-list-3").style.display != "none" ) {
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#HighGradeListType2").style.display = "flex";
-
-        } else if( name == '평점높은순' && document.querySelector(".ico-list-4").style.display != "none" ) {
-        for (let i =0; i<4; i++){
-          document.querySelector("#recentListType"+i).style.display = "none";
-          document.querySelector("#sellCountListType"+i).style.display = "none";
-          document.querySelector("#LowPriceListType"+i).style.display = "none";
-          document.querySelector("#HighReviewListType"+i).style.display = "none";
-          document.querySelector("#HighGradeListType"+i).style.display = "none";
-        }
-        document.querySelector("#HighGradeListType3").style.display = "block";
-
+        if (
+          document.querySelector(".ico-list-1").style.display != "none" &&
+          name == "최신순"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#recentListType0").style.display = "block";
+        } else if (
+          name == "최신순" &&
+          document.querySelector(".ico-list-2").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#recentListType1").style.display = "flex";
+        } else if (
+          name == "최신순" &&
+          document.querySelector(".ico-list-3").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#recentListType2").style.display = "flex";
+        } else if (
+          name == "최신순" &&
+          document.querySelector(".ico-list-4").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#recentListType3").style.display = "block";
+        } else if (
+          name == "판매순" &&
+          document.querySelector(".ico-list-1").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#sellCountListType0").style.display = "block";
+        } else if (
+          name == "판매순" &&
+          document.querySelector(".ico-list-2").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#sellCountListType1").style.display = "flex";
+        } else if (
+          name == "판매순" &&
+          document.querySelector(".ico-list-3").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#sellCountListType2").style.display = "flex";
+        } else if (
+          name == "판매순" &&
+          document.querySelector(".ico-list-4").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#sellCountListType3").style.display = "block";
+        } else if (
+          name == "낮은가격순" &&
+          document.querySelector(".ico-list-1").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#LowPriceListType0").style.display = "block";
+        } else if (
+          name == "낮은가격순" &&
+          document.querySelector(".ico-list-2").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#LowPriceListType1").style.display = "flex";
+        } else if (
+          name == "낮은가격순" &&
+          document.querySelector(".ico-list-3").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#LowPriceListType2").style.display = "flex";
+        } else if (
+          name == "낮은가격순" &&
+          document.querySelector(".ico-list-4").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#LowPriceListType3").style.display = "block";
+        } else if (
+          name == "리뷰많은순" &&
+          document.querySelector(".ico-list-1").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#HighReviewListType0").style.display =
+            "block";
+        } else if (
+          name == "리뷰많은순" &&
+          document.querySelector(".ico-list-2").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#HighReviewListType1").style.display = "flex";
+        } else if (
+          name == "리뷰많은순" &&
+          document.querySelector(".ico-list-3").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#HighReviewListType2").style.display = "flex";
+        } else if (
+          name == "리뷰많은순" &&
+          document.querySelector(".ico-list-4").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#HighReviewListType3").style.display =
+            "block";
+        } else if (
+          name == "평점높은순" &&
+          document.querySelector(".ico-list-1").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#HighGradeListType0").style.display = "block";
+        } else if (
+          name == "평점높은순" &&
+          document.querySelector(".ico-list-2").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#HighGradeListType1").style.display = "flex";
+        } else if (
+          name == "평점높은순" &&
+          document.querySelector(".ico-list-3").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#HighGradeListType2").style.display = "flex";
+        } else if (
+          name == "평점높은순" &&
+          document.querySelector(".ico-list-4").style.display != "none"
+        ) {
+          for (let i = 0; i < 4; i++) {
+            document.querySelector("#recentListType" + i).style.display =
+              "none";
+            document.querySelector("#sellCountListType" + i).style.display =
+              "none";
+            document.querySelector("#LowPriceListType" + i).style.display =
+              "none";
+            document.querySelector("#HighReviewListType" + i).style.display =
+              "none";
+            document.querySelector("#HighGradeListType" + i).style.display =
+              "none";
+          }
+          document.querySelector("#HighGradeListType3").style.display = "block";
         }
       }
-
     </script>
   </body>
-
 </html>
