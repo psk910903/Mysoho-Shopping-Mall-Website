@@ -106,96 +106,9 @@
         <div class="order-tit">주문내역</div>
       </div>
       <!-- 3x2박스디자인 -->
-      <div class="order-status">
-        <!-- 첫째줄 -->
-        <div class="order-status-info">
-          <div class="grow red">
-            <div class="count order-status-item">
-              <a
-                      th:text="(${ orderCount })"
-                      href="javascript: changeRed(0) "
-                      id="value0"
-              >
-                0</a
-              >
-            </div>
-            <div class="countName order-status-item">
-              <a href="javascript: changeRed(0)">전체</a>
-            </div>
-          </div>
-          <div class="grow">
-            <div class="count order-status-item">
-              <a
-                      th:text="(${ stateType1 })"
-                      href="javascript: changeRed(0) "
-                      id="value1"
-              >
-                0</a
-              >
-            </div>
-            <div class="countName order-status-item">
-              <a href="javascript: changeRed(1)">미입금/주문완료</a>
-            </div>
-          </div>
-          <div class="grow">
-            <div class="count order-status-item">
-              <a
-                      th:text="(${ stateType2 })"
-                      href="javascript: changeRed(2) "
-                      id="value2"
-              >0</a
-              >
-            </div>
-            <div class="countName order-status-item">
-              <a href="javascript: changeRed(2)">배송대기</a>
-            </div>
-          </div>
-        </div>
-        <!-- 둘째줄 -->
-        <div class="order-status-info">
-          <div class="grow">
-            <div class="count order-status-item">
-              <a
-                      th:text="(${ stateType3 })"
-                      href="javascript: changeRed(3)"
-                      id="value3"
-              >0</a
-              >
-            </div>
-            <div class="countName order-status-item">
-              <a href="javascript: changeRed(3)">배송중</a>
-            </div>
-          </div>
-          <div class="grow">
-            <div class="count order-status-item">
-              <a
-                      th:text="(${ stateType4 })"
-                      href="javascript: changeRed(4) "
-                      id="value4"
-              >0</a
-              >
-            </div>
-            <div class="countName order-status-item">
-              <a href="javascript: changeRed(4)">배송/처리완료</a>
-            </div>
-          </div>
-          <div class="grow">
-            <div class="count order-status-item">
-              <a
-                      th:text="(${ stateType5 })"
-                      href="javascript: changeRed(5) "
-                      id="value5"
-              >0</a
-              >
-            </div>
-            <div class="countName order-status-item">
-              <a href="javascript: changeRed(5)">취소/반품/교환</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- 구분선 -->
-      <div class="bg-blank"></div>
+      <div
+              th:replace="/user/user-object/container-nonMember-myorder-nav.html :: container-myorder-nav"
+      ></div>
 
       <!--          전체 tap-->
       <div class="list-type0">

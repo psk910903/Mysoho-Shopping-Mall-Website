@@ -1,23 +1,26 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<th:block th:fragment="container-product-content-nav">
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
+  <th:block th:fragment="container-product-content-nav">
     <!-- ul에 스티키 -->
     <ul class="tab w33">
-        <!-- 상세정보 -->
-        <li class="js-showdArea pagetit now">
-            <a href=" javascript: changePage(0)" class="pagetit0">상세정보</a>
-        </li>
-        <li class="js-showReviewArea pagetit">
-            <a href="javascript: changePage(1)" class="pagetit1"
-            >후기(<span class="js-reviewCnt" th:text="${ listCount }">0</span>)</a
-            >
-            <!--              후기 갯수 나오게 -->
-        </li>
-        <li class="js-showInquiryArea pagetit">
-            <a href="javascript: changePage(2)" class="pagetit2"
-            >문의(<span class="js-inquiryCnt" th:text="${listSize}">1</span>)</a
-            >
-        </li>
+      <!-- 상세정보 -->
+      <li class="js-showdArea pagetit now">
+        <a href=" javascript: changePage(0)" class="pagetit0">상세정보</a>
+      </li>
+      <li class="js-showReviewArea pagetit">
+        <a href="javascript: changePage(1)" class="pagetit1"
+          >후기(<span class="js-reviewCnt" th:text="${ listCount }">0</span>)</a
+        >
+        <!--              후기 갯수 나오게 -->
+      </li>
+      <li class="js-showInquiryArea pagetit">
+        <a href="javascript: changePage(2)" class="pagetit2"
+          >문의(<span class="js-inquiryCnt" th:text="${listSize}">1</span>)</a
+        >
+      </li>
     </ul>
-</th:block>
+  </th:block>
 </html>
