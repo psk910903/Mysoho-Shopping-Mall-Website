@@ -235,7 +235,6 @@ public class Controller3 {
     @ResponseBody
     public String changPassword(@RequestParam("getEmail")String getEmail,
                                 @RequestParam("password")String password){
-        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         boolean result = service3.changePassword(getEmail,password);
         if(result){
             return "<script> alert('비밀번호 변경 성공');location.href='/user/login'</script>";
