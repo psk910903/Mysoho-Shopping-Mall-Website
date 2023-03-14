@@ -37,39 +37,36 @@
             <input type="hidden" name="memberMileage" value="0" />
             <input type="hidden" name="memberCoupon" value="0" />
             <input type="hidden" name="memberExited" value="회원" />
+
             <input class="input-st01 users-login-input input-id" type="text" name="username" placeholder="아이디(5자~20자 이내)" value="" />
-            <!--        onBlur="checkTxt('id', this.value)"-->
-            <!--        onchange="checkUserinfo('id', this.value)"-->
             <div class="red check-txt check-txt-id">아이디를 입력해주세요</div>
             <div class="red check-txt check-txt-id2">아이디는 영문 또는 영문, 숫자를 포함하여 5자~20자 내로 입력 가능합니다. (-,_를 제외한 특수 문자 입력 불가)</div>
             <div class="blue check-txt check-txt-id3">사용가능한 형식의 아이디입니다.</div>
 
             <input id="check-txt-pw" class="input-st01 users-login-input mt-10" type="password" name="password" placeholder="비밀번호 (영문,숫자,특수문자 조합 8자리 이상)" value="" />
-            <!--                        onchange="checkUserinfo('pw', this.value)"-->
             <div class="red check-txt check-txt-pw">올바른 비밀번호 형식이 아닙니다.</div>
             <div class="red check-txt check-txt-pw2">올바른 비밀번호 형식이 아닙니다.</div>
             <div class="blue check-txt check-txt-pw3">사용가능한 비밀번호 입니다.</div>
+
             <input id="check-txt-pwcheck" class="input-st01 users-login-input mt-10" type="password" name="pwcheck" placeholder="비밀번호 재입력" value="" />
             <div class="blue check-txt check-txt-pwcheck-same">비밀번호가 일치합니다.</div>
             <div class="red check-txt check-txt-pwcheck-not">비밀번호가 일치하지 않습니다.</div>
+
             <input id="userName" class="input-st01 users-login-input mt-10" type="text" name="memberName" value="" placeholder="이름을 입력해주세요" />
-            <!--                onBlur="checkTxt('name', this.value)"-->
-            <!--                onchange="checkUserinfo('name', this.value)"-->
             <div class="red check-txt check-txt-name">이름을 입력해주세요</div>
             <div class="red check-txt check-txt-name2">2~5 길이의 한글로 입력해주세요.</div>
             <div class="blue check-txt check-txt-name3">가입 가능합니다.</div>
+
             <input class="input-st01 users-login-input mt-10 check-email" type="email" name="memberEmail" placeholder="이메일(비밀번호 찾기 시 이메일로 발송됩니다" value="" />
-            <!--                onBlur="checkTxt('email', this.value)"-->
-            <!--                onchange="checkUserinfo('email', this.value)"-->
             <div class="red check-txt check-txt-email">이메일 주소를 입력하세요.</div>
             <div class="red check-txt check-txt-email2">이메일 형식을 확인 해주세요.</div>
             <div class="blue check-txt check-txt-email3">가입 가능한 이메일입니다.</div>
+
             <input class="input-st01 users-login-input mt-10 check-phone" type="text" name="memberPhone" placeholder="휴대폰번호" value="" />
-            <!--                onBlur="checkTxt('phone', this.value)"-->
-            <!--                onchange="checkUserinfo('phone', this.value)"-->
             <div class="red check-txt check-txt-phone">전화번호를 입력 해주세요</div>
             <div class="red check-txt check-txt-phone2">전화번호 형식을 확인 해주세요.</div>
             <div class="blue check-txt check-txt-phone3">사용가능한 전화번호입니다.</div>
+
             <div class="receiver-wrap same js-useDeliveryOff same2">
               <div class="mt-40">
                 <strong> 주소</strong>
@@ -107,7 +104,7 @@
                   <li>
                     <div>
                       <input name="ckeck1" type="checkbox" class="essential" required />
-                      <!--                    <label for="check1"></label>-->
+
                       <div class="cbx-content cbx-content-li">이용약관 동의 (필수)</div>
                     </div>
                     <a href="javascript:openPopup3()" class="btn-agree"> 보기 </a>
@@ -115,7 +112,6 @@
                   <li>
                     <div>
                       <input name="ckeck1" type="checkbox" class="essential" required />
-                      <!--                    <label for="check1"></label>-->
                       <div class="cbx-content cbx-content-li" req>개인정보 수집ㆍ이용 동의 (필수)</div>
                     </div>
                     <a href="javascript:openPopup4()" class="btn-agree"> 보기 </a>
@@ -123,13 +119,12 @@
                   <li>
                     <div>
                       <input name="ckeck1" type="checkbox" />
-                      <!--                    <label for="check1"></label>-->
                       <div class="cbx-content cbx-content-li">개인정보 수집ㆍ이용 동의 (선택)</div>
                     </div>
                     <a href="javascript:openPopup4()" class="btn-agree"> 보기 </a>
                   </li>
                 </div>
-                <button class="mt-40" type="submit" id="join" onclick="join()">가입하기</button>
+                <button class="mt-40" type="submit" id="join" onclick="join()" >가입하기</button>
               </ul>
             </div>
           </form>
@@ -180,7 +175,7 @@
       }
     </script>
     <script>
-      var ckeckId = /^[a-zA-z0-9_-]{5,20}$/;
+      var ckeckId = /^[a-zA-z0-9_-]{5,20}$/;//아이디 유효성 검사
       var id = document.querySelector(".input-id");
       id.addEventListener("keyup", function () {
         console.log(id.value);
@@ -206,7 +201,7 @@
         }
       });
 
-      var pw = document.getElementById("check-txt-pw");
+      var pw = document.getElementById("check-txt-pw"); //비밀번호 체크
       var pwcheck = document.getElementById("check-txt-pwcheck");
       pwcheck.addEventListener("keyup", function () {
         console.log(pw.value);
@@ -233,7 +228,7 @@
         }
       });
 
-      var ckeckPhone = /^[0-9]{10,11}$/; //이메일 유효성 검사
+      var ckeckPhone = /^[0-9]{10,11}$/; //전화번호 유효성 검사
       var phone = document.querySelector(".check-phone");
       phone.addEventListener("keyup", function () {
         console.log(phone.value);

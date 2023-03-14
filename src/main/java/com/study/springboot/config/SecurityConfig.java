@@ -30,14 +30,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests() // 요청에 대한 보안설정을 시작
                 .antMatchers("/","/order/**","/plan/**","/product/**","/qna/**","/notice/**","/inquiry/**","/myorder","/search","/terms/**","/enlarge/**","/css/**", "/js/**", "/img/**").permitAll()
-                .antMatchers("/user/join").permitAll()
+                .antMatchers("/join").permitAll()
                 .antMatchers("/user/joinAction").permitAll()
                 .antMatchers("/myorder/**").hasAnyRole("USER","ADMIN")
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
        .and()
                 .formLogin() //로그인 인증에 대한 설정을 시작
-                .loginPage("/user/login") //
+                .loginPage("/login") //
                 .loginProcessingUrl("/user/loginAction") //로그인 액션 URI를 지정한다.
                 .successHandler( (request,response,authentication) -> {
                     System.out.println("로그인 성공했습니다.");

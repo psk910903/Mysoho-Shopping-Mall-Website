@@ -131,13 +131,13 @@ public class Controller3 {
 
 
     //로그인 폼
-    @GetMapping("/user/login")
+    @GetMapping("/login")
     public String login() {
         return "user/user/userlogin";
     }
 
     //가입 폼
-    @GetMapping("/user/join")
+    @GetMapping("/join")
     public String join() {
         return "user/user/userjoin";
     }
