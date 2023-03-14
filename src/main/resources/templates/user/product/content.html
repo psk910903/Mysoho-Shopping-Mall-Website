@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html
+        xmlns:th="http://www.thymeleaf.org"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -1441,10 +1444,12 @@
                         </div>
                       </div>
                       <div class="left blue">
-                        <strong
-                          >(예상 적립금 <span>0</span>원, 비회원적립
+                        <span sec:authorize="isAnonymous()">
+                            <strong
+                            >(예상 적립금 <span>0</span>원, 비회원적립
                           불가)</strong
-                        >
+                            >
+                        </span>
                         <input
                           type="hidden"
                           name="orderTotalPrice"
