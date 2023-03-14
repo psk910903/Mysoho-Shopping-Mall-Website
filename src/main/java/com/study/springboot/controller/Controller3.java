@@ -153,7 +153,6 @@ public class Controller3 {
             String detail = bindingResult.getFieldError().getDefaultMessage();
             return "<script>alert('" + detail + "'); history.back();</script>";
         }
-
         String encodedPassword = passwordEncoder.encode(dto.getPassword());
         dto.setPassword(encodedPassword);
         try {
@@ -162,7 +161,14 @@ public class Controller3 {
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-            return "<script>alert('사용중인 아이디나 이메일입니다.');history.back();</script>";
+            System.out.println("error:"+e.getRootCause().toString());
+            if(e.getRootCause().toString().contains("member_id")){
+                return "<script>alert('이미 등록된 아이디입니다. 다른 아이디를 사용해 주세요.');history.back();</script>";
+            }else if(e.getRootCause().toString().contains("member_email")){
+                return "<script>alert('이미 등록된 이메일 주소입니다. 다른 이메일 주소를 사용해 주세요.');history.back();</script>";
+            }else if(e.getRootCause().toString().contains("member_phone")){
+                return "<script>alert('이미 등록된 전화번호입니다. 다른 전화번호를 사용해 주세요.');history.back();</script>";
+            }
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return "<script>alert('회원가입 실패했습니다.');history.back();</script>";
