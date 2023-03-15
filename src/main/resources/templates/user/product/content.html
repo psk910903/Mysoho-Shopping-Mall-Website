@@ -239,8 +239,31 @@
   display:block;
 }
     </style>
+
   </head>
   <body>
+  <script>
+$(window).scroll(function(){
+  var scrT = $(window).scrollTop();
+  console.log(scrT); //스크롤 값 확인용
+//   if(scrT == $(document).height() - $(window).height()){
+//   	//스크롤이 끝에 도달했을때 실행될 이벤트
+//   } else {
+//   	//아닐때 이벤트
+//   }
+}
+$(document).ready(function(){
+    $(window).scroll(function(){
+
+        var here = $("#payment").offset().top;
+        var height = $(document).scrollTop();
+
+          if(here == height){
+              alert("도착했습니다.");
+          }
+    })
+})
+    </script>
     <input
       type="hidden"
       th:name="${_csrf.parameterName}"
@@ -1459,7 +1482,7 @@
                     </div>
                     <th:block th:if="${dto.itemSoldOut} != '품절'">
                       <button
-                        type="button"
+                        type="button" id="payment"
                         class="js-btnOrder js-mo-tpl btn-h42-gray mt-25"
                         onclick="processBeforeSubmit()"
                         >결제하기</button>
