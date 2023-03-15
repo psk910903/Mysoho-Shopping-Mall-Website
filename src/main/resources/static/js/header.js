@@ -1,9 +1,11 @@
 //사이드메뉴
 function openNav() {
   document.getElementById("mySidenav").style.width = "80%";
+  document.querySelector(".sideBlack").style.width = "100%";
 }
 function closeNav() {
   document.getElementById("mySidenav").style.width = "0";
+  document.querySelector(".sideBlack").style.width = "0";
 }
 
 //돋보기
