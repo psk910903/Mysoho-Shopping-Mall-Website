@@ -4,6 +4,7 @@ import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.member.MemberSaveRequestDto;
 import com.study.springboot.entity.repository.MemberRepository;
 import com.study.springboot.service.MemberService;
+import com.study.springboot.service.NoticeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ public class AdminMemberController {
 
     private final MemberRepository memberRepository;
     private final MemberService memberService;
+    private final NoticeService noticeService;
 
     @GetMapping("/admin/member")
     public String adminMember() {
@@ -28,9 +30,9 @@ public class AdminMemberController {
     @GetMapping("/admin/member/list")
     public String adminMemberList(@RequestParam(value = "findByType1", required = false) String findByType1,
                                   @RequestParam(value = "findByType2", required = false) String findByType2,
-                                  @RequestParam(value = "keyword", required = false) String keyword, // keyword: 어떤 keyword로 찾을 것인지 결정
-                                  @RequestParam(value = "page", defaultValue = "0") int page,        // page: 0에서부터 시작
-                                  Model model) {                                                    // ex) findBy=title, keyword="키워드입니다", page:2면
+                                  @RequestParam(value = "keyword", required = false) String keyword,
+                                  @RequestParam(value = "page", defaultValue = "0") int page,
+                                  Model model) {
 
         Page<MemberResponseDto> list;
         int totalPage;
@@ -46,7 +48,7 @@ public class AdminMemberController {
             list = memberService.findByKeyword(findByType1, findByType2, keyword, page);
         }
         totalPage = list.getTotalPages();
-        pageList = memberService.getPageList(totalPage, page);
+        pageList = noticeService.getPageList(totalPage, page);
         model.addAttribute("list", list);
         model.addAttribute("findByType1", findByType1);
         model.addAttribute("findByType2", findByType2);

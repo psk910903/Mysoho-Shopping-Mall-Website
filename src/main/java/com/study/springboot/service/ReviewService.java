@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final OrderService orderService;
 
 //   기본 출력
    @Transactional(readOnly = true)
@@ -43,101 +44,7 @@ public class ReviewService {
 
         return list.map(ReviewResponseDto::new);
     }
-
     @Transactional(readOnly = true)
-    public Page<ReviewResponseDto> findByDate(String start, String end, int page) throws ParseException {
-        //기간 검색
-        Page<ReviewEntity> list;
-        Pageable pageable = PageRequest.of(page, 10);
-
-        //문자열을 날짜형식으로 변환
-        //SimpleDateFormat객체를 가져옴
-        DateFormat sdFormatStart = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormat sdFormatEnd = new SimpleDateFormat("yyyy-MM-dd");
-        //객체에 날짜 값을 넣음 - 1
-        Date tempDateStart = sdFormatStart.parse(start);
-        Date tempDateEnd = sdFormatEnd.parse(end);
-        //캘린더 객체를 가져옴
-        Calendar cal1 = Calendar.getInstance();
-        Calendar cal2 = Calendar.getInstance();
-        //캘린더 객체에 1을 넣음
-        cal1.setTime(tempDateStart);
-        cal2.setTime(tempDateEnd);
-        //SimpleDateFormat객체를 가져옴
-        DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
-        //cal2.add(필드,amount?);
-        cal2.add(Calendar.DATE, +1);
-
-        //날짜형식을 문자열로 변환
-        String dateStartStr = df1.format(cal1.getTime())+" 00:00:00";
-        String dateEndStr = df2.format(cal2.getTime())+" 00:00:00";
-
-        list = reviewRepository.findByReviewNoContaining(dateStartStr, dateEndStr, pageable);
-        return list.map(ReviewResponseDto::new);
-    }
-    public Page<ReviewResponseDto> findByDate(String mode, int page) throws ParseException {
-        //오늘, 어제, 1주일, 1개월 검색
-        //오늘날짜로 date객체 2개 생성 (~부터 ~까지로 검색에 사용목적)
-        Date tempDateStart = new Date();
-        Date tempDateEnd = new Date();
-        Calendar cal1 = Calendar.getInstance();
-        Calendar cal2 = Calendar.getInstance();
-        //캘린더 객체에 오늘날짜 2개 세팅
-        cal1.setTime(tempDateStart);
-        cal2.setTime(tempDateEnd);
-        //date객체 생성
-        DateFormat df1 = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
-
-        //매개변수로 들어온 모드 확인 후 검색기간 수정
-        if (mode.equals("today")) {
-            //끝나는 날을 오늘로 설정
-            cal2.add(Calendar.DATE, +1);
-        } else if (mode.equals("yesterday")) {
-            //시작:어제부터 끝:오늘까지 설정
-            cal1.add(Calendar.DATE, -1);
-            cal2.add(Calendar.DATE, +1);
-        } else if (mode.equals("week")) {
-            //시작:1주일전 끝:오늘
-            cal1.add(Calendar.DATE, -7);
-            cal2.add(Calendar.DATE, +1);
-        } else if (mode.equals("month")) {
-            //시작:한달전, 끝: 오늘
-            cal1.add(Calendar.MONTH, -1);
-            cal2.add(Calendar.DATE, +1);
-        } else if(mode.equals("6months")){
-            cal1.add(Calendar.MONTH,-6);
-            cal2.add(Calendar.DATE, +1);
-        } else if(mode.equals("1year")){
-            cal1.add(Calendar.YEAR,-1);
-            cal2.add(Calendar.DATE, +1);
-        }
-
-        String dateStartStr = df1.format(cal1.getTime());
-        String dateEndStr = df2.format(cal2.getTime());
-
-        return findByDate(dateStartStr, dateEndStr, page);
-    }
-
-
-    @Transactional(readOnly = true)
-    public Page<ReviewResponseDto> findByKeyword(String findBy, String keyword, int page){
-        Page<ReviewEntity> list;
-        List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("reviewNo"));
-        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));//검색조건에 맞는 페이지 최신순으로 검색
-
-        if(findBy.contains("memberId")){
-            list =  reviewRepository.findByMemberIdContaining(keyword, pageable);
-        }
-        else {
-            list = reviewRepository.findByItemNoContaining(keyword, pageable);
-        }
-        return  list.map(ReviewResponseDto::new);
-    }
-
-
     public List<Integer> getPageList(final int totalPage, final int page) {
 
         List<Integer> pageList = new ArrayList<>();
@@ -163,6 +70,44 @@ public class ReviewService {
 
         return pageList;
     }
+
+    @Transactional(readOnly = true)
+    public Page<ReviewResponseDto> findByDate(String start, String end, int page) throws ParseException {
+        //기간 검색
+        Page<ReviewEntity> list;
+        Pageable pageable = PageRequest.of(page, 10);
+
+        String[] date = orderService.dateSetting(start, end);
+        String dateStartStr = date[0];
+        String dateEndStr = date[1];
+
+        list = reviewRepository.findByReviewNoContaining(dateStartStr, dateEndStr, pageable);
+        return list.map(ReviewResponseDto::new);
+    }
+    public Page<ReviewResponseDto> findByDate(String mode, int page) throws ParseException {
+        String[] date = orderService.dateSetting(mode);
+        String dateStartStr = date[0];
+        String dateEndStr = date[1];
+        return findByDate(dateStartStr, dateEndStr, page);
+    }
+
+
+    @Transactional(readOnly = true)
+    public Page<ReviewResponseDto> findByKeyword(String findBy, String keyword, int page){
+        Page<ReviewEntity> list;
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("reviewNo"));
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));//검색조건에 맞는 페이지 최신순으로 검색
+
+        if(findBy.contains("memberId")){
+            list =  reviewRepository.findByMemberIdContaining(keyword, pageable);
+        }
+        else {
+            list = reviewRepository.findByItemNoContaining(keyword, pageable);
+        }
+        return  list.map(ReviewResponseDto::new);
+    }
+
 
     public boolean save(ReviewSaveResponseDto dto){
        try {

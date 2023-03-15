@@ -46,15 +46,14 @@ public class UserQnaController {
         }
 
         // memberHiddenName
-        String memberName = memberId; // "홍길동임"
         String memberHiddenName; // "홍길**"
 
-        if (memberName.length() <= 2){
-            memberHiddenName = memberName;
+        if (memberId.length() <= 2){
+            memberHiddenName = memberId;
         }
         else{
-            memberHiddenName = memberName.substring(0,2);
-            for (int i=0; i<memberName.length()-2; i++) memberHiddenName += "*";
+            memberHiddenName = memberId.substring(0,2);
+            for (int i=0; i<memberId.length()-2; i++) memberHiddenName += "*";
         }
 
         model.addAttribute("qnaList", qnaList);

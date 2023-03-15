@@ -4,6 +4,7 @@ import com.study.springboot.comparator.HighReviewComparator;
 import com.study.springboot.comparator.ItemGradeComparator;
 import com.study.springboot.comparator.LowPriceComparator;
 import com.study.springboot.comparator.SellCountComparator;
+import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.product.ProductSaveRequestDto;
 import com.study.springboot.entity.ProductEntity;
@@ -26,6 +27,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.servlet.http.Cookie;
+import java.net.URLDecoder;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,34 +54,6 @@ public class ProductService {
         Page<ProductEntity> list = productRepository.findAll(pageable);
 
         return list.map(ProductResponseDto::new);
-    }
-
-
-    //페이징
-    public List<Integer> getPageList(final int totalPage, final int page) {
-
-        List<Integer> pageList = new ArrayList<>();
-
-        if (totalPage <= 5){
-            for (Integer i=0; i<=totalPage-1; i++){
-                pageList.add(i);
-            }
-        }else if(page >= 0 && page <= 2){
-            for (Integer i=0; i<=4; i++){
-                pageList.add(i);
-            }
-        }
-        else if (page >= totalPage-3 && page <= totalPage-1){
-            for (Integer i=5; i>=1; i--){
-                pageList.add(totalPage - i);
-            }
-        }else{
-            for (Integer i=-2; i<=2; i++){
-                pageList.add(page + i);
-            }
-        }
-
-        return pageList;
     }
 
     //상품 검색
@@ -308,5 +283,70 @@ public class ProductService {
         }
         List<ProductResponseDto> list = entityList.stream().map(ProductResponseDto::new).collect(Collectors.toList());
         return setItemDiscountPrice(list);
+    }
+
+    public List<ProductResponseDto> itemListByCookies(Cookie[] cookies) {
+        List<ProductResponseDto> itemList = new ArrayList<>();
+        for (Cookie c : cookies) {
+            String name = c.getName(); // 쿠키 이름 가져오기
+
+            if (name.startsWith("item_idx.")) {
+                // 변수 선언
+                Long itemNo = Long.parseLong(name.split("\\.")[1]);
+                // itemList
+                ProductResponseDto productResponseDto = findById(itemNo);
+                itemList.add(productResponseDto);
+            }
+        }
+        return itemList;
+    }
+
+
+    public List<CartResponseDto> cartListByCookies(Cookie[] cookies) {
+        List<CartResponseDto> cartList = new ArrayList<>();
+        for (Cookie c : cookies) {
+            String name = c.getName(); // 쿠키 이름 가져오기
+            String value = c.getValue(); // 쿠키 값 가져오기
+
+            if (name.startsWith("item_idx.")) {
+
+                // 변수 선언
+                Long itemNo = Long.parseLong(name.split("\\.")[1]);
+                Long cartItemAmount = Long.parseLong(value);
+                String itemOptionColor = "";
+                try {
+                    itemOptionColor = URLDecoder.decode(name.split("\\.")[2], "UTF-8");
+                }catch (Exception e) {
+                    e.printStackTrace();
+                }
+                String itemOptionSize = name.split("\\.")[3];
+
+                //name value
+
+                // itemList
+                ProductResponseDto productResponseDto = findById(itemNo);
+
+                // cartList
+                String cartCode = UUID.randomUUID().toString();
+                Long cartDiscountPrice = productResponseDto.getItemPrice() * productResponseDto.getItemDiscountRate() / 100;
+                Long cartItemPrice = (productResponseDto.getItemPrice() - cartDiscountPrice) /100 * 100;
+                cartDiscountPrice = productResponseDto.getItemPrice() - cartItemPrice;
+
+                CartResponseDto cartResponseDto = CartResponseDto.builder()
+                        .cartCode(cartCode)
+                        .itemCode(String.valueOf(itemNo))
+                        .itemName(productResponseDto.getItemName())
+                        .itemOptionColor(itemOptionColor)
+                        .itemOptionSize(itemOptionSize)
+                        .cartItemAmount(cartItemAmount)
+                        .cartItemOriginalPrice(productResponseDto.getItemPrice())
+                        .cartDiscountPrice(cartDiscountPrice)
+                        .cartItemPrice(cartItemPrice)
+                        .build();
+                cartList.add(cartResponseDto);
+
+            }
+        }
+        return cartList;
     }
 }

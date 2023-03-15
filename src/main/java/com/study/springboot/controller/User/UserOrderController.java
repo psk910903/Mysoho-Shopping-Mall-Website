@@ -1,5 +1,6 @@
 package com.study.springboot.controller.User;
 
+import com.study.springboot.comparator.CookiesComparator;
 import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.cart.CartSaveRequestDto;
 import com.study.springboot.dto.member.MemberResponseDto;
@@ -7,7 +8,6 @@ import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.security.MemberJoinDto;
-import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.entity.repository.MemberRepository;
 import com.study.springboot.service.*;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -47,73 +46,20 @@ public class UserOrderController {
     @GetMapping("/order")
     public String order(Model model, HttpServletRequest request, @AuthenticationPrincipal User user) {
 
+        Cookie[] cookies = request.getCookies(); // 모든 쿠키 가져오기
+        Arrays.sort(cookies, new CookiesComparator());// 쿠키 정렬하기
+
+
         List<ProductResponseDto> itemList = new ArrayList<>();
         List<CartResponseDto> cartList = new ArrayList<>();
-
-        Cookie[] cookies = request.getCookies(); // 모든 쿠키 가져오기
-
-        // 쿠키 정렬하기
-        Arrays.sort(cookies, new Comparator<Cookie>() {
-            @Override
-            public int compare(Cookie c1, Cookie c2) {
-                String c1Name = c1.getName();
-                String c2Name = c2.getName();
-
-                return c2Name.compareTo(c1Name);
-            }
-        });
-
-
         if(cookies!=null){
-            for (Cookie c : cookies) {
-                String name = c.getName(); // 쿠키 이름 가져오기
-                String value = c.getValue(); // 쿠키 값 가져오기
-
-                if (name.startsWith("item_idx.")) {
-
-                    // 변수 선언
-                    Long itemNo = Long.parseLong(name.split("\\.")[1]);
-                    Long cartItemAmount = Long.parseLong(value);
-                    String itemOptionColor = "";
-                    try {
-                        itemOptionColor = URLDecoder.decode(name.split("\\.")[2], "UTF-8");
-                    }catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    String itemOptionSize = name.split("\\.")[3];
-
-                    // itemList
-                    ProductResponseDto productResponseDto = productService.findById(itemNo);
-                    itemList.add(productResponseDto);
-
-                    // cartList
-                    String cartCode = UUID.randomUUID().toString();
-                    Long cartDiscountPrice = productResponseDto.getItemPrice() * productResponseDto.getItemDiscountRate() / 100;
-                    Long cartItemPrice = (productResponseDto.getItemPrice() - cartDiscountPrice) /100 * 100;
-                    cartDiscountPrice = productResponseDto.getItemPrice() - cartItemPrice;
-
-                    CartResponseDto cartResponseDto = CartResponseDto.builder()
-                            .cartCode(cartCode)
-                            .itemCode(String.valueOf(itemNo))
-                            .itemName(productResponseDto.getItemName())
-                            .itemOptionColor(itemOptionColor)
-                            .itemOptionSize(itemOptionSize)
-                            .cartItemAmount(cartItemAmount)
-                            .cartItemOriginalPrice(productResponseDto.getItemPrice())
-                            .cartDiscountPrice(cartDiscountPrice)
-                            .cartItemPrice(cartItemPrice)
-                            .build();
-                    cartList.add(cartResponseDto);
-
-                }
-            }
+            itemList = productService.itemListByCookies(cookies);
+            cartList = productService.cartListByCookies(cookies);
         }
 
-        // member
         MemberResponseDto memberResponseDto = null;
         if (user != null) {
-            String memberId = user.getUsername();
-            memberResponseDto = memberService.findByMemberId(memberId);
+            memberResponseDto = memberService.findByMemberId(user.getUsername());
         }
 
         model.addAttribute("itemList", itemList);
@@ -128,6 +74,7 @@ public class UserOrderController {
     @PostMapping("/order/deleteAllAction")
     @ResponseBody
     public String orderDeleteAllAction(HttpServletRequest request, HttpServletResponse response) {
+
 
         Cookie[] cookies = request.getCookies();
         if(cookies!=null){
@@ -240,7 +187,7 @@ public class UserOrderController {
     //결제
     @PostMapping("/order/payAction")
     @ResponseBody
-    public String orderPayAction(OrderContentSaveRequestDto orderContentSaveRequestDto, HttpServletRequest request,
+    public String orderPayAction(OrderContentSaveRequestDto orderSaveRequestDto, HttpServletRequest request,
                                  @AuthenticationPrincipal User user, HttpServletResponse response,
                                  @RequestParam String[] colorList, @RequestParam String[] sizeList,
                                  @RequestParam String[] amountList, @RequestParam String[] itemCodeList,
@@ -251,19 +198,16 @@ public class UserOrderController {
 
         if (memberJoinDto.getUsername() != "") {
 
-            LocalDate today = LocalDate.now();
-            memberJoinDto.setMemberJoinDatetime(today);
+            memberJoinDto.setMemberJoinDatetime(LocalDate.now());
 
             if (bindingResult.hasErrors()) {
                 String detail = bindingResult.getFieldError().getDefaultMessage();
                 return "<script>alert('" + detail + "'); history.back();</script>";
             }
 
-            String encodedPassword = passwordEncoder.encode(memberJoinDto.getPassword());
-            memberJoinDto.setPassword(encodedPassword);
+            memberJoinDto.setPassword(passwordEncoder.encode(memberJoinDto.getPassword()));
             try {
-                MemberEntity enity = memberJoinDto.toSaveEntity();
-                memberRepository.save(enity);
+                memberRepository.save(memberJoinDto.toSaveEntity());
             } catch (DataIntegrityViolationException e) {
                 e.printStackTrace();
                 bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
@@ -282,54 +226,19 @@ public class UserOrderController {
 
         ////////////////////////////////////// cart DB에 넣기 ////////////////////////////////////////////
         String[] cartCodeList = {null, null, null, null, null};
-        Long orderCode = null;
-
-        // orderNo
-        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
-        String orderCode1 = format.format(new Date());
-        String orderCode2 = String.format("%04d", (long) (Math.random() * 10000));
-        orderCode = Long.parseLong(orderCode1 + orderCode2);
+        Long orderCode = orderService.generateOrderNo();
 
         for (int i=0; i<itemCodeList.length; i++) {
 
-            // cartItemAmount
-            Long cartItemAmount = Long.parseLong(amountList[i]);
 
-            // itemOptionColor
-            String itemOptionColor = colorList[i];
-
-            // itemOptionSize
-            String itemOptionSize = sizeList[i];
-
-            // itemCode
-            String itemCode = itemCodeList[i];
-            ProductResponseDto productResponseDto = productService.findById(Long.parseLong(itemCode));
-
-            // cartCode
-            String cartCode = UUID.randomUUID().toString();
+            Long cartItemAmount = Long.parseLong(amountList[i]); // cartItemAmount
+            String itemOptionColor = colorList[i]; // itemOptionColor
+            String itemOptionSize = sizeList[i]; // itemOptionSize
+            String itemCode = itemCodeList[i]; // itemCode
+            String cartCode = UUID.randomUUID().toString(); // cartCode
             cartCodeList[i] = cartCode;
-
-
-
-            // cartDiscountPrice, cartItemPrice
-            Long cartDiscountPrice = productResponseDto.getItemPrice() * productResponseDto.getItemDiscountRate() / 100;
-            Long cartItemPrice = (productResponseDto.getItemPrice() - cartDiscountPrice) / 100 * 100;
-            cartDiscountPrice = productResponseDto.getItemPrice() - cartItemPrice;
-
-            CartSaveRequestDto cartSaveRequestDto = CartSaveRequestDto.builder()
-                    .cartCode(cartCode)
-                    .orderCode(orderCode)
-                    .memberId(memberId)
-                    .itemCode(itemCode)
-                    .itemName(productResponseDto.getItemName())
-                    .itemOptionColor(itemOptionColor)
-                    .itemOptionSize(itemOptionSize)
-                    .cartItemAmount(cartItemAmount)
-                    .cartItemOriginalPrice(productResponseDto.getItemPrice())
-                    .cartDiscountPrice(cartDiscountPrice)
-                    .cartItemPrice(cartItemPrice)
-                    .cartDate(LocalDateTime.now())
-                    .build();
+            CartSaveRequestDto cartSaveRequestDto = cartService.saveCartDto(cartCode, orderCode,
+                    itemCode,cartItemAmount, itemOptionColor, itemOptionSize, memberId);
 
             // DB에 넣기
             boolean success = cartService.saveCart(cartSaveRequestDto);
@@ -350,30 +259,11 @@ public class UserOrderController {
             }
 
         }
-
-
-
         ////////////////////////////////////// order DB에 넣기 ////////////////////////////////////////////
 
         // orderDTO 세팅하기
-        orderContentSaveRequestDto.setOrderCode(orderCode);
-        orderContentSaveRequestDto.setCartCode1(cartCodeList[0]);
-        orderContentSaveRequestDto.setCartCode2(cartCodeList[1]);
-        orderContentSaveRequestDto.setCartCode3(cartCodeList[2]);
-        orderContentSaveRequestDto.setCartCode4(cartCodeList[3]);
-        orderContentSaveRequestDto.setCartCode5(cartCodeList[4]);
-        orderContentSaveRequestDto.setOrderDatetime(LocalDateTime.now());
-        orderContentSaveRequestDto.setMemberId(memberId);
-        orderContentSaveRequestDto.setMemberMileage(0L);
-        orderContentSaveRequestDto.setMemberCoupon("0");
-        if (orderContentSaveRequestDto.getOrderPayType().contains("휴대폰결제") ||
-                orderContentSaveRequestDto.getOrderPayType().contains("삼성페이")) {
-            orderContentSaveRequestDto.setOrderState("배송대기");
-        }else{
-            orderContentSaveRequestDto.setOrderState("결제대기");
-        }
-
-        boolean success = orderService.saveOrderDto(orderContentSaveRequestDto);
+        OrderContentSaveRequestDto orderDto = orderService.saveOrderDtoComplete(orderSaveRequestDto, orderCode, cartCodeList, memberId);
+        boolean success = orderService.saveOrderDto(orderDto);
         if (!success) {
             return "<script>alert('결제 중 오류가 발생했습니다.\\n다시 결제해주세요.');location.href='/order';</script>";
         }

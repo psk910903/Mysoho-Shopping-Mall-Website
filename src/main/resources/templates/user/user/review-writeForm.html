@@ -15,126 +15,13 @@
   <link rel="stylesheet" href="/css/footer.css" />
   <link rel="stylesheet" href="/css/login.css" />
   <link rel="stylesheet" href="/css/myorder-list-user.css" />
+  <link rel="stylesheet" href="/css/myorder-review.css" />
 <style>
-#myform fieldset{
-    display: inline-block;
-    direction: rtl;
-    border:0;
-}
-#myform fieldset legend{
-    text-align: right;
-}
-#myform input[type=radio]{
-    display: none;
-}
-.reviewStar label{
-    font-size: 20px;
-    color: transparent;
-    text-shadow: 0 0 0 #f0f0f0;
-}
-.reviewStar label:hover{
-    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-}
-.reviewStar label:hover ~ label{
-    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-}
-.reviewStar input[type=radio]:checked ~ label{
-    text-shadow: 0 0 0 rgba(250, 208, 0, 0.99);
-}
-#reviewContents {
-    width: 100%;
-    height: 150px;
-    padding: 10px;
-    box-sizing: border-box;
-    border: solid 1.5px #D3D3D3;
-    border-radius: 5px;
-    font-size: 14px;
-    resize: none;
-}
-.prd-info {
-    padding: 2px 18px 15px;
-    text-align: left;
-    border-bottom: 1px solid #f0f0f0;
-    position: relative;
-    display: flex;
-}
-.review-content {
-    min-height: 550px;
-    padding: 15px 18px;
-    text-align: left;
-    border-bottom: 1px solid #f0f0f0;
-    position: relative;
-
-}
-
-.tmb img{
-    width: 50px;
-    height: 50px;
-}
-
-.name {
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 14px;
-}
-.price {
-    font-weight: bold;
-    font-size: 14px;
-    color: #000;
-}
-.text-bold{
-  color: #d6d6d6;
-  font-size: 14px;
-}
-.reviewStar{
-  padding: 11px 0 15px;
-}
-.form-control{
-  width: 100%;
-}
-input[type=file]::file-selector-button{
-  font-size: 14px;
-  padding: 6px 25px;
-  background-color:#fafafa;
-  border: 1px solid #d6d6d6;
-  border-radius: 2px;
-  cursor: pointer;
-  margin: 15px 0;
-}
-#imgBox{
-  margin-top: 15px;
-  width: 50%;
-  position: relative;
-}
-#imgBox img{
-  width: 100%;
-}
-#closebtn{
-  position: absolute;
-  right: -20px;
-  font-size: 20px;
-}
 </style>
 <body>
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <script>
-  function checkValue() {
 
-		if(!document.myform.reviewStar.value) {
-			alert("별점을 선택해주세요");
-			document.getElementById('rate5').focus();
-			return false;
-		}
-		if(!document.myform.reviewContents.value) {
-			alert("내용을 입력해주세요");
-			document.getElementById('reviewContents').focus();
-			return false;
-		}
-
-		return true;
-	}
 </script>
 <div class="wrap">
   <div class="betweenbtn">
@@ -244,27 +131,42 @@ input[type=file]::file-selector-button{
       </form>
     </th:block>
   </div>
-  <script
-          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
-          integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
-          crossorigin="anonymous"
-  ></script>
-      <script src="/js/ckeditor.js"></script>
-      <script>
 
-    function closebtn(){
-        document.querySelector('#imgBox').style.display = "none";
-        document.querySelector('#imgDelete').value = "imgDelete";
-    }
-  </script>
   <div class="footer">
     <div th:replace="/fragments/footer.html :: fragment-footer"></div>
   </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
-
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+        crossorigin="anonymous"
+></script>
+  <script src="/js/ckeditor.js"></script>
   <script src="/js/header.js"></script>
   <script src="/js/footer.js"></script>
+<script>
+
+    function closebtn(){
+        document.querySelector('#imgBox').style.display = "none";
+        document.querySelector('#imgDelete').value = "imgDelete";
+    }
+    function checkValue() {
+
+		if(!document.myform.reviewStar.value) {
+			alert("별점을 선택해주세요");
+			document.getElementById('rate5').focus();
+			return false;
+		}
+		if(!document.myform.reviewContents.value) {
+			alert("내용을 입력해주세요");
+			document.getElementById('reviewContents').focus();
+			return false;
+		}
+
+		return true;
+	}
+  </script>
 
 </body>
 </html>

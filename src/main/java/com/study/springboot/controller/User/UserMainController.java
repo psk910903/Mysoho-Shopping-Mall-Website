@@ -35,8 +35,7 @@ public class UserMainController {
         model.addAttribute("bestItem", bestItem);
         model.addAttribute("list", list);
         model.addAttribute("latestNotice", noticeRepository.findLatestNotice());
-
-
+        
         return "/user/category/home";
     }
 

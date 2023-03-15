@@ -25,6 +25,7 @@ public class AdminProductController {
     private final ProductService productService;
     private final ProductRepository productRepository;
     private final AwsS3Service awsS3Service;
+    private final NoticeService noticeService;
 
     @GetMapping("/admin/product")
     public String productHome(){
@@ -51,7 +52,7 @@ public class AdminProductController {
             list = productService.findByKeyword(findByType1, findByType2, keyword, page);
         }
         totalPage = list.getTotalPages();
-        pageList = productService.getPageList(totalPage, page);
+        pageList = noticeService.getPageList(totalPage, page);
         model.addAttribute("list", list);
         model.addAttribute("findByType1", findByType1);
         model.addAttribute("findByType2", findByType2);

@@ -19,12 +19,6 @@ public class InReplyService {
     private final InReplyRepository inReplyRepository;
     private final InquiryService inquiryService;
 
-//    @Transactional(readOnly = true)
-//    public List<InReplyResponseDto> findAllByReplyInquiryNo(Long replyInquiryNo){
-//        List<InReplyEntity> list = inReplyRepository.findAllByReplyInquiryNo(replyInquiryNo);
-//        return list.stream().map(InReplyResponseDto::new).collect(Collectors.toList());
-//    }
-
     public boolean save(final InReplySaveResponseDto dto){
         try{
             inReplyRepository.save( dto.toEntity() );
@@ -69,8 +63,5 @@ public class InReplyService {
         }
         return inReplyCount;
     }
-
-
-
 
 }//class

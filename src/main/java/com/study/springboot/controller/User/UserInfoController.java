@@ -46,9 +46,10 @@ public class UserInfoController {
     public String myorderList() {
         return "/user/user/myorder";
     }
+
     //비회원
     @RequestMapping("/order/myorder/list")
-    public String myorder(OrderSearchDto dto, Model model) {
+    public String myOrder(OrderSearchDto dto, Model model) {
 
         List<OrderResponseDto> orderList = orderService.findByOrderNonMember(dto);
         List<CartResponseDto> cartList;
@@ -61,44 +62,39 @@ public class UserInfoController {
         int stateType5 = 0; //취소/반품
 
         for (OrderResponseDto orderDto : orderList) {
-            String orderState = orderDto.getOrderState();
-            switch (orderState) {
+            switch (orderDto.getOrderState()) {
                 case "결제대기" -> stateType1++;
                 case "배송대기" -> stateType2++;
                 case "배송중" -> stateType3++;
                 case "배송완료" -> stateType4++;
-                default ->  stateType5++;//취소/반품
+                default ->  stateType5++;
             }
             //비회원 주문번호에서 카트정보 가져오기
-            cartList = cartService.getCartListNonMember(orderDto);
+            cartList = cartService.getCartList(orderDto, "nonMember");
             cartListModel.add(cartList);
             long originalPrice = 0L;
             long discountPrice = 0L;
             long itemPrice = 0L;
 
             for (CartResponseDto cartDto : cartList) {
-
                 if (Objects.equals(cartDto.getOrderCode(), orderDto.getOrderCode())) {
                     originalPrice += cartDto.getCartItemOriginalPrice() * cartDto.getCartItemAmount();
                     discountPrice += cartDto.getCartDiscountPrice() * cartDto.getCartItemAmount();
                     itemPrice += cartDto.getCartItemPrice() * cartDto.getCartItemAmount();
                 }
-
             }
             orderDto.setOrderItemOriginalPrice(originalPrice); //(할인 전)상품가격
             orderDto.setOrderDiscountPrice(discountPrice);//할인율이 적용된 차감될 금액
             orderDto.setOrderItemPrice(itemPrice); // (할인 적용된 결제당시)상품가격
         }
-        int cartCount = cartListModel.size();
-        int orderCount = orderList.size();
-        model.addAttribute("orderCount", orderCount);
+
         model.addAttribute("stateType1", stateType1);
         model.addAttribute("stateType2", stateType2);
         model.addAttribute("stateType3", stateType3);
         model.addAttribute("stateType4", stateType4);
         model.addAttribute("stateType5", stateType5);
-
-        model.addAttribute("cartCount", cartCount);
+        model.addAttribute("orderCount", orderList.size());
+        model.addAttribute("cartCount", cartListModel.size());
         model.addAttribute("orderList", orderList);
         model.addAttribute("cartListModel", cartListModel);
 
@@ -109,9 +105,7 @@ public class UserInfoController {
     @RequestMapping("/myorder/lists")
     public String myInfo(@AuthenticationPrincipal User user,
                          HttpServletRequest request, Model model) {
-        if (user == null) {
-            System.out.println("no user");
-        } else {
+
             String memberId = user.getUsername();
             MemberEntity entity = memberService.findByUserId(memberId);
             request.getSession().setAttribute("username", entity.getMemberName());
@@ -129,16 +123,15 @@ public class UserInfoController {
             int stateType5 = 0;
 
             for (OrderResponseDto orderDto : orderList) {
-                String orderState = orderDto.getOrderState();
-                switch (orderState) {
+                switch (orderDto.getOrderState()) {
                     case "결제대기" -> stateType1++;
                     case "배송대기" -> stateType2++;
                     case "배송중" -> stateType3++;
                     case "배송완료" -> stateType4++;
                     default ->  stateType5++;//취소/반품
                 }
-                //비회원 주문번호에서 카트정보 가져오기
-                cartList = cartService.getCartListMember(orderDto);
+                //회원 주문번호에서 카트정보 가져오기
+                cartList = cartService.getCartList(orderDto,"member");
                 cartListModel.add(cartList);
                 long originalPrice = 0L;
                 long discountPrice = 0L;
@@ -160,21 +153,17 @@ public class UserInfoController {
 
             List<ReviewResponseDto> ReviewList = reviewService.findByMemberId(memberId); //사용자가 작성한 리뷰
 
-            int cartCount = cartListModel.size();
-            int orderCount = orderList.size();
             model.addAttribute("ReviewList", ReviewList);
-            model.addAttribute("orderCount", orderCount);
             model.addAttribute("stateType1", stateType1);
             model.addAttribute("stateType2", stateType2);
             model.addAttribute("stateType3", stateType3);
             model.addAttribute("stateType4", stateType4);
             model.addAttribute("stateType5", stateType5);
-
-            model.addAttribute("cartCount", cartCount);
+            model.addAttribute("orderCount", orderList.size());
+            model.addAttribute("cartCount", cartListModel.size());
             model.addAttribute("orderList", orderList);
             model.addAttribute("cartListModel", cartListModel);
 
-        }
         return "/user/user/myorder-list-user";
     }
 
@@ -305,8 +294,7 @@ public class UserInfoController {
     //개인 정보 수정 폼
     @RequestMapping("/user/myInfo")
     public String modifyMyInfo(@AuthenticationPrincipal User user, Model model) {
-        String username = user.getUsername();
-        MemberEntity member = memberService.findByUserId(username);
+        MemberEntity member = memberService.findByUserId(user.getUsername());
         model.addAttribute("member", member);
         return "user/user/user-myInfo";
     }
@@ -316,8 +304,7 @@ public class UserInfoController {
     @ResponseBody
     public String myInfoModify(@AuthenticationPrincipal User user,
                                MemberJoinDto dto) {
-        MemberEntity entity = memberService.findByUserId(user.getUsername());
-        String entityPassword = entity.getPassword();
+        String entityPassword = memberService.findByUserId(user.getUsername()).getPassword();
         if(dto.getPassword() == ""){
             dto.setPassword(entityPassword);
         }else{
@@ -334,29 +321,19 @@ public class UserInfoController {
 
     //마일리지 상세
     @RequestMapping("/user/mileage")
-    public String mileage(@AuthenticationPrincipal User user,
-                          Model model) {
-        if (user == null) {
-            System.out.println("no user");
-        } else {
-            String username = user.getUsername();
-            MemberEntity entity = memberService.findByUserId(username);
-            model.addAttribute("memberMileage", entity.getMemberMileage());
-        }
+    public String mileage(@AuthenticationPrincipal User user, Model model) {
+
+            model.addAttribute("memberMileage", memberService.findByUserId(user.getUsername()).getMemberMileage());
+
         return "/user/user/user-mileage";
     }
 
     //쿠폰 상세
     @RequestMapping("/coupons/mylist")
-    public String coupons(@AuthenticationPrincipal User user,
-                          Model model) {
-        if (user == null) {
-            System.out.println("no user");
-        } else {
-            String username = user.getUsername();
-            MemberEntity entity = memberService.findByUserId(username);
-            model.addAttribute("memberCoupon", entity.getMemberCoupon());
-        }
+    public String coupons(@AuthenticationPrincipal User user, Model model) {
+
+            model.addAttribute("memberCoupon", memberService.findByUserId(user.getUsername()).getMemberCoupon());
+
         return "user/user/coupons-mylist";
     }
 }

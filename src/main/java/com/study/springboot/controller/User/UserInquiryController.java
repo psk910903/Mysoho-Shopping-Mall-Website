@@ -43,7 +43,7 @@ public class UserInquiryController {
             itemList.add(productDto);
 
             // replyCountList
-            Long replyCount = inquiryService.countByInquiryNo(inquiryDto.getInquiryNo());
+            Long replyCount = inquiryService.countByInquiryNo(itemNo);
             replyCountList.add(replyCount);
 
         }
@@ -94,10 +94,9 @@ public class UserInquiryController {
 
             //DB에서 memberName 유저아이디로 멤버 이름조회하기
             MemberResponseDto memberName = memberService.findByMemberId(memberId);
-            String memberPassword = memberName.getMemberPw();
             model.addAttribute("memberName",memberName.getMemberName());
             model.addAttribute("inquiryMemberId", memberId);
-            model.addAttribute("inquiryMemberPassword", memberPassword);
+            model.addAttribute("inquiryMemberPassword", memberName.getMemberPw());
         }else {// 비회원일때
             model.addAttribute("inquiryMemberId", null);
         }
