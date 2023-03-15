@@ -106,21 +106,7 @@ function buyBtn() {
   document.getElementById("order-first-input").focus();
 }
 
-function closeOptionList() {
-  if (document.querySelector(".option-choice").style.display === "block") {
-    document.querySelector("#hidden").style.display = "none";
-  } else {
-    let finalColorResult = document.querySelector(".final-color").innerHTML;
-    let finalSizeResult = document.querySelector(".final-size").innerHTML;
-    let productCount = document.querySelector(".MSH-sto-stock").value;
-    document.querySelector(".final-size-result").innerHTML = finalSizeResult;
-    document.querySelector(".final-color-result").innerHTML = finalColorResult;
-    document.querySelector("#final-size-result").value = finalSizeResult;
-    document.querySelector("#final-color-result").value = finalColorResult;
-    document.querySelector("#product-count").innerHTML = productCount;
-    document.querySelector("#hidden").style.display = "block";
-  }
-}
+
 
 // 장바구니 쿠키생성
 function basketNumProduct(n) {

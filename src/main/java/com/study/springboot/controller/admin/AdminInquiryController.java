@@ -40,6 +40,7 @@ public class AdminInquiryController {
                        @RequestParam(value = "keyword", required = false ) String keyword,
                        @RequestParam(value = "findBy", required = false ) String findBy,
                        @RequestParam(value = "page", defaultValue = "0") int page) throws ParseException {
+
         Page<InquiryResponseDto> list;
         if(keyword == null && findBy == null && dateStart == null && dateEnd == null
                 || (dateStart.equals("null")) && (dateEnd.equals("null")) && (keyword.equals("null"))
