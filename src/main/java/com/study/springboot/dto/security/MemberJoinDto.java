@@ -17,32 +17,33 @@ import java.time.LocalDate;
 public class MemberJoinDto {
     @Nullable
     private Long memberNo;
-    @NotBlank//(message = "user_id에 null, 빈문자열, 스페이스문자열만을 넣을 수 없습니다.")
-    @Pattern( regexp = "^[a-zA-z0-9_-]{5,20}$", message = "아이디를 양식에 맞게 작성해 주세요")
+    @NotBlank
+    @Pattern( regexp = "^[a-zA-z0-9_-]{5,20}$", message = "아이디를 양식에 맞게 기입해 주세요")
     private String username;
-    @NotBlank//(message = "user_pw에 null, 빈문자열, 스페이스문자열만을 넣을 수 없습니다.")
-    @Pattern( regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*\\W)(?=\\S+$).{8,20}" , message = "패스워드를 양식에 맞게 작성해 주세요" )
+    @NotBlank
+    @Pattern( regexp = "(?=.*[0-9])(?=.*[a-z])(?=.*\\W)(?=\\S+$).{8,20}" , message = "패스워드를 양식에 맞게 기입해 주세요" )
     private String password;
     @Pattern( regexp = "^[가-힣]{2,5}$", message = "이름을 양식에 맞게 작성해 주세요")
     @NotBlank
     private String memberName;
     @NotBlank
+    @Pattern( regexp = "^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\\.[A-Za-z0-9\\-]+$" , message = "이메일을 양식에 맞게 기입해 주세요" )
     private String memberEmail;
 
     @NotBlank
     private String memberRate;
     @NotBlank
-    @Pattern( regexp = "^[0-9]{10,11}$", message = "전화번호를 양식에 맞게 작성해 주세요")
+    @Pattern( regexp = "^[0-9]{10,11}$", message = "전화번호를 양식에 맞게 기입해 주세요")
     private String memberPhone;
 
     private Long memberMileage;//마일리지
 
     private Long memberCoupon;
-    @NotBlank
+    @NotBlank(message = "우편 번호를 기입해 주세요")
     private String memberAddrNumber;
     //@NotBlank
     private String memberAddr1;
-    @NotBlank
+    @NotBlank(message = "나머지 주소를 기입해 주세요")
     private String memberAddr2;
 
     private String memberRole;
