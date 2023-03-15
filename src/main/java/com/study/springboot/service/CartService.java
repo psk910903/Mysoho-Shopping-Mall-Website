@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -237,4 +238,21 @@ public class CartService {
                     .build();
         return cartSaveRequestDto;
     }
+
+    public long[] priceSetting(List<CartResponseDto> cartList, OrderResponseDto orderDto){
+        long originalPrice = 0L;
+        long discountPrice = 0L;
+        long itemPrice = 0L;
+
+        for (CartResponseDto cartDto : cartList) {
+
+            if (Objects.equals(cartDto.getOrderCode(), orderDto.getOrderCode())) {
+                originalPrice += cartDto.getCartItemOriginalPrice() * cartDto.getCartItemAmount();
+                discountPrice += cartDto.getCartDiscountPrice() * cartDto.getCartItemAmount();
+                itemPrice += cartDto.getCartItemPrice() * cartDto.getCartItemAmount();
+            }
+        }
+        long[] priceSetting = {originalPrice, discountPrice, itemPrice};
+        return priceSetting;
+    };
 }

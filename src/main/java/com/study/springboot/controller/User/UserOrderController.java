@@ -75,7 +75,6 @@ public class UserOrderController {
     @ResponseBody
     public String orderDeleteAllAction(HttpServletRequest request, HttpServletResponse response) {
 
-
         Cookie[] cookies = request.getCookies();
         if(cookies!=null){
             for(Cookie c : cookies){
@@ -88,7 +87,6 @@ public class UserOrderController {
                 }
             }
         }
-
         return "<script>alert('장바구니가 비었습니다.\\n관심있는 상품을 담아보세요.');location.href='/';</script>";
     }
 

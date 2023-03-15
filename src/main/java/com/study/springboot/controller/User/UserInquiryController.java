@@ -47,18 +47,8 @@ public class UserInquiryController {
             replyCountList.add(replyCount);
 
         }
-
         // memberHiddenName
-        String memberName = memberId;
-        String memberHiddenName;
-
-        if (memberName.length() <= 2){
-            memberHiddenName = memberName;
-        }
-        else{
-            memberHiddenName = memberName.substring(0,2);
-            for (int i=0; i<memberName.length()-2; i++) memberHiddenName += "*";
-        }
+        String memberHiddenName = inquiryService.maskingId(memberId);
 
         model.addAttribute("itemList", itemList);
         model.addAttribute("inquiryList", inquiryList);

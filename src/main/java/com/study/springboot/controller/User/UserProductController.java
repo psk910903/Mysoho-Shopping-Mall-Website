@@ -44,20 +44,19 @@ public class UserProductController {
             memberResponseDto = memberService.findByMemberId(memberId);
         }
 
-        // 이준하
+        // 상품문의
         List<InquiryResponseDto> inquiry = inquiryService.findByItemNoList(itemNo);
         int listSize = inquiry.size();
         List<String> nameList = inquiryService.inquiryMaskingId(inquiry); //마스킹
         List<Long> inReplyCount = inReplyService.inReplyCount(inquiry);// 답변카운트 불러오기
-        //<경빈
+        //리뷰
         List<ReviewResponseDto> reviewList = reviewService.findByReview(String.valueOf(itemNo));
         int listCount = reviewList.size();
         Double avgStar = reviewService.avgStar(reviewList);
         List<ReviewResponseDto> photoReviewList = reviewService.findByImgReview(String.valueOf(itemNo));
         int listImgCount = photoReviewList.size();
-        //선교 추가
-        List<String> reviewIdList = reviewService.maskingId(reviewList); //리뷰 아이디 마스킹처리
-        List<String> photoReviewIdList = reviewService.maskingId(photoReviewList); //포토리뷰 아이디 마스킹처리
+        List<String> reviewIdList = reviewService.maskingId(reviewList); //리뷰 아이디 마스킹
+        List<String> photoReviewIdList = reviewService.maskingId(photoReviewList); //포토리뷰 아이디 마스킹
 
         model.addAttribute("dto", dto); // 경빈 시작
         model.addAttribute("list", reviewList);

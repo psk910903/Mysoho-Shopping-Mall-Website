@@ -54,45 +54,24 @@ public class UserInfoController {
         List<OrderResponseDto> orderList = orderService.findByOrderNonMember(dto);
         List<CartResponseDto> cartList;
         List<List<CartResponseDto>> cartListModel = new ArrayList<>();
-
-        int stateType1 = 0; //결제대기
-        int stateType2 = 0; //배송대기
-        int stateType3 = 0; //배송중
-        int stateType4 = 0; //배송완료
-        int stateType5 = 0; //취소/반품
+        int[] stateType = orderService.orderStateType(orderList);
 
         for (OrderResponseDto orderDto : orderList) {
-            switch (orderDto.getOrderState()) {
-                case "결제대기" -> stateType1++;
-                case "배송대기" -> stateType2++;
-                case "배송중" -> stateType3++;
-                case "배송완료" -> stateType4++;
-                default ->  stateType5++;
-            }
+
             //비회원 주문번호에서 카트정보 가져오기
             cartList = cartService.getCartList(orderDto, "nonMember");
             cartListModel.add(cartList);
-            long originalPrice = 0L;
-            long discountPrice = 0L;
-            long itemPrice = 0L;
-
-            for (CartResponseDto cartDto : cartList) {
-                if (Objects.equals(cartDto.getOrderCode(), orderDto.getOrderCode())) {
-                    originalPrice += cartDto.getCartItemOriginalPrice() * cartDto.getCartItemAmount();
-                    discountPrice += cartDto.getCartDiscountPrice() * cartDto.getCartItemAmount();
-                    itemPrice += cartDto.getCartItemPrice() * cartDto.getCartItemAmount();
-                }
-            }
-            orderDto.setOrderItemOriginalPrice(originalPrice); //(할인 전)상품가격
-            orderDto.setOrderDiscountPrice(discountPrice);//할인율이 적용된 차감될 금액
-            orderDto.setOrderItemPrice(itemPrice); // (할인 적용된 결제당시)상품가격
+            long[] priceSetting = cartService.priceSetting(cartList, orderDto);
+            orderDto.setOrderItemOriginalPrice(priceSetting[0]); //(할인 전)상품가격
+            orderDto.setOrderDiscountPrice(priceSetting[1]);//할인율이 적용된 차감될 금액
+            orderDto.setOrderItemPrice(priceSetting[2]); // (할인 적용된 결제당시)상품가격
         }
 
-        model.addAttribute("stateType1", stateType1);
-        model.addAttribute("stateType2", stateType2);
-        model.addAttribute("stateType3", stateType3);
-        model.addAttribute("stateType4", stateType4);
-        model.addAttribute("stateType5", stateType5);
+        model.addAttribute("stateType1", stateType[0]);
+        model.addAttribute("stateType2", stateType[1]);
+        model.addAttribute("stateType3", stateType[2]);
+        model.addAttribute("stateType4", stateType[3]);
+        model.addAttribute("stateType5", stateType[4]);
         model.addAttribute("orderCount", orderList.size());
         model.addAttribute("cartCount", cartListModel.size());
         model.addAttribute("orderList", orderList);
@@ -115,50 +94,26 @@ public class UserInfoController {
             List<OrderResponseDto> orderList = cartService.findByOrderList(memberId);
             List<CartResponseDto> cartList;
             List<List<CartResponseDto>> cartListModel = new ArrayList<>();
-
-            int stateType1 = 0;
-            int stateType2 = 0;
-            int stateType3 = 0;
-            int stateType4 = 0;
-            int stateType5 = 0;
+            List<ReviewResponseDto> ReviewList = reviewService.findByMemberId(memberId); //사용자가 작성한 리뷰
+            int[] stateType = orderService.orderStateType(orderList);
 
             for (OrderResponseDto orderDto : orderList) {
-                switch (orderDto.getOrderState()) {
-                    case "결제대기" -> stateType1++;
-                    case "배송대기" -> stateType2++;
-                    case "배송중" -> stateType3++;
-                    case "배송완료" -> stateType4++;
-                    default ->  stateType5++;//취소/반품
-                }
+
                 //회원 주문번호에서 카트정보 가져오기
                 cartList = cartService.getCartList(orderDto,"member");
                 cartListModel.add(cartList);
-                long originalPrice = 0L;
-                long discountPrice = 0L;
-                long itemPrice = 0L;
-
-                for (CartResponseDto cartDto : cartList) {
-
-                    if (Objects.equals(cartDto.getOrderCode(), orderDto.getOrderCode())) {
-                        originalPrice += cartDto.getCartItemOriginalPrice() * cartDto.getCartItemAmount();
-                        discountPrice += cartDto.getCartDiscountPrice() * cartDto.getCartItemAmount();
-                        itemPrice += cartDto.getCartItemPrice() * cartDto.getCartItemAmount();
-                    }
-
-                }
-                orderDto.setOrderItemOriginalPrice(originalPrice); //(할인 전)상품가격
-                orderDto.setOrderDiscountPrice(discountPrice);//할인율이 적용된 차감될 금액
-                orderDto.setOrderItemPrice(itemPrice); // (할인 적용된 결제당시)상품가격
+                long[] priceSetting = cartService.priceSetting(cartList, orderDto);
+                orderDto.setOrderItemOriginalPrice(priceSetting[0]); //(할인 전)상품가격
+                orderDto.setOrderDiscountPrice(priceSetting[1]);//할인율이 적용된 차감될 금액
+                orderDto.setOrderItemPrice(priceSetting[2]); // (할인 적용된 결제당시)상품가격
             }
 
-            List<ReviewResponseDto> ReviewList = reviewService.findByMemberId(memberId); //사용자가 작성한 리뷰
-
             model.addAttribute("ReviewList", ReviewList);
-            model.addAttribute("stateType1", stateType1);
-            model.addAttribute("stateType2", stateType2);
-            model.addAttribute("stateType3", stateType3);
-            model.addAttribute("stateType4", stateType4);
-            model.addAttribute("stateType5", stateType5);
+            model.addAttribute("stateType1", stateType[0]);
+            model.addAttribute("stateType2", stateType[1]);
+            model.addAttribute("stateType3", stateType[2]);
+            model.addAttribute("stateType4", stateType[3]);
+            model.addAttribute("stateType5", stateType[4]);
             model.addAttribute("orderCount", orderList.size());
             model.addAttribute("cartCount", cartListModel.size());
             model.addAttribute("orderList", orderList);

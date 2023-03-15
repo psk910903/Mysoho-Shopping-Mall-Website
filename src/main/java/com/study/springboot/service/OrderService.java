@@ -243,5 +243,26 @@ public class OrderService {
         return orderSaveRequestDto;
     }
 
+    public int[] orderStateType(List<OrderResponseDto> orderList) {
+        int stateType1 = 0;
+        int stateType2 = 0;
+        int stateType3 = 0;
+        int stateType4 = 0;
+        int stateType5 = 0;
+
+        for (OrderResponseDto orderDto : orderList) {
+            switch (orderDto.getOrderState()) {
+                case "결제대기" -> stateType1++;
+                case "배송대기" -> stateType2++;
+                case "배송중" -> stateType3++;
+                case "배송완료" -> stateType4++;
+                default -> stateType5++;//취소/반품
+            }
+        }
+        int[] stateType = {stateType1, stateType2, stateType3, stateType4, stateType5};
+
+        return stateType;
+    }
+
 
 }

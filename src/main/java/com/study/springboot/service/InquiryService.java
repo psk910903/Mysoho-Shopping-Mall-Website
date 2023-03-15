@@ -218,4 +218,16 @@ public class InquiryService {
         return inquiryRepository.findByItemNo(itemNo).stream().map(InquiryResponseDto::new).collect(Collectors.toList());
     }
 
+    public String maskingId(String memberName) {
+        String memberHiddenName;
+        if (memberName.length() <= 2){
+            memberHiddenName = memberName;
+        }
+        else{
+            memberHiddenName = memberName.substring(0,2);
+            for (int i=0; i<memberName.length()-2; i++) memberHiddenName += "*";
+        }
+        return memberHiddenName;
+    }
+
 }//class

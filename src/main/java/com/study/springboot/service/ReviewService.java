@@ -189,7 +189,6 @@ public class ReviewService {
             }
             else{
                 reviewHiddenId = reviewId.substring(0,2);
-                //
                 for (int j=0; j<reviewId.length()-2; j++){
                     reviewHiddenId += "*";
                 }

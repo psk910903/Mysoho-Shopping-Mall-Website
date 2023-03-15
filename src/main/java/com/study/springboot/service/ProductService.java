@@ -7,6 +7,7 @@ import com.study.springboot.comparator.SellCountComparator;
 import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.product.ProductSaveRequestDto;
+import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.entity.ProductEntity;
 import com.study.springboot.entity.repository.CartRepository;
 import com.study.springboot.entity.repository.ProductRepository;
@@ -348,5 +349,20 @@ public class ProductService {
             }
         }
         return cartList;
+    }
+
+    public List<String> itemStrList(List<ReviewResponseDto> list, String type) {
+        List<String> itemStrList = new ArrayList<>();
+        for (ReviewResponseDto dto : list) {
+            String itemNo = dto.getItemNo();
+            if (type.equals("itemName")) {
+                ProductResponseDto itemDto = findById(Long.parseLong(itemNo));
+                itemStrList.add(itemDto.getItemName());
+            } else { //"itemImgUrl
+                ProductResponseDto itemDto = findById(Long.parseLong(itemNo));
+                itemStrList.add(itemDto.getItemImageUrl());
+            }
+        }
+        return itemStrList;
     }
 }

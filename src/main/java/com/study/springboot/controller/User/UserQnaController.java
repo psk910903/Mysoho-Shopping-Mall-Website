@@ -24,6 +24,7 @@ public class UserQnaController {
     private final QnaService qnaService;
     private final QnaCommentService qnaCommentService;
     private final MemberService memberService;
+    private final InquiryService inquiryService;
 
     //qna 작성 팝업 폼
     @GetMapping("/popup/qna-write")
@@ -40,21 +41,10 @@ public class UserQnaController {
         List<Long> replyCountList = new ArrayList<>();
 
         for(QnaResponseDto qnaDto : qnaList) {
-            // replyCountList
             Long replyCount = qnaService.countByQnaId(qnaDto.getQnaId());
             replyCountList.add(replyCount);
         }
-
-        // memberHiddenName
-        String memberHiddenName; // "홍길**"
-
-        if (memberId.length() <= 2){
-            memberHiddenName = memberId;
-        }
-        else{
-            memberHiddenName = memberId.substring(0,2);
-            for (int i=0; i<memberId.length()-2; i++) memberHiddenName += "*";
-        }
+        String memberHiddenName = inquiryService.maskingId(memberId);
 
         model.addAttribute("qnaList", qnaList);
         model.addAttribute("replyCountList", replyCountList);
@@ -75,8 +65,6 @@ public class UserQnaController {
         }
     }
 
-    // 게시판에서 문의작성눌렀을떄 글쓰는 폼 들어가기
-    // 로그인 Q&A 페이지 가기
     @GetMapping("qna/writeForm")
     public String userQnaWrite( @AuthenticationPrincipal User user,
                                 @RequestParam String reference,
@@ -93,7 +81,6 @@ public class UserQnaController {
 
     }
 
-    // 비로그인 Q&A 페이지가기
     @GetMapping("qna/writeFormGuest")
     public String userQnaWriteGuest(@RequestParam String reference,
                                     Model model){
@@ -101,13 +88,11 @@ public class UserQnaController {
         return "/user/popup/qna-write";
     }
 
-    // Qna 검색액션받기랑 게시판가기
     @GetMapping("qna")
     public String qnaSearchAction(@RequestParam(value ="keyword", required = false) String keyword,
                                   HttpServletRequest request,
                                   Model model, @AuthenticationPrincipal User user){
 
-        // memberId 보내기
         String memberId = null;
         if (user != null){
             memberId = user.getUsername();
@@ -115,8 +100,7 @@ public class UserQnaController {
         model.addAttribute("memberId", memberId);
 
         List<QnaResponseDto> list;
-        if(keyword ==null){
-            // 검색기능 없을 때
+        if(keyword ==null){ // 검색기능 없을 때
 
             list = qnaService.findAll();
             List<String> nameList = qnaService.qnaMaskingId(list);//마스킹처리
@@ -142,10 +126,8 @@ public class UserQnaController {
             model.addAttribute("list",list);
             model.addAttribute("qnaCommentCount",qnaCommentCount);
             return "/user/category/qna";
-
         }
     }
-
 
     @PostMapping("qna/write")
     @ResponseBody
@@ -166,10 +148,9 @@ public class UserQnaController {
         }
         return "<script>alert('등록되었습니다'); location.href='" + reference + "';</script>";
     }
-    //리스트로감
 
-    // 글 삭제
 
+    // 삭제
     @GetMapping("qna/delete/{id}")
     @ResponseBody
     public String userDelete (@PathVariable("id")long id){
