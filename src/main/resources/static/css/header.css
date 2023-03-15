@@ -59,6 +59,14 @@ a {
   transition: 0.5s;
   overflow-y: scroll;
 }
+.sideBlack{
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);;
+}
 .sidenav ul {
   padding: 0 20px;
 }
