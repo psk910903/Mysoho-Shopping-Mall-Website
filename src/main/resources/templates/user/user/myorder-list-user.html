@@ -422,7 +422,7 @@
                   </div>
                 </div>
 <!--                임시-->
-                <th:bolck th:if="${dto.orderState} == '배송완료' and th:if=${reviewNo} == null " >
+                <th:bolck th:if="${dto.orderState} == '배송완료' " >
                 
                   <a      
                           style="width: 75px;"
@@ -432,7 +432,7 @@
                     후기작성
                   </a>
                   </th:bolck>
-               <th:block th:if="${dto.orderState} == '배송완료' and th:unless=${reviewNo} != null">
+                <th:block th:if="${dto.orderState} == '배송완료' and ${reviewNo} != null">
                   <a      
                           style="width: 75px;"
                           class="absoluteBtn"
@@ -440,10 +440,9 @@
                   >
                     후기수정
                   </a>
-                 </th:bolck>
+                </th:block>
 <!--      이게 맞나...? 학원 가자마자 돌려보고 안되면 html수정 좀 건드려야함 아마 후기작성은 될텐데 후기 있을때의 가정사항을 디테일하게 짜야할듯               -->
 <!-- 쿼리문에서 존재하는지에 대해서 exists? 관련된 명령문 찾아서 수정해보면 될 거 같은데... -->
-                </th:bolck>
                 <!-- 구분선 -->
               </div>
             </th:block>

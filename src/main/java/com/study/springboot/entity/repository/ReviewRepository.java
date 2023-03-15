@@ -33,4 +33,7 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity,Long> {
 
     @Query(value = "SELECT * FROM review where item_no LIKE :id AND review_exposure LIKE '노출함' AND review_image_url LIKE 'https%'  order BY review_datetime DESC", nativeQuery = true)
     List<ReviewEntity> findByImgReview(@Param(value = "id")String id);
+
+    @Query(value = "SELECT * FROM review where review_no LIKE :id AND order_code = :order_code ", nativeQuery = true)
+    ReviewEntity findByOrderCode(@Param(value = "id")String id);
 }

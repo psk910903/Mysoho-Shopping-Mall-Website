@@ -213,7 +213,7 @@ input[type=file]::file-selector-button{
         <input type="hidden" name="reviewDatetime" th:value="${#temporals.format(review.reviewDatetime, 'yyyy-MM-dd HH:mm:ss')}">
         <input type="hidden" name="reviewExpo" th:value="${review.reviewExpo}">
         <input type="hidden" name="imgDelete" id="imgDelete">
-	      <input type="hidden" name="orderCode" th:value="${orderCode}" value="오더코드">
+        <input type="hidden" name="orderCode" th:value="${orderCode}" value="오더코드">
 <!-- 	  테스트 수정     -->
 
         <th:block th:if="${review.reviewImgUrl} != null and ${review.reviewImgUrl} != ''">

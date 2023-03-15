@@ -280,5 +280,11 @@ public class ReviewService {
         List<ReviewEntity> entityList = reviewRepository.findByImgReview(id);  //경빈 Repository수정으로 새로만듬
         return entityList.stream().map(ReviewResponseDto::new).collect(Collectors.toList());
     }
+    @Transactional
+    public String findByOderCode(String id){
+        ReviewEntity reviewEntity = reviewRepository.findByOrderCode(id);
+        ReviewResponseDto dto = new ReviewResponseDto(reviewEntity);
+        return dto.getOrderCode();
+    }
 
 }//class

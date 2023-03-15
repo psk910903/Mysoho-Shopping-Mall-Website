@@ -69,6 +69,7 @@ public class UserReviewController {
     //후기 작성하기 폼
     @RequestMapping("/myorder/writeForm")
     public String myReviewWrite(@RequestParam("itemCode") Long itemCode,
+                                @RequestParam("orderCode") String orderCode,
                                 @AuthenticationPrincipal User user,
                                 Model model
     ){
@@ -78,7 +79,7 @@ public class UserReviewController {
         model.addAttribute("itemCode",itemCode);
         model.addAttribute("itemName",productRepository.findById(itemCode).get().getItemName());
         model.addAttribute("itemImageUrl",productRepository.findById(itemCode).get().getItemImageUrl());
-        model.addAttribute("orderCode",orderRepository.findById(Long.parseLong(entity.getOderCode())).get().getOrderCode());
+        model.addAttribute("orderCode",reviewRepository.findByOrderCode(orderCode).get().getOrderCode();
 //         테스트 수정사항
 
         return "user/user/review-writeForm";
@@ -92,8 +93,7 @@ public class UserReviewController {
         model.addAttribute("review",entity);
         model.addAttribute("itemName",productRepository.findById(Long.parseLong(entity.getItemNo())).get().getItemName());
         model.addAttribute("itemImageUrl",productRepository.findById(Long.parseLong(entity.getItemNo())).get().getItemImageUrl());
-        model.addAttribute("orderCode",orderRepository.findById(Long.parseLong(entity.getOderCode())).get().getOrderCode());
-//         테스트 수정
+        model.addAttribute("orderCode",reviewRepository.findById(Long.parseLong(entity.getOrderCode())).get().getOrderCode());
         return "user/user/review-writeForm";
     }
     //후기 작성하기(글쓰기)
@@ -111,7 +111,9 @@ public class UserReviewController {
                     url(url).
                     build(), HttpStatus.OK);
         }
-
+//        ReviewEntity entity = reviewRepository.findById(dto.getReviewNo()).orElseThrow();
+//        model.addAttribute("orderCode",reviewRepository.findById(Long.parseLong(entity.getItemNo())).get().getOrderCode());
+//         테스트 수정
         dto.setReviewImgUrl(url);
         dto.setReviewDatetime(today);
         boolean result = reviewService.save(dto);

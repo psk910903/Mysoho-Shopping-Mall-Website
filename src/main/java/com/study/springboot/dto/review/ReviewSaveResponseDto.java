@@ -14,6 +14,7 @@ public class ReviewSaveResponseDto {
     private Long reviewNo;
     private String memberId;
     private String itemNo;
+    private String orderCode;
     private Byte reviewStar;
     private String reviewContent;
     private String reviewImgUrl;
