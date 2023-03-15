@@ -79,7 +79,7 @@ public class UserReviewController {
         model.addAttribute("itemCode",itemCode);
         model.addAttribute("itemName",productRepository.findById(itemCode).get().getItemName());
         model.addAttribute("itemImageUrl",productRepository.findById(itemCode).get().getItemImageUrl());
-        model.addAttribute("orderCode",reviewRepository.findByOrderCode(orderCode).get().getOrderCode();
+        model.addAttribute("orderCode",reviewRepository.findByOrderCode(orderCode).getOrderCode());
 //         테스트 수정사항
 
         return "user/user/review-writeForm";
