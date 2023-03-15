@@ -129,21 +129,22 @@
 
 </body>
 <script>
-function checkValue() {
+  function checkValue() {
+    if (!document.userInfo.writeinput.value) {
+      //empty: null, 길이 0
+      alert("작성자를 입력해주세요");
+      document.getElementById("writeinput").focus();
+      return false; //submit전송이 안됨
+    }
+    if (!document.userInfo.answerarea.value) {
+      //empty: null, 길이 0
+      alert("답변을 입력해주세요");
+      document.getElementById("answerarea").focus();
+      return false; //submit전송이 안됨
+    }
 
-if(!document.userInfo.writeinput.value) { //empty: null, 길이 0
-alert("작성자를 입력해주세요");
-document.getElementById('writeinput').focus();
-return false; //submit전송이 안됨
-}
-if(!document.userInfo.answerarea.value) { //empty: null, 길이 0
-alert("답변을 입력해주세요");
-document.getElementById('answerarea').focus();
-return false; //submit전송이 안됨
-}
-
-return true;
-}
+    return true;
+  }
 </script>
 </html>
 

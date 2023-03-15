@@ -1,12 +1,11 @@
 package com.study.springboot.service;
 
-import com.study.springboot.dto.cart.CartResponseDto;
 import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.order.OrderSearchDto;
 import com.study.springboot.entity.*;
-import com.study.springboot.repository.OrderRepository;
-import com.study.springboot.repository.ProductRepository;
+import com.study.springboot.entity.repository.OrderRepository;
+import com.study.springboot.entity.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,14 +19,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
 public class OrderService {
-    final OrderRepository orderRepository;
-    final CartService cartService;
-    final ProductRepository productRepository;
+
+    private final OrderRepository orderRepository;
+    private final CartService cartService;
+    private final ProductRepository productRepository;
 
     //리스트 페이징
     @Transactional(readOnly = true)

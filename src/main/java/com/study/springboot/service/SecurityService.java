@@ -1,7 +1,7 @@
 package com.study.springboot.service;
 
 import com.study.springboot.entity.MemberEntity;
-import com.study.springboot.repository.MemberRepository;
+import com.study.springboot.entity.repository.MemberRepository;
 import com.study.springboot.enumeration.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,7 +20,8 @@ import java.util.Optional;
 @Service
 public class SecurityService implements UserDetailsService {
 
-    final private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 

@@ -1,13 +1,10 @@
 package com.study.springboot.service;
 
 import com.study.springboot.dto.inquiry.InquiryResponseDto;
-import com.study.springboot.dto.inquiry.InquirySaveResponseDto;
 import com.study.springboot.entity.InReplyEntity;
 import com.study.springboot.entity.InquiryEntity;
-import com.study.springboot.entity.QnaCommentEntity;
-import com.study.springboot.entity.QnaEntity;
-import com.study.springboot.repository.InReplyRepository;
-import com.study.springboot.repository.InquiryRepository;
+import com.study.springboot.entity.repository.InReplyRepository;
+import com.study.springboot.entity.repository.InquiryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class InquiryService {
+
     private final InquiryRepository inquiryRepository;
     private final InReplyRepository inReplyRepository;
 
@@ -238,4 +236,56 @@ public class InquiryService {
         }
         return true;
     }
+
+    @Transactional
+    public boolean save(final InquiryResponseDto dto) {
+        try{
+            inquiryRepository.save( dto.toSaveEntity() );
+        }catch (Exception e){
+            e.printStackTrace();
+            return false ;
+        }
+        return true;
+    }
+
+    public long findByItemNo(long id) {
+        Optional<InquiryEntity> byId = inquiryRepository.findById(id);
+        InquiryEntity inquiryEntity = byId.get();
+        return inquiryEntity.getItemNo();
+    }
+    @Transactional
+    public boolean inquiryPwCheck(InquiryResponseDto inquiryResponseDto){
+
+        Optional<InquiryEntity> byId = inquiryRepository.findById(inquiryResponseDto.getInquiryNo());
+        if(byId.isPresent()){
+            InquiryEntity inquiryEntity = byId.get();
+            if(inquiryEntity.getInquiryPassword().equals(inquiryResponseDto.getInquiryPassword())){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
+    @Transactional
+    public InquiryResponseDto findById(long num){
+        Optional<InquiryEntity> inquiryEntity = inquiryRepository.findById(num);
+        return new InquiryResponseDto(inquiryEntity.get());
+    }
+
+    public boolean inquirySave(InquiryEntity inquiryEntity) {
+        try {
+            inquiryRepository.save(inquiryEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+    public List<InquiryResponseDto> findByItemNoList(Long itemNo) {
+        return inquiryRepository.findByItemNo(itemNo).stream().map(InquiryResponseDto::new).collect(Collectors.toList());
+    }
+
 }//class

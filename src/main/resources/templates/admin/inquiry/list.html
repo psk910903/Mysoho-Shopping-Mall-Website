@@ -147,19 +147,14 @@
 
 </div><!-- wrap -->
 
-
 <script>
-<!-- 전부체크/해제 -->
-$('#listForm #allch').on('click',function(){
-<!--체크된 경우 -->
-if($('#allch').prop("checked")){
-<!--  화면의 체크박스 전부 체크 -->
-  $("input[type=checkbox]").prop("checked",true);
-}else {
-<!--아니면 체크 박스 전부 해제-->
-  $("input[type=checkbox]").prop("checked",false);
-  }
-});
+  $("#listForm #allch").on("click", function () {
+    if ($("#allch").prop("checked")) {
+      $("input[type=checkbox]").prop("checked", true);
+    } else {
+      $("input[type=checkbox]").prop("checked", false);
+    }
+  });
 </script>
 </body>
 

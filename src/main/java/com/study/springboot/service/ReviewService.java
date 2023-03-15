@@ -1,14 +1,10 @@
 package com.study.springboot.service;
 
 
-import com.study.springboot.dto.cart.CartResponseDto;
-import com.study.springboot.dto.order.OrderResponseDto;
-import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.review.ReviewSaveResponseDto;
-import com.study.springboot.entity.ProductEntity;
 import com.study.springboot.entity.ReviewEntity;
-import com.study.springboot.repository.ReviewRepository;
+import com.study.springboot.entity.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ReviewService {
+
     private final ReviewRepository reviewRepository;
 
 //   기본 출력

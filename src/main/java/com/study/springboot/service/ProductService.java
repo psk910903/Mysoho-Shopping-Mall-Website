@@ -7,13 +7,13 @@ import com.study.springboot.comparator.SellCountComparator;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.product.ProductSaveRequestDto;
 import com.study.springboot.entity.ProductEntity;
-import com.study.springboot.repository.CartRepository;
-import com.study.springboot.repository.ProductRepository;
+import com.study.springboot.entity.repository.CartRepository;
+import com.study.springboot.entity.repository.ProductRepository;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.study.springboot.repository.ReviewRepository;
+import com.study.springboot.entity.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -37,11 +37,10 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ProductService {
-    final ProductRepository productRepository;
-    final CartRepository cartRepository;
-    final ReviewRepository reviewRepository;
 
-
+    private final ProductRepository productRepository;
+    private final CartRepository cartRepository;
+    private final ReviewRepository reviewRepository;
 
     @Transactional(readOnly = true)
     public Page<ProductResponseDto> findAll(int page) {
