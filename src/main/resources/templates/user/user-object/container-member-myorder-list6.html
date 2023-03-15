@@ -3,7 +3,7 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <th:block th:fragment="container-nonMember-myorder-list6">
+  <th:block th:fragment="container-member-myorder-list6">
     <!--취소/반품/교환 tap-->
     <div class="list-type5">
       <div
@@ -75,7 +75,7 @@
                                   |
                           >주소1</span
                           >
-                          <span th:text="${ (dto.orderRecipientAddr2) }"
+                          <span th:text="${ (dto.orderRecipientAddr1) }"
                           >주소2</span
                           >
                         </div>
@@ -97,7 +97,7 @@
                           <div class="lcont-info">휴대폰결제</div>
                         </th:block>
                       </div>
-
+                      <!--                        0226 여기까지 함-->
                       <div class="lcont-con">
                         <div class="lcont-tit">결제금액</div>
                         <div class="between">
@@ -204,9 +204,16 @@
                 <img th:src="${ cart.itemImageUrl }" alt="" />
               </a>
               <div class="info">
-                <div class="label type1" th:text="${ dto.orderState }">
-                  결제대기
-                </div>
+                <th:block th:if="${ dto.orderState } == '취소/반품/교환'">
+                  <div class="label type1" th:text="${ dto.orderState }" style="width: 90px">
+                    결제대기
+                  </div>
+                </th:block>
+                <th:block th:unless="${ dto.orderState } == '취소/반품/교환'">
+                  <div class="label type1" th:text="${ dto.orderState }">
+                    결제대기
+                  </div>
+                </th:block>
                 <div class="name" th:text="${ cart.itemName }">
                   퍼프 블라우스 퍼플
                 </div>

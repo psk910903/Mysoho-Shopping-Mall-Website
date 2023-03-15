@@ -19,15 +19,6 @@
     <link rel="stylesheet" href="/css/footer.css" />
     <link rel="stylesheet" href="/css/myorder-list-user.css" />
 
-    <style>
-      .list-type1,
-      .list-type2,
-      .list-type3,
-      .list-type4,
-      .list-type5 {
-        display: none;
-      }
-    </style>
   </head>
   <body>
     <th:block th:if="${cartCount == 0}">
@@ -58,31 +49,31 @@
           </div>
           <!-- 3x2박스디자인 -->
           <div
-                  th:replace="/user/user-object/container-nonMember-myorder-nav.html :: container-myorder-nav"
+                  th:replace="/user/user-object/container-myorder-nav.html :: container-myorder-nav"
           ></div>
           <!--전체 tap-->
           <div
-                  th:replace="/user/user-object/container-nonMember-myorder-list1.html :: container-nonMember-myorder-list1-nav"
+                  th:replace="/user/user-object/container-nonMember-myorder-list1.html :: container-nonMember-myorder-list1"
           ></div>
           <!--미입금/주문완료 tap-->
           <div
-                  th:replace="/user/user-object/container-nonMember-myorder-list2.html :: container-nonMember-myorder-list2-nav"
+                  th:replace="/user/user-object/container-nonMember-myorder-list2.html :: container-nonMember-myorder-list2"
           ></div>
           <!--배송대기 tap-->
           <div
-                  th:replace="/user/user-object/container-nonMember-myorder-list3.html :: container-nonMember-myorder-list3-nav"
+                  th:replace="/user/user-object/container-nonMember-myorder-list3.html :: container-nonMember-myorder-list3"
           ></div>
           <!--배송중 tap-->
           <div
-                  th:replace="/user/user-object/container-nonMember-myorder-list4.html :: container-nonMember-myorder-list4-nav"
+                  th:replace="/user/user-object/container-nonMember-myorder-list4.html :: container-nonMember-myorder-list4"
           ></div>
           <!--배송/처리완료 tap-->
           <div
-                  th:replace="/user/user-object/container-nonMember-myorder-list5.html :: container-nonMember-myorder-list5-nav"
+                  th:replace="/user/user-object/container-nonMember-myorder-list5.html :: container-nonMember-myorder-list5"
           ></div>
           <!--          취소/반품/교환 tap-->
           <div
-                  th:replace="/user/user-object/container-nonMember-myorder-list6.html :: container-nonMember-myorder-list6-nav"
+                  th:replace="/user/user-object/container-nonMember-myorder-list6.html :: container-nonMember-myorder-list6"
           ></div>
         </div>
       </div>

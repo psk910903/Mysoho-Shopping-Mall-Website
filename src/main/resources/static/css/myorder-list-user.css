@@ -394,3 +394,26 @@ h2 {
   margin-right: 3px;
   
 }
+.list-type1,
+      .list-type2,
+      .list-type3,
+      .list-type4,
+      .list-type5 {
+        display: none;
+      }
+.absoluteBtn{
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      width: 75px;
+      height: 38px;
+      font-size: 12px;
+      line-height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid #202020;
+      }
+      .list{
+      position: relative;
+      }

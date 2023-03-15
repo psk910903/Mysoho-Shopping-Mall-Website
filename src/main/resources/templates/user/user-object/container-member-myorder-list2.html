@@ -3,12 +3,12 @@
   xmlns:th="http://www.thymeleaf.org"
   xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
-  <th:block th:fragment="container-nonMember-myorder-list6">
-    <!--취소/반품/교환 tap-->
-    <div class="list-type5">
+  <th:block th:fragment="container-member-myorder-list2">
+    <!--미입금/주문완료 tap-->
+    <div class="list-type1">
       <div
               th:each="dto, status :${ orderList }"
-              th:if="${dto.orderState} == '취소/반품/교환'"
+              th:if="${dto.orderState} == '결제대기'"
               class="order_list"
       >
         <th:block th:if="${dto.orderCode != null}">
@@ -27,12 +27,12 @@
               </div>
               <button
                       class="btn-h30-black open-layer btn-order-layer"
-                      th:id="${status.index+100000}"
+                      th:id="${status.index+10}"
                       onclick="showOrderList(this.id)"
               >
                 주문정보
               </button>
-              <div th:id="|bg${status.index+100000}|" class="bg">
+              <div th:id="|bg${status.index+10}|" class="bg">
                 <div class="window">
                   <div class="popup">
                     <div class="lhd">
@@ -42,7 +42,7 @@
                       </div>
                       <button
                               class="closeBtn"
-                              th:id="${status.index+100000}"
+                              th:id="${status.index+10}"
                               onclick="closeOrderList(this.id)"
                       >
                         <img
@@ -75,7 +75,7 @@
                                   |
                           >주소1</span
                           >
-                          <span th:text="${ (dto.orderRecipientAddr2) }"
+                          <span th:text="${ (dto.orderRecipientAddr1) }"
                           >주소2</span
                           >
                         </div>
@@ -97,7 +97,7 @@
                           <div class="lcont-info">휴대폰결제</div>
                         </th:block>
                       </div>
-
+                      <!--                        0226 여기까지 함-->
                       <div class="lcont-con">
                         <div class="lcont-tit">결제금액</div>
                         <div class="between">
@@ -183,7 +183,7 @@
                       <button
                               type="submit"
                               class="btn-h42-gray closeBtnStr"
-                              th:id="${status.index+100000}"
+                              th:id="${status.index+10}"
                               onclick="closeOrderList(this.id)"
                       >
                         닫기
@@ -204,9 +204,16 @@
                 <img th:src="${ cart.itemImageUrl }" alt="" />
               </a>
               <div class="info">
-                <div class="label type1" th:text="${ dto.orderState }">
-                  결제대기
-                </div>
+                <th:block th:if="${ dto.orderState } == '취소/반품/교환'">
+                  <div class="label type1" th:text="${ dto.orderState }" style="width: 90px">
+                    결제대기
+                  </div>
+                </th:block>
+                <th:block th:unless="${ dto.orderState } == '취소/반품/교환'">
+                  <div class="label type1" th:text="${ dto.orderState }">
+                    결제대기
+                  </div>
+                </th:block>
                 <div class="name" th:text="${ cart.itemName }">
                   퍼프 블라우스 퍼플
                 </div>
