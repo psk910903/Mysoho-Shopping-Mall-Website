@@ -11,7 +11,7 @@
           <div class="list-wrap">
             <div class="list-hd">
               <div>
-                <div class="od-num" th:text="${ (dto.orderCode) }">
+                <div class="od-num" th:text="${ (dto.orderCode) }" name="orderCode">
                   2023010608355933
                 </div>
                 <div
@@ -237,7 +237,19 @@
                 >
                   후기작성
                 </a>
+                <div th:text="${orderCode}"></div>
               </th:bolck>
+<!--              후기가 있을때 수정창-->
+<!--              and orderCode=${review.orderCode}-->
+<!--              <th:bolck th:if="${dto.orderState} == '배송완료'  and ${orderCode}==${review.orderCode} " >-->
+<!--                <a-->
+<!--                        style="width: 75px;"-->
+<!--                        class="absoluteBtn"-->
+<!--                        th:href="@{writeForm(itemCode=${ cart.itemCode })}"-->
+<!--                >-->
+<!--                  후기수정-->
+<!--                </a>-->
+<!--              </th:bolck>-->
               <!-- 구분선 -->
             </div>
           </th:block>

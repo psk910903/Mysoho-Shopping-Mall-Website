@@ -18,6 +18,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -48,8 +49,10 @@ public class UserInfoController {
     }
 
     //비회원
+    ///order/myorder/list?ordercode=
     @RequestMapping("/order/myorder/list")
-    public String myOrder(OrderSearchDto dto, Model model) {
+    public String myOrder(OrderSearchDto dto,ReviewResponseDto reviewDto, Model model) {
+
 
         List<OrderResponseDto> orderList = orderService.findByOrderNonMember(dto);
         List<CartResponseDto> cartList;
@@ -67,6 +70,9 @@ public class UserInfoController {
             orderDto.setOrderItemPrice(priceSetting[2]); // (할인 적용된 결제당시)상품가격
         }
 
+        //테스트
+        List<ReviewResponseDto> reviewResponseDtoList = reviewService.findByOrderCode(reviewDto.getReviewNo());
+
         model.addAttribute("stateType1", stateType[0]);
         model.addAttribute("stateType2", stateType[1]);
         model.addAttribute("stateType3", stateType[2]);
@@ -76,6 +82,7 @@ public class UserInfoController {
         model.addAttribute("cartCount", cartListModel.size());
         model.addAttribute("orderList", orderList);
         model.addAttribute("cartListModel", cartListModel);
+        model.addAttribute("orderCode",reviewResponseDtoList);
 
         return "/user/user/myorder-list";
     }

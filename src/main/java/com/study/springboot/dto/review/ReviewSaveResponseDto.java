@@ -14,6 +14,7 @@ public class ReviewSaveResponseDto {
     private Long reviewNo;
     private String memberId;
     private String itemNo;
+    private String orderCode;
     private Byte reviewStar;
     private String reviewContent;
     private String reviewImgUrl;
@@ -26,6 +27,7 @@ public class ReviewSaveResponseDto {
                 .reviewNo(reviewNo)
                 .memberId(memberId)
                 .itemNo(itemNo)
+                .orderCode(orderCode)
                 .reviewStar(reviewStar)
                 .reviewContent(reviewContent)
                 .reviewExpo(reviewExpo)
@@ -38,6 +40,7 @@ public class ReviewSaveResponseDto {
         return ReviewEntity.builder()
                 .memberId(memberId)
                 .itemNo(itemNo)
+                .orderCode(orderCode)
                 .reviewStar(reviewStar)
                 .reviewContent(reviewContent)
                 .reviewExpo(reviewExpo)

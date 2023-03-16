@@ -13,9 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,6 +23,15 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
     private final OrderService orderService;
+
+    //테스트
+
+    @Transactional
+    public ReviewEntity findByOrderCode(final  Long orderCode){
+        Optional<ReviewEntity> reviewEntity = reviewRepository.findById(orderCode);
+        ReviewEntity entity = reviewEntity.get();
+        return entity;
+    }
 
 //   기본 출력
    @Transactional(readOnly = true)

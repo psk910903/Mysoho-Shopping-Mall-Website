@@ -15,6 +15,7 @@ public class ReviewResponseDto {
     private Long reviewNo;
     private String memberId;
     private String itemNo;
+    private String orderCode;
     private Byte reviewStar;
     private String reviewContent;
     private String reviewImgUrl;
@@ -33,10 +34,11 @@ public class ReviewResponseDto {
     }
 
     @Builder
-    public ReviewResponseDto(Long reviewNo, String memberId, String itemNo, Byte reviewStar, String reviewContent, String reviewImgUrl, LocalDateTime reviewDatetime, String reviewExpo) {
+    public ReviewResponseDto(Long reviewNo, String memberId,String orderCode, String itemNo, Byte reviewStar, String reviewContent, String reviewImgUrl, LocalDateTime reviewDatetime, String reviewExpo) {
         this.reviewNo = reviewNo;
         this.memberId = memberId;
         this.itemNo = itemNo;
+        this.orderCode = orderCode;
         this.reviewStar = reviewStar;
         this.reviewContent = reviewContent;
         this.reviewImgUrl = reviewImgUrl;
@@ -48,6 +50,7 @@ public class ReviewResponseDto {
         .reviewNo(reviewNo)
         .memberId(memberId)
         .itemNo(itemNo)
+        .orderCode(orderCode)
         .reviewStar(reviewStar)
         .reviewContent(reviewContent)
         .reviewImgUrl(reviewImgUrl)
