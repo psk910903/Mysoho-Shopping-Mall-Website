@@ -8,6 +8,7 @@ import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.security.MemberJoinDto;
+import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.entity.repository.MemberRepository;
 import com.study.springboot.service.*;
 import lombok.RequiredArgsConstructor;
@@ -57,11 +58,15 @@ public class UserOrderController {
             cartList = productService.cartListByCookies(cookies);
         }
 
+
         MemberResponseDto memberResponseDto = null;
+        Long mileage = null;
         if (user != null) {
             memberResponseDto = memberService.findByMemberId(user.getUsername());
+            mileage = orderService.getMileage(cartList, memberResponseDto);
         }
 
+        model.addAttribute("mileage", mileage);
         model.addAttribute("itemList", itemList);
         model.addAttribute("cartList", cartList);
         model.addAttribute("member", memberResponseDto);
@@ -189,7 +194,9 @@ public class UserOrderController {
                                  @AuthenticationPrincipal User user, HttpServletResponse response,
                                  @RequestParam String[] colorList, @RequestParam String[] sizeList,
                                  @RequestParam String[] amountList, @RequestParam String[] itemCodeList,
-                                 @Valid MemberJoinDto memberJoinDto, BindingResult bindingResult) {
+                                 @Valid MemberJoinDto memberJoinDto, BindingResult bindingResult,
+                                 @RequestParam Long mileage
+    ) {
 
         ////////////////////////////////////// member DB에 넣기 (회원가입) /////////////////////////////////
         String memberId = null;
@@ -220,6 +227,8 @@ public class UserOrderController {
 
         if (user != null) {
             memberId = user.getUsername();
+            memberService.saveMileage(memberId, mileage);
+
         }
 
         ////////////////////////////////////// cart DB에 넣기 ////////////////////////////////////////////

@@ -263,6 +263,10 @@ public boolean modify(MemberSaveRequestDto dto){
             return false;
         }
     }
-
-
+    @Transactional
+    public void saveMileage(String memberId, Long mileage) {
+        MemberResponseDto memberResponseDto = findByMemberId(memberId);
+        memberResponseDto.setMemberMileage(memberResponseDto.getMemberMileage()+mileage);
+        memberRepository.save(memberResponseDto.toUpdateEntity());
+    }
 }

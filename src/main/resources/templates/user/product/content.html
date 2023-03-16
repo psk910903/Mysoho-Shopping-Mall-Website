@@ -111,6 +111,11 @@
       let tempN = n;
       let amount = tempN;
 
+      let m = document.querySelector("#prd_mileage_total").innerHTML;
+      let mileage = Number(m.replace(",", ""));
+      let tempM = mileage;
+      let totalMileage = tempM;
+
       //유효성검사
       var ckeckId = /^[a-zA-z0-9_-]{5,20}$/;
       var id = document.querySelector("#username");

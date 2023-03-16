@@ -42,6 +42,7 @@ public class UserProductController {
         if (user != null) {
             memberId = user.getUsername();
             memberResponseDto = memberService.findByMemberId(memberId);
+
         }
 
         // 상품문의

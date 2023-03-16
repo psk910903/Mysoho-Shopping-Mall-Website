@@ -93,7 +93,7 @@
     <div class="users-cont" id="mileage">
       <div>보유 적립금</div>
       <div class="mileage-price" >
-        <span   th:text="${session.memberMileage}"></span>원</div>
+        <span   data-th-text="${#numbers.formatInteger(session.memberMileage, 3, 'COMMA')}"></span>원</div>
       <div class="info-balloon">
         <p></p>
         <img

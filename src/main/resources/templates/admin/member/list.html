@@ -85,7 +85,7 @@
                                                  name='RowCheck'
                                                  onclick='selectAll(this)'
               /></th>
-              <th class="table-light">번호</th>
+              <th class="table-light">회원등급</th>
               <th class="table-light">이름</th>
               <th class="table-light">아이디</th>
               <th class="table-light">연락처</th>
@@ -97,7 +97,7 @@
             <tbody id="tbody">
             <tr th:each="dto:${ list }" >
               <th class="align-middle"><input type="checkbox" name="RowCheck" th:value="${ dto.memberNo }" /></th>
-              <td class="align-middle" th:text="${ dto.memberNo }">번호</td>
+              <td class="align-middle" th:text="${ dto.memberRate }">등급</td>
               <td class="align-middle" th:text="${ dto.memberName }">이름</td>
               <td class="align-middle" th:text="${ dto.memberId }">아이디</td>
               <td class="align-middle" th:text="${ dto.memberPhone }">폰번</td>

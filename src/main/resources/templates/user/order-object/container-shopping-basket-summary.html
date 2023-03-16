@@ -58,8 +58,17 @@
           </div>
           <div class="left blue">
             <span sec:authorize="isAnonymous()">
-              <strong>(예상 적립금 <span>0</span>원, 비회원적립 불가)</strong>
+              <strong>(예상 적립금 <span>0</span>원, 비회원적립불가)</strong>
             </span>
+            <!--마일리지(적립금)-->
+            <span sec:authorize="isAuthenticated()" >
+                  <strong>(예상 적립금 <span id="prd_mileage_total" data-th-text="${#numbers.formatInteger(mileage, 3, 'COMMA')}">0</span>원)</strong>
+                  <input
+                          type="hidden"
+                          name="mileage"
+                          th:value="${mileage}"
+                  />
+          </span>
           </div>
         </div>
         <input type="hidden" name="orderTotalCount" id="orderTotalCount" />

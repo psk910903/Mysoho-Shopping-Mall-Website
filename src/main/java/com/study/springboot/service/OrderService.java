@@ -1,8 +1,11 @@
 package com.study.springboot.service;
 
+import com.study.springboot.dto.cart.CartResponseDto;
+import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.order.OrderSearchDto;
+import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.entity.*;
 import com.study.springboot.entity.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -262,6 +265,19 @@ public class OrderService {
         int[] stateType = {stateType1, stateType2, stateType3, stateType4, stateType5};
 
         return stateType;
+    }
+
+    public Long getMileage(List<CartResponseDto> cartList, MemberResponseDto memberResponseDto) {
+        String memberRate = memberResponseDto.getMemberRate();
+        Long mileage = 0L;
+        Long discount;
+        if (memberRate.equals("VIP")) {discount = 5L;}
+        else {discount = 3L;}
+
+        for (CartResponseDto dto : cartList) {
+            mileage += (dto.getCartItemPrice() / 100) * discount * dto.getCartItemAmount();
+        }
+        return mileage;
     }
 
 
