@@ -199,7 +199,7 @@ public class UserInfoController {
         }else {
             boolean result = memberService.sendEmail(getEmail);
             if(result){
-                return "<script> alert('해당 에메일로 비밀번호 변경 링크를 발송하였습니다.\n 이메일을 확인해주세요.'); history.back(); </script>";
+                return "<script> alert('해당 에메일로 비밀번호 변경 링크를 발송하였습니다.\\n 이메일을 확인해주세요.'); history.back(); </script>";
             } else {
                 return "<script> alert('해당 에메일로 비밀번호 변경 링크를 발송에 실패했습니다'); history.back(); </script>";
             }
