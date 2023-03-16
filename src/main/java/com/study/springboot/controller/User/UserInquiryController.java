@@ -27,7 +27,6 @@ public class UserInquiryController {
     private final InquiryService inquiryService;
     private final InReplyRepository inReplyRepository;
     private final MemberService memberService;
-
     private final HttpSession httpSession;
 
     //마이페이지 상품문의 리스트
@@ -107,9 +106,9 @@ public class UserInquiryController {
 //            username = memberService.findByMemberEmail(snsUser.getEmail());
 //        }
         String memberId = "";
-        if(user!=null) { // 회원일 때
+        if( user!=null ) { // 회원일 때
             memberId = user.getUsername();
-        }else {
+        }else if ( (SessionUser)httpSession.getAttribute("user") = null ){
             SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
             memberId = memberService.findByMemberEmail(snsUser.getEmail());
         }

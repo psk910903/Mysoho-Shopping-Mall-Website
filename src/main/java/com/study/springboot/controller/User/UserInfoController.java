@@ -318,9 +318,12 @@ public class UserInfoController {
         }else {
             SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
             memberId = memberService.findByMemberEmail(snsUser.getEmail());
-            return "";
+            if(memberId.isEmpty()){
+                return "<script> alert('비밀번호 확인실패'); history.back(); </script>";
+            }else {
+                return "<script> alert('비밀번호 확인완료'); location.href='/user/myInfo';</script>";
+            }
         }
-
     }
 
     //개인 정보 수정 폼
@@ -401,7 +404,7 @@ public class UserInfoController {
         return "user/user/coupons-mylist";
     }
 
-    //sns 회원가입
+    //sns 로그인
     @RequestMapping("/snsLoginSuccess")
     @ResponseBody
     public String googleLoginSuccess(HttpServletRequest request,Model model){
@@ -426,6 +429,7 @@ public class UserInfoController {
             return "<script>alert('"+ userName +"님 로그인 성공 했습니다.'); location.href='/';</script>";
         }
     }
+    //sns 회원가입 폼
     @RequestMapping("/snsJoin")
     public String snsJoin(
             HttpServletRequest request,
@@ -433,7 +437,7 @@ public class UserInfoController {
     ){
         return "user/user/user-sns-join";
     }
-
+    //sns 회원가입 등록하기
     @RequestMapping("/snsLoginAction")
     @ResponseBody
     public String snsLoginAction(MemberSaveRequestDto dto){
@@ -446,6 +450,7 @@ public class UserInfoController {
         }
     }
 
+    //sns로그인 실패시
     @RequestMapping("/snsLoginFailure")
     @ResponseBody
     public String googleLoginFailure(){
