@@ -84,7 +84,35 @@
             </div>
           </div>
           <th:block th:if="${commentList.isEmpty()}">
-
+            <!--보안문자-->
+            <div class="txt-box mt-15">
+              <div class="security-txt-wrap">
+                <div class="security-txt">
+                  <img
+                          id="captchaImg"
+                          src="http://localhost:8080/captchaImg.do"
+                          alt=""
+                  />
+                  <div id="ccaudio" style="display:none"></div>
+                </div>
+                <div class="btns">
+                  <button class="js-reCreateCaptchaImage refresh" type="button"  onclick="javaScript:getImage()">
+                    <img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_refresh.png"
+                            alt=""
+                    />
+                    새로고침
+                  </button>
+                </div>
+              </div>
+              <div class="input-box mt-10">
+                <div>
+                  <input type="text"
+                         id="captchaText" name="captchaText"
+                         placeholder="보안문자를 입력해주세요.">
+                </div>
+              </div>
+            </div>
           <button class="input-box btn-h42-gray" type="submit"> 수정하기 </button>
           </th:block>
 
@@ -157,7 +185,8 @@
                       class="mt-10"
                       placeholder="비밀번호를 입력하세요."
               />
-              <p class="gray-txt mt-10 gray-txt-password">
+<!--             class = gray-txt-password-->
+              <p class="gray-txt mt-10 ">
                 ※ 입력한 비밀번호는 게시글 확인 시 필요합니다.
               </p>
             </div>
@@ -165,7 +194,35 @@
           </div>
 
           <th:block th:if="${commentList.isEmpty()}">
-
+            <!--보안문자-->
+            <div class="txt-box mt-15">
+              <div class="security-txt-wrap">
+                <div class="security-txt">
+                  <img
+                          id="captchaImg"
+                          src="http://localhost:8080/captchaImg.do"
+                          alt=""
+                  />
+                  <div id="ccaudio" style="display:none"></div>
+                </div>
+                <div class="btns">
+                  <button class="js-reCreateCaptchaImage refresh" type="button"  onclick="javaScript:getImage()">
+                    <img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_refresh.png"
+                            alt=""
+                    />
+                    새로고침
+                  </button>
+                </div>
+              </div>
+              <div class="input-box mt-10">
+                <div>
+                  <input type="text"
+                         id="captchaText" name="captchaText"
+                         placeholder="보안문자를 입력해주세요.">
+                </div>
+              </div>
+            </div>
             <button class="input-box btn-h42-gray" type="submit"> 수정하기 </button>
 
           </th:block>
@@ -227,7 +284,7 @@
       	function checkValueLogin() {
 
   		if(!document.inquiryInfo.inquiryContent.value) { //empty: null, 길이 0
-			alert("내용을 입력해주세요");
+			alert("내용을 입력해주세요");ㅂ
 			document.getElementById('inquiryContent').focus();
 			return false; //submit전송이 안됨
 		}
@@ -258,8 +315,18 @@
 		}else{
 		return false;
 		}
-
 	}
+</script>
+<!--캡차-->
+<script>
+function getImage(){
+	var rand = Math.random();
+	var url = '/captchaImg.do?rand='+rand;
+	document.querySelector('#captchaImg').setAttribute('src', url);
+}
+function audioPlayer(objUrl){
+	document.querySelector('#ccaudio').innerHTML = '<bgsoun src="' +objUrl +'">';
+}
 </script>
 </html>
 

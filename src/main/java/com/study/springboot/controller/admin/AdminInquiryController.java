@@ -140,23 +140,6 @@ public class AdminInquiryController {
             return "<script>alert('답변삭제 실패'); history.back();</script>";
         }
     }
-    // 상품 문의 공개, 비공개 및 등록 결과 출력-------------------------------a
-    @PostMapping("/inquiry/productInquiryWriteForm/writeAction")
-    @ResponseBody
-    public String productInquiryWriteFormWriteAction(InquiryResponseDto inquiryResponseDto, @RequestParam String reference) {
 
-        //체크박스를 체크안했을 때, 반환되는 null값을 공개로 전환 ↓
-        if( inquiryResponseDto.getInquirySecret() == null ){
-
-            inquiryResponseDto.setInquirySecret("공개");
-        }
-        boolean result= inquiryService.save(inquiryResponseDto);
-        if(!result){
-            return "<script>alert('등록에 실패하였습니다');history.back();</script>";
-        }
-        return "<script>alert('등록되었습니다');location.href='"+ reference + "';</script>";
-
-
-    }
 
 }
