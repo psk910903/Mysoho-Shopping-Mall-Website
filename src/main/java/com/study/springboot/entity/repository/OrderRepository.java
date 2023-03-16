@@ -1,6 +1,7 @@
 package com.study.springboot.entity.repository;
 
 import com.study.springboot.entity.OrderEntity;
+import com.study.springboot.entity.ReviewEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -37,10 +38,14 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Long> {
     // ------------------------------------------------------------------------------------------  희진 추가
     Optional<OrderEntity> findByOrderCode(Long orderCode);
 
+    @Query(value = "SELECT * FROM `order` WHERE order_code = :orderCode" ,nativeQuery = true)
+    List<OrderEntity> findByOrderCodeReview(@Param(value = "orderCode")String orderCode);
+
+
+
     //리뷰
     @Query(value = "SELECT * FROM `order` WHERE member_id = :memberId and order_state = :orderState" ,nativeQuery = true)
     List<OrderEntity> findByMemberIdAndOrderState(@Param(value="memberId")String memberId, @Param(value="orderState")String orderState);
-
-
+    
 }
 

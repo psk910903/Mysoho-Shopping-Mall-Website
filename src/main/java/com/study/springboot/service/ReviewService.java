@@ -26,12 +26,20 @@ public class ReviewService {
 
     //테스트
 
-    @Transactional
-    public ReviewEntity findByOrderCode(final  Long orderCode){
-        Optional<ReviewEntity> reviewEntity = reviewRepository.findById(orderCode);
-        ReviewEntity entity = reviewEntity.get();
-        return entity;
+    @Transactional(readOnly = true)
+    public String findByOrderCode(Long id){
+        ReviewEntity entity = reviewRepository.findById(id).get();
+        ReviewResponseDto dto = new ReviewResponseDto(entity);
+        return dto.getOrderCode();
     }
+
+
+//    @Transactional(readOnly = true)
+//    public String findByUrl(Long id) {
+//        ReviewEntity entity = reviewRepository.findById(id).get();
+//        ReviewResponseDto dto = new ReviewResponseDto(entity);
+//        return dto.getReviewImgUrl();
+//    }
 
 //   기본 출력
    @Transactional(readOnly = true)

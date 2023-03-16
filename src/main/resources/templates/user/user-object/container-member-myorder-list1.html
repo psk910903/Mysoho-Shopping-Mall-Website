@@ -233,7 +233,7 @@
                 <a
                         style="width: 75px;"
                         class="absoluteBtn"
-                        th:href="@{writeForm(itemCode=${ cart.itemCode })}"
+                        th:href="@{writeForm(itemCode=${ cart.itemCode },orderCode=${ (dto.orderCode) })}"
                 >
                   후기작성
                 </a>

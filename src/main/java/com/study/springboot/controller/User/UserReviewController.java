@@ -4,13 +4,16 @@ import com.study.springboot.dto.product.FileResponse;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.review.ReviewSaveResponseDto;
+import com.study.springboot.entity.OrderEntity;
 import com.study.springboot.entity.ReviewEntity;
+import com.study.springboot.entity.repository.OrderRepository;
 import com.study.springboot.entity.repository.ProductRepository;
 import com.study.springboot.entity.repository.ReviewRepository;
 import com.study.springboot.service.AwsS3Service;
 import com.study.springboot.service.ProductService;
 import com.study.springboot.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +39,7 @@ public class UserReviewController {
     private final ProductService productService;
     private final ProductRepository productRepository;
     private final AwsS3Service awsS3Service;
+    private final OrderRepository orderRepository;
 
     //나의 후기 모아보기
     @RequestMapping("/review/myList")
@@ -43,6 +47,7 @@ public class UserReviewController {
                            Model model) {
         String memberId = user.getUsername();
         List<ReviewResponseDto> list = reviewService.findByMemberId(memberId);
+
         List<String> itemName = productService.itemStrList(list, "itemName");
         List<String> itemImgUrl = productService.itemStrList(list, "itemImgUrl");
 
@@ -58,15 +63,20 @@ public class UserReviewController {
     //후기 작성하기 폼
     @RequestMapping("/myorder/writeForm")
     public String myReviewWrite(@RequestParam("itemCode") Long itemCode,
+                                @RequestParam("orderCode")Long orderCode,
                                 @AuthenticationPrincipal User user,
                                 Model model
     ){
+        System.out.println("오더코드"+orderCode);
         String memberId = user.getUsername();
 
         model.addAttribute("memberId",memberId);
         model.addAttribute("itemCode",itemCode);
         model.addAttribute("itemName",productRepository.findById(itemCode).get().getItemName());
         model.addAttribute("itemImageUrl",productRepository.findById(itemCode).get().getItemImageUrl());
+        model.addAttribute("orderCode",orderCode);
+
+//        orderRepository.findByOrderCodeReview(orderCode)
 
         return "user/user/review-writeForm";
     }

@@ -51,7 +51,7 @@ public class UserInfoController {
     //비회원
     ///order/myorder/list?ordercode=
     @RequestMapping("/order/myorder/list")
-    public String myOrder(OrderSearchDto dto,ReviewResponseDto reviewDto, Model model) {
+    public String myOrder(OrderSearchDto dto, Model model) {
 
 
         List<OrderResponseDto> orderList = orderService.findByOrderNonMember(dto);
@@ -71,7 +71,6 @@ public class UserInfoController {
         }
 
         //테스트
-        List<ReviewResponseDto> reviewResponseDtoList = reviewService.findByOrderCode(reviewDto.getReviewNo());
 
         model.addAttribute("stateType1", stateType[0]);
         model.addAttribute("stateType2", stateType[1]);
@@ -82,7 +81,7 @@ public class UserInfoController {
         model.addAttribute("cartCount", cartListModel.size());
         model.addAttribute("orderList", orderList);
         model.addAttribute("cartListModel", cartListModel);
-        model.addAttribute("orderCode",reviewResponseDtoList);
+//        model.addAttribute("orderCode",reviewResponseDtoList);
 
         return "/user/user/myorder-list";
     }
@@ -114,6 +113,11 @@ public class UserInfoController {
                 orderDto.setOrderDiscountPrice(priceSetting[1]);//할인율이 적용된 차감될 금액
                 orderDto.setOrderItemPrice(priceSetting[2]); // (할인 적용된 결제당시)상품가격
             }
+            String orderCode = user.getUsername();
+//            ReviewResponseDto reviewResponseDto = reviewService.findByOrderCode()
+            List<ReviewResponseDto> reviewResponseDtoList = reviewService.findByOrderCode(orderCode);
+
+            model.addAttribute("orderCode", orderCode);
 
             model.addAttribute("ReviewList", ReviewList);
             model.addAttribute("stateType1", stateType[0]);
