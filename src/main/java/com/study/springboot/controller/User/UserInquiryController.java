@@ -98,30 +98,23 @@ public class UserInquiryController {
         ProductResponseDto dto = productService.findById(Long.valueOf(itemNo));
         model.addAttribute("dto",dto);
 
-//        String username = "";
-//        if(user != null){//
-//            username = user.getUsername();
-//        }else {
-//            SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
-//            username = memberService.findByMemberEmail(snsUser.getEmail());
-//        }
         String memberId = "";
         if( user!=null ) { // 회원일 때
             memberId = user.getUsername();
-        }else if ( (SessionUser)httpSession.getAttribute("user") = null ){
+        }else {
             SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
             memberId = memberService.findByMemberEmail(snsUser.getEmail());
         }
-        MemberResponseDto memberName = memberService.findByMemberId(memberId);
-        String memberPassword = memberName.getMemberPw();
-        model.addAttribute("memberName",memberName.getMemberName());
-        model.addAttribute("inquiryMemberId", memberId);
-        model.addAttribute("inquiryMemberPassword", memberPassword);
-
-
-        if( memberId == null ) {// 비회원일때
+        if( !memberId.isEmpty() ){
+            MemberResponseDto memberName = memberService.findByMemberId(memberId);
+            String memberPassword = memberName.getMemberPw();
+            model.addAttribute("memberName",memberName.getMemberName());
+            model.addAttribute("inquiryMemberId", memberId);
+            model.addAttribute("inquiryMemberPassword", memberPassword);
+        }else {
             model.addAttribute("inquiryMemberId", null);
         }
+
         model.addAttribute("itemNo", itemNo);
         model.addAttribute("reference", reference);
 
