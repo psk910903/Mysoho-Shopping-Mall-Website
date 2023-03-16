@@ -128,8 +128,12 @@ public class UserQnaController {
         if(user != null){
             memberId = user.getUsername();
         }else {
-            SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
-            memberId = memberService.findByMemberEmail(snsUser.getEmail());
+            try{
+                SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
+                memberId = memberService.findByMemberEmail(snsUser.getEmail());
+            }catch (NullPointerException e){//snsUser가 null일때
+                System.out.println("비회원입니다");
+            }
         }
         model.addAttribute("memberId", memberId);
 

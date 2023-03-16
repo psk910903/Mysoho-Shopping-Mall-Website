@@ -118,8 +118,12 @@ public class UserOrderController {
         if(user != null){//시큐리티 가입한 회원이면
             memberId = user.getUsername();
         }else {//sns가입한 회원이면
-            SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
-            memberId = memberService.findByMemberEmail(snsUser.getEmail());
+            try{
+                SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
+                memberId = memberService.findByMemberEmail(snsUser.getEmail());
+            }catch (NullPointerException e){//snsUser가 null일때
+                System.out.println("비회원입니다");
+            }
         }
         if (memberId != null) {
             memberResponseDto = memberService.findByMemberId(memberId);
@@ -258,7 +262,7 @@ public class UserOrderController {
         ////////////////////////////////////// member DB에 넣기 (회원가입) /////////////////////////////////
         String memberId = null;
 
-        if (memberJoinDto.getUsername() != "") {
+        if (memberJoinDto.getUsername() != "") {//empty가 아니면(내용이 있으면) 회원가입
 
             LocalDate today = LocalDate.now();
             memberJoinDto.setMemberJoinDatetime(today);
@@ -292,8 +296,12 @@ public class UserOrderController {
         if(user != null){
             memberId = user.getUsername();
         }else {
-            SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
-            memberId = memberService.findByMemberEmail(snsUser.getEmail());
+            try{
+                SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
+                memberId = memberService.findByMemberEmail(snsUser.getEmail());
+            }catch (NullPointerException e){//snsUser가 null일때
+                System.out.println("비회원입니다");
+            }
         }
 
         ////////////////////////////////////// cart DB에 넣기 ////////////////////////////////////////////

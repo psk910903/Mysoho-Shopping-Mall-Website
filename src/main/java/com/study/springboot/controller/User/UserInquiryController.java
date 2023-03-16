@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
@@ -98,14 +99,18 @@ public class UserInquiryController {
         ProductResponseDto dto = productService.findById(Long.valueOf(itemNo));
         model.addAttribute("dto",dto);
 
-        String memberId = "";
+        String memberId = null;
         if( user!=null ) { // 회원일 때
             memberId = user.getUsername();
         }else {
-            SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
-            memberId = memberService.findByMemberEmail(snsUser.getEmail());
+            try{
+                SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
+                memberId = memberService.findByMemberEmail(snsUser.getEmail());
+            }catch (NullPointerException e){
+                System.out.println("비회원입니다.");
+            }
         }
-        if( !memberId.isEmpty() ){
+        if( memberId != null ){
             MemberResponseDto memberName = memberService.findByMemberId(memberId);
             String memberPassword = memberName.getMemberPw();
             model.addAttribute("memberName",memberName.getMemberName());
