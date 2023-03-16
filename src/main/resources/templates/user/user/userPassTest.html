@@ -35,7 +35,7 @@
         <h2>비밀번호 변경</h2>
 
     </div>
-    <form  method="post" action="/find/passwordAction">
+    <form  method="post" action="/find/passwordAction" onsubmit="return checkValue();" name="PwCheckBox">
 
         <input type="hidden" name="getEmail" th:value="${getEmail}">
 
@@ -104,6 +104,20 @@
           document.querySelector(".check-txt-pwcheck-not").style.display = "block";
         }
       });
+
+      	function checkValue() {
+
+      	if (!checkPW.test(pw.value)) {
+         alert('올바른 비밀번호 양식이 아닙니다');
+         return false;
+        }
+		if(document.PwCheckBox.password.value != document.PwCheckBox.pwcheck.value) { //empty: null, 길이 0
+			alert('새 비밀번호 란과 비밀번호 재입력 란이 일치하지 않습니다.');
+			document.getElementById('check-txt-pwcheck').focus();
+			return false; //submit전송이 안됨
+		}
+        return true;
+	}
 </script>
 
 </body>
