@@ -97,7 +97,7 @@ public class ProductService {
     public ProductResponseDto findById(Long id) {
 
         ProductEntity entity = productRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다. id=" + id));
+                .orElseThrow(() -> new IllegalArgumentException("해당 상품이 없습니다. id=" + id));
         ProductResponseDto dto = setItemDiscountPrice(new ProductResponseDto(entity));
         return dto;
     }

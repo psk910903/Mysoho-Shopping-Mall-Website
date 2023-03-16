@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @Slf4j
-public class captchaController {
+public class CaptchaController {
 
     // captcha 이미지 가져오는 메서드
     @GetMapping("/captchaImg.do")

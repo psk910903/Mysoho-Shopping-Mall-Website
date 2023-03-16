@@ -99,7 +99,6 @@
                           src="http://localhost:8080/captchaImg.do"
                           alt=""
                   />
-                  <div id="ccaudio" style="display:none"></div>
                 </div>
                 <div class="btns">
                   <button class="js-reCreateCaptchaImage refresh" type="button"  onclick="javaScript:getImage()">
@@ -200,7 +199,6 @@
                           src="http://localhost:8080/captchaImg.do"
                           alt=""
                   />
-                  <div id="ccaudio" style="display:none"></div>
                 </div>
                 <div class="btns">
                   <button class="js-reCreateCaptchaImage refresh" type="button"  onclick="javaScript:getImage()">
@@ -267,9 +265,6 @@ function getImage(){
 	var rand = Math.random();
 	var url = '/captchaImg.do?rand='+rand;
 	document.querySelector('#captchaImg').setAttribute('src', url);
-}
-function audioPlayer(objUrl){
-	document.querySelector('#ccaudio').innerHTML = '<bgsoun src="' +objUrl +'">';
 }
 </script>
 
