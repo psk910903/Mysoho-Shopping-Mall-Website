@@ -3,8 +3,10 @@ package com.study.springboot.controller.User;
 import com.study.springboot.dto.qna.QnaCommentResponseDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
 import com.study.springboot.dto.qna.QnaSaveDto;
+import com.study.springboot.dto.security.SessionUser;
 import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.entity.QnaEntity;
+import com.study.springboot.entity.repository.MemberRepository;
 import com.study.springboot.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,8 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
@@ -24,6 +28,8 @@ public class UserQnaController {
     private final QnaService qnaService;
     private final QnaCommentService qnaCommentService;
     private final MemberService memberService;
+    private final HttpSession httpSession;
+
 
     //qna 작성 팝업 폼
     @GetMapping("/popup/qna-write")
@@ -35,7 +41,13 @@ public class UserQnaController {
     @GetMapping("/qna/user")
     public String qnaUser(Model model,
                           @AuthenticationPrincipal User user) {
-        String memberId = user.getUsername();
+        String memberId = "";
+        if(user != null){
+            memberId = user.getUsername();
+        }else {
+            SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
+            memberId = memberService.findByMemberEmail(snsUser.getEmail());
+        }
         List<QnaResponseDto> qnaList = qnaService.findByMemberIdQna(memberId);
         List<Long> replyCountList = new ArrayList<>();
 
@@ -82,9 +94,14 @@ public class UserQnaController {
     public String userQnaWrite( @AuthenticationPrincipal User user,
                                 @RequestParam String reference,
                                 Model model){
-
-        String username = user.getUsername();
-        MemberEntity entity = memberService.findByUserId(username);
+        String memberId = "";
+        if(user != null){
+            memberId = user.getUsername();
+        }else {
+            SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
+            memberId = memberService.findByMemberEmail(snsUser.getEmail());
+        }
+        MemberEntity entity = memberService.findByUserId(memberId);
 
         model.addAttribute("reference", reference);
         model.addAttribute("userName",entity.getUsername());
@@ -107,11 +124,12 @@ public class UserQnaController {
     public String qnaSearchAction(@RequestParam(value ="keyword", required = false) String keyword,
                                   HttpServletRequest request,
                                   Model model, @AuthenticationPrincipal User user){
-
-        // memberId 보내기
-        String memberId = null;
-        if (user != null){
+        String memberId = "";
+        if(user != null){
             memberId = user.getUsername();
+        }else {
+            SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
+            memberId = memberService.findByMemberEmail(snsUser.getEmail());
         }
         model.addAttribute("memberId", memberId);
 

@@ -7,6 +7,7 @@ import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.security.MemberJoinDto;
+import com.study.springboot.dto.security.SessionUser;
 import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.entity.repository.MemberRepository;
 import com.study.springboot.service.*;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -42,6 +44,7 @@ public class UserOrderController {
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
     private final MemberService memberService;
+    private final HttpSession httpSession;
 
     //장바구니 페이지
     @GetMapping("/order")
@@ -111,8 +114,14 @@ public class UserOrderController {
 
         // member
         MemberResponseDto memberResponseDto = null;
-        if (user != null) {
-            String memberId = user.getUsername();
+        String memberId = "";
+        if(user != null){//시큐리티 가입한 회원이면
+            memberId = user.getUsername();
+        }else {//sns가입한 회원이면
+            SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
+            memberId = memberService.findByMemberEmail(snsUser.getEmail());
+        }
+        if (memberId != null) {
             memberResponseDto = memberService.findByMemberId(memberId);
         }
 
@@ -276,8 +285,15 @@ public class UserOrderController {
             memberId = memberJoinDto.getUsername();
         }
 
-        if (user != null) {
+//        if (user != null) {
+//            memberId = user.getUsername();
+//        }
+
+        if(user != null){
             memberId = user.getUsername();
+        }else {
+            SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
+            memberId = memberService.findByMemberEmail(snsUser.getEmail());
         }
 
         ////////////////////////////////////// cart DB에 넣기 ////////////////////////////////////////////

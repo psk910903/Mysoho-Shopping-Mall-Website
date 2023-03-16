@@ -15,7 +15,7 @@ public class MemberSaveRequestDto {
     private Long memberNo;
     private String memberId;
     private String memberPw;
-    private String memberNewPw;
+    //private String memberNewPw;
     private String memberName;
     private String memberRate;
     private String memberEmail;
@@ -32,6 +32,24 @@ public class MemberSaveRequestDto {
     public MemberEntity toUpdateEntity() {
         return MemberEntity.builder()
                 .memberNo(memberNo)
+                .username(memberId)
+                .password(memberPw)
+                .memberName(memberName)
+                .memberRate(memberRate)
+                .memberEmail(memberEmail)
+                .memberPhone(memberPhone)
+                .memberMileage(memberMileage)
+                .memberCoupon(memberCoupon)
+                .memberAddrNumber(memberAddrNumber)
+                .memberAddr1(memberAddr1)
+                .memberAddr2(memberAddr2)
+                .memberRole(memberRole)
+                .memberExited(memberExited)
+                .memberJoinDatetime(memberJoinDatetime)
+                .build();
+    }
+    public MemberEntity toEntity() {
+        return MemberEntity.builder()
                 .username(memberId)
                 .password(memberPw)
                 .memberName(memberName)

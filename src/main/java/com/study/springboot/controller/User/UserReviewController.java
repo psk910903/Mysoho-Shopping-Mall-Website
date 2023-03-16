@@ -4,10 +4,14 @@ import com.study.springboot.dto.product.FileResponse;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
 import com.study.springboot.dto.review.ReviewSaveResponseDto;
+import com.study.springboot.dto.security.SessionUser;
+import com.study.springboot.entity.MemberEntity;
 import com.study.springboot.entity.ReviewEntity;
+import com.study.springboot.entity.repository.MemberRepository;
 import com.study.springboot.entity.repository.ProductRepository;
 import com.study.springboot.entity.repository.ReviewRepository;
 import com.study.springboot.service.AwsS3Service;
+import com.study.springboot.service.MemberService;
 import com.study.springboot.service.ProductService;
 import com.study.springboot.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +27,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
@@ -36,12 +42,20 @@ public class UserReviewController {
     private final ProductService productService;
     private final ProductRepository productRepository;
     private final AwsS3Service awsS3Service;
+    private final MemberService memberService;
+    private final HttpSession httpSession;
 
     //나의 후기 모아보기
     @RequestMapping("/review/myList")
     public String myReview(@AuthenticationPrincipal User user,
                            Model model) {
-        String memberId = user.getUsername();
+        String memberId = "";
+        if(user != null){
+            memberId = user.getUsername();
+        }else {
+            SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
+            memberId = memberService.findByMemberEmail(snsUser.getEmail());
+        }
 
         List<ReviewResponseDto> list = reviewService.findByMemberId(memberId);
 
@@ -72,7 +86,14 @@ public class UserReviewController {
                                 @AuthenticationPrincipal User user,
                                 Model model
     ){
-        String memberId = user.getUsername();
+        String memberId = "";
+        if(user != null){
+            memberId = user.getUsername();
+        }else {
+            SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
+            memberId = memberService.findByMemberEmail(snsUser.getEmail());
+
+        }
 
         model.addAttribute("memberId",memberId);
         model.addAttribute("itemCode",itemCode);

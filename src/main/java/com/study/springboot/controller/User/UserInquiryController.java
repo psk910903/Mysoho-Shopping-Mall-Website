@@ -3,6 +3,7 @@ package com.study.springboot.controller.User;
 import com.study.springboot.dto.inquiry.InquiryResponseDto;
 import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.product.ProductResponseDto;
+import com.study.springboot.dto.security.SessionUser;
 import com.study.springboot.entity.InReplyEntity;
 import com.study.springboot.entity.InquiryEntity;
 import com.study.springboot.entity.repository.InReplyRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +28,19 @@ public class UserInquiryController {
     private final InReplyRepository inReplyRepository;
     private final MemberService memberService;
 
+    private final HttpSession httpSession;
+
     //마이페이지 상품문의 리스트
     @GetMapping("/inquiry/myProductInquiries")
     public String inquiryMyProductInquiries(Model model, @AuthenticationPrincipal User user) {
 
-        String memberId = user.getUsername();
+        String memberId = "";
+        if(user != null){
+            memberId = user.getUsername();
+        }else {
+            SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
+            memberId = memberService.findByMemberEmail(snsUser.getEmail());
+        }
 
         List<InquiryResponseDto> inquiryList = inquiryService.findByMemberId(memberId);
         List<ProductResponseDto> itemList = new ArrayList<>();
@@ -89,19 +99,30 @@ public class UserInquiryController {
         ProductResponseDto dto = productService.findById(Long.valueOf(itemNo));
         model.addAttribute("dto",dto);
 
+//        String username = "";
+//        if(user != null){//
+//            username = user.getUsername();
+//        }else {
+//            SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
+//            username = memberService.findByMemberEmail(snsUser.getEmail());
+//        }
+        String memberId = "";
         if(user!=null) { // 회원일 때
-            String memberId = user.getUsername();
+            memberId = user.getUsername();
+        }else {
+            SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
+            memberId = memberService.findByMemberEmail(snsUser.getEmail());
+        }
+        MemberResponseDto memberName = memberService.findByMemberId(memberId);
+        String memberPassword = memberName.getMemberPw();
+        model.addAttribute("memberName",memberName.getMemberName());
+        model.addAttribute("inquiryMemberId", memberId);
+        model.addAttribute("inquiryMemberPassword", memberPassword);
 
-            //DB에서 memberName 유저아이디로 멤버 이름조회하기
-            MemberResponseDto memberName = memberService.findByMemberId(memberId);
-            String memberPassword = memberName.getMemberPw();
-            model.addAttribute("memberName",memberName.getMemberName());
-            model.addAttribute("inquiryMemberId", memberId);
-            model.addAttribute("inquiryMemberPassword", memberPassword);
-        }else {// 비회원일때
+
+        if( memberId == null ) {// 비회원일때
             model.addAttribute("inquiryMemberId", null);
         }
-
         model.addAttribute("itemNo", itemNo);
         model.addAttribute("reference", reference);
 

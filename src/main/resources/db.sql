@@ -1,5 +1,23 @@
 
 use mydb;
+
+---sns 로그인용 테이블 --------------------------------------------------------
+DROP TABLE sns_user;
+-- 1. DB 연결
+
+CREATE TABLE sns_user(
+ id    BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+ name  VARCHAR(255) NOT NULL, -- 닉네임(별명)
+ email VARCHAR(255) NOT NULL, -- 이메일(계정)
+ picture VARCHAR(255)  NULL, -- 프로필이미지 경로
+ user_role  VARCHAR(255) DEFAULT 'ROLE_USER',
+ created_date DATE DEFAULT NOW()
+);
+INSERT INTO sns_user VALUES (0, 'hong', 'hong@gmail.com', '', 'ROLE_USER', DEFAULT);
+INSERT INTO sns_user VALUES (0, 'tom', 'tom@gmail.com', '', 'ROLE_USER', DEFAULT);
+DESCRIBE sns_user;
+SELECT * FROM sns_user;
+
 -- qna 테이블 준하 --------------------------------------------------------------
 
 DROP TABLE if EXISTS qna;

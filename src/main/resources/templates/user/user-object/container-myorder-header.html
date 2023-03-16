@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html
   xmlns:th="http://www.thymeleaf.org"
-  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
   <th:block th:fragment="container-myorder-header">
     <div class="mypage-top">
       <div class="info-header">
-        <div><span class="user-name"  th:text="${session.username} "></span>님</div>
+        <div>
+<!--          <th:block th:if="${session.username != null}">-->
+            <span class="user-name" th:text="${session.username} "></span>
+<!--  </th:block>-->
+<!--          <th:block th:if="${session.username == null}">-->
+<!--            <span class="user-name" th:text="${userName} "></span></th:block>-->
+            님</div>
         <div>
           <a href="/user/myInfoPswd" class="info-header-myinfo">내 정보</a>
           <a href="javascript:logout();" class="info-header-logout">로그아웃</a>

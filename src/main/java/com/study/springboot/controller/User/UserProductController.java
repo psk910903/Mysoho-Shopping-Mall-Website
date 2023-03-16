@@ -4,6 +4,7 @@ import com.study.springboot.dto.inquiry.InquiryResponseDto;
 import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.dto.review.ReviewResponseDto;
+import com.study.springboot.dto.security.SessionUser;
 import com.study.springboot.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -26,6 +28,7 @@ public class UserProductController {
     private final InquiryService inquiryService;
     private final InReplyService inReplyService;
     private final MemberService memberService;
+    private final HttpSession httpSession;
 
     //상품상세-----------------------------------------------------------------------------
     @GetMapping("/product/{itemNo}")
@@ -39,6 +42,14 @@ public class UserProductController {
         // member
         String memberId=null;
         MemberResponseDto memberResponseDto = null;
+//        if(user != null){
+//            memberId = user.getUsername();
+//        }else {
+//            SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
+//            memberId = memberService.findByMemberEmail(snsUser.getEmail());
+//        }
+//        memberResponseDto = memberService.findByMemberId(memberId);
+
         if (user != null) {
             memberId = user.getUsername();
             memberResponseDto = memberService.findByMemberId(memberId);
@@ -72,7 +83,7 @@ public class UserProductController {
         model.addAttribute("inReplyCount", inReplyCount); //준하 끝
         model.addAttribute("reviewIdList", reviewIdList);
         model.addAttribute("photoReviewIdList", photoReviewIdList);
-        model.addAttribute("member", memberResponseDto);
+        model.addAttribute("member", memberResponseDto);//
         model.addAttribute("colorCount", colorCount);
         model.addAttribute("sizeCount", sizeCount);
         model.addAttribute("colorList", colorList);

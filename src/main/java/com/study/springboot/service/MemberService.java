@@ -290,6 +290,11 @@ public boolean modify(MemberSaveRequestDto dto){
             return false;
         }
     }
+    @Transactional(readOnly = true)
+    public String findByMemberEmail(final String email){
+        Optional<MemberEntity> optional = memberRepository.findByMemberEmail(email);
+        return optional.get().getUsername();
+    }
 
 
 }

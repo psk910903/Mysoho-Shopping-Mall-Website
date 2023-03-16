@@ -1,5 +1,6 @@
 package com.study.springboot.config;
 
+import com.study.springboot.service.CustomOAuth2UserService;
 import com.study.springboot.service.SecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -11,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -19,6 +22,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     final private SecurityService securityService;
+    final private CustomOAuth2UserService customOAuth2UserService;
     @Override
     public void configure(WebSecurity web) {
         web
@@ -40,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/user/login") //
                 .loginProcessingUrl("/user/loginAction") //로그인 액션 URI를 지정한다.
                 .successHandler( (request,response,authentication) -> {
-                    request.getSession().setAttribute("username", request.getParameter("username"));
+                    request.getSession().setAttribute("username", request.getParameter("name"));
                     response.sendRedirect("/");
                 })
                 .failureUrl("/user/login?error")
@@ -50,7 +54,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/user/logoutAction"))
                 .deleteCookies("JSESSIONID","XSRF-TOKEN")
                 .invalidateHttpSession(true)
-                .logoutSuccessUrl("/");
+                .logoutSuccessUrl("/")
+       .and()
+                .oauth2Login()
+                .successHandler(successHandler())
+                .failureHandler(failureHandler())
+                .userInfoEndpoint().userService(customOAuth2UserService);
     }
 
     @Bean
@@ -61,5 +70,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(securityService).passwordEncoder(passwordEncoder());
+    }
+    @Bean
+    SimpleUrlAuthenticationSuccessHandler successHandler() {//로그인 성공시 부가 작업
+        return new SimpleUrlAuthenticationSuccessHandler("/snsLoginSuccess");
+    }
+    @Bean
+    SimpleUrlAuthenticationFailureHandler failureHandler() {
+        return new SimpleUrlAuthenticationFailureHandler("/snsLoginFailure");
     }
 }
