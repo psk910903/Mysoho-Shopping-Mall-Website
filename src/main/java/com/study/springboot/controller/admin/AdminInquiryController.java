@@ -26,6 +26,7 @@ public class AdminInquiryController {
     public final InReplyService inReplyService;
     private final InReplyRepository inReplyRepository;
     private final ProductService productService;
+    private final NoticeService noticeService;
 
     @GetMapping("/admin/inquiry")
     public String inquiryMain(){
@@ -39,7 +40,8 @@ public class AdminInquiryController {
                        @RequestParam(value = "keyword", required = false ) String keyword,
                        @RequestParam(value = "findBy", required = false ) String findBy,
                        @RequestParam(value = "page", defaultValue = "0") int page) throws ParseException {
-        Page<InquiryResponseDto> list = null;
+
+        Page<InquiryResponseDto> list;
         if(keyword == null && findBy == null && dateStart == null && dateEnd == null
                 || (dateStart.equals("null")) && (dateEnd.equals("null")) && (keyword.equals("null"))
                 || (dateStart.equals("")) && (dateEnd.equals("")) && (keyword.equals(""))){
@@ -54,7 +56,7 @@ public class AdminInquiryController {
             }
         }
         int totalPage = list.getTotalPages();
-        List<Integer> pageList = inquiryService.getPageList(totalPage, page);
+        List<Integer> pageList = noticeService.getPageList(totalPage, page);
 
 
         List<String> itemList = new ArrayList<>();
@@ -63,7 +65,6 @@ public class AdminInquiryController {
             ProductResponseDto itemDto = productService.findById(itemNo);
             itemList.add(itemDto.getItemName());
         }
-//        model.addAttribute("count", count);
         model.addAttribute("itemList", itemList);
         model.addAttribute("list", list);
         model.addAttribute("findBy", findBy);
@@ -81,7 +82,6 @@ public class AdminInquiryController {
     //관리자 상품문의 단건 조회
     @RequestMapping("/admin/inquiry/content")
     public String content(@RequestParam("inquiryNo")Long inquiryNo,
-                          //@RequestParam("inquiryNo")Long replyInquiryNo,
                           Model model){
 
         InquiryResponseDto dto = inquiryService.findById(inquiryNo);
@@ -103,8 +103,7 @@ public class AdminInquiryController {
         return "admin/inquiry/content";
     }
 
-//    리플 달기
-
+    //답글 달기
     @RequestMapping("/admin/inquiry/writeAction")
     @ResponseBody
     public String replyWrite(InReplySaveResponseDto dto,
@@ -121,8 +120,6 @@ public class AdminInquiryController {
     public String modify(InReplySaveResponseDto dto,
                          @RequestParam("replyNo") Long replyNo,
                          @RequestParam("replyInquiryNo") Long replyInquiryNo){
-        String replyContent = dto.getReplyContent();
-        Long replyInquiryNo1 = dto.getReplyInquiryNo();
 
         boolean result = inReplyService.modify( dto,replyNo );
         if(result) {
@@ -143,26 +140,6 @@ public class AdminInquiryController {
             return "<script>alert('답변삭제 실패'); history.back();</script>";
         }
     }
-    // 상품 문의 공개, 비공개 및 등록 결과 출력-------------------------------a
-    @PostMapping("/inquiry/productInquiryWriteForm/writeAction")
-    @ResponseBody
-    public String productInquiryWriteFormWriteAction(InquiryResponseDto inquiryResponseDto, @RequestParam String reference) {
 
-        //체크박스를 체크안했을 때, 반환되는 null값을 공개로 전환 ↓
-
-        if( inquiryResponseDto.getInquirySecret() == null ){
-
-            inquiryResponseDto.setInquirySecret("공개");
-        }
-        long itemNo = inquiryResponseDto.getItemNo();
-
-        boolean result= inquiryService.save(inquiryResponseDto);
-        if(!result){
-            return "<script>alert('등록에 실패하였습니다');history.back();</script>";
-        }
-        return "<script>alert('등록되었습니다');location.href='"+ reference + "';</script>";
-
-
-    }
 
 }

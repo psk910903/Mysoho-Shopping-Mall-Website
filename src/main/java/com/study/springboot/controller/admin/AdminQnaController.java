@@ -4,6 +4,7 @@ import com.study.springboot.dto.qna.QnaCommentResponseDto;
 import com.study.springboot.dto.qna.QnaCommentSaveDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
 import com.study.springboot.entity.repository.QnaRepository;
+import com.study.springboot.service.NoticeService;
 import com.study.springboot.service.QnaCommentService;
 import com.study.springboot.service.QnaService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ public class AdminQnaController {
     private final QnaService qnaService;
     private final QnaCommentService qnaCommentService;
     private final QnaRepository qnaRepository;
+    private final NoticeService noticeService;
 
     @GetMapping("/admin/qna")
     public String qnaHome(){
@@ -38,14 +40,10 @@ public class AdminQnaController {
                        Model model) throws ParseException {
 
         Page<QnaResponseDto> list;
-
-        int totalPage;
         List<Integer> pageList;
-
 
         if ((keywordType == null) && (keyword == null) && (dateStart == null) && (dateEnd == null)) { // 찾기기능을 쓰지않을때
             list = qnaService.findAll(page);
-
         } else {
 
             //오늘, 어제, 1주일, 1개월 검색
@@ -62,24 +60,19 @@ public class AdminQnaController {
 
         }
 
-        totalPage = list.getTotalPages();
-        pageList = qnaService.getPageList(totalPage, page);
+        pageList = noticeService.getPageList(list.getTotalPages(), page);
         model.addAttribute("keywordType", keywordType);
         model.addAttribute("keyword", keyword);
         model.addAttribute("dateStart", dateStart);
         model.addAttribute("dateEnd", dateEnd);
         model.addAttribute("qnalist", list);
         model.addAttribute("pageList", pageList);
-
-        long listCount = qnaRepository.count();
-        model.addAttribute("listCount", listCount);
+        model.addAttribute("listCount", qnaRepository.count());
         return "/admin/qna/list";
-
     }
 
     @GetMapping("admin/qna/content/{id}")
-    public String adminQnaContent(@PathVariable("id") long id,
-                          Model model) {
+    public String adminQnaContent(@PathVariable("id") long id, Model model) {
 
         List<QnaCommentResponseDto> comment = qnaCommentService.findbyIdx(id);
 
@@ -91,7 +84,6 @@ public class AdminQnaController {
         model.addAttribute("qna", qnaService.findbyid(id));
 
         return "/admin/qna/content";
-
     }
 
     @GetMapping("admin/qna/delete/{id}")

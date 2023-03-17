@@ -47,24 +47,6 @@ function finalSize(size) {
       document.querySelector(".option-total-price").innerHTML = output;
 }
 
-
-let optionStr = document.querySelector("#option-price").innerHTML;
-console.log(optionStr);
-// 가격 형변환 후 쉼표추가 함수
-
-let optionStr2 = optionStr.slice(0, -1);
-let optionPrice = Number(optionStr2.replace(",", ""));
-let optionTemp = optionPrice;
-//기존 가격으로 토탈 초기화
-let optionTotalPrice = optionTemp;
-
-//상품 갯수
-let optionN = document.querySelector(".MSH-sto-stock").value;
-console.log(optionN);
-let optionTemp2 = optionN;
-let optionoptionAmount = optionTemp2;
-
-// 중복이라 삭제 예정
 var b = ",";
 var position = -3;
 function sum() {

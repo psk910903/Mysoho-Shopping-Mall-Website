@@ -60,7 +60,6 @@ public boolean modify(MemberSaveRequestDto dto){
     return true;
 }
 
-
     @Transactional
     public void delete(final Long memberNo){
         MemberEntity entity = memberRepository.findById(memberNo)
@@ -78,32 +77,6 @@ public boolean modify(MemberSaveRequestDto dto){
         Page<MemberEntity> list = memberRepository.findAll(pageable);
 
         return list.map(MemberResponseDto::new);
-    }
-
-    public List<Integer> getPageList(final int totalPage, final int page) {
-
-        List<Integer> pageList = new ArrayList<>();
-
-        if (totalPage <= 5){
-            for (Integer i=0; i<=totalPage-1; i++){
-                pageList.add(i);
-            }
-        }else if(page >= 0 && page <= 2){
-            for (Integer i=0; i<=4; i++){
-                pageList.add(i);
-            }
-        }
-        else if (page >= totalPage-3 && page <= totalPage-1){
-            for (Integer i=5; i>=1; i--){
-                pageList.add(totalPage - i);
-            }
-        }else{
-            for (Integer i=-2; i<=2; i++){
-                pageList.add(page + i);
-            }
-        }
-
-        return pageList;
     }
 
     @Transactional(readOnly = true)
@@ -297,4 +270,10 @@ public boolean modify(MemberSaveRequestDto dto){
     }
 
 
+    @Transactional
+    public void saveMileage(String memberId, Long mileage) {
+        MemberResponseDto memberResponseDto = findByMemberId(memberId);
+        memberResponseDto.setMemberMileage(memberResponseDto.getMemberMileage()+mileage);
+        memberRepository.save(memberResponseDto.toUpdateEntity());
+    }
 }

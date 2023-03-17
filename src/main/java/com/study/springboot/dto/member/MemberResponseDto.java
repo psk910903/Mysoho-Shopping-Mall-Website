@@ -47,4 +47,25 @@ public class MemberResponseDto {
         this.memberRate = entity.getMemberRate();
         this.memberRole = entity.getMemberRole();
     }
+
+    //DTO -> Entity 변환(id가 있음 - update용도)
+    public MemberEntity toUpdateEntity() {
+        return MemberEntity.builder()
+                .memberNo(memberNo)
+                .username(memberId)
+                .password(memberPw)
+                .memberName(memberName)
+                .memberEmail(memberEmail)
+                .memberRate(memberRate)
+                .memberPhone(memberPhone)
+                .memberMileage(memberMileage)
+                .memberCoupon(memberCoupon)
+                .memberAddrNumber(memberAddrNumber)
+                .memberAddr1(memberAddr1)
+                .memberAddr2(memberAddr2)
+                .memberRole(memberRole)
+                .memberExited(memberExited)
+                .memberJoinDatetime(memberJoinDatetime)
+                .build();
+    }
 }

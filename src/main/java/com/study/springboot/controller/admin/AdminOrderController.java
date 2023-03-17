@@ -25,6 +25,7 @@ public class AdminOrderController {
     private final OrderService orderService;
     private final CartService cartService;
     private final OrderRepository orderRepository;
+    private final NoticeService noticeService;
 
     @GetMapping("/admin/order")
     public String orderHome(){
@@ -62,7 +63,7 @@ public class AdminOrderController {
             }
         }
         totalPage = list.getTotalPages();
-        pageList = orderService.getPageList(totalPage, page);
+        pageList = noticeService.getPageList(totalPage, page);
         model.addAttribute("pageList", pageList);
         model.addAttribute("list", list);
         model.addAttribute("findBy", findBy);

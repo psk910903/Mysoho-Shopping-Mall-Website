@@ -317,6 +317,13 @@ function alertbtn() {
 //상세페이지에서 수량 수정(색상&사이즈 옵션 각 1개뿐일 때)
 function productSum() {
   totalPrice += price;
+  //마일리지
+  totalMileage += mileage;
+  let m = String(totalMileage);
+  var outputM = [m.slice(0, position), b, m.slice(position)].join("");
+  document.querySelector("#prd_mileage_total").innerHTML = outputM;
+  document.querySelector("#memberMileage").value = totalMileage;
+
   // 가격 형변환 후 쉼표추가 함수
   let a = String(totalPrice);
   var output = [a.slice(0, position), b, a.slice(position)].join("");
@@ -348,6 +355,16 @@ function productSum() {
 function productSub() {
   if (amount > 1) {
     totalPrice -= price;
+    //마일리지
+    totalMileage -= mileage;
+    if(totalMileage<1000){
+        document.querySelector("#prd_mileage_total").innerHTML = totalMileage;
+    }else{
+        let m = String(totalMileage);
+        var outputM = [m.slice(0, position), b, m.slice(position)].join("");
+        document.querySelector("#prd_mileage_total").innerHTML = outputM;
+    }
+    document.querySelector("#memberMileage").value = totalMileage;
 
     // 가격 형변환 후 쉼표추가 함수
     let a = String(totalPrice);
@@ -388,6 +405,12 @@ function productSub() {
 
 function optionSum() {
   optionTotalPrice += optionPrice;
+  //마일리지
+  totalMileage += mileage;
+  let m = String(totalMileage);
+  var outputM = [m.slice(0, position), b, m.slice(position)].join("");
+  document.querySelector("#prd_mileage_total").innerHTML = outputM;
+
   // 가격 형변환 후 쉼표추가 함수
   let a = String(optionTotalPrice);
   var output = [a.slice(0, position), b, a.slice(position)].join("");
@@ -400,6 +423,8 @@ function optionSum() {
   optionAmount++;
   document.querySelector(".MSH-sto-stock").value = optionAmount;
   document.querySelector("#orderTotalCount").value = optionAmount;
+
+
 
   if (itemDiscountRate != 0) {
     totalPrice2 += price2;
@@ -418,6 +443,16 @@ function optionSum() {
 function optionSub() {
   if (optionAmount > 1) {
     optionTotalPrice -= optionPrice;
+    //마일리지
+    totalMileage -= mileage;
+    if(totalMileage<1000){
+        document.querySelector("#prd_mileage_total").innerHTML = totalMileage;
+    }else{
+        let m = String(totalMileage);
+        var outputM = [m.slice(0, position), b, m.slice(position)].join("");
+        document.querySelector("#prd_mileage_total").innerHTML = outputM;
+    }
+
     // 가격 형변환 후 쉼표추가 함수
     let a = String(optionTotalPrice);
     var output = [a.slice(0, position), b, a.slice(position)].join("");
@@ -447,11 +482,7 @@ function optionSub() {
     }
   } else {
     document.querySelector(".MSH-sto-stock").value = optionAmount;
-    var output = [
-      optionStr.slice(0, position),
-      b,
-      optionStr.slice(position),
-    ].join("");
+    var output = [optionStr.slice(0, position),b,optionStr.slice(position),].join("");
     document.querySelector("#price").innerHTML = output + "원";
     document.querySelector("#finalPrice").innerHTML = output + "원";
     document.querySelector("#option-price").innerHTML = optionStr + "원";

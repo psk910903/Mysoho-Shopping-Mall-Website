@@ -1,5 +1,7 @@
 package com.study.springboot.controller.User;
 
+//import com.study.springboot.CaptchaUtil;
+import com.study.springboot.CaptchaUtil;
 import com.study.springboot.dto.qna.QnaCommentResponseDto;
 import com.study.springboot.dto.qna.QnaResponseDto;
 import com.study.springboot.dto.qna.QnaSaveDto;
@@ -9,6 +11,7 @@ import com.study.springboot.entity.QnaEntity;
 import com.study.springboot.entity.repository.MemberRepository;
 import com.study.springboot.service.*;
 import lombok.RequiredArgsConstructor;
+import nl.captcha.Captcha;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+//import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +33,7 @@ public class UserQnaController {
     private final QnaCommentService qnaCommentService;
     private final MemberService memberService;
     private final HttpSession httpSession;
-
+    private final InquiryService inquiryService;
 
     //qna 작성 팝업 폼
     @GetMapping("/popup/qna-write")
@@ -52,22 +56,10 @@ public class UserQnaController {
         List<Long> replyCountList = new ArrayList<>();
 
         for(QnaResponseDto qnaDto : qnaList) {
-            // replyCountList
             Long replyCount = qnaService.countByQnaId(qnaDto.getQnaId());
             replyCountList.add(replyCount);
         }
-
-        // memberHiddenName
-        String memberName = memberId; // "홍길동임"
-        String memberHiddenName; // "홍길**"
-
-        if (memberName.length() <= 2){
-            memberHiddenName = memberName;
-        }
-        else{
-            memberHiddenName = memberName.substring(0,2);
-            for (int i=0; i<memberName.length()-2; i++) memberHiddenName += "*";
-        }
+        String memberHiddenName = inquiryService.maskingId(memberId);
 
         model.addAttribute("qnaList", qnaList);
         model.addAttribute("replyCountList", replyCountList);
@@ -88,9 +80,7 @@ public class UserQnaController {
         }
     }
 
-    // 게시판에서 문의작성눌렀을떄 글쓰는 폼 들어가기
-    // 로그인 Q&A 페이지 가기
-    @GetMapping("qna/writeForm")
+    @GetMapping("/qna/writeForm")
     public String userQnaWrite( @AuthenticationPrincipal User user,
                                 @RequestParam String reference,
                                 Model model){
@@ -111,21 +101,21 @@ public class UserQnaController {
 
     }
 
-    // 비로그인 Q&A 페이지가기
-    @GetMapping("qna/writeFormGuest")
+    @GetMapping("/qna/writeFormGuest")
     public String userQnaWriteGuest(@RequestParam String reference,
                                     Model model){
         model.addAttribute("reference", reference);
         return "/user/popup/qna-write";
     }
 
-    // Qna 검색액션받기랑 게시판가기
-    @GetMapping("qna")
+    @GetMapping("/qna")
     public String qnaSearchAction(@RequestParam(value ="keyword", required = false) String keyword,
                                   HttpServletRequest request,
                                   Model model, @AuthenticationPrincipal User user){
-        String memberId = "";
-        if(user != null){
+
+
+        String memberId = null;
+        if (user != null){
             memberId = user.getUsername();
         }else {
             try{
@@ -138,8 +128,7 @@ public class UserQnaController {
         model.addAttribute("memberId", memberId);
 
         List<QnaResponseDto> list;
-        if(keyword ==null){
-            // 검색기능 없을 때
+        if(keyword ==null){ // 검색기능 없을 때
 
             list = qnaService.findAll();
             List<String> nameList = qnaService.qnaMaskingId(list);//마스킹처리
@@ -165,14 +154,12 @@ public class UserQnaController {
             model.addAttribute("list",list);
             model.addAttribute("qnaCommentCount",qnaCommentCount);
             return "/user/category/qna";
-
         }
     }
 
-
-    @PostMapping("qna/write")
+    @PostMapping("/qna/write")
     @ResponseBody
-    public String userQnaWriteAction(QnaSaveDto saveDto, @RequestParam String reference){
+    public String userQnaWriteAction(HttpServletRequest req, QnaSaveDto saveDto, @RequestParam String reference, @RequestParam String captchaText){
 
         if( saveDto.getQnaSecret() == null ){
             saveDto.setQnaSecret("공개");
@@ -183,17 +170,26 @@ public class UserQnaController {
         }
 
         QnaEntity qnaEntity= saveDto.toEntity();
-        boolean qnaSave = qnaService.qnaSave(qnaEntity);
-        if(!qnaSave){
-            return "<script>alert('등록 실패 하였습니다'); history.back();</script>";
+        boolean result = qnaService.qnaSave(qnaEntity);
+        Captcha captcha = (Captcha) req.getSession().getAttribute(Captcha.NAME);
+        String ans = captchaText;
+        if(ans!=null && !"".equals(ans)) {
+            if(captcha.isCorrect(ans)) {
+                if(!result){
+                    return "<script>alert('등록에 실패했습니다.');history.back();</script>";
+                }
+                return "<script>alert('등록되었습니다');location.href='"+ reference +"';</script>";
+            }else {
+                return "<script>alert('보안문자를 다시 입력해주세요.');history.back(); </script>";
+            }
+        }else{
+            return "<script>alert('보안문자를 입력해주세요');history.back();</script>";
         }
-        return "<script>alert('등록되었습니다'); location.href='" + reference + "';</script>";
     }
-    //리스트로감
 
-    // 글 삭제
 
-    @GetMapping("qna/delete/{id}")
+    // 삭제
+    @GetMapping("/qna/delete/{id}")
     @ResponseBody
     public String userDelete (@PathVariable("id")long id){
 
@@ -225,7 +221,7 @@ public class UserQnaController {
                 "</script>";
 
     }
-    @PostMapping("qna/pw/check/action2/guest")
+    @PostMapping("/qna/pw/check/action2/guest")
     @ResponseBody
     public String pwCheckAction2(@ModelAttribute QnaSaveDto qnaSaveDto){
 
@@ -239,7 +235,7 @@ public class UserQnaController {
 
     //수정페이지
 
-    @GetMapping("qna/modifyForm/{num}")
+    @GetMapping("/qna/modifyForm/{num}")
     public String modifyForm(@PathVariable("num")Long num,
                              @RequestParam String reference,
                              Model model){
@@ -255,9 +251,9 @@ public class UserQnaController {
     }
 
     //수정 액션받기
-    @PostMapping("qna/modify")
+    @PostMapping("/qna/modify")
     @ResponseBody
-    public String qnaModify(@ModelAttribute QnaSaveDto dto, @RequestParam String reference){
+    public String qnaModify(HttpServletRequest req, @ModelAttribute QnaSaveDto dto, @RequestParam String reference, @RequestParam String captchaText){
 
         if( dto.getQnaSecret() == null ){
             dto.setQnaSecret("공개");
@@ -268,9 +264,20 @@ public class UserQnaController {
         }
         QnaEntity qnaEntity = dto.toModifyEntity();
         boolean modifyResult = qnaService.qnaSave(qnaEntity);
-        if(!modifyResult){
-            return "<script>alert('수정 실패했습니다.'); history.back();</script>";
+        Captcha captcha = (Captcha) req.getSession().getAttribute(Captcha.NAME);
+        String ans = captchaText;
+        if(ans!=null && !"".equals(ans)) {
+            if(captcha.isCorrect(ans)) {
+                if(!modifyResult){
+                    return "<script>alert('수정 실패했습니다.');history.back();</script>";
+                }
+                return "<script>alert('수정되었습니다');location.href='"+ reference +"';</script>";
+            }else {
+                return "<script>alert('보안문자를 다시 입력해주세요.');history.back(); </script>";
+            }
+        }else{
+            return "<script>alert('보안문자를 입력해주세요');history.back();</script>";
         }
-        return "<script>alert('수정 되었습니다'); location.href='" + reference + "';</script>";
     }
+
 }

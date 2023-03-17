@@ -23,7 +23,8 @@
           <div>
             보유적립금
             <span class="js-userMileageText" sec:authorize="isAnonymous()">0원</span>
-            <span class="js-userMileageText" sec:authorize="isAuthenticated()" th:text="|${member.memberMileage}원|">0원</span>
+            <span class="js-userMileageText" sec:authorize="isAuthenticated()"
+                  data-th-text="${#numbers.formatInteger(member.memberMileage, 3, 'COMMA')}+'원'">0원</span>
           </div>
           <div class="cbx-tit">
             <th:block sec:authorize="isAuthenticated()">

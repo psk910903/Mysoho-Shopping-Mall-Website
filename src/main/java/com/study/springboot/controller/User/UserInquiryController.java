@@ -9,6 +9,7 @@ import com.study.springboot.entity.InquiryEntity;
 import com.study.springboot.entity.repository.InReplyRepository;
 import com.study.springboot.service.*;
 import lombok.RequiredArgsConstructor;
+import nl.captcha.Captcha;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -53,22 +55,12 @@ public class UserInquiryController {
             itemList.add(productDto);
 
             // replyCountList
-            Long replyCount = inquiryService.countByInquiryNo(inquiryDto.getInquiryNo());
+            Long replyCount = inquiryService.countByInquiryNo(itemNo);
             replyCountList.add(replyCount);
 
         }
-
         // memberHiddenName
-        String memberName = memberId;
-        String memberHiddenName;
-
-        if (memberName.length() <= 2){
-            memberHiddenName = memberName;
-        }
-        else{
-            memberHiddenName = memberName.substring(0,2);
-            for (int i=0; i<memberName.length()-2; i++) memberHiddenName += "*";
-        }
+        String memberHiddenName = inquiryService.maskingId(memberId);
 
         model.addAttribute("itemList", itemList);
         model.addAttribute("inquiryList", inquiryList);
@@ -112,11 +104,10 @@ public class UserInquiryController {
         }
         if( memberId != null ){
             MemberResponseDto memberName = memberService.findByMemberId(memberId);
-            String memberPassword = memberName.getMemberPw();
             model.addAttribute("memberName",memberName.getMemberName());
             model.addAttribute("inquiryMemberId", memberId);
-            model.addAttribute("inquiryMemberPassword", memberPassword);
-        }else {
+            model.addAttribute("inquiryMemberPassword", memberName.getMemberPw());
+        }else {// 비회원일때
             model.addAttribute("inquiryMemberId", null);
         }
 
@@ -167,7 +158,8 @@ public class UserInquiryController {
 
     @PostMapping("/inquiry/modify/action")
     @ResponseBody
-    public String modifyAction(@ModelAttribute InquiryResponseDto inquiryResponseDto, @RequestParam String reference){
+    public String modifyAction(HttpServletRequest req, @ModelAttribute InquiryResponseDto inquiryResponseDto,
+                               @RequestParam String reference, @RequestParam String captchaText){
 
         if(inquiryResponseDto.getInquirySecret() == null){
             inquiryResponseDto.setInquirySecret("공개");
@@ -176,10 +168,20 @@ public class UserInquiryController {
         InquiryEntity inquiryEntity = inquiryResponseDto.toModifyEntity();
         boolean modifyResult = inquiryService.inquirySave(inquiryEntity);
 
-        if(!modifyResult){
-            return "<script>alert('수정 실패했습니다.');history.back();</script>";
+        Captcha captcha = (Captcha) req.getSession().getAttribute(Captcha.NAME);
+        String ans = captchaText;
+        if(ans!=null && !"".equals(ans)) {
+            if(captcha.isCorrect(ans)) {
+                if(!modifyResult){
+                    return "<script>alert('수정 실패했습니다.');history.back();</script>";
+                }
+                return "<script>alert('수정되었습니다');location.href='"+ reference +"';</script>";
+            }else {
+                return "<script>alert('보안문자를 다시 입력해주세요.');history.back(); </script>";
+            }
+        }else{
+            return "<script>alert('보안문자를 입력해주세요');history.back();</script>";
         }
-        return "<script>alert('수정되었습니다');location.href='"+ reference +"';</script>";
     }
 
     @PostMapping("/inquiry/pw/check/action")
@@ -192,6 +194,34 @@ public class UserInquiryController {
             return "<script>alert('비밀번호 확인실패'); history.back();</script>";
         }
         return "<script>alert('비밀번호 확인완료.'); location.href='/inquiry/modifyForm/"+inquiryNo+"?reference=" + reference +"';</script>";
+    }
+
+    // 상품 문의 공개, 비공개 및 등록 결과 출력-------------------------------a
+    @PostMapping("/inquiry/productInquiryWriteForm/writeAction")
+    @ResponseBody
+    public String productInquiryWriteFormWriteAction(HttpServletRequest req, InquiryResponseDto inquiryResponseDto,
+                                                     @RequestParam String reference, @RequestParam String captchaText) {
+
+        //체크박스를 체크안했을 때, 반환되는 null값을 공개로 전환 ↓
+        if( inquiryResponseDto.getInquirySecret() == null ){
+
+            inquiryResponseDto.setInquirySecret("공개");
+        }
+        boolean result= inquiryService.save(inquiryResponseDto);
+        Captcha captcha = (Captcha) req.getSession().getAttribute(Captcha.NAME);
+        String ans = captchaText;
+        if(ans!=null && !"".equals(ans)) {
+            if(captcha.isCorrect(ans)) {
+                if(!result){
+                    return "<script>alert('등록에 실패했습니다.');history.back();</script>";
+                }
+                return "<script>alert('등록되었습니다');location.href='"+ reference +"';</script>";
+            }else {
+                return "<script>alert('보안문자를 다시 입력해주세요.');history.back(); </script>";
+            }
+        }else{
+            return "<script>alert('보안문자를 입력해주세요');history.back();</script>";
+        }
     }
 
 }

@@ -58,24 +58,14 @@ public class UserReviewController {
         }
 
         List<ReviewResponseDto> list = reviewService.findByMemberId(memberId);
+        List<String> itemName = productService.itemStrList(list, "itemName");
+        List<String> itemImgUrl = productService.itemStrList(list, "itemImgUrl");
 
-        List<String> itemName = new ArrayList<>();
-        for (ReviewResponseDto dto : list) {
-            String itemNo = dto.getItemNo();
-            ProductResponseDto itemDto = productService.findById(Long.parseLong(itemNo));
-            itemName.add(itemDto.getItemName());//item이름을 itemList에 넣어줌
-        }
-        List<String> itemUrl = new ArrayList<>();
-        for (ReviewResponseDto dto : list) {
-            String itemNo = dto.getItemNo();
-            ProductResponseDto itemDto = productService.findById(Long.parseLong(itemNo));
-            itemUrl.add(itemDto.getItemImageUrl());//item사진을 itemList에 넣어줌
-        }
         int listSize = list.size();
         model.addAttribute("listSize",listSize);
         model.addAttribute("list",list);
         model.addAttribute("itemName", itemName);
-        model.addAttribute("itemUrl", itemUrl);
+        model.addAttribute("itemUrl", itemImgUrl);
 
         return "user/user/review-mylist";
     }

@@ -127,6 +127,55 @@
                             >(예상 적립금 <span>0</span>원, 비회원적립
                           불가)</strong
                             >
+
+                            <input
+                                    type="hidden"
+                                    id="prd_mileage_total"
+                            />
+                            <input
+                                    type="hidden"
+                                    name="mileage"
+                                    id="memberMileage"
+                            />
+                        </span>
+                        <!--마일리지(적립금)-->
+                        <span sec:authorize="isAuthenticated()" >
+                            <th:block th:if="${member.memberRate} == 'VIP'">
+                                <th:block th:if="${dto.itemDiscountRate} != 0">
+                                    <strong>(예상 적립금 <span id="prd_mileage_total" data-th-text="${#numbers.formatInteger((dto.itemDiscountPrice/100)*5, 3, 'COMMA')}">0</span>원)</strong>
+                                    <input
+                                            type="hidden"
+                                            name="mileage"
+                                            id="memberMileage"
+                                    />
+                                </th:block>
+                                <th:block th:unless="${dto.itemDiscountRate} != 0">
+                                    <strong>(예상 적립금 <span id="prd_mileage_total" data-th-text="${#numbers.formatInteger((dto.itemPrice/100)*5, 3, 'COMMA')}">0</span>원)</strong>
+                                    <input
+                                            type="hidden"
+                                            name="mileage"
+                                            id="memberMileage"
+                                    />
+                                </th:block>
+                            </th:block>
+                            <th:block th:unless="${member.memberRate} == 'VIP'">
+                                <th:block th:if="${dto.itemDiscountRate} != 0">
+                                    <strong>(예상 적립금 <span id="prd_mileage_total" data-th-text="${#numbers.formatInteger((dto.itemDiscountPrice/100)*2, 3, 'COMMA')}">0</span>원)</strong>
+                                    <input
+                                            type="hidden"
+                                            name="mileage"
+                                            id="memberMileage"
+                                    />
+                                </th:block>
+                                <th:block th:unless="${dto.itemDiscountRate} != 0">
+                                    <strong>(예상 적립금 <span id="prd_mileage_total" data-th-text="${#numbers.formatInteger((dto.itemPrice/100)*2, 3, 'COMMA')}">0</span>원)</strong>
+                                    <input
+                                            type="hidden"
+                                            name="mileage"
+                                            id="memberMileage"
+                                    />
+                                </th:block>
+                            </th:block>
                         </span>
                     <input
                             type="hidden"

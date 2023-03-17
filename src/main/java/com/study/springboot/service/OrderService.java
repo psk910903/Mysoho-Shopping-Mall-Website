@@ -1,11 +1,13 @@
 package com.study.springboot.service;
 
+import com.study.springboot.dto.cart.CartResponseDto;
+import com.study.springboot.dto.member.MemberResponseDto;
 import com.study.springboot.dto.order.OrderContentSaveRequestDto;
 import com.study.springboot.dto.order.OrderResponseDto;
 import com.study.springboot.dto.order.OrderSearchDto;
+import com.study.springboot.dto.product.ProductResponseDto;
 import com.study.springboot.entity.*;
 import com.study.springboot.entity.repository.OrderRepository;
-import com.study.springboot.entity.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,8 +28,6 @@ import java.util.stream.Collectors;
 public class OrderService {
 
     private final OrderRepository orderRepository;
-    private final CartService cartService;
-    private final ProductRepository productRepository;
 
     //리스트 페이징
     @Transactional(readOnly = true)
@@ -38,33 +39,6 @@ public class OrderService {
         Page<OrderEntity> list = orderRepository.findAll(pageable);
 
         return list.map(OrderResponseDto::new);
-    }
-
-    //페이징 5개로 고정
-    public List<Integer> getPageList(final int totalPage, final int page) {
-
-        List<Integer> pageList = new ArrayList<>();
-
-        if (totalPage <= 5){
-            for (Integer i=0; i<=totalPage-1; i++){
-                pageList.add(i);
-            }
-        }else if(page >= 0 && page <= 2){
-            for (Integer i=0; i<=4; i++){
-                pageList.add(i);
-            }
-        }
-        else if (page >= totalPage-3 && page <= totalPage-1){
-            for (Integer i=5; i>=1; i--){
-                pageList.add(totalPage - i);
-            }
-        }else{
-            for (Integer i=-2; i<=2; i++){
-                pageList.add(page + i);
-            }
-        }
-
-        return pageList;
     }
 
     @Transactional(readOnly = true)
@@ -135,6 +109,24 @@ public class OrderService {
         Page<OrderEntity> list;
         Pageable pageable = PageRequest.of(page, 10);
 
+        String[] date = dateSetting(start, end);
+        String dateStartStr = date[0];
+        String dateEndStr = date[1];
+
+        list = orderRepository.findByOrderNoContaining(dateStartStr, dateEndStr, pageable);
+        return list.map(OrderResponseDto::new);
+    }
+
+
+    public Page<OrderResponseDto> findByDate(String mode, int page) throws ParseException {
+        String[] date = dateSetting(mode);
+        String dateStartStr = date[0];
+        String dateEndStr = date[1];
+        return findByDate(dateStartStr, dateEndStr, page);
+    }
+
+    @Transactional(readOnly = true)
+    public String[] dateSetting(String start, String end)throws ParseException {
         //문자열을 날짜형식으로 변환
         DateFormat sdFormatStart = new SimpleDateFormat("yyyy-MM-dd");
         DateFormat sdFormatEnd = new SimpleDateFormat("yyyy-MM-dd");
@@ -152,13 +144,12 @@ public class OrderService {
         String dateStartStr = df1.format(cal1.getTime())+" 00:00:00";
         String dateEndStr = df2.format(cal2.getTime())+" 00:00:00";
 
-        list = orderRepository.findByOrderNoContaining(dateStartStr, dateEndStr, pageable);
-        return list.map(OrderResponseDto::new);
+        String[] date = {dateStartStr, dateEndStr};
+        return date;
     }
 
-
-    public Page<OrderResponseDto> findByDate(String mode, int page) throws ParseException {
-
+    @Transactional(readOnly = true)
+    public String[] dateSetting(String mode) {
         //오늘날짜로 date객체 2개 생성 (~부터 ~까지로 검색에 사용목적)
         Date tempDateStart = new Date();
         Date tempDateEnd = new Date();
@@ -185,8 +176,8 @@ public class OrderService {
 
         String dateStartStr = df1.format(cal1.getTime());
         String dateEndStr = df2.format(cal2.getTime());
-
-        return findByDate(dateStartStr, dateEndStr, page);
+        String[] date = {dateStartStr, dateEndStr};
+        return date;
     }
 
     @Transactional(readOnly = true)
@@ -221,7 +212,73 @@ public class OrderService {
             return null;
         }
         return new OrderResponseDto(entity.get());
-    };
+    }
+
+    @Transactional(readOnly = true)
+    public Long generateOrderNo() {
+        // orderNo
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        String orderCode1 = format.format(new Date());
+        String orderCode2 = String.format("%04d", (long) (Math.random() * 10000));
+        return Long.parseLong(orderCode1 + orderCode2);
+    }
+
+    @Transactional
+    public OrderContentSaveRequestDto saveOrderDtoComplete(OrderContentSaveRequestDto orderSaveRequestDto,
+                                                           Long orderCode, String[] cartCodeList, String memberId) {
+        orderSaveRequestDto.setOrderCode(orderCode);
+        orderSaveRequestDto.setCartCode1(cartCodeList[0]);
+        orderSaveRequestDto.setCartCode2(cartCodeList[1]);
+        orderSaveRequestDto.setCartCode3(cartCodeList[2]);
+        orderSaveRequestDto.setCartCode4(cartCodeList[3]);
+        orderSaveRequestDto.setCartCode5(cartCodeList[4]);
+        orderSaveRequestDto.setOrderDatetime(LocalDateTime.now());
+        orderSaveRequestDto.setMemberId(memberId);
+        orderSaveRequestDto.setMemberMileage(0L);
+        orderSaveRequestDto.setMemberCoupon("0");
+        if (orderSaveRequestDto.getOrderPayType().contains("휴대폰결제") ||
+                orderSaveRequestDto.getOrderPayType().contains("삼성페이")) {
+            orderSaveRequestDto.setOrderState("배송대기");
+        }else{
+            orderSaveRequestDto.setOrderState("결제대기");
+        }
+
+        return orderSaveRequestDto;
+    }
+
+    public int[] orderStateType(List<OrderResponseDto> orderList) {
+        int stateType1 = 0;
+        int stateType2 = 0;
+        int stateType3 = 0;
+        int stateType4 = 0;
+        int stateType5 = 0;
+
+        for (OrderResponseDto orderDto : orderList) {
+            switch (orderDto.getOrderState()) {
+                case "결제대기" -> stateType1++;
+                case "배송대기" -> stateType2++;
+                case "배송중" -> stateType3++;
+                case "배송완료" -> stateType4++;
+                default -> stateType5++;//취소/반품
+            }
+        }
+        int[] stateType = {stateType1, stateType2, stateType3, stateType4, stateType5};
+
+        return stateType;
+    }
+
+    public Long getMileage(List<CartResponseDto> cartList, MemberResponseDto memberResponseDto) {
+        String memberRate = memberResponseDto.getMemberRate();
+        Long mileage = 0L;
+        Long discount;
+        if (memberRate.equals("VIP")) {discount = 5L;}
+        else {discount = 3L;}
+
+        for (CartResponseDto dto : cartList) {
+            mileage += (dto.getCartItemPrice() / 100) * discount * dto.getCartItemAmount();
+        }
+        return mileage;
+    }
 
 
 }

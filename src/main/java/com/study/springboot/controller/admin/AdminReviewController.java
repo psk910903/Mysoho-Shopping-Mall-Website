@@ -51,8 +51,7 @@ public class AdminReviewController {
                            @RequestParam(value = "keyword", required = false) String keyword,
                            @RequestParam(value = "findBy", required = false) String findBy) throws ParseException {
 
-        Page<ReviewResponseDto> list = null;
-        int totalPage;
+        Page<ReviewResponseDto> list;
         List<Integer> pageList;
         if ((findBy == null) && (keyword == null) && (dateStart == null) && (dateEnd == null)
                 || (dateStart.equals("null")) && (dateEnd.equals("null")) && (keyword.equals("null"))
@@ -69,13 +68,11 @@ public class AdminReviewController {
             }
         }
 
-        totalPage = list.getTotalPages();
-        pageList = reviewService.getPageList(totalPage, page);
+        pageList = reviewService.getPageList(list.getTotalPages(), page);
 
         List<String> itemList = new ArrayList<>();
         for (ReviewResponseDto dto : list) {
-            String itemNo = dto.getItemNo();
-            ProductResponseDto itemDto = productService.findById(Long.parseLong(itemNo));
+            ProductResponseDto itemDto = productService.findById(Long.parseLong(dto.getItemNo()));
             itemList.add(itemDto.getItemName());//item이름을 itemList에 넣어줌
         }
 
@@ -86,9 +83,7 @@ public class AdminReviewController {
         model.addAttribute("pageList", pageList);
         model.addAttribute("dateStart", dateStart);
         model.addAttribute("dateEnd", dateEnd);
-        //검색 상품 개수
-        long listCount = reviewRepository.count();
-        model.addAttribute("listCount", listCount);
+        model.addAttribute("listCount", reviewRepository.count());
 
         return "/admin/review/list";
     }
@@ -104,8 +99,6 @@ public class AdminReviewController {
     @ResponseBody
     @RequestMapping("admin/review/status/modify")
     public String reviewStatusModify(ReviewSaveResponseDto dto) {
-        Long reviewNo = dto.getReviewNo();
-        String reviewExpo = dto.getReviewExpo();
         boolean result = reviewService.statusModify(dto.getReviewNo(), dto.getReviewExpo());
         if (!result) {
             return "<script>alert('노출상태 변경 실패');location.href='/admin/review/list/';</script>";
