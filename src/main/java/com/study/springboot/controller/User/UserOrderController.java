@@ -78,7 +78,7 @@ public class UserOrderController {
         if (memberId != null) {
             memberResponseDto = memberService.findByMemberId(memberId);
             mileage = orderService.getMileage(cartList, memberResponseDto);
-
+        }
 
         model.addAttribute("mileage", mileage);
         model.addAttribute("itemList", itemList);
