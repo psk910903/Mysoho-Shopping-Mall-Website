@@ -64,7 +64,7 @@ public class UserOrderController {
 
         MemberResponseDto memberResponseDto = null;
         Long mileage = null;
-        String memberId = "";
+        String memberId = null;
         if(user != null){//시큐리티 가입한 회원이면
             memberId = user.getUsername();
         }else {//sns가입한 회원이면
@@ -79,11 +79,11 @@ public class UserOrderController {
             memberResponseDto = memberService.findByMemberId(memberId);
             mileage = orderService.getMileage(cartList, memberResponseDto);
         }
-
         model.addAttribute("mileage", mileage);
         model.addAttribute("itemList", itemList);
         model.addAttribute("cartList", cartList);
         model.addAttribute("member", memberResponseDto);
+
 
         return "/user/order/shopping-basket";
 
@@ -209,7 +209,7 @@ public class UserOrderController {
                                  @RequestParam String[] colorList, @RequestParam String[] sizeList,
                                  @RequestParam String[] amountList, @RequestParam String[] itemCodeList,
                                  @Valid MemberJoinDto memberJoinDto, BindingResult bindingResult,
-                                 @RequestParam Long mileage
+                                 @RequestParam(value = "mileage", required = false, defaultValue = "0") Long mileage
     ) {
 
         ////////////////////////////////////// member DB에 넣기 (회원가입) /////////////////////////////////
@@ -239,21 +239,19 @@ public class UserOrderController {
             memberId = memberJoinDto.getUsername();
         }
 
-//        if (user != null) {
-//            memberId = user.getUsername();
-//        }
-
         if(user != null){
             memberId = user.getUsername();
+            memberService.saveMileage(memberId, mileage);
         }else {
             try{
                 SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
                 memberId = memberService.findByMemberEmail(snsUser.getEmail());
+                memberService.saveMileage(memberId, mileage);
             }catch (NullPointerException e){//snsUser가 null일때
                 System.out.println("비회원입니다");
             }
         }
-        memberService.saveMileage(memberId, mileage);
+
         ////////////////////////////////////// cart DB에 넣기 ////////////////////////////////////////////
         String[] cartCodeList = {null, null, null, null, null};
         Long orderCode = orderService.generateOrderNo();

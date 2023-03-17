@@ -44,12 +44,12 @@ public class UserProductController {
         MemberResponseDto memberResponseDto = null;
         if(user != null){
             memberId = user.getUsername();
-            memberResponseDto = memberService.findByMemberId(memberId);
+            //memberResponseDto = memberService.findByMemberId(memberId);
         }else {//user가 null일때
             try{
                 SessionUser snsUser = (SessionUser)httpSession.getAttribute("user");
                 memberId = memberService.findByMemberEmail(snsUser.getEmail());
-                memberResponseDto = memberService.findByMemberId(memberId);
+                //memberResponseDto = memberService.findByMemberId(memberId);
             }catch (NullPointerException e){//snsUser가 null일때
                 System.out.println("비회원입니다");
             }

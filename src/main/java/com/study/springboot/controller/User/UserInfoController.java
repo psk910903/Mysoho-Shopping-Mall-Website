@@ -390,6 +390,8 @@ public class UserInfoController {
     @ResponseBody
     public String snsLoginAction(MemberSaveRequestDto dto){
         try {
+            LocalDate today = LocalDate.now();
+            dto.setMemberJoinDatetime(today);
             memberRepository.save( dto.toEntity() );
             return "<script> alert('회원등록에 성공했습니다.'); location.href='/';</script>";
         }catch (Exception e){
