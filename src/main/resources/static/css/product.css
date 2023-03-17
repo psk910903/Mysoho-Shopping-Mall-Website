@@ -720,9 +720,10 @@ input[type="checkbox"]:checked::after {
 #buyBtn {
   width: 100%;
   max-width: 640px;
-  z-index: 1;
+  z-index: 3;
   position: fixed;
   bottom: 0;
+  display:block;
 }
 /* 메인 이미지 */
 .main-image {
@@ -984,3 +985,9 @@ input[type="checkbox"]:checked::after {
   white-space:nowrap;
   display:block;
 }
+.tab {
+    position: sticky;
+    top: 100px;
+    background-color: white;
+    z-index:2;
+    }
