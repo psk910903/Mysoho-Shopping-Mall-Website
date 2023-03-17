@@ -723,6 +723,7 @@ input[type="checkbox"]:checked::after {
   z-index: 1;
   position: fixed;
   bottom: 0;
+  display:block;
 }
 /* 메인 이미지 */
 .main-image {
