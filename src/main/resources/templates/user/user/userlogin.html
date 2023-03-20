@@ -64,7 +64,7 @@
               <button type="button" id="show" class="bar main-rink">
                 아이디찾기
               </button>
-              <div class="background">
+              <div class="background" style="display: none;">
                 <div class="window">
                   <div class="popup">
                     <div class="popup-tit">
@@ -91,7 +91,7 @@
               <button type="button" id="show2" class="main-rink">
                 비밀번호찾기
               </button>
-              <div class="background2">
+              <div class="background2" style="display: none;">
                 <div class="window">
                   <div class="popup">
                     <div class="popup-tit">
@@ -156,9 +156,11 @@
       //아이디 찾기
       function show() {
         document.querySelector(".background").className = "background show";
+        document.querySelector(".background").style.display = "block";
       }
       function close() {
         document.querySelector(".background").className = "background";
+        document.querySelector(".background").style.display = "none";
       }
       document.querySelector("#show").addEventListener("click", show);
       document.querySelector("#close").addEventListener("click", close);
@@ -166,9 +168,11 @@
       //비밀번호찾기
       function show2() {
         document.querySelector(".background2").className = "background2 show2";
+        document.querySelector(".background2").style.display = "block";
       }
       function close2() {
         document.querySelector(".background2").className = "background2";
+        document.querySelector(".background2").style.display = "none";
       }
       document.querySelector("#show2").addEventListener("click", show2);
       document.querySelector("#close2").addEventListener("click", close2);
