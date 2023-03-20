@@ -93,7 +93,13 @@
     <div class="users-cont" id="mileage">
       <div>보유 적립금</div>
       <div class="mileage-price" >
-        <span   data-th-text="${#numbers.formatInteger(session.memberMileage, 3, 'COMMA')}"></span>원</div>
+        <th:block th:if="${session.memberMileage} > 1000">
+        <span   data-th-text="${#numbers.formatInteger(session.memberMileage, 3, 'COMMA')}"></span>
+        </th:block>
+        <th:block th:unless="${session.memberMileage} > 1000">
+          <span  th:text="${session.memberMileage}"></span>
+        </th:block>
+        원</div>
       <div class="info-balloon">
         <p></p>
         <img
