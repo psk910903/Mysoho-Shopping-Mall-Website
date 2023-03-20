@@ -22,7 +22,10 @@
           <div class="myPoint-tit">
             <span class="myPoint-radio">P</span>나의 적립금
           </div>
-          <div class="myPoint-info"><span   data-th-text="${#numbers.formatInteger(session.memberMileage, 3, 'COMMA')}"></span>원</div>
+          <div class="myPoint-info">
+              <span th:if="${session.memberMileage>=1000}"  data-th-text="${#numbers.formatInteger(session.memberMileage, 3, 'COMMA')}"></span>
+              <span th:unless="${session.memberMileage>=1000}"  data-th-text="${session.memberMileage}"></span>원
+          </div>
         </a>
         <a href="/coupons/mylist" class="myPoint">
           <div class="myPoint-tit">
