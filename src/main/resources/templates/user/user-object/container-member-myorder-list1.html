@@ -240,16 +240,15 @@
                 <div th:text="${orderCode}"></div>
               </th:bolck>
 <!--              후기가 있을때 수정창-->
-<!--              and orderCode=${review.orderCode}-->
-<!--              <th:bolck th:if="${dto.orderState} == '배송완료'  and ${orderCode}==${review.orderCode} " >-->
-<!--                <a-->
-<!--                        style="width: 75px;"-->
-<!--                        class="absoluteBtn"-->
-<!--                        th:href="@{writeForm(itemCode=${ cart.itemCode })}"-->
-<!--                >-->
-<!--                  후기수정-->
-<!--                </a>-->
-<!--              </th:bolck>-->
+              <th:bolck th:if="${dto.orderState} == '배송완료'  ,orderCode=${ (dto.orderCode) } " >
+                <a
+                        style="width: 75px;"
+                        class="absoluteBtn"
+                        th:href="@{writeForm(itemCode=${ cart.itemCode })}"
+                >
+                  후기수정
+                </a>
+              </th:bolck>
               <!-- 구분선 -->
             </div>
           </th:block>

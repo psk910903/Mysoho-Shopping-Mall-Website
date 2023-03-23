@@ -25,7 +25,6 @@ public class ReviewService {
     private final OrderService orderService;
 
     //테스트
-
     @Transactional(readOnly = true)
     public String findByOrderCode(Long id){
         ReviewEntity entity = reviewRepository.findById(id).get();

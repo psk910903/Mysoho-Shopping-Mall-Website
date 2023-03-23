@@ -13,6 +13,7 @@ import com.study.springboot.service.OrderService;
 import com.study.springboot.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.User;
@@ -89,6 +90,7 @@ public class UserInfoController {
     //마이페이지 홈 회원
     @RequestMapping("/myorder/lists")
     public String myInfo(@AuthenticationPrincipal User user,
+                         @Param("orderCode") String orderCode,
                          HttpServletRequest request, Model model) {
 
             String memberId = user.getUsername();
@@ -113,11 +115,10 @@ public class UserInfoController {
                 orderDto.setOrderDiscountPrice(priceSetting[1]);//할인율이 적용된 차감될 금액
                 orderDto.setOrderItemPrice(priceSetting[2]); // (할인 적용된 결제당시)상품가격
             }
-            String orderCode = user.getUsername();
-//            ReviewResponseDto reviewResponseDto = reviewService.findByOrderCode()
-            List<ReviewResponseDto> reviewResponseDtoList = reviewService.findByOrderCode(orderCode);
 
-            model.addAttribute("orderCode", orderCode);
+
+
+//            model.addAttribute("orderCode", orderCode);
 
             model.addAttribute("ReviewList", ReviewList);
             model.addAttribute("stateType1", stateType[0]);
@@ -129,6 +130,7 @@ public class UserInfoController {
             model.addAttribute("cartCount", cartListModel.size());
             model.addAttribute("orderList", orderList);
             model.addAttribute("cartListModel", cartListModel);
+
 
         return "/user/user/myorder-list-user";
     }
