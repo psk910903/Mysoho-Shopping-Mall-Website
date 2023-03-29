@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -216,9 +217,17 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public List<ProductResponseDto> findByItem(int num) {
-        List<ProductEntity> entityList;
+        List<ProductEntity> entityList = new ArrayList<>();
         if (num == 6) { //BEST 6
-            entityList = productRepository.findLimit6();
+            List<String> bestItemList = cartRepository.bestItemFindLimit6();
+            for (int i = 0; i < 6; i++) {
+                Optional<ProductEntity> entity = productRepository.findBestItem(bestItemList.get(i));
+                if (!entity.isPresent()) {
+                    i--;
+                } else {
+                    entityList.add(entity.get());
+                }
+            }
         } else { // 9
             entityList = productRepository.findLimit9();
         }

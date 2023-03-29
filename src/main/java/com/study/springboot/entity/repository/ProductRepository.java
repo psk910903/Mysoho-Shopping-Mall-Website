@@ -1,7 +1,5 @@
 package com.study.springboot.entity.repository;
 
-import com.study.springboot.dto.product.ProductResponseDto;
-import com.study.springboot.entity.OrderEntity;
 import com.study.springboot.entity.ProductEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
@@ -39,8 +38,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     //----------------------------------------------------------------------------------------------------------------------
 
-    @Query(value = "SELECT * FROM item where item_exposure='노출함' AND NOT item_sold_out='품절' order BY item_update_datetime DESC LIMIT 6;", nativeQuery = true)
-    List<ProductEntity> findLimit6();
+    @Query(value = "SELECT * FROM item where item_exposure='노출함' AND NOT item_sold_out='품절' AND item_no = :item_no", nativeQuery = true)
+    Optional<ProductEntity> findBestItem(@Param(value="item_no")String item_no);
 
     @Query(value = "SELECT * FROM item where item_exposure='노출함' order BY item_update_datetime desc LIMIT 9;", nativeQuery = true)
     List<ProductEntity> findLimit9();
