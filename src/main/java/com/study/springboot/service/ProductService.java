@@ -220,14 +220,19 @@ public class ProductService {
         List<ProductEntity> entityList = new ArrayList<>();
         if (num == 6) { //BEST 6
             List<String> bestItemList = cartRepository.bestItemFindLimit6();
-            for (int i = 0; i < 6; i++) {
-                Optional<ProductEntity> entity = productRepository.findBestItem(bestItemList.get(i));
-                if (!entity.isPresent()) {
-                    i--;
-                } else {
-                    entityList.add(entity.get());
+            if (bestItemList.size() < 6) {
+                entityList = productRepository.findLimit6();
+            }else {
+                for (int i = 0; i < 6; i++) {
+                    Optional<ProductEntity> entity = productRepository.findBestItem(bestItemList.get(i));
+                    if (!entity.isPresent()) {
+                        i--;
+                    } else {
+                        entityList.add(entity.get());
+                    }
                 }
             }
+
         } else { // 9
             entityList = productRepository.findLimit9();
         }

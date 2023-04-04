@@ -44,6 +44,9 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
     @Query(value = "SELECT * FROM item where item_exposure='노출함' order BY item_update_datetime desc LIMIT 9;", nativeQuery = true)
     List<ProductEntity> findLimit9();
 
+    @Query(value = "SELECT * FROM item where item_exposure='노출함' order BY item_update_datetime desc LIMIT 6;", nativeQuery = true)
+    List<ProductEntity> findLimit6();
+
     @Query(value = "SELECT * FROM `item` WHERE item_name LIKE CONCAT('%',:keyword,'%') and item_exposure='노출함' order BY `item_name` desc", nativeQuery = true)
     List<ProductEntity> findByItemNameContaining(@Param(value="keyword")String keyword);
 

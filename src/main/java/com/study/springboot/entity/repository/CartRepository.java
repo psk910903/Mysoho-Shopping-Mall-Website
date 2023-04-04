@@ -27,5 +27,4 @@ public interface CartRepository extends JpaRepository<CartEntity, Long> {
 
     @Query(value = "SELECT item_code FROM cart WHERE item_code GROUP BY item_code ORDER BY COUNT(item_code ) DESC LIMIT 6", nativeQuery = true)
     List<String> bestItemFindLimit6();
-
 }
