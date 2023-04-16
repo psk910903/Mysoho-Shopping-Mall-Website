@@ -74,7 +74,7 @@ public class AdminQnaController {
     @GetMapping("admin/qna/content/{id}")
     public String adminQnaContent(@PathVariable("id") long id, Model model) {
 
-        List<QnaCommentResponseDto> comment = qnaCommentService.findbyIdx(id);
+        List<QnaCommentResponseDto> comment = qnaCommentService.findByIdx(id);
 
         if (comment.size() == 0) {
             model.addAttribute("nullCheck", "null");

@@ -19,9 +19,9 @@ public class QnaCommentService {
 
     private final QnaCommentRepository qnaCommentRepository;
 
-    public List<QnaCommentResponseDto> findbyIdx(Long idx) {
+    public List<QnaCommentResponseDto> findByIdx(Long idx) {
         List<QnaCommentEntity> commentEntity = qnaCommentRepository.findByCommentQnaId_nativeQuery(idx);
-        return commentEntity.stream().map((QnaCommentEntity entity) -> new QnaCommentResponseDto(entity)).collect(Collectors.toList());
+        return commentEntity.stream().map(QnaCommentResponseDto::new).collect(Collectors.toList());
     }
 
     public boolean save(QnaCommentEntity qnaCommentEntity) {
@@ -44,7 +44,7 @@ public class QnaCommentService {
         return true;
     }
 
-    public List<QnaCommentResponseDto> findbyid(long id) {
+    public List<QnaCommentResponseDto> findById(long id) {
         Optional<QnaCommentEntity> list = qnaCommentRepository.findById(id);
         return list.stream().map(QnaCommentResponseDto::new).collect(Collectors.toList());
     }

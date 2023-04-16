@@ -205,7 +205,7 @@ public class UserInfoController {
         }
     }
 
-    //로그인 전 비밀번호 변경url이 있는 멜 보내기
+    //로그인 전 비밀번호 변경url이 있는 메일 보내기
     @RequestMapping("/find/password")
     @ResponseBody
     public String findPw(@RequestParam("getEmail") String getEmail)  {
