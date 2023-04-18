@@ -60,7 +60,7 @@ public class AdminMemberController {
         long listCount = memberRepository.count();
         model.addAttribute("listCount", listCount);
 
-        return "/admin/member/list"; //listForm.html로 응답
+        return "admin/member/list"; //listForm.html로 응답
     }
 
     //단건조회
@@ -69,7 +69,7 @@ public class AdminMemberController {
         MemberResponseDto dto = memberService.findById(id);
         model.addAttribute("member", dto);
 
-        return "/admin/member/content";
+        return "admin/member/content";
     }
 
     //수정
