@@ -73,7 +73,7 @@ public class AdminOrderController {
         //검색 상품 개수
         long listCount = orderRepository.count();
         model.addAttribute("listCount", listCount);
-        return "/admin/order/list";
+        return "admin/order/list";
     }
 
     //주문 정보 단건 조회
@@ -88,7 +88,7 @@ public class AdminOrderController {
         model.addAttribute("cartList", cartList);
         model.addAttribute("dto", dto);
 
-        return "/admin/order/content";
+        return "admin/order/content";
     }
 
     //리스트페이지에서 주문상태 변경

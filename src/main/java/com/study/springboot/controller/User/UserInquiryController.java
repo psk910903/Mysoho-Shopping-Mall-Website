@@ -114,7 +114,7 @@ public class UserInquiryController {
         model.addAttribute("itemNo", itemNo);
         model.addAttribute("reference", reference);
 
-        return "/user/popup/inquiry-write";
+        return "user/popup/inquiry-write";
     }
 
     @GetMapping("/inquiry/delete/{id}")
@@ -153,7 +153,7 @@ public class UserInquiryController {
         model.addAttribute("commentList", commentList);
         model.addAttribute("dto",inquiryResponseDto);
 
-        return "/user/popup/Inquiry-modify";
+        return "user/popup/Inquiry-modify";
     }
 
     @PostMapping("/inquiry/modify/action")

@@ -68,7 +68,7 @@ public class AdminQnaController {
         model.addAttribute("qnalist", list);
         model.addAttribute("pageList", pageList);
         model.addAttribute("listCount", qnaRepository.count());
-        return "/admin/qna/list";
+        return "admin/qna/list";
     }
 
     @GetMapping("admin/qna/content/{id}")
@@ -83,7 +83,7 @@ public class AdminQnaController {
         model.addAttribute("comment",comment);
         model.addAttribute("qna", qnaService.findbyid(id));
 
-        return "/admin/qna/content";
+        return "admin/qna/content";
     }
 
     @GetMapping("admin/qna/delete/{id}")

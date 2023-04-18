@@ -91,7 +91,7 @@ public class UserProductController {
         model.addAttribute("sizeList", sizeList);
         model.addAttribute("dto", dto);
         model.addAttribute("cartList", null);
-        return "/user/product/content";
+        return "user/product/content";
     }
 
     // 상품 대표이지미 확대
@@ -99,7 +99,7 @@ public class UserProductController {
     public String enlarge(Model model,@PathVariable(value = "itemNo") Long itemNo){
         String itemImageUrl = productService.findById(itemNo).getItemImageUrl();
         model.addAttribute("itemImageUrl", itemImageUrl);
-        return "/user/enlarge/enlargeProductImg";
+        return "user/enlarge/enlargeProductImg";
     }
 
     // 상품 상세설명 확대
@@ -107,6 +107,6 @@ public class UserProductController {
     public String enlargeContent(Model model,@PathVariable(value = "itemNo") Long itemNo){
         String itemInfo = productService.findById(itemNo).getItemInfo();
         model.addAttribute("itemInfo", itemInfo);
-        return "/user/enlarge/enlargeProductInfo";
+        return "user/enlarge/enlargeProductInfo";
     }
 }

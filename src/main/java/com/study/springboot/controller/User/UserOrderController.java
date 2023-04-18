@@ -85,7 +85,7 @@ public class UserOrderController {
         model.addAttribute("member", memberResponseDto);
 
 
-        return "/user/order/shopping-basket";
+        return "user/order/shopping-basket";
 
     }
 
@@ -306,6 +306,6 @@ public class UserOrderController {
         OrderResponseDto dto = orderService.findByOrderCode(orderCode);
         model.addAttribute("order", dto);
 
-        return "/user/order/order-complete";
+        return "user/order/order-complete";
     }
 }

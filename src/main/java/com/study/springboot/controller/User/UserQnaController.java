@@ -38,7 +38,7 @@ public class UserQnaController {
     //qna 작성 팝업 폼
     @GetMapping("/popup/qna-write")
     public String popupQnaWrite() {
-        return "/user/popup/qna-write";
+        return "user/popup/qna-write";
     }
 
     //마이페이지 qna
@@ -97,7 +97,7 @@ public class UserQnaController {
         model.addAttribute("userName",entity.getUsername());
         model.addAttribute("userPassword",entity.getPassword());
 
-        return "/user/popup/qna-write";
+        return "user/popup/qna-write";
 
     }
 
@@ -105,7 +105,7 @@ public class UserQnaController {
     public String userQnaWriteGuest(@RequestParam String reference,
                                     Model model){
         model.addAttribute("reference", reference);
-        return "/user/popup/qna-write";
+        return "user/popup/qna-write";
     }
 
     @GetMapping("/qna")
@@ -140,7 +140,7 @@ public class UserQnaController {
             model.addAttribute("list",list);
             model.addAttribute("namelist",nameList);
 
-            return "/user/category/qna";
+            return "user/category/qna";
 
         }else{ //검색기능 있을 때
 
@@ -153,7 +153,7 @@ public class UserQnaController {
             model.addAttribute("namelist",nameList);
             model.addAttribute("list",list);
             model.addAttribute("qnaCommentCount",qnaCommentCount);
-            return "/user/category/qna";
+            return "user/category/qna";
         }
     }
 
@@ -247,7 +247,7 @@ public class UserQnaController {
         model.addAttribute("commentList", commentList);
         model.addAttribute("dto",qnaResponseDto);
 
-        return "/user/popup/qna-modify";
+        return "user/popup/qna-modify";
     }
 
     //수정 액션받기

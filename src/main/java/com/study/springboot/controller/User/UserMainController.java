@@ -36,7 +36,7 @@ public class UserMainController {
         model.addAttribute("list", list);
         model.addAttribute("latestNotice", noticeRepository.findLatestNotice());
         
-        return "/user/category/home";
+        return "user/category/home";
     }
 
     //상품검색 -----------------------------------------------------------------------------
@@ -58,7 +58,7 @@ public class UserMainController {
         model.addAttribute("list", list);
         model.addAttribute("keyword", keyword);
         model.addAttribute("count", count);
-        return "/user/category/search";
+        return "user/category/search";
     }
 
     // 카테고리-----------------------------------------------------------------------------
@@ -69,32 +69,32 @@ public class UserMainController {
 
         model.addAttribute("list", list);
         model.addAttribute("category", category);
-        return "/user/category/content";
+        return "user/category/content";
     }
 
     // 이용약관 -----------------------------------------------------------------------------
     @GetMapping("/terms/terms/service")
     public String termsTermsService() {
 
-        return "/user/popup/pop-page1";
+        return "user/popup/pop-page1";
     }
 
     @GetMapping("/terms/terms/privacy")
     public String termsTermsPrivacy() {
 
-        return "/user/popup/pop-page2";
+        return "user/popup/pop-page2";
     }
 
     @GetMapping("/terms/terms/service/order")
     public String termsTermsServiceOrder() {
 
-        return "/user/popup/pop-page3";
+        return "user/popup/pop-page3";
     }
 
     @GetMapping("/terms/terms/policy/order")
     public String termsTermsPolicyOrder() {
 
-        return "/user/popup/pop-page4";
+        return "user/popup/pop-page4";
     }
 
     //로그인 폼

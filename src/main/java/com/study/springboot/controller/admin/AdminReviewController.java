@@ -34,7 +34,7 @@ public class AdminReviewController {
         ReviewEntity review = reviewService.findById(reviewNo);
 
         model.addAttribute("review", review);
-        return "/admin/review/content";
+        return "admin/review/content";
     }
 
     @RequestMapping("/admin/review")
@@ -85,7 +85,7 @@ public class AdminReviewController {
         model.addAttribute("dateEnd", dateEnd);
         model.addAttribute("listCount", reviewRepository.count());
 
-        return "/admin/review/list";
+        return "admin/review/list";
     }
 
     //관리자 후기 삭제하기

@@ -63,13 +63,13 @@ public class AdminProductController {
         long listCount = productRepository.count();
         model.addAttribute("listCount", listCount);
 
-        return "/admin/product/list";
+        return "admin/product/list";
     }
 
     //상품등록 폼
     @GetMapping("/admin/product/registration")
     public String productRegistration() {
-        return "/admin/product/registration";
+        return "admin/product/registration";
     }
 
 

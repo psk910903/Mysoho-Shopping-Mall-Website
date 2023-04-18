@@ -48,7 +48,7 @@ public class UserInfoController {
     // 주문조회-----------------------------------------------------------------------------
     @GetMapping("/myorder")
     public String myorderList() {
-        return "/user/user/myorder";
+        return "user/user/myorder";
     }
 
     //비회원
@@ -81,7 +81,7 @@ public class UserInfoController {
         model.addAttribute("orderList", orderList);
         model.addAttribute("cartListModel", cartListModel);
 
-        return "/user/user/myorder-list";
+        return "user/user/myorder-list";
     }
 
     //마이페이지 홈 회원
@@ -129,7 +129,7 @@ public class UserInfoController {
         model.addAttribute("orderList", orderList);
         model.addAttribute("cartListModel", cartListModel);
 
-        return "/user/user/myorder-list-user";
+        return "user/user/myorder-list-user";
     }
 
     //탈퇴 하기
@@ -331,7 +331,7 @@ public class UserInfoController {
         MemberEntity entity = memberService.findByUserId(memberId);
         model.addAttribute("memberMileage", entity.getMemberMileage());
 
-        return "/user/user/user-mileage";
+        return "user/user/user-mileage";
     }
 
     //쿠폰 상세
