@@ -74,7 +74,7 @@ public class AdminProductController {
 
 
     //상품 단건조회
-    //http://localhost:8080/admin/product/content?item_no=1
+    //http://54.180.12.194:8080/admin/product/content?item_no=1
     @GetMapping("/admin/product/content")
     public String productContent(@RequestParam(value = "itemNo") long id, Model model) {
         ProductResponseDto dto = productService.findById(id);
@@ -84,7 +84,7 @@ public class AdminProductController {
     }
 
     //상품삭제
-    //http://localhost:8080/admin/product/delete?item_no=20000
+    //http://54.180.12.194:8080/admin/product/delete?item_no=20000
     @ResponseBody
     @GetMapping("/admin/product/delete")
     public String productDelete(@RequestParam(value = "itemNo") long id) {

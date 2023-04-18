@@ -226,7 +226,7 @@ public boolean modify(MemberSaveRequestDto dto){
             "비밀번호 변경을 원하실 경우<br>"+
             "하단 비밀번호 변경하기를 눌러주세요."+
             "<br><br>"+
-            "<a href=\"http://localhost:8080/find/password2?getEmail="+getEmail+"\" rel=\"noopener\" style=\"display:inline-block;width:300px;height:50px;line-height:52px;background:#333;box-sizing:border-box;color:#fff;font-size:16px;font-weight:bold;text-align:center;text-decoration:none\" target=\"_blank\" >비밀번호 변경 하기</a>"+
+            "<a href=\"http://54.180.12.194:8080/find/password2?getEmail="+getEmail+"\" rel=\"noopener\" style=\"display:inline-block;width:300px;height:50px;line-height:52px;background:#333;box-sizing:border-box;color:#fff;font-size:16px;font-weight:bold;text-align:center;text-decoration:none\" target=\"_blank\" >비밀번호 변경 하기</a>"+
             "<br><br>"+
             "</p>"+
             "</div>"+
