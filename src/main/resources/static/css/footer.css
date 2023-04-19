@@ -133,15 +133,79 @@
   width: 46px;
 }
 
-.rightbtn {
-  position: fixed;
-  bottom: 55px;
-  right: 27%;
-  z-index: 2;
+
+@media (max-width: 640px){
+ .rightbtn {
+   position: fixed;
+   bottom: 55px;
+   right: 5%;
+   z-index: 2;
+   background-color:rgba(0, 0, 0, 0.2);
+ }
+ .leftbtn {
+   position: fixed;
+   bottom: 55px;
+   left: 5%;
+   z-index: 2;
+ }
 }
-.leftbtn {
-  position: fixed;
-  bottom: 55px;
-  left: 27%;
-  z-index: 2;
+@media (min-width: 640px){
+ .rightbtn {
+   position: fixed;
+   bottom: 55px;
+   right: 15%;
+   z-index: 2;
+   background-color:rgba(0, 0, 0, 0.2);
+ }
+ .leftbtn {
+   position: fixed;
+   bottom: 55px;
+   left: 15%;
+   z-index: 2;
+ }
+}
+@media (min-width: 800px){
+ .rightbtn {
+   position: fixed;
+   bottom: 55px;
+   right: 25%;
+   z-index: 2;
+   background-color:rgba(0, 0, 0, 0.2);
+ }
+ .leftbtn {
+   position: fixed;
+   bottom: 55px;
+   left: 25%;
+   z-index: 2;
+ }
+}
+@media (min-width: 1200px){
+ .rightbtn {
+   position: fixed;
+   bottom: 55px;
+   right: 30%;
+   z-index: 2;
+   background-color:rgba(0, 0, 0, 0.2);
+ }
+ .leftbtn {
+   position: fixed;
+   bottom: 55px;
+   left: 30%;
+   z-index: 2;
+ }
+}
+@media (min-width: 1800px){
+ .rightbtn {
+   position: fixed;
+   bottom: 55px;
+   right: 36%;
+   z-index: 2;
+   background-color:rgba(0, 0, 0, 0.2);
+ }
+ .leftbtn {
+   position: fixed;
+   bottom: 55px;
+   left: 36%;
+   z-index: 2;
+ }
 }

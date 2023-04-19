@@ -351,6 +351,8 @@ p {
 }
 .prd-img {
   width: 13%;
+  min-width: 72px;
+  min-height: 72px;
 }
 /* 품절 */
 .prd-img,
@@ -372,7 +374,7 @@ p {
   text-align: center;
   font-size: 23px;
   font-weight: bold;
-  z-index: 10;
+  z-index: 1;
 }
 .sold-out-text-type2 {
   font-size: 30px;
