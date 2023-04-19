@@ -354,6 +354,8 @@ p {
 }
 .prd-img {
   width: 13%;
+  min-height: 74px;
+  min-width: 74px;
 }
 /* 품절 */
 .prd-img,
