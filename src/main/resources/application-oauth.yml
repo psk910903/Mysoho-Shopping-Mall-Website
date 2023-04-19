@@ -8,7 +8,7 @@ spring:
             client-secret: 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
             scope: profile,email
           kakao:
-            client-id: 	3e4116fbbad20399f959ccf121bcc725
+            client-id: 3e4116fbbad20399f959ccf121bcc725
             client-name: Kakao
             redirect-uri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
             # http://54.180.12.194:8080//login/oauth2/code/kakao
