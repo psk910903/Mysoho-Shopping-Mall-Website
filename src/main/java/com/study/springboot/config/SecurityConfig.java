@@ -41,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
        .and()
                 .formLogin() //로그인 인증에 대한 설정을 시작
-                .loginPage("/user/login") //
+                .loginPage("user/login") //
                 .loginProcessingUrl("/user/loginAction") //로그인 액션 URI를 지정한다.
                 .successHandler( (request,response,authentication) -> {
                     request.getSession().setAttribute("username", request.getParameter("name"));
