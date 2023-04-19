@@ -15,9 +15,9 @@ spring:
             authorization-grant-type: authorization_code
             client-authentication-method: POST
           naver:
-            client-id: ayExhYqaL4SkNW3V3UiP
-            client-secret: jp32AxmoQ5
-            redirect-uri: "{baseScheme}://{baseHost}{basePort}{basePath}/authorized/{registrationId}"
+            client-id: HQiL_JDTQ2v5Jod8lRbQ
+            client-secret: 5w2qASLWQC
+            redirect-uri: "http://54.180.12.194:8080/auth/naver/callback"
             authorization-grant-type: authorization_code
             scope: name,email,profile_image
             client-name: Naver
