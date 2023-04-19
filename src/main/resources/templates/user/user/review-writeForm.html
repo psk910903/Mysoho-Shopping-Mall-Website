@@ -25,13 +25,13 @@
 </script>
 <div class="wrap">
   <div class="betweenbtn">
-    <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
+    <div th:replace="fragments/betweenbtn.html :: fragment-betweenbtn"></div>
   </div>
   <div class="betweenbtn2">
-    <div th:replace="/fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>
+    <div th:replace="fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>
   </div>
   <div class="header">
-    <div th:replace="/fragments/header.html :: fragment-header"></div>
+    <div th:replace="fragments/header.html :: fragment-header"></div>
   </div>
   <th:block th:if="${reviewNo} == null">
   <div  class="users-title-line-hd" >
@@ -133,7 +133,7 @@
   </div>
 
   <div class="footer">
-    <div th:replace="/fragments/footer.html :: fragment-footer"></div>
+    <div th:replace="fragments/footer.html :: fragment-footer"></div>
   </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>

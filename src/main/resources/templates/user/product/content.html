@@ -20,14 +20,14 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
     <div class="wrap">
       <div class="betweenbtn">
-        <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
+        <div th:replace="fragments/betweenbtn.html :: fragment-betweenbtn"></div>
       </div>
       <div class="betweenbtn2">
-        <div th:replace="/fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>
+        <div th:replace="fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>
       </div>
       <div class="header-wrap">
         <div class="header">
-          <div th:replace="/fragments/header.html :: fragment-header"></div>
+          <div th:replace="fragments/header.html :: fragment-header"></div>
         </div>
         <div class="navbar">
           <ul>
@@ -42,31 +42,31 @@
       <!--  -->
       <div>
         <!--content header-->
-        <div th:replace="/user/product-object/container-product-content-header.html :: container-product-content-header"></div>
+        <div th:replace="user/product-object/container-product-content-header.html :: container-product-content-header"></div>
         <!--  content -->
         <div class="pop-page odr-detail">
-          <div th:replace="/user/product-object/container-product-content-nav.html :: container-product-content-nav"></div>
+          <div th:replace="user/product-object/container-product-content-nav.html :: container-product-content-nav"></div>
 
           <div class="txt-detail">
             <div class="buyBtn-hidden">
               <button type="button" onclick="processBeforeSubmit()" class="js-mo-tpl btn-h42-gray mt-25" id="buyBtn">결제하기</button>
-              <div th:replace="/user/product-object/container-product-content-info.html :: container-product-content-info"></div>
+              <div th:replace="user/product-object/container-product-content-info.html :: container-product-content-info"></div>
               <!-- 후기 내용 (display none) -->
-              <div th:replace="/user/product-object/container-product-content-review.html :: container-product-content-review"></div>
+              <div th:replace="user/product-object/container-product-content-review.html :: container-product-content-review"></div>
               <!-- 문의 내용 (display none) -->
-              <div th:replace="/user/product-object/container-product-content-inquiry.html :: container-product-content-inquiry"></div>
+              <div th:replace="user/product-object/container-product-content-inquiry.html :: container-product-content-inquiry"></div>
               <form name="orderForm" action="/order/payAction" method="POST">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                 <!-- 주문자 정보 -->
-                <div th:replace="/user/order-object/container-shopping-basket-orderer.html :: container-shopping-basket-orderer"></div>
+                <div th:replace="user/order-object/container-shopping-basket-orderer.html :: container-shopping-basket-orderer"></div>
                 <!-- 적립금 -->
-                <div th:replace="/user/order-object/container-shopping-basket-mileage.html :: container-shopping-basket-mileage"></div>
+                <div th:replace="user/order-object/container-shopping-basket-mileage.html :: container-shopping-basket-mileage"></div>
                 <!-- 결제방법 -->
-                <div th:replace="/user/order-object/container-shopping-basket-payment.html :: container-shopping-basket-payment"></div>
+                <div th:replace="user/order-object/container-shopping-basket-payment.html :: container-shopping-basket-payment"></div>
                 <!-- 약관/결제 전체 동의 -->
-                <div th:replace="/user/order-object/container-shopping-basket-consent.html :: container-shopping-basket-consent"></div>
+                <div th:replace="user/order-object/container-shopping-basket-consent.html :: container-shopping-basket-consent"></div>
                 <!-- 결제요악 -->
-                <div th:replace="/user/product-object/container-product-content-summary.html :: container-product-content-summary"></div>
+                <div th:replace="user/product-object/container-product-content-summary.html :: container-product-content-summary"></div>
               </form>
             </div>
           </div>
@@ -75,7 +75,7 @@
 
       <!-- 푸터 -->
       <div class="footer">
-        <div th:replace="/fragments/footer.html :: fragment-footer"></div>
+        <div th:replace="fragments/footer.html :: fragment-footer"></div>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>

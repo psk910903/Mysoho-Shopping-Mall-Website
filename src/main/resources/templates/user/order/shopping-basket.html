@@ -24,19 +24,19 @@
   <body>
     <div class="wrap">
       <div class="betweenbtn">
-        <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
+        <div th:replace="fragments/betweenbtn.html :: fragment-betweenbtn"></div>
       </div>
       <div class="betweenbtn2">
-        <div th:replace="/fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>
+        <div th:replace="fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>
       </div>
       <div class="header">
-        <div th:replace="/fragments/header.html :: fragment-header"></div>
+        <div th:replace="fragments/header.html :: fragment-header"></div>
       </div>
       <!-- content  -->
       <div class="content-view text-align-center">
         <!-- cart -->
         <div
-          th:replace="/user/order-object/container-shopping-basket-cart.html :: container-shopping-basket-cart"
+          th:replace="user/order-object/container-shopping-basket-cart.html :: container-shopping-basket-cart"
         ></div>
         <form name="orderForm" action="/order/payAction" method="POST">
           <input
@@ -46,29 +46,29 @@
           />
           <!-- 주문자 정보-->
           <div
-            th:replace="/user/order-object/container-shopping-basket-orderer.html :: container-shopping-basket-orderer"
+            th:replace="user/order-object/container-shopping-basket-orderer.html :: container-shopping-basket-orderer"
           ></div>
           <!-- 적립금 -->
           <div
-            th:replace="/user/order-object/container-shopping-basket-mileage.html :: container-shopping-basket-mileage"
+            th:replace="user/order-object/container-shopping-basket-mileage.html :: container-shopping-basket-mileage"
           ></div>
           <!-- 결제방법 -->
           <div
-            th:replace="/user/order-object/container-shopping-basket-payment.html :: container-shopping-basket-payment"
+            th:replace="user/order-object/container-shopping-basket-payment.html :: container-shopping-basket-payment"
           ></div>
           <!-- 약관/결제 전체 동의 -->
           <div
-            th:replace="/user/order-object/container-shopping-basket-consent.html :: container-shopping-basket-consent"
+            th:replace="user/order-object/container-shopping-basket-consent.html :: container-shopping-basket-consent"
           ></div>
           <!-- 결제 요약 -->
           <div
-            th:replace="/user/order-object/container-shopping-basket-summary.html :: container-shopping-basket-summary"
+            th:replace="user/order-object/container-shopping-basket-summary.html :: container-shopping-basket-summary"
           ></div>
         </form>
       </div>
       <!-- 푸터 -->
       <div class="footer">
-        <div th:replace="/fragments/footer.html :: fragment-footer"></div>
+        <div th:replace="fragments/footer.html :: fragment-footer"></div>
       </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>

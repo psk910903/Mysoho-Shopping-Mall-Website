@@ -24,13 +24,13 @@
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
 <div class="wrap">
   <div class="betweenbtn">
-    <div th:replace="/fragments/betweenbtn.html :: fragment-betweenbtn"></div>
+    <div th:replace="fragments/betweenbtn.html :: fragment-betweenbtn"></div>
   </div>
   <div class="betweenbtn2">
-    <div th:replace="/fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>
+    <div th:replace="fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>
   </div>
   <div class="header">
-    <div th:replace="/fragments/header.html :: fragment-header"></div>
+    <div th:replace="fragments/header.html :: fragment-header"></div>
   </div>
   <!-- 나의 쿠폰 -->
   <div class="container-coupons">
@@ -46,7 +46,7 @@
 
         </div>
         <div id="coupon-hidden-info-wrap"
-             th:replace="/user/user-object/container-myorder-coupon-hidden-info.html :: container-myorder-coupon-hidden-info">
+             th:replace="user/user-object/container-myorder-coupon-hidden-info.html :: container-myorder-coupon-hidden-info">
         </div>
         <div class="couponNon" ><span class="coupon"><span  th:text="${session.memberCoupon}">
         </span>원</span></div>
@@ -56,7 +56,7 @@
   </div>
   <!-- 푸터 -->
   <div class="footer">
-    <div th:replace="/fragments/footer.html :: fragment-footer"></div>
+    <div th:replace="fragments/footer.html :: fragment-footer"></div>
   </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
