@@ -3,10 +3,10 @@ spring:
     oauth2:
       client:
         registration:
-          google:
-            client-id: 1062753642703-6q4evbgpco0et7t6s7u468b7vj04hi6q.apps.googleusercontent.com
-            client-secret: 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
-            scope: profile,email
+#          google:
+#            client-id: 1062753642703-6q4evbgpco0et7t6s7u468b7vj04hi6q.apps.googleusercontent.com
+#            client-secret: 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
+#            scope: profile,email
           kakao:
             client-id: 3e4116fbbad20399f959ccf121bcc725
             client-name: Kakao

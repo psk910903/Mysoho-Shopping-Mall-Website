@@ -174,7 +174,7 @@ public class AdminProductController {
 
         return new ResponseEntity<>(FileResponse.builder().
                 uploaded(true).
-                url(productService.upload(fileload)).
+                url(awsS3Service.upload(fileload)).
                 build(), HttpStatus.OK);
     }
 }
