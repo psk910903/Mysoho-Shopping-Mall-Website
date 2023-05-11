@@ -989,5 +989,5 @@ input[type="checkbox"]:checked::after {
     position: sticky;
     top: 100px;
     background-color: white;
-    z-index:2;
+    z-index:1;
     }
