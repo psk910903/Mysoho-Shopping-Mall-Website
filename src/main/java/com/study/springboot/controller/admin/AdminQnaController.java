@@ -42,7 +42,9 @@ public class AdminQnaController {
         Page<QnaResponseDto> list;
         List<Integer> pageList;
 
-        if ((keywordType == null) && (keyword == null) && (dateStart == null) && (dateEnd == null)) { // 찾기기능을 쓰지않을때
+        if ((keywordType == null) && (keyword == null) && (dateStart == null) && (dateEnd == null)
+                || (dateStart.equals("null")) && (dateEnd.equals("null")) && (keyword.equals("null"))
+                || (dateStart.equals("")) && (dateEnd.equals("")) && (keyword.equals(""))) { // 찾기기능을 쓰지않을때
             list = qnaService.findAll(page);
         } else {
 
@@ -65,7 +67,7 @@ public class AdminQnaController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("dateStart", dateStart);
         model.addAttribute("dateEnd", dateEnd);
-        model.addAttribute("qnalist", list);
+        model.addAttribute("list", list);
         model.addAttribute("pageList", pageList);
         model.addAttribute("listCount", qnaRepository.count());
         return "admin/qna/list";
