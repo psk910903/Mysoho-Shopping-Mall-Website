@@ -10,13 +10,14 @@
 
 ### Development Environment
 
-|          |                                                   |
-| -------- | ------------------------------------------------- |
-| OS       | Windows 10                                        |
-| Language | Java, JavaScript, HTML/CSS                        |
-| Tool     | VS Code, SpringBoot, IntelliJ, Bootstrap5, Github |
-| Server   | Tomcat 9                                          |
-| DB       | MariaDB                                           |
+|              |                                                   |
+| ------------ | ------------------------------------------------- |
+| OS           | Windows 10                                        |
+| Language     | Java, JavaScript, HTML/CSS, Kotlin                |
+| Tool         | VS Code, SpringBoot, IntelliJ, Bootstrap5, Github |
+| Server       | Tomcat 9                                          |
+| DB           | MariaDB, AWS RDS                                  |
+| Distribution | Github Actions, AWS Code Deploy, AWS S3, AWS EC2  |
 
 ### Database
 
@@ -24,9 +25,11 @@
 
 ### Demonstration
 
-[마이소호 시연 영상](https://www.youtube.com/watch?v=7_dpJy36oTw&feature=youtu.be)
+[마이소호 시연 영상](https://youtu.be/A38tptt7irM)
 
 ### Report
+
+[화면기획서(관리자)](./화면기획서-관리자.pdf)
 
 [완료 보고서](./mysoho완료보고서.pdf)
 
