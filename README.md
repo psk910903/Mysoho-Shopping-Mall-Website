@@ -30,6 +30,7 @@
 ### Report
 
 [화면기획서(관리자)](./화면기획서-관리자.pdf)
+
 [완료 보고서](./mysoho완료보고서.pdf)
 
 ### Team Members
