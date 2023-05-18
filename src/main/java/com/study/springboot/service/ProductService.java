@@ -206,6 +206,7 @@ public class ProductService {
         return setItemDiscountPrice(list);
     }
 
+    @Transactional(readOnly = true)
     List<ProductResponseDto> setItemDiscountPrice(List<ProductResponseDto> list) {
         for (ProductResponseDto dto : list) {
             Long itemPrice = dto.getItemPrice();
@@ -264,6 +265,7 @@ public class ProductService {
         List<ProductResponseDto> list = entityList.stream().map(ProductResponseDto::new).collect(Collectors.toList());
         return setItemDiscountPrice(list);
     }
+
 
     public List<ProductResponseDto> itemListByCookies(Cookie[] cookies) {
         List<ProductResponseDto> itemList = new ArrayList<>();

@@ -19,11 +19,13 @@ public class QnaCommentService {
 
     private final QnaCommentRepository qnaCommentRepository;
 
+    @Transactional(readOnly = true)
     public List<QnaCommentResponseDto> findByIdx(Long idx) {
         List<QnaCommentEntity> commentEntity = qnaCommentRepository.findByCommentQnaId_nativeQuery(idx);
         return commentEntity.stream().map(QnaCommentResponseDto::new).collect(Collectors.toList());
     }
 
+    @Transactional
     public boolean save(QnaCommentEntity qnaCommentEntity) {
         try{
             qnaCommentRepository.save(qnaCommentEntity);
@@ -34,6 +36,7 @@ public class QnaCommentService {
         return true;
     }
 
+    @Transactional
     public boolean delete(Long id){
         try {
             qnaCommentRepository.deleteById(id);
@@ -44,11 +47,13 @@ public class QnaCommentService {
         return true;
     }
 
+    @Transactional(readOnly = true)
     public List<QnaCommentResponseDto> findById(long id) {
         Optional<QnaCommentEntity> list = qnaCommentRepository.findById(id);
         return list.stream().map(QnaCommentResponseDto::new).collect(Collectors.toList());
     }
 
+    @Transactional
     public boolean modify(QnaCommentEntity entity) {
         try{
             qnaCommentRepository.save(entity);
@@ -59,6 +64,7 @@ public class QnaCommentService {
         return true;
     }
 
+    @Transactional(readOnly = true)
     public List<Long> qnaCommentCount(List<QnaResponseDto> list){
         List<Long> qnaCommentCount = new ArrayList<>();
         for(int i =0; i< list.size(); i++){
@@ -74,6 +80,7 @@ public class QnaCommentService {
         return count;
     }
 
+    @Transactional(readOnly = true)
     public List<QnaCommentResponseDto> findAllByCommentQnaId(Long num) {
         return qnaCommentRepository.findAllByCommentQnaId(num).stream().map(QnaCommentResponseDto::new).collect(Collectors.toList());
     }

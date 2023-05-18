@@ -106,8 +106,7 @@ public class AdminInquiryController {
     //답글 달기
     @RequestMapping("/admin/inquiry/writeAction")
     @ResponseBody
-    public String replyWrite(InReplySaveResponseDto dto,
-                             @RequestParam("replyInquiryNo") Long replyInquiryNo ){
+    public String replyWrite(InReplySaveResponseDto dto,@RequestParam("replyInquiryNo") Long replyInquiryNo ){
         boolean result = inReplyService.save(dto);
         if(result) {
             return "<script>alert('답변등록 완료'); location.href='/admin/inquiry/content?inquiryNo=" + replyInquiryNo + "'; </script>";

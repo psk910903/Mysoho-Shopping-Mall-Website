@@ -82,7 +82,6 @@ public class AdminOrderController {
 
         //주문정보
         OrderResponseDto dto = orderService.findById(id);
-        model.addAttribute("dto", dto);
         List<CartResponseDto> cartList = cartService.getCartList(dto);
 
         model.addAttribute("cartList", cartList);

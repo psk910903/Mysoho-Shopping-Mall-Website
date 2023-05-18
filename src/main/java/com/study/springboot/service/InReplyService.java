@@ -18,7 +18,7 @@ public class InReplyService {
 
     private final InReplyRepository inReplyRepository;
     private final InquiryService inquiryService;
-
+    @Transactional
     public boolean save(final InReplySaveResponseDto dto){
         try{
             inReplyRepository.save( dto.toEntity() );
@@ -28,7 +28,7 @@ public class InReplyService {
         }
         return true;
     }
-
+    @Transactional
     public boolean modify(final InReplySaveResponseDto dto, final Long replyNo){
         try {
             Optional<InReplyEntity> optional = inReplyRepository.findById(replyNo);
@@ -53,7 +53,7 @@ public class InReplyService {
             return false;
         }
     }
-
+    @Transactional(readOnly = true)
     public List<Long> inReplyCount(List<InquiryResponseDto> inquiry){
         List<Long> inReplyCount = new ArrayList<>();
 
