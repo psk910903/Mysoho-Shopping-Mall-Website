@@ -41,17 +41,23 @@ public class MemberService {
     private final InquiryService inquiryService;
 
 public MemberResponseDto findById(long id) {
-    MemberEntity entity = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("해당 사용자가 없습니다."));
-    MemberResponseDto dto = new MemberResponseDto(entity);
+    MemberResponseDto dto;
+    try {
+        MemberEntity entity = memberRepository.findById(id).get();
+        dto = new MemberResponseDto(entity);
+    } catch (Exception e) {
+        e.printStackTrace();
+        return null;
+    }
     return dto;
 }
 
 @Transactional
 public boolean modify(MemberSaveRequestDto dto){
 
-    MemberEntity entity = memberRepository.findById(dto.getMemberNo()).get();
-    dto.setMemberJoinDatetime(entity.getMemberJoinDatetime());
     try {
+        MemberEntity entity = memberRepository.findById(dto.getMemberNo()).get();
+        dto.setMemberJoinDatetime(entity.getMemberJoinDatetime());
         memberRepository.save(dto.toUpdateEntity());
     } catch (Exception e) {
         e.printStackTrace();
@@ -266,9 +272,7 @@ public boolean modify(MemberSaveRequestDto dto){
         Optional<MemberEntity> optional = memberRepository.findByMemberEmail(getEmail);
 
         if(!optional.isPresent()){
-
             System.out.println("memberid is not present");
-
         }
         try {
             String encodedPassword = passwordEncoder.encode(password);
@@ -283,8 +287,8 @@ public boolean modify(MemberSaveRequestDto dto){
     }
     @Transactional(readOnly = true)
     public String findByMemberEmail(final String email){
-        Optional<MemberEntity> optional = memberRepository.findByMemberEmail(email);
-        return optional.get().getUsername();
+        MemberEntity entity = memberRepository.findByMemberEmail(email).get();
+        return entity.getUsername();
     }
 
 
