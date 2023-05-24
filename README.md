@@ -8,8 +8,9 @@
 
 또한, 하이브리드 앱도 구현되어 쇼핑몰 웹사이트의 기능과 내용을 모바일 환경에서도 활용할 수 있게 합니다. 이 하이브리드 앱은 Android 플랫폼에서 실행될 수 있습니다.
 
+<br>
 
-#### **Functionality**
+### Functionality
 
 - 상품 목록 및 상세 정보
 
@@ -43,29 +44,54 @@
 
   웹사이트에는 관리자용 기능도 포함되어 있습니다. 관리자는 상품을 추가, 편집, 삭제할 수 있으며, 주문 상태를 관리하고 사용자의 문의에 응답할 수 있습니다. 또한, 관리자는 웹사이트에 등록된 회원들을 관리하고, 회원의 정보를 편집하거나 삭제할 수 있으며 리뷰를 모니터링하고 필요한 조치를 취할 수 있습니다. 그리고 공지사항이나 이벤트를 등록하고 관리할 수 있습니다.
 
-
-### Reference Site
-
-[마이소호 샘플샵](https://sohonara.mysoho.com/)
+<br>
 
 ### Development Environment
 
-|              |                                                   |
-| ------------ | ------------------------------------------------- |
-| OS           | Windows 10                                        |
-| Language     | Java, JavaScript, HTML/CSS, Kotlin                |
-| Tool         | VS Code, SpringBoot, IntelliJ, Bootstrap5, Github |
-| Server       | Tomcat 9                                          |
-| DB           | MariaDB, AWS RDS                                  |
-| Distribution | Github Actions, AWS Code Deploy, AWS S3, AWS EC2  |
+<table>
+  <tbody>
+    <tr>
+      <td>OS</td>
+      <td>Windows 10</td>
+    </tr>
+    <tr>
+      <td>Language</td>
+      <td>Java, JavaScript, HTML/CSS, Kotlin</td>
+    </tr>
+    <tr>
+      <td>Tool</td>
+      <td>VS Code, SpringBoot, IntelliJ, Bootstrap5, Github</td>
+    </tr>
+    <tr>
+      <td>Server</td>
+      <td>Tomcat 9</td>
+    </tr>
+    <tr>
+      <td>DB</td>
+      <td>MariaDB, AWS RDS</td>
+    </tr>
+    <tr>
+      <td>Deploy</td>
+      <td>Github Actions, AWS Code Deploy, AWS S3, AWS EC2</td>
+    </tr>
+  </tbody>
+</table>
 
 ### Database
 
 <img src="./ERD.png">
 
-### Demonstration
+<br>
 
-[마이소호 시연 영상](https://youtu.be/A38tptt7irM)
+### Deploy
+
+GitHub Actions를 통해 소스 코드를 빌드하고, AWS S3에 아티팩트를 업로드했습니다. 다음으로, AWS CodeDeploy를 설정하고, 배포 대상 EC2 인스턴스에 애플리케이션을 배포한 후, 결과를 확인하였습니다.
+
+<img src="./Deploy.png">
+
+### Demo Video
+
+[![마이소호 시연 영상](http://img.youtube.com/vi/A38tptt7irM/0.jpg)](https://www.youtube.com/watch?v=A38tptt7irM)
 
 ### Report
 
@@ -76,3 +102,7 @@
 ### Team Members
 
 박선교 김은진 서경빈 이준하 이지성 정희진
+
+### Reference
+
+[마이소호 샘플샵](https://sohonara.mysoho.com/)
