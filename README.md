@@ -91,9 +91,13 @@ GitHub Actions를 통해 소스 코드를 빌드하고, AWS S3에 아티팩트�
 
 <img src="./Deploy.PNG">
 
+<br>
+
 ### Demo Video
 
 [![마이소호 시연 영상](http://img.youtube.com/vi/A38tptt7irM/0.jpg)](https://www.youtube.com/watch?v=A38tptt7irM)
+
+<br>
 
 ### Report
 
@@ -101,9 +105,13 @@ GitHub Actions를 통해 소스 코드를 빌드하고, AWS S3에 아티팩트�
 
 [완료 보고서](./mysoho완료보고서.pdf)
 
+<br>
+
 ### Team Members
 
 박선교 김은진 서경빈 이준하 이지성 정희진
+
+<br>
 
 ### Reference
 
