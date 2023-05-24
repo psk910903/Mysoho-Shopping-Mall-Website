@@ -77,6 +77,8 @@
   </tbody>
 </table>
 
+<br>
+
 ### Database
 
 <img src="./ERD.png">
@@ -87,7 +89,7 @@
 
 GitHub Actions를 통해 소스 코드를 빌드하고, AWS S3에 아티팩트를 업로드했습니다. 다음으로, AWS CodeDeploy를 설정하고, 배포 대상 EC2 인스턴스에 애플리케이션을 배포한 후, 결과를 확인하였습니다.
 
-<img src="./Deploy.png">
+<img src="./Deploy.PNG">
 
 ### Demo Video
 
