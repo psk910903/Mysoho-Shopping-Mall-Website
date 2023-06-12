@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마이소호 샘플샵</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/navbar.css" />
+    <link rel="stylesheet" href="/css/footer.css" />
+    <link rel="stylesheet" href="/css/category.css" />
+  </head>
+  <body>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <div class="wrap">
+      <!-- 사이트 하단 전화버튼, 상단가기 버튼 -->
+      <div class="betweenbtn">
+        <div th:replace="fragments/betweenbtn.html :: fragment-betweenbtn"></div>
+      </div>
+      <div class="betweenbtn2">
+        <div th:replace="fragments/betweenbtn2.html :: fragment-betweenbtn2"></div>
+      </div>
+      <!-- 헤더 -->
+      <div class="header-wrap">
+        <div class="header">
+          <div th:replace="fragments/header.html :: fragment-header"></div>
+        </div>
+        <div class="navbar">
+          <ul>
+            <li><a href="/plan/item/SALE">♡ NURIRI SALE ♡</a></li>
+            <li><a href="/plan/item/TOP">TOP</a></li>
+            <li><a href="/plan/item/BOTTOM">BOTTOM</a></li>
+            <li><a href="/plan/item/ONE-PIECE">ONE-PIECE</a></li>
+            <li><a href="/plan/item/ACC" id="acc">ACC</a></li>
+          </ul>
+        </div>
+      </div>
+      <!-- 상단 -->
+      <div class="container-profile">
+        <div class="profile-area">
+          <img
+            src="https://img.makeshop.co.kr/1/1371/201908/82f61ad4eb11bb9799f3decaf691ab24.png"
+            alt=""
+          />
+          <th:block th:if="${category} == 'SALE'">
+            <div class="profile-area-tit" >♡NURIRI SALE♡</div>
+          </th:block>
+          <th:block th:unless="${category} == 'SALE'">
+            <div class="profile-area-tit" th:text="${category}">ONE-PIECE</div>
+          </th:block>
+
+        </div>
+        <!-- 리스트변경아이콘 -->
+        <div class="display-tab">
+          <a href="javascript:displayTypeChange2()"
+          ><img
+                  id="display-type-steps2"
+                  class="ico-list fl-r display-type-steps2"
+                  src="https://sohonara.mysoho.com/assets/shop/img/common/ico_list_type3.png"
+                  alt=""
+          /></a>
+          <a href="javascript:displayTypeChange1()"
+          ><img
+                  id="display-type-steps1"
+                  class="ico-list fl-r display-type-steps2"
+                  src="https://sohonara.mysoho.com/assets/shop/img/common/ico_list_type2.png"
+                  alt=""
+          /></a>
+
+        </div>
+        <!-- 진열상품 -->
+        <div class="acc-list">
+<!--          -->
+          <div id="list-type2" class="list-type boxDiv">
+            <ul>
+              <li class="type3" th:each="dto:${ list }">
+                <div class="between">
+                  <div class="prd-img">
+                    <a th:href="|/product/${dto.itemNo}|" class="focusTag"
+                    ><img
+                            th:src="${ dto.itemImageUrl }"
+                            alt=""
+                    />
+                    </a>
+                  </div>
+                  <div class="tbl-cell">
+                    <p class="txt"th:text="${ dto.itemName }">브라운 사각 bag</a></p>
+                    <p class="price-info">
+                      <th:block th:if="${dto.itemDiscountRate} != 0">
+                        <span class="sale-rate" th:text="${ (dto.itemDiscountRate)+'%' }">9%</span>
+                        <span class="price" data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}">49,000원</span>
+                        <span class="gray-through" data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}">49,000원</span>
+                      </th:block>
+                      <th:block th:unless="${dto.itemDiscountRate} != 0">
+                        <span class="price" data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}">49,000원</span>
+                      </th:block>
+                    </p>
+                  </div>
+                </div>
+                <!--                  품절-->
+                <th:block th:if="${dto.itemSoldOut} == '품절'">
+                  <a
+                          class="btn-cart-type1"
+                          onclick="alert('품절상품입니다.')"
+                  ><img
+                          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                          alt=""
+                  />
+                  </a>
+                </th:block>
+                <th:block th:unless="${dto.itemSoldOut} == '품절'">
+                  <th:block
+                          th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                  >
+                    <a
+                            class="btn-cart-type1"
+                            onclick="alertAndItemLink(this)"
+                            th:value="${dto.itemNo}"
+                    ><img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                    />
+                    </a>
+                  </th:block>
+                  <th:block
+                          th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  "
+                  >
+                    <a
+                            class="btn-cart-type1"
+                            onclick="basketNumCount(this)"
+                            th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                    ><img
+                            src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                    />
+                    </a>
+                  </th:block>
+                </th:block>
+              </li>
+            </ul>
+          </div>
+<!--두번째 타입-->
+          <!-- 상품리스트 -->
+          <div class="list-type js-prd-list-type-wrap" id="list-type1">
+            <ul class="twoAlign">
+              <li th:each="dto:${ list }">
+                <th:block th:if="${dto.itemSoldOut} == '품절'">
+                  <a href="#"
+                     onclick="alert('품절상품입니다.')" class="cart">
+                    <!--                  카트이미지-->
+                    <img
+                            src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                            alt=""
+                    /></a>
+                </th:block>
+                <th:block th:unless="${dto.itemSoldOut} == '품절'">
+                  <th:block th:if="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
+                    <a href="#"
+                       onclick="alertAndItemLink(this)"
+                       th:value="${dto.itemNo}"
+                       class="cart">
+                      <!--                  카트이미지-->
+                      <img
+                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                              alt=""
+                      /></a>
+                  </th:block>
+                  <th:block th:unless="${#strings.contains(dto.itemOptionColor, ',')} or ${#strings.contains(dto.itemOptionSize, ',')}  ">
+                    <a href="#"
+                       onclick="basketNumCount(this)"
+                       th:value="|${dto.itemNo}.${dto.itemOptionColor}.${dto.itemOptionSize}|"
+                       class="cart">
+                      <!--                  카트이미지-->
+                      <img
+                              src="https://sohonara.mysoho.com/assets/shop/img/common/ico_cart_type1.png"
+                              alt=""
+                      /></a>
+                  </th:block>
+                </th:block>
+                <a th:href="|/product/${dto.itemNo}|">
+                  <p class="img">
+                    <img
+                            th:src="${ dto.itemImageUrl }"
+                            alt=""
+                    />
+                  </p>
+                </a>
+                <p class="txt" th:text="${ dto.itemName }">퍼프블라우스 화이트</p>
+                <p class="price-info">
+                  <th:block th:if="${dto.itemDiscountRate} != 0">
+                    <span class="sale-rate" th:text="${ (dto.itemDiscountRate)+'%' }">9%</span>
+                    <span class="price" data-th-text="${#numbers.formatInteger(dto.itemDiscountPrice, 3, 'COMMA') + '원'}">49,000원</span>
+                  </th:block>
+                  <th:block th:unless="${dto.itemDiscountRate} != 0">
+                    <span class="price" data-th-text="${#numbers.formatInteger(dto.itemPrice, 3, 'COMMA') + '원'}">49,000원</span>
+                  </th:block>
+                </p>
+              </li>
+            </ul>
+          </div>
+<!--          -->
+        </div>
+      </div>
+    </div>
+    <!-- 푸터 -->
+    <div class="footer">
+      <div th:replace="fragments/footer.html :: fragment-footer"></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+      integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="/js/header.js"></script>
+    <script src="/js/displayTypeChange.js"></script>
+    <script src="/js/footer.js"></script>
+  </body>
+</html>

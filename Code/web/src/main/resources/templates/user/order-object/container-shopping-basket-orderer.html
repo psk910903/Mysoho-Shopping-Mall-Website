@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:fragment="container-shopping-basket-orderer">
+    <div class="order-hd lnk-tab">
+        <strong>주문자 정보</strong>
+        <div class="flexbox">
+            <span class="blue fs-14 span1">정보를 입력하세요.</span>
+            <a href="javascript:orderInfo(1)" class="order-hd-open-1">
+                <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt=""/>
+            </a>
+            <a href="javascript:orderInfo(1)" class="order-hd-close-1">
+                <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png" alt=""/>
+            </a>
+        </div>
+    </div>
+    <div class="order1" id="order1">
+        <div class="order-frm basket">
+            <div class="receiver-wrap same">
+                <div class="title js-useDeliveryOff">
+                    <div><strong>주문자정보</strong></div>
+                    <div class="cbx-tit">
+                        <th:block sec:authorize="isAnonymous()">
+                            <input type="checkbox" onclick="adjustJoinForm()" id="joinCheckBox" />
+                            회원가입
+                        </th:block>
+                    </div>
+                </div>
+                <ul>
+                    <li class="mt-none">
+                        <input type="text" name="orderName" placeholder="이름" maxlength="20" id="order-first-input"/>
+                        <input type="hidden" name="memberName" id="memberName">
+                    </li>
+                    <li class="array-2x">
+                        <select id="orderPhone1">
+                            <option value="010" selected>010</option>
+                            <option value="011">011</option>
+                            <option value="016">016</option>
+                            <option value="017">107</option>
+                            <option value="018">018</option>
+                            <option value="019">019</option>
+                        </select>
+                        <input type="tel" placeholder="- 없이 숫자만 입력" id="order-sec-input"/>
+                        <input type="hidden" name="orderPhone" id="orderPhone"/>
+                        <input type="hidden" name="memberPhone" id="memberPhone"/>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 회원가입 -->
+            <div th:replace="user/order-object/container-shopping-basket-join.html :: container-shopping-basket-join"></div>
+
+            <!-- 수령자정보 -->
+            <div class="receiver-wrap same same2">
+                <div class="title js-useDeliveryOff">
+                    <strong>수령자정보</strong>
+                    <div class="cbx-tit">
+                        <input type="checkbox" onclick="onclickCbxCopy()" id="cdxCopy"/>
+                        주문자 정보와 같습니다.
+                    </div>
+                </div>
+                <ul>
+                    <li class="mt-none">
+                        <input type="text" name="orderRecipientName" placeholder="이름" maxlength="20" id="order-first-input-copy"/>
+                    </li>
+                    <li class="array-2x">
+                        <select id="orderRecipientPhone1">
+                            <option value="010" selected>010</option>
+                            <option value="011">011</option>
+                            <option value="016">016</option>
+                            <option value="017">107</option>
+                            <option value="018">018</option>
+                            <option value="019">019</option>
+                        </select>
+                        <input type="tel" placeholder="- 없이 숫자만 입력" id="order-sec-input-copy"/>
+                        <input type="hidden" name="orderRecipientPhone" id="orderRecipientPhone"/>
+                    </li>
+                </ul>
+            </div>
+            <div class="receiver-wrap same js-useDeliveryOff same2">
+                <div class="title red">
+                    <strong class="red2"> 수령자 주소</strong>
+                </div>
+                <ul>
+                    <li class="box open-layer-addr mt-none">
+                        <input id="sample6_postcode" type="text" name="orderRecipientAddrNumber" placeholder="우편번호" readonly onclick="sample6_execDaumPostcode()"/>
+                        <input type="hidden" name="memberAddrNumber" id="memberAddrNumber">
+                        <!-- 돋보기 이미지 -->
+                        <a>
+                            <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h24_search.png" alt="" onclick="sample6_execDaumPostcode()"/>
+                        </a>
+                    </li>
+                    <li class="delivery-address1">
+                        <input id="sample6_address" type="text" name="orderRecipientAddr1" placeholder="기본주소" maxlength="100" readonly/>
+                    </li>
+                    <li class="delivery-address2">
+                        <input type="hidden" id="sample6_extraAddress" placeholder="참고항목" maxlength="100" readonly/>
+<!--                        <input type="hidden" id="orderRecipientAddr1" name="orderRecipientAddr1"/>-->
+                        <input type="hidden" id="memberAddr1" name="memberAddr1"/>
+                    </li>
+                    <li class="delivery-address2">
+                        <input id="sample6_detailAddress" name="orderRecipientAddr2" type="text" placeholder="나머지주소" maxlength="100"/>
+                        <input type="hidden" id="memberAddr2" name="memberAddr2"/>
+                    </li>
+                    <li class="relative-li">
+                        <select name="message" onchange="showDirectInput();" id="msgToCourier">
+                            <option value="0" selected>배송 전 연락 바랍니다.</option>
+                            <option value="1">부재시 휴대폰으로 연락 바랍니다.</option>
+                            <option value="2">부재시 경비실에 맡겨주세요.</option>
+                            <option value="3">집 앞에 놓아주세요.</option>
+                            <option value="4">택배함에 넣어주세요.</option>
+                            <option value="direct">직접입력</option>
+                        </select>
+                        <!-- 셀렉트 여는 이모티콘 -->
+                        <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt="" class="imgOpen"/>
+                        <input type="text" id="directInput" placeholder="직접입력" style="display:none;">
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- 구분선 빈박스-->
+        <div class="bg-blank none"></div>
+    </div>
+
+</th:block>
+</html>

@@ -1,0 +1,164 @@
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/admin.css">
+  <title>마이소호 관리자페이지</title>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+</head>
+<div id="wrap">
+
+  <div th:replace="fragments/Nav.html :: fragment-adminNav"></div>
+
+  <div id="contentWrap" style="width:100%">
+    <div class="contentHeader" style="width:100%">
+      <div>상품문의관리</div>
+      <div>
+        <a href="/" class="text-decoration-none">
+          <img class="logo" src="https://img.makeshop.co.kr/1/1371/201908/583f98cc6e004ec7b3ba880bf0eaf1c9.png" alt=""/>
+        </a>
+        <a href="javascript:logout();" type="button" class="btn btn-secondary">로그아웃</a>
+      </div>
+    </div>
+  <div class="content" style="width:100%">
+    <div style="width:100%" >
+      <div class="contentWrap">
+      <table class="table table-bordered ">
+        <form  action="/admin/inquiry/list" method="GET" class="row align-items-center" >
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+          <input type="hidden" name="page" value="0">
+          <tr>
+            <th style="text-align: center;" class="table-light w250 align-middle">기간</th>
+            <td>
+              <!--            2023-02-15형태의 값으로 url에 반영 -->
+              <input type="date" name="dateStart" value="" class="btn btn-outline-secondary"/> ~
+              <input type="date" name="dateEnd" value="" class="btn btn-outline-secondary"/>
+              <a href="/admin/inquiry/list?dateStart=today&dateEnd=&findBy=type&keyword=&page=0" class="btn btn-outline-secondary">오늘</a>
+              <a href="/admin/inquiry/list?dateStart=yesterday&dateEnd=&findBy=type&keyword=&page=0" class="btn btn-outline-secondary">어제</a>
+              <a href="/admin/inquiry/list?dateStart=week&dateEnd=&findBy=type&keyword=&page=0" class="btn btn-outline-secondary">1주일</a>
+              <a href="/admin/inquiry/list?dateStart=month&dateEnd=&findBy=type&keyword=&page=0" class="btn btn-outline-secondary">1개월</a>
+            </td>
+          </tr>
+          <tr>
+            <th style="text-align: center;" class="table-light w250 align-middle">검색조건</th>
+            <td >
+              <div class="input-group ">
+              <select name="findBy" style="padding-left: 10px" >
+                <option value="memberId" selected>회원아이디</option>
+                <option value="inquiryContent">내용</option>
+                <input type="text" value="" name="keyword" width="100px" class="form-control"/>
+                <input type="submit" value="검색" class="btn btn-secondary"/></a>
+              </select>
+              </div>
+            </td>
+          </tr>
+        </form>
+      </table>
+      </div>
+
+      <div class="contentWrap">
+      <div class="count">
+        <div class="listCount" >
+          <span>전체 문의 내역 : </span>
+          <strong th:text="${ listCount }">5</strong>
+
+<!--          <span>검색 내역 : </span>-->
+<!--          <strong th:text="${ count }">5</strong>-->
+        </div>
+      </div>
+
+        <table  class="table table-bordered table-hover" style="text-align: center;"  id="listForm">
+          <thead class="thead-strong">
+            <tr align="center" >
+              <th class="table-light align-middle w50">번호</th>
+              <th class="table-light align-middle w200">상품명</th>
+              <th class="table-light align-middle">내용</th>
+              <th class="table-light align-middle">작성자</th>
+              <th class="table-light align-middle w200">작성일</th>
+              <th class="table-light align-middle w150">관리</th>
+            </tr>
+          </thead>
+        <tr th:each="dto, status: ${list}" align="center">
+          <td class="align-middle" th:text="${ dto.inquiryNo }">번호</td>
+          <td class="align-middle" th:text="${ itemList[status.index]  }">상품명</td>
+          <td class="align-middle">
+            <div th:text="${ dto.inquiryContent }" class="txt_ellipsis">글내용</div>
+          </td>
+          <th:block th:if="${dto.memberId != null} or ${dto.memberId} == ''">
+          <td class="align-middle" th:text="${ dto.memberId }">작성자</td>
+          </th:block>
+          <th:block th:unless="${dto.memberId != null} or ${dto.memberId} == ''">
+            <td class="align-middle" >비회원</td>
+          </th:block>
+
+          <td class="align-middle" th:text="${#temporals.format(dto.inquiryDatetime, 'yyyy-MM-dd HH:mm')}">작성일</td>
+          <td class="align-middle">
+            <a th:href="@{content(inquiryNo=${dto.inquiryNo})}" class="btn btn-outline-secondary">상세정보</a>
+          </td>
+        </tr>
+      </table>
+      </div>
+
+      <div class="container"> <!-- 페이지 시작 -->
+        <div th:if="${!list.isEmpty()}">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${!list.hasPrevious} ? 'disabled'"> <!-- 이전 버튼 시작 -->
+              <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                <a class="page-link" style="color: #555;" th:href="|/admin/inquiry/list?page=${list.number-1}|">
+                  <span>이전</span>
+                </a>
+              </th:block>
+              <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                <a class="page-link" style="color: #555;" th:href="|/admin/inquiry/list?page=${list.number-1}&dateStart=${dateStart}&dateEnd=${dateEnd}&findBy=${findBy}&keyword=${keyword}|">
+                  <span>이전</span>
+                </a>
+              </th:block>
+            </li> <!-- 이전 버튼 끝 -->
+            <li th:each="page: ${pageList}"
+                th:classappend="${page == list.number} ? 'active'"
+                class="page-item"> <!-- 숫자 페이지 버튼 시작 -->
+              <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                <a th:text="${page+1}" class="page-link" style="color: #555;" th:href="|/admin/inquiry/list?page=${page}|"></a>
+              </th:block>
+              <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                <a th:text="${page+1}" class="page-link" style="color: #555;" th:href="|/admin/inquiry/list?page=${page}&dateStart=${dateStart}&dateEnd=${dateEnd}&findBy=${findBy}&keyword=${keyword}|"></a>
+              </th:block>
+            </li> <!-- 숫자 페이지 버튼 끝 -->
+            <li class="page-item" th:classappend="${!list.hasNext} ? 'disabled'"> <!-- 다음 버튼 시작 -->
+              <th:block th:if="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                <a class="page-link" style="color: #555;" th:href="|/admin/inquiry/list?page=${list.number+1}|">
+                  <span>다음</span>
+                </a>
+              </th:block>
+              <th:block th:unless="${#strings.equals(keyword, '')} and ${totalPage} == 1">
+                  <a class="page-link" style="color: #555;" th:href="|/admin/inquiry/list?page=${list.number+1}&dateStart=${dateStart}&dateEnd=${dateEnd}&findBy=${findBy}&keyword=${keyword}|">
+                  <span>다음</span>
+                </a>
+              </th:block>
+            </li> <!-- 다음 버튼 끝 -->
+          </ul>
+        </div>
+      </div> <!-- 페이지 끝 -->
+    </div>
+  </div>
+  </div>
+
+</div><!-- wrap -->
+
+<script>
+  $("#listForm #allch").on("click", function () {
+    if ($("#allch").prop("checked")) {
+      $("input[type=checkbox]").prop("checked", true);
+    } else {
+      $("input[type=checkbox]").prop("checked", false);
+    }
+  });
+</script>
+</body>
+
+</html>
+
+
+

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/css/admin.css">
+  <title>마이소호 관리자페이지</title>
+</head>
+<body>
+<div id="wrap">
+  <div th:replace="fragments/nav.html :: fragment-adminNav"></div>
+
+  <div id="contentWrap" style="width:100%;">
+    <div class="contentHeader" style="width:100%;">
+      <div>공지사항관리</div>
+      <div>
+        <a href="/" class="text-decoration-none">
+          <img class="logo" src="https://img.makeshop.co.kr/1/1371/201908/583f98cc6e004ec7b3ba880bf0eaf1c9.png" alt=""/>
+        </a>
+        <a href="javascript:logout();" type="button" class="btn btn-secondary">로그아웃</a>
+      </div>
+    </div>
+
+    <div class="content" style="width:100%;"> <!-- content 시작 -->
+      <form method="POST" th:action="(${notice.noticeNo} == null) ? '/admin/notice/writeAction' : '/admin/notice/modifyAction'">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        <div class="contentWrap">
+          <table class="table table-horizontal table-bordered" style="width:100%; table-layout:fixed; overflow-wrap: break-word;"> <!-- 번호, 제목, 카테고리 테이블 시작 -->
+            <tr th:if="${notice.noticeNo} != null">
+              <th class="table-light" style="text-align: center">번호</th>
+              <td>
+                <input name="noticeNo" th:value="${notice.noticeNo}" style="width:100%" class="form-control" readonly>
+              </td>
+            </tr>
+            <tr>
+              <th class="table-light w250 align-middle" style="text-align: center">제목</th>
+              <td>
+                <input name="noticeTitle" th:value="${notice.noticeTitle}" style="width:100%" class="form-control" >
+              </td>
+            </tr>
+            <tr>
+              <th class="table-light w250 align-middle" style="text-align: center">공지유형</th>
+              <td>
+                <select name="noticeType" style="width:100%" class="form-control">
+                  <option value="공지사항" th:selected="${notice.noticeType} == '공지사항'">공지사항</option>
+                  <option value="이벤트" th:selected="${notice.noticeType} == '이벤트'">이벤트</option>
+                </select>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <textarea id="editor" ></textarea> <!-- 내용 입력 -->
+                <input type="hidden" name="noticeContent" id="noticeContent" th:value="${notice.noticeContent}">
+              </td>
+            </tr>
+          </table> <!-- 번호, 제목, 카테고리 테이블 끝 -->
+        <!-- 버튼 시작 -->
+          <div style="text-align: center">
+            <th:block th:if="${notice.noticeNo} != null">
+              <button type="submit" class="btn btn-outline-secondary" onclick="addNoticeContent();">수정</button>
+            </th:block>
+            <th:block th:unless="${notice.noticeNo} != null">
+              <button type="submit" class="btn btn-outline-secondary" onclick="addNoticeContent();">등록</button>
+            </th:block>
+            <button type="button" class="btn btn-outline-danger" onclick="history.back()">취소</button>
+          </div>
+        <!-- 버튼 끝 -->
+        </div>
+      </form>
+
+    </div> <!-- content 끝 -->
+  </div>
+</div>
+</body>
+<!-- ckeditor5 시작 -->
+<script src="/js/ckeditor.js"></script>
+<script>
+
+    let editor;
+
+    ClassicEditor
+      .create(document.querySelector('#editor'),{
+          language: 'ko',
+          ckfinder: {
+              uploadUrl: '/find/admin/notice/imgUpload'
+          }
+      })
+      .then( newEditor => {
+        editor = newEditor;
+      })
+      .catch( error => {
+          console.error(error);
+      });
+
+    window.onload = function(){
+      const editorData = document.querySelector('#noticeContent').value
+	  editor.setData(editorData);
+    }
+
+    function addNoticeContent(){
+        const editorData = editor.getData();
+        document.querySelector('#noticeContent').value = editorData;
+    }
+</script>
+</html>

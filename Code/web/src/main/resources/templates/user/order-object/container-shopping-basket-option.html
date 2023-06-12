@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="container-shopping-basket-option">
+
+    <div class="prd-option-result MSH-prd-option-result-19520">
+        <button class="red2 bold btn-h38-bd mt-10 MSH-open js-btn-open-option-addtion option-tap-btn show-option-list" th:onclick="popupOptionList([[${cart.cartCode}]])">
+            옵션수정
+            <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt=""/>
+        </button>
+        <div class="bg-option" th:id="|bg-option${cart.cartCode}|">
+            <div class="window">
+                <div class="popup" >
+                    <form action="/order/modifyAction" class="popup-inner" method="POST">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        <!-- close 버튼 -->
+                        <div class="lhd-option">
+<!--                            <button type="button" class="close-button-option" th:onclick="closeOptionList([[${cart.cartCode}]])">-->
+                            <button class="close-button-option">
+                                <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h38_close_down.png" alt=""/>
+                            </button>
+                        </div>
+                        <!-- 상품명 -->
+                        <div class="option-tit">
+                            <div class="bold" th:text="${cart.itemName}">상품명</div>
+                        </div>
+                        <!-- 옵션 선택 -->
+                        <div class="cont-top" th:with="colorList = ${#strings.setSplit(itemList[status.index].itemOptionColor, ',')}, sizeList = ${#strings.setSplit(itemList[status.index].itemOptionSize, ',')}">
+                            <th:block th:if="${#lists.size(colorList) > 1} or ${#lists.size(sizeList) > 1}">
+                                <a th:href="|javascript:optionTap('option','${cart.cartCode}')|" class="tap">
+                                    <div class="bold">옵션선택</div>
+                                    <img th:id="|btn-up-option${cart.cartCode}|" class="btn-up btn-up-option" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png" alt="" />
+                                    <img th:id="|btn-down-option${cart.cartCode}|" class="btn-down btn-down-option" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt=""/>
+                                </a>
+                                <div th:id="|option-wrap${cart.cartCode}|" class="option-wrap">
+                                    <!-- 색상 -->
+                                    <th:block th:if="${#lists.size(colorList) > 1}">
+                                        <a th:href="|javascript:optionTap('color','${cart.cartCode}')|" class="size-tap tap">
+                                            <div class="bold">색상</div>
+                                            <img th:id="|btn-up-color${cart.cartCode}|" class="btn-up btn-up-color" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png" alt="" />
+                                            <img th:id="|btn-down-color${cart.cartCode}|" class="btn-down btn-down-color" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt=""/>
+                                        </a>
+                                        <div th:id="|color-wrap${cart.cartCode}|" class="color-wrap">
+                                            <a th:each="color: ${colorList}" th:href="|javascript:finalOption('color','${color}','${cart.cartCode}')|" class="tap" th:text="${color}"></a>
+                                        </div>
+                                    </th:block>
+                                    <!-- 사이즈 -->
+                                    <th:block th:if="${#lists.size(sizeList) > 1}">
+                                        <a th:href="|javascript:optionTap('size','${cart.cartCode}')|" class="size-tap tap">
+                                            <div class="bold">사이즈</div>
+                                            <img th:id="|btn-up-size${cart.cartCode}|" class="btn-up btn-up-size" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png" alt="" />
+                                            <img th:id="|btn-down-size${cart.cartCode}|" class="btn-down btn-down-size" src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt=""/>
+                                        </a>
+                                        <div th:id="|size-wrap${cart.cartCode}|" class="size-wrap">
+                                            <a th:each="size: ${sizeList}" th:href="|javascript:finalOption('size','${size}','${cart.cartCode}')|" class="tap" th:text="${size}"></a>
+                                        </div>
+                                    </th:block>
+                                </div>
+                            </th:block>
+
+                        </div>
+
+                        <div class="hidden-option-tap">
+                            <div class="hidden-size-tap">
+                                <div class="final-size">
+                                    <span th:id="|final-color${cart.cartCode}|" th:text="${cart.itemOptionColor}"></span>
+                                    <input type="hidden" th:id="|final-color-input${cart.cartCode}|" th:value="${cart.itemOptionColor}" name="changedColor">
+                                    <span>, </span>
+                                    <span th:id="|final-size${cart.cartCode}|" th:text="${cart.itemOptionSize}"></span>
+                                    <input type="hidden" th:id="|final-size-input${cart.cartCode}|" th:value="${cart.itemOptionSize}" name="changedSize">
+                                </div>
+                            </div>
+                            <div class="prd-option-non MSH-prd-option-non-19520">
+                                <div class="count">
+                                    <a th:href="|javascript:subPrice('${cart.cartCode}','${cart.cartItemPrice}')|" class="btn-minus">
+                                        <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_minus.gif" alt=""/>
+                                    </a>
+                                    <input th:id="|option-amount${cart.cartCode}|" type="text" th:value="${cart.cartItemAmount}" class="MSH-sto-stock" name="changedAmount"/>
+                                    <a th:href="|javascript:sumPrice('${cart.cartCode}','${cart.cartItemPrice}')|" class="btn-plus">
+                                        <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/ico_plus.gif" alt=""/>
+                                    </a>
+                                </div>
+                                <div class="price" th:id="|option-price${cart.cartCode}|" th:text="${#numbers.formatInteger(cart.cartItemPrice * cart.cartItemAmount, 3, 'COMMA') + '원'}">44,500원</div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" th:value="${itemList[status.index].itemNo}" name="itemNo">
+                        <input type="hidden" th:value="${cart.itemOptionSize}" name="originalSize">
+                        <input type="hidden" th:value="${cart.itemOptionColor}" name="originalColor">
+                        <button class="js-btnOrder js-mo-tpl btn-h42-gray mt-25">
+                            선택완료
+                        </button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="gray fs-15">
+            <span th:text="${cart.itemOptionColor}">색상</span>,
+            <span th:text="${cart.itemOptionSize}">사이즈</span>,
+            <span id="product-count" th:text="${cart.cartItemAmount}">1</span>개
+        </div>
+        <div class="fs-14 gray2">
+            <span th:if="${cart.cartItemOriginalPrice} != ${cart.cartItemPrice}" id="first cost" th:text="${#numbers.formatInteger(cart.cartItemOriginalPrice * cart.cartItemAmount, 3, 'COMMA') + '원'}"> 할인 전 가격</span>
+        </div>
+        <div class="fs-21 bold red2">
+            <span id="final-product-price" th:text="${#numbers.formatInteger(cart.cartItemPrice * cart.cartItemAmount, 3, 'COMMA') + '원'}">할인 후 가격</span>
+        </div>
+    </div>
+
+</th:block>
+</html>

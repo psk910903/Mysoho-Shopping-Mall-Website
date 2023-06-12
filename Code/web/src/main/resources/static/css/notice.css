@@ -1,0 +1,230 @@
+.container-notice {
+  margin: 0;
+  padding: 0;
+  min-height: 1000px;
+  border-bottom: 1px solid #d6d6d6;
+}
+.users-title-line-hd {
+  height: 50px;
+  background: #fafafa;
+  text-align: center;
+  border-bottom: 1px solid #d6d6d6;
+  border-left: 0;
+  border-right: 0;
+  margin-top: 0;
+}
+.users-title-line-hd h2 {
+  font-size: 16px;
+  line-height: 52px;
+  font-weight: bold;
+  text-align: center;
+  margin: 0;
+}
+.notice-cont {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  height: 470px;
+}
+.notice-search-wrap {
+  padding: 20px 18px;
+}
+.notice-search {
+  border: 1px solid #d6d6d6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.notice-search input {
+  width: 80%;
+  height: 42px;
+  padding-left: 10px;
+  border: none;
+}
+.notice-search button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background-color:transparent;
+  border: none;
+}
+.notice-search img {
+  width: 22px;
+  height: 22px;
+}
+.notice-list-wrap {
+  display: flex;
+  padding: 20px 0;
+  border-top: 1px solid #d6d6d6;
+}
+.notice-board-list {
+  display: flex;
+  width: 100%;
+}
+.dil,
+.name,
+.date {
+  color: #999999;
+  font-size: 11px;
+}
+.tit {
+  color: #999999;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  padding-bottom: 5px;
+}
+.tit-wrap {
+  padding-left: 15px;
+  display: flex;
+  align-items: center;
+}
+.notice-info {
+  display: flex;
+}
+.notice-info div {
+  padding: 0 8px;
+}
+.notice-info div:first-child {
+  padding-left: 0;
+}
+.dil {
+  border-right: 1px solid #d6d6d6;
+}
+.page-link {
+  color: #555;
+  background-color: #fff;
+  border: 1px solid #ccc;
+}
+.page-item.active .page-link {
+  z-index: 1;
+  color: #555;
+  font-weight: bold;
+  background-color: #fff;
+  border-color: #ccc;
+}
+.page-link:focus,
+.page-link:hover {
+  color: #000;
+  background-color: #fafafa;
+  border-color: #ccc;
+}
+#page-form{
+   margin: 20px 0;
+}
+input:-webkit-autofill {
+   -webkit-box-shadow: 0 0 0 30px #fff inset ;
+   -webkit-text-fill-color: #000;
+}
+input:-webkit-autofill, input:-webkit-autofill:hover, input:-webkit-autofill:focus, input:-webkit-autofill:active {
+   transition: background-color 5000s ease-in-out 0s;
+}
+.btnBwrite {
+    margin: 25px auto;
+    display: flex;
+    justify-content: center;
+}
+.btnBwrite a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 195px;
+    height: 47px;
+    border-radius: 100px;
+    border: 1px solid black;
+}
+.btnBwrite img {
+    width: 17px;
+    height: 17px;
+    margin-right: 3px;
+}
+.txt_ellipsis {
+    width: 300px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    display: block;
+}
+.schBox {
+    height: 50px;
+    position: relative;
+    overflow: hidden;
+    padding-right: 84px;
+    padding-left: 45px;
+}
+.btnHback {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 45px;
+    height: 50px;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -9999px;
+    overflow: hidden;
+    z-index: 2;
+    background: url(//image.makeshop.co.kr/mysoho/assets/shop/img/common/bg_back_h30.png)
+      no-repeat center center;
+    background-size: 8px 15px;
+}
+.inputDel {
+    position: absolute;
+    right: 47px;
+    top: 17px;
+    width: 15px;
+    height: 15px;
+    z-index: 10;
+    background: url(//image.makeshop.co.kr/mysoho/assets/shop/img/common/bg_del_h29.png)
+      no-repeat center center;
+    background-size: 100%;
+    border: 0px;
+}
+.btnHsch {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 47px;
+    height: 50px;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -9999px;
+    overflow: hidden;
+    background: url(//image.makeshop.co.kr/mysoho/assets/shop/img/common/bg_sch_h34.png)
+      no-repeat center center;
+    background-size: 16px 17px;
+    border: none;
+}
+.schBox input {
+    width: 100%;
+    height: 50px;
+    padding: 0;
+    border: none;
+    font-size: 12px;
+}
+.txtResult {
+    font-size: 13px;
+    color: #000;
+    font-weight: bold;
+    line-height: 49px;
+    padding: 0 20px;
+    border-top: 1px solid #d0d0d0;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+.listResult {
+    padding: 0 15px;
+}
+.noData {
+    text-align: center;
+    margin: 0 -15px 0 !important;
+    font-size: 12px;
+    line-height: 18px;
+    padding: 200px 0 170px;
+    border-bottom: none;
+    background: url(//image.makeshop.co.kr/mysoho/assets/shop/img/common/bg_noData.png) no-repeat center 146px;
+    background-size: 47px 44px;
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>마이소호 샘플샵</title>
+    <link rel="stylesheet" href="/css/pop-page-type2.css" />
+  </head>
+  <body>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+
+    <div class="popTopWrap">
+      <div class="popTitWrap">
+        <a href="/terms/terms/service/order">이용약관</a>
+        <a href="/terms/terms/policy/order">개인정보 수집·이용</a>
+      </div>
+      <!-- 엑스이미지 -->
+      <a class="close-btn" href="javascript:closePopup()"
+        ><img
+          src="https://image.makeshop.co.kr/mysoho/assets/shop/img/btn/h22_close_gray.png"
+          alt=""
+      /></a>
+    </div>
+
+    <div class="inner">
+      <div class="tbl-terms terms-of-use" style="text-align: left">
+        <div th:replace="user/popup-object/terms-of-use.html :: terms-of-use"></div>
+      </div>
+    </div>
+
+    <script>
+      function closePopup() {
+        window.close();
+      }
+    </script>
+  </body>
+</html>

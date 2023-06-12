@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="container-shopping-basket-payment">
+
+  <!-- 결제방법 -->
+  <div class="order-hd lnk-tab js-order-paymethod-area">
+    <strong>결제방법</strong>
+    <!-- 버튼 이미지 -->
+    <div class="flexbox">
+      <span class="blue fs-14 span3 pay-checked" id="pay1display" style="display:none">휴대폰결제</span>
+      <span class="blue fs-14 span3" id="pay2display" style="display:none">무통장입금</span>
+      <a href="javascript:orderInfo(3)" class="order-hd-open-3 " style="display:none">
+        <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt=""/>
+      </a>
+      <a href="javascript:orderInfo(3)" class="order-hd-close-3" style="display:block">
+        <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_top.png" alt=""/>
+      </a>
+    </div>
+  </div>
+  <div class="order-pay order3" style="display:block">
+    <div class="order-pay-div">
+      <div>
+        <label class="js-activate" style="color: rgb(136, 136, 136)"></label>
+        <input type="radio" name="orderPayType" value="삼성페이" autocomplete="off" disabled/>
+      </div>
+      <div>
+        <div class="order-pay-div-tit gray">
+          삼성페이
+          <a href="javascript:openPopupMobile()">지원 단말 확인></a>
+        </div>
+        <div class="order-pay-div-text">
+          삼성페이 결제는 안드로이드 기종에서만 가능합니다.
+        </div>
+      </div>
+    </div>
+    <div class="order-pay-div">
+      <div>
+        <label class="js-activate" style="color: rgb(0, 0, 0)"></label>
+        <input type="radio" name="orderPayType" value="휴대폰결제" autocomplete="off" id="pay1" checked onclick="selecpay()"/>
+      </div>
+      <div>
+        <div class="order-pay-div-tit" id="pay1color">휴대폰결제</div>
+        <div class="txt-desc mt-10 mb-10 js-txt-desc" id="pay1text">
+          <div class="order-pay-div-text">
+            핸드폰 요금청구서에 '소액결제'로 표시됩니다.
+          </div>
+          <div class="order-pay-div-text">
+            결제건의 취소는 해당 달에만 가능합니다.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="order-pay-div">
+      <div>
+        <label class="js-activate" style="color: rgb(136, 136, 136)"></label>
+        <input type="radio" name="orderPayType" value="무통장입금" autocomplete="off" id="pay2" onclick="selecpay()"/>
+      </div>
+      <div class="payWrap">
+        <div class="order-pay-div-tit gray" id="pay2color">
+          무통장입금
+          <span class="order-pay-div-text red">(반드시 주문자 성함으로 입금)</span>
+        </div>
+        <div class="txt-desc mt-10 mb-10 js-txt-desc" id="pay2text">
+          <div class="order-pay-div-text relative-li">
+            <select name="message" id="paySelect">
+              <option value="" selected>입금 계좌번호 선택</option>
+              <option value="기업은행 0106-859-3030119 (예금주 :소호나라)">
+                기업은행 0106-859-3030119 (예금주 :소호나라)
+              </option>
+            </select>
+            <img src="https://image.makeshop.co.kr/mysoho/assets/shop/img/common/arr_bottom.png" alt="" class="imgOpen"/>
+          </div>
+          <div class="order-pay-div-text mt-10">
+            빠른 처리를 위해 주문자를 입금자로 사용하세요.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 구분선 빈박스-->
+  <div class="bg-blank none"></div>
+
+</th:block>
+</html>

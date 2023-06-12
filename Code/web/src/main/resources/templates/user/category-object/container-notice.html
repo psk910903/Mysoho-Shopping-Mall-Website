@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="container-notice">
+
+  <div class="users-title-line-hd">
+    <h2>공지사항</h2>
+  </div>
+
+  <!-- 검색하기 -->
+  <div class="schBox" th:unless="${keyword} == null and ${listCount} == 0">
+    <form name="searchForm" method="GET" action="/notice" >
+      <a href="javascript:history.back();" class="btnHback"></a>
+      <input type="text" name="keyword" id="titleKeyword" th:value="${keyword}" placeholder="검색어를 입력해 주세요"/>
+      <span class="inputDel" id="inputDel" onclick="deleteKeyword()"></span>
+      <button type="button" class="btnHsch" onclick="checkKeyword()">검색</button>
+    </form>
+  </div>
+
+  <!-- 검색 결과 -->
+  <div class="txtResult" th:if="${keyword} != null">
+    <strong th:text="${ (keyword)+' 검색결과 : '+(listCount)+' 건' }"></strong>
+  </div>
+
+ <!-- 검색 결과가 없을 때 -->
+  <div class="listResult" th:if="${keyword} != null and ${listCount} == 0">
+    <ul>
+      <li class="noData">
+        <strong th:text="${ (keyword)}"></strong>에 대한 검색결과가 없습니다.<br>철자나 띄어쓰기를 확인해보세요.
+      </li>
+    </ul>
+  </div>
+
+  <!-- 공지사항이 없을 때 -->
+  <div class="listResult" th:if="${keyword} == null and ${listCount} == 0">
+    <ul>
+      <li class="noData">
+        등록된 공지사항이 없습니다.
+      </li>
+    </ul>
+  </div>
+
+  <!--  공지사항 리스트 -->
+  <div class="notice-list-wrap" th:each="notice, status:${list}" th:unless="${listCount} == 0">
+    <a th:href="|/notice/${notice.noticeNo}|" class="notice-board-list">
+      <div class="tit-wrap">
+        <div>
+          <div class="tit txt_ellipsis" th:text="${notice.noticeTitle}" >제목</div>
+          <div class="notice-info">
+            <div class="dil" th:text="${notice.noticeType}">타입</div>
+            <div class="date" th:text="${#temporals.format(notice.noticeDatetime, 'yyyy.MM.dd')}">
+              날짜
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+
+</th:block>
+</html>
