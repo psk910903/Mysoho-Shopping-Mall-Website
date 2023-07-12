@@ -552,10 +552,7 @@
       let cartNum = 0; //올라가야할 숫자가 몇개인지
 
       for (let i = 0; i < cookies.length; i++) {
-        //보안토큰 제외
-
-        if (cookies[i].includes("item_idx")) {
-          //includes 해당 문자열이 포함됬는지 확인 //XSRF : 보안토큰 앞글자
+        if (cookies[i].includes("item_idx")) { //includes 해당 문자열이 포함됬는지 확인
           cartNum += Number(cookies[i].substr(cookies[i].indexOf("=") + 1));
         }
       }
@@ -579,7 +576,6 @@
             encodedCookieName += "." + splitedCookieName[idx];
           }
         }
-        console.log(encodedCookieName);
 
         document.cookie =
           encodedCookieName + //쿠키이름 (key)
@@ -597,15 +593,16 @@
       function basketNumCount(a) {
         //장바구니 아이콘 선택시 실행되는 함수 / 매개변수로 this가 들어온다.(itemNo)
         basketNum++;
+        document.querySelector(".basket-num").innerHTML = basketNum; //오른 숫자 반영
+
         let cookieName = $(a).attr("value"); //attr("value") : value값을 가져온다. 만약 ""안에 class면 class이름을 가져온다.
         cookieName = cookieName.replace(/,/g, ".");
         let cookieValue = 0; //아이템 수량 초기화
-        document.querySelector(".basket-num").innerHTML = basketNum; //오른 숫자 반영
 
         if (getCookie("item_idx." + cookieName) == null) {
           //해당 상품이 쿠키로 만들어진적이 없으면 새로 생성하라는 뜻
-
           setCookie("item_idx." + cookieName, cookieValue + 1);
+
         } else {
           cookieValue = getCookie("item_idx." + cookieName); //  getCookie("item_idx:" + item_idx) => value이다 "2"
           setCookie("item_idx." + cookieName, Number(cookieValue) + 1); //만약 같은 idx가 있으면 수량만 +1해서 기존 쿠키에 덮어씌운다.
